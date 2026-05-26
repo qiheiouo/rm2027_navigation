@@ -1,0 +1,22 @@
+# Phase 1 placeholder Nav2 configuration.
+# This file records the required frames and topics before full tuning.
+# It is not final competition configuration.
+
+phase1_contract:
+  ros__parameters:
+    global_frame: map
+    robot_base_frame: base_link
+    odom_frame: odom
+    odom_topic: /odometry/lio
+    planner: NavfnPlanner
+    controller: DWB holonomic
+
+# TODO(Phase 1): Replace this contract block with runnable Nav2 server
+# parameters after package skeletons and TF contracts are verified.
+#
+# Required constraints for the real Nav2 config:
+# - global costmap global_frame: map
+# - local costmap global_frame: odom
+# - robot_base_frame: base_link
+# - odom_topic: /odometry/lio
+# - controller plugin: DWBLocalPlanner with holonomic vx/vy/wz sampling

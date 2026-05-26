@@ -1,0 +1,10 @@
+chassis_interface_stub:
+  ros__parameters:
+    # Phase 1 conservative placeholder limits.
+    # Final limits must be tuned on the 2027 real chassis.
+    limits:
+      max_vx: 1.0
+      max_vy: 1.0
+      max_wz: 2.0
+    watchdog_timeout_sec: 0.5
+    publish_twist_raw: true

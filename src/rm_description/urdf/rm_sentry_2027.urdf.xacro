@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rm_sentry_2027">
+  <!--
+    Phase 1 placeholder robot description.
+
+    These extrinsics are NOT the final 2027 real-robot calibration.
+    The real MID360 and IMU extrinsics must be measured again during the
+    hardware stage and recorded with date, method, and robot revision.
+
+    Phase 1 is designed for one MID360. Names and structure should remain
+    extensible for a future second MID360.
+  -->
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.6 0.5 0.2"/>
+      </geometry>
+      <material name="phase1_gray">
+        <color rgba="0.5 0.5 0.5 0.4"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="livox_frame"/>
+
+  <joint name="base_link_to_livox_frame" type="fixed">
+    <parent link="base_link"/>
+    <child link="livox_frame"/>
+    <!-- Phase 1 placeholder only. Replace with measured 2027 extrinsic. -->
+    <origin xyz="0 0 0.25" rpy="0 0 0"/>
+  </joint>
+
+  <link name="imu_link"/>
+
+  <joint name="base_link_to_imu_link" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <!-- Phase 1 placeholder only. Replace with measured 2027 extrinsic. -->
+    <origin xyz="0 0 0.25" rpy="0 0 0"/>
+  </joint>
+</robot>

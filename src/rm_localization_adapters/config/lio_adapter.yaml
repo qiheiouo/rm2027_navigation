@@ -1,0 +1,21 @@
+lio_adapter:
+  ros__parameters:
+    raw_odom_topic: /odometry/fast_lio_raw
+    output_odom_topic: /odometry/lio
+    odom_frame: odom
+    base_frame: base_link
+    input_body_frame: body
+    publish_tf: true
+
+    # Phase 1 placeholder only.
+    # This is NOT the final 2027 real-robot extrinsic.
+    # If the backend outputs odom->body, lio_adapter must compute
+    # odom->base_link using this fixed transform. Do not fake the
+    # conversion by only changing child_frame_id.
+    body_to_base:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
