@@ -51,11 +51,13 @@ COD, TUP, SCAU, NEXTE, CSU, Taurus and other projects that were not completely r
 The target 2027 TF is:
 
 ```text
-map -> odom -> base_link -> livox_frame
-                           -> imu_link
+map -> odom -> base_link -> gimbal_yaw_link -> mid360_left_frame
+                                             -> mid360_right_frame
+                                             -> lio_imu_link
+                           -> base_imu_link
 ```
 
-PolarBear 2025 does not use this exact canonical tree. Its navigation parameters and helper nodes use `chassis`, `gimbal_yaw`, `gimbal_yaw_fake`, `front_mid360`, and `lidar_odom`. It has clear useful ideas, but the full repository should not be used as the new system baseline.
+PolarBear 2025 does not use this exact canonical tree. Its navigation parameters and helper nodes use `chassis`, `gimbal_yaw`, `gimbal_yaw_fake`, `front_mid360`, and `lidar_odom`. Its gimbal-related design is useful reference material for our gimbal-mounted MID360 layout, but the full repository should not be used as the new system baseline.
 
 `small_gicp_relocalization` has the cleanest reusable global localization boundary: it publishes `map -> odom`. `pb_omni_pid_pursuit_controller` is a useful holonomic controller reference. `rmu_gazebo_simulator` is the best simulation reference.
 

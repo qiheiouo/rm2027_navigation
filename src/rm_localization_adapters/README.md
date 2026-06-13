@@ -15,4 +15,6 @@ Non-goals:
 
 Important rule:
 
-`lio_adapter` must not hide a backend `body` frame by only changing `child_frame_id` to `base_link`. If the backend output is `odom -> body`, the adapter must compute `odom -> base_link` using a fixed `body -> base_link` transform, unless `body` and `base_link` are proven to be identical.
+`lio_adapter` must not hide a backend `body`, `lio_imu_link`, or `mid360_*_frame` by only changing `child_frame_id` to `base_link`.
+
+For the 2027 gimbal-mounted MID360 layout, real hardware must compute `odom -> base_link` from the LIO sensor pose, the measured MID360/IMU extrinsics, and the timestamped gimbal yaw state. The current implementation contains only a zero-yaw placeholder path for early Phase 1 build and bag tests.

@@ -5,7 +5,7 @@
 Phase 1 is not a complete competition system. Its goal is the minimum canonical navigation loop:
 
 ```text
-LiDAR/IMU or bag/sim input
+Gimbal-mounted MID360 LiDAR/IMU or bag/sim input
   -> LIO odom
   -> canonical TF
   -> Nav2
@@ -25,6 +25,8 @@ LiDAR/IMU or bag/sim input
 8. `rm_chassis_interface` consumes `/cmd_vel`.
 9. Phase 1 uses a stub or simulator output for chassis behavior.
 
+The real 2027 sensor layout is expected to be dual MID360 on the gimbal. Phase 1 may use a zero-yaw gimbal placeholder for build, RViz, and early bag tests, but rotating-gimbal hardware validation requires a real `base_link -> gimbal_yaw_link` state.
+
 ## map_odom_stub
 
 Phase 1 uses exactly one `map_odom_stub` node to publish identity `map -> odom`.
@@ -40,6 +42,8 @@ Phase 1 baseline should start from the locally available `FAST_LIO_MULTI_ROS2` b
 Point-LIO is an experimental reference only. It must not enter the main line unless GPL-related license policy is confirmed.
 
 If a LIO backend publishes `odom -> body`, `odom -> base_link`, or any equivalent odometry TF itself, the adapter must disable, intercept, remap, or replace that TF. The backend and `lio_adapter` must never publish the same canonical transform at the same time.
+
+For the gimbal-mounted MID360 layout, the preferred LIO IMU is the internal IMU of one selected MID360. `lio_adapter` must not convert `odom -> lio_imu_link` or `odom -> mid360_*_frame` into `odom -> base_link` by renaming `child_frame_id`. It must use the gimbal yaw and measured sensor extrinsics, or explicitly stay in zero-yaw placeholder mode.
 
 ## Nav2 Controller
 
@@ -61,6 +65,8 @@ Phase 1 does not connect competition BT.
 
 Phase 3 may connect mission or BT only through standard Nav2 action interfaces.
 
+Phase 1 does not require a real gimbal serial connection, but it must reserve the interface for gimbal yaw angle, validity, and timestamp or sequence information. Phase 2 hardware validation must confirm that this state is fresh enough for rotating-gimbal localization.
+
 ## Explicit Non-Goals
 
 1. Do not connect real hardware serial in Phase 1.
@@ -75,7 +81,7 @@ Phase 3 may connect mission or BT only through standard Nav2 action interfaces.
 
 ## Acceptance Criteria
 
-1. TF tree is `map -> odom -> base_link -> livox_frame/imu_link`.
+1. TF tree follows `map -> odom -> base_link -> gimbal_yaw_link -> mid360_left_frame/mid360_right_frame/lio_imu_link`, with optional `base_link -> base_imu_link`.
 2. There is no duplicate TF publication.
 3. `/odometry/lio` exists and uses `frame_id=odom`, `child_frame_id=base_link`.
 4. `map_odom_stub` is the only `map -> odom` publisher.
@@ -86,4 +92,5 @@ Phase 3 may connect mission or BT only through standard Nav2 action interfaces.
 9. Phase 1 does not connect BT.
 10. Phase 3 mission or BT, if added later, may call navigation only through standard Nav2 action interfaces.
 11. Old topic glue such as `/Pose_pub`, `/my_set_goal`, and `/nav_result` is not restored.
-12. Windows stage can complete code review and protocol unit tests. Linux stage can complete build, simulation, or bag replay. Real hardware stage validates MID360, serial, latency, and robustness.
+12. Phase 1 zero-yaw gimbal placeholders are clearly marked and are not accepted as final real-robot extrinsics.
+13. Windows stage can complete code review and protocol unit tests. Linux stage can complete build, simulation, or bag replay. Real hardware stage validates MID360, gimbal yaw timing, serial, latency, and robustness.

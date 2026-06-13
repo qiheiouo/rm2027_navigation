@@ -4,11 +4,16 @@
     Phase 1 placeholder robot description.
 
     These extrinsics are NOT the final 2027 real-robot calibration.
-    The real MID360 and IMU extrinsics must be measured again during the
-    hardware stage and recorded with date, method, and robot revision.
+    The real MID360, gimbal, and IMU extrinsics must be measured again during
+    the hardware stage and recorded with date, method, and robot revision.
 
-    Phase 1 is designed for one MID360. Names and structure should remain
-    extensible for a future second MID360.
+    Phase 1 is designed for the likely 2027 layout: two MID360 units mounted
+    on the gimbal. If only one MID360 is used later, keep the unused frame out
+    of launch/config rather than changing the public base_link contract.
+
+    The gimbal yaw joint below is a zero-yaw fixed placeholder for build,
+    RViz, and early bag tests. Real hardware must replace this with a dynamic
+    gimbal_yaw_joint state before validating rotating-gimbal localization.
   -->
 
   <link name="base_link">
@@ -23,21 +28,68 @@
     </visual>
   </link>
 
-  <link name="livox_frame"/>
+  <link name="gimbal_yaw_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.04"/>
+      </geometry>
+      <material name="phase1_blue">
+        <color rgba="0.1 0.3 0.8 0.4"/>
+      </material>
+    </visual>
+  </link>
 
-  <joint name="base_link_to_livox_frame" type="fixed">
+  <joint name="base_link_to_gimbal_yaw_link_phase1_placeholder" type="fixed">
     <parent link="base_link"/>
-    <child link="livox_frame"/>
-    <!-- Phase 1 placeholder only. Replace with measured 2027 extrinsic. -->
-    <origin xyz="0 0 0.25" rpy="0 0 0"/>
+    <child link="gimbal_yaw_link"/>
+    <!-- Phase 1 zero-yaw placeholder only. Real robot requires dynamic yaw. -->
+    <origin xyz="0 0 0.35" rpy="0 0 0"/>
   </joint>
 
-  <link name="imu_link"/>
+  <link name="mid360_left_frame"/>
 
-  <joint name="base_link_to_imu_link" type="fixed">
-    <parent link="base_link"/>
-    <child link="imu_link"/>
+  <joint name="gimbal_yaw_link_to_mid360_left_frame" type="fixed">
+    <parent link="gimbal_yaw_link"/>
+    <child link="mid360_left_frame"/>
+    <!--
+      Phase 1 placeholder only.
+      Expected mechanical layout: left side of the rotation axis, no forward
+      offset, upward installation near 45 degrees. Exact MID360 sensor-frame
+      rpy depends on cable direction and must be calibrated from the manual.
+    -->
+    <origin xyz="0 0.12 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="mid360_right_frame"/>
+
+  <joint name="gimbal_yaw_link_to_mid360_right_frame" type="fixed">
+    <parent link="gimbal_yaw_link"/>
+    <child link="mid360_right_frame"/>
     <!-- Phase 1 placeholder only. Replace with measured 2027 extrinsic. -->
-    <origin xyz="0 0 0.25" rpy="0 0 0"/>
+    <origin xyz="0 -0.12 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="lio_imu_link"/>
+
+  <joint name="gimbal_yaw_link_to_lio_imu_link" type="fixed">
+    <parent link="gimbal_yaw_link"/>
+    <child link="lio_imu_link"/>
+    <!--
+      Phase 1 placeholder only.
+      This represents the internal IMU of the selected MID360 for LIO.
+      Do not replace it with a chassis IMU unless the LIO backend explicitly
+      supports the non-rigid gimbal-to-base relationship.
+    -->
+    <origin xyz="0 0.12 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_imu_link"/>
+
+  <joint name="base_link_to_base_imu_link" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_imu_link"/>
+    <!-- Optional chassis IMU placeholder. Use only for diagnostics/fusion. -->
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
   </joint>
 </robot>

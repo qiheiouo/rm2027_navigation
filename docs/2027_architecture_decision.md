@@ -19,13 +19,32 @@ LiDAR/IMU or bag/sim input
   -> sim/stub or serial hardware
 ```
 
+## Gimbal-Mounted MID360 Decision
+
+The 2027 robot is expected to use two MID360 LiDARs mounted on the gimbal, facing left and right, with an upward installation angle near 45 degrees. If the dual-LiDAR route proves too risky late in the season, the architecture may keep both sensors installed while using only one MID360 in software.
+
+The main LIO IMU should be the internal IMU of the selected MID360. This keeps the LiDAR and IMU rigidly attached inside the same gimbal-mounted sensor group. A chassis-mounted IMU may be installed under the rotation axis as an auxiliary sensor, but it should be used for diagnostics, slip checks, latency checks, or future low-weight fusion rather than as the main IMU for gimbal-mounted LIO.
+
+The canonical public TF remains `map -> odom -> base_link`. The sensor subtree changes to include the gimbal:
+
+```text
+base_link -> gimbal_yaw_link -> mid360_left_frame
+                              -> mid360_right_frame
+                              -> lio_imu_link
+          -> base_imu_link
+```
+
+On the real robot, `base_link -> gimbal_yaw_link` is dynamic and depends on lower-controller gimbal yaw. Static direct `base_link -> mid360_*_frame` transforms are allowed only as Phase 1 zero-yaw placeholders for build, RViz, and early bag tests.
+
+This decision adds a hard interface requirement for the lower controller: the upper computer needs gimbal yaw angle, validity, and timing information. Without that state, the system can estimate the gimbal sensor pose but cannot safely convert it into a validated `odom -> base_link` localization output during gimbal rotation.
+
 ## Why Not Fork PolarBear As The Main System
 
 PolarBear remains the first reference object, but `pb2025_sentry_nav` should not be forked as the main 2027 system.
 
 Reasons:
 
-1. Its TF design uses `chassis`, `gimbal_yaw`, `gimbal_yaw_fake`, and `lidar_odom`, which is not our target `map -> odom -> base_link -> livox_frame/imu_link` canonical architecture.
+1. Its TF design uses `chassis`, `gimbal_yaw`, `gimbal_yaw_fake`, and `lidar_odom`, which is not our target `map -> odom -> base_link` canonical architecture with a documented gimbal-mounted sensor subtree.
 2. It contains velocity and frame glue such as `fake_vel_transform`, `cmd_vel_nav2_result`, and `cmd_vel_controller`.
 3. Many design choices are bound to its own gimbal, chassis, sensor layout, and season-specific engineering adaptations.
 4. Point-LIO and IKFoM introduce license complexity, especially around GPL components.

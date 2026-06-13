@@ -21,20 +21,30 @@ public:
       "output_odom_topic", "/odometry/lio");
     odom_frame_ = declare_parameter<std::string>("odom_frame", "odom");
     base_frame_ = declare_parameter<std::string>("base_frame", "base_link");
-    input_body_frame_ = declare_parameter<std::string>("input_body_frame", "body");
+    input_sensor_frame_ = declare_parameter<std::string>("input_sensor_frame", "lio_imu_link");
+    gimbal_frame_ = declare_parameter<std::string>("gimbal_frame", "gimbal_yaw_link");
     publish_tf_ = declare_parameter<bool>("publish_tf", true);
+    use_zero_yaw_gimbal_placeholder_ =
+      declare_parameter<bool>("use_zero_yaw_gimbal_placeholder", true);
 
-    const double body_to_base_x = declare_parameter<double>("body_to_base.x", 0.0);
-    const double body_to_base_y = declare_parameter<double>("body_to_base.y", 0.0);
-    const double body_to_base_z = declare_parameter<double>("body_to_base.z", 0.0);
-    const double body_to_base_roll = declare_parameter<double>("body_to_base.roll", 0.0);
-    const double body_to_base_pitch = declare_parameter<double>("body_to_base.pitch", 0.0);
-    const double body_to_base_yaw = declare_parameter<double>("body_to_base.yaw", 0.0);
+    const double input_to_base_x =
+      declare_parameter<double>("input_to_base_placeholder.x", 0.0);
+    const double input_to_base_y =
+      declare_parameter<double>("input_to_base_placeholder.y", 0.0);
+    const double input_to_base_z =
+      declare_parameter<double>("input_to_base_placeholder.z", 0.0);
+    const double input_to_base_roll =
+      declare_parameter<double>("input_to_base_placeholder.roll", 0.0);
+    const double input_to_base_pitch =
+      declare_parameter<double>("input_to_base_placeholder.pitch", 0.0);
+    const double input_to_base_yaw =
+      declare_parameter<double>("input_to_base_placeholder.yaw", 0.0);
 
-    tf2::Quaternion body_to_base_q;
-    body_to_base_q.setRPY(body_to_base_roll, body_to_base_pitch, body_to_base_yaw);
-    body_to_base_.setOrigin(tf2::Vector3(body_to_base_x, body_to_base_y, body_to_base_z));
-    body_to_base_.setRotation(body_to_base_q);
+    tf2::Quaternion input_to_base_q;
+    input_to_base_q.setRPY(input_to_base_roll, input_to_base_pitch, input_to_base_yaw);
+    input_to_base_placeholder_.setOrigin(
+      tf2::Vector3(input_to_base_x, input_to_base_y, input_to_base_z));
+    input_to_base_placeholder_.setRotation(input_to_base_q);
 
     odom_pub_ = create_publisher<nav_msgs::msg::Odometry>(output_odom_topic_, 10);
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
@@ -44,8 +54,8 @@ public:
 
     RCLCPP_WARN(
       get_logger(),
-      "Phase 1 skeleton: adapting %s to %s. body_to_base is a placeholder "
-      "unless calibrated for the 2027 robot.",
+      "Phase 1 skeleton: adapting %s to %s. The gimbal transform is a "
+      "zero-yaw placeholder unless calibrated and timestamped for the 2027 robot.",
       raw_odom_topic_.c_str(), output_odom_topic_.c_str());
   }
 
@@ -82,23 +92,30 @@ private:
   void handleRawOdometry(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
     // Important: do not fake base_link by only changing child_frame_id.
-    // If the backend publishes odom->body, compute odom->base_link using
-    // the fixed body->base_link transform. The default transform here is a
-    // Phase 1 placeholder and must be replaced by a 2027 calibration.
+    // For gimbal-mounted MID360, a backend may publish odom->lio_imu_link or
+    // odom->mid360_*_frame. Real hardware must compute odom->base_link using
+    // the timestamped gimbal yaw and measured sensor extrinsics. This skeleton
+    // only provides a zero-yaw placeholder path for early build/bag tests.
     const std::string input_child =
-      msg->child_frame_id.empty() ? input_body_frame_ : msg->child_frame_id;
+      msg->child_frame_id.empty() ? input_sensor_frame_ : msg->child_frame_id;
 
     tf2::Transform odom_to_input = poseToTransform(msg->pose.pose);
     tf2::Transform odom_to_base = odom_to_input;
 
-    if (input_child == input_body_frame_) {
-      odom_to_base = odom_to_input * body_to_base_;
+    if (input_child == input_sensor_frame_) {
+      if (!use_zero_yaw_gimbal_placeholder_) {
+        RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 5000,
+          "Dynamic %s transform support is TODO. Using the placeholder transform.",
+          gimbal_frame_.c_str());
+      }
+      odom_to_base = odom_to_input * input_to_base_placeholder_;
     } else if (input_child != base_frame_) {
       RCLCPP_WARN_THROTTLE(
         get_logger(), *get_clock(), 5000,
         "Unexpected raw odometry child_frame_id '%s'. Treating it as '%s' is a TODO.",
-        input_child.c_str(), input_body_frame_.c_str());
-      odom_to_base = odom_to_input * body_to_base_;
+        input_child.c_str(), input_sensor_frame_.c_str());
+      odom_to_base = odom_to_input * input_to_base_placeholder_;
     }
 
     nav_msgs::msg::Odometry output = *msg;
@@ -124,9 +141,11 @@ private:
   std::string output_odom_topic_;
   std::string odom_frame_;
   std::string base_frame_;
-  std::string input_body_frame_;
+  std::string input_sensor_frame_;
+  std::string gimbal_frame_;
   bool publish_tf_;
-  tf2::Transform body_to_base_;
+  bool use_zero_yaw_gimbal_placeholder_;
+  tf2::Transform input_to_base_placeholder_;
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;

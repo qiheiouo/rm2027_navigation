@@ -5,11 +5,15 @@
 The 2027 navigation stack uses this canonical TF tree:
 
 ```text
-map -> odom -> base_link -> livox_frame
-                           -> imu_link
+map -> odom -> base_link -> gimbal_yaw_link -> mid360_left_frame
+                                             -> mid360_right_frame
+                                             -> lio_imu_link
+                           -> base_imu_link
 ```
 
 `base_link` is the only upper-level robot body frame used by navigation, localization, control, and mission interfaces.
+
+`base_imu_link` is optional. It exists only if a separate chassis-mounted IMU is installed for diagnostics, slip checks, or future low-weight fusion. It must not replace the MID360 internal IMU as the main LIO IMU while the LiDARs are mounted on the gimbal.
 
 ## TF Ownership
 
@@ -17,8 +21,21 @@ map -> odom -> base_link -> livox_frame
 | --- | --- | --- | --- |
 | `map -> odom` | Dynamic | `global_localization` implementation | `map_odom_stub` publishes identity `map -> odom` as the temporary owner |
 | `odom -> base_link` | Dynamic | `lio_adapter` | Required |
-| `base_link -> livox_frame` | Static | `robot_state_publisher` or static extrinsic publisher | Required |
-| `base_link -> imu_link` | Static | `robot_state_publisher` or static extrinsic publisher | Required |
+| `base_link -> gimbal_yaw_link` | Dynamic on real robot | `gimbal_state_adapter` through `robot_state_publisher` or an equivalent TF owner | Phase 1 may use a documented zero-yaw placeholder before hardware validation |
+| `gimbal_yaw_link -> mid360_left_frame` | Static | `robot_state_publisher` or static extrinsic publisher | Required for dual-MID360 design |
+| `gimbal_yaw_link -> mid360_right_frame` | Static | `robot_state_publisher` or static extrinsic publisher | Required for dual-MID360 design; may be unused if Phase 1 falls back to one MID360 |
+| `gimbal_yaw_link -> lio_imu_link` | Static | `robot_state_publisher` or static extrinsic publisher | Required; represents the selected MID360 internal IMU used by LIO |
+| `base_link -> base_imu_link` | Static | `robot_state_publisher` or static extrinsic publisher | Optional chassis IMU frame |
+
+## Gimbal-Mounted MID360 Policy
+
+The 2027 real robot is expected to mount two MID360 LiDARs on the gimbal, facing left and right, with an upward installation angle near 45 degrees. The exact roll, pitch, yaw, and cable-direction-dependent sensor orientation must be measured after installation using the MID360 manual and recorded with robot revision and calibration method.
+
+Because the LiDARs are mounted on the gimbal, `base_link -> mid360_*_frame` must not be modeled as a direct fixed transform on the real robot. The transform must pass through `gimbal_yaw_link`.
+
+The gimbal yaw angle is a dynamic state. During real hardware operation, `base_link -> gimbal_yaw_link` must be derived from the lower controller's gimbal state with a meaningful timestamp. If the gimbal angle is unavailable, stale, or not timestamped well enough, gimbal-mounted LIO must not be treated as validated base localization.
+
+Phase 1 skeletons may use a zero-yaw gimbal placeholder for Linux build, RViz, bag, or early adapter tests. That placeholder is not a real-robot acceptance condition and must be replaced before validating a rotating gimbal.
 
 ## Phase 1 map_odom_stub
 
@@ -33,6 +50,8 @@ When Phase 2 connects `small_gicp`, `scan_to_map`, NDT, or another global locali
 Only `lio_adapter` may publish the external canonical `odom -> base_link` transform.
 
 If a LIO backend publishes `odom -> body`, `odom -> base_link`, or any equivalent odometry TF by itself, that backend TF must be disabled, intercepted, remapped, or replaced in the adapter. The backend and `lio_adapter` must never publish the same canonical transform at the same time.
+
+If a LIO backend outputs `odom -> lio_imu_link`, `odom -> mid360_left_frame`, `odom -> mid360_right_frame`, or any other sensor-frame pose, `lio_adapter` must compute `odom -> base_link` using the current gimbal yaw and the measured static extrinsics. It must not fake the conversion by only changing `child_frame_id` to `base_link`.
 
 `/odometry/lio` must use:
 
@@ -65,6 +84,7 @@ In particular:
 
 1. `map -> odom` has exactly one owner.
 2. `odom -> base_link` has exactly one owner.
-3. Static sensor extrinsics have exactly one owner.
+3. `base_link -> gimbal_yaw_link` has exactly one owner.
+4. Static sensor extrinsics have exactly one owner.
 
 Duplicate TF publication is a contract violation and must block Phase 1 acceptance.
