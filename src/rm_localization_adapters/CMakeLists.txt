@@ -12,6 +12,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(builtin_interfaces REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
@@ -34,9 +36,17 @@ ament_target_dependencies(lio_adapter
   tf2_geometry_msgs
 )
 
+add_executable(gimbal_state_adapter src/gimbal_state_adapter.cpp)
+ament_target_dependencies(gimbal_state_adapter
+  rclcpp
+  sensor_msgs
+  builtin_interfaces
+)
+
 install(TARGETS
   map_odom_stub
   lio_adapter
+  gimbal_state_adapter
   DESTINATION lib/${PROJECT_NAME}
 )
 
