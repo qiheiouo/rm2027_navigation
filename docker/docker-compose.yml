@@ -1,0 +1,21 @@
+services:
+  rm2027_nav:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.humble
+      args:
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
+    image: rm2027_navigation:humble
+    container_name: rm2027_navigation_humble
+    network_mode: host
+    ipc: host
+    environment:
+      ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-0}
+      RMW_IMPLEMENTATION: ${RMW_IMPLEMENTATION:-rmw_fastrtps_cpp}
+    volumes:
+      - ..:/workspace/rm2027_navigation
+    working_dir: /workspace/rm2027_navigation
+    stdin_open: true
+    tty: true
+    command: bash

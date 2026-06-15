@@ -1,0 +1,45 @@
+FROM ros:humble-ros-base-jammy
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG USERNAME=rmnav
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    curl \
+    git \
+    gnupg \
+    lsb-release \
+    python3-colcon-common-extensions \
+    python3-pip \
+    python3-rosdep \
+    python3-vcstool \
+    sudo \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    ros-humble-robot-state-publisher \
+    ros-humble-tf2-tools \
+    ros-humble-xacro \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN if ! getent group "${USER_GID}" >/dev/null; then groupadd --gid "${USER_GID}" "${USERNAME}"; fi \
+  && useradd --uid "${USER_UID}" --gid "${USER_GID}" --create-home "${USERNAME}" \
+  && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USERNAME}" \
+  && chmod 0440 "/etc/sudoers.d/${USERNAME}"
+
+RUN if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then rosdep init; fi || true
+
+COPY docker/entrypoint.sh /rm_nav_entrypoint.sh
+RUN chmod +x /rm_nav_entrypoint.sh
+
+USER "${USERNAME}"
+WORKDIR /workspace/rm2027_navigation
+
+RUN rosdep update || true
+
+ENTRYPOINT ["/rm_nav_entrypoint.sh"]
+CMD ["bash"]
