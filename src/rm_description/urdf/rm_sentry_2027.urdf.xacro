@@ -11,9 +11,10 @@
     on the gimbal. If only one MID360 is used later, keep the unused frame out
     of launch/config rather than changing the public base_link contract.
 
-    The gimbal yaw joint below is a zero-yaw fixed placeholder for build,
-    RViz, and early bag tests. Real hardware must replace this with a dynamic
-    gimbal_yaw_joint state before validating rotating-gimbal localization.
+    The gimbal yaw joint below is dynamic. Phase 1 may drive it with a
+    zero-yaw placeholder joint state for build, RViz, and early bag tests.
+    Real hardware must replace the placeholder with timestamped gimbal yaw
+    data before validating rotating-gimbal localization.
   -->
 
   <link name="base_link">
@@ -40,11 +41,12 @@
     </visual>
   </link>
 
-  <joint name="base_link_to_gimbal_yaw_link_phase1_placeholder" type="fixed">
+  <joint name="gimbal_yaw_joint" type="continuous">
     <parent link="base_link"/>
     <child link="gimbal_yaw_link"/>
-    <!-- Phase 1 zero-yaw placeholder only. Real robot requires dynamic yaw. -->
+    <!-- Phase 1 zero-yaw joint state is a placeholder. Real robot requires dynamic yaw. -->
     <origin xyz="0 0 0.35" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
   </joint>
 
   <link name="mid360_left_frame"/>
