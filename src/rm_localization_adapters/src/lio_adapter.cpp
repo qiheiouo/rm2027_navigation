@@ -5,9 +5,13 @@
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "tf2/exceptions.h"
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2/LinearMath/Transform.h"
+#include "tf2/time.h"
+#include "tf2_ros/buffer.h"
 #include "tf2_ros/transform_broadcaster.h"
+#include "tf2_ros/transform_listener.h"
 
 class LioAdapter : public rclcpp::Node
 {
@@ -24,8 +28,9 @@ public:
     input_sensor_frame_ = declare_parameter<std::string>("input_sensor_frame", "lio_imu_link");
     gimbal_frame_ = declare_parameter<std::string>("gimbal_frame", "gimbal_yaw_link");
     publish_tf_ = declare_parameter<bool>("publish_tf", true);
-    use_zero_yaw_gimbal_placeholder_ =
-      declare_parameter<bool>("use_zero_yaw_gimbal_placeholder", true);
+    use_tf_sensor_to_base_ = declare_parameter<bool>("use_tf_sensor_to_base", true);
+    allow_placeholder_fallback_ = declare_parameter<bool>("allow_placeholder_fallback", false);
+    tf_lookup_timeout_sec_ = declare_parameter<double>("tf_lookup_timeout_sec", 0.05);
 
     const double input_to_base_x =
       declare_parameter<double>("input_to_base_placeholder.x", 0.0);
@@ -48,15 +53,18 @@ public:
 
     odom_pub_ = create_publisher<nav_msgs::msg::Odometry>(output_odom_topic_, 10);
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+    tf_buffer_ = std::make_unique<tf2_ros::Buffer>(get_clock());
+    tf_listener_ = std::make_unique<tf2_ros::TransformListener>(*tf_buffer_);
     odom_sub_ = create_subscription<nav_msgs::msg::Odometry>(
       raw_odom_topic_, 10,
       std::bind(&LioAdapter::handleRawOdometry, this, std::placeholders::_1));
 
     RCLCPP_WARN(
       get_logger(),
-      "Phase 1 skeleton: adapting %s to %s. The gimbal transform is a "
-      "zero-yaw placeholder unless calibrated and timestamped for the 2027 robot.",
-      raw_odom_topic_.c_str(), output_odom_topic_.c_str());
+      "Phase 1 skeleton: adapting %s to %s through TF %s->sensor with gimbal frame %s. "
+      "Real hardware still requires calibrated and timestamped gimbal yaw.",
+      raw_odom_topic_.c_str(), output_odom_topic_.c_str(),
+      base_frame_.c_str(), gimbal_frame_.c_str());
   }
 
 private:
@@ -72,6 +80,23 @@ private:
       pose.position.x,
       pose.position.y,
       pose.position.z));
+    transform.setRotation(q);
+    return transform;
+  }
+
+  static tf2::Transform transformMsgToTransform(
+    const geometry_msgs::msg::Transform & transform_msg)
+  {
+    tf2::Quaternion q(
+      transform_msg.rotation.x,
+      transform_msg.rotation.y,
+      transform_msg.rotation.z,
+      transform_msg.rotation.w);
+    tf2::Transform transform;
+    transform.setOrigin(tf2::Vector3(
+      transform_msg.translation.x,
+      transform_msg.translation.y,
+      transform_msg.translation.z));
     transform.setRotation(q);
     return transform;
   }
@@ -93,29 +118,49 @@ private:
   {
     // Important: do not fake base_link by only changing child_frame_id.
     // For gimbal-mounted MID360, a backend may publish odom->lio_imu_link or
-    // odom->mid360_*_frame. Real hardware must compute odom->base_link using
-    // the timestamped gimbal yaw and measured sensor extrinsics. This skeleton
-    // only provides a zero-yaw placeholder path for early build/bag tests.
+    // odom->mid360_*_frame. Compute odom->base_link as:
+    //   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
+    // where T_base_sensor comes from robot_state_publisher and the current
+    // gimbal_yaw_joint state.
     const std::string input_child =
       msg->child_frame_id.empty() ? input_sensor_frame_ : msg->child_frame_id;
 
     tf2::Transform odom_to_input = poseToTransform(msg->pose.pose);
     tf2::Transform odom_to_base = odom_to_input;
 
-    if (input_child == input_sensor_frame_) {
-      if (!use_zero_yaw_gimbal_placeholder_) {
+    if (input_child != base_frame_) {
+      if (use_tf_sensor_to_base_) {
+        try {
+          const auto base_to_input_msg = tf_buffer_->lookupTransform(
+            base_frame_,
+            input_child,
+            tf2::TimePointZero,
+            tf2::durationFromSec(tf_lookup_timeout_sec_));
+          const tf2::Transform base_to_input =
+            transformMsgToTransform(base_to_input_msg.transform);
+          odom_to_base = odom_to_input * base_to_input.inverse();
+        } catch (const tf2::TransformException & ex) {
+          if (!allow_placeholder_fallback_) {
+            RCLCPP_WARN_THROTTLE(
+              get_logger(), *get_clock(), 2000,
+              "Cannot transform %s -> %s for raw odometry child '%s': %s",
+              base_frame_.c_str(), input_child.c_str(), input_child.c_str(), ex.what());
+            return;
+          }
+
+          RCLCPP_WARN_THROTTLE(
+            get_logger(), *get_clock(), 5000,
+            "TF lookup failed for %s -> %s. Falling back to placeholder transform.",
+            base_frame_.c_str(), input_child.c_str());
+          odom_to_base = odom_to_input * input_to_base_placeholder_;
+        }
+      } else {
         RCLCPP_WARN_THROTTLE(
           get_logger(), *get_clock(), 5000,
-          "Dynamic %s transform support is TODO. Using the placeholder transform.",
-          gimbal_frame_.c_str());
+          "use_tf_sensor_to_base=false. Falling back to placeholder transform for %s.",
+          input_child.c_str());
+        odom_to_base = odom_to_input * input_to_base_placeholder_;
       }
-      odom_to_base = odom_to_input * input_to_base_placeholder_;
-    } else if (input_child != base_frame_) {
-      RCLCPP_WARN_THROTTLE(
-        get_logger(), *get_clock(), 5000,
-        "Unexpected raw odometry child_frame_id '%s'. Treating it as '%s' is a TODO.",
-        input_child.c_str(), input_sensor_frame_.c_str());
-      odom_to_base = odom_to_input * input_to_base_placeholder_;
     }
 
     nav_msgs::msg::Odometry output = *msg;
@@ -144,12 +189,16 @@ private:
   std::string input_sensor_frame_;
   std::string gimbal_frame_;
   bool publish_tf_;
-  bool use_zero_yaw_gimbal_placeholder_;
+  bool use_tf_sensor_to_base_;
+  bool allow_placeholder_fallback_;
+  double tf_lookup_timeout_sec_;
   tf2::Transform input_to_base_placeholder_;
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+  std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
+  std::unique_ptr<tf2_ros::TransformListener> tf_listener_;
 };
 
 int main(int argc, char ** argv)

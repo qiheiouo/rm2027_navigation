@@ -90,6 +90,42 @@ ros2 topic echo /odometry/lio
 
 `/odometry/lio` is expected to be silent if no raw LIO odometry is being published into `lio_adapter`. That is acceptable for this skeleton validation. The topic should appear only after `lio_adapter` receives raw odometry and publishes adapted output.
 
+## LIO Dynamic Gimbal Adapter Check
+
+This check does not connect real FAST-LIO, MID360, serial, referee, or BT. It uses `fake_lio_odom_publisher` to validate adapter math and TF wiring.
+
+Run:
+
+```bash
+source install/setup.bash
+ros2 launch rm_localization_adapters lio_dynamic_gimbal_test.launch.py
+```
+
+In another terminal:
+
+```bash
+source install/setup.bash
+ros2 topic echo --once /joint_states
+ros2 topic echo --once /odometry/lio
+ros2 run tf2_ros tf2_echo odom base_link
+ros2 run tf2_ros tf2_echo base_link gimbal_yaw_link
+ros2 run tf2_ros tf2_echo gimbal_yaw_link lio_imu_link
+```
+
+Expected behavior:
+
+- `/joint_states` contains `gimbal_yaw_joint`.
+- `fake_lio_odom_publisher` publishes `/odometry/fast_lio_raw` with `child_frame_id=lio_imu_link`.
+- `lio_adapter` publishes `/odometry/lio` with `header.frame_id=odom` and `child_frame_id=base_link`.
+- `lio_adapter` publishes canonical `odom -> base_link`.
+- The transform is computed with:
+
+```text
+T_odom_base = T_odom_sensor * inverse(T_base_sensor)
+```
+
+`T_base_sensor` must come from the TF tree produced by `robot_state_publisher` and `gimbal_yaw_joint`, not from child-frame renaming.
+
 ## Acceptance Criteria
 
 - `colcon list` recognizes all five Phase 1 packages.
