@@ -7,18 +7,16 @@ lio_adapter:
     input_sensor_frame: lio_imu_link
     gimbal_frame: gimbal_yaw_link
     publish_tf: true
-    use_zero_yaw_gimbal_placeholder: true
+    use_tf_sensor_to_base: true
+    allow_placeholder_fallback: false
+    tf_lookup_timeout_sec: 0.05
 
-    # Phase 1 placeholder only.
-    # This is NOT the final 2027 real-robot extrinsic.
+    # Fallback placeholder only.
+    # Default operation must use TF from base_link to input_sensor_frame.
     # If the backend outputs odom->lio_imu_link or odom->mid360_*_frame,
-    # lio_adapter must compute odom->base_link using gimbal yaw and measured
-    # sensor extrinsics. Do not fake the conversion by only changing
-    # child_frame_id.
-    #
-    # This placeholder assumes the gimbal yaw is zero and stores an
-    # input_sensor_frame -> base_link transform. Real hardware must replace it
-    # with a time-aware dynamic gimbal transform.
+    # lio_adapter computes:
+    #   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
+    # Do not fake the conversion by only changing child_frame_id.
     input_to_base_placeholder:
       x: 0.0
       y: 0.0

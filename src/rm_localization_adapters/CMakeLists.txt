@@ -43,10 +43,18 @@ ament_target_dependencies(gimbal_state_adapter
   builtin_interfaces
 )
 
+add_executable(fake_lio_odom_publisher src/fake_lio_odom_publisher.cpp)
+ament_target_dependencies(fake_lio_odom_publisher
+  rclcpp
+  nav_msgs
+  tf2
+)
+
 install(TARGETS
   map_odom_stub
   lio_adapter
   gimbal_state_adapter
+  fake_lio_odom_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 
