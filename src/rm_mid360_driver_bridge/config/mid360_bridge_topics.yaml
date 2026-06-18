@@ -1,0 +1,15 @@
+mid360_bridge_topics:
+  ros__parameters:
+    left_device_ip: "192.168.1.166"
+    right_device_ip: "192.168.1.167"
+    left_custom_msg_topic: "/livox/left/lidar"
+    right_custom_msg_topic: "/livox/right/lidar"
+    left_pointcloud_topic: "/livox/left/pointcloud"
+    right_pointcloud_topic: "/livox/right/pointcloud"
+    lio_imu_topic: "/livox/lio_imu"
+    default_lio_imu_source: "left"
+
+    # Phase 1 placeholder only. Real host IP, LiDAR IP, ports, time sync,
+    # and selected LIO IMU source must be confirmed on the Linux/minipc setup.
+    # This package does not publish TF, odometry, navigation goals, serial
+    # packets, referee data, or BT commands.

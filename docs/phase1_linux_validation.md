@@ -40,6 +40,7 @@ Expected packages:
 - `rm_description`
 - `rm_nav_config`
 - `rm_navigation_bringup`
+- `rm_mid360_driver_bridge`
 
 ## Build
 
@@ -71,6 +72,33 @@ ros2 launch rm_chassis_interface chassis_interface_stub.launch.py
 source install/setup.bash
 ros2 launch rm_navigation_bringup phase1_bringup.launch.py
 ```
+
+MID360 bridge skeleton, without real hardware or `livox_ros_driver2`:
+
+```bash
+source install/setup.bash
+ros2 launch rm_mid360_driver_bridge dual_mid360_driver.launch.py
+```
+
+```bash
+source install/setup.bash
+ros2 launch rm_mid360_driver_bridge single_mid360_driver.launch.py side:=left
+```
+
+Expected bridge behavior:
+
+- Logs show the canonical topic contract for `/livox/left/lidar`, `/livox/right/lidar`, and `/livox/lio_imu`.
+- `use_driver:=false` is the default, so the launch files do not try to connect real MID360 hardware.
+- The bridge does not publish localization TF, odometry, navigation goals, serial packets, referee data, or BT commands.
+
+After `livox_ros_driver2` and real MID360 hardware are available, the hardware check starts with:
+
+```bash
+source install/setup.bash
+ros2 launch rm_mid360_driver_bridge dual_mid360_driver.launch.py use_driver:=true
+```
+
+Real host IP, LiDAR IP, ports, time sync, and selected LIO IMU source must be confirmed before accepting real sensor data.
 
 Inspect topics and TF:
 
@@ -128,7 +156,7 @@ T_odom_base = T_odom_sensor * inverse(T_base_sensor)
 
 ## Acceptance Criteria
 
-- `colcon list` recognizes all five Phase 1 packages.
+- `colcon list` recognizes all six Phase 1 packages.
 - `colcon build --symlink-install` completes successfully.
 - The launch files do not crash immediately due to missing package dependencies.
 - `map_odom_stub` is the only `map -> odom` publisher.
