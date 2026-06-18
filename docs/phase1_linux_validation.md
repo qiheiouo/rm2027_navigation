@@ -52,9 +52,12 @@ The driver submodule itself has no observed nested `.gitmodules`; `git submodule
 ## Install Dependencies
 
 ```bash
+sudo apt-get update
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
+
+Inside the project Docker container, keep `sudo apt-get update` before `rosdep install`. The image removes apt indexes during build to keep the layer smaller, and a fresh container may otherwise fail to locate packages such as `ros-humble-pcl-conversions` or `libaprutil1-dev`.
 
 ## Package Discovery
 
@@ -248,6 +251,7 @@ Make sure ROS2 Humble is sourced and `rosdep update` has completed:
 
 ```bash
 source /opt/ros/humble/setup.bash
+sudo apt-get update
 rosdep update
 ```
 

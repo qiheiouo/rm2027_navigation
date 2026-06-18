@@ -68,6 +68,7 @@ With Livox-SDK2 installed:
 
 ```bash
 source /opt/ros/humble/setup.bash
+sudo apt-get update
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 colcon build --symlink-install

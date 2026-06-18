@@ -57,10 +57,13 @@ Inside the container, ROS2 Humble is already sourced by `docker/entrypoint.sh`.
 Inside the container:
 
 ```bash
+sudo apt-get update
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 colcon list
 ```
+
+The image already installs the current Livox driver build dependencies, including Livox-SDK2, `libaprutil1-dev`, and `ros-humble-pcl-conversions`. The `sudo apt-get update` step is still kept before `rosdep install` so a fresh container has valid apt package indexes if future dependencies are added.
 
 Expected packages:
 
