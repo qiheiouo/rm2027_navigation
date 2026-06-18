@@ -32,11 +32,15 @@ Single-device fallback:
 ros2 launch rm_mid360_driver_bridge single_mid360_driver.launch.py side:=left use_driver:=true
 ```
 
+The default `xfer_format` is `4`, matching the locally inspected Livox ROS driver behavior that publishes both Livox `CustomMsg` and `PointCloud2`. LIO backends usually need `CustomMsg` for per-point timing, while `PointCloud2` is useful for debugging, perception, and future costmap tools.
+
 ## Placeholder Values
 
-The JSON files contain placeholder host IP, LiDAR IP, ports, and timing settings. They are not 2027 final hardware configuration. The real values must be checked after MID360 network setup.
+The JSON files contain placeholder host IP, LiDAR IP, ports, and timing settings. They are not 2027 final hardware configuration. The current placeholder LiDAR IPs follow the 2026 historical pair `192.168.1.166` and `192.168.1.3`; the real values must be checked after MID360 network setup.
 
 The `extrinsic_parameter` values intentionally stay zero in the Livox config. The canonical robot/sensor extrinsics belong in `rm_description` and the TF contract, not in scattered driver config.
+
+The locally inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livox_frame`, while point cloud messages use the launch `frame_id` parameter. Before real LIO validation, either patch the driver or add a small IMU adapter so `/livox/lio_imu` uses the documented `lio_imu_link` frame.
 
 ## Notes for Dual MID360
 

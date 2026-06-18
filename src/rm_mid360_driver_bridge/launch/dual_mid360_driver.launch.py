@@ -93,7 +93,7 @@ def generate_launch_description():
         DeclareLaunchArgument("lio_imu_source", default_value="left"),
         DeclareLaunchArgument("left_frame_id", default_value="mid360_left_frame"),
         DeclareLaunchArgument("right_frame_id", default_value="mid360_right_frame"),
-        DeclareLaunchArgument("xfer_format", default_value="1"),
+        DeclareLaunchArgument("xfer_format", default_value="4"),
         DeclareLaunchArgument("publish_freq", default_value="50.0"),
         DeclareLaunchArgument("output_type", default_value="0"),
         OpaqueFunction(function=_launch_setup),

@@ -74,7 +74,7 @@ def generate_launch_description():
         DeclareLaunchArgument("driver_package", default_value="livox_ros_driver2"),
         DeclareLaunchArgument("side", default_value="left"),
         DeclareLaunchArgument("frame_id", default_value=""),
-        DeclareLaunchArgument("xfer_format", default_value="1"),
+        DeclareLaunchArgument("xfer_format", default_value="4"),
         DeclareLaunchArgument("publish_freq", default_value="50.0"),
         DeclareLaunchArgument("output_type", default_value="0"),
         OpaqueFunction(function=_launch_setup),
