@@ -8,7 +8,8 @@
 | `/livox/right/lidar` | `livox_ros_driver2/msg/CustomMsg` | LiDAR driver | LIO backend | Right MID360 raw point cloud with per-point timing; may be unused if falling back to one MID360 |
 | `/livox/left/pointcloud` | `sensor_msgs/msg/PointCloud2` | LiDAR driver or simulator | costmap, debug, map tools | Left MID360 standard point cloud |
 | `/livox/right/pointcloud` | `sensor_msgs/msg/PointCloud2` | LiDAR driver or simulator | costmap, debug, map tools | Right MID360 standard point cloud |
-| `/livox/lio_imu` | `sensor_msgs/msg/Imu` | Selected MID360 driver | LIO backend | MID360 internal IMU used as the main LIO IMU |
+| `/livox/lio_imu_raw` | `sensor_msgs/msg/Imu` | Selected MID360 driver | `imu_frame_adapter` | Raw selected MID360 internal IMU. Driver frame_id may be non-canonical |
+| `/livox/lio_imu` | `sensor_msgs/msg/Imu` | `imu_frame_adapter` | LIO backend | Canonical MID360 internal IMU used as the main LIO IMU. `header.frame_id=lio_imu_link` |
 | `/base_imu/data` | `sensor_msgs/msg/Imu` | Optional chassis IMU driver | diagnostics, slip detection, future low-weight fusion | Optional chassis-mounted IMU, not the main LIO IMU for gimbal-mounted LiDARs |
 | `/joint_states` | `sensor_msgs/msg/JointState` | `gimbal_state_adapter`, other joint-state owners | `robot_state_publisher` | Must contain `gimbal_yaw_joint` when real gimbal TF is enabled |
 | `/gimbal/state` | `sensor_msgs/msg/JointState` or documented future interface | `gimbal_state_adapter` | diagnostics, `lio_adapter` if needed | Gimbal yaw angle, optional yaw velocity, timestamp, and validity information |

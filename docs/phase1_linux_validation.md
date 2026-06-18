@@ -87,9 +87,20 @@ ros2 launch rm_mid360_driver_bridge single_mid360_driver.launch.py side:=left
 
 Expected bridge behavior:
 
-- Logs show the canonical topic contract for `/livox/left/lidar`, `/livox/right/lidar`, and `/livox/lio_imu`.
+- Logs show the canonical topic contract for `/livox/left/lidar`, `/livox/right/lidar`, and selected raw IMU `/livox/lio_imu_raw`.
 - `use_driver:=false` is the default, so the launch files do not try to connect real MID360 hardware.
 - The bridge does not publish localization TF, odometry, navigation goals, serial packets, referee data, or BT commands.
+
+`rm_localization_adapters` includes `imu_frame_adapter`, which converts `/livox/lio_imu_raw` to canonical `/livox/lio_imu` with `header.frame_id=lio_imu_link`. Without raw IMU input, `/livox/lio_imu` is expected to have no data.
+
+To check the adapter without real MID360 hardware, keep `localization_adapters.launch.py` running and publish one synthetic raw IMU:
+
+```bash
+ros2 topic pub --once /livox/lio_imu_raw sensor_msgs/msg/Imu "{header: {frame_id: livox_frame}}"
+ros2 topic echo --once /livox/lio_imu
+```
+
+Expected output: `/livox/lio_imu` keeps the original stamp and measurement defaults, but `header.frame_id` is `lio_imu_link`.
 
 After `livox_ros_driver2` and real MID360 hardware are available, the hardware check starts with:
 
@@ -161,6 +172,7 @@ T_odom_base = T_odom_sensor * inverse(T_base_sensor)
 - The launch files do not crash immediately due to missing package dependencies.
 - `map_odom_stub` is the only `map -> odom` publisher.
 - `lio_adapter` is the only `odom -> base_link` publisher.
+- `imu_frame_adapter` publishes `/livox/lio_imu` with `header.frame_id=lio_imu_link` when `/livox/lio_imu_raw` is provided.
 - `chassis_interface_stub` does not publish TF.
 - `chassis_interface_stub` does not publish odometry.
 - `chassis_interface_stub` does not publish navigation goals.

@@ -1,0 +1,10 @@
+imu_frame_adapter:
+  ros__parameters:
+    input_topic: /livox/lio_imu_raw
+    output_topic: /livox/lio_imu
+    output_frame_id: lio_imu_link
+
+    # The inspected Livox ROS driver hard-codes IMU header.frame_id as livox_frame.
+    # This adapter only rewrites header.frame_id to the canonical LIO IMU frame.
+    # It must not publish TF, filter IMU data, or modify measurement values.
+    warn_on_frame_override: true

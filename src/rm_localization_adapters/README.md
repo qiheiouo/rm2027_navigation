@@ -7,6 +7,7 @@ Responsibilities:
 - `map_odom_stub`: temporary Phase 1 `global_localization` placeholder. It publishes identity `map -> odom` as a dynamic TF on `/tf`.
 - `lio_adapter`: converts backend LIO odometry into canonical `/odometry/lio` and publishes canonical `odom -> base_link`.
 - `gimbal_state_adapter`: publishes `gimbal_yaw_joint` to `/joint_states`. Phase 1 defaults to a zero-yaw placeholder; real hardware must feed timestamped gimbal yaw through the adapter.
+- `imu_frame_adapter`: converts selected MID360 raw IMU messages from `/livox/lio_imu_raw` into canonical `/livox/lio_imu` by rewriting only `header.frame_id` to `lio_imu_link`.
 - `fake_lio_odom_publisher`: test helper that publishes fake raw LIO odometry for adapter validation only.
 
 Non-goals:
@@ -28,3 +29,5 @@ T_odom_base = T_odom_sensor * inverse(T_base_sensor)
 `T_base_sensor` is expected to come from `robot_state_publisher`, measured sensor extrinsics, and `gimbal_yaw_joint`.
 
 `gimbal_state_adapter` does not publish localization TF, odometry, navigation goals, or serial packets. It only provides the gimbal yaw joint state needed by `robot_state_publisher` to produce the sensor TF subtree.
+
+`imu_frame_adapter` does not publish TF, filter IMU data, or modify measurement values. It exists because the inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livox_frame`; the canonical public IMU frame for LIO remains `lio_imu_link`.

@@ -12,7 +12,8 @@ Expected canonical topics:
 - `/livox/right/lidar`: right MID360 Livox custom point cloud.
 - `/livox/left/pointcloud`: left MID360 PointCloud2, if that driver mode is enabled.
 - `/livox/right/pointcloud`: right MID360 PointCloud2, if that driver mode is enabled.
-- `/livox/lio_imu`: selected MID360 internal IMU used by the LIO backend.
+- `/livox/lio_imu_raw`: selected MID360 internal IMU directly remapped from the driver.
+- `/livox/lio_imu`: canonical LIO IMU after `imu_frame_adapter` rewrites `header.frame_id` to `lio_imu_link`.
 
 This package must not publish localization TF, odometry, navigation goals, serial packets, referee data, or behavior-tree commands.
 
@@ -40,7 +41,7 @@ The JSON files contain placeholder host IP, LiDAR IP, ports, and timing settings
 
 The `extrinsic_parameter` values intentionally stay zero in the Livox config. The canonical robot/sensor extrinsics belong in `rm_description` and the TF contract, not in scattered driver config.
 
-The locally inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livox_frame`, while point cloud messages use the launch `frame_id` parameter. Before real LIO validation, either patch the driver or add a small IMU adapter so `/livox/lio_imu` uses the documented `lio_imu_link` frame.
+The locally inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livox_frame`, while point cloud messages use the launch `frame_id` parameter. The bridge therefore remaps selected driver IMU data to `/livox/lio_imu_raw`; `rm_localization_adapters/imu_frame_adapter` publishes canonical `/livox/lio_imu` with `header.frame_id=lio_imu_link`.
 
 ## Notes for Dual MID360
 

@@ -27,7 +27,7 @@ def _launch_setup(context, *args, **kwargs):
     actions = [
         LogInfo(msg=[
             "rm_mid360_driver_bridge single contract: ",
-            f"{side} lidar=/livox/{side}/lidar, IMU=/livox/lio_imu. ",
+            f"{side} lidar=/livox/{side}/lidar, raw IMU=/livox/lio_imu_raw. ",
             "This bridge must not publish localization TF or odometry."
         ])
     ]
@@ -62,7 +62,7 @@ def _launch_setup(context, *args, **kwargs):
         remappings=[
             ("/livox/lidar", f"/livox/{side}/lidar"),
             ("/livox/lidar/pointcloud", f"/livox/{side}/pointcloud"),
-            ("/livox/imu", "/livox/lio_imu"),
+            ("/livox/imu", "/livox/lio_imu_raw"),
         ],
     ))
     return actions

@@ -54,7 +54,7 @@ def _launch_setup(context, *args, **kwargs):
     actions = [
         LogInfo(msg=[
             "rm_mid360_driver_bridge dual contract: left=/livox/left/lidar, ",
-            "right=/livox/right/lidar, selected IMU=/livox/lio_imu. ",
+            "right=/livox/right/lidar, selected raw IMU=/livox/lio_imu_raw. ",
             "This bridge must not publish localization TF or odometry."
         ])
     ]
@@ -71,11 +71,11 @@ def _launch_setup(context, *args, **kwargs):
         return actions
 
     if enable_left:
-        left_imu_topic = "/livox/lio_imu" if lio_imu_source == "left" else "/livox/left/imu_raw"
+        left_imu_topic = "/livox/lio_imu_raw" if lio_imu_source == "left" else "/livox/left/imu_raw"
         actions.append(_driver_node(context, "left", "left_mid360_config.json", left_imu_topic))
 
     if enable_right:
-        right_imu_topic = "/livox/lio_imu" if lio_imu_source == "right" else "/livox/right/imu_raw"
+        right_imu_topic = "/livox/lio_imu_raw" if lio_imu_source == "right" else "/livox/right/imu_raw"
         actions.append(_driver_node(context, "right", "right_mid360_config.json", right_imu_topic))
 
     if not enable_left and not enable_right:

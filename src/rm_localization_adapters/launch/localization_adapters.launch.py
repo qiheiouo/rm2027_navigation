@@ -15,6 +15,11 @@ def generate_launch_description():
         "config",
         "gimbal_state_adapter.yaml",
     ])
+    imu_frame_adapter_config = PathJoinSubstitution([
+        FindPackageShare("rm_localization_adapters"),
+        "config",
+        "imu_frame_adapter.yaml",
+    ])
 
     # Phase 1 skeleton only. FAST-LIO is intentionally not launched here.
     return LaunchDescription([
@@ -37,5 +42,12 @@ def generate_launch_description():
             name="gimbal_state_adapter",
             output="screen",
             parameters=[gimbal_state_adapter_config],
+        ),
+        Node(
+            package="rm_localization_adapters",
+            executable="imu_frame_adapter",
+            name="imu_frame_adapter",
+            output="screen",
+            parameters=[imu_frame_adapter_config],
         ),
     ])

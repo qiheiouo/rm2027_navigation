@@ -43,6 +43,12 @@ ament_target_dependencies(gimbal_state_adapter
   builtin_interfaces
 )
 
+add_executable(imu_frame_adapter src/imu_frame_adapter.cpp)
+ament_target_dependencies(imu_frame_adapter
+  rclcpp
+  sensor_msgs
+)
+
 add_executable(fake_lio_odom_publisher src/fake_lio_odom_publisher.cpp)
 ament_target_dependencies(fake_lio_odom_publisher
   rclcpp
@@ -54,6 +60,7 @@ install(TARGETS
   map_odom_stub
   lio_adapter
   gimbal_state_adapter
+  imu_frame_adapter
   fake_lio_odom_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
