@@ -43,3 +43,12 @@ See:
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`
+
+## Current Packages
+
+- `rm_description`: Phase 1 robot description and gimbal-mounted sensor frames.
+- `rm_localization_adapters`: map/odom stub, LIO odometry adapter, and gimbal joint-state adapter.
+- `rm_chassis_interface`: `/cmd_vel` chassis stub without real serial.
+- `rm_nav_config`: minimal Nav2 placeholder configuration.
+- `rm_navigation_bringup`: Phase 1 bringup skeleton.
+- `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton; it does not vendor `livox_ros_driver2`.
