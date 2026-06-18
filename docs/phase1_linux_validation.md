@@ -7,8 +7,14 @@ Phase 1 validation does not require a real MID360, real serial hardware, referee
 ## Clone
 
 ```bash
-git clone https://gitee.com/qiheiovo/rm2027_navigation.git
+git clone --recurse-submodules https://gitee.com/qiheiovo/rm2027_navigation.git
 cd rm2027_navigation
+```
+
+If the repository was cloned before the Livox driver submodule was added, or cloned without `--recurse-submodules`, initialize external dependencies:
+
+```bash
+git submodule update --init --recursive
 ```
 
 ## Environment Assumptions
@@ -19,6 +25,29 @@ cd rm2027_navigation
 - `rosdep` is installed and initialized.
 - No real MID360 is required for this stage.
 - No real serial device is required for this stage.
+- Building `livox_ros_driver2` requires Livox-SDK2. Install it before full driver builds, or skip the driver package for no-hardware validation.
+
+## Install Livox-SDK2 For Driver Builds
+
+The ROS driver is tracked as submodule `src/livox_ros_driver2_humble`, package `livox_ros_driver2`. Install Livox-SDK2 on Ubuntu 22.04 before building the driver:
+
+```bash
+sudo apt update
+sudo apt install -y build-essential cmake git libapr1-dev libpcl-dev
+
+mkdir -p ~/third_party
+cd ~/third_party
+git clone https://github.com/Livox-SDK/Livox-SDK2.git
+cd Livox-SDK2
+mkdir -p build
+cd build
+cmake ..
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+```
+
+The driver submodule itself has no observed nested `.gitmodules`; `git submodule update --init --recursive` is still recommended for normal project clones.
 
 ## Install Dependencies
 
@@ -35,6 +64,7 @@ colcon list
 
 Expected packages:
 
+- `livox_ros_driver2`
 - `rm_localization_adapters`
 - `rm_chassis_interface`
 - `rm_description`
@@ -46,6 +76,13 @@ Expected packages:
 
 ```bash
 colcon build --symlink-install
+source install/setup.bash
+```
+
+If Livox-SDK2 is not installed and the goal is to validate only project skeleton packages:
+
+```bash
+colcon build --symlink-install --packages-skip livox_ros_driver2
 source install/setup.bash
 ```
 
@@ -167,7 +204,7 @@ T_odom_base = T_odom_sensor * inverse(T_base_sensor)
 
 ## Acceptance Criteria
 
-- `colcon list` recognizes all six Phase 1 packages.
+- `colcon list` recognizes `livox_ros_driver2` and all six project Phase 1 packages after submodule initialization.
 - `colcon build --symlink-install` completes successfully.
 - The launch files do not crash immediately due to missing package dependencies.
 - `map_odom_stub` is the only `map -> odom` publisher.
@@ -186,6 +223,23 @@ Install colcon:
 
 ```bash
 sudo apt install python3-colcon-common-extensions
+```
+
+### Livox-SDK2 Missing
+
+Symptoms include build errors from `livox_ros_driver2` about missing Livox SDK headers or libraries.
+
+Fix by installing Livox-SDK2 as described above, then run:
+
+```bash
+sudo ldconfig
+colcon build --symlink-install
+```
+
+For no-hardware validation only, skip the driver package:
+
+```bash
+colcon build --symlink-install --packages-skip livox_ros_driver2
 ```
 
 ### rosdep Cannot Resolve Dependencies

@@ -51,4 +51,5 @@ See:
 - `rm_chassis_interface`: `/cmd_vel` chassis stub without real serial.
 - `rm_nav_config`: minimal Nav2 placeholder configuration.
 - `rm_navigation_bringup`: Phase 1 bringup skeleton.
-- `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton; it does not vendor `livox_ros_driver2`.
+- `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
+- `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.

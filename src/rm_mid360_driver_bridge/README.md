@@ -2,7 +2,9 @@
 
 Phase 1 MID360 driver bridge for the 2027 gimbal-mounted LiDAR layout.
 
-This package does not vendor, copy, or replace `livox_ros_driver2`. It only keeps the local bridge boundary: placeholder Livox config files, canonical topic naming, and launch skeletons that can start `livox_ros_driver2_node` when the real driver is installed in the Linux workspace.
+This package does not copy or modify `livox_ros_driver2`. It only keeps the local bridge boundary: placeholder Livox config files, canonical topic naming, and launch skeletons that can start `livox_ros_driver2_node`.
+
+The ROS2 Humble driver itself is tracked as the external submodule `src/livox_ros_driver2_humble`. See `docs/external/livox_ros_driver2_humble.md` for URL, commit, license, SDK install commands, and submodule notes.
 
 ## Contract
 
@@ -21,7 +23,7 @@ This package must not publish localization TF, odometry, navigation goals, seria
 
 Phase 1 keeps `use_driver:=false` as the safe default so that the workspace builds and launch files can be inspected without real hardware or `livox_ros_driver2`.
 
-When the official driver is installed and sourced on Linux:
+When the driver submodule and Livox-SDK2 are installed and sourced on Linux:
 
 ```bash
 ros2 launch rm_mid360_driver_bridge dual_mid360_driver.launch.py use_driver:=true

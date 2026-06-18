@@ -4,6 +4,8 @@ This project provides a Phase 1 ROS2 Humble Docker environment for build and min
 
 The container is for development and validation only. It does not connect real MID360, serial, referee, or competition BT by default.
 
+The image installs Livox-SDK2 during `docker compose build`, so `livox_ros_driver2` can be built inside the container after the driver submodule is initialized.
+
 ## Host Requirements
 
 Recommended host:
@@ -28,10 +30,19 @@ From the repository root:
 
 ```bash
 cd rm2027_navigation
+git submodule update --init --recursive
 USER_UID=$(id -u) USER_GID=$(id -g) docker compose -f docker/docker-compose.yml build
 ```
 
 The UID/GID arguments help the container write `build/`, `install/`, and `log/` with the host user's ownership.
+
+If the target network cannot access GitHub during image build, provide a reviewed Livox-SDK2 mirror:
+
+```bash
+USER_UID=$(id -u) USER_GID=$(id -g) docker compose -f docker/docker-compose.yml build \
+  --build-arg LIVOX_SDK2_REPO=<reviewed-mirror-url> \
+  --build-arg LIVOX_SDK2_REF=<reviewed-branch-or-tag>
+```
 
 ## Start Shell
 
@@ -54,11 +65,13 @@ colcon list
 Expected packages:
 
 ```text
+livox_ros_driver2
 rm_localization_adapters
 rm_chassis_interface
 rm_description
 rm_nav_config
 rm_navigation_bringup
+rm_mid360_driver_bridge
 ```
 
 ## Build

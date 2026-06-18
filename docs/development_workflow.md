@@ -87,7 +87,7 @@ Recommended record locations for future work:
 - `docs/external/`
 - `docs/decisions/`
 
-Do not create those directories until they are needed.
+`docs/external/livox_ros_driver2_humble.md` records the Phase 1 Livox driver submodule intake.
 
 ## Development Stage Records
 
