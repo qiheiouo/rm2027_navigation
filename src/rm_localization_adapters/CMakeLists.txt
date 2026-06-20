@@ -53,6 +53,7 @@ add_executable(fake_lio_odom_publisher src/fake_lio_odom_publisher.cpp)
 ament_target_dependencies(fake_lio_odom_publisher
   rclcpp
   nav_msgs
+  geometry_msgs
   tf2
 )
 

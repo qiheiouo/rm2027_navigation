@@ -113,6 +113,21 @@ source install/setup.bash
 ros2 launch rm_navigation_bringup phase1_bringup.launch.py
 ```
 
+Phase 1 no-hardware closed-loop bringup:
+
+```bash
+source install/setup.bash
+ros2 launch rm_navigation_bringup phase1_bringup.launch.py use_fake_lio:=true use_nav2:=true use_chassis_stub:=true
+```
+
+Optional RViz on a machine with GUI forwarding:
+
+```bash
+ros2 launch rm_navigation_bringup phase1_bringup.launch.py use_fake_lio:=true use_nav2:=true use_chassis_stub:=true use_rviz:=true
+```
+
+This launch does not start FAST-LIO, real MID360 hardware, serial, referee, or competition BT. It uses `fake_lio_odom_publisher` in `/cmd_vel` integration mode so Nav2 output can move the fake odometry during no-hardware validation.
+
 MID360 bridge skeleton, without real hardware or `livox_ros_driver2`:
 
 ```bash
@@ -169,6 +184,22 @@ ros2 topic echo /odometry/lio
 
 `/odometry/lio` is expected to be silent if no raw LIO odometry is being published into `lio_adapter`. That is acceptable for this skeleton validation. The topic should appear only after `lio_adapter` receives raw odometry and publishes adapted output.
 
+With `phase1_bringup.launch.py use_fake_lio:=true`, `/odometry/lio` should publish continuously because fake raw LIO odometry is active.
+
+To test the Nav2 action path, send a small reachable goal:
+
+```bash
+ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: {header: {frame_id: map}, pose: {position: {x: 1.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}}}}"
+```
+
+Expected no-hardware behavior:
+
+- Nav2 accepts the goal.
+- `/cmd_vel` publishes motion commands.
+- `chassis_interface_stub` logs mock chassis packets.
+- `fake_lio_odom_publisher` integrates `/cmd_vel` and feeds raw LIO odometry.
+- `lio_adapter` publishes `/odometry/lio` and canonical `odom -> base_link`.
+
 ## LIO Dynamic Gimbal Adapter Check
 
 This check does not connect real FAST-LIO, MID360, serial, referee, or BT. It uses `fake_lio_odom_publisher` to validate adapter math and TF wiring.
@@ -216,6 +247,7 @@ T_odom_base = T_odom_sensor * inverse(T_base_sensor)
 - `chassis_interface_stub` does not publish TF.
 - `chassis_interface_stub` does not publish odometry.
 - `chassis_interface_stub` does not publish navigation goals.
+- `phase1_bringup.launch.py use_fake_lio:=true use_nav2:=true` can produce `/cmd_vel` from a small `NavigateToPose` goal.
 - No serial, referee, FAST-LIO, or BT integration is required for this validation.
 
 ## Common Failures

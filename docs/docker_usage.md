@@ -111,6 +111,26 @@ ros2 launch rm_chassis_interface chassis_interface_stub.launch.py
 ros2 launch rm_navigation_bringup phase1_bringup.launch.py
 ```
 
+No-hardware Nav2 closed-loop validation:
+
+```bash
+ros2 launch rm_navigation_bringup phase1_bringup.launch.py use_fake_lio:=true use_nav2:=true use_chassis_stub:=true
+```
+
+On a host with GUI forwarding, RViz can be enabled:
+
+```bash
+ros2 launch rm_navigation_bringup phase1_bringup.launch.py use_fake_lio:=true use_nav2:=true use_chassis_stub:=true use_rviz:=true
+```
+
+Send a small goal:
+
+```bash
+ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: {header: {frame_id: map}, pose: {position: {x: 1.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}}}}"
+```
+
+This should produce `/cmd_vel`; `chassis_interface_stub` should log mock packets. This is still no-hardware validation and does not launch FAST-LIO, real MID360, serial, referee, or BT.
+
 Topic and TF checks:
 
 ```bash

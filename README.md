@@ -16,6 +16,14 @@ LiDAR/IMU -> LIO -> canonical TF -> Nav2 -> /cmd_vel -> chassis_interface
 
 Phase 1 is not a complete competition system. It does not include real serial hardware, referee integration, competition behavior trees, or full global relocalization.
 
+Current no-hardware Phase 1 validation can run:
+
+```text
+fake LIO odometry -> lio_adapter -> Nav2 -> /cmd_vel -> chassis_interface_stub
+```
+
+RViz is available as an optional visualization path in `phase1_bringup.launch.py`.
+
 ## Architecture Direction
 
 This project follows the route:
