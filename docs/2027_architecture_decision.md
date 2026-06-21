@@ -70,14 +70,14 @@ The old `serial_task` contains hardware assets worth migrating:
 
 1. Serial open, read, and write logic.
 2. Packet format.
-3. CRC and validation.
+3. Existing frame envelope and validation behavior. The inspected legacy frame has no CRC.
 4. `vx/vy/wz` or chassis-control packets.
 5. Referee-system field parsing.
 6. Existing agreements with the lower controller.
 
 These assets should be migrated into:
 
-1. `rm_serial_driver` for serial IO, packet framing, and CRC.
+1. `rm_serial_driver` for serial IO, packet framing, validation, and protocol statistics. A CRC may be added only through a coordinated versioned protocol extension.
 2. `rm_chassis_interface` for chassis command encoding and chassis feedback parsing.
 3. `rm_referee_interface` for referee-system parsing.
 
@@ -94,7 +94,9 @@ The old `serial_task` must not be attached back into the navigation chain as a w
 
 Phase 1 focuses on the minimum canonical loop. It does not connect to real serial hardware, referee, or competition BT.
 
-Phase 1 may include compile-only migration of old serial parser/encoder code and unit tests for packet format, CRC, chassis command packets, and referee parsing.
+Phase 1C may include compile-only migration of the known legacy command encoder and length-based frame parser, with unit tests. It preserves the legacy no-CRC wire format.
+
+The old receive path does not define four individual wheel encoder values. If 2027 wheel-derived chassis velocity is calculated on the upper computer, Phase 2 requires an agreed lower-controller uplink containing four signed wheel samples, timing, sequence, units, and validity information.
 
 Phase 2 connects to real serial hardware while keeping the existing protocol as compatible as possible.
 

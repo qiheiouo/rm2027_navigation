@@ -6,7 +6,7 @@ This project is the new mainline for the 2027 sentry robot navigation stack. The
 
 ## Current Stage
 
-The project is currently in Phase 0 / Phase 1 design preparation.
+Phase 1A environment and canonical TF validation is complete. Phase 1B no-hardware Nav2 closure is complete. The project is now in Phase 1C compile-only serial protocol migration and test preparation.
 
 Phase 1 target:
 
@@ -51,6 +51,7 @@ See:
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`
+- `docs/contracts/serial_protocol_2027.md`
 
 ## Current Packages
 
@@ -60,4 +61,5 @@ See:
 - `rm_nav_config`: minimal Nav2 placeholder configuration.
 - `rm_navigation_bringup`: Phase 1 bringup skeleton.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
+- `rm_serial_driver`: Phase 1C compile-only legacy serial protocol codec and framing tests; no real serial device is opened.
 - `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.

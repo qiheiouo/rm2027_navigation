@@ -75,6 +75,7 @@ rm_description
 rm_nav_config
 rm_navigation_bringup
 rm_mid360_driver_bridge
+rm_serial_driver
 ```
 
 ## Build
@@ -84,6 +85,13 @@ Inside the container:
 ```bash
 colcon build --symlink-install
 source install/setup.bash
+```
+
+Phase 1C protocol tests:
+
+```bash
+colcon test --packages-select rm_serial_driver --event-handlers console_direct+
+colcon test-result --verbose
 ```
 
 If the target machine is slow:

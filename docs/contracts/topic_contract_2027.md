@@ -16,6 +16,7 @@
 | `/odometry/lio` | `nav_msgs/msg/Odometry` | `lio_adapter` | Nav2, debug, optional fusion | LIO odometry. `frame_id=odom`, `child_frame_id=base_link` |
 | `/cmd_vel` | `geometry_msgs/msg/Twist` | Nav2 | `rm_chassis_interface` | Commanded chassis velocity in `base_link` |
 | `/chassis/twist_raw` | `geometry_msgs/msg/TwistWithCovarianceStamped` | `rm_chassis_interface` | diagnostics, slip detection, future low-weight fusion | Chassis feedback velocity, not the main localization source |
+| `/chassis/wheel_states_raw` | `sensor_msgs/msg/JointState` | future `rm_chassis_interface` feedback path | chassis kinematics, diagnostics | Proposed four-wheel raw feedback topic; serial wire layout is not yet confirmed |
 | `/chassis/state` | TBD | `rm_chassis_interface` | monitor, strategy | Chassis mode, error code, limit state, communication state |
 | `/tf` | `tf2_msgs/msg/TFMessage` | TF owners | all modules | Dynamic TF |
 | `/tf_static` | `tf2_msgs/msg/TFMessage` | static TF owners | all modules | Static TF |
@@ -46,11 +47,13 @@ The old lower-controller serial protocol should remain compatible unless there i
 
 Responsibility split:
 
-1. `rm_serial_driver`: serial open, read, write, packet framing, CRC, validation.
+1. `rm_serial_driver`: serial open, read, write, packet framing, bounded-length validation, and protocol statistics. The legacy V1 frame has no CRC.
 2. `rm_chassis_interface`: converts `/cmd_vel` to chassis command packets and parses chassis feedback.
 3. `rm_referee_interface`: parses referee-system fields and publishes referee state.
 
 Phase 1 does not connect to real serial hardware. It may include compile-only migration and unit tests for parser and encoder code.
+
+The 2027 lower-controller uplink must be extended if four wheel encoder values are not already available. Raw wheel feedback is optional auxiliary information and must not become a localization TF owner.
 
 Phase 2 connects to real serial hardware.
 

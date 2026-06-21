@@ -55,7 +55,9 @@ Phase 1 default controller should be official Nav2 DWB with holonomic configurat
 
 Phase 1 does not connect to real serial hardware.
 
-Phase 1 may include compile-only migration of old serial protocol parser and encoder code. Unit tests may cover packet format, CRC, `vx/vy/wz` control packets, chassis feedback, and referee field parsing.
+Phase 1C includes compile-only migration of the known legacy 19-byte `vx/vy/wz` command encoder and length-based stream parser. Unit tests cover byte layout, finite values, fragmentation, noise, and resynchronization. The inspected legacy protocol has no CRC, so Phase 1C does not add one.
+
+The old receive path does not provide four clearly identified wheel encoder values. A 2027 uplink extension is required if the upper computer will calculate four-omni-wheel feedback. The wire layout remains blocked on wheel order, units, gear ratio, encoder resolution, timing, and sign conventions from the electrical and mechanical teams.
 
 Phase 2 connects to real serial hardware and should keep the lower-controller protocol compatible where possible.
 
@@ -94,3 +96,4 @@ Phase 1 does not require a real gimbal serial connection, but it must reserve th
 11. Old topic glue such as `/Pose_pub`, `/my_set_goal`, and `/nav_result` is not restored.
 12. Phase 1 zero-yaw gimbal placeholders are clearly marked and are not accepted as final real-robot extrinsics.
 13. Windows stage can complete code review and protocol unit tests. Linux stage can complete build, simulation, or bag replay. Real hardware stage validates MID360, gimbal yaw timing, serial, latency, and robustness.
+14. `rm_serial_driver` legacy codec unit tests pass without opening a serial device.
