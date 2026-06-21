@@ -13,6 +13,7 @@ Recommended host:
 - Ubuntu 22.04 LTS
 - Docker Engine
 - Docker Compose plugin
+- At least 20 GB of free disk before rebuilding Gazebo and Livox dependencies
 
 Check Docker:
 
@@ -155,6 +156,11 @@ ros2 launch rm_simulation phase1_5_gazebo.launch.py headless:=false use_nav2:=tr
 
 See `docs/phase1_5_gazebo_validation.md` for the ground-truth odometry,
 holonomic motion, Nav2 goal, and duplicate-TF checks.
+
+Phase 1.5B simulated obstacle validation is documented in
+`docs/phase1_5b_obstacle_validation.md`. Its headless launch uses Ogre2 GPU
+lidar with Gazebo headless rendering; it does not require a physical GPU, but
+the host/container must provide a working EGL or Mesa software-rendering path.
 
 Topic and TF checks:
 

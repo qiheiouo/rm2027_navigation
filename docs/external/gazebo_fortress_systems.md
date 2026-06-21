@@ -10,6 +10,15 @@
   - `src/systems/mecanum_drive/MecanumDrive.cc`
   - `test/worlds/odometry_publisher_custom.sdf`
   - `src/systems/odometry_publisher/OdometryPublisher.cc`
+  - `examples/worlds/gpu_lidar_sensor.sdf`
+  - `src/systems/sensors/Sensors.cc`
+
+- Repository: `https://github.com/gazebosim/ros_gz`
+- Version: branch `humble`, commit `9d7f8c721c233a9ac8b43950129d51e67905523e`
+- License: Apache-2.0
+- Files consulted:
+  - `ros_gz_bridge/src/convert/sensor_msgs.cpp`
+  - `ros_gz_bridge/src/convert/utils.cpp`
 
 ## Local Use
 
@@ -31,6 +40,12 @@ The Fortress `MecanumDrive` plugin accepts velocity commands but its 6.18.0
 implementation does not publish the advertised odometry. Therefore the local
 world explicitly uses the separate Gazebo `OdometryPublisher` system for
 ground-truth odometry.
+
+Phase 1.5B uses the official Fortress GPU lidar SDF structure. Because the
+Gazebo LaserScan frame is a scoped simulator name and `ros_gz_bridge` only
+normalizes `::` delimiters, a local simulation adapter rewrites the scan
+header to the explicitly owned `sim_lidar_link` frame. The adapter does not
+modify ranges or publish TF.
 
 ## RoboMaster Reference
 

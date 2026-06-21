@@ -27,10 +27,16 @@
 | --- | --- | --- | --- | --- |
 | `/simulation/chassis/cmd_vel` | `geometry_msgs/msg/Twist` | `chassis_interface_stub` in simulation mode | `ros_gz_bridge`, Gazebo chassis | Limited and watchdog-protected simulation command; not a real-hardware API |
 | `/simulation/ground_truth/odom` | `nav_msgs/msg/Odometry` | Gazebo `OdometryPublisher` through `ros_gz_bridge` | `lio_adapter` during simulation only | Ground-truth test substitute with `frame_id=odom`, `child_frame_id=base_link`; never a real LIO output |
+| `/simulation/scan_raw` | `sensor_msgs/msg/LaserScan` | Gazebo GPU lidar through `ros_gz_bridge` | `scan_frame_adapter` | Raw simulation scan; Gazebo frame name is not a canonical ROS frame |
+| `/scan` | `sensor_msgs/msg/LaserScan` | `scan_frame_adapter` in simulation | Nav2 obstacle layers, RViz | Phase 1.5 planar obstacle-test scan with `frame_id=sim_lidar_link`; not a MID360 public topic |
 
 Gazebo pose and TF topics must not be bridged to ROS `/tf` or `/tf_static`.
 The simulation ground-truth odometry may replace the raw LIO input only in a
 simulation launch. It must not publish canonical TF directly.
+
+`scan_frame_adapter` may rewrite only `header.frame_id`; it must preserve the
+scan timestamp and measurement arrays and must not publish TF, odometry, or
+navigation goals.
 
 Do not use `/lio/odom`. The canonical LIO odometry topic is `/odometry/lio`.
 

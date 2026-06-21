@@ -1,5 +1,10 @@
 # Phase 1.5 Gazebo Validation
 
+This document records the Phase 1.5A dynamics baseline. Phase 1.5A passed on
+Linux at commit `c03cb190681a5fd4bf37ab1b1718d129d24720a4`. The current
+simulation launch may also contain the Phase 1.5B scan and obstacle path;
+validate that increment with `docs/phase1_5b_obstacle_validation.md`.
+
 This validation replaces the Phase 1 fake motion integrator with Gazebo
 Fortress physics while preserving the canonical ROS boundary:
 

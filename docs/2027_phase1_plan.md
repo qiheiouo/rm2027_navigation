@@ -110,6 +110,10 @@ consumed as a raw test input by `lio_adapter`. Gazebo TF is not bridged to ROS.
 The first increment does not claim obstacle avoidance, MID360 simulation,
 FAST-LIO behavior, final chassis dynamics, or Sim2Real accuracy.
 
-Later Phase 1.5 increments may add simulated range data, obstacle costmaps,
-RM field assets, and DWB versus alternative-controller comparison only after
-the basic physics loop passes on Linux.
+Phase 1.5A basic physics passed on Linux. Phase 1.5B adds a simulation-only
+planar scan, obstacle costmaps, and a blocking test object so DWB planning and
+control can be verified against sensed obstacles. It does not represent the
+MID360 scan pattern or final 3D perception chain.
+
+Later Phase 1.5 increments may add RM field assets and DWB versus
+alternative-controller comparison after obstacle avoidance passes.

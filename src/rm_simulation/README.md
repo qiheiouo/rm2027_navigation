@@ -12,6 +12,11 @@ The first milestone intentionally contains only:
 - the existing Nav2 DWB and chassis-interface stub;
 - optional RViz and Gazebo GUI.
 
+Phase 1.5B adds a simulation-only planar GPU lidar, one static blocking
+obstacle, a scan-frame adapter, and Nav2 obstacle layers. The planar scan is a
+costmap test instrument, not a MID360 model and not a substitute for later
+3D point-cloud validation.
+
 It does not simulate MID360 point clouds, FAST-LIO, serial, referee, or the
 competition mission tree. Those concerns remain separate milestones.
 
@@ -23,3 +28,7 @@ must be aligned with the mechanical and lower-controller teams.
 
 Gazebo TF is deliberately not bridged into ROS. The canonical ROS TF owners
 remain `map_odom_stub`, `lio_adapter`, and `robot_state_publisher`.
+
+`scan_frame_adapter` rewrites only the simulation scan message frame to
+`sim_lidar_link`. It does not publish TF. `sim_lidar_link` is enabled in the
+robot description only by the simulation launch.

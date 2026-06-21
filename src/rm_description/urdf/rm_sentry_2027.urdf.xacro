@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rm_sentry_2027">
+  <xacro:arg name="use_sim_lidar" default="false"/>
   <!--
     Phase 1 placeholder robot description.
 
@@ -15,11 +16,16 @@
     zero-yaw placeholder joint state for build, RViz, and early bag tests.
     Real hardware must replace the placeholder with timestamped gimbal yaw
     data before validating rotating-gimbal localization.
+
+    Phase 1.5 simulation treats base_link as the ground-projected chassis
+    rotation center. This is a placeholder convention, not the final 2027
+    physical origin decision.
   -->
 
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <!-- Placeholder body sits above the Phase 1.5 base_link ground origin. -->
+      <origin xyz="0 0 0.17" rpy="0 0 0"/>
       <geometry>
         <box size="0.6 0.5 0.2"/>
       </geometry>
@@ -28,6 +34,20 @@
       </material>
     </visual>
   </link>
+
+  <xacro:if value="$(arg use_sim_lidar)">
+    <!--
+      Simulation-only planar scan frame for Phase 1.5 obstacle validation.
+      This is not a MID360 frame and must not be enabled in real-hardware
+      bringup. Its placeholder origin matches phase1_omni.sdf.
+    -->
+    <link name="sim_lidar_link"/>
+    <joint name="base_link_to_sim_lidar_link" type="fixed">
+      <parent link="base_link"/>
+      <child link="sim_lidar_link"/>
+      <origin xyz="0 0 0.35" rpy="0 0 0"/>
+    </joint>
+  </xacro:if>
 
   <link name="gimbal_yaw_link">
     <visual>

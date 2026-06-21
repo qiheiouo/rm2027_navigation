@@ -7,6 +7,9 @@
   docs/external/gazebo_fortress_systems.md for the exact upstream reference.
 
   All mechanical values below are placeholders, not final 2027 robot data.
+  This simulation places base_link at the ground-projected chassis rotation
+  center. The final 2027 physical base_link origin still requires team
+  confirmation and must be changed consistently in URDF, SDF, and extrinsics.
 -->
 <sdf version="1.7">
   <world name="phase1_omni">
@@ -24,6 +27,11 @@
     <plugin
       filename="ignition-gazebo-scene-broadcaster-system"
       name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin
+      filename="ignition-gazebo-sensors-system"
+      name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
 
     <light type="directional" name="sun">
       <cast_shadows>true</cast_shadows>
@@ -74,12 +82,34 @@
       </link>
     </model>
 
+    <model name="center_block">
+      <static>true</static>
+      <pose>1.4 0 0.4 0 0 0</pose>
+      <link name="block_link">
+        <collision name="block_collision">
+          <geometry>
+            <box><size>0.35 1.10 0.80</size></box>
+          </geometry>
+        </collision>
+        <visual name="block_visual">
+          <geometry>
+            <box><size>0.35 1.10 0.80</size></box>
+          </geometry>
+          <material>
+            <ambient>0.70 0.16 0.12 1</ambient>
+            <diffuse>0.70 0.16 0.12 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
     <model name="rm_sentry_2027" xmlns:ignition="http://ignitionrobotics.org/schema">
       <pose>0 0 0 0 0 0</pose>
 
       <link name="base_link">
-        <pose>0 0 0.17 0 0 0</pose>
         <inertial>
+          <pose>0 0 0.17 0 0 0</pose>
           <mass>30.0</mass>
           <inertia>
             <ixx>0.706</ixx>
@@ -91,6 +121,7 @@
           </inertia>
         </inertial>
         <collision name="base_collision">
+          <pose>0 0 0.17 0 0 0</pose>
           <geometry>
             <box>
               <size>0.60 0.50 0.18</size>
@@ -98,6 +129,7 @@
           </geometry>
         </collision>
         <visual name="base_visual">
+          <pose>0 0 0.17 0 0 0</pose>
           <geometry>
             <box>
               <size>0.60 0.50 0.18</size>
@@ -110,6 +142,54 @@
           </material>
         </visual>
       </link>
+
+      <link name="sim_lidar_link">
+        <pose relative_to="base_link">0 0 0.35 0 0 0</pose>
+        <inertial>
+          <mass>0.1</mass>
+          <inertia>
+            <ixx>0.0001</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.0001</iyy><iyz>0</iyz><izz>0.0001</izz>
+          </inertia>
+        </inertial>
+        <sensor name="phase1_planar_lidar" type="gpu_lidar">
+          <topic>/model/rm_sentry_2027/sim_lidar/scan</topic>
+          <update_rate>15</update_rate>
+          <lidar>
+            <scan>
+              <horizontal>
+                <samples>720</samples>
+                <resolution>1</resolution>
+                <min_angle>-3.14159265359</min_angle>
+                <max_angle>3.14159265359</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>1</samples>
+                <resolution>1</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0.10</min>
+              <max>8.0</max>
+              <resolution>0.01</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </lidar>
+          <alwaysOn>1</alwaysOn>
+          <visualize>false</visualize>
+        </sensor>
+      </link>
+
+      <joint name="base_link_to_sim_lidar_link" type="fixed">
+        <parent>base_link</parent>
+        <child>sim_lidar_link</child>
+      </joint>
 
       <link name="front_left_wheel">
         <pose>0.25 0.225 0.075 -1.57079632679 0 0</pose>

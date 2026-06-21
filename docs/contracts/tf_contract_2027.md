@@ -13,6 +13,13 @@ map -> odom -> base_link -> gimbal_yaw_link -> mid360_left_frame
 
 `base_link` is the only upper-level robot body frame used by navigation, localization, control, and mission interfaces.
 
+The exact physical origin of `base_link` is not yet a final hardware decision.
+Phase 1.5 simulation places it at the ground-projected chassis rotation center
+with x forward, y left, and z up. Before real-robot calibration, the mechanical,
+electrical, and navigation teams must confirm this origin and update URDF, SDF,
+sensor extrinsics, and lower-controller velocity semantics together if it
+changes.
+
 `base_imu_link` is optional. It exists only if a separate chassis-mounted IMU is installed for diagnostics, slip checks, or future low-weight fusion. It must not replace the MID360 internal IMU as the main LIO IMU while the LiDARs are mounted on the gimbal.
 
 ## TF Ownership
@@ -26,6 +33,18 @@ map -> odom -> base_link -> gimbal_yaw_link -> mid360_left_frame
 | `gimbal_yaw_link -> mid360_right_frame` | Static | `robot_state_publisher` or static extrinsic publisher | Required for dual-MID360 design; may be unused if Phase 1 falls back to one MID360 |
 | `gimbal_yaw_link -> lio_imu_link` | Static | `robot_state_publisher` or static extrinsic publisher | Required; represents the selected MID360 internal IMU used by LIO |
 | `base_link -> base_imu_link` | Static | `robot_state_publisher` or static extrinsic publisher | Optional chassis IMU frame |
+
+## Simulation-Only TF
+
+Phase 1.5 may add the static leaf transform:
+
+```text
+base_link -> sim_lidar_link
+```
+
+It is owned only by `robot_state_publisher` when the simulation launch enables
+`use_sim_lidar`. It is not a MID360 frame, must not be enabled by real-hardware
+bringup, and must never be published by Gazebo or `scan_frame_adapter`.
 
 ## Gimbal-Mounted MID360 Policy
 

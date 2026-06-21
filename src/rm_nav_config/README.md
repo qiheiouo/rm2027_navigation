@@ -4,6 +4,11 @@ Phase 1 navigation configuration package.
 
 This package stores placeholder Nav2 configuration and test maps. It does not contain final competition parameters.
 
+`config/nav2_phase1.yaml` remains the no-sensor Phase 1 baseline.
+`config/nav2_phase1_5_gazebo.yaml` is simulation-only and adds `/scan`
+obstacle layers, a placeholder rectangular footprint, and the DWB
+`BaseObstacle` critic. It is not final MID360 or competition tuning.
+
 Phase 1 constraints:
 
 - `global_frame: map`

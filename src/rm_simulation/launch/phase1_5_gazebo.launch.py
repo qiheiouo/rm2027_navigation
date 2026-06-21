@@ -47,7 +47,7 @@ def generate_launch_description():
     default_nav2_params = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "config",
-        "nav2_phase1.yaml",
+        "nav2_phase1_5_gazebo.yaml",
     ])
     default_rviz_config = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
@@ -62,13 +62,15 @@ def generate_launch_description():
         DeclareLaunchArgument("nav2_params", default_value=default_nav2_params),
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
         LogInfo(msg=[
-            "[phase1_5_gazebo] Gazebo ground truth -> lio_adapter -> Nav2 -> ",
+            "[phase1_5_gazebo] Gazebo scan + ground truth -> Nav2 -> ",
             "/cmd_vel -> chassis_interface_stub -> Gazebo. No Gazebo TF is bridged.",
         ]),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gazebo_launch),
             condition=IfCondition(headless),
-            launch_arguments={"gz_args": ["-r -s ", world]}.items(),
+            launch_arguments={
+                "gz_args": ["-r -s --headless-rendering ", world],
+            }.items(),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gazebo_launch),
@@ -82,9 +84,24 @@ def generate_launch_description():
             output="screen",
             parameters=[{"config_file": bridge_config}],
         ),
+        Node(
+            package="rm_simulation",
+            executable="scan_frame_adapter",
+            name="scan_frame_adapter",
+            output="screen",
+            parameters=[{
+                "use_sim_time": True,
+                "input_topic": "/simulation/scan_raw",
+                "output_topic": "/scan",
+                "output_frame": "sim_lidar_link",
+            }],
+        ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(description_launch),
-            launch_arguments={"use_sim_time": "true"}.items(),
+            launch_arguments={
+                "use_sim_time": "true",
+                "use_sim_lidar": "true",
+            }.items(),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(localization_launch),

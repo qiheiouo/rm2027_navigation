@@ -6,7 +6,7 @@ This project is the new mainline for the 2027 sentry robot navigation stack. The
 
 ## Current Stage
 
-Phase 1A environment and canonical TF validation, Phase 1B no-hardware Nav2 closure, and Phase 1C compile-only serial protocol validation are complete. The project is now entering Phase 1.5 Gazebo simulation.
+Phase 1A environment and canonical TF validation, Phase 1B no-hardware Nav2 closure, Phase 1C compile-only serial protocol validation, and Phase 1.5A Gazebo dynamics validation are complete. The project is now implementing Phase 1.5B simulated obstacle avoidance.
 
 Phase 1 target:
 
@@ -31,8 +31,9 @@ Gazebo holonomic chassis -> simulation ground-truth odom -> lio_adapter
   -> Nav2 -> /cmd_vel -> chassis_interface_stub -> Gazebo
 ```
 
-It intentionally starts without simulated MID360 or obstacle sensing. Basic
-physics and canonical TF must pass before sensor simulation is added.
+Phase 1.5B adds a simulation-only planar scan and Nav2 obstacle layers. This
+validates obstacle marking and replanning without claiming to simulate the
+full MID360 point pattern or real 3D perception chain.
 
 ## Architecture Direction
 
@@ -59,6 +60,7 @@ See:
 - `docs/2027_architecture_decision.md`
 - `docs/2027_phase1_plan.md`
 - `docs/phase1_5_gazebo_validation.md`
+- `docs/phase1_5b_obstacle_validation.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`
