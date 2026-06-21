@@ -75,6 +75,7 @@ Expected packages:
 - `rm_navigation_bringup`
 - `rm_mid360_driver_bridge`
 - `rm_serial_driver`
+- `rm_simulation`
 
 ## Build
 
@@ -91,6 +92,9 @@ colcon test-result --verbose
 ```
 
 Expected behavior: all protocol tests pass and no serial device is opened.
+
+Phase 1.5 Gazebo has a separate validation checklist in
+`docs/phase1_5_gazebo_validation.md`.
 
 If Livox-SDK2 is not installed and the goal is to validate only project skeleton packages:
 
@@ -248,7 +252,7 @@ T_odom_base = T_odom_sensor * inverse(T_base_sensor)
 
 ## Acceptance Criteria
 
-- `colcon list` recognizes `livox_ros_driver2` and all seven project packages after submodule initialization.
+- `colcon list` recognizes `livox_ros_driver2` and all eight project packages after submodule initialization.
 - `colcon build --symlink-install` completes successfully.
 - The launch files do not crash immediately due to missing package dependencies.
 - `map_odom_stub` is the only `map -> odom` publisher.

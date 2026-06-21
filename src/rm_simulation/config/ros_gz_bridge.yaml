@@ -1,0 +1,21 @@
+# Phase 1.5 simulation-only ROS <-> Gazebo boundary.
+# Do not add a Gazebo TF bridge here. Canonical ROS TF ownership remains with
+# map_odom_stub, lio_adapter, and robot_state_publisher.
+
+- ros_topic_name: /clock
+  gz_topic_name: /clock
+  ros_type_name: rosgraph_msgs/msg/Clock
+  gz_type_name: ignition.msgs.Clock
+  direction: GZ_TO_ROS
+
+- ros_topic_name: /simulation/chassis/cmd_vel
+  gz_topic_name: /model/rm_sentry_2027/cmd_vel
+  ros_type_name: geometry_msgs/msg/Twist
+  gz_type_name: ignition.msgs.Twist
+  direction: ROS_TO_GZ
+
+- ros_topic_name: /simulation/ground_truth/odom
+  gz_topic_name: /model/rm_sentry_2027/odometry
+  ros_type_name: nav_msgs/msg/Odometry
+  gz_type_name: ignition.msgs.Odometry
+  direction: GZ_TO_ROS

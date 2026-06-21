@@ -97,3 +97,19 @@ Phase 1 does not require a real gimbal serial connection, but it must reserve th
 12. Phase 1 zero-yaw gimbal placeholders are clearly marked and are not accepted as final real-robot extrinsics.
 13. Windows stage can complete code review and protocol unit tests. Linux stage can complete build, simulation, or bag replay. Real hardware stage validates MID360, gimbal yaw timing, serial, latency, and robustness.
 14. `rm_serial_driver` legacy codec unit tests pass without opening a serial device.
+
+## Phase 1.5 Gazebo Increment
+
+After Phase 1A, 1B, and 1C pass, Phase 1.5 replaces the fake motion integrator
+with a Gazebo Fortress physics loop. Its first increment validates only the
+placeholder holonomic chassis, canonical odometry adapter, Nav2, command
+boundary, and optional RViz.
+
+Simulation ground truth is published on `/simulation/ground_truth/odom` and is
+consumed as a raw test input by `lio_adapter`. Gazebo TF is not bridged to ROS.
+The first increment does not claim obstacle avoidance, MID360 simulation,
+FAST-LIO behavior, final chassis dynamics, or Sim2Real accuracy.
+
+Later Phase 1.5 increments may add simulated range data, obstacle costmaps,
+RM field assets, and DWB versus alternative-controller comparison only after
+the basic physics loop passes on Linux.

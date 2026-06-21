@@ -76,6 +76,7 @@ rm_nav_config
 rm_navigation_bringup
 rm_mid360_driver_bridge
 rm_serial_driver
+rm_simulation
 ```
 
 ## Build
@@ -138,6 +139,22 @@ ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: 
 ```
 
 This should produce `/cmd_vel`; `chassis_interface_stub` should log mock packets. This is still no-hardware validation and does not launch FAST-LIO, real MID360, serial, referee, or BT.
+
+Phase 1.5 Gazebo physics validation:
+
+```bash
+ros2 launch rm_simulation phase1_5_gazebo.launch.py headless:=true use_nav2:=true use_rviz:=false
+```
+
+For Gazebo GUI and RViz on an X11 desktop:
+
+```bash
+xhost +local:docker
+ros2 launch rm_simulation phase1_5_gazebo.launch.py headless:=false use_nav2:=true use_rviz:=true
+```
+
+See `docs/phase1_5_gazebo_validation.md` for the ground-truth odometry,
+holonomic motion, Nav2 goal, and duplicate-TF checks.
 
 Topic and TF checks:
 

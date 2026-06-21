@@ -3,6 +3,7 @@
 #include <cmath>
 #include <functional>
 #include <memory>
+#include <string>
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "geometry_msgs/msg/twist_with_covariance_stamped.hpp"
@@ -19,10 +20,24 @@ public:
     max_wz_ = declare_parameter<double>("limits.max_wz", 2.0);
     watchdog_timeout_sec_ = declare_parameter<double>("watchdog_timeout_sec", 0.5);
     publish_twist_raw_ = declare_parameter<bool>("publish_twist_raw", true);
+    cmd_vel_topic_ = declare_parameter<std::string>("cmd_vel_topic", "/cmd_vel");
+    mock_output_cmd_vel_topic_ =
+      declare_parameter<std::string>("mock_output_cmd_vel_topic", "");
 
     cmd_sub_ = create_subscription<geometry_msgs::msg::Twist>(
-      "/cmd_vel", 10,
+      cmd_vel_topic_, 10,
       std::bind(&ChassisInterfaceStub::handleCmdVel, this, std::placeholders::_1));
+
+    if (!mock_output_cmd_vel_topic_.empty()) {
+      if (mock_output_cmd_vel_topic_ == cmd_vel_topic_) {
+        RCLCPP_ERROR(
+          get_logger(),
+          "mock_output_cmd_vel_topic must differ from cmd_vel_topic; relay is disabled.");
+      } else {
+        mock_cmd_pub_ = create_publisher<geometry_msgs::msg::Twist>(
+          mock_output_cmd_vel_topic_, 10);
+      }
+    }
 
     if (publish_twist_raw_) {
       twist_raw_pub_ = create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>(
@@ -68,7 +83,9 @@ private:
     last_cmd_.angular.z = clamp(msg->angular.z, max_wz_);
     last_cmd_time_ = now();
     have_cmd_ = true;
+    watchdog_active_ = false;
 
+    publishMockCommand(last_cmd_);
     publishMockFeedback(last_cmd_);
     RCLCPP_INFO_THROTTLE(
       get_logger(), *get_clock(), 1000,
@@ -83,13 +100,22 @@ private:
     }
 
     const double age = (now() - last_cmd_time_).seconds();
-    if (age > watchdog_timeout_sec_) {
+    if (age > watchdog_timeout_sec_ && !watchdog_active_) {
       geometry_msgs::msg::Twist zero;
       last_cmd_ = zero;
+      watchdog_active_ = true;
+      publishMockCommand(zero);
       publishMockFeedback(zero);
       RCLCPP_WARN_THROTTLE(
         get_logger(), *get_clock(), 1000,
         "Watchdog timeout. Mock chassis command forced to zero.");
+    }
+  }
+
+  void publishMockCommand(const geometry_msgs::msg::Twist & twist)
+  {
+    if (mock_cmd_pub_) {
+      mock_cmd_pub_->publish(twist);
     }
   }
 
@@ -115,10 +141,14 @@ private:
   double watchdog_timeout_sec_;
   bool publish_twist_raw_;
   bool have_cmd_ = false;
+  bool watchdog_active_ = false;
+  std::string cmd_vel_topic_;
+  std::string mock_output_cmd_vel_topic_;
   rclcpp::Time last_cmd_time_;
   geometry_msgs::msg::Twist last_cmd_;
 
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_sub_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr mock_cmd_pub_;
   rclcpp::Publisher<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr twist_raw_pub_;
   rclcpp::TimerBase::SharedPtr watchdog_timer_;
 };

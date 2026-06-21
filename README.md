@@ -6,7 +6,7 @@ This project is the new mainline for the 2027 sentry robot navigation stack. The
 
 ## Current Stage
 
-Phase 1A environment and canonical TF validation is complete. Phase 1B no-hardware Nav2 closure is complete. The project is now in Phase 1C compile-only serial protocol migration and test preparation.
+Phase 1A environment and canonical TF validation, Phase 1B no-hardware Nav2 closure, and Phase 1C compile-only serial protocol validation are complete. The project is now entering Phase 1.5 Gazebo simulation.
 
 Phase 1 target:
 
@@ -23,6 +23,16 @@ fake LIO odometry -> lio_adapter -> Nav2 -> /cmd_vel -> chassis_interface_stub
 ```
 
 RViz is available as an optional visualization path in `phase1_bringup.launch.py`.
+
+The first Phase 1.5 simulation milestone adds:
+
+```text
+Gazebo holonomic chassis -> simulation ground-truth odom -> lio_adapter
+  -> Nav2 -> /cmd_vel -> chassis_interface_stub -> Gazebo
+```
+
+It intentionally starts without simulated MID360 or obstacle sensing. Basic
+physics and canonical TF must pass before sensor simulation is added.
 
 ## Architecture Direction
 
@@ -48,10 +58,12 @@ See:
 - `docs/2027_open_source_research_report.md`
 - `docs/2027_architecture_decision.md`
 - `docs/2027_phase1_plan.md`
+- `docs/phase1_5_gazebo_validation.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`
 - `docs/contracts/serial_protocol_2027.md`
+- `docs/external/gazebo_fortress_systems.md`
 
 ## Current Packages
 
@@ -62,4 +74,5 @@ See:
 - `rm_navigation_bringup`: Phase 1 bringup skeleton.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
 - `rm_serial_driver`: Phase 1C compile-only legacy serial protocol codec and framing tests; no real serial device is opened.
+- `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.

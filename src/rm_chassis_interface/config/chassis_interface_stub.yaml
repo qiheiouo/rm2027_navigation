@@ -8,3 +8,9 @@ chassis_interface_stub:
       max_wz: 2.0
     watchdog_timeout_sec: 0.5
     publish_twist_raw: true
+    cmd_vel_topic: /cmd_vel
+
+    # Empty by default. Phase 1.5 simulation sets this to
+    # /simulation/chassis/cmd_vel so Gazebo receives the validated, limited,
+    # watchdog-protected command instead of bypassing the chassis boundary.
+    mock_output_cmd_vel_topic: ""

@@ -11,10 +11,13 @@ services:
     network_mode: host
     ipc: host
     environment:
+      DISPLAY: ${DISPLAY:-}
+      QT_X11_NO_MITSHM: "1"
       ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-0}
       RMW_IMPLEMENTATION: ${RMW_IMPLEMENTATION:-rmw_fastrtps_cpp}
     volumes:
       - ..:/workspace/rm2027_navigation
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     working_dir: /workspace/rm2027_navigation
     stdin_open: true
     tty: true

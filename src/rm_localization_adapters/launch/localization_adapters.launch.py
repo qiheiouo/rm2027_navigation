@@ -1,10 +1,13 @@
 from launch import LaunchDescription
-from launch.substitutions import PathJoinSubstitution
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
+    use_sim_time = LaunchConfiguration("use_sim_time")
+    raw_odom_topic = LaunchConfiguration("raw_odom_topic")
     lio_adapter_config = PathJoinSubstitution([
         FindPackageShare("rm_localization_adapters"),
         "config",
@@ -23,31 +26,49 @@ def generate_launch_description():
 
     # Phase 1 skeleton only. FAST-LIO is intentionally not launched here.
     return LaunchDescription([
+        DeclareLaunchArgument("use_sim_time", default_value="false"),
+        DeclareLaunchArgument(
+            "raw_odom_topic",
+            default_value="/odometry/fast_lio_raw",
+        ),
         Node(
             package="rm_localization_adapters",
             executable="map_odom_stub",
             name="map_odom_stub",
             output="screen",
+            parameters=[{"use_sim_time": use_sim_time}],
         ),
         Node(
             package="rm_localization_adapters",
             executable="lio_adapter",
             name="lio_adapter",
             output="screen",
-            parameters=[lio_adapter_config],
+            parameters=[
+                lio_adapter_config,
+                {
+                    "use_sim_time": use_sim_time,
+                    "raw_odom_topic": raw_odom_topic,
+                },
+            ],
         ),
         Node(
             package="rm_localization_adapters",
             executable="gimbal_state_adapter",
             name="gimbal_state_adapter",
             output="screen",
-            parameters=[gimbal_state_adapter_config],
+            parameters=[
+                gimbal_state_adapter_config,
+                {"use_sim_time": use_sim_time},
+            ],
         ),
         Node(
             package="rm_localization_adapters",
             executable="imu_frame_adapter",
             name="imu_frame_adapter",
             output="screen",
-            parameters=[imu_frame_adapter_config],
+            parameters=[
+                imu_frame_adapter_config,
+                {"use_sim_time": use_sim_time},
+            ],
         ),
     ])

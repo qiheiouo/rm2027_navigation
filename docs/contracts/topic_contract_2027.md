@@ -21,6 +21,17 @@
 | `/tf` | `tf2_msgs/msg/TFMessage` | TF owners | all modules | Dynamic TF |
 | `/tf_static` | `tf2_msgs/msg/TFMessage` | static TF owners | all modules | Static TF |
 
+## Simulation-Only Topics
+
+| Topic | Type | Producer | Consumer | Meaning |
+| --- | --- | --- | --- | --- |
+| `/simulation/chassis/cmd_vel` | `geometry_msgs/msg/Twist` | `chassis_interface_stub` in simulation mode | `ros_gz_bridge`, Gazebo chassis | Limited and watchdog-protected simulation command; not a real-hardware API |
+| `/simulation/ground_truth/odom` | `nav_msgs/msg/Odometry` | Gazebo `OdometryPublisher` through `ros_gz_bridge` | `lio_adapter` during simulation only | Ground-truth test substitute with `frame_id=odom`, `child_frame_id=base_link`; never a real LIO output |
+
+Gazebo pose and TF topics must not be bridged to ROS `/tf` or `/tf_static`.
+The simulation ground-truth odometry may replace the raw LIO input only in a
+simulation launch. It must not publish canonical TF directly.
+
 Do not use `/lio/odom`. The canonical LIO odometry topic is `/odometry/lio`.
 
 ## Gimbal State Boundary

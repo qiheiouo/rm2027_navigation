@@ -11,6 +11,11 @@ Responsibilities:
 - Run a command watchdog.
 - Produce mock packet logs and optional `/chassis/twist_raw` feedback.
 
+`mock_output_cmd_vel_topic` is empty by default. The Phase 1.5 Gazebo launch
+sets it to `/simulation/chassis/cmd_vel`, allowing the simulator to receive a
+limited, watchdog-protected command without changing the real-hardware
+`/cmd_vel` contract. This relay is simulation-only and does not open serial.
+
 Forbidden in Phase 1:
 
 - No TF publication.

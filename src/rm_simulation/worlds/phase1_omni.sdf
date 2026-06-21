@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<!--
+  Phase 1.5 placeholder holonomic chassis for Gazebo Fortress.
+
+  The system-plugin structure and directional-friction approach are adapted
+  from the Apache-2.0 Gazebo Sim 6.18.0 mecanum-drive example. See
+  docs/external/gazebo_fortress_systems.md for the exact upstream reference.
+
+  All mechanical values below are placeholders, not final 2027 robot data.
+-->
+<sdf version="1.7">
+  <world name="phase1_omni">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <plugin
+      filename="ignition-gazebo-physics-system"
+      name="ignition::gazebo::systems::Physics"/>
+    <plugin
+      filename="ignition-gazebo-user-commands-system"
+      name="ignition::gazebo::systems::UserCommands"/>
+    <plugin
+      filename="ignition-gazebo-scene-broadcaster-system"
+      name="ignition::gazebo::systems::SceneBroadcaster"/>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="ground_link">
+        <collision name="ground_collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>20 20</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>50</mu>
+                <mu2>50</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="ground_visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>20 20</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.72 0.72 0.72 1</ambient>
+            <diffuse>0.72 0.72 0.72 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="rm_sentry_2027" xmlns:ignition="http://ignitionrobotics.org/schema">
+      <pose>0 0 0 0 0 0</pose>
+
+      <link name="base_link">
+        <pose>0 0 0.17 0 0 0</pose>
+        <inertial>
+          <mass>30.0</mass>
+          <inertia>
+            <ixx>0.706</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.981</iyy>
+            <iyz>0</iyz>
+            <izz>1.525</izz>
+          </inertia>
+        </inertial>
+        <collision name="base_collision">
+          <geometry>
+            <box>
+              <size>0.60 0.50 0.18</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="base_visual">
+          <geometry>
+            <box>
+              <size>0.60 0.50 0.18</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.12 0.25 0.65 1</ambient>
+            <diffuse>0.12 0.25 0.65 1</diffuse>
+            <specular>0.15 0.15 0.15 1</specular>
+          </material>
+        </visual>
+      </link>
+
+      <link name="front_left_wheel">
+        <pose>0.25 0.225 0.075 -1.57079632679 0 0</pose>
+        <inertial>
+          <mass>1.0</mass>
+          <inertia>
+            <ixx>0.00225</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.00225</iyy><iyz>0</iyz><izz>0.00225</izz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry><sphere><radius>0.075</radius></sphere></geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu><mu2>0.0</mu2>
+                <fdir1 ignition:expressed_in="base_link">1 -1 0</fdir1>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry><sphere><radius>0.075</radius></sphere></geometry>
+          <material><ambient>0.08 0.08 0.08 1</ambient><diffuse>0.08 0.08 0.08 1</diffuse></material>
+        </visual>
+      </link>
+
+      <link name="front_right_wheel">
+        <pose>0.25 -0.225 0.075 -1.57079632679 0 0</pose>
+        <inertial>
+          <mass>1.0</mass>
+          <inertia>
+            <ixx>0.00225</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.00225</iyy><iyz>0</iyz><izz>0.00225</izz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry><sphere><radius>0.075</radius></sphere></geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu><mu2>0.0</mu2>
+                <fdir1 ignition:expressed_in="base_link">1 1 0</fdir1>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry><sphere><radius>0.075</radius></sphere></geometry>
+          <material><ambient>0.08 0.08 0.08 1</ambient><diffuse>0.08 0.08 0.08 1</diffuse></material>
+        </visual>
+      </link>
+
+      <link name="rear_left_wheel">
+        <pose>-0.25 0.225 0.075 -1.57079632679 0 0</pose>
+        <inertial>
+          <mass>1.0</mass>
+          <inertia>
+            <ixx>0.00225</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.00225</iyy><iyz>0</iyz><izz>0.00225</izz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry><sphere><radius>0.075</radius></sphere></geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu><mu2>0.0</mu2>
+                <fdir1 ignition:expressed_in="base_link">1 1 0</fdir1>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry><sphere><radius>0.075</radius></sphere></geometry>
+          <material><ambient>0.08 0.08 0.08 1</ambient><diffuse>0.08 0.08 0.08 1</diffuse></material>
+        </visual>
+      </link>
+
+      <link name="rear_right_wheel">
+        <pose>-0.25 -0.225 0.075 -1.57079632679 0 0</pose>
+        <inertial>
+          <mass>1.0</mass>
+          <inertia>
+            <ixx>0.00225</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.00225</iyy><iyz>0</iyz><izz>0.00225</izz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry><sphere><radius>0.075</radius></sphere></geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu><mu2>0.0</mu2>
+                <fdir1 ignition:expressed_in="base_link">1 -1 0</fdir1>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry><sphere><radius>0.075</radius></sphere></geometry>
+          <material><ambient>0.08 0.08 0.08 1</ambient><diffuse>0.08 0.08 0.08 1</diffuse></material>
+        </visual>
+      </link>
+
+      <joint name="front_left_wheel_joint" type="revolute">
+        <parent>base_link</parent><child>front_left_wheel</child>
+        <axis><xyz>0 0 1</xyz></axis>
+      </joint>
+      <joint name="front_right_wheel_joint" type="revolute">
+        <parent>base_link</parent><child>front_right_wheel</child>
+        <axis><xyz>0 0 1</xyz></axis>
+      </joint>
+      <joint name="rear_left_wheel_joint" type="revolute">
+        <parent>base_link</parent><child>rear_left_wheel</child>
+        <axis><xyz>0 0 1</xyz></axis>
+      </joint>
+      <joint name="rear_right_wheel_joint" type="revolute">
+        <parent>base_link</parent><child>rear_right_wheel</child>
+        <axis><xyz>0 0 1</xyz></axis>
+      </joint>
+
+      <plugin
+        filename="ignition-gazebo-mecanum-drive-system"
+        name="ignition::gazebo::systems::MecanumDrive">
+        <front_left_joint>front_left_wheel_joint</front_left_joint>
+        <front_right_joint>front_right_wheel_joint</front_right_joint>
+        <back_left_joint>rear_left_wheel_joint</back_left_joint>
+        <back_right_joint>rear_right_wheel_joint</back_right_joint>
+        <wheel_separation>0.45</wheel_separation>
+        <wheelbase>0.50</wheelbase>
+        <wheel_radius>0.075</wheel_radius>
+        <min_velocity>-2.0</min_velocity>
+        <max_velocity>2.0</max_velocity>
+        <min_acceleration>-2.0</min_acceleration>
+        <max_acceleration>2.0</max_acceleration>
+        <topic>/model/rm_sentry_2027/cmd_vel</topic>
+      </plugin>
+
+      <plugin
+        filename="ignition-gazebo-odometry-publisher-system"
+        name="ignition::gazebo::systems::OdometryPublisher">
+        <odom_publish_frequency>50</odom_publish_frequency>
+        <odom_topic>/model/rm_sentry_2027/odometry</odom_topic>
+        <tf_topic>/model/rm_sentry_2027/ground_truth_pose</tf_topic>
+        <odom_frame>odom</odom_frame>
+        <robot_base_frame>base_link</robot_base_frame>
+        <dimensions>2</dimensions>
+      </plugin>
+    </model>
+  </world>
+</sdf>
