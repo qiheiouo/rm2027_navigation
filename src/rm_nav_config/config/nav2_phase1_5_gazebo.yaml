@@ -15,7 +15,8 @@ bt_navigator:
 controller_server:
   ros__parameters:
     use_sim_time: false
-    controller_frequency: 20.0
+    # Keep DWB within the CPU budget of headless software-rendered simulation.
+    controller_frequency: 10.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
@@ -52,9 +53,9 @@ controller_server:
       decel_lim_x: -1.0
       decel_lim_y: -1.0
       decel_lim_theta: -2.0
-      vx_samples: 15
-      vy_samples: 15
-      vtheta_samples: 20
+      vx_samples: 9
+      vy_samples: 9
+      vtheta_samples: 12
       sim_time: 1.2
       linear_granularity: 0.05
       angular_granularity: 0.025

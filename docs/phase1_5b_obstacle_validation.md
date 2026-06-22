@@ -72,6 +72,11 @@ inflated cost. The costmaps must not remain uniformly free.
 
 ## Avoidance Goal
 
+The Phase 1.5B simulation profile intentionally uses a 10 Hz controller loop
+and `9 x 9 x 12` DWB velocity samples. This keeps trajectory evaluation within
+the CPU budget of headless Mesa software rendering. Do not relax the progress
+checker or TF tolerance to hide controller-loop overruns.
+
 Send a goal behind the blocking obstacle:
 
 ```bash
@@ -95,6 +100,17 @@ Acceptance requires:
 4. Ground-truth odometry never enters the obstacle footprint.
 5. Local and global costmaps clear old observations as the robot moves.
 6. The chassis watchdog and canonical odometry chain still work.
+
+For the stability gate, send goals in this order:
+
+```text
+(2.8, 0.0) -> (0.0, 0.0) -> (2.8, 0.0)
+```
+
+All three goals must reach `SUCCEEDED`. After lifecycle activation, repeated
+controller-loop overruns, progress-checker failures, or recovery cycles fail
+the stability gate. An isolated startup scan-filter drop may be recorded but
+must not continue during navigation.
 
 ## TF And Pollution Check
 
