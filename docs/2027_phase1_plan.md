@@ -144,3 +144,27 @@ controller owns only a simulation joint target and never publishes TF,
 odometry, chassis commands, or navigation goals. This increment validates
 costmap clearing, narrow-passage tracking, dynamic avoidance, and repeated
 replanning; it is not a competition behavior or a claim of MID360 fidelity.
+
+Phase 1.5D clearing and static-passage checks passed at commit `3c6fd62`.
+Dynamic safety did not pass: all actions completed, but only two of ten met the
+strict clearance gate and five runs contained scan-confirmed collision. Further
+sine-obstacle parameter tuning is deferred until real perception, latency,
+localization, chassis, and safety-layer evidence exists.
+
+## Phase 2A LIO Integration
+
+Phase 2A begins with build-only and bag-ready FAST-LIO Multi integration. The
+backend is pinned as an external GPL-2.0 submodule and stays disabled by
+default. `rm_lio_bringup` remaps backend `/Odometry` to
+`/odometry/fast_lio_raw` and quarantines backend TF. `lio_adapter` remains the
+only canonical `odom -> base_link` publisher.
+
+Single MID360 is the first runtime profile; dual input is structurally present
+but blocked on measured extrinsics and timing. Phase 2A does not yet claim real
+MID360, rotating-gimbal, serial, global relocalization, or Nav2 full-stack
+acceptance.
+
+The inspected backend odometry does not yet provide accepted base-frame twist
+or covariance. Phase 2A may validate pose and TF boundaries, but real Nav2
+closure is blocked until velocity and covariance semantics are implemented and
+measured.

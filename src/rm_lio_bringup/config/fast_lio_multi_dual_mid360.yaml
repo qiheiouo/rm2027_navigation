@@ -1,0 +1,74 @@
+/**:
+  ros__parameters:
+    common:
+      async_debug: false
+      multi_lidar: true
+      # Backend odometry TF is still emitted by upstream code and is isolated
+      # by fast_lio_multi_phase2a.launch.py.
+      publish_tf_results: false
+      max_iteration: 3
+      map_frame: odom
+      lid_topic: /livox/left/lidar
+      lid_topic2: /livox/right/lidar
+      imu_topic: /livox/lio_imu
+
+    method:
+      voxelized_pt_num_thres: 1000
+      effect_pt_num_ratio_thres: 0.4
+      bundle_enabled_tic_thres: 10
+
+    preprocess:
+      filter_size_surf: 0.5
+      point_filter_num: 3
+      point_filter_num2: 3
+      lidar_type: 1
+      lidar_type2: 1
+      scan_line: 4
+      scan_line2: 4
+      scan_rate: 10
+      scan_rate2: 10
+      timestamp_unit: 3
+      timestamp_unit2: 3
+      blind: 1.0
+      blind2: 1.0
+
+    mapping:
+      zero_start_pose: true
+      zero_start_delay_scans: 40
+      cube_side_length: 1000.0
+      acc_cov: 0.15
+      gyr_cov: 0.15
+      b_acc_cov: 0.0002
+      b_gyr_cov: 0.0002
+      det_range: 100.0
+      extrinsic_est_en: false
+      extrinsic_imu_to_lidars: false
+
+      # All extrinsics below are Phase 2A placeholders. Dual MID360 operation
+      # is blocked until IMU-to-lidar and right-to-left transforms are measured.
+      extrinsic_T: [0.0, 0.0, 0.0]
+      extrinsic_R: [1.0, 0.0, 0.0,
+                    0.0, 1.0, 0.0,
+                    0.0, 0.0, 1.0]
+      extrinsic_T2: [0.0, 0.0, 0.0]
+      extrinsic_R2: [1.0, 0.0, 0.0,
+                     0.0, 1.0, 0.0,
+                     0.0, 0.0, 1.0]
+      extrinsic_T_L2_wrt_L1: [0.0, 0.0, 0.0]
+      extrinsic_R_L2_wrt_L1: [1.0, 0.0, 0.0,
+                              0.0, 1.0, 0.0,
+                              0.0, 0.0, 1.0]
+      extrinsic_T_L1_wrt_drone: [0.0, 0.0, 0.0]
+      extrinsic_R_L1_wrt_drone: [1.0, 0.0, 0.0,
+                                 0.0, 1.0, 0.0,
+                                 0.0, 0.0, 1.0]
+
+    publish:
+      path_en: false
+      scan_publish_en: false
+      dense_publish_en: false
+      scan_bodyframe_pub_en: false
+
+    pcd_save:
+      pcd_save_en: false
+      interval: -1

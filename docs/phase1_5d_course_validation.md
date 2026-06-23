@@ -102,3 +102,20 @@ owners. No Gazebo pose or TF topic may be bridged into ROS `/tf` or `/tf_static`
 Phase 1.5D passes only after both static and moving gates pass. Failure must be
 classified as spawn/joint control, scan and clearing, global planning, MPPI
 local control, or simulation CPU load before changing navigation parameters.
+
+## Recorded Result
+
+Validation at commit `3c6fd62` separated two previously mixed failures:
+
+- LaserScan positive-infinity clearing passed after both obstacle layers set
+  `inf_is_valid: true`. Moving-obstacle ghost cells cleared within about
+  `1.2 s`, while static walls remained occupied.
+- Static passage navigation passed.
+- Dynamic actions reported `10/10 SUCCEEDED`, but only `2/10` met the strict
+  safety gate and scan evidence confirmed physical collision in `5/10` runs.
+
+Therefore Phase 1.5D is closed as **static and clearing passed; dynamic safety
+failed and is deferred to the real perception/safety stack**. MPPI remains the
+navigation-controller baseline, but it is not accepted as a predictive dynamic
+collision-safety layer. Keep this scene as a regression tool; do not weaken the
+footprint or clearance gate to make it pass.

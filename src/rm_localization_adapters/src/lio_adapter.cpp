@@ -23,14 +23,23 @@ public:
       "raw_odom_topic", "/odometry/fast_lio_raw");
     output_odom_topic_ = declare_parameter<std::string>(
       "output_odom_topic", "/odometry/lio");
+    expected_input_odom_frame_ = declare_parameter<std::string>(
+      "expected_input_odom_frame", "odom");
     odom_frame_ = declare_parameter<std::string>("odom_frame", "odom");
     base_frame_ = declare_parameter<std::string>("base_frame", "base_link");
     input_sensor_frame_ = declare_parameter<std::string>("input_sensor_frame", "lio_imu_link");
     gimbal_frame_ = declare_parameter<std::string>("gimbal_frame", "gimbal_yaw_link");
     publish_tf_ = declare_parameter<bool>("publish_tf", true);
     use_tf_sensor_to_base_ = declare_parameter<bool>("use_tf_sensor_to_base", true);
+    use_latest_transform_ = declare_parameter<bool>("use_latest_transform", false);
     allow_placeholder_fallback_ = declare_parameter<bool>("allow_placeholder_fallback", false);
     tf_lookup_timeout_sec_ = declare_parameter<double>("tf_lookup_timeout_sec", 0.05);
+    backend_child_frame_alias_enabled_ = declare_parameter<bool>(
+      "backend_child_frame_alias_enabled", false);
+    backend_child_frame_alias_source_ = declare_parameter<std::string>(
+      "backend_child_frame_alias_source", "body");
+    backend_child_frame_alias_target_ = declare_parameter<std::string>(
+      "backend_child_frame_alias_target", "lio_imu_link");
 
     const double input_to_base_x =
       declare_parameter<double>("input_to_base_placeholder.x", 0.0);
@@ -122,8 +131,37 @@ private:
     //   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
     // where T_base_sensor comes from robot_state_publisher and the current
     // gimbal_yaw_joint state.
-    const std::string input_child =
+    if (!expected_input_odom_frame_.empty() &&
+      msg->header.frame_id != expected_input_odom_frame_)
+    {
+      RCLCPP_ERROR_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "Rejecting raw odometry parent frame '%s'; expected '%s'.",
+        msg->header.frame_id.c_str(), expected_input_odom_frame_.c_str());
+      return;
+    }
+
+    std::string input_child =
       msg->child_frame_id.empty() ? input_sensor_frame_ : msg->child_frame_id;
+
+    if (backend_child_frame_alias_enabled_ &&
+      input_child == backend_child_frame_alias_source_)
+    {
+      if (backend_child_frame_alias_target_ == base_frame_) {
+        RCLCPP_ERROR_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Refusing backend child-frame alias '%s' directly to canonical '%s'.",
+          backend_child_frame_alias_source_.c_str(), base_frame_.c_str());
+        return;
+      }
+
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 5000,
+        "Treating backend-private child frame '%s' as semantic sensor frame '%s'.",
+        backend_child_frame_alias_source_.c_str(),
+        backend_child_frame_alias_target_.c_str());
+      input_child = backend_child_frame_alias_target_;
+    }
 
     tf2::Transform odom_to_input = poseToTransform(msg->pose.pose);
     tf2::Transform odom_to_base = odom_to_input;
@@ -131,11 +169,22 @@ private:
     if (input_child != base_frame_) {
       if (use_tf_sensor_to_base_) {
         try {
-          const auto base_to_input_msg = tf_buffer_->lookupTransform(
-            base_frame_,
-            input_child,
-            tf2::TimePointZero,
-            tf2::durationFromSec(tf_lookup_timeout_sec_));
+          geometry_msgs::msg::TransformStamped base_to_input_msg;
+          const bool has_zero_stamp =
+            msg->header.stamp.sec == 0 && msg->header.stamp.nanosec == 0;
+          if (use_latest_transform_ || has_zero_stamp) {
+            base_to_input_msg = tf_buffer_->lookupTransform(
+              base_frame_,
+              input_child,
+              tf2::TimePointZero,
+              tf2::durationFromSec(tf_lookup_timeout_sec_));
+          } else {
+            base_to_input_msg = tf_buffer_->lookupTransform(
+              base_frame_,
+              input_child,
+              rclcpp::Time(msg->header.stamp),
+              rclcpp::Duration::from_seconds(tf_lookup_timeout_sec_));
+          }
           const tf2::Transform base_to_input =
             transformMsgToTransform(base_to_input_msg.transform);
           odom_to_base = odom_to_input * base_to_input.inverse();
@@ -184,14 +233,19 @@ private:
 
   std::string raw_odom_topic_;
   std::string output_odom_topic_;
+  std::string expected_input_odom_frame_;
   std::string odom_frame_;
   std::string base_frame_;
   std::string input_sensor_frame_;
   std::string gimbal_frame_;
   bool publish_tf_;
   bool use_tf_sensor_to_base_;
+  bool use_latest_transform_;
   bool allow_placeholder_fallback_;
   double tf_lookup_timeout_sec_;
+  bool backend_child_frame_alias_enabled_;
+  std::string backend_child_frame_alias_source_;
+  std::string backend_child_frame_alias_target_;
   tf2::Transform input_to_base_placeholder_;
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;

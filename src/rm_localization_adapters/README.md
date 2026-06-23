@@ -28,6 +28,13 @@ T_odom_base = T_odom_sensor * inverse(T_base_sensor)
 
 `T_base_sensor` is expected to come from `robot_state_publisher`, measured sensor extrinsics, and `gimbal_yaw_joint`.
 
+The Phase 2A FAST-LIO Multi integration is a narrowly documented exception to
+the raw frame-name rule. Upstream hard-codes `child_frame_id=body` for its IMU
+state pose. The Phase 2A config may alias that backend-private `body` semantic
+to `lio_imu_link`, but never to `base_link`; the adapter then performs the full
+timestamped sensor-to-base transform above. The alias is disabled in the
+general Phase 1 config.
+
 `gimbal_state_adapter` does not publish localization TF, odometry, navigation goals, or serial packets. It only provides the gimbal yaw joint state needed by `robot_state_publisher` to produce the sensor TF subtree.
 
 `imu_frame_adapter` does not publish TF, filter IMU data, or modify measurement values. It exists because the inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livox_frame`; the canonical public IMU frame for LIO remains `lio_imu_link`.

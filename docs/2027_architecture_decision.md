@@ -80,6 +80,23 @@ measured together on the target minipc.
 is not vendored or selected while the official MPPI controller satisfies the
 current performance and safety gates.
 
+Phase 1.5D confirmed costmap marking and clearing but did not establish safe
+dynamic-obstacle avoidance. MPPI remains a navigation controller, not the sole
+dynamic collision-safety layer. Real-robot work must add measured perception
+latency and an independent stop/slow safety boundary before dynamic acceptance.
+
+## Phase 2A LIO Backend Decision
+
+The first backend integration uses `Draxran/FAST_LIO_MULTI_ROS2` pinned as a
+separate GPL-2.0 submodule. We do not migrate the modified 2026 copy and do not
+change upstream source in this increment.
+
+`rm_lio_bringup` owns parameters, output namespace, and TF quarantine. Upstream
+hard-codes an IMU-state child frame named `body`; the adapter may map that
+backend-private semantic to `lio_imu_link`, then must calculate
+`odom -> base_link` with the timestamped gimbal transform. Direct `body` to
+`base_link` renaming remains forbidden.
+
 ## Serial And Hardware Protocol Decision
 
 The 2027 system should not redesign the lower-controller serial protocol without a concrete reason.

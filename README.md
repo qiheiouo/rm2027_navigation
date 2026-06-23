@@ -10,8 +10,10 @@ Phase 1A environment and canonical TF validation, Phase 1B no-hardware Nav2
 closure, Phase 1C compile-only serial protocol validation, Phase 1.5A Gazebo
 dynamics, Phase 1.5B obstacle experiments, and Phase 1.5C MPPI controller
 validation are complete. MPPI is the baseline for subsequent simulation work;
-DWB remains the Phase 1 minimum-loop fallback. Phase 1.5D is adding a separate
-multi-obstacle course with a narrow static passage and a moving obstacle.
+DWB remains the Phase 1 minimum-loop fallback. Phase 1.5D verified static
+passage and costmap clearing, while dynamic collision safety was explicitly
+deferred after failing the strict gate. Phase 2A now adds a disabled-by-default,
+bag-ready FAST-LIO Multi integration boundary.
 
 Phase 1 target:
 
@@ -73,11 +75,14 @@ See:
 - `docs/phase1_5b_obstacle_validation.md`
 - `docs/phase1_5c_mppi_validation.md`
 - `docs/phase1_5d_course_validation.md`
+- `docs/phase2a_lio_validation.md`
+- `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`
 - `docs/contracts/serial_protocol_2027.md`
 - `docs/external/gazebo_fortress_systems.md`
+- `docs/external/fast_lio_multi_ros2.md`
 
 ## Current Packages
 
@@ -89,4 +94,6 @@ See:
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
 - `rm_serial_driver`: Phase 1C compile-only legacy serial protocol codec and framing tests; no real serial device is opened.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
+- `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
+- `fast_lio_multi`: external GPL-2.0 FAST-LIO Multi ROS2 submodule; disabled by default and consumed only through `rm_lio_bringup`.
 - `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.

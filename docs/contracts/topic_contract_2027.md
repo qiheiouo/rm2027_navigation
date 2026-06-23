@@ -13,6 +13,7 @@
 | `/base_imu/data` | `sensor_msgs/msg/Imu` | Optional chassis IMU driver | diagnostics, slip detection, future low-weight fusion | Optional chassis-mounted IMU, not the main LIO IMU for gimbal-mounted LiDARs |
 | `/joint_states` | `sensor_msgs/msg/JointState` | `gimbal_state_adapter`, other joint-state owners | `robot_state_publisher` | Must contain `gimbal_yaw_joint` when real gimbal TF is enabled |
 | `/gimbal/state` | `sensor_msgs/msg/JointState` or documented future interface | `gimbal_state_adapter` | diagnostics, `lio_adapter` if needed | Gimbal yaw angle, optional yaw velocity, timestamp, and validity information |
+| `/odometry/fast_lio_raw` | `nav_msgs/msg/Odometry` | selected LIO backend | `lio_adapter` | Backend-private odometry input. Phase 2A FAST-LIO Multi uses `frame_id=odom`, hard-coded `child_frame_id=body`; it is never consumed directly by Nav2 |
 | `/odometry/lio` | `nav_msgs/msg/Odometry` | `lio_adapter` | Nav2, debug, optional fusion | LIO odometry. `frame_id=odom`, `child_frame_id=base_link` |
 | `/cmd_vel` | `geometry_msgs/msg/Twist` | Nav2 | `rm_chassis_interface` | Commanded chassis velocity in `base_link` |
 | `/chassis/twist_raw` | `geometry_msgs/msg/TwistWithCovarianceStamped` | `rm_chassis_interface` | diagnostics, slip detection, future low-weight fusion | Chassis feedback velocity, not the main localization source |
@@ -44,6 +45,11 @@ diagnostics. It must not publish TF, odometry, chassis commands, or navigation
 goals. Gazebo model pose remains outside the canonical ROS TF tree.
 
 Do not use `/lio/odom`. The canonical LIO odometry topic is `/odometry/lio`.
+
+Phase 2A uses `/fast_lio/_quarantine/tf` and
+`/fast_lio/_quarantine/tf_static` only to isolate unavoidable upstream
+broadcasts. They are diagnostic containment topics, not part of the public TF
+contract, and no canonical node may consume them.
 
 ## Gimbal State Boundary
 

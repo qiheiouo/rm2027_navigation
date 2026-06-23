@@ -70,6 +70,16 @@ Only `lio_adapter` may publish the external canonical `odom -> base_link` transf
 
 If a LIO backend publishes `odom -> body`, `odom -> base_link`, or any equivalent odometry TF by itself, that backend TF must be disabled, intercepted, remapped, or replaced in the adapter. The backend and `lio_adapter` must never publish the same canonical transform at the same time.
 
+For Phase 2A, FAST-LIO Multi `/tf` and `/tf_static` are remapped to documented
+quarantine topics. No canonical consumer may subscribe to those topics. Its
+hard-coded `body` child name is permitted only as an adapter-local alias for
+the backend's IMU state `lio_imu_link`; it must never be published as a public
+TF or aliased directly to `base_link`.
+
+For a moving gimbal, the sensor-to-base transform must be queried at the raw
+odometry timestamp. Using the latest available yaw is allowed only in explicit
+zero-stamp test data and is not a real-hardware acceptance mode.
+
 If a LIO backend outputs `odom -> lio_imu_link`, `odom -> mid360_left_frame`, `odom -> mid360_right_frame`, or any other sensor-frame pose, `lio_adapter` must compute `odom -> base_link` using the current gimbal yaw and the measured static extrinsics. It must not fake the conversion by only changing `child_frame_id` to `base_link`.
 
 `/odometry/lio` must use:

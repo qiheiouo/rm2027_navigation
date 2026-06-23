@@ -8,11 +8,12 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     raw_odom_topic = LaunchConfiguration("raw_odom_topic")
-    lio_adapter_config = PathJoinSubstitution([
+    default_lio_adapter_config = PathJoinSubstitution([
         FindPackageShare("rm_localization_adapters"),
         "config",
         "lio_adapter.yaml",
     ])
+    lio_adapter_config = LaunchConfiguration("lio_adapter_config")
     gimbal_state_adapter_config = PathJoinSubstitution([
         FindPackageShare("rm_localization_adapters"),
         "config",
@@ -30,6 +31,10 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "raw_odom_topic",
             default_value="/odometry/fast_lio_raw",
+        ),
+        DeclareLaunchArgument(
+            "lio_adapter_config",
+            default_value=default_lio_adapter_config,
         ),
         Node(
             package="rm_localization_adapters",

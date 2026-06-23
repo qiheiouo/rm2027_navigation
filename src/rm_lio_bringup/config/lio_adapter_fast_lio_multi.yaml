@@ -12,16 +12,16 @@ lio_adapter:
     use_latest_transform: false
     allow_placeholder_fallback: false
     tf_lookup_timeout_sec: 0.05
-    backend_child_frame_alias_enabled: false
+
+    # FAST_LIO_MULTI_ROS2 hard-codes child_frame_id=body for the filter's IMU
+    # state pose. This explicit alias maps that backend-private semantic frame
+    # to lio_imu_link, then lio_adapter still computes the full transform:
+    #   T_odom_base = T_odom_lio_imu * inverse(T_base_lio_imu)
+    # It does not alias body directly to base_link.
+    backend_child_frame_alias_enabled: true
     backend_child_frame_alias_source: body
     backend_child_frame_alias_target: lio_imu_link
 
-    # Fallback placeholder only.
-    # Default operation must use TF from base_link to input_sensor_frame.
-    # If the backend outputs odom->lio_imu_link or odom->mid360_*_frame,
-    # lio_adapter computes:
-    #   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
-    # Do not fake the conversion by only changing child_frame_id.
     input_to_base_placeholder:
       x: 0.0
       y: 0.0
