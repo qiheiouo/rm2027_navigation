@@ -86,8 +86,28 @@ clearance is `0.08 m`.
 
 ## Decision
 
-MPPI remains experimental until both the performance and navigation gates pass.
-If the conservative `300 x 30` profile is too expensive, reduce or isolate the
-controller workload before increasing batch size. If it cannot meet the gates
-within the target CPU budget, compare the recorded PolarBear omni PID pursuit
-controller instead of replacing the Phase 1 DWB baseline silently.
+The profile at commit `281dfaa` passed on an Intel i7-10710U minipc using Mesa
+software rendering. The container peaked at `444.15%` CPU across 12 logical
+threads and `799.4 MiB` memory without OOM, lifecycle failure, or repeated
+controller-loop overruns.
+
+The accepted ten-action run produced:
+
+- `10/10` successful actions and no aborts;
+- median and maximum action times of `13.029 s` and `18.717 s`;
+- zero progress failures, recoveries, and controller-loop misses;
+- 40 command sign changes in total, with a median of four per action;
+- no collision or footprint-padding intrusion;
+- minimum physical clearance of `0.231 m`;
+- maximum final-yaw error of `0.130 rad`;
+- stable scan and odometry rates near 15 Hz and 50 Hz.
+
+Two isolated scan-filter drops occurred in one action without sustained TF or
+costmap loss. One trajectory had a `0.446 m` instantaneous plan deviation but
+remained collision-free and completed normally; complex-field testing must
+continue to track this metric.
+
+MPPI is therefore accepted as the Phase 1.5 baseline for subsequent simulation
+work. DWB remains the Phase 1 minimum-loop baseline and fallback. This decision
+is not final real-robot acceptance: FAST-LIO, dual MID360 input, real chassis
+dynamics, serial latency, and the full deployment CPU budget remain untested.

@@ -62,6 +62,24 @@ Priority references:
 4. `pb_nav2_plugins`: IntensityVoxelLayer and BackUpFreeSpace for later RM-specific costmap/recovery work.
 5. PolarBear map workflow: 2D occupancy map for Nav2 and 3D PCD map for relocalization.
 
+## Nav2 Controller Decision
+
+DWB remains the official Phase 1 minimum-loop controller and a lightweight
+fallback. Phase 1.5 obstacle experiments showed that bounded DWB critic and
+inflation searches did not provide both repeatable smoothness and rectangular
+footprint clearance in the test world.
+
+The official Nav2 Humble MPPI controller with its `Omni` motion model passed the
+Phase 1.5C CPU, footprint-clearance, and ten-action repeatability gates at
+commit `281dfaa`. It is the controller baseline for subsequent simulation work.
+This is not final competition acceptance: the decision must be reviewed after
+FAST-LIO, dual MID360 input, real serial latency, and real chassis dynamics are
+measured together on the target minipc.
+
+`pb_omni_pid_pursuit_controller` remains an Apache-2.0 fallback comparison. It
+is not vendored or selected while the official MPPI controller satisfies the
+current performance and safety gates.
+
 ## Serial And Hardware Protocol Decision
 
 The 2027 system should not redesign the lower-controller serial protocol without a concrete reason.

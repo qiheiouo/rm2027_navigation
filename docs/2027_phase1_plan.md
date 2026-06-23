@@ -122,10 +122,17 @@ and safely clear of the rectangular robot footprint. Those experimental
 profiles remain uncommitted; DWB remains the Phase 1 baseline rather than an
 accepted competition controller.
 
-Phase 1.5C compares the official Nav2 Humble MPPI controller using its `Omni`
-motion model and full-footprint cost critic. The first profile is deliberately
-limited to 10 Hz, 300 trajectories, 30 time steps, one optimization iteration,
-and disabled visualization for the low-power target. It must pass CPU timing,
-obstacle clearance, recovery, and repeatability gates before any default
-controller decision. The PolarBear omni PID pursuit controller remains the
-next comparison candidate if MPPI is too expensive or insufficiently robust.
+Phase 1.5C compared the official Nav2 Humble MPPI controller using its `Omni`
+motion model and full-footprint cost critic. The low-power profile uses 10 Hz,
+300 trajectories, 30 time steps, one optimization iteration, and disabled
+visualization. At commit `281dfaa`, it passed ten of ten navigation actions
+with no collision, padding intrusion, progress failure, recovery, or control
+loop miss. Its median action time was `13.029 s` and minimum physical clearance
+was `0.231 m` on the Phase 1.5 obstacle world.
+
+MPPI is now the baseline controller for later Phase 1.5 simulation increments.
+DWB remains the Phase 1 minimum-loop baseline and fallback. Final real-robot
+selection remains provisional until LIO, dual MID360 input, serial latency, and
+real chassis dynamics share the target minipc. The PolarBear omni PID pursuit
+controller remains a fallback comparison if that full-stack test exceeds the
+MPPI CPU budget.

@@ -18,9 +18,10 @@ costmap test instrument, not a MID360 model and not a substitute for later
 3D point-cloud validation.
 
 Phase 1.5C adds an official Nav2 MPPI comparison profile for the same world.
-It uses the omnidirectional motion model and full footprint collision scoring,
-but does not replace the Phase 1 DWB default unless the documented stability,
-safety, and CPU gates pass.
+It uses the omnidirectional motion model and full footprint collision scoring.
+The initial profile passed the documented stability, safety, and CPU gates and
+is the baseline for subsequent Phase 1.5 simulation. The Phase 1 DWB launch and
+configuration remain available as a fallback and historical comparison.
 
 It does not simulate MID360 point clouds, FAST-LIO, serial, referee, or the
 competition mission tree. Those concerns remain separate milestones.

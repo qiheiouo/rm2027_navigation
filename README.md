@@ -6,7 +6,11 @@ This project is the new mainline for the 2027 sentry robot navigation stack. The
 
 ## Current Stage
 
-Phase 1A environment and canonical TF validation, Phase 1B no-hardware Nav2 closure, Phase 1C compile-only serial protocol validation, and Phase 1.5A Gazebo dynamics validation are complete. The project is now implementing Phase 1.5B simulated obstacle avoidance.
+Phase 1A environment and canonical TF validation, Phase 1B no-hardware Nav2
+closure, Phase 1C compile-only serial protocol validation, Phase 1.5A Gazebo
+dynamics, Phase 1.5B obstacle experiments, and Phase 1.5C MPPI controller
+validation are complete. MPPI is the baseline for subsequent simulation work;
+DWB remains the Phase 1 minimum-loop fallback.
 
 Phase 1 target:
 
@@ -35,6 +39,11 @@ Phase 1.5B adds a simulation-only planar scan and Nav2 obstacle layers. This
 validates obstacle marking and replanning without claiming to simulate the
 full MID360 point pattern or real 3D perception chain.
 
+Phase 1.5C adds the official Nav2 Humble MPPI `Omni` controller with full
+footprint scoring. Its initial low-power profile passed the documented CPU,
+clearance, and ten-action repeatability gates. Final real-robot acceptance is
+still blocked on the complete LIO, dual-lidar, serial, and chassis workload.
+
 ## Architecture Direction
 
 This project follows the route:
@@ -61,6 +70,7 @@ See:
 - `docs/2027_phase1_plan.md`
 - `docs/phase1_5_gazebo_validation.md`
 - `docs/phase1_5b_obstacle_validation.md`
+- `docs/phase1_5c_mppi_validation.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`
@@ -72,7 +82,7 @@ See:
 - `rm_description`: Phase 1 robot description and gimbal-mounted sensor frames.
 - `rm_localization_adapters`: map/odom stub, LIO odometry adapter, and gimbal joint-state adapter.
 - `rm_chassis_interface`: `/cmd_vel` chassis stub without real serial.
-- `rm_nav_config`: minimal Nav2 placeholder configuration.
+- `rm_nav_config`: Phase 1 DWB fallback and accepted Phase 1.5 MPPI simulation configuration.
 - `rm_navigation_bringup`: Phase 1 bringup skeleton.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
 - `rm_serial_driver`: Phase 1C compile-only legacy serial protocol codec and framing tests; no real serial device is opened.

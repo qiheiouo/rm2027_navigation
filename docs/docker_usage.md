@@ -162,15 +162,16 @@ Phase 1.5B simulated obstacle validation is documented in
 lidar with Gazebo headless rendering; it does not require a physical GPU, but
 the host/container must provide a working EGL or Mesa software-rendering path.
 
-Phase 1.5C MPPI comparison on the same world:
+Accepted Phase 1.5 MPPI baseline on the same world:
 
 ```bash
 export LIBGL_ALWAYS_SOFTWARE=true
 ros2 launch rm_simulation phase1_5_mppi.launch.py headless:=true use_rviz:=false
 ```
 
-See `docs/phase1_5c_mppi_validation.md` for the CPU, footprint-clearance, and
-repeatability gates. This launch does not change the default DWB profile.
+See `docs/phase1_5c_mppi_validation.md` for the recorded CPU,
+footprint-clearance, and repeatability result. The Phase 1 DWB profile remains
+available as a fallback.
 
 Topic and TF checks:
 
