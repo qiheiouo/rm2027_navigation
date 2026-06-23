@@ -136,3 +136,11 @@ selection remains provisional until LIO, dual MID360 input, serial latency, and
 real chassis dynamics share the target minipc. The PolarBear omni PID pursuit
 controller remains a fallback comparison if that full-stack test exceeds the
 MPPI CPU budget.
+
+Phase 1.5D extends only the simulation test surface. It reuses the accepted
+MPPI profile and original Gazebo world, then spawns a 0.8 m static passage and
+an optional obstacle moving laterally across the route. The moving-obstacle
+controller owns only a simulation joint target and never publishes TF,
+odometry, chassis commands, or navigation goals. This increment validates
+costmap clearing, narrow-passage tracking, dynamic avoidance, and repeated
+replanning; it is not a competition behavior or a claim of MID360 fidelity.

@@ -23,6 +23,11 @@ The initial profile passed the documented stability, safety, and CPU gates and
 is the baseline for subsequent Phase 1.5 simulation. The Phase 1 DWB launch and
 configuration remain available as a fallback and historical comparison.
 
+Phase 1.5D uses `phase1_5_mppi_course.launch.py` to spawn two static walls that
+form a 0.8 m passage plus an optional laterally moving obstacle. The movement
+controller publishes only `/simulation/moving_obstacle/target`; a dedicated
+one-way bridge sends that target to Gazebo without exposing model TF to ROS.
+
 It does not simulate MID360 point clouds, FAST-LIO, serial, referee, or the
 competition mission tree. Those concerns remain separate milestones.
 

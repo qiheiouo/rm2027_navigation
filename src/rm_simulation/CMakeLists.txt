@@ -11,6 +11,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 
 add_executable(scan_frame_adapter src/scan_frame_adapter.cpp)
 ament_target_dependencies(scan_frame_adapter
@@ -18,14 +19,22 @@ ament_target_dependencies(scan_frame_adapter
   sensor_msgs
 )
 
+add_executable(moving_obstacle_controller src/moving_obstacle_controller.cpp)
+ament_target_dependencies(moving_obstacle_controller
+  rclcpp
+  std_msgs
+)
+
 install(TARGETS
   scan_frame_adapter
+  moving_obstacle_controller
   DESTINATION lib/${PROJECT_NAME}
 )
 
 install(DIRECTORY
   config
   launch
+  models
   worlds
   DESTINATION share/${PROJECT_NAME}
 )

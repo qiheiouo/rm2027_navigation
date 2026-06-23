@@ -173,6 +173,17 @@ See `docs/phase1_5c_mppi_validation.md` for the recorded CPU,
 footprint-clearance, and repeatability result. The Phase 1 DWB profile remains
 available as a fallback.
 
+Phase 1.5D multi-obstacle course:
+
+```bash
+export LIBGL_ALWAYS_SOFTWARE=true
+ros2 launch rm_simulation phase1_5_mppi_course.launch.py \
+  headless:=true use_rviz:=false moving_obstacle:=true
+```
+
+Set `moving_obstacle:=false` for the static narrow-passage gate. See
+`docs/phase1_5d_course_validation.md` for the staged validation procedure.
+
 Topic and TF checks:
 
 ```bash

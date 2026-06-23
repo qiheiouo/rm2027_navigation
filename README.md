@@ -10,7 +10,8 @@ Phase 1A environment and canonical TF validation, Phase 1B no-hardware Nav2
 closure, Phase 1C compile-only serial protocol validation, Phase 1.5A Gazebo
 dynamics, Phase 1.5B obstacle experiments, and Phase 1.5C MPPI controller
 validation are complete. MPPI is the baseline for subsequent simulation work;
-DWB remains the Phase 1 minimum-loop fallback.
+DWB remains the Phase 1 minimum-loop fallback. Phase 1.5D is adding a separate
+multi-obstacle course with a narrow static passage and a moving obstacle.
 
 Phase 1 target:
 
@@ -71,6 +72,7 @@ See:
 - `docs/phase1_5_gazebo_validation.md`
 - `docs/phase1_5b_obstacle_validation.md`
 - `docs/phase1_5c_mppi_validation.md`
+- `docs/phase1_5d_course_validation.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`

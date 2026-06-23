@@ -12,6 +12,7 @@
   - `src/systems/odometry_publisher/OdometryPublisher.cc`
   - `examples/worlds/gpu_lidar_sensor.sdf`
   - `src/systems/sensors/Sensors.cc`
+  - `examples/worlds/joint_position_controller.sdf`
 
 - Repository: `https://github.com/gazebosim/ros_gz`
 - Version: branch `humble`, commit `9d7f8c721c233a9ac8b43950129d51e67905523e`
@@ -19,6 +20,7 @@
 - Files consulted:
   - `ros_gz_bridge/src/convert/sensor_msgs.cpp`
   - `ros_gz_bridge/src/convert/utils.cpp`
+  - `ros_gz_sim/src/create.cpp`
 
 ## Local Use
 
@@ -46,6 +48,12 @@ Gazebo LaserScan frame is a scoped simulator name and `ros_gz_bridge` only
 normalizes `::` delimiters, a local simulation adapter rewrites the scan
 header to the explicitly owned `sim_lidar_link` frame. The adapter does not
 modify ranges or publish TF.
+
+Phase 1.5D uses the documented Fortress `JointPositionController` topic
+interface and the ROS Gazebo `create` executable to spawn project-authored
+course models. The local wall geometry, moving-obstacle model, sinusoidal
+target node, topics, and launch composition are original project code. No
+Gazebo implementation source is copied or vendored.
 
 ## RoboMaster Reference
 
