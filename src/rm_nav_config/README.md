@@ -8,6 +8,9 @@ This package stores placeholder Nav2 configuration and test maps. It does not co
 `config/nav2_phase1_5_gazebo.yaml` is simulation-only and adds `/scan`
 obstacle layers, a placeholder rectangular footprint, and the DWB
 `BaseObstacle` critic. It is not final MID360 or competition tuning.
+`config/nav2_phase1_5_mppi.yaml` is the separate Phase 1.5C MPPI comparison
+profile. It keeps DWB as the Phase 1 baseline and starts with a conservative
+10 Hz, `300 x 30` CPU budget for the Nav2 Humble omnidirectional model.
 
 Phase 1 constraints:
 

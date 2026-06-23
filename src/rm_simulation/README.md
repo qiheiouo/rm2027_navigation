@@ -17,6 +17,11 @@ obstacle, a scan-frame adapter, and Nav2 obstacle layers. The planar scan is a
 costmap test instrument, not a MID360 model and not a substitute for later
 3D point-cloud validation.
 
+Phase 1.5C adds an official Nav2 MPPI comparison profile for the same world.
+It uses the omnidirectional motion model and full footprint collision scoring,
+but does not replace the Phase 1 DWB default unless the documented stability,
+safety, and CPU gates pass.
+
 It does not simulate MID360 point clouds, FAST-LIO, serial, referee, or the
 competition mission tree. Those concerns remain separate milestones.
 

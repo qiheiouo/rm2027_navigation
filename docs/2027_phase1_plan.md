@@ -115,5 +115,17 @@ planar scan, obstacle costmaps, and a blocking test object so DWB planning and
 control can be verified against sensed obstacles. It does not represent the
 MID360 scan pattern or final 3D perception chain.
 
-Later Phase 1.5 increments may add RM field assets and DWB versus
-alternative-controller comparison after obstacle avoidance passes.
+Phase 1.5B established the DWB obstacle-avoidance baseline. Reducing the DWB
+sampling load removed controller-loop overruns, but bounded critic and
+inflation searches did not produce one profile that was both repeatably smooth
+and safely clear of the rectangular robot footprint. Those experimental
+profiles remain uncommitted; DWB remains the Phase 1 baseline rather than an
+accepted competition controller.
+
+Phase 1.5C compares the official Nav2 Humble MPPI controller using its `Omni`
+motion model and full-footprint cost critic. The first profile is deliberately
+limited to 10 Hz, 300 trajectories, 30 time steps, one optimization iteration,
+and disabled visualization for the low-power target. It must pass CPU timing,
+obstacle clearance, recovery, and repeatability gates before any default
+controller decision. The PolarBear omni PID pursuit controller remains the
+next comparison candidate if MPPI is too expensive or insufficiently robust.
