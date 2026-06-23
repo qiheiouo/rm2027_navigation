@@ -69,6 +69,11 @@ timeout 10s ign topic -e -t /world/phase1_omni/pose/info
 The `moving_obstacle` y position must change over simulation time. A changing
 ROS target without observed Gazebo motion fails this gate.
 
+The Phase 1.5 LaserScan sources set `inf_is_valid: true`. Gazebo returns
+positive infinity when a beam no longer hits the moving obstacle; Nav2 Humble
+must convert that reading to a near-maximum-range clearing ray. Do not disable
+this option or retain stale observations as a substitute for clearing.
+
 After costmaps visibly mark and clear the moving obstacle, send `(5.6, 0.0)`
 from ten clean launches with varied obstacle phase. Do not synchronize the goal
 to an intentionally favorable opening.

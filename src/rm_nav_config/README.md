@@ -13,6 +13,9 @@ It keeps DWB as the Phase 1 fallback and uses a conservative 10 Hz, `300 x 30`
 CPU budget for the Nav2 Humble omnidirectional model. Real-robot acceptance is
 still blocked on the complete LIO, sensor, serial, and chassis workload.
 
+Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
+returns can clear cells previously occupied by moving simulated obstacles.
+
 Phase 1 constraints:
 
 - `global_frame: map`

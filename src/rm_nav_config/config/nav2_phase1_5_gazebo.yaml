@@ -166,6 +166,7 @@ local_costmap:
         scan:
           topic: /scan
           data_type: LaserScan
+          inf_is_valid: true
           clearing: true
           marking: true
           obstacle_min_range: 0.10
@@ -202,6 +203,7 @@ global_costmap:
         scan:
           topic: /scan
           data_type: LaserScan
+          inf_is_valid: true
           clearing: true
           marking: true
           obstacle_min_range: 0.10
