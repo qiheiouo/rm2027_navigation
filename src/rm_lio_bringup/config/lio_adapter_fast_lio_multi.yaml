@@ -22,6 +22,20 @@ lio_adapter:
     backend_child_frame_alias_source: body
     backend_child_frame_alias_target: lio_imu_link
 
+    # Upstream FAST-LIO Multi does not populate Odometry.twist. Estimate the
+    # base-frame twist only after pose conversion removes dynamic gimbal motion.
+    twist_mode: finite_difference
+    twist_estimator:
+      min_dt_sec: 0.001
+      max_dt_sec: 0.5
+      smoothing_alpha: 0.3
+      max_linear_speed: 5.0
+      max_angular_speed: 20.0
+
+    # Conservative placeholders for Phase 2B interface testing. Replace with
+    # measured values before real Nav2 acceptance.
+    twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
+
     input_to_base_placeholder:
       x: 0.0
       y: 0.0

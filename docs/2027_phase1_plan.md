@@ -168,3 +168,15 @@ The inspected backend odometry does not yet provide accepted base-frame twist
 or covariance. Phase 2A may validate pose and TF boundaries, but real Nav2
 closure is blocked until velocity and covariance semantics are implemented and
 measured.
+
+## Phase 2B Canonical Twist
+
+Phase 2B implements a backend-independent finite-difference velocity path in
+`lio_adapter`. It differentiates consecutive canonical `odom -> base_link`
+poses, not raw sensor poses, so a moving gimbal is removed before chassis twist
+is calculated. Phase 1 fake/simulation inputs keep passthrough mode.
+
+No-hardware tests cover holonomic translation, yaw rate, timestamp rejection,
+outlier recovery, smoothing, and dynamic-gimbal cancellation. Fixed twist
+covariance is a conservative interface placeholder. Real Nav2 acceptance still
+requires measured velocity error, latency, covariance, and full-stack CPU.

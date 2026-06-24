@@ -16,10 +16,11 @@ isolation. It does not copy or modify the backend algorithm.
   state frame, `lio_imu_link`; it is never aliased directly to `base_link`.
 - No MID360 driver, serial, referee, Nav2, or competition BT is started here.
 
-The inspected backend does not currently fill odometry `twist`, and its
-published pose covariance is not yet accepted. Phase 2A is therefore a build,
-bag, pose, and TF integration step; real Nav2 closure remains blocked on a
-validated base-frame velocity and covariance path.
+The inspected backend does not currently fill odometry `twist`. Phase 2B adds
+an adapter-side finite-difference estimate after canonical base-pose
+conversion. Its filtering and fixed covariance are no-hardware defaults and
+still require real trajectory validation. Upstream pose covariance remains
+unaccepted.
 
 ## Configurations
 

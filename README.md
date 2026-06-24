@@ -13,7 +13,10 @@ validation are complete. MPPI is the baseline for subsequent simulation work;
 DWB remains the Phase 1 minimum-loop fallback. Phase 1.5D verified static
 passage and costmap clearing, while dynamic collision safety was explicitly
 deferred after failing the strict gate. Phase 2A now adds a disabled-by-default,
-bag-ready FAST-LIO Multi integration boundary.
+bag-ready FAST-LIO Multi integration boundary and has passed its Linux build,
+TF quarantine, and adapter boundary gate.
+Phase 2B adds a no-hardware canonical base-twist estimator and tests for LIO
+backends that publish pose without velocity.
 
 Phase 1 target:
 
@@ -76,6 +79,7 @@ See:
 - `docs/phase1_5c_mppi_validation.md`
 - `docs/phase1_5d_course_validation.md`
 - `docs/phase2a_lio_validation.md`
+- `docs/phase2b_twist_validation.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`

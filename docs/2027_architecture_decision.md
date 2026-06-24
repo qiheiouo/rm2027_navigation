@@ -97,6 +97,13 @@ backend-private semantic to `lio_imu_link`, then must calculate
 `odom -> base_link` with the timestamped gimbal transform. Direct `body` to
 `base_link` renaming remains forbidden.
 
+Phase 2B uses backend-independent finite differencing of consecutive canonical
+base poses when the selected backend does not publish valid twist. Estimation
+occurs after timestamped gimbal compensation, and output twist is expressed in
+`base_link`. This avoids a local GPL backend patch while keeping the option to
+compare against exported filter velocity later. Smoothing, outlier limits, and
+covariance remain provisional until real trajectories are recorded.
+
 ## Serial And Hardware Protocol Decision
 
 The 2027 system should not redesign the lower-controller serial protocol without a concrete reason.

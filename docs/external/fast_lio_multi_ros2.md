@@ -56,11 +56,12 @@ therefore enforces:
 
 The inspected upstream odometry does not populate `twist`, and its current
 publish function sends the message before updating pose covariance. Those
-fields are not accepted as real Nav2 feedback in Phase 2A. Before a real
-navigation closure, the team must either expose the filter velocity in a
-recorded GPL-compatible backend patch or add and validate a timestamped
-velocity estimator at the adapter boundary. Pose/twist covariance must also be
-defined and transformed into `base_link` semantics.
+fields are not accepted as real Nav2 feedback in Phase 2A. Phase 2B selects a
+timestamped adapter-side velocity estimator after converting pose to
+`base_link`; this avoids modifying the GPL backend and accounts for the moving
+gimbal at the pose boundary. Its noise, filtering, and fixed twist covariance
+still require real validation. Pose covariance must also be defined and
+transformed into `base_link` semantics.
 
 ## License And Maintenance Risk
 

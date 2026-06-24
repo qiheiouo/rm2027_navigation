@@ -9,6 +9,8 @@ Responsibilities:
 - `gimbal_state_adapter`: publishes `gimbal_yaw_joint` to `/joint_states`. Phase 1 defaults to a zero-yaw placeholder; real hardware must feed timestamped gimbal yaw through the adapter.
 - `imu_frame_adapter`: converts selected MID360 raw IMU messages from `/livox/lio_imu_raw` into canonical `/livox/lio_imu` by rewriting only `header.frame_id` to `lio_imu_link`.
 - `fake_lio_odom_publisher`: test helper that publishes fake raw LIO odometry for adapter validation only.
+- `canonical_odometry`: shared sensor-to-base pose conversion and optional
+  timestamped pose-difference twist estimation.
 
 Non-goals:
 
@@ -34,6 +36,18 @@ state pose. The Phase 2A config may alias that backend-private `body` semantic
 to `lio_imu_link`, but never to `base_link`; the adapter then performs the full
 timestamped sensor-to-base transform above. The alias is disabled in the
 general Phase 1 config.
+
+`lio_adapter` supports two twist modes:
+
+- `passthrough`: preserves a valid canonical input twist for Phase 1 fake and
+  simulation inputs.
+- `finite_difference`: estimates twist from consecutive canonical base poses
+  for backends such as FAST-LIO Multi that leave `Odometry.twist` empty.
+
+Finite difference runs after gimbal compensation. It rejects first samples,
+invalid time intervals, and configured speed outliers rather than publishing a
+fabricated zero velocity. Its covariance values remain conservative
+placeholders until real trajectories are measured.
 
 `gimbal_state_adapter` does not publish localization TF, odometry, navigation goals, or serial packets. It only provides the gimbal yaw joint state needed by `robot_state_publisher` to produce the sensor TF subtree.
 

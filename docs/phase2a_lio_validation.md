@@ -4,10 +4,10 @@ This gate validates dependency completeness, buildability, launch safety, raw
 odometry adaptation, and TF ownership. It does not claim real MID360 or LIO
 accuracy without recorded sensor data.
 
-It also does not accept upstream odometry `twist` or covariance for Nav2. The
-inspected backend leaves `twist` empty and publishes before refreshing pose
-covariance. A separately reviewed backend patch or adapter-side velocity and
-covariance solution is required before real Nav2 closure.
+This Phase 2A gate does not accept upstream odometry `twist` or covariance for
+Nav2. The inspected backend leaves `twist` empty and publishes before
+refreshing pose covariance. Phase 2B adds a separately tested adapter-side
+twist estimate; real covariance and full Nav2 acceptance remain deferred.
 
 ## Clone And Dependencies
 
@@ -144,7 +144,21 @@ When a recorded bag or real MID360 is available, add evidence for:
 - point-cloud/IMU synchronization and no sustained drop;
 - gimbal-yaw timestamp interpolation during motion;
 - CPU, memory, drift, relocalization behavior, and failure recovery.
-- valid base-frame linear/angular velocity, covariance, and their latency.
+- validated base-frame linear/angular velocity, covariance, and their latency;
+  see the separate Phase 2B gate for the no-hardware estimator baseline.
 
 Do not enable the dual config until the two-lidar extrinsics and synchronization
 items in `real_hardware_confirmation_checklist.md` are closed.
+
+## Recorded Result
+
+Commit `f8128ac` passed the Linux Docker gate: all eleven packages built in
+Release mode, all three nested external revisions were complete, safe defaults
+started no hardware/backend nodes, nonzero-timestamp `body` odometry converted
+to canonical `base_link`, invalid parent frames were rejected, backend TF was
+quarantined, and left/right single-lidar subscriptions were correct. No source
+files were changed during validation.
+
+Phase 2A is therefore complete for build and interface boundaries. Real sensor
+data, upstream pose covariance, and full Nav2 acceptance remain outside that
+result.

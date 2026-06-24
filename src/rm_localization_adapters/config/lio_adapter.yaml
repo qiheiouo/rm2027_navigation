@@ -15,6 +15,9 @@ lio_adapter:
     backend_child_frame_alias_enabled: false
     backend_child_frame_alias_source: body
     backend_child_frame_alias_target: lio_imu_link
+    # Phase 1 fake/simulation odometry already provides canonical base twist.
+    twist_mode: passthrough
+    twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
 
     # Fallback placeholder only.
     # Default operation must use TF from base_link to input_sensor_frame.

@@ -18,6 +18,16 @@ find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
+add_library(canonical_odometry src/canonical_odometry.cpp)
+target_include_directories(canonical_odometry PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+ament_target_dependencies(canonical_odometry
+  geometry_msgs
+  tf2
+)
+
 add_executable(map_odom_stub src/map_odom_stub.cpp)
 ament_target_dependencies(map_odom_stub
   rclcpp
@@ -27,6 +37,7 @@ ament_target_dependencies(map_odom_stub
 )
 
 add_executable(lio_adapter src/lio_adapter.cpp)
+target_link_libraries(lio_adapter canonical_odometry)
 ament_target_dependencies(lio_adapter
   rclcpp
   nav_msgs
@@ -58,6 +69,7 @@ ament_target_dependencies(fake_lio_odom_publisher
 )
 
 install(TARGETS
+  canonical_odometry
   map_odom_stub
   lio_adapter
   gimbal_state_adapter
@@ -66,10 +78,21 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(DIRECTORY include/
+  DESTINATION include
+)
+
 install(DIRECTORY
   config
   launch
   DESTINATION share/${PROJECT_NAME}
 )
+
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_canonical_odometry test/test_canonical_odometry.cpp)
+  target_link_libraries(test_canonical_odometry canonical_odometry)
+  ament_target_dependencies(test_canonical_odometry geometry_msgs tf2)
+endif()
 
 ament_package()

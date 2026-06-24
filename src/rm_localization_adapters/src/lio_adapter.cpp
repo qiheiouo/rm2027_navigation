@@ -1,10 +1,15 @@
+#include <array>
+#include <cmath>
 #include <functional>
 #include <memory>
+#include <stdexcept>
 #include <string>
+#include <vector>
 
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "rm_localization_adapters/canonical_odometry.hpp"
 #include "tf2/exceptions.h"
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2/LinearMath/Transform.h"
@@ -40,6 +45,39 @@ public:
       "backend_child_frame_alias_source", "body");
     backend_child_frame_alias_target_ = declare_parameter<std::string>(
       "backend_child_frame_alias_target", "lio_imu_link");
+    twist_mode_ = declare_parameter<std::string>("twist_mode", "passthrough");
+
+    if (twist_mode_ != "passthrough" && twist_mode_ != "finite_difference") {
+      throw std::invalid_argument("twist_mode must be 'passthrough' or 'finite_difference'");
+    }
+
+    const auto twist_variance = declare_parameter<std::vector<double>>(
+      "twist_variance_diagonal", {1.0, 1.0, 1.0, 4.0, 4.0, 4.0});
+    if (twist_variance.size() != twist_variance_diagonal_.size()) {
+      throw std::invalid_argument("twist_variance_diagonal must contain six values");
+    }
+    for (std::size_t index = 0; index < twist_variance.size(); ++index) {
+      if (twist_variance[index] < 0.0) {
+        throw std::invalid_argument("twist variances must be non-negative");
+      }
+      twist_variance_diagonal_[index] = twist_variance[index];
+    }
+
+    if (twist_mode_ == "finite_difference") {
+      rm_localization_adapters::TwistEstimatorConfig estimator_config;
+      estimator_config.min_dt_sec = declare_parameter<double>(
+        "twist_estimator.min_dt_sec", 0.001);
+      estimator_config.max_dt_sec = declare_parameter<double>(
+        "twist_estimator.max_dt_sec", 0.5);
+      estimator_config.smoothing_alpha = declare_parameter<double>(
+        "twist_estimator.smoothing_alpha", 0.3);
+      estimator_config.max_linear_speed = declare_parameter<double>(
+        "twist_estimator.max_linear_speed", 5.0);
+      estimator_config.max_angular_speed = declare_parameter<double>(
+        "twist_estimator.max_angular_speed", 20.0);
+      twist_estimator_ =
+        std::make_unique<rm_localization_adapters::PoseTwistEstimator>(estimator_config);
+    }
 
     const double input_to_base_x =
       declare_parameter<double>("input_to_base_placeholder.x", 0.0);
@@ -70,10 +108,10 @@ public:
 
     RCLCPP_WARN(
       get_logger(),
-      "Phase 1 skeleton: adapting %s to %s through TF %s->sensor with gimbal frame %s. "
-      "Real hardware still requires calibrated and timestamped gimbal yaw.",
+      "Canonical LIO adapter: adapting %s to %s through TF %s->sensor with gimbal frame %s. "
+      "twist_mode=%s. Real hardware still requires calibrated and timestamped gimbal yaw.",
       raw_odom_topic_.c_str(), output_odom_topic_.c_str(),
-      base_frame_.c_str(), gimbal_frame_.c_str());
+      base_frame_.c_str(), gimbal_frame_.c_str(), twist_mode_.c_str());
   }
 
 private:
@@ -84,6 +122,7 @@ private:
       pose.orientation.y,
       pose.orientation.z,
       pose.orientation.w);
+    q.normalize();
     tf2::Transform transform;
     transform.setOrigin(tf2::Vector3(
       pose.position.x,
@@ -131,6 +170,23 @@ private:
     //   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
     // where T_base_sensor comes from robot_state_publisher and the current
     // gimbal_yaw_joint state.
+    const auto & pose = msg->pose.pose;
+    const double quaternion_norm_squared =
+      pose.orientation.x * pose.orientation.x +
+      pose.orientation.y * pose.orientation.y +
+      pose.orientation.z * pose.orientation.z +
+      pose.orientation.w * pose.orientation.w;
+    if (!std::isfinite(pose.position.x) || !std::isfinite(pose.position.y) ||
+      !std::isfinite(pose.position.z) || !std::isfinite(pose.orientation.x) ||
+      !std::isfinite(pose.orientation.y) || !std::isfinite(pose.orientation.z) ||
+      !std::isfinite(pose.orientation.w) || quaternion_norm_squared < 1.0e-12)
+    {
+      RCLCPP_ERROR_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "Rejecting raw odometry with a non-finite or zero-norm pose.");
+      return;
+    }
+
     if (!expected_input_odom_frame_.empty() &&
       msg->header.frame_id != expected_input_odom_frame_)
     {
@@ -187,7 +243,8 @@ private:
           }
           const tf2::Transform base_to_input =
             transformMsgToTransform(base_to_input_msg.transform);
-          odom_to_base = odom_to_input * base_to_input.inverse();
+          odom_to_base = rm_localization_adapters::compute_base_transform(
+            odom_to_input, base_to_input);
         } catch (const tf2::TransformException & ex) {
           if (!allow_placeholder_fallback_) {
             RCLCPP_WARN_THROTTLE(
@@ -216,6 +273,38 @@ private:
     output.header.frame_id = odom_frame_;
     output.child_frame_id = base_frame_;
     transformToPose(odom_to_base, output.pose.pose);
+
+    if (twist_mode_ == "finite_difference") {
+      if (msg->header.stamp.sec == 0 && msg->header.stamp.nanosec == 0) {
+        RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Cannot estimate canonical twist from a zero odometry timestamp.");
+        return;
+      }
+
+      const auto estimate = twist_estimator_->update(
+        odom_to_base, rclcpp::Time(msg->header.stamp).nanoseconds());
+      if (estimate.status != rm_localization_adapters::TwistEstimateStatus::kValid) {
+        const char * reason = "initializing";
+        if (estimate.status == rm_localization_adapters::TwistEstimateStatus::kInvalidTime) {
+          reason = "invalid timestamp interval";
+        } else if (estimate.status == rm_localization_adapters::TwistEstimateStatus::kOutlier) {
+          reason = "velocity outlier";
+        }
+        RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Skipping canonical odometry while twist estimator is %s (dt=%.6f s).",
+          reason, estimate.dt_sec);
+        return;
+      }
+
+      output.twist.twist = estimate.twist;
+      output.twist.covariance.fill(0.0);
+      constexpr std::array<std::size_t, 6> diagonal_indices{0, 7, 14, 21, 28, 35};
+      for (std::size_t index = 0; index < diagonal_indices.size(); ++index) {
+        output.twist.covariance[diagonal_indices[index]] = twist_variance_diagonal_[index];
+      }
+    }
     odom_pub_->publish(output);
 
     if (publish_tf_) {
@@ -246,7 +335,10 @@ private:
   bool backend_child_frame_alias_enabled_;
   std::string backend_child_frame_alias_source_;
   std::string backend_child_frame_alias_target_;
+  std::string twist_mode_;
+  std::array<double, 6> twist_variance_diagonal_{};
   tf2::Transform input_to_base_placeholder_;
+  std::unique_ptr<rm_localization_adapters::PoseTwistEstimator> twist_estimator_;
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
