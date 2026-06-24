@@ -98,9 +98,34 @@ Acceptance:
 5. FAST-LIO Phase 2A config alone selects `twist_mode=finite_difference`.
 6. Existing package tests and the Phase 2A alias test still pass.
 
+The FAST-LIO profile uses an exact-timestamp TF queue with these no-hardware
+defaults:
+
+```text
+max_size=100
+max_wait_sec=0.2
+retry_rate_hz=200
+tf_lookup_timeout_sec=0.0
+```
+
+Canonical odometry frequency should remain within 5% of raw odometry after the
+initial sample. There must be no sustained extrapolation warnings, queue
+timeouts, or queue overflow. Latest-TF lookup must remain disabled.
+
 ## Real-Hardware Deferred Gate
 
 Real acceptance still requires comparison against measured chassis motion,
 gimbal yaw timing, serial latency, and repeated trajectories. The smoothing,
 outlier limits, maximum time gap, and covariance must be retuned from recorded
 data. Pose covariance remains a separate unresolved upstream/adapter issue.
+
+## Initial Validation And Fix
+
+Commit `0ace235` passed all ten estimator tests and all motion/covariance/TF
+checks, but raw odometry at `49.999 Hz` produced canonical odometry at only
+`36.311 Hz`. Logs showed 161 future-extrapolation events because raw odometry
+and placeholder gimbal TF were independent 50 Hz streams.
+
+The follow-up replaces immediate drop-on-miss with the bounded exact-timestamp
+queue above. The fix must be revalidated against output frequency, wait
+latency, warning count, and all previous numerical gates.

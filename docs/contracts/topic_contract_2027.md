@@ -56,6 +56,11 @@ Phase 2B fixed twist covariance is an explicitly provisional interface value,
 not a measured uncertainty model. Pose covariance remains unaccepted until the
 backend publication and sensor-to-base transformation are corrected.
 
+When exact sensor TF is not yet available, `lio_adapter` may hold raw odometry
+in a bounded, timestamp-ordered queue. It must never substitute latest gimbal
+TF. Queue timeout or overflow must drop the affected sample and reset velocity
+history rather than publish stale or out-of-order canonical odometry.
+
 Phase 2A uses `/fast_lio/_quarantine/tf` and
 `/fast_lio/_quarantine/tf_static` only to isolate unavoidable upstream
 broadcasts. They are diagnostic containment topics, not part of the public TF

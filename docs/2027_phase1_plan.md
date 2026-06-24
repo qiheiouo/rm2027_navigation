@@ -180,3 +180,7 @@ No-hardware tests cover holonomic translation, yaw rate, timestamp rejection,
 outlier recovery, smoothing, and dynamic-gimbal cancellation. Fixed twist
 covariance is a conservative interface placeholder. Real Nav2 acceptance still
 requires measured velocity error, latency, covariance, and full-stack CPU.
+
+Raw odometry waits in a bounded FIFO when its exact dynamic sensor TF has not
+arrived yet. This preserves timestamp ordering and avoids latest-yaw fallback.
+Queue timeout or overflow drops the affected sample and resets twist history.

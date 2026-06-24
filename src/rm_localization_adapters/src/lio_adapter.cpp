@@ -1,5 +1,7 @@
 #include <array>
+#include <chrono>
 #include <cmath>
+#include <deque>
 #include <functional>
 #include <memory>
 #include <stdexcept>
@@ -39,6 +41,17 @@ public:
     use_latest_transform_ = declare_parameter<bool>("use_latest_transform", false);
     allow_placeholder_fallback_ = declare_parameter<bool>("allow_placeholder_fallback", false);
     tf_lookup_timeout_sec_ = declare_parameter<double>("tf_lookup_timeout_sec", 0.05);
+    const int tf_queue_max_size = declare_parameter<int>("tf_queue.max_size", 100);
+    tf_queue_max_wait_sec_ = declare_parameter<double>("tf_queue.max_wait_sec", 0.2);
+    tf_queue_retry_rate_hz_ = declare_parameter<double>("tf_queue.retry_rate_hz", 200.0);
+    if (!std::isfinite(tf_lookup_timeout_sec_) || tf_lookup_timeout_sec_ < 0.0 ||
+      tf_queue_max_size <= 0 || !std::isfinite(tf_queue_max_wait_sec_) ||
+      tf_queue_max_wait_sec_ <= 0.0 || !std::isfinite(tf_queue_retry_rate_hz_) ||
+      tf_queue_retry_rate_hz_ <= 0.0)
+    {
+      throw std::invalid_argument("TF queue size, wait time, and retry rate must be positive");
+    }
+    tf_queue_max_size_ = static_cast<std::size_t>(tf_queue_max_size);
     backend_child_frame_alias_enabled_ = declare_parameter<bool>(
       "backend_child_frame_alias_enabled", false);
     backend_child_frame_alias_source_ = declare_parameter<std::string>(
@@ -105,6 +118,10 @@ public:
     odom_sub_ = create_subscription<nav_msgs::msg::Odometry>(
       raw_odom_topic_, 10,
       std::bind(&LioAdapter::handleRawOdometry, this, std::placeholders::_1));
+    const auto retry_period = std::chrono::duration<double>(1.0 / tf_queue_retry_rate_hz_);
+    tf_retry_timer_ = create_wall_timer(
+      std::chrono::duration_cast<std::chrono::nanoseconds>(retry_period),
+      std::bind(&LioAdapter::retryPendingOdometry, this));
 
     RCLCPP_WARN(
       get_logger(),
@@ -115,6 +132,12 @@ public:
   }
 
 private:
+  struct PendingOdometry
+  {
+    nav_msgs::msg::Odometry::SharedPtr message;
+    std::chrono::steady_clock::time_point queued_at;
+  };
+
   static tf2::Transform poseToTransform(const geometry_msgs::msg::Pose & pose)
   {
     tf2::Quaternion q(
@@ -164,6 +187,53 @@ private:
 
   void handleRawOdometry(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
+    if (!pending_odometry_.empty() || !tryProcessRawOdometry(msg)) {
+      enqueuePendingOdometry(msg);
+    }
+  }
+
+  void enqueuePendingOdometry(const nav_msgs::msg::Odometry::SharedPtr & msg)
+  {
+    if (pending_odometry_.size() >= tf_queue_max_size_) {
+      pending_odometry_.pop_front();
+      if (twist_estimator_) {
+        twist_estimator_->reset();
+      }
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "TF wait queue reached %zu messages; dropped the oldest raw odometry sample.",
+        tf_queue_max_size_);
+    }
+    pending_odometry_.push_back({msg, std::chrono::steady_clock::now()});
+  }
+
+  void retryPendingOdometry()
+  {
+    while (!pending_odometry_.empty()) {
+      const auto & pending = pending_odometry_.front();
+      const double wait_sec = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - pending.queued_at).count();
+      if (wait_sec > tf_queue_max_wait_sec_) {
+        RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Dropped raw odometry after waiting %.3f s for timestamped TF.",
+          wait_sec);
+        pending_odometry_.pop_front();
+        if (twist_estimator_) {
+          twist_estimator_->reset();
+        }
+        continue;
+      }
+
+      if (!tryProcessRawOdometry(pending.message)) {
+        break;
+      }
+      pending_odometry_.pop_front();
+    }
+  }
+
+  bool tryProcessRawOdometry(const nav_msgs::msg::Odometry::SharedPtr & msg)
+  {
     // Important: do not fake base_link by only changing child_frame_id.
     // For gimbal-mounted MID360, a backend may publish odom->lio_imu_link or
     // odom->mid360_*_frame. Compute odom->base_link as:
@@ -184,7 +254,7 @@ private:
       RCLCPP_ERROR_THROTTLE(
         get_logger(), *get_clock(), 2000,
         "Rejecting raw odometry with a non-finite or zero-norm pose.");
-      return;
+      return true;
     }
 
     if (!expected_input_odom_frame_.empty() &&
@@ -194,7 +264,7 @@ private:
         get_logger(), *get_clock(), 2000,
         "Rejecting raw odometry parent frame '%s'; expected '%s'.",
         msg->header.frame_id.c_str(), expected_input_odom_frame_.c_str());
-      return;
+      return true;
     }
 
     std::string input_child =
@@ -208,7 +278,7 @@ private:
           get_logger(), *get_clock(), 2000,
           "Refusing backend child-frame alias '%s' directly to canonical '%s'.",
           backend_child_frame_alias_source_.c_str(), base_frame_.c_str());
-        return;
+        return true;
       }
 
       RCLCPP_WARN_THROTTLE(
@@ -247,11 +317,11 @@ private:
             odom_to_input, base_to_input);
         } catch (const tf2::TransformException & ex) {
           if (!allow_placeholder_fallback_) {
-            RCLCPP_WARN_THROTTLE(
+            RCLCPP_DEBUG_THROTTLE(
               get_logger(), *get_clock(), 2000,
-              "Cannot transform %s -> %s for raw odometry child '%s': %s",
-              base_frame_.c_str(), input_child.c_str(), input_child.c_str(), ex.what());
-            return;
+              "Waiting for %s -> %s at raw odometry timestamp: %s",
+              base_frame_.c_str(), input_child.c_str(), ex.what());
+            return false;
           }
 
           RCLCPP_WARN_THROTTLE(
@@ -279,7 +349,7 @@ private:
         RCLCPP_WARN_THROTTLE(
           get_logger(), *get_clock(), 2000,
           "Cannot estimate canonical twist from a zero odometry timestamp.");
-        return;
+        return true;
       }
 
       const auto estimate = twist_estimator_->update(
@@ -295,7 +365,7 @@ private:
           get_logger(), *get_clock(), 2000,
           "Skipping canonical odometry while twist estimator is %s (dt=%.6f s).",
           reason, estimate.dt_sec);
-        return;
+        return true;
       }
 
       output.twist.twist = estimate.twist;
@@ -318,6 +388,7 @@ private:
       tf_msg.transform.rotation = output.pose.pose.orientation;
       tf_broadcaster_->sendTransform(tf_msg);
     }
+    return true;
   }
 
   std::string raw_odom_topic_;
@@ -332,6 +403,9 @@ private:
   bool use_latest_transform_;
   bool allow_placeholder_fallback_;
   double tf_lookup_timeout_sec_;
+  std::size_t tf_queue_max_size_;
+  double tf_queue_max_wait_sec_;
+  double tf_queue_retry_rate_hz_;
   bool backend_child_frame_alias_enabled_;
   std::string backend_child_frame_alias_source_;
   std::string backend_child_frame_alias_target_;
@@ -345,6 +419,8 @@ private:
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
   std::unique_ptr<tf2_ros::TransformListener> tf_listener_;
+  std::deque<PendingOdometry> pending_odometry_;
+  rclcpp::TimerBase::SharedPtr tf_retry_timer_;
 };
 
 int main(int argc, char ** argv)

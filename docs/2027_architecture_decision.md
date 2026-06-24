@@ -104,6 +104,11 @@ occurs after timestamped gimbal compensation, and output twist is expressed in
 compare against exported filter velocity later. Smoothing, outlier limits, and
 covariance remain provisional until real trajectories are recorded.
 
+Raw odometry and dynamic gimbal TF are asynchronous streams. Phase 2B uses a
+bounded FIFO to wait for the exact transform timestamp. Raising placeholder TF
+frequency may reduce latency but is not a correctness mechanism; latest-TF
+fallback remains forbidden.
+
 ## Serial And Hardware Protocol Decision
 
 The 2027 system should not redesign the lower-controller serial protocol without a concrete reason.

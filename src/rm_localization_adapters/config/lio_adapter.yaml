@@ -12,6 +12,10 @@ lio_adapter:
     use_latest_transform: false
     allow_placeholder_fallback: false
     tf_lookup_timeout_sec: 0.05
+    tf_queue:
+      max_size: 100
+      max_wait_sec: 0.2
+      retry_rate_hz: 200.0
     backend_child_frame_alias_enabled: false
     backend_child_frame_alias_source: body
     backend_child_frame_alias_target: lio_imu_link

@@ -11,7 +11,13 @@ lio_adapter:
     use_tf_sensor_to_base: true
     use_latest_transform: false
     allow_placeholder_fallback: false
-    tf_lookup_timeout_sec: 0.05
+    # Exact timestamp lookup is non-blocking. Missing future transforms enter
+    # the bounded queue below instead of falling back to latest TF.
+    tf_lookup_timeout_sec: 0.0
+    tf_queue:
+      max_size: 100
+      max_wait_sec: 0.2
+      retry_rate_hz: 200.0
 
     # FAST_LIO_MULTI_ROS2 hard-codes child_frame_id=body for the filter's IMU
     # state pose. This explicit alias maps that backend-private semantic frame

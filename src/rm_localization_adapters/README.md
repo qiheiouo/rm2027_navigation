@@ -49,6 +49,11 @@ invalid time intervals, and configured speed outliers rather than publishing a
 fabricated zero velocity. Its covariance values remain conservative
 placeholders until real trajectories are measured.
 
+Timestamped sensor TF is handled by a bounded FIFO. Raw odometry waits for its
+exact transform instead of falling back to the latest gimbal yaw. Queue size,
+maximum wait, and retry rate are parameters; timeout or overflow drops data and
+resets finite-difference history so stale samples cannot corrupt twist.
+
 `gimbal_state_adapter` does not publish localization TF, odometry, navigation goals, or serial packets. It only provides the gimbal yaw joint state needed by `robot_state_publisher` to produce the sensor TF subtree.
 
 `imu_frame_adapter` does not publish TF, filter IMU data, or modify measurement values. It exists because the inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livox_frame`; the canonical public IMU frame for LIO remains `lio_imu_link`.

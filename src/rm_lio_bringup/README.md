@@ -22,6 +22,10 @@ conversion. Its filtering and fixed covariance are no-hardware defaults and
 still require real trajectory validation. Upstream pose covariance remains
 unaccepted.
 
+FAST-LIO input uses a bounded exact-timestamp TF queue. This avoids losing
+odometry when the equally fast gimbal TF publisher arrives a few milliseconds
+after the sensor message, without weakening the contract to latest-TF lookup.
+
 ## Configurations
 
 - `fast_lio_multi_single_mid360.yaml`: Phase 2A default, using the left MID360
