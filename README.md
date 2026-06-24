@@ -44,6 +44,17 @@ fake LIO odometry -> lio_adapter -> Nav2 -> /cmd_vel -> chassis_interface_stub
 
 RViz is available as an optional visualization path in `phase1_bringup.launch.py`.
 
+Top-level runtime profiles are provided by `rm_navigation_bringup`:
+
+- `navigation.launch.py`
+- `simulation.launch.py`
+- `bag_replay.launch.py`
+- `mapping.launch.py`
+
+They are mutually exclusive operating modes rather than a command that starts
+every package. See `docs/runtime_profiles.md` for the safety defaults and
+current mapping limitation.
+
 The first Phase 1.5 simulation milestone adds:
 
 ```text
