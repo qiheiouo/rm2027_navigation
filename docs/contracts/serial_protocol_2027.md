@@ -4,7 +4,8 @@
 
 The 2027 system preserves the proven lower-controller protocol where possible. It does not reconnect the old `serial_task` node or copy its navigation, TF, odometry, goal, referee, and debug coupling.
 
-Phase 1C is compile-only. No real serial device is opened.
+Phase 1C and the Phase 2D profile audit are compile-only. No real serial device
+is opened.
 
 ## Legacy Frame Envelope
 
@@ -41,11 +42,24 @@ Legacy strategy bytes at offsets 15 through 18 are preserved only for wire compa
 
 ## CRC Policy
 
-The inspected legacy frame has no CRC or checksum field.
+The inspected old upper-computer frame has no CRC or checksum field. A second
+inspected source,
+`rm2026_sentry/rm2025_hpm/task/core0/computer_task.{h,c}`, defines a packed
+21-byte command packet with the same 17-byte payload followed by a two-byte
+payload-only Modbus CRC16. It verifies that CRC before accepting the command.
+
+The repository therefore contains two historical protocol profiles:
+
+1. `legacy_v1_no_crc`: 19 bytes.
+2. `hpm_crc_v1`: 21 bytes, Modbus CRC16 polynomial `0xA001`, initial value
+   `0xFFFF`, low byte first, covering only the payload.
 
 CRC is an error-detection mechanism. It helps reject frames whose header or payload bits changed during transmission. Its absence does not prevent communication, especially on short, stable USB/UART links, but corrupted payload bytes may still decode as plausible floating-point commands.
 
-Phase 1C does not add CRC because doing so would silently break the existing lower-controller protocol. Current protection is limited to:
+CRC must not be silently added to or removed from a selected profile. The real
+serial node must require an explicit profile confirmed against the 2027
+firmware commit and packet captures. Protection in the no-CRC profile is
+limited to:
 
 1. frame header and bounded length checks;
 2. finite-value validation for velocity commands;
@@ -53,7 +67,9 @@ Phase 1C does not add CRC because doing so would silently break the existing low
 4. sequence freshness checks in the future serial node;
 5. parser resynchronization after malformed data.
 
-A future CRC or checksum must use a versioned frame format and coordinated firmware update. It is optional until real captures demonstrate a need or the electrical team adopts it.
+A future new CRC format still requires coordinated versioning. The existing
+`hpm_crc_v1` codec records a discovered historical format; it does not prove
+that the 2027 firmware uses it.
 
 ## Historical Upper-Bound Feedback
 

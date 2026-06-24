@@ -38,14 +38,18 @@ The following parts of the old `serial_task` are hardware assets and should be m
 
 1. Serial open, read, and write.
 2. Packet format.
-3. Existing frame envelope and validation behavior. The inspected legacy protocol has no CRC.
+3. Existing frame envelope and validation behavior. The old upper-computer
+   snapshot has no CRC, while the HPM lower-controller snapshot expects a
+   payload-only Modbus CRC16; this must be an explicit profile choice.
 4. `vx/vy/wz` or chassis-control packet.
 5. Referee-system field parsing.
 6. Existing agreements with the lower controller.
 
 Target module split:
 
-1. `rm_serial_driver`: serial IO, packet framing, bounded-length validation, and protocol statistics. CRC is optional only in a coordinated versioned extension.
+1. `rm_serial_driver`: serial IO, explicit protocol-profile framing,
+   bounded-length/CRC validation, and protocol statistics. It must not
+   silently convert between the no-CRC and HPM CRC profiles.
 2. `rm_chassis_interface`: chassis command encoding and chassis feedback parsing.
 3. `rm_referee_interface`: referee-system parsing.
 
@@ -64,7 +68,9 @@ The following old behaviors must be removed or isolated:
 
 Phase 1 does not connect to real serial hardware.
 
-Phase 1C includes compile-only migration of the known legacy command encoder and stream framing, plus unit tests. It does not add CRC to the legacy frame.
+Phase 1C includes compile-only migration of the known legacy command encoder
+and stream framing. Phase 2D adds the separately named `hpm_crc_v1` codec and
+tests without changing `legacy_v1_no_crc` or opening a serial device.
 
 The old receive path does not provide four clearly identified wheel encoder values. If the upper computer will calculate four-omni-wheel chassis velocity, the lower controller must upload four signed wheel velocities or encoder deltas with wheel order, units, timestamp or sample period, sequence, and validity information. The exact wire extension must be agreed with the electrical team before implementation.
 

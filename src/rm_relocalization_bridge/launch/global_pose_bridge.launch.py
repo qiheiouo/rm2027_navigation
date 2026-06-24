@@ -2,6 +2,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterFile
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -22,6 +23,9 @@ def generate_launch_description():
             executable="map_odom_from_global_pose",
             name="map_odom_from_global_pose",
             output="screen",
-            parameters=[config_file, {"use_sim_time": use_sim_time}],
+            parameters=[
+                ParameterFile(config_file, allow_substs=True),
+                {"use_sim_time": use_sim_time},
+            ],
         ),
     ])

@@ -61,6 +61,7 @@ def generate_launch_description():
                 "base_frame": "base_link",
                 "publish_divider": 10,
                 "max_publications": 1,
+                "startup_delay_sec": 1.0,
                 "map_to_odom.x": 3.0,
                 "map_to_odom.y": -1.0,
                 "map_to_odom.z": 0.0,

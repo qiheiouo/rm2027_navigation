@@ -26,4 +26,5 @@ publish `/localization/global_pose`; it must not publish canonical TF directly.
 `fake_global_pose_publisher` is test-only. It derives synchronized fake global
 poses from `/odometry/lio` and a configured correction, and publishes no TF.
 The Phase 2C test launch uses one publication so reset behavior remains
-observable.
+observable. The test publisher uses transient-local QoS and supports a startup
+delay; this is a test convenience, not the required QoS of a real backend.

@@ -1,3 +1,4 @@
+#include <chrono>
 #include <cmath>
 #include <cstddef>
 #include <memory>
@@ -56,6 +57,7 @@ public:
     base_frame_ = declare_parameter<std::string>("base_frame", "base_link");
     publish_divider_ = declare_parameter<int>("publish_divider", 10);
     max_publications_ = declare_parameter<int>("max_publications", 0);
+    startup_delay_sec_ = declare_parameter<double>("startup_delay_sec", 0.0);
 
     const double x = declare_parameter<double>("map_to_odom.x", 3.0);
     const double y = declare_parameter<double>("map_to_odom.y", -1.0);
@@ -64,9 +66,9 @@ public:
     const double pitch = declare_parameter<double>("map_to_odom.pitch", 0.0);
     const double yaw = declare_parameter<double>("map_to_odom.yaw", 0.35);
 
-    if (publish_divider_ <= 0 || max_publications_ < 0) {
+    if (publish_divider_ <= 0 || max_publications_ < 0 || startup_delay_sec_ < 0.0) {
       throw std::invalid_argument(
-              "publish_divider must be positive and max_publications must not be negative");
+              "publish_divider must be positive; publication limits must not be negative");
     }
 
     tf2::Quaternion rotation;
@@ -74,8 +76,9 @@ public:
     map_to_odom_.setOrigin(tf2::Vector3(x, y, z));
     map_to_odom_.setRotation(rotation);
 
+    auto global_pose_qos = rclcpp::QoS(1).reliable().transient_local();
     global_pose_pub_ = create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>(
-      output_topic_, 10);
+      output_topic_, global_pose_qos);
     odom_sub_ = create_subscription<nav_msgs::msg::Odometry>(
       odom_topic_, rclcpp::QoS(100).reliable(),
       [this](const nav_msgs::msg::Odometry::SharedPtr msg) {handleOdometry(*msg);});
@@ -89,6 +92,11 @@ private:
   void handleOdometry(const nav_msgs::msg::Odometry & odom)
   {
     if (odom.header.frame_id != odom_frame_ || odom.child_frame_id != base_frame_) {
+      return;
+    }
+    const double startup_age = std::chrono::duration<double>(
+      std::chrono::steady_clock::now() - startup_time_).count();
+    if (startup_age < startup_delay_sec_) {
       return;
     }
     ++sample_count_;
@@ -123,8 +131,10 @@ private:
   std::string base_frame_;
   int publish_divider_;
   int max_publications_;
+  double startup_delay_sec_;
   int publication_count_ = 0;
   std::size_t sample_count_ = 0U;
+  std::chrono::steady_clock::time_point startup_time_ = std::chrono::steady_clock::now();
   tf2::Transform map_to_odom_;
   rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr global_pose_pub_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;

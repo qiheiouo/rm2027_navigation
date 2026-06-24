@@ -55,7 +55,7 @@ Phase 1 default controller should be official Nav2 DWB with holonomic configurat
 
 Phase 1 does not connect to real serial hardware.
 
-Phase 1C includes compile-only migration of the known legacy 19-byte `vx/vy/wz` command encoder and length-based stream parser. Unit tests cover byte layout, finite values, fragmentation, noise, and resynchronization. The inspected legacy protocol has no CRC, so Phase 1C does not add one.
+Phase 1C includes compile-only migration of the known legacy 19-byte `vx/vy/wz` command encoder and length-based stream parser. Unit tests cover byte layout, finite values, fragmentation, noise, and resynchronization. Phase 2D separately records the discovered HPM 21-byte payload-CRC profile; it does not alter the legacy no-CRC bytes or open a device.
 
 The old receive path does not provide four clearly identified wheel encoder values. A 2027 uplink extension is required if the upper computer will calculate four-omni-wheel feedback. The wire layout remains blocked on wheel order, units, gear ratio, encoder resolution, timing, and sign conventions from the electrical and mechanical teams.
 

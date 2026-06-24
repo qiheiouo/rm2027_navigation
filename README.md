@@ -21,6 +21,9 @@ Phase 2C adds a backend-independent global-pose boundary that computes the
 canonical `map -> odom` transform from timestamp-matched global pose and LIO
 odometry. The no-hardware path is independently testable; a real PCD
 registration backend is still deferred.
+Phase 2D records and tests both discovered serial command profiles: the legacy
+19-byte no-CRC frame and the HPM 21-byte payload-CRC frame. Real serial IO
+remains disabled until the 2027 firmware profile is confirmed.
 
 Phase 1 target:
 
@@ -85,6 +88,7 @@ See:
 - `docs/phase2a_lio_validation.md`
 - `docs/phase2b_twist_validation.md`
 - `docs/phase2c_relocalization_boundary.md`
+- `docs/phase2d_serial_protocol_profiles.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
@@ -102,7 +106,7 @@ See:
 - `rm_nav_config`: Phase 1 DWB fallback and accepted Phase 1.5 MPPI simulation configuration.
 - `rm_navigation_bringup`: Phase 1 bringup skeleton.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
-- `rm_serial_driver`: Phase 1C compile-only legacy serial protocol codec and framing tests; no real serial device is opened.
+- `rm_serial_driver`: compile-only no-CRC and HPM CRC16 protocol profiles with framing tests; no real serial device is opened.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
 - `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter, reset/validity interfaces, and no-hardware test source.

@@ -68,7 +68,9 @@ The test launch uses two explicit test helpers:
    `odom -> base_link` chain.
 2. `fake_global_pose_publisher` applies a known correction to synchronized
    canonical odometry and publishes one `/localization/global_pose`. It
-   publishes no TF, so reset behavior remains observable.
+   publishes no TF, waits for the configured startup delay, and uses
+   transient-local QoS so late validation subscribers can inspect the one-shot
+   sample. Reset behavior therefore remains observable.
 
 Expected correction:
 
@@ -94,7 +96,8 @@ ros2 launch rm_navigation_bringup phase2c_relocalization_test.launch.py
 In another shell inside the same container:
 
 ```bash
-ros2 topic echo --once /localization/global_pose
+ros2 topic echo --once /localization/global_pose \
+  --qos-durability transient_local
 ros2 topic echo --once /localization/map_to_odom
 ros2 topic echo --once /localization/global_localization_valid
 ros2 run tf2_ros tf2_echo map odom

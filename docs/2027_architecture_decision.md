@@ -117,14 +117,16 @@ The old `serial_task` contains hardware assets worth migrating:
 
 1. Serial open, read, and write logic.
 2. Packet format.
-3. Existing frame envelope and validation behavior. The inspected legacy frame has no CRC.
+3. Existing frame envelope and validation behavior. The old upper-computer
+   frame has no CRC; the HPM lower-controller snapshot uses a payload-only
+   Modbus CRC16, so the selected profile must be explicit.
 4. `vx/vy/wz` or chassis-control packets.
 5. Referee-system field parsing.
 6. Existing agreements with the lower controller.
 
 These assets should be migrated into:
 
-1. `rm_serial_driver` for serial IO, packet framing, validation, and protocol statistics. A CRC may be added only through a coordinated versioned protocol extension.
+1. `rm_serial_driver` for serial IO, packet framing, validation, and protocol statistics. Historical no-CRC and HPM payload-CRC formats are separate explicit profiles; any new CRC format requires a coordinated versioned extension.
 2. `rm_chassis_interface` for chassis command encoding and chassis feedback parsing.
 3. `rm_referee_interface` for referee-system parsing.
 

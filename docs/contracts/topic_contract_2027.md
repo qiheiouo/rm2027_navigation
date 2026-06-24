@@ -100,7 +100,7 @@ The old lower-controller serial protocol should remain compatible unless there i
 
 Responsibility split:
 
-1. `rm_serial_driver`: serial open, read, write, packet framing, bounded-length validation, and protocol statistics. The legacy V1 frame has no CRC.
+1. `rm_serial_driver`: serial open, read, write, packet framing, bounded-length validation, and protocol statistics. `legacy_v1_no_crc` and `hpm_crc_v1` are explicit, incompatible historical profiles; the real node must not guess between them.
 2. `rm_chassis_interface`: converts `/cmd_vel` to chassis command packets and parses chassis feedback.
 3. `rm_referee_interface`: parses referee-system fields and publishes referee state.
 
