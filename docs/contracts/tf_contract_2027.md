@@ -64,6 +64,27 @@ Phase 1 uses exactly one `map_odom_stub` node to publish identity `map -> odom`.
 
 When Phase 2 connects `small_gicp`, `scan_to_map`, NDT, or another global localization backend, `map_odom_stub` must be removed.
 
+## Phase 2C Global Localization Boundary
+
+Phase 2C introduces `map_odom_from_global_pose` as the canonical production
+boundary for `map -> odom`. It combines timestamp-matched transforms using:
+
+```text
+T_map_odom = T_map_base * inverse(T_odom_base)
+```
+
+`phase2c_relocalization_bringup.launch.py` allows exactly one mode:
+
+1. `stub`: only `map_odom_stub` publishes dynamic identity `map -> odom`.
+2. `external_pose`: only `map_odom_from_global_pose` publishes dynamic
+   `map -> odom`, and only after a valid global pose is accepted.
+
+The external-pose mode must not publish an identity fallback while global
+localization is unavailable. A small_gicp, scan-to-map, or NDT backend must
+publish `/localization/global_pose`; it must not publish canonical TF directly.
+Backend TF remapping is not an acceptable substitute when the same process also
+needs canonical TF as input.
+
 ## LIO Adapter Rule
 
 Only `lio_adapter` may publish the external canonical `odom -> base_link` transform.

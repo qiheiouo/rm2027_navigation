@@ -12,6 +12,7 @@ def generate_launch_description():
     selected_side = LaunchConfiguration("selected_side")
     use_driver = LaunchConfiguration("use_driver")
     use_lio_backend = LaunchConfiguration("use_lio_backend")
+    use_map_odom_stub = LaunchConfiguration("use_map_odom_stub")
     use_rviz = LaunchConfiguration("use_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     update_method = LaunchConfiguration("update_method")
@@ -64,6 +65,7 @@ def generate_launch_description():
         DeclareLaunchArgument("selected_side", default_value="left"),
         DeclareLaunchArgument("use_driver", default_value="false"),
         DeclareLaunchArgument("use_lio_backend", default_value="false"),
+        DeclareLaunchArgument("use_map_odom_stub", default_value="true"),
         DeclareLaunchArgument("update_method", default_value="bundle"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
@@ -107,6 +109,7 @@ def generate_launch_description():
                 "use_sim_time": use_sim_time,
                 "raw_odom_topic": "/odometry/fast_lio_raw",
                 "lio_adapter_config": lio_adapter_config,
+                "use_map_odom_stub": use_map_odom_stub,
             }.items(),
         ),
         Node(

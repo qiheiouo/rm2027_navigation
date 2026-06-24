@@ -1,8 +1,8 @@
 # rm_navigation_bringup
 
-Phase 1 bringup skeleton.
+Versioned bringup for independently testable navigation phases.
 
-This package should eventually compose:
+The package composes:
 
 - robot description
 - `map_odom_stub`
@@ -10,4 +10,7 @@ This package should eventually compose:
 - Nav2 minimal launch
 - `chassis_interface_stub`
 
-Current skeleton intentionally does not connect FAST-LIO, serial, referee, or BT.
+Phase 2A adds disabled-by-default FAST-LIO and MID360 boundaries. Phase 2C adds
+mutually exclusive `stub` and `external_pose` global-localization modes. The
+test launch uses fake inputs only and does not start small_gicp, serial,
+referee, competition BT, or real hardware.

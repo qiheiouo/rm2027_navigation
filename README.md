@@ -17,6 +17,10 @@ bag-ready FAST-LIO Multi integration boundary and has passed its Linux build,
 TF quarantine, and adapter boundary gate.
 Phase 2B adds a no-hardware canonical base-twist estimator and tests for LIO
 backends that publish pose without velocity.
+Phase 2C adds a backend-independent global-pose boundary that computes the
+canonical `map -> odom` transform from timestamp-matched global pose and LIO
+odometry. The no-hardware path is independently testable; a real PCD
+registration backend is still deferred.
 
 Phase 1 target:
 
@@ -80,6 +84,7 @@ See:
 - `docs/phase1_5d_course_validation.md`
 - `docs/phase2a_lio_validation.md`
 - `docs/phase2b_twist_validation.md`
+- `docs/phase2c_relocalization_boundary.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
@@ -87,6 +92,7 @@ See:
 - `docs/contracts/serial_protocol_2027.md`
 - `docs/external/gazebo_fortress_systems.md`
 - `docs/external/fast_lio_multi_ros2.md`
+- `docs/external/small_gicp_relocalization.md`
 
 ## Current Packages
 
@@ -99,5 +105,6 @@ See:
 - `rm_serial_driver`: Phase 1C compile-only legacy serial protocol codec and framing tests; no real serial device is opened.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
+- `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter, reset/validity interfaces, and no-hardware test source.
 - `fast_lio_multi`: external GPL-2.0 FAST-LIO Multi ROS2 submodule; disabled by default and consumed only through `rm_lio_bringup`.
 - `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.

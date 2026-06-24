@@ -116,6 +116,15 @@
 
 ## G. 分阶段关闭条件
 
+Phase 2C 已能无硬件验证 `/localization/global_pose + /odometry/lio -> map -> odom`
+的计算、时间戳匹配、reset 和唯一 TF 所有权，但以下事项仍必须在真实地图或实车上确认：
+
+- [ ] 选定并固定 small_gicp/scan-to-map/NDT 后端及其依赖 commit，禁止使用构建时跟随 `master` 的依赖。
+- [ ] 后端输出标准 `/localization/global_pose`、收敛/fitness、地图版本和有效标志，不直接发布 canonical TF。
+- [ ] 实测初始位姿误差范围、首次收敛时间、错误匹配拒绝、绑架恢复和碰撞后恢复。
+- [ ] PCD 与 2D occupancy map 使用同一 `map` 原点、方向、比例和版本记录。
+- [ ] 全局定位失效或 reset 后，系统不得静默回退为 identity `map -> odom`；导航与策略层必须收到无效状态。
+
 可在雷达到手但未装车时完成：网络/IP、驱动 topic、PTP、单雷达 LIO 静态/手持 bag、
 内置 IMU数据轴初检。
 

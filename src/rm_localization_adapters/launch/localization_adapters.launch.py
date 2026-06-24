@@ -1,5 +1,6 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -7,6 +8,7 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
+    use_map_odom_stub = LaunchConfiguration("use_map_odom_stub")
     raw_odom_topic = LaunchConfiguration("raw_odom_topic")
     default_lio_adapter_config = PathJoinSubstitution([
         FindPackageShare("rm_localization_adapters"),
@@ -28,6 +30,7 @@ def generate_launch_description():
     # Phase 1 skeleton only. FAST-LIO is intentionally not launched here.
     return LaunchDescription([
         DeclareLaunchArgument("use_sim_time", default_value="false"),
+        DeclareLaunchArgument("use_map_odom_stub", default_value="true"),
         DeclareLaunchArgument(
             "raw_odom_topic",
             default_value="/odometry/fast_lio_raw",
@@ -37,6 +40,7 @@ def generate_launch_description():
             default_value=default_lio_adapter_config,
         ),
         Node(
+            condition=IfCondition(use_map_odom_stub),
             package="rm_localization_adapters",
             executable="map_odom_stub",
             name="map_odom_stub",
