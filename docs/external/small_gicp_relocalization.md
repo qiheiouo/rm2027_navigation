@@ -52,6 +52,8 @@ that:
 5. uses fixed commits for all dependencies;
 6. leaves `map_odom_from_global_pose` as the only canonical `map -> odom`
    publisher.
+7. accepts an approved Phase 2E map-bundle manifest and resolves the recorded
+   PCD from it instead of using an untracked absolute file path.
 
 This keeps PCD registration replaceable by scan-to-map or NDT without changing
 Nav2, LIO, chassis, or TF contracts.

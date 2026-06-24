@@ -127,6 +127,10 @@ Phase 2C 已能无硬件验证 `/localization/global_pose + /odometry/lio -> map
 - [ ] 后端输出标准 `/localization/global_pose`、收敛/fitness、地图版本和有效标志，不直接发布 canonical TF。
 - [ ] 实测初始位姿误差范围、首次收敛时间、错误匹配拒绝、绑架恢复和碰撞后恢复。
 - [ ] PCD 与 2D occupancy map 使用同一 `map` 原点、方向、比例和版本记录。
+- [ ] 使用 Phase 2E map bundle 保存 PCD、occupancy YAML/PGM、SHA-256、建图方法、
+  机器人版本和 reviewer；实车 bringup 只允许 `approved` bundle。
+- [ ] 在 RViz 中用至少三个实测场地特征核对 PCD 与 occupancy map 的共同原点和 yaw；
+  validator 只能检查文件一致性，不能替代几何对齐验收。
 - [ ] 全局定位失效或 reset 后，系统不得静默回退为 identity `map -> odom`；导航与策略层必须收到无效状态。
 
 可在雷达到手但未装车时完成：网络/IP、驱动 topic、PTP、单雷达 LIO 静态/手持 bag、

@@ -70,12 +70,16 @@ Expected packages:
 
 ```text
 livox_ros_driver2
+fast_lio_multi
 rm_localization_adapters
 rm_chassis_interface
 rm_description
 rm_nav_config
 rm_navigation_bringup
 rm_mid360_driver_bridge
+rm_lio_bringup
+rm_relocalization_bridge
+rm_map_tools
 rm_serial_driver
 rm_simulation
 ```
@@ -93,6 +97,14 @@ Phase 1C protocol tests:
 
 ```bash
 colcon test --packages-select rm_serial_driver --event-handlers console_direct+
+colcon test-result --verbose
+```
+
+Phase 2D/2E protocol and map-asset tests:
+
+```bash
+colcon test --packages-select rm_serial_driver rm_map_tools \
+  --event-handlers console_direct+
 colcon test-result --verbose
 ```
 

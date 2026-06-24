@@ -24,6 +24,9 @@ registration backend is still deferred.
 Phase 2D records and tests both discovered serial command profiles: the legacy
 19-byte no-CRC frame and the HPM 21-byte payload-CRC frame. Real serial IO
 remains disabled until the 2027 firmware profile is confirmed.
+Phase 2E introduces versioned map bundles that bind a prior PCD and Nav2
+occupancy map to one canonical frame, revision and set of hashes before a
+global relocalization backend may consume them.
 
 Phase 1 target:
 
@@ -89,6 +92,7 @@ See:
 - `docs/phase2b_twist_validation.md`
 - `docs/phase2c_relocalization_boundary.md`
 - `docs/phase2d_serial_protocol_profiles.md`
+- `docs/phase2e_map_bundle.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
@@ -110,5 +114,6 @@ See:
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
 - `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter, reset/validity interfaces, and no-hardware test source.
+- `rm_map_tools`: Phase 2E PCD/occupancy map-bundle validator and synthetic test fixture.
 - `fast_lio_multi`: external GPL-2.0 FAST-LIO Multi ROS2 submodule; disabled by default and consumed only through `rm_lio_bringup`.
 - `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.
