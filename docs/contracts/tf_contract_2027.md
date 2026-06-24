@@ -80,6 +80,11 @@ For a moving gimbal, the sensor-to-base transform must be queried at the raw
 odometry timestamp. Using the latest available yaw is allowed only in explicit
 zero-stamp test data and is not a real-hardware acceptance mode.
 
+The `robot_state_publisher` dynamic-TF frequency ceiling must be at least as
+high as the accepted gimbal joint-state rate. Its default 20 Hz ceiling is not
+valid for the current 50 Hz LIO/gimbal boundary. Raising the ceiling does not
+authorize synthetic interpolation or repeated stale hardware samples.
+
 If a LIO backend outputs `odom -> lio_imu_link`, `odom -> mid360_left_frame`, `odom -> mid360_right_frame`, or any other sensor-frame pose, `lio_adapter` must compute `odom -> base_link` using the current gimbal yaw and the measured static extrinsics. It must not fake the conversion by only changing `child_frame_id` to `base_link`.
 
 `/odometry/lio` must use:

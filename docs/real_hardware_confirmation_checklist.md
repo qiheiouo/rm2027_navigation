@@ -54,7 +54,9 @@
   改变，立即禁用 `body -> lio_imu_link` adapter alias。
 - [ ] 验证 `lio_adapter` 按 odometry 时间戳取得云台 TF，快速短时转动时不使用“最新
   yaw”代替测量时刻 yaw。Phase 2B 已加入有界等待队列；实车需测量等待延迟、超时和
-  队列丢包率，再确定 `max_wait_sec` 和云台状态发布频率。
+  队列丢包率，再确定 `max_wait_sec` 和云台状态发布频率。还需确认
+  `robot_state_publisher` 的频率上限不低于有效 joint-state 频率，且没有通过重复陈旧
+  样本伪造高频 TF。
 - [ ] Phase 2B 已在 adapter 对 canonical base pose 做时间戳差分并滤波，以解决
   FAST-LIO Multi 未填写 `twist` 的接口缺口。仍需与真实直线、横移、旋转和云台急转
   数据对比后才能给 Nav2 正式使用，不能把无硬件测试视为标定完成。

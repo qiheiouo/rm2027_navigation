@@ -129,3 +129,15 @@ and placeholder gimbal TF were independent 50 Hz streams.
 The follow-up replaces immediate drop-on-miss with the bounded exact-timestamp
 queue above. The fix must be revalidated against output frequency, wait
 latency, warning count, and all previous numerical gates.
+
+Commit `1f829b4` restored raw and canonical odometry to `50.000 Hz`, with zero
+queue timeout, overflow, extrapolation warning, timestamp reversal, or stable
+region loss. Motion and covariance checks also passed. Median added latency was
+still `39.62 ms` because `robot_state_publisher` throttled the 50 Hz joint
+stream to about `16.87 Hz`, releasing canonical messages in roughly 60 ms
+batches.
+
+The next follow-up raises the RSP dynamic-TF ceiling to `100 Hz`; actual output
+should then follow the existing 50 Hz `/joint_states` stream. Revalidation must
+show gimbal TF near 50 Hz, preserve canonical/raw parity, and reduce median
+added latency below 30 ms without changing exact-timestamp queue semantics.
