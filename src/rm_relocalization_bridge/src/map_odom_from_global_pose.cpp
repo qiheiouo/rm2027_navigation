@@ -60,7 +60,8 @@ public:
   MapOdomFromGlobalPose()
   : Node("map_odom_from_global_pose"),
     odom_cache_(static_cast<std::size_t>(
-        std::max(1, declare_parameter<int>("odom_cache_size", 500))))
+        std::max<std::int64_t>(
+          1, declare_parameter<std::int64_t>("odom_cache_size", 500))))
   {
     map_frame_ = declare_parameter<std::string>("map_frame", "map");
     odom_frame_ = declare_parameter<std::string>("odom_frame", "odom");
@@ -76,7 +77,8 @@ public:
     max_global_pose_age_sec_ = declare_parameter<double>("max_global_pose_age_sec", 0.5);
     pending_pose_max_wait_sec_ = declare_parameter<double>("pending_pose_max_wait_sec", 0.2);
     pending_pose_max_size_ = static_cast<std::size_t>(
-      std::max(1, declare_parameter<int>("pending_pose_max_size", 20)));
+      std::max<std::int64_t>(
+        1, declare_parameter<std::int64_t>("pending_pose_max_size", 20)));
 
     if (publish_rate_hz_ <= 0.0) {
       throw std::invalid_argument("publish_rate_hz must be positive");
