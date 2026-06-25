@@ -119,3 +119,14 @@ The guard may be replaced only after the mapping workflow has:
 
 Mapping must not run together with Nav2 navigation or a global relocalization
 backend.
+
+## Serial Dry-Run
+
+```bash
+ros2 launch rm_serial_driver serial_dry_run.launch.py
+```
+
+The dry-run node converts `/cmd_vel` into protocol bytes on `/serial/mock_tx`.
+It is useful for validating runtime timing and watchdog behavior before the
+real lower controller is connected. It never opens `/dev/tty*` and must not be
+used as proof that the final 2027 serial profile is correct.

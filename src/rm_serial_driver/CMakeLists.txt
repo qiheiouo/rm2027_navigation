@@ -9,11 +9,22 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 
 add_library(rm_serial_protocol src/protocol.cpp)
 target_include_directories(rm_serial_protocol PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
+)
+
+add_executable(serial_dry_run_node src/serial_dry_run_node.cpp)
+target_link_libraries(serial_dry_run_node rm_serial_protocol)
+ament_target_dependencies(serial_dry_run_node
+  geometry_msgs
+  rclcpp
+  std_msgs
 )
 
 install(TARGETS rm_serial_protocol
@@ -23,7 +34,12 @@ install(TARGETS rm_serial_protocol
   RUNTIME DESTINATION bin
 )
 
+install(TARGETS serial_dry_run_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 install(DIRECTORY include/ DESTINATION include)
+install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)

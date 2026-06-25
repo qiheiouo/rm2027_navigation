@@ -26,8 +26,8 @@ public:
     obstacle_z_ = declare_parameter<double>("obstacle_z", 0.0);
     width_y_ = declare_parameter<double>("width_y", 0.5);
     height_z_ = declare_parameter<double>("height_z", 0.7);
-    y_samples_ = std::max(2, declare_parameter<int>("y_samples", 11));
-    z_samples_ = std::max(2, declare_parameter<int>("z_samples", 8));
+    y_samples_ = std::max(2, static_cast<int>(declare_parameter<int>("y_samples", 11)));
+    z_samples_ = std::max(2, static_cast<int>(declare_parameter<int>("z_samples", 8)));
 
     if (!std::isfinite(publish_rate_hz_) || publish_rate_hz_ <= 0.0) {
       throw std::runtime_error("publish_rate_hz must be positive and finite");

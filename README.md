@@ -32,6 +32,8 @@ loads the resolved occupancy map, and the paired PCD path is exposed for future
 relocalization backends.
 Phase 2G adds a no-hardware PointCloud2 obstacle boundary so Nav2 VoxelLayer
 can be tested before real MID360 point clouds are available.
+Phase 2H adds a no-hardware serial dry-run node that encodes `/cmd_vel` into
+mock protocol bytes without opening a real serial device.
 
 Phase 1 target:
 
@@ -112,6 +114,7 @@ See:
 - `docs/phase2e_map_bundle.md`
 - `docs/phase2f_map_deployment.md`
 - `docs/phase2g_pointcloud_obstacle_boundary.md`
+- `docs/phase2h_serial_dry_run.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
@@ -129,7 +132,7 @@ See:
 - `rm_nav_config`: Phase 1 DWB fallback, accepted Phase 1.5 MPPI simulation configuration, Phase 2F deployment-map Nav2 profile, and Phase 2G point-cloud obstacle profile.
 - `rm_navigation_bringup`: top-level navigation, simulation, bag replay, mapping, and map-deployment launch profiles.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
-- `rm_serial_driver`: compile-only no-CRC and HPM CRC16 protocol profiles with framing tests; no real serial device is opened.
+- `rm_serial_driver`: no-CRC and HPM CRC16 protocol profiles, framing tests, and a dry-run `/cmd_vel -> /serial/mock_tx` encoder; no real serial device is opened.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
 - `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter, reset/validity interfaces, and no-hardware test source.

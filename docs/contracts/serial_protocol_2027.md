@@ -4,8 +4,9 @@
 
 The 2027 system preserves the proven lower-controller protocol where possible. It does not reconnect the old `serial_task` node or copy its navigation, TF, odometry, goal, referee, and debug coupling.
 
-Phase 1C and the Phase 2D profile audit are compile-only. No real serial device
-is opened.
+Phase 1C and the Phase 2D profile audit are compile-only. Phase 2H adds a
+dry-run runtime encoder that publishes mock bytes on `/serial/mock_tx`. No real
+serial device is opened.
 
 ## Legacy Frame Envelope
 
