@@ -34,6 +34,9 @@ Phase 2G adds a no-hardware PointCloud2 obstacle boundary so Nav2 VoxelLayer
 can be tested before real MID360 point clouds are available.
 Phase 2H adds a no-hardware serial dry-run node that encodes `/cmd_vel` into
 mock protocol bytes without opening a real serial device.
+The repository is now in a pre-hardware freeze state: remaining acceptance
+depends primarily on real MID360, gimbal, chassis, serial and map data rather
+than additional offline module scaffolding.
 
 Phase 1 target:
 
@@ -115,6 +118,8 @@ See:
 - `docs/phase2f_map_deployment.md`
 - `docs/phase2g_pointcloud_obstacle_boundary.md`
 - `docs/phase2h_serial_dry_run.md`
+- `docs/pre_hardware_freeze_status.md`
+- `docs/minipc_hardware_bringup_sequence.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
