@@ -17,6 +17,9 @@ approved map bundle to be loaded through `nav2_map_server`. Its global costmap
 uses a static map layer plus the current obstacle layer. It is still not final
 competition tuning because real MID360 point-cloud obstacle input is not wired
 yet.
+`config/nav2_phase2g_pointcloud.yaml` is a simulation-only boundary profile for
+PointCloud2 obstacle input. It uses Nav2 VoxelLayer on `/points/obstacles` and
+does not consume `/scan`.
 
 Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
 returns can clear cells previously occupied by moving simulated obstacles.
@@ -29,6 +32,7 @@ Phase 1 constraints:
 - `odom_topic: /odometry/lio`
 - default controller: DWB holonomic
 - Phase 1.5 simulation controller: MPPI Omni
+- Phase 2G point-cloud obstacle input: Nav2 VoxelLayer
 
 `pb_omni_pid_pursuit_controller` remains a fallback comparison if the complete
 real-robot workload exceeds the accepted MPPI profile's CPU budget.

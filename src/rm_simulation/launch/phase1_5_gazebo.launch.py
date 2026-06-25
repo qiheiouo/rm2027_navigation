@@ -11,6 +11,7 @@ def generate_launch_description():
     headless = LaunchConfiguration("headless")
     use_nav2 = LaunchConfiguration("use_nav2")
     use_rviz = LaunchConfiguration("use_rviz")
+    use_scan_adapter = LaunchConfiguration("use_scan_adapter")
     nav2_params = LaunchConfiguration("nav2_params")
     rviz_config = LaunchConfiguration("rviz_config")
 
@@ -59,6 +60,7 @@ def generate_launch_description():
         DeclareLaunchArgument("headless", default_value="true"),
         DeclareLaunchArgument("use_nav2", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
+        DeclareLaunchArgument("use_scan_adapter", default_value="true"),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2_params),
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
         LogInfo(msg=[
@@ -89,6 +91,7 @@ def generate_launch_description():
             executable="scan_frame_adapter",
             name="scan_frame_adapter",
             output="screen",
+            condition=IfCondition(use_scan_adapter),
             parameters=[{
                 "use_sim_time": True,
                 "input_topic": "/simulation/scan_raw",

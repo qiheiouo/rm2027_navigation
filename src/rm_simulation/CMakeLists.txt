@@ -19,6 +19,14 @@ ament_target_dependencies(scan_frame_adapter
   sensor_msgs
 )
 
+add_executable(fake_pointcloud_obstacle_publisher
+  src/fake_pointcloud_obstacle_publisher.cpp
+)
+ament_target_dependencies(fake_pointcloud_obstacle_publisher
+  rclcpp
+  sensor_msgs
+)
+
 add_executable(moving_obstacle_controller src/moving_obstacle_controller.cpp)
 ament_target_dependencies(moving_obstacle_controller
   rclcpp
@@ -26,6 +34,7 @@ ament_target_dependencies(moving_obstacle_controller
 )
 
 install(TARGETS
+  fake_pointcloud_obstacle_publisher
   scan_frame_adapter
   moving_obstacle_controller
   DESTINATION lib/${PROJECT_NAME}

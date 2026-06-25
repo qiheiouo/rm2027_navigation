@@ -30,6 +30,8 @@ global relocalization backend may consume them.
 Phase 2F connects approved map bundles to runtime launch: `nav2_map_server`
 loads the resolved occupancy map, and the paired PCD path is exposed for future
 relocalization backends.
+Phase 2G adds a no-hardware PointCloud2 obstacle boundary so Nav2 VoxelLayer
+can be tested before real MID360 point clouds are available.
 
 Phase 1 target:
 
@@ -109,6 +111,7 @@ See:
 - `docs/phase2d_serial_protocol_profiles.md`
 - `docs/phase2e_map_bundle.md`
 - `docs/phase2f_map_deployment.md`
+- `docs/phase2g_pointcloud_obstacle_boundary.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
@@ -123,7 +126,7 @@ See:
 - `rm_description`: Phase 1 robot description and gimbal-mounted sensor frames.
 - `rm_localization_adapters`: map/odom stub, LIO odometry adapter, and gimbal joint-state adapter.
 - `rm_chassis_interface`: `/cmd_vel` chassis stub without real serial.
-- `rm_nav_config`: Phase 1 DWB fallback, accepted Phase 1.5 MPPI simulation configuration, and Phase 2F deployment-map Nav2 profile.
+- `rm_nav_config`: Phase 1 DWB fallback, accepted Phase 1.5 MPPI simulation configuration, Phase 2F deployment-map Nav2 profile, and Phase 2G point-cloud obstacle profile.
 - `rm_navigation_bringup`: top-level navigation, simulation, bag replay, mapping, and map-deployment launch profiles.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
 - `rm_serial_driver`: compile-only no-CRC and HPM CRC16 protocol profiles with framing tests; no real serial device is opened.

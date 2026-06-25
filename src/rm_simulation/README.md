@@ -28,6 +28,11 @@ form a 0.8 m passage plus an optional laterally moving obstacle. The movement
 controller publishes only `/simulation/moving_obstacle/target`; a dedicated
 one-way bridge sends that target to Gazebo without exposing model TF to ROS.
 
+Phase 2G adds `phase2g_pointcloud_obstacle.launch.py`, which disables the
+LaserScan adapter and publishes a synthetic `PointCloud2` obstacle on
+`/points/obstacles` in `sim_lidar_link`. It validates the Nav2 VoxelLayer
+boundary only; it is not a MID360 physics or timing simulation.
+
 It does not simulate MID360 point clouds, FAST-LIO, serial, referee, or the
 competition mission tree. Those concerns remain separate milestones.
 
@@ -43,3 +48,6 @@ remain `map_odom_stub`, `lio_adapter`, and `robot_state_publisher`.
 `scan_frame_adapter` rewrites only the simulation scan message frame to
 `sim_lidar_link`. It does not publish TF. `sim_lidar_link` is enabled in the
 robot description only by the simulation launch.
+
+`fake_pointcloud_obstacle_publisher` publishes only PointCloud2 test data. It
+does not publish TF, odometry, velocity commands, or navigation goals.

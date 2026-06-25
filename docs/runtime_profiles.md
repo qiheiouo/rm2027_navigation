@@ -69,10 +69,15 @@ ros2 launch rm_navigation_bringup simulation.launch.py \
   scenario:=basic headless:=true
 ```
 
-Available scenarios are `basic`, `course_static`, and `course_dynamic`.
+Available scenarios are `basic`, `course_static`, `course_dynamic`, and
+`pointcloud`.
 Simulation never starts the real MID360 driver, serial, or referee interface.
 The dynamic course is a regression tool, not proof of real competition dynamic
 obstacle safety.
+
+`scenario:=pointcloud` disables the simulation `/scan` adapter and publishes a
+synthetic `PointCloud2` obstacle on `/points/obstacles`. It validates the Nav2
+VoxelLayer boundary before real MID360 data is available.
 
 ## Bag Replay
 

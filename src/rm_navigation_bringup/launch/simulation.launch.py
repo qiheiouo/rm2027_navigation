@@ -21,6 +21,11 @@ def generate_launch_description():
         "launch",
         "phase1_5_mppi_course.launch.py",
     ])
+    pointcloud_launch = PathJoinSubstitution([
+        FindPackageShare("rm_simulation"),
+        "launch",
+        "phase2g_pointcloud_obstacle.launch.py",
+    ])
 
     basic_mode = IfCondition(PythonExpression(["'", scenario, "' == 'basic'"]))
     static_course_mode = IfCondition(
@@ -29,12 +34,15 @@ def generate_launch_description():
     dynamic_course_mode = IfCondition(
         PythonExpression(["'", scenario, "' == 'course_dynamic'"])
     )
+    pointcloud_mode = IfCondition(
+        PythonExpression(["'", scenario, "' == 'pointcloud'"])
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument(
             "scenario",
             default_value="basic",
-            choices=["basic", "course_static", "course_dynamic"],
+            choices=["basic", "course_static", "course_dynamic", "pointcloud"],
         ),
         DeclareLaunchArgument("headless", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
@@ -67,6 +75,14 @@ def generate_launch_description():
                 "headless": headless,
                 "use_rviz": use_rviz,
                 "moving_obstacle": "true",
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(pointcloud_launch),
+            condition=pointcloud_mode,
+            launch_arguments={
+                "headless": headless,
+                "use_rviz": use_rviz,
             }.items(),
         ),
     ])
