@@ -319,3 +319,25 @@ def validate_map_bundle(
             **pgm_metadata,
         },
     }
+
+
+def resolve_map_bundle_for_runtime(
+    manifest_path: str | Path,
+    allow_test_map: bool = False,
+) -> dict[str, Any]:
+    """Validate a bundle and return the runtime paths consumed by launch files."""
+    result = validate_map_bundle(
+        manifest_path,
+        require_approved=not allow_test_map,
+    )
+    return {
+        "manifest": result["manifest"],
+        "map_id": result["map_id"],
+        "revision": result["revision"],
+        "deployment_status": result["deployment_status"],
+        "frame_id": result["frame_id"],
+        "pcd_path": result["pcd"]["path"],
+        "occupancy_yaml_path": result["occupancy"]["yaml_path"],
+        "occupancy_image_path": result["occupancy"]["image_path"],
+        "shared_origin_confirmed": result["shared_origin_confirmed"],
+    }

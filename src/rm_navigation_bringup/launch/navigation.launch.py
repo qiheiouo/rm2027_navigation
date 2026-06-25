@@ -15,10 +15,13 @@ def generate_launch_description():
     use_lio_backend = LaunchConfiguration("use_lio_backend")
     use_nav2 = LaunchConfiguration("use_nav2")
     use_chassis_stub = LaunchConfiguration("use_chassis_stub")
+    use_map_server = LaunchConfiguration("use_map_server")
     use_rviz = LaunchConfiguration("use_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     update_method = LaunchConfiguration("update_method")
     nav2_params = LaunchConfiguration("nav2_params")
+    map_bundle_manifest = LaunchConfiguration("map_bundle_manifest")
+    allow_test_map = LaunchConfiguration("allow_test_map")
     rviz_config = LaunchConfiguration("rviz_config")
 
     localization_launch = PathJoinSubstitution([
@@ -31,6 +34,11 @@ def generate_launch_description():
         "launch",
         "navigation_launch.py",
     ])
+    map_deployment_launch = PathJoinSubstitution([
+        FindPackageShare("rm_navigation_bringup"),
+        "launch",
+        "map_deployment.launch.py",
+    ])
     chassis_launch = PathJoinSubstitution([
         FindPackageShare("rm_chassis_interface"),
         "launch",
@@ -39,7 +47,13 @@ def generate_launch_description():
     default_nav2_params = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "config",
-        "nav2_phase1_5_mppi.yaml",
+        "nav2_phase2f_deployment.yaml",
+    ])
+    default_map_bundle = PathJoinSubstitution([
+        FindPackageShare("rm_map_tools"),
+        "maps",
+        "phase2e_test",
+        "phase2e_test.bundle.yaml",
     ])
     default_rviz_config = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
@@ -76,6 +90,14 @@ def generate_launch_description():
             ),
         ),
         DeclareLaunchArgument("use_chassis_stub", default_value="true"),
+        DeclareLaunchArgument(
+            "use_map_server",
+            default_value="false",
+            description=(
+                "Start nav2_map_server from a validated map bundle. Disabled "
+                "by default so the safe bringup does not require a deployment map."
+            ),
+        ),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument(
@@ -84,6 +106,12 @@ def generate_launch_description():
             choices=["bundle", "async", "adaptive"],
         ),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2_params),
+        DeclareLaunchArgument("map_bundle_manifest", default_value=default_map_bundle),
+        DeclareLaunchArgument(
+            "allow_test_map",
+            default_value="false",
+            description="Only for offline tests with the synthetic phase2e fixture.",
+        ),
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
         LogInfo(msg=[
             "[navigation] Canonical stack entry. Hardware, FAST-LIO, and Nav2 ",
@@ -115,6 +143,16 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(chassis_launch),
             condition=IfCondition(use_chassis_stub),
             launch_arguments={"use_sim_time": use_sim_time}.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(map_deployment_launch),
+            condition=IfCondition(use_map_server),
+            launch_arguments={
+                "map_bundle_manifest": map_bundle_manifest,
+                "allow_test_map": allow_test_map,
+                "use_sim_time": use_sim_time,
+                "autostart": "true",
+            }.items(),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(nav2_launch),

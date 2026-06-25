@@ -6,12 +6,13 @@ The project uses one top-level launch per operating mode. A ROS2 package is not
 automatically a runtime node, and starting every package together would create
 duplicate TF owners, conflicting sensor sources, and unsafe hardware behavior.
 
-The four top-level entry points live in `rm_navigation_bringup`:
+The top-level entry points live in `rm_navigation_bringup`:
 
 1. `navigation.launch.py`
-2. `simulation.launch.py`
-3. `bag_replay.launch.py`
-4. `mapping.launch.py`
+2. `map_deployment.launch.py`
+3. `simulation.launch.py`
+4. `bag_replay.launch.py`
+5. `mapping.launch.py`
 
 Only one profile should run in a ROS domain at a time.
 
@@ -46,6 +47,20 @@ ros2 launch rm_navigation_bringup navigation.launch.py \
 
 Using `global_localization_mode:=external_pose` removes the stub and makes
 `map_odom_from_global_pose` the sole `map -> odom` owner.
+
+Deployment-map support is an explicit gate:
+
+```bash
+ros2 launch rm_navigation_bringup navigation.launch.py \
+  use_map_server:=true \
+  map_bundle_manifest:=/maps/rm2027_field/rm2027_field.bundle.yaml \
+  use_nav2:=true
+```
+
+The map bundle must be `approved` unless `allow_test_map:=true` is deliberately
+set for offline synthetic-fixture validation. The map server does not publish
+localization TF; it only provides `/map` to Nav2 and exposes the paired PCD path
+in logs for future relocalization backends.
 
 ## Simulation
 

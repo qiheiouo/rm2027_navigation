@@ -19,7 +19,10 @@ referee, competition BT, or real hardware.
 
 - `navigation.launch.py`: canonical real-stack composition. MID360, FAST-LIO,
   and Nav2 are explicit opt-ins; the chassis stub remains the default until
-  real serial transport exists.
+  real serial transport exists. `use_map_server:=true` resolves an approved
+  `rm_map_tools` bundle and starts `nav2_map_server`.
+- `map_deployment.launch.py`: validates a bundle and starts only the Nav2 map
+  server lifecycle. It does not own localization TF or start hardware.
 - `simulation.launch.py`: selects the basic, static-course, or dynamic-course
   Gazebo MPPI scenario without starting hardware.
 - `bag_replay.launch.py`: replays either raw sensors or backend-private raw

@@ -27,6 +27,9 @@ remains disabled until the 2027 firmware profile is confirmed.
 Phase 2E introduces versioned map bundles that bind a prior PCD and Nav2
 occupancy map to one canonical frame, revision and set of hashes before a
 global relocalization backend may consume them.
+Phase 2F connects approved map bundles to runtime launch: `nav2_map_server`
+loads the resolved occupancy map, and the paired PCD path is exposed for future
+relocalization backends.
 
 Phase 1 target:
 
@@ -47,6 +50,7 @@ RViz is available as an optional visualization path in `phase1_bringup.launch.py
 Top-level runtime profiles are provided by `rm_navigation_bringup`:
 
 - `navigation.launch.py`
+- `map_deployment.launch.py`
 - `simulation.launch.py`
 - `bag_replay.launch.py`
 - `mapping.launch.py`
@@ -104,6 +108,7 @@ See:
 - `docs/phase2c_relocalization_boundary.md`
 - `docs/phase2d_serial_protocol_profiles.md`
 - `docs/phase2e_map_bundle.md`
+- `docs/phase2f_map_deployment.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
@@ -118,8 +123,8 @@ See:
 - `rm_description`: Phase 1 robot description and gimbal-mounted sensor frames.
 - `rm_localization_adapters`: map/odom stub, LIO odometry adapter, and gimbal joint-state adapter.
 - `rm_chassis_interface`: `/cmd_vel` chassis stub without real serial.
-- `rm_nav_config`: Phase 1 DWB fallback and accepted Phase 1.5 MPPI simulation configuration.
-- `rm_navigation_bringup`: Phase 1 bringup skeleton.
+- `rm_nav_config`: Phase 1 DWB fallback, accepted Phase 1.5 MPPI simulation configuration, and Phase 2F deployment-map Nav2 profile.
+- `rm_navigation_bringup`: top-level navigation, simulation, bag replay, mapping, and map-deployment launch profiles.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
 - `rm_serial_driver`: compile-only no-CRC and HPM CRC16 protocol profiles with framing tests; no real serial device is opened.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.

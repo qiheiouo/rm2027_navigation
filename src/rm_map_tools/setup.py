@@ -33,6 +33,7 @@ setup(
     license="Apache-2.0",
     entry_points={
         "console_scripts": [
+            "resolve_map_bundle = rm_map_tools.resolve_map_bundle:main",
             "validate_map_bundle = rm_map_tools.validate_map_bundle:main",
         ],
     },

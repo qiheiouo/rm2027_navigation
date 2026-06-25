@@ -12,6 +12,11 @@ obstacle layers, a placeholder rectangular footprint, and the DWB
 It keeps DWB as the Phase 1 fallback and uses a conservative 10 Hz, `300 x 30`
 CPU budget for the Nav2 Humble omnidirectional model. Real-robot acceptance is
 still blocked on the complete LIO, sensor, serial, and chassis workload.
+`config/nav2_phase2f_deployment.yaml` keeps the MPPI baseline but expects an
+approved map bundle to be loaded through `nav2_map_server`. Its global costmap
+uses a static map layer plus the current obstacle layer. It is still not final
+competition tuning because real MID360 point-cloud obstacle input is not wired
+yet.
 
 Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
 returns can clear cells previously occupied by moving simulated obstacles.

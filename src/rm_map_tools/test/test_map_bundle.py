@@ -7,7 +7,11 @@ from pathlib import Path
 import pytest
 import yaml
 
-from rm_map_tools import MapBundleError, validate_map_bundle
+from rm_map_tools import (
+    MapBundleError,
+    resolve_map_bundle_for_runtime,
+    validate_map_bundle,
+)
 
 
 FIXTURE = Path(__file__).parents[1] / "maps" / "phase2e_test"
@@ -55,6 +59,22 @@ def test_require_approved_accepts_reviewed_copy(tmp_path: Path) -> None:
     _save_manifest(manifest, data)
     result = validate_map_bundle(manifest, require_approved=True)
     assert result["deployment_status"] == "approved"
+
+
+def test_runtime_resolver_rejects_test_fixture_by_default() -> None:
+    with pytest.raises(MapBundleError, match="not approved"):
+        resolve_map_bundle_for_runtime(FIXTURE / "phase2e_test.bundle.yaml")
+
+
+def test_runtime_resolver_returns_nav2_and_pcd_paths_when_allowed() -> None:
+    result = resolve_map_bundle_for_runtime(
+        FIXTURE / "phase2e_test.bundle.yaml",
+        allow_test_map=True,
+    )
+    assert result["deployment_status"] == "test_only"
+    assert result["frame_id"] == "map"
+    assert result["pcd_path"].endswith("phase2e_test.pcd")
+    assert result["occupancy_yaml_path"].endswith("phase2e_test.yaml")
 
 
 def test_rejects_hash_mismatch(tmp_path: Path) -> None:

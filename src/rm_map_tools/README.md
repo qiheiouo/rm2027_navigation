@@ -19,3 +19,20 @@ Real hardware bringup should eventually require an `approved` bundle.
 ros2 run rm_map_tools validate_map_bundle \
   /path/to/map.bundle.yaml --require-approved
 ```
+
+Runtime launch files use the stricter resolver:
+
+```bash
+ros2 run rm_map_tools resolve_map_bundle /path/to/map.bundle.yaml
+```
+
+It prints the approved occupancy YAML and PCD paths consumed by
+`rm_navigation_bringup`. The synthetic fixture requires an explicit offline
+override:
+
+```bash
+ros2 run rm_map_tools resolve_map_bundle \
+  /path/to/phase2e_test.bundle.yaml --allow-test-map
+```
+
+Never use `--allow-test-map` on a robot.
