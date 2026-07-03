@@ -21,3 +21,8 @@ The current `base_link -> gimbal_yaw_link` transform is a zero-yaw Phase 1 place
 `100 Hz` by default. This removes its upstream 20 Hz throttle while leaving the
 actual update rate controlled by `/joint_states` (currently 50 Hz). It does not
 interpolate or invent extra gimbal samples.
+
+`rm_old_car_2026.urdf.xacro` is an experiment-only model for validating the
+2027 stack on the available 2026 chassis. Its lidar/IMU offset is copied from
+the old 2026 URDF as a temporary placeholder and must not be treated as the
+2027 robot calibration.

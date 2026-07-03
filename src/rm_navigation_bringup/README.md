@@ -29,7 +29,13 @@ referee, competition BT, or real hardware.
   odometry while preserving canonical TF ownership.
 - `mapping.launch.py`: a deliberate safety boundary. It does not start mapping
   until a controlled exporter can produce a versioned PCD + occupancy bundle.
+- `old_car_2026_validation.launch.py`: experiment-only profile for using the
+  available 2026 chassis as a pre-2027 hardware test platform. It defaults to
+  no real driver, no FAST-LIO backend, no Nav2, and no serial transport.
 
 These are separate modes, not one launch that starts every package. Mapping,
 navigation, simulation, and bag replay must never own the same TF or hardware
 resources at the same time.
+
+The old-car profile must not import the old `serial_task` node or restore old
+topic glue such as `/Pose_pub`, `/my_set_goal`, or `/nav_result`.

@@ -1,0 +1,46 @@
+lio_adapter:
+  ros__parameters:
+    raw_odom_topic: /odometry/fast_lio_raw
+    output_odom_topic: /odometry/lio
+    expected_input_odom_frame: odom
+    odom_frame: odom
+    base_frame: base_link
+    input_sensor_frame: lio_imu_link
+    gimbal_frame: gimbal_yaw_link
+    publish_tf: true
+    use_tf_sensor_to_base: true
+    use_latest_transform: false
+    allow_placeholder_fallback: false
+    tf_lookup_timeout_sec: 0.0
+    tf_queue:
+      max_size: 100
+      max_wait_sec: 0.2
+      retry_rate_hz: 200.0
+
+    # FAST-LIO Multi backend-private body is treated as the old-car sensor
+    # frame, then transformed through TF into base_link. It is never aliased
+    # directly to base_link.
+    backend_child_frame_alias_enabled: true
+    backend_child_frame_alias_source: body
+    backend_child_frame_alias_target: lio_imu_link
+
+    twist_mode: finite_difference
+    twist_estimator:
+      min_dt_sec: 0.001
+      max_dt_sec: 0.5
+      smoothing_alpha: 0.3
+      max_linear_speed: 5.0
+      max_angular_speed: 20.0
+
+    twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
+
+    # Inverse of the old-car base_link -> lio_imu_link placeholder
+    # translation. Placeholder fallback remains disabled; this is retained only
+    # for explicit emergency experiments.
+    input_to_base_placeholder:
+      x: -0.15
+      y: -0.14
+      z: -0.24
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0

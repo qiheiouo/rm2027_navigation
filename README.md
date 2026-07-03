@@ -61,6 +61,7 @@ Top-level runtime profiles are provided by `rm_navigation_bringup`:
 - `simulation.launch.py`
 - `bag_replay.launch.py`
 - `mapping.launch.py`
+- `old_car_2026_validation.launch.py` on the old-car experiment branch only
 
 They are mutually exclusive operating modes rather than a command that starts
 every package. See `docs/runtime_profiles.md` for the safety defaults and
@@ -118,6 +119,7 @@ See:
 - `docs/phase2f_map_deployment.md`
 - `docs/phase2g_pointcloud_obstacle_boundary.md`
 - `docs/phase2h_serial_dry_run.md`
+- `docs/old_car_2026_validation_plan.md`
 - `docs/pre_hardware_freeze_status.md`
 - `docs/minipc_hardware_bringup_sequence.md`
 - `docs/real_hardware_confirmation_checklist.md`
@@ -135,7 +137,7 @@ See:
 - `rm_localization_adapters`: map/odom stub, LIO odometry adapter, and gimbal joint-state adapter.
 - `rm_chassis_interface`: `/cmd_vel` chassis stub without real serial.
 - `rm_nav_config`: Phase 1 DWB fallback, accepted Phase 1.5 MPPI simulation configuration, Phase 2F deployment-map Nav2 profile, and Phase 2G point-cloud obstacle profile.
-- `rm_navigation_bringup`: top-level navigation, simulation, bag replay, mapping, and map-deployment launch profiles.
+- `rm_navigation_bringup`: top-level navigation, simulation, bag replay, mapping, map-deployment, and experiment-only old-car launch profiles.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
 - `rm_serial_driver`: no-CRC and HPM CRC16 protocol profiles, framing tests, and a dry-run `/cmd_vel -> /serial/mock_tx` encoder; no real serial device is opened.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.

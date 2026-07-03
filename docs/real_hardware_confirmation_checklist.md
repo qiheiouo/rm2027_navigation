@@ -145,3 +145,13 @@ Phase 2C 已能无硬件验证 `/localization/global_pose + /odometry/lio -> map
 实车参数、制动和安全层。
 
 必须在比赛链路就绪后完成：裁判系统、追击/回防、mission/BT、动态对手和长期鲁棒性。
+
+## H. 2026 老车实验分支额外确认
+
+- [ ] `experiment/old-car-2026-bringup` 中的 `base_link -> lio_imu_link`
+  占位外参仅用于老车验证，不得作为 2027 实车外参合并进主线。
+- [ ] 老车实验允许验证 Linux 部署、MID360 驱动、FAST-LIO adapter、Nav2
+  避障和 `/cmd_vel` dry-run，但不得恢复旧 `serial_task` 的 TF、odom、导航目标
+  或 `/Pose_pub`、`/my_set_goal`、`/nav_result` topic glue。
+- [ ] 若老车实测结论需要进入 2027 主线，必须拆分为独立参数、文档和验证记录，
+  并重新经过 2027 实车外参、串口协议和底盘坐标确认。
