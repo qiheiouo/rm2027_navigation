@@ -26,16 +26,15 @@
     </visual>
   </link>
 
-  <!-- The old car has no navigation gimbal. Keep a zero-yaw compatibility
-       joint so the existing gimbal_state_adapter and canonical TF chain can
-       be reused without changing frame ownership. -->
+  <!-- The old car has no navigation gimbal. Keep a fixed zero-yaw
+       compatibility frame so description-only validation can publish the full
+       TF chain without requiring a /joint_states source. -->
   <link name="gimbal_yaw_link"/>
 
-  <joint name="gimbal_yaw_joint" type="continuous">
+  <joint name="gimbal_yaw_joint" type="fixed">
     <parent link="base_link"/>
     <child link="gimbal_yaw_link"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
   </joint>
 
   <link name="lio_imu_link"/>

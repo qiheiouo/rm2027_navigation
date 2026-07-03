@@ -55,7 +55,7 @@ The old-car model uses the 2026 URDF laser joint as an experiment-only
 placeholder:
 
 ```text
-base_link -> gimbal_yaw_link: xyz = 0 0 0, rpy = 0 0 0
+base_link -> gimbal_yaw_link: fixed xyz = 0 0 0, rpy = 0 0 0
 gimbal_yaw_link -> lio_imu_link: xyz = 0.15 0.14 0.24, rpy = 0 0 0
 ```
 
@@ -109,6 +109,9 @@ device permissions are confirmed.
    ros2 run tf2_ros tf2_echo base_link gimbal_yaw_link
    ros2 run tf2_ros tf2_echo gimbal_yaw_link lio_imu_link
    ```
+
+   The old-car `gimbal_yaw_link` is fixed at zero yaw, so this description-only
+   launch does not require a `/joint_states` publisher.
 
 2. Safe integrated skeleton:
 
