@@ -33,7 +33,9 @@ relocalization backends.
 Phase 2G adds a no-hardware PointCloud2 obstacle boundary so Nav2 VoxelLayer
 can be tested before real MID360 point clouds are available.
 Phase 2H adds a no-hardware serial dry-run node that encodes `/cmd_vel` into
-mock protocol bytes without opening a real serial device.
+mock protocol bytes without opening a real serial device. The old-car
+experiment branch also contains an opt-in real serial writer for off-ground
+legacy no-CRC validation; it is not the final 2027 serial acceptance path.
 The repository is now in a pre-hardware freeze state: remaining acceptance
 depends primarily on real MID360, gimbal, chassis, serial and map data rather
 than additional offline module scaffolding.
@@ -139,7 +141,7 @@ See:
 - `rm_nav_config`: Phase 1 DWB fallback, accepted Phase 1.5 MPPI simulation configuration, Phase 2F deployment-map Nav2 profile, and Phase 2G point-cloud obstacle profile.
 - `rm_navigation_bringup`: top-level navigation, simulation, bag replay, mapping, map-deployment, and experiment-only old-car launch profiles.
 - `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
-- `rm_serial_driver`: no-CRC and HPM CRC16 protocol profiles, framing tests, and a dry-run `/cmd_vel -> /serial/mock_tx` encoder; no real serial device is opened.
+- `rm_serial_driver`: no-CRC and HPM CRC16 protocol profiles, framing tests, a dry-run `/cmd_vel -> /serial/mock_tx` encoder, and an opt-in old-car real serial writer for off-ground validation.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
 - `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter, reset/validity interfaces, and no-hardware test source.

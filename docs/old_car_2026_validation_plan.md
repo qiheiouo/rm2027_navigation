@@ -45,6 +45,7 @@ Safe defaults:
 - `use_lio_backend:=false`
 - `use_nav2:=false`
 - `use_serial_dry_run:=false`
+- `use_real_serial:=false`
 
 Therefore the default launch starts no real MID360 driver, no FAST-LIO backend,
 no Nav2 controller, and no serial transport.
@@ -83,17 +84,30 @@ mixed useful packet knowledge with forbidden responsibilities:
 - containing debug overrides;
 - mixing referee, chassis, and navigation state.
 
-The experiment launch may enable `rm_serial_driver` dry-run only:
+The experiment launch may enable `rm_serial_driver` dry-run:
 
 ```bash
 ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
-  use_serial_dry_run:=true serial_protocol_profile:=hpm_crc_v1
+  use_serial_dry_run:=true serial_protocol_profile:=legacy_v1_no_crc
 ```
 
 This only publishes mock encoded bytes on `/serial/mock_tx`. It does not open a
 real serial device.
 
-Real serial transport remains blocked until the 2027 firmware profile and
+The old car may also use the gated real serial transport after dry-run passes:
+
+```bash
+ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
+  use_real_serial:=true serial_protocol_profile:=legacy_v1_no_crc \
+  serial_device:=/dev/ttyACM0 serial_baudrate:=115200
+```
+
+This is only for off-ground validation. The wheels must be lifted, the remote
+must be able to switch from auto to manual to remove chassis force, and a person
+must be ready to stop the robot. Do not enable `use_serial_dry_run` and
+`use_real_serial` at the same time.
+
+Real 2027 serial transport remains blocked until the 2027 firmware profile and
 device permissions are confirmed.
 
 ## Incremental Validation Order
@@ -162,6 +176,18 @@ device permissions are confirmed.
 
    Check `/serial/mock_tx`; do not connect real serial from this profile yet.
 
+7. Real serial off-ground test:
+
+   ```bash
+   ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
+     use_real_serial:=true serial_protocol_profile:=legacy_v1_no_crc \
+     serial_device:=/dev/ttyACM0
+   ```
+
+   Run only with wheels off-ground and remote/manual stop ready. Start with
+   zero commands and verify watchdog behavior before sending any non-zero
+   velocity.
+
 ## Acceptance Checks
 
 Minimum checks for each run:
@@ -173,6 +199,8 @@ Minimum checks for each run:
 - No `body` frame enters the public TF tree.
 - No serial device is opened unless a later hardware-specific profile explicitly
   says so.
+- Real serial tests must use the legacy no-CRC old-car profile unless captured
+  packets prove otherwise.
 - If Nav2 is enabled, `/cmd_vel` remains in `base_link` semantics.
 
 ## Exit Criteria

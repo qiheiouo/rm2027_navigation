@@ -1,10 +1,29 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo, OpaqueFunction
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+
+
+TRUE_VALUES = {"1", "true", "yes", "on"}
+
+
+def _validate_serial_modes(context, *args, **kwargs):
+    use_serial_dry_run = (
+        LaunchConfiguration("use_serial_dry_run").perform(context).strip().lower()
+        in TRUE_VALUES
+    )
+    use_real_serial = (
+        LaunchConfiguration("use_real_serial").perform(context).strip().lower()
+        in TRUE_VALUES
+    )
+    if use_serial_dry_run and use_real_serial:
+        raise RuntimeError(
+            "use_serial_dry_run and use_real_serial must not be true at the same time."
+        )
+    return []
 
 
 def generate_launch_description():
@@ -14,7 +33,10 @@ def generate_launch_description():
     use_map_odom_stub = LaunchConfiguration("use_map_odom_stub")
     use_nav2 = LaunchConfiguration("use_nav2")
     use_serial_dry_run = LaunchConfiguration("use_serial_dry_run")
+    use_real_serial = LaunchConfiguration("use_real_serial")
     serial_protocol_profile = LaunchConfiguration("serial_protocol_profile")
+    serial_device = LaunchConfiguration("serial_device")
+    serial_baudrate = LaunchConfiguration("serial_baudrate")
     use_rviz = LaunchConfiguration("use_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     update_method = LaunchConfiguration("update_method")
@@ -65,6 +87,11 @@ def generate_launch_description():
         "launch",
         "serial_dry_run.launch.py",
     ])
+    serial_transport_launch = PathJoinSubstitution([
+        FindPackageShare("rm_serial_driver"),
+        "launch",
+        "serial_transport.launch.py",
+    ])
     rviz_config = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "rviz",
@@ -78,11 +105,14 @@ def generate_launch_description():
         DeclareLaunchArgument("use_map_odom_stub", default_value="true"),
         DeclareLaunchArgument("use_nav2", default_value="false"),
         DeclareLaunchArgument("use_serial_dry_run", default_value="false"),
+        DeclareLaunchArgument("use_real_serial", default_value="false"),
         DeclareLaunchArgument(
             "serial_protocol_profile",
-            default_value="hpm_crc_v1",
+            default_value="legacy_v1_no_crc",
             choices=["legacy_v1_no_crc", "hpm_crc_v1"],
         ),
+        DeclareLaunchArgument("serial_device", default_value="/dev/ttyACM0"),
+        DeclareLaunchArgument("serial_baudrate", default_value="115200"),
         DeclareLaunchArgument("update_method", default_value="bundle"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
@@ -92,6 +122,7 @@ def generate_launch_description():
             "car. Safe defaults start no real driver, no FAST-LIO, no Nav2, "
             "and no serial transport."
         )),
+        OpaqueFunction(function=_validate_serial_modes),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(old_description_launch),
             launch_arguments={"use_sim_time": use_sim_time}.items(),
@@ -139,6 +170,19 @@ def generate_launch_description():
                 "protocol_profile": serial_protocol_profile,
                 "cmd_vel_topic": "/cmd_vel",
                 "mock_tx_topic": "/serial/mock_tx",
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(serial_transport_launch),
+            condition=IfCondition(use_real_serial),
+            launch_arguments={
+                "protocol_profile": serial_protocol_profile,
+                "device": serial_device,
+                "baudrate": serial_baudrate,
+                "cmd_vel_topic": "/cmd_vel",
+                "max_vx": "0.15",
+                "max_vy": "0.15",
+                "max_wz": "0.30",
             }.items(),
         ),
         Node(

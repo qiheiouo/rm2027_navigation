@@ -27,6 +27,13 @@ ament_target_dependencies(serial_dry_run_node
   std_msgs
 )
 
+add_executable(serial_transport_node src/serial_transport_node.cpp)
+target_link_libraries(serial_transport_node rm_serial_protocol)
+ament_target_dependencies(serial_transport_node
+  geometry_msgs
+  rclcpp
+)
+
 install(TARGETS rm_serial_protocol
   EXPORT export_${PROJECT_NAME}
   ARCHIVE DESTINATION lib
@@ -34,7 +41,9 @@ install(TARGETS rm_serial_protocol
   RUNTIME DESTINATION bin
 )
 
-install(TARGETS serial_dry_run_node
+install(TARGETS
+  serial_dry_run_node
+  serial_transport_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
