@@ -43,13 +43,16 @@ controller_server:
       time_steps: 30
       batch_size: 300
       iteration_count: 1
-      vx_std: 0.2
-      vy_std: 0.2
-      wz_std: 0.4
-      vx_max: 0.4
-      vx_min: -0.2
-      vy_max: 0.25
-      wz_max: 0.6
+      # Old-car real serial transport clamps to these values before writing
+      # /dev/ttyACM0. Keep Nav2 aligned so controller prediction matches the
+      # off-ground/first-floor motion envelope.
+      vx_std: 0.08
+      vy_std: 0.08
+      wz_std: 0.16
+      vx_max: 0.15
+      vx_min: -0.15
+      vy_max: 0.15
+      wz_max: 0.30
       temperature: 0.3
       gamma: 0.015
       retry_attempt_limit: 1
@@ -145,9 +148,9 @@ behavior_server:
     robot_base_frame: base_link
     transform_tolerance: 0.3
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0
-    min_rotational_vel: 0.2
-    rotational_acc_lim: 2.0
+    max_rotational_vel: 0.30
+    min_rotational_vel: 0.05
+    rotational_acc_lim: 0.60
 
 waypoint_follower:
   ros__parameters:
@@ -166,10 +169,10 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: false
     feedback: OPEN_LOOP
-    max_velocity: [0.4, 0.25, 0.6]
-    min_velocity: [-0.2, -0.25, -0.6]
-    max_accel: [0.5, 0.5, 1.0]
-    max_decel: [-0.5, -0.5, -1.0]
+    max_velocity: [0.15, 0.15, 0.30]
+    min_velocity: [-0.15, -0.15, -0.30]
+    max_accel: [0.25, 0.25, 0.60]
+    max_decel: [-0.25, -0.25, -0.60]
     odom_topic: /odometry/lio
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
@@ -184,8 +187,10 @@ local_costmap:
       global_frame: odom
       robot_base_frame: base_link
       rolling_window: true
-      width: 5
-      height: 5
+      # The old-car MID360 sits near the edge of the local rolling window in
+      # some poses. Use a wider experiment-only window before floor tests.
+      width: 8
+      height: 8
       resolution: 0.05
       footprint: "[[-0.30, -0.25], [-0.30, 0.25], [0.30, 0.25], [0.30, -0.25]]"
       footprint_padding: 0.03
@@ -226,8 +231,8 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       rolling_window: true
-      width: 12
-      height: 12
+      width: 16
+      height: 16
       resolution: 0.05
       track_unknown_space: false
       footprint: "[[-0.30, -0.25], [-0.30, 0.25], [0.30, 0.25], [0.30, -0.25]]"

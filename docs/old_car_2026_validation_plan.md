@@ -167,6 +167,13 @@ device permissions are confirmed.
    `mid360_left_frame` placeholder TF. This validates topic plumbing only; it
    does not prove final obstacle filtering or 2027 extrinsics.
 
+   The old-car Nav2 profile keeps MPPI and velocity smoother limits aligned
+   with the real serial transport clamp (`0.15 m/s`, `0.15 m/s`,
+   `0.30 rad/s`). This avoids testing a controller trajectory that is faster
+   than the actual command sent to the lower controller. The enlarged rolling
+   costmap windows are experiment-only and are meant to reduce
+   `Sensor origin out of map bounds` before low-speed floor tests.
+
 6. Serial dry-run:
 
    ```bash
