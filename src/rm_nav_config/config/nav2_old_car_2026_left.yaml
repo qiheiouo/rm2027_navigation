@@ -202,9 +202,11 @@ local_costmap:
         # Real MID360 point clouds run on wall time and the old-car mounting is
         # approximate. Keep a generous vertical voxel span for first hardware
         # tests so the sensor origin and upward returns stay inside bounds.
+        # Nav2's voxel grid supports at most 16 z values, so 0.15 * 16 covers
+        # about -0.2 m to 2.2 m without triggering voxel_grid warnings.
         origin_z: -0.2
-        z_resolution: 0.10
-        z_voxels: 24
+        z_resolution: 0.15
+        z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
         observation_sources: cloud
@@ -246,8 +248,8 @@ global_costmap:
         enabled: true
         publish_voxel_map: true
         origin_z: -0.2
-        z_resolution: 0.10
-        z_voxels: 24
+        z_resolution: 0.15
+        z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
         observation_sources: cloud
