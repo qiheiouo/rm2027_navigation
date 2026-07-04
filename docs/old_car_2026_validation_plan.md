@@ -174,6 +174,12 @@ device permissions are confirmed.
    costmap windows are experiment-only and are meant to reduce
    `Sensor origin out of map bounds` before low-speed floor tests.
 
+   Because this profile runs with real MID360, FAST-LIO, and serial time
+   stamps, it must use wall time rather than simulation time. Its VoxelLayer
+   vertical span is deliberately generous for the approximate old-car sensor
+   mount; final 2027 height limits must be replaced after real extrinsics and
+   ground filtering are confirmed.
+
 6. Serial dry-run:
 
    ```bash

@@ -25,7 +25,9 @@ real left MID360 PointCloud2 input. It subscribes to `/livox/left/pointcloud`
 and aligns Nav2 output limits with the gated real serial transport clamp for
 off-ground and first-floor tests. Its rolling costmaps are intentionally wider
 than the first dry-run profile to keep the old-car MID360 sensor origin inside
-the window. It is not 2027 competition tuning.
+the window, uses wall time instead of simulation time, and gives VoxelLayer a
+generous vertical span for the approximate old-car mounting. It is not 2027
+competition tuning.
 
 Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
 returns can clear cells previously occupied by moving simulated obstacles.
