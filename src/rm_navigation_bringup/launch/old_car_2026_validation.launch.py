@@ -58,7 +58,7 @@ def generate_launch_description():
     default_nav2_params = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "config",
-        "nav2_phase2g_pointcloud.yaml",
+        "nav2_old_car_2026_left.yaml",
     ])
     serial_dry_run_launch = PathJoinSubstitution([
         FindPackageShare("rm_serial_driver"),

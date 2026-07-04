@@ -57,6 +57,7 @@ placeholder:
 ```text
 base_link -> gimbal_yaw_link: fixed xyz = 0 0 0, rpy = 0 0 0
 gimbal_yaw_link -> lio_imu_link: xyz = 0.15 0.14 0.24, rpy = 0 0 0
+gimbal_yaw_link -> mid360_left_frame: xyz = 0.15 0.14 0.24, rpy = 0 0 0
 ```
 
 Source reference:
@@ -147,8 +148,10 @@ device permissions are confirmed.
    ```
 
    This requires a usable map and obstacle input. If the old car only provides
-   raw MID360 point clouds, add an explicit point-cloud obstacle adapter or
-   remapping before treating Nav2 avoidance as accepted.
+   raw MID360 point clouds, use the old-car Nav2 profile first. Its costmaps
+   subscribe to `/livox/left/pointcloud` and require the fixed
+   `mid360_left_frame` placeholder TF. This validates topic plumbing only; it
+   does not prove final obstacle filtering or 2027 extrinsics.
 
 6. Serial dry-run:
 

@@ -20,6 +20,9 @@ yet.
 `config/nav2_phase2g_pointcloud.yaml` is a simulation-only boundary profile for
 PointCloud2 obstacle input. It uses Nav2 VoxelLayer on `/points/obstacles` and
 does not consume `/scan`.
+`config/nav2_old_car_2026_left.yaml` is an experiment-only old-car profile for
+real left MID360 PointCloud2 input. It subscribes to `/livox/left/pointcloud`
+and uses conservative dry-run speed limits. It is not 2027 competition tuning.
 
 Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
 returns can clear cells previously occupied by moving simulated obstacles.

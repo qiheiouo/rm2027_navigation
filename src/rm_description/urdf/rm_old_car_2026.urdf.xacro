@@ -54,6 +54,15 @@
     <origin xyz="0.15 0.14 0.24" rpy="0 0 0"/>
   </joint>
 
+  <link name="mid360_left_frame"/>
+
+  <joint name="gimbal_yaw_link_to_mid360_left_frame" type="fixed">
+    <parent link="gimbal_yaw_link"/>
+    <child link="mid360_left_frame"/>
+    <!-- Matches the current left driver frame_id and old-car placeholder. -->
+    <origin xyz="0.15 0.14 0.24" rpy="0 0 0"/>
+  </joint>
+
   <link name="base_imu_link"/>
 
   <joint name="base_link_to_base_imu_link" type="fixed">
