@@ -95,7 +95,7 @@ def generate_launch_description():
     rviz_config = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "rviz",
-        "phase1.rviz",
+        "old_car_2026.rviz",
     ])
 
     return LaunchDescription([

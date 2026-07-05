@@ -29,6 +29,9 @@ rolling costmaps are intentionally wider than the first dry-run profile to keep
 the old-car MID360 sensor origin inside the window, uses wall time instead of
 simulation time, and gives VoxelLayer a generous vertical span for the
 approximate old-car mounting. It is not 2027 competition tuning.
+`rviz/old_car_2026.rviz` is the matching visualization profile for old-car
+debugging. It shows TF, RobotModel, left MID360 point cloud, LIO odometry,
+local/global costmaps, and Nav2 plans.
 
 Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
 returns can clear cells previously occupied by moving simulated obstacles.
