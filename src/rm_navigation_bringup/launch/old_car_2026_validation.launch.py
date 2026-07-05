@@ -180,9 +180,9 @@ def generate_launch_description():
                 "device": serial_device,
                 "baudrate": serial_baudrate,
                 "cmd_vel_topic": "/cmd_vel",
-                "max_vx": "0.15",
-                "max_vy": "0.15",
-                "max_wz": "0.30",
+                "max_vx": "0.50",
+                "max_vy": "0.50",
+                "max_wz": "1.20",
             }.items(),
         ),
         Node(

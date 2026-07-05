@@ -168,11 +168,17 @@ device permissions are confirmed.
    does not prove final obstacle filtering or 2027 extrinsics.
 
    The old-car Nav2 profile keeps MPPI and velocity smoother limits aligned
-   with the real serial transport clamp (`0.15 m/s`, `0.15 m/s`,
-   `0.30 rad/s`). This avoids testing a controller trajectory that is faster
-   than the actual command sent to the lower controller. The enlarged rolling
-   costmap windows are experiment-only and are meant to reduce
-   `Sensor origin out of map bounds` before low-speed floor tests.
+   with the real serial transport clamp. The landing-debug limits are above the
+   observed old-car low-speed dead zone but still below competition-speed
+   tuning. This avoids testing a controller trajectory that is faster than the
+   actual command sent to the lower controller. The enlarged rolling costmap
+   windows are experiment-only and are meant to reduce
+   `Sensor origin out of map bounds` before floor tests.
+
+   The old-car MID360 is fixed to the chassis, unlike the 2027 gimbal-mounted
+   sensor plan. Therefore this profile should prioritize short forward and
+   lateral floor tests. Do not use old-car chassis self-rotation as evidence
+   for the 2027 anti-spin sensor layout.
 
    Because this profile runs with real MID360, FAST-LIO, and serial time
    stamps, it must use wall time rather than simulation time. Its VoxelLayer

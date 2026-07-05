@@ -43,16 +43,16 @@ controller_server:
       time_steps: 30
       batch_size: 300
       iteration_count: 1
-      # Old-car real serial transport clamps to these values before writing
-      # /dev/ttyACM0. Keep Nav2 aligned so controller prediction matches the
-      # off-ground/first-floor motion envelope.
-      vx_std: 0.08
-      vy_std: 0.08
-      wz_std: 0.16
-      vx_max: 0.15
-      vx_min: -0.15
-      vy_max: 0.15
-      wz_max: 0.30
+      # Old-car landing-debug limits. These are high enough to avoid the
+      # chassis low-speed dead zone observed during component tests, but still
+      # far below competition-speed tuning.
+      vx_std: 0.20
+      vy_std: 0.20
+      wz_std: 0.40
+      vx_max: 0.50
+      vx_min: -0.30
+      vy_max: 0.50
+      wz_max: 1.20
       temperature: 0.3
       gamma: 0.015
       retry_attempt_limit: 1
@@ -148,9 +148,9 @@ behavior_server:
     robot_base_frame: base_link
     transform_tolerance: 0.3
     simulate_ahead_time: 2.0
-    max_rotational_vel: 0.30
-    min_rotational_vel: 0.05
-    rotational_acc_lim: 0.60
+    max_rotational_vel: 1.20
+    min_rotational_vel: 0.20
+    rotational_acc_lim: 2.00
 
 waypoint_follower:
   ros__parameters:
@@ -169,10 +169,10 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: false
     feedback: OPEN_LOOP
-    max_velocity: [0.15, 0.15, 0.30]
-    min_velocity: [-0.15, -0.15, -0.30]
-    max_accel: [0.25, 0.25, 0.60]
-    max_decel: [-0.25, -0.25, -0.60]
+    max_velocity: [0.50, 0.50, 1.20]
+    min_velocity: [-0.30, -0.50, -1.20]
+    max_accel: [0.80, 0.80, 2.00]
+    max_decel: [-0.80, -0.80, -2.00]
     odom_topic: /odometry/lio
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
