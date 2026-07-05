@@ -186,6 +186,12 @@ device permissions are confirmed.
    mount; final 2027 height limits must be replaced after real extrinsics and
    ground filtering are confirmed.
 
+   Raw old-car MID360 PointCloud2 is used only in the local costmap. The global
+   costmap intentionally does not subscribe to this dynamic raw point cloud
+   because PointCloud2 lacks LaserScan-style max-range free rays and can leave
+   persistent self/ground ghosts after motion. Real deployment maps should use
+   a validated static map layer plus a filtered obstacle pipeline.
+
 6. Serial dry-run:
 
    ```bash

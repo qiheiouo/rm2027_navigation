@@ -48,6 +48,8 @@ xhost +local:docker
 - `/odometry/lio` moves smoothly when the robot moves.
 - `/local_costmap/costmap` does not show persistent false obstacles around the
   robot.
+- `/global_costmap/costmap` should not accumulate a trail of dynamic point-cloud
+  obstacles behind the robot in the old-car profile.
 - `/plan` roughly points toward the goal before motion starts.
 
 ## Minimal Health Check
@@ -131,6 +133,9 @@ Stop the current test and do not proceed to the next one if any of these occur:
 - The robot moves in a direction that does not match the expected command.
 - The robot does not stop after cancel plus zero command.
 - RViz shows the point cloud or costmap in a clearly wrong place.
+- Local costmap shows a dense ring of obstacles tightly around the robot while
+  the real area is clear.
+- Global costmap keeps old dynamic point-cloud obstacles after the robot moves.
 
 ## What To Record
 

@@ -192,8 +192,10 @@ local_costmap:
       width: 8
       height: 8
       resolution: 0.05
-      footprint: "[[-0.30, -0.25], [-0.30, 0.25], [0.30, 0.25], [0.30, -0.25]]"
-      footprint_padding: 0.03
+      # Old-car body size is approximate. Keep the footprint larger than the
+      # first placeholder so footprint clearing covers more self returns.
+      footprint: "[[-0.38, -0.32], [-0.38, 0.32], [0.38, 0.32], [0.38, -0.32]]"
+      footprint_padding: 0.05
       plugins: [voxel_layer, inflation_layer]
       voxel_layer:
         plugin: nav2_costmap_2d::VoxelLayer
@@ -209,17 +211,21 @@ local_costmap:
         z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
+        footprint_clearing_enabled: true
         observation_sources: cloud
         cloud:
           topic: /livox/left/pointcloud
           data_type: PointCloud2
           clearing: true
           marking: true
-          min_obstacle_height: 0.05
+          # Filter ground noise and low self returns from the old-car chassis.
+          # This is an experiment-only value; final 2027 filtering must be
+          # based on measured extrinsics and field obstacle requirements.
+          min_obstacle_height: 0.18
           max_obstacle_height: 2.0
-          obstacle_min_range: 0.10
-          obstacle_max_range: 8.0
-          raytrace_min_range: 0.10
+          obstacle_min_range: 0.45
+          obstacle_max_range: 6.0
+          raytrace_min_range: 0.0
           raytrace_max_range: 8.0
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
@@ -240,30 +246,14 @@ global_costmap:
       height: 16
       resolution: 0.05
       track_unknown_space: false
-      footprint: "[[-0.30, -0.25], [-0.30, 0.25], [0.30, 0.25], [0.30, -0.25]]"
-      footprint_padding: 0.03
-      plugins: [voxel_layer, inflation_layer]
-      voxel_layer:
-        plugin: nav2_costmap_2d::VoxelLayer
-        enabled: true
-        publish_voxel_map: true
-        origin_z: -0.2
-        z_resolution: 0.15
-        z_voxels: 16
-        max_obstacle_height: 2.0
-        mark_threshold: 0
-        observation_sources: cloud
-        cloud:
-          topic: /livox/left/pointcloud
-          data_type: PointCloud2
-          clearing: true
-          marking: true
-          min_obstacle_height: 0.05
-          max_obstacle_height: 2.0
-          obstacle_min_range: 0.10
-          obstacle_max_range: 8.0
-          raytrace_min_range: 0.10
-          raytrace_max_range: 8.0
+      footprint: "[[-0.38, -0.32], [-0.38, 0.32], [0.38, 0.32], [0.38, -0.32]]"
+      footprint_padding: 0.05
+      # Do not feed dynamic raw MID360 point clouds into the old-car global
+      # costmap. PointCloud2 has no max-range free rays like LaserScan inf
+      # returns, so global marking can preserve self/ground ghosts. Keep
+      # dynamic obstacle handling in the local costmap until a map/static layer
+      # and point-cloud filtering pipeline are validated.
+      plugins: [inflation_layer]
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
         cost_scaling_factor: 2.0
