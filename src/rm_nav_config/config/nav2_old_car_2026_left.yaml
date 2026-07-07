@@ -214,7 +214,10 @@ local_costmap:
         footprint_clearing_enabled: true
         observation_sources: cloud
         cloud:
-          topic: /livox/left/pointcloud
+          # The old-car MID360 sees chassis/ground returns near the robot.
+          # Feed Nav2 through the bridge-side self filter instead of consuming
+          # the raw driver cloud directly.
+          topic: /livox/left/pointcloud_filtered
           data_type: PointCloud2
           clearing: true
           marking: true

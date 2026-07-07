@@ -162,8 +162,9 @@ device permissions are confirmed.
    ```
 
    This requires a usable map and obstacle input. If the old car only provides
-   raw MID360 point clouds, use the old-car Nav2 profile first. Its costmaps
-   subscribe to `/livox/left/pointcloud` and require the fixed
+   raw MID360 point clouds, use the old-car Nav2 profile first. Its local
+   costmap subscribes to `/livox/left/pointcloud_filtered`, produced from raw
+   `/livox/left/pointcloud` by `pointcloud_self_filter_node`, and requires the fixed
    `mid360_left_frame` placeholder TF. This validates topic plumbing only; it
    does not prove final obstacle filtering or 2027 extrinsics.
 
@@ -186,11 +187,12 @@ device permissions are confirmed.
    mount; final 2027 height limits must be replaced after real extrinsics and
    ground filtering are confirmed.
 
-   Raw old-car MID360 PointCloud2 is used only in the local costmap. The global
-   costmap intentionally does not subscribe to this dynamic raw point cloud
-   because PointCloud2 lacks LaserScan-style max-range free rays and can leave
-   persistent self/ground ghosts after motion. Real deployment maps should use
-   a validated static map layer plus a filtered obstacle pipeline.
+   Dynamic old-car MID360 PointCloud2 is used only in the local costmap, and it
+   enters through the filtered topic. The global costmap intentionally does not
+   subscribe to this dynamic raw point cloud because PointCloud2 lacks
+   LaserScan-style max-range free rays and can leave persistent self/ground
+   ghosts after motion. Real deployment maps should use a validated static map
+   layer plus a filtered obstacle pipeline.
 
 6. Serial dry-run:
 

@@ -21,22 +21,25 @@ yet.
 PointCloud2 obstacle input. It uses Nav2 VoxelLayer on `/points/obstacles` and
 does not consume `/scan`.
 `config/nav2_old_car_2026_left.yaml` is an experiment-only old-car profile for
-real left MID360 PointCloud2 input. It subscribes to `/livox/left/pointcloud`
-and aligns Nav2 output limits with the gated real serial transport clamp. Its
-current limits are an old-car landing-debug profile chosen to stay above the
-observed chassis dead zone while remaining below competition-speed tuning. Its
-rolling costmaps are intentionally wider than the first dry-run profile to keep
-the old-car MID360 sensor origin inside the window, uses wall time instead of
-simulation time, and gives VoxelLayer a generous vertical span for the
-approximate old-car mounting. It is not 2027 competition tuning.
+real left MID360 PointCloud2 input. Its local costmap subscribes to
+`/livox/left/pointcloud_filtered`, produced by `rm_mid360_driver_bridge` from
+the raw `/livox/left/pointcloud`, so chassis/self returns can be filtered before
+VoxelLayer marking. It aligns Nav2 output limits with the gated real serial
+transport clamp. Its current limits are an old-car landing-debug profile chosen
+to stay above the observed chassis dead zone while remaining below
+competition-speed tuning. Its rolling costmaps are intentionally wider than the
+first dry-run profile to keep the old-car MID360 sensor origin inside the
+window, uses wall time instead of simulation time, and gives VoxelLayer a
+generous vertical span for the approximate old-car mounting. It is not 2027
+competition tuning.
 `rviz/old_car_2026.rviz` is the matching visualization profile for old-car
 debugging. It shows TF, RobotModel, left MID360 point cloud, LIO odometry,
 local/global costmaps, and Nav2 plans.
-For the old-car profile, raw dynamic MID360 PointCloud2 is intentionally used
-only by the local costmap. The global costmap does not subscribe to the raw
-point cloud because PointCloud2 does not provide LaserScan-style max-range free
-rays, and feeding it globally caused self/ground ghosts to persist while the
-robot moved.
+For the old-car profile, dynamic MID360 PointCloud2 is intentionally used only
+by the local costmap, and it enters through the filtered topic above. The global
+costmap does not subscribe to the raw point cloud because PointCloud2 does not
+provide LaserScan-style max-range free rays, and feeding it globally caused
+self/ground ghosts to persist while the robot moved.
 
 Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
 returns can clear cells previously occupied by moving simulated obstacles.

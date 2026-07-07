@@ -4,6 +4,7 @@ from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -41,6 +42,9 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     update_method = LaunchConfiguration("update_method")
     nav2_params = LaunchConfiguration("nav2_params")
+    pointcloud_filter_enabled = LaunchConfiguration("pointcloud_filter_enabled")
+    pointcloud_filter_input_topic = LaunchConfiguration("pointcloud_filter_input_topic")
+    pointcloud_filter_output_topic = LaunchConfiguration("pointcloud_filter_output_topic")
 
     old_description_launch = PathJoinSubstitution([
         FindPackageShare("rm_description"),
@@ -97,6 +101,11 @@ def generate_launch_description():
         "rviz",
         "old_car_2026.rviz",
     ])
+    old_car_pointcloud_filter_config = PathJoinSubstitution([
+        FindPackageShare("rm_mid360_driver_bridge"),
+        "config",
+        "old_car_pointcloud_filter.yaml",
+    ])
 
     return LaunchDescription([
         DeclareLaunchArgument("selected_side", default_value="left"),
@@ -117,6 +126,22 @@ def generate_launch_description():
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2_params),
+        DeclareLaunchArgument(
+            "pointcloud_filter_enabled",
+            default_value="true",
+            description=(
+                "Filter old-car self/near-field returns before Nav2 costmap. "
+                "Set false for pass-through comparison."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "pointcloud_filter_input_topic",
+            default_value="/livox/left/pointcloud",
+        ),
+        DeclareLaunchArgument(
+            "pointcloud_filter_output_topic",
+            default_value="/livox/left/pointcloud_filtered",
+        ),
         LogInfo(msg=(
             "[old_car_2026_validation] Experiment-only bringup for the 2026 "
             "car. Safe defaults start no real driver, no FAST-LIO, no Nav2, "
@@ -144,6 +169,24 @@ def generate_launch_description():
                 "config_file": old_fast_lio_config,
                 "use_sim_time": use_sim_time,
             }.items(),
+        ),
+        Node(
+            condition=IfCondition(use_driver),
+            package="rm_mid360_driver_bridge",
+            executable="pointcloud_self_filter_node",
+            name="old_car_left_pointcloud_filter",
+            output="screen",
+            parameters=[
+                old_car_pointcloud_filter_config,
+                {
+                    "input_topic": pointcloud_filter_input_topic,
+                    "output_topic": pointcloud_filter_output_topic,
+                    "filter_enabled": ParameterValue(
+                        pointcloud_filter_enabled,
+                        value_type=bool,
+                    ),
+                },
+            ],
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(localization_launch),

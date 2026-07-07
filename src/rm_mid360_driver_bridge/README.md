@@ -16,8 +16,38 @@ Expected canonical topics:
 - `/livox/right/pointcloud`: right MID360 PointCloud2, if that driver mode is enabled.
 - `/livox/lio_imu_raw`: selected MID360 internal IMU directly remapped from the driver.
 - `/livox/lio_imu`: canonical LIO IMU after `imu_frame_adapter` rewrites `header.frame_id` to `lio_imu_link`.
+- `/livox/left/pointcloud_filtered`: old-car local-costmap PointCloud2 after bridge-side self filtering.
 
 This package must not publish localization TF, odometry, navigation goals, serial packets, referee data, or behavior-tree commands.
+
+## Old-Car PointCloud2 Filter
+
+`pointcloud_self_filter_node` is an experiment-only bridge for the 2026 old car.
+It removes points that fall inside a configurable self box in `base_link` before
+Nav2 local costmap marking. The node keeps the published cloud in the original
+sensor frame, so it does not take ownership of TF or localization data.
+The old-car defaults live in `config/old_car_pointcloud_filter.yaml`.
+
+Default old-car chain:
+
+```text
+/livox/left/pointcloud
+  -> pointcloud_self_filter_node
+  -> /livox/left/pointcloud_filtered
+  -> local costmap voxel_layer
+```
+
+The filter can be disabled without changing costmap YAML:
+
+```bash
+ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
+  use_driver:=true use_lio_backend:=true use_nav2:=true \
+  pointcloud_filter_enabled:=false
+```
+
+With `pointcloud_filter_enabled:=false`, the node republishes the raw input
+cloud to the filtered topic for A/B comparison. Full rollback is to point the
+old-car local costmap topic back to `/livox/left/pointcloud`.
 
 ## Driver Policy
 

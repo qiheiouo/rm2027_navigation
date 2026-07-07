@@ -45,12 +45,37 @@ xhost +local:docker
 - RobotModel appears at the odometry pose.
 - `/livox/left/pointcloud` is around the robot and not rotated into a clearly
   wrong direction.
+- `/livox/left/pointcloud_filtered` exists when the driver is enabled. This is
+  the local-costmap input; it should contain fewer points inside the robot body
+  than the raw cloud.
 - `/odometry/lio` moves smoothly when the robot moves.
 - `/local_costmap/costmap` does not show persistent false obstacles around the
   robot.
 - `/global_costmap/costmap` should not accumulate a trail of dynamic point-cloud
   obstacles behind the robot in the old-car profile.
 - `/plan` roughly points toward the goal before motion starts.
+
+If the filtered costmap looks worse, restart the launch with pass-through
+filtering for comparison:
+
+```bash
+ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
+  use_driver:=true \
+  use_lio_backend:=true \
+  use_nav2:=true \
+  use_real_serial:=true \
+  use_serial_dry_run:=false \
+  use_rviz:=true \
+  selected_side:=left \
+  serial_protocol_profile:=legacy_v1_no_crc \
+  serial_device:=/dev/ttyACM0 \
+  serial_baudrate:=115200 \
+  pointcloud_filter_enabled:=false
+```
+
+This keeps the same costmap topic but republishes the raw cloud through the
+filter node, so RViz can compare filtered vs pass-through behavior without
+editing YAML.
 
 ## Minimal Health Check
 

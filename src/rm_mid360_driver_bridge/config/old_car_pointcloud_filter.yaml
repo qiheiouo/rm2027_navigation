@@ -1,0 +1,16 @@
+old_car_left_pointcloud_filter:
+  ros__parameters:
+    target_frame: base_link
+    remove_self_box: true
+    self_box.min_x: -0.45
+    self_box.max_x: 0.45
+    self_box.min_y: -0.40
+    self_box.max_y: 0.40
+    self_box.min_z: -0.25
+    self_box.max_z: 0.80
+    remove_below_z: false
+    min_z: 0.05
+    remove_above_z: false
+    max_z: 2.0
+    transform_timeout_sec: 0.05
+    publish_unfiltered_on_tf_failure: false
