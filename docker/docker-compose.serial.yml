@@ -1,0 +1,6 @@
+services:
+  rm2027_nav:
+    devices:
+      - ${SERIAL_DEVICE:-/dev/ttyACM0}:${SERIAL_DEVICE:-/dev/ttyACM0}
+    group_add:
+      - "${DIALOUT_GID:-20}"

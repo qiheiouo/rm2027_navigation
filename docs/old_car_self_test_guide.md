@@ -17,6 +17,37 @@ stack. It is not the 2027 final calibration or competition-speed tuning.
 
 ## Start With RViz
 
+## Start Docker With Serial Access
+
+The default Docker profile does not expose host serial devices. For real
+old-car serial tests, recreate the container with the serial override after
+the host can see `/dev/ttyACM0`:
+
+```bash
+ls -l /dev/ttyACM0
+export SERIAL_DEVICE=/dev/ttyACM0
+export DIALOUT_GID=$(stat -c '%g' /dev/ttyACM0)
+sudo -E docker compose \
+  -f docker/docker-compose.yml \
+  -f docker/docker-compose.serial.yml \
+  up -d --force-recreate rm2027_nav
+sudo docker exec -it rm2027_navigation_humble bash
+```
+
+Inside the container, confirm the device is visible before launching real
+serial:
+
+```bash
+ls -l /dev/ttyACM0
+python3 - <<'PY'
+import os
+print(os.path.exists("/dev/ttyACM0"), os.access("/dev/ttyACM0", os.R_OK | os.W_OK))
+PY
+```
+
+If the device is not visible in the container, do not continue to Nav2 or
+motion tests.
+
 If a display is available, launch RViz with the old-car profile:
 
 ```bash
