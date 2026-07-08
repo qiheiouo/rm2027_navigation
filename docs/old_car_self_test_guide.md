@@ -108,6 +108,41 @@ This keeps the same costmap topic but republishes the raw cloud through the
 filter node, so RViz can compare filtered vs pass-through behavior without
 editing YAML.
 
+## Dynamic Obstacle Clearing Profiles
+
+The default old-car Nav2 file remains the VoxelLayer baseline:
+
+```bash
+nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_left.yaml
+```
+
+For the LaserScan clearing comparison, enable `/local_scan` and use:
+
+```bash
+local_scan_enabled:=true
+nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_left_local_scan.yaml
+```
+
+For the short-TTL dynamic obstacle experiment, enable `/local_scan` and use the
+local-only timed layer first:
+
+```bash
+local_scan_enabled:=true
+nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_left_timed_local.yaml
+```
+
+Only if local-only decay works, try the local+global timed profile:
+
+```bash
+local_scan_enabled:=true
+nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_left_timed_local_global.yaml
+```
+
+`/plan` is the global plan. In local-only profiles it can cross obstacles that
+exist only in `/local_costmap/costmap`; MPPI may still stop at those obstacles.
+The local+global timed profile is intended to test whether `/plan` can avoid
+current dynamic obstacles without keeping stale people trails forever.
+
 ## Minimal Health Check
 
 Run only the checks relevant to the current experiment:

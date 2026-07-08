@@ -38,9 +38,21 @@ limits and global costmap policy, but local costmap consumes `/local_scan`
 through `nav2_costmap_2d::ObstacleLayer` with `inf_is_valid: true`. The scan is
 projected from `/livox/left/pointcloud_filtered` by
 `rm_mid360_driver_bridge/pointcloud_to_laserscan_node`.
+`config/nav2_old_car_2026_left_timed_local.yaml` is the next old-car
+dynamic-obstacle experiment. It keeps `/local_scan` but replaces the local
+ObstacleLayer with `rm_nav2_plugins::TimedObstacleLayer`, which marks finite
+scan returns and expires cells that are not re-observed after a short TTL.
+`config/nav2_old_car_2026_left_timed_local_global.yaml` mirrors the same
+short-TTL obstacle layer into the global costmap so the RViz `/plan` topic can
+route around current dynamic obstacles. It is a second-stage experiment only;
+keep the local-only timed profile as the first test.
 `rviz/old_car_2026.rviz` is the matching visualization profile for old-car
 debugging. It shows TF, RobotModel, left MID360 point cloud, LIO odometry,
 local/global costmaps, and Nav2 plans.
+In this RViz profile, `Global Plan` is `/plan` from `planner_server` and the
+global costmap. It may cross obstacles that exist only in the local costmap.
+Use `/local_plan` or MPPI visualization, when available, to inspect controller
+local intent.
 For the old-car profile, dynamic MID360 PointCloud2 is intentionally used only
 by the local costmap, and it enters through the filtered topic above. The global
 costmap does not subscribe to the raw point cloud because PointCloud2 does not
