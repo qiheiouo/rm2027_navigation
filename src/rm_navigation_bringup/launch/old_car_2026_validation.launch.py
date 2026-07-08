@@ -45,6 +45,9 @@ def generate_launch_description():
     pointcloud_filter_enabled = LaunchConfiguration("pointcloud_filter_enabled")
     pointcloud_filter_input_topic = LaunchConfiguration("pointcloud_filter_input_topic")
     pointcloud_filter_output_topic = LaunchConfiguration("pointcloud_filter_output_topic")
+    local_scan_enabled = LaunchConfiguration("local_scan_enabled")
+    local_scan_input_topic = LaunchConfiguration("local_scan_input_topic")
+    local_scan_output_topic = LaunchConfiguration("local_scan_output_topic")
 
     old_description_launch = PathJoinSubstitution([
         FindPackageShare("rm_description"),
@@ -106,6 +109,11 @@ def generate_launch_description():
         "config",
         "old_car_pointcloud_filter.yaml",
     ])
+    old_car_pointcloud_to_scan_config = PathJoinSubstitution([
+        FindPackageShare("rm_mid360_driver_bridge"),
+        "config",
+        "old_car_pointcloud_to_laserscan.yaml",
+    ])
 
     return LaunchDescription([
         DeclareLaunchArgument("selected_side", default_value="left"),
@@ -141,6 +149,22 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "pointcloud_filter_output_topic",
             default_value="/livox/left/pointcloud_filtered",
+        ),
+        DeclareLaunchArgument(
+            "local_scan_enabled",
+            default_value="false",
+            description=(
+                "Project filtered old-car PointCloud2 to /local_scan for "
+                "LaserScan-based local costmap clearing experiments."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "local_scan_input_topic",
+            default_value="/livox/left/pointcloud_filtered",
+        ),
+        DeclareLaunchArgument(
+            "local_scan_output_topic",
+            default_value="/local_scan",
         ),
         LogInfo(msg=(
             "[old_car_2026_validation] Experiment-only bringup for the 2026 "
@@ -185,6 +209,20 @@ def generate_launch_description():
                         pointcloud_filter_enabled,
                         value_type=bool,
                     ),
+                },
+            ],
+        ),
+        Node(
+            condition=IfCondition(local_scan_enabled),
+            package="rm_mid360_driver_bridge",
+            executable="pointcloud_to_laserscan_node",
+            name="old_car_left_pointcloud_to_laserscan",
+            output="screen",
+            parameters=[
+                old_car_pointcloud_to_scan_config,
+                {
+                    "input_topic": local_scan_input_topic,
+                    "output_topic": local_scan_output_topic,
                 },
             ],
         ),

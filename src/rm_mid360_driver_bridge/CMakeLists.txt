@@ -20,8 +20,19 @@ ament_target_dependencies(pointcloud_self_filter_node
   tf2_ros
 )
 
+add_executable(pointcloud_to_laserscan_node src/pointcloud_to_laserscan_node.cpp)
+target_compile_features(pointcloud_to_laserscan_node PUBLIC cxx_std_17)
+ament_target_dependencies(pointcloud_to_laserscan_node
+  rclcpp
+  sensor_msgs
+  tf2
+  tf2_geometry_msgs
+  tf2_ros
+)
+
 install(TARGETS
   pointcloud_self_filter_node
+  pointcloud_to_laserscan_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

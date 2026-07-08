@@ -17,6 +17,7 @@ Expected canonical topics:
 - `/livox/lio_imu_raw`: selected MID360 internal IMU directly remapped from the driver.
 - `/livox/lio_imu`: canonical LIO IMU after `imu_frame_adapter` rewrites `header.frame_id` to `lio_imu_link`.
 - `/livox/left/pointcloud_filtered`: old-car local-costmap PointCloud2 after bridge-side self filtering.
+- `/local_scan`: optional old-car LaserScan projection from the filtered left MID360 point cloud for local costmap clearing experiments.
 
 This package must not publish localization TF, odometry, navigation goals, serial packets, referee data, or behavior-tree commands.
 
@@ -48,6 +49,18 @@ ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
 With `pointcloud_filter_enabled:=false`, the node republishes the raw input
 cloud to the filtered topic for A/B comparison. Full rollback is to point the
 old-car local costmap topic back to `/livox/left/pointcloud`.
+
+## Old-Car PointCloud2 To LaserScan Projection
+
+`pointcloud_to_laserscan_node` is an experiment-only clearing aid for the 2026
+old car. It projects `/livox/left/pointcloud_filtered` into `/local_scan` in
+`base_link`. Empty angular bins are published as `+inf`, allowing Nav2
+`ObstacleLayer` with `inf_is_valid: true` to raytrace free space after a person
+or other dynamic obstacle leaves.
+
+This is a switchable alternative to the VoxelLayer path above; it does not
+replace the raw driver topic or take ownership of TF. Defaults live in
+`config/old_car_pointcloud_to_laserscan.yaml`.
 
 ## Driver Policy
 

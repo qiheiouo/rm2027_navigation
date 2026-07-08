@@ -32,6 +32,12 @@ first dry-run profile to keep the old-car MID360 sensor origin inside the
 window, uses wall time instead of simulation time, and gives VoxelLayer a
 generous vertical span for the approximate old-car mounting. It is not 2027
 competition tuning.
+`config/nav2_old_car_2026_left_local_scan.yaml` is an experiment-only
+alternative for dynamic-obstacle clearing. It keeps the same old-car Nav2
+limits and global costmap policy, but local costmap consumes `/local_scan`
+through `nav2_costmap_2d::ObstacleLayer` with `inf_is_valid: true`. The scan is
+projected from `/livox/left/pointcloud_filtered` by
+`rm_mid360_driver_bridge/pointcloud_to_laserscan_node`.
 `rviz/old_car_2026.rviz` is the matching visualization profile for old-car
 debugging. It shows TF, RobotModel, left MID360 point cloud, LIO odometry,
 local/global costmaps, and Nav2 plans.

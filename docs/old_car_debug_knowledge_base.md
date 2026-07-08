@@ -444,6 +444,71 @@ footprint_clearing_enabled: true
 - 雷达外参。
 - raw/filtered pointcloud 分开显示，避免 RViz 叠加误判。
 
+### 6.5 动态障碍残留与 LaserScan 清除实验
+
+后续实车测试确认：
+
+- 机器人可以通过 RViz 目标点基本准确到达目标，主链路已经可用。
+- 修正 footprint 到约 `0.64 m x 0.54 m`、`footprint_padding=0.02` 后，通道可通行性改善。
+- local inflation 从 `inflation_radius=0.45, cost_scaling_factor=3.0` 调为 `0.30 / 6.0` 后，1.4 m 通道通过能力明显改善。
+- 新的主要问题是人从车前横穿离开后，local costmap 会沿人的轨迹残留黑色障碍，一部分不会自然消失，只有机器人移动到附近甚至 footprint 重合时才消失。
+
+判断：
+
+```text
+PointCloud2 + VoxelLayer 可以 marking，但没有 LaserScan inf 空射线那样稳定的“这里已经空了”表达。
+残留只有靠近 footprint 后才消失，说明当前很大一部分清除依赖 footprint_clearing_enabled，而不是稳定 raytrace clearing。
+```
+
+阶段性实验方案：
+
+```text
+/livox/left/pointcloud
+  -> pointcloud_self_filter_node
+  -> /livox/left/pointcloud_filtered
+  -> pointcloud_to_laserscan_node
+  -> /local_scan
+  -> local costmap obstacle_layer
+```
+
+该方案保留原 VoxelLayer YAML，同时新增 scan-based local costmap YAML：
+
+```text
+src/rm_nav_config/config/nav2_old_car_2026_left.yaml
+  原 VoxelLayer 路径，作为回退基线。
+
+src/rm_nav_config/config/nav2_old_car_2026_left_local_scan.yaml
+  实验路径：/local_scan + ObstacleLayer + inf_is_valid。
+```
+
+启动时需要同时启用 scan projection 并指定 scan YAML：
+
+```bash
+ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
+  use_driver:=true \
+  use_lio_backend:=true \
+  use_nav2:=true \
+  use_real_serial:=true \
+  use_serial_dry_run:=false \
+  use_rviz:=true \
+  selected_side:=left \
+  pointcloud_filter_enabled:=true \
+  local_scan_enabled:=true \
+  nav2_params:=/workspace/rm2027_navigation/install/rm_nav_config/share/rm_nav_config/config/nav2_old_car_2026_left_local_scan.yaml \
+  serial_protocol_profile:=legacy_v1_no_crc \
+  serial_device:=/dev/ttyACM0 \
+  serial_baudrate:=115200
+```
+
+验证标准：
+
+- `/local_scan` 存在，`frame_id=base_link`。
+- `/local_costmap/local_costmap` 订阅 `/local_scan`，不再订阅 `/livox/left/pointcloud_filtered`。
+- 人从车前横穿离开后，local costmap 中轨迹残留应在 0.5 到 2 秒内明显消失。
+- 静态障碍仍能稳定 marking。
+- 1.4 m 通道仍能通过。
+- 若效果变差，回退为默认 `nav2_old_car_2026_left.yaml` 并不启用 `local_scan_enabled`。
+
 ## 7. Livox 网络和多雷达干扰
 
 ### 7.1 IP 配置不匹配导致 TF 断裂
@@ -847,4 +912,3 @@ ros2 topic echo /cmd_vel --once
 - 在 costmap 干净后再做短距离真实运动目标。
 - 对 2027 新车重新测量最终外参，不沿用 old-car 外参。
 - 新车下位机协议和轮速反馈仍需单独验收。
-
