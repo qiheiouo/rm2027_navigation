@@ -42,8 +42,9 @@ after the sensor message, without weakening the contract to latest-TF lookup.
   It uses the measured 2026 MID360 internal IMU -> L1 lidar offset
   `[-0.011, -0.02329, 0.04412]` with identity rotation.
 - `lio_adapter_old_car_2026.yaml`: matching adapter profile using the old-car
-  measured `base_link -> lio_imu_link` transform through TF. It is not 2027
-  calibration.
+  measured `base_link -> lio_imu_link` transform through TF. It sets
+  `raw_odom_parent_frame_mode: sensor_initial` because FAST-LIO raw odometry
+  uses the initial sensor frame as its parent. It is not 2027 calibration.
 
 Any remaining zero extrinsics in these files are deliberate no-hardware or
 unused-side placeholders, not 2027 calibration results.

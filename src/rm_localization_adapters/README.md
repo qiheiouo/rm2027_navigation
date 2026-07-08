@@ -22,11 +22,28 @@ Important rule:
 
 `lio_adapter` must not hide a backend `body`, `lio_imu_link`, or `mid360_*_frame` by only changing `child_frame_id` to `base_link`.
 
-For the 2027 gimbal-mounted MID360 layout, `lio_adapter` computes `odom -> base_link` from the LIO sensor pose and the current TF from `base_link` to the input sensor frame:
+For the 2027 gimbal-mounted MID360 layout, `lio_adapter` computes
+`odom -> base_link` from the LIO sensor pose and the current TF from
+`base_link` to the input sensor frame.
+
+When the backend raw odometry parent is already the canonical base-initial
+odom frame (`raw_odom_parent_frame_mode: canonical_odom`), the adapter uses:
 
 ```text
 T_odom_base = T_odom_sensor * inverse(T_base_sensor)
 ```
+
+When the backend raw odometry parent is the initial sensor frame
+(`raw_odom_parent_frame_mode: sensor_initial`), the adapter changes both the
+parent and child basis:
+
+```text
+T_base0_base = T_base_sensor * T_sensor0_sensor * inverse(T_base_sensor)
+```
+
+This prevents the robot base pose from inheriting a fixed MID360 mounting
+roll/pitch at startup when FAST-LIO reports an identity raw pose in its
+initial sensor frame.
 
 `T_base_sensor` is expected to come from `robot_state_publisher`, measured sensor extrinsics, and `gimbal_yaw_joint`.
 

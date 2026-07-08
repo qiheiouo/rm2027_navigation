@@ -18,6 +18,14 @@ tf2::Transform make_transform(double x, double y, double z, double yaw)
   return tf2::Transform(rotation, tf2::Vector3(x, y, z));
 }
 
+tf2::Transform make_transform_rpy(
+  double x, double y, double z, double roll, double pitch, double yaw)
+{
+  tf2::Quaternion rotation;
+  rotation.setRPY(roll, pitch, yaw);
+  return tf2::Transform(rotation, tf2::Vector3(x, y, z));
+}
+
 rm_localization_adapters::PoseTwistEstimator make_estimator(double alpha = 1.0)
 {
   rm_localization_adapters::TwistEstimatorConfig config;
@@ -42,6 +50,40 @@ TEST(CanonicalOdometry, ComputesBaseTransformInsteadOfRenamingFrame)
   EXPECT_NEAR(recovered.getOrigin().y(), 2.0, 1.0e-9);
   EXPECT_NEAR(recovered.getOrigin().z(), 0.0, 1.0e-9);
   EXPECT_NEAR(recovered.getRotation().angleShortestPath(odom_to_base.getRotation()), 0.0, 1.0e-9);
+}
+
+TEST(CanonicalOdometry, SensorInitialModeDoesNotLeakMountRotationAtStartup)
+{
+  const auto base_to_sensor = make_transform_rpy(
+    0.157178, 0.172624, 0.174374, 0.332345, 0.287549, 1.668370);
+  tf2::Transform sensor_initial_to_sensor;
+  sensor_initial_to_sensor.setIdentity();
+
+  const auto recovered = rm_localization_adapters::compute_base_transform_from_sensor_initial(
+    sensor_initial_to_sensor, base_to_sensor);
+
+  EXPECT_NEAR(recovered.getOrigin().x(), 0.0, 1.0e-9);
+  EXPECT_NEAR(recovered.getOrigin().y(), 0.0, 1.0e-9);
+  EXPECT_NEAR(recovered.getOrigin().z(), 0.0, 1.0e-9);
+  EXPECT_NEAR(recovered.getRotation().getAngle(), 0.0, 1.0e-9);
+}
+
+TEST(CanonicalOdometry, SensorInitialModeRecoversBaseMotion)
+{
+  const auto base_to_sensor = make_transform_rpy(
+    0.157178, 0.172624, 0.174374, 0.332345, 0.287549, 1.668370);
+  const auto base_initial_to_base = make_transform(0.4, -0.2, 0.0, 0.25);
+  const auto sensor_initial_to_sensor =
+    base_to_sensor.inverse() * base_initial_to_base * base_to_sensor;
+
+  const auto recovered = rm_localization_adapters::compute_base_transform_from_sensor_initial(
+    sensor_initial_to_sensor, base_to_sensor);
+
+  EXPECT_NEAR(recovered.getOrigin().x(), 0.4, 1.0e-9);
+  EXPECT_NEAR(recovered.getOrigin().y(), -0.2, 1.0e-9);
+  EXPECT_NEAR(recovered.getOrigin().z(), 0.0, 1.0e-9);
+  EXPECT_NEAR(
+    recovered.getRotation().angleShortestPath(base_initial_to_base.getRotation()), 0.0, 1.0e-9);
 }
 
 TEST(PoseTwistEstimator, EstimatesForwardAndLateralVelocity)

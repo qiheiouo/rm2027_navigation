@@ -57,6 +57,13 @@ tf2::Transform compute_base_transform(
   return odom_to_sensor * base_to_sensor.inverse();
 }
 
+tf2::Transform compute_base_transform_from_sensor_initial(
+  const tf2::Transform & sensor_initial_to_sensor,
+  const tf2::Transform & base_to_sensor)
+{
+  return base_to_sensor * sensor_initial_to_sensor * base_to_sensor.inverse();
+}
+
 PoseTwistEstimator::PoseTwistEstimator(const TwistEstimatorConfig & config)
 : config_(config)
 {

@@ -40,6 +40,14 @@ public:
     use_tf_sensor_to_base_ = declare_parameter<bool>("use_tf_sensor_to_base", true);
     use_latest_transform_ = declare_parameter<bool>("use_latest_transform", false);
     allow_placeholder_fallback_ = declare_parameter<bool>("allow_placeholder_fallback", false);
+    raw_odom_parent_frame_mode_ = declare_parameter<std::string>(
+      "raw_odom_parent_frame_mode", "canonical_odom");
+    if (raw_odom_parent_frame_mode_ != "canonical_odom" &&
+      raw_odom_parent_frame_mode_ != "sensor_initial")
+    {
+      throw std::invalid_argument(
+        "raw_odom_parent_frame_mode must be 'canonical_odom' or 'sensor_initial'");
+    }
     tf_lookup_timeout_sec_ = declare_parameter<double>("tf_lookup_timeout_sec", 0.05);
     const int tf_queue_max_size = declare_parameter<int>("tf_queue.max_size", 100);
     tf_queue_max_wait_sec_ = declare_parameter<double>("tf_queue.max_wait_sec", 0.2);
@@ -126,9 +134,11 @@ public:
     RCLCPP_WARN(
       get_logger(),
       "Canonical LIO adapter: adapting %s to %s through TF %s->sensor with gimbal frame %s. "
-      "twist_mode=%s. Real hardware still requires calibrated and timestamped gimbal yaw.",
+      "raw_odom_parent_frame_mode=%s. twist_mode=%s. Real hardware still requires calibrated "
+      "and timestamped gimbal yaw.",
       raw_odom_topic_.c_str(), output_odom_topic_.c_str(),
-      base_frame_.c_str(), gimbal_frame_.c_str(), twist_mode_.c_str());
+      base_frame_.c_str(), gimbal_frame_.c_str(), raw_odom_parent_frame_mode_.c_str(),
+      twist_mode_.c_str());
   }
 
 private:
@@ -235,9 +245,13 @@ private:
   bool tryProcessRawOdometry(const nav_msgs::msg::Odometry::SharedPtr & msg)
   {
     // Important: do not fake base_link by only changing child_frame_id.
-    // For gimbal-mounted MID360, a backend may publish odom->lio_imu_link or
-    // odom->mid360_*_frame. Compute odom->base_link as:
+    // For gimbal-mounted MID360, a backend may publish odometry for
+    // lio_imu_link or mid360_*_frame. If the raw odom parent is already the
+    // canonical base-initial odom frame, compute:
     //   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
+    // Some FAST-LIO backends instead use the initial sensor frame as the raw
+    // parent. For those, change both the parent and child basis:
+    //   T_base0_base = T_base_sensor * T_sensor0_sensor * inverse(T_base_sensor)
     // where T_base_sensor comes from robot_state_publisher and the current
     // gimbal_yaw_joint state.
     const auto & pose = msg->pose.pose;
@@ -313,8 +327,7 @@ private:
           }
           const tf2::Transform base_to_input =
             transformMsgToTransform(base_to_input_msg.transform);
-          odom_to_base = rm_localization_adapters::compute_base_transform(
-            odom_to_input, base_to_input);
+          odom_to_base = computeCanonicalBaseTransform(odom_to_input, base_to_input);
         } catch (const tf2::TransformException & ex) {
           if (!allow_placeholder_fallback_) {
             RCLCPP_DEBUG_THROTTLE(
@@ -328,14 +341,16 @@ private:
             get_logger(), *get_clock(), 5000,
             "TF lookup failed for %s -> %s. Falling back to placeholder transform.",
             base_frame_.c_str(), input_child.c_str());
-          odom_to_base = odom_to_input * input_to_base_placeholder_;
+          odom_to_base = computeCanonicalBaseTransform(
+            odom_to_input, input_to_base_placeholder_.inverse());
         }
       } else {
         RCLCPP_WARN_THROTTLE(
           get_logger(), *get_clock(), 5000,
           "use_tf_sensor_to_base=false. Falling back to placeholder transform for %s.",
           input_child.c_str());
-        odom_to_base = odom_to_input * input_to_base_placeholder_;
+        odom_to_base = computeCanonicalBaseTransform(
+          odom_to_input, input_to_base_placeholder_.inverse());
       }
     }
 
@@ -391,6 +406,18 @@ private:
     return true;
   }
 
+  tf2::Transform computeCanonicalBaseTransform(
+    const tf2::Transform & raw_parent_to_sensor,
+    const tf2::Transform & base_to_sensor) const
+  {
+    if (raw_odom_parent_frame_mode_ == "sensor_initial") {
+      return rm_localization_adapters::compute_base_transform_from_sensor_initial(
+        raw_parent_to_sensor, base_to_sensor);
+    }
+    return rm_localization_adapters::compute_base_transform(
+      raw_parent_to_sensor, base_to_sensor);
+  }
+
   std::string raw_odom_topic_;
   std::string output_odom_topic_;
   std::string expected_input_odom_frame_;
@@ -402,6 +429,7 @@ private:
   bool use_tf_sensor_to_base_;
   bool use_latest_transform_;
   bool allow_placeholder_fallback_;
+  std::string raw_odom_parent_frame_mode_;
   double tf_lookup_timeout_sec_;
   std::size_t tf_queue_max_size_;
   double tf_queue_max_wait_sec_;

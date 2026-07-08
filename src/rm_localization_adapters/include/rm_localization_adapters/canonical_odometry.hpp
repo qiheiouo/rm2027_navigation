@@ -13,6 +13,10 @@ tf2::Transform compute_base_transform(
   const tf2::Transform & odom_to_sensor,
   const tf2::Transform & base_to_sensor);
 
+tf2::Transform compute_base_transform_from_sensor_initial(
+  const tf2::Transform & sensor_initial_to_sensor,
+  const tf2::Transform & base_to_sensor);
+
 enum class TwistEstimateStatus
 {
   kInitialized,
