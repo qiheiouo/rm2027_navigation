@@ -192,10 +192,14 @@ local_costmap:
       width: 8
       height: 8
       resolution: 0.05
-      # Old-car body size is approximate. Keep the footprint larger than the
-      # first placeholder so footprint clearing covers more self returns.
-      footprint: "[[-0.38, -0.32], [-0.38, 0.32], [0.38, 0.32], [0.38, -0.32]]"
-      footprint_padding: 0.05
+
+      # Measured old-car approximate body size:
+      # length x direction: about 0.60 m
+      # width  y direction: about 0.50 m
+      # Use a slightly conservative 0.64 m x 0.54 m footprint.
+      footprint: "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]"
+      footprint_padding: 0.02
+
       plugins: [voxel_layer, inflation_layer]
       voxel_layer:
         plugin: nav2_costmap_2d::VoxelLayer
@@ -232,8 +236,8 @@ local_costmap:
           raytrace_max_range: 8.0
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.45
+        cost_scaling_factor: 6.0
+        inflation_radius: 0.30
       always_send_full_costmap: true
 
 global_costmap:
@@ -249,8 +253,11 @@ global_costmap:
       height: 16
       resolution: 0.05
       track_unknown_space: false
-      footprint: "[[-0.38, -0.32], [-0.38, 0.32], [0.38, 0.32], [0.38, -0.32]]"
-      footprint_padding: 0.05
+
+      # Keep global footprint consistent with local_costmap.
+      footprint: "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]"
+      footprint_padding: 0.02
+
       # Do not feed dynamic raw MID360 point clouds into the old-car global
       # costmap. PointCloud2 has no max-range free rays like LaserScan inf
       # returns, so global marking can preserve self/ground ghosts. Keep
