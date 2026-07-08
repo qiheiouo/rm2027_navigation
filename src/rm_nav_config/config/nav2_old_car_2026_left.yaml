@@ -66,6 +66,7 @@ controller_server:
         enabled: true
         cost_power: 1
         cost_weight: 4.0
+
       CostCritic:
         enabled: true
         cost_power: 1
@@ -74,16 +75,19 @@ controller_server:
         collision_cost: 1000000.0
         consider_footprint: true
         near_goal_distance: 0.5
+
       GoalCritic:
         enabled: true
         cost_power: 1
         cost_weight: 5.0
         threshold_to_consider: 1.4
+
       GoalAngleCritic:
         enabled: true
         cost_power: 1
         cost_weight: 3.0
         threshold_to_consider: 0.5
+
       PathAlignCritic:
         enabled: true
         cost_power: 1
@@ -93,12 +97,14 @@ controller_server:
         trajectory_point_step: 4
         max_path_occupancy_ratio: 0.07
         use_path_orientations: false
+
       PathFollowCritic:
         enabled: true
         cost_power: 1
         cost_weight: 5.0
         offset_from_furthest: 6
         threshold_to_consider: 1.4
+
       PathAngleCritic:
         enabled: true
         cost_power: 1
@@ -113,6 +119,7 @@ planner_server:
     use_sim_time: false
     expected_planner_frequency: 5.0
     planner_plugins: [GridBased]
+
     GridBased:
       plugin: nav2_navfn_planner/NavfnPlanner
       tolerance: 0.5
@@ -123,6 +130,7 @@ smoother_server:
   ros__parameters:
     use_sim_time: false
     smoother_plugins: [simple_smoother]
+
     simple_smoother:
       plugin: nav2_smoother::SimpleSmoother
       tolerance: 1.0e-10
@@ -136,14 +144,19 @@ behavior_server:
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
     behavior_plugins: [spin, backup, drive_on_heading, wait]
+
     spin:
       plugin: nav2_behaviors/Spin
+
     backup:
       plugin: nav2_behaviors/BackUp
+
     drive_on_heading:
       plugin: nav2_behaviors/DriveOnHeading
+
     wait:
       plugin: nav2_behaviors/Wait
+
     global_frame: odom
     robot_base_frame: base_link
     transform_tolerance: 0.3
@@ -158,6 +171,7 @@ waypoint_follower:
     loop_rate: 20
     stop_on_failure: false
     waypoint_task_executor_plugin: wait_at_waypoint
+
     wait_at_waypoint:
       plugin: nav2_waypoint_follower::WaitAtWaypoint
       enabled: false
@@ -187,6 +201,7 @@ local_costmap:
       global_frame: odom
       robot_base_frame: base_link
       rolling_window: true
+
       # The old-car MID360 sits near the edge of the local rolling window in
       # some poses. Use a wider experiment-only window before floor tests.
       width: 8
@@ -201,10 +216,12 @@ local_costmap:
       footprint_padding: 0.02
 
       plugins: [voxel_layer, inflation_layer]
+
       voxel_layer:
         plugin: nav2_costmap_2d::VoxelLayer
         enabled: true
         publish_voxel_map: true
+
         # Real MID360 point clouds run on wall time and the old-car mounting is
         # approximate. Keep a generous vertical voxel span for first hardware
         # tests so the sensor origin and upward returns stay inside bounds.
@@ -214,30 +231,57 @@ local_costmap:
         z_resolution: 0.15
         z_voxels: 16
         max_obstacle_height: 2.0
-        mark_threshold: 0
+
+        # Do not mark a 2D cell from an almost empty voxel column too easily.
+        # This helps reduce dynamic obstacle trails and sparse noise.
+        mark_threshold: 1
+
         footprint_clearing_enabled: true
         observation_sources: cloud
+
         cloud:
           # The old-car MID360 sees chassis/ground returns near the robot.
           # Feed Nav2 through the bridge-side self filter instead of consuming
           # the raw driver cloud directly.
           topic: /livox/left/pointcloud_filtered
           data_type: PointCloud2
-          clearing: true
+
           marking: true
+          clearing: true
+
+          # Do not keep old point cloud observations in the buffer.
+          # This helps prevent people or moving obstacles from leaving long trails.
+          observation_persistence: 0.0
+
+          # Expected update period for the filtered point cloud.
+          # If /livox/left/pointcloud_filtered is much slower than 5Hz,
+          # change this to 0.3 or 0.5. If warnings appear during tests,
+          # temporarily set it to 0.0.
+          expected_update_rate: 0.2
+
           # Filter ground noise and low self returns from the old-car chassis.
           # This is an experiment-only value; final 2027 filtering must be
           # based on measured extrinsics and field obstacle requirements.
           min_obstacle_height: 0.18
           max_obstacle_height: 2.0
+
+          # Keep blind/self area around the robot from being marked.
           obstacle_min_range: 0.45
-          obstacle_max_range: 6.0
+
+          # Local dynamic obstacle marking range.
+          # Shorter than the previous 6.0 m to reduce long dynamic trails.
+          obstacle_max_range: 3.5
+
+          # Clearing range should be larger than obstacle marking range.
+          # When the sensor sees beyond the old obstacle position, raytracing can clear it.
           raytrace_min_range: 0.0
-          raytrace_max_range: 8.0
+          raytrace_max_range: 6.0
+
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
         cost_scaling_factor: 6.0
         inflation_radius: 0.30
+
       always_send_full_costmap: true
 
 global_costmap:
@@ -264,8 +308,10 @@ global_costmap:
       # dynamic obstacle handling in the local costmap until a map/static layer
       # and point-cloud filtering pipeline are validated.
       plugins: [inflation_layer]
+
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
         cost_scaling_factor: 2.0
         inflation_radius: 0.65
+
       always_send_full_costmap: true
