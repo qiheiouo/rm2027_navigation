@@ -3,16 +3,33 @@
   <!--
     Old-car validation model only.
 
-    The lidar/IMU placeholder below is derived from the old 2026 URDF:
-      rm2026_navigation/src/robot_msgs/urdf/car.urdf.xacro
-      joint_laser_x = 0.15
-      joint_laser_y = 0.14
-      joint_laser_z = 0.24
-      rpy = 0 0 0
+    The old-car MID360 transform below uses the final 2026 measured L1
+    extrinsic from:
+      rm2026_navigation/src/robot_msgs/urdf/robot.urdf
+      rm2026_navigation/radar_multi_notice.md
+
+    Source measurement was left-handed with x forward, y right, z up:
+      L1 position: (193.5, -175.3, 210.2) mm
+      L1 normal:   (3.91, -3.91, 11.87)
+    Converted to ROS x-forward, y-left, z-up:
+      xyz=(0.1935, 0.1753, 0.2102)
+      rpy=(0.332345, 0.287549, 1.668370)
+    MID360 internal IMU to lidar offset from the 2026 FAST-LIO config:
+      imu->lidar xyz=(-0.011, -0.02329, 0.04412), rpy=(0, 0, 0)
 
     This file must not be used as 2027 robot calibration. It exists only for
     the experiment/old-car-2026-bringup validation branch.
   -->
+
+  <xacro:property name="old_car_l1_x" value="0.1935"/>
+  <xacro:property name="old_car_l1_y" value="0.1753"/>
+  <xacro:property name="old_car_l1_z" value="0.2102"/>
+  <xacro:property name="old_car_l1_roll" value="0.332345"/>
+  <xacro:property name="old_car_l1_pitch" value="0.287549"/>
+  <xacro:property name="old_car_l1_yaw" value="1.668370"/>
+  <xacro:property name="old_car_l1_imu_x" value="0.157178"/>
+  <xacro:property name="old_car_l1_imu_y" value="0.172624"/>
+  <xacro:property name="old_car_l1_imu_z" value="0.174374"/>
 
   <link name="base_link">
     <visual>
@@ -42,8 +59,10 @@
   <joint name="gimbal_yaw_link_to_lio_imu_link" type="fixed">
     <parent link="gimbal_yaw_link"/>
     <child link="lio_imu_link"/>
-    <!-- Old-car-only placeholder copied from the 2026 laser joint. -->
-    <origin xyz="0.15 0.14 0.24" rpy="0 0 0"/>
+    <!-- Selected MID360 internal IMU frame used by FAST-LIO body state. -->
+    <origin
+      xyz="${old_car_l1_imu_x} ${old_car_l1_imu_y} ${old_car_l1_imu_z}"
+      rpy="${old_car_l1_roll} ${old_car_l1_pitch} ${old_car_l1_yaw}"/>
   </joint>
 
   <link name="old_car_laser_link"/>
@@ -51,7 +70,9 @@
   <joint name="gimbal_yaw_link_to_old_car_laser_link" type="fixed">
     <parent link="gimbal_yaw_link"/>
     <child link="old_car_laser_link"/>
-    <origin xyz="0.15 0.14 0.24" rpy="0 0 0"/>
+    <origin
+      xyz="${old_car_l1_x} ${old_car_l1_y} ${old_car_l1_z}"
+      rpy="${old_car_l1_roll} ${old_car_l1_pitch} ${old_car_l1_yaw}"/>
   </joint>
 
   <link name="mid360_left_frame"/>
@@ -59,8 +80,10 @@
   <joint name="gimbal_yaw_link_to_mid360_left_frame" type="fixed">
     <parent link="gimbal_yaw_link"/>
     <child link="mid360_left_frame"/>
-    <!-- Matches the current left driver frame_id and old-car placeholder. -->
-    <origin xyz="0.15 0.14 0.24" rpy="0 0 0"/>
+    <!-- Matches the current left driver frame_id and measured L1 extrinsic. -->
+    <origin
+      xyz="${old_car_l1_x} ${old_car_l1_y} ${old_car_l1_z}"
+      rpy="${old_car_l1_roll} ${old_car_l1_pitch} ${old_car_l1_yaw}"/>
   </joint>
 
   <link name="base_imu_link"/>

@@ -39,12 +39,14 @@ after the sensor message, without weakening the contract to latest-TF lookup.
   timestamped `base_link -> lio_imu_link` TF.
 - `fast_lio_multi_old_car_2026.yaml`: experiment-only single-MID360 backend
   profile for validating the 2027 architecture on the available 2026 chassis.
+  It uses the measured 2026 MID360 internal IMU -> L1 lidar offset
+  `[-0.011, -0.02329, 0.04412]` with identity rotation.
 - `lio_adapter_old_car_2026.yaml`: matching adapter profile using the old-car
-  placeholder `base_link -> lio_imu_link` transform. It is not 2027
+  measured `base_link -> lio_imu_link` transform through TF. It is not 2027
   calibration.
 
-The zero extrinsics in these files are deliberate no-hardware placeholders,
-not 2027 calibration results.
+Any remaining zero extrinsics in these files are deliberate no-hardware or
+unused-side placeholders, not 2027 calibration results.
 
 ## Build-Only Launch
 

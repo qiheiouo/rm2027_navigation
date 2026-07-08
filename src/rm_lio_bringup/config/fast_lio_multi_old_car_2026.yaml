@@ -42,10 +42,10 @@
       extrinsic_est_en: false
       extrinsic_imu_to_lidars: false
 
-      # Old-car validation placeholders only. These are IMU-to-lidar backend
-      # parameters, not base_link-to-lidar robot extrinsics. Do not copy them
-      # into 2027 real-robot acceptance.
-      extrinsic_T: [0.0, 0.0, 0.0]
+      # Old-car measured MID360 internal IMU -> L1 lidar offset from the 2026
+      # stack. These are backend IMU-to-lidar parameters, not base_link-to-lidar
+      # robot extrinsics. Do not copy them into 2027 real-robot acceptance.
+      extrinsic_T: [-0.011, -0.02329, 0.04412]
       extrinsic_R: [1.0, 0.0, 0.0,
                     0.0, 1.0, 0.0,
                     0.0, 0.0, 1.0]

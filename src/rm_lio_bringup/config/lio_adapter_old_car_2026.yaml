@@ -34,13 +34,13 @@ lio_adapter:
 
     twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
 
-    # Inverse of the old-car base_link -> lio_imu_link placeholder
-    # translation. Placeholder fallback remains disabled; this is retained only
-    # for explicit emergency experiments.
+    # Inverse of the old-car measured base_link -> lio_imu_link transform.
+    # Placeholder fallback remains disabled; this is retained only for explicit
+    # emergency experiments.
     input_to_base_placeholder:
-      x: -0.15
-      y: -0.14
-      z: -0.24
-      roll: 0.0
-      pitch: 0.0
-      yaw: 0.0
+      x: -0.100613
+      y: 0.094732
+      z: -0.256541
+      roll: 0.318208
+      pitch: -0.303217
+      yaw: -1.668838
