@@ -38,14 +38,13 @@ limits and global costmap policy, but local costmap consumes `/local_scan`
 through `nav2_costmap_2d::ObstacleLayer` with `inf_is_valid: true`. The scan is
 projected from `/livox/left/pointcloud_filtered` by
 `rm_mid360_driver_bridge/pointcloud_to_laserscan_node`.
-`config/nav2_old_car_2026_left_timed_local.yaml` is the next old-car
-dynamic-obstacle experiment. It keeps `/local_scan` but replaces the local
-ObstacleLayer with `rm_nav2_plugins::TimedObstacleLayer`, which marks finite
-scan returns and expires cells that are not re-observed after a short TTL.
-`config/nav2_old_car_2026_left_timed_local_global.yaml` mirrors the same
-short-TTL obstacle layer into the global costmap so the RViz `/plan` topic can
-route around current dynamic obstacles. It is a second-stage experiment only;
-keep the local-only timed profile as the first test.
+`config/nav2_old_car_2026_left_stvl.yaml` is an experiment-only profile for
+dynamic-obstacle residuals. It keeps the default old-car controller, planner,
+serial, behavior-tree, footprint, inflation, and global-costmap policy, but
+replaces the local VoxelLayer with
+`spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer`. It is enabled only by
+explicitly passing that file through `nav2_params:=...`; the external STVL
+package must be installed or built before using it.
 `rviz/old_car_2026.rviz` is the matching visualization profile for old-car
 debugging. It shows TF, RobotModel, left MID360 point cloud, LIO odometry,
 local/global costmaps, and Nav2 plans.
@@ -61,6 +60,31 @@ self/ground ghosts to persist while the robot moved.
 
 Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
 returns can clear cells previously occupied by moving simulated obstacles.
+
+## Costmap Inspector
+
+`costmap_inspector` is a read-only helper for old-car costmap debugging. It
+subscribes to `/local_costmap/costmap_raw` (`nav2_msgs/Costmap`) or
+`/local_costmap/costmap` (`nav_msgs/OccupancyGrid`), looks up `base_link` in
+the costmap frame, and summarizes a square window around the robot.
+
+Example one-shot checks:
+
+```bash
+ros2 run rm_nav_config costmap_inspector \
+  --topic /local_costmap/costmap_raw \
+  --window-size 2.0
+
+ros2 run rm_nav_config costmap_inspector \
+  --topic /local_costmap/costmap \
+  --window-size 2.0 \
+  --csv /tmp/local_costmap_window.csv
+```
+
+The summary separates `free`, `intermediate`, `inscribed`, `lethal`, and
+`unknown` cells. Use it before and after dynamic obstacle tests to check
+whether lethal or inscribed residuals actually disappear rather than relying on
+RViz color alone.
 
 Phase 1 constraints:
 

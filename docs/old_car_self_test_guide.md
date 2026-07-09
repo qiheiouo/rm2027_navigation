@@ -123,25 +123,34 @@ local_scan_enabled:=true
 nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_left_local_scan.yaml
 ```
 
-For the short-TTL dynamic obstacle experiment, enable `/local_scan` and use the
-local-only timed layer first:
+For the STVL dynamic-obstacle decay experiment, keep `/local_scan` disabled and
+explicitly use the STVL profile:
 
 ```bash
-local_scan_enabled:=true
-nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_left_timed_local.yaml
+local_scan_enabled:=false
+nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_left_stvl.yaml
 ```
 
-Only if local-only decay works, try the local+global timed profile:
+This profile requires the external `spatio_temporal_voxel_layer` package to be
+available in the ROS environment. It keeps the global costmap dynamic-obstacle
+policy unchanged; only the local obstacle layer is changed for the experiment.
+
+Before comparing RViz screenshots, record numeric costmap evidence:
 
 ```bash
-local_scan_enabled:=true
-nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_left_timed_local_global.yaml
+ros2 run rm_nav_config costmap_inspector \
+  --topic /local_costmap/costmap_raw \
+  --window-size 2.0 \
+  --csv /tmp/local_costmap_before.csv
 ```
+
+After a person crosses and leaves the robot front, repeat at about 1 s, 3 s,
+and 5 s. Lethal and inscribed counts near `base_link` should clearly drop in
+the STVL profile while static obstacles that remain visible should stay marked.
 
 `/plan` is the global plan. In local-only profiles it can cross obstacles that
 exist only in `/local_costmap/costmap`; MPPI may still stop at those obstacles.
-The local+global timed profile is intended to test whether `/plan` can avoid
-current dynamic obstacles without keeping stale people trails forever.
+Do not treat `/plan` as the controller's actual local trajectory.
 
 ## Minimal Health Check
 

@@ -56,10 +56,7 @@ old-car local costmap topic back to `/livox/left/pointcloud`.
 old car. It projects `/livox/left/pointcloud_filtered` into `/local_scan` in
 `base_link`. Empty angular bins are published as `+inf`, allowing Nav2
 `ObstacleLayer` with `inf_is_valid: true` to raytrace free space after a person
-or other dynamic obstacle leaves. The same `/local_scan` topic is also used by
-the experimental `rm_nav2_plugins::TimedObstacleLayer` profile, where finite
-scan returns are marked and stale cells expire by time instead of relying only
-on raytrace clearing.
+or other dynamic obstacle leaves.
 
 This is a switchable alternative to the VoxelLayer path above; it does not
 replace the raw driver topic or take ownership of TF. Defaults live in

@@ -1,0 +1,311 @@
+#!/usr/bin/env python3
+"""Read-only Nav2 costmap window inspector.
+
+The tool subscribes to either nav2_msgs/Costmap or nav_msgs/OccupancyGrid and
+summarizes cost classes around base_link. It does not call services or publish.
+"""
+
+import argparse
+import csv
+from collections import Counter
+from math import atan2, cos, floor, sin
+from pathlib import Path
+import sys
+from typing import Dict, Iterable, List, Optional, Tuple
+
+import rclpy
+from nav2_msgs.msg import Costmap
+from nav_msgs.msg import OccupancyGrid
+from rclpy.duration import Duration
+from rclpy.node import Node
+from tf2_ros import Buffer, TransformException, TransformListener
+
+
+UNKNOWN = "unknown"
+LETHAL = "lethal"
+INSCRIBED = "inscribed"
+INTERMEDIATE = "intermediate"
+FREE = "free"
+
+
+def quaternion_yaw(q) -> float:
+    siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
+    cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
+    return atan2(siny_cosp, cosy_cosp)
+
+
+def classify_costmap_value(value: int) -> str:
+    if value == 255:
+        return UNKNOWN
+    if value == 254:
+        return LETHAL
+    if value == 253:
+        return INSCRIBED
+    if value == 0:
+        return FREE
+    return INTERMEDIATE
+
+
+def classify_occupancy_value(value: int) -> str:
+    if value < 0:
+        return UNKNOWN
+    if value >= 100:
+        return LETHAL
+    if value == 99:
+        return INSCRIBED
+    if value == 0:
+        return FREE
+    return INTERMEDIATE
+
+
+class CostmapInspector(Node):
+    def __init__(self, args: argparse.Namespace) -> None:
+        super().__init__("costmap_inspector")
+        self.args = args
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+        self.samples: List[Dict[str, object]] = []
+        self._received = 0
+
+        self.create_subscription(Costmap, args.topic, self._on_nav2_costmap, 10)
+        self.create_subscription(OccupancyGrid, args.topic, self._on_occupancy_grid, 10)
+
+    def _on_nav2_costmap(self, msg: Costmap) -> None:
+        if self._received >= self.args.samples:
+            return
+        metadata = msg.metadata
+        origin = metadata.origin
+        self._handle_message(
+            msg_type="nav2_msgs/Costmap",
+            stamp=msg.header.stamp,
+            frame_id=msg.header.frame_id,
+            width=int(metadata.size_x),
+            height=int(metadata.size_y),
+            resolution=float(metadata.resolution),
+            origin_x=float(origin.position.x),
+            origin_y=float(origin.position.y),
+            origin_yaw=quaternion_yaw(origin.orientation),
+            data=list(msg.data),
+            classifier=classify_costmap_value,
+        )
+
+    def _on_occupancy_grid(self, msg: OccupancyGrid) -> None:
+        if self._received >= self.args.samples:
+            return
+        info = msg.info
+        self._handle_message(
+            msg_type="nav_msgs/OccupancyGrid",
+            stamp=msg.header.stamp,
+            frame_id=msg.header.frame_id,
+            width=int(info.width),
+            height=int(info.height),
+            resolution=float(info.resolution),
+            origin_x=float(info.origin.position.x),
+            origin_y=float(info.origin.position.y),
+            origin_yaw=quaternion_yaw(info.origin.orientation),
+            data=list(msg.data),
+            classifier=classify_occupancy_value,
+        )
+
+    def _lookup_center(self, frame_id: str) -> Optional[Tuple[float, float]]:
+        if self.args.center:
+            return self.args.center
+        try:
+            transform = self.tf_buffer.lookup_transform(
+                frame_id,
+                self.args.base_frame,
+                rclpy.time.Time(),
+                timeout=Duration(seconds=self.args.tf_timeout),
+            )
+        except TransformException as exc:
+            self.get_logger().warning(
+                f"Cannot lookup {frame_id} <- {self.args.base_frame}: {exc}"
+            )
+            return None
+        translation = transform.transform.translation
+        return float(translation.x), float(translation.y)
+
+    def _world_to_map(
+        self,
+        wx: float,
+        wy: float,
+        origin_x: float,
+        origin_y: float,
+        origin_yaw: float,
+        resolution: float,
+    ) -> Tuple[int, int]:
+        dx = wx - origin_x
+        dy = wy - origin_y
+        c = cos(-origin_yaw)
+        s = sin(-origin_yaw)
+        mx = (c * dx - s * dy) / resolution
+        my = (s * dx + c * dy) / resolution
+        return int(floor(mx)), int(floor(my))
+
+    def _handle_message(
+        self,
+        *,
+        msg_type: str,
+        stamp,
+        frame_id: str,
+        width: int,
+        height: int,
+        resolution: float,
+        origin_x: float,
+        origin_y: float,
+        origin_yaw: float,
+        data: List[int],
+        classifier,
+    ) -> None:
+        center = self._lookup_center(frame_id)
+        if center is None:
+            return
+
+        cx, cy = center
+        mx, my = self._world_to_map(cx, cy, origin_x, origin_y, origin_yaw, resolution)
+        half_cells = max(0, int(round((self.args.window_size / 2.0) / resolution)))
+        min_x = max(0, mx - half_cells)
+        max_x = min(width - 1, mx + half_cells)
+        min_y = max(0, my - half_cells)
+        max_y = min(height - 1, my + half_cells)
+
+        values: List[int] = []
+        counts = Counter({FREE: 0, INTERMEDIATE: 0, INSCRIBED: 0, LETHAL: 0, UNKNOWN: 0})
+        for y in range(min_y, max_y + 1):
+            row = y * width
+            for x in range(min_x, max_x + 1):
+                value = int(data[row + x])
+                values.append(value)
+                counts[classifier(value)] += 1
+
+        total = len(values)
+        top_values = ",".join(
+            f"{value}:{count}" for value, count in Counter(values).most_common(8)
+        )
+        sample = {
+            "stamp": f"{stamp.sec}.{stamp.nanosec:09d}",
+            "topic": self.args.topic,
+            "msg_type": msg_type,
+            "frame": frame_id,
+            "base_frame": self.args.base_frame,
+            "center_x": cx,
+            "center_y": cy,
+            "window_size_m": self.args.window_size,
+            "resolution": resolution,
+            "cells": total,
+            FREE: counts[FREE],
+            INTERMEDIATE: counts[INTERMEDIATE],
+            INSCRIBED: counts[INSCRIBED],
+            LETHAL: counts[LETHAL],
+            UNKNOWN: counts[UNKNOWN],
+            "top_values": top_values,
+        }
+        self.samples.append(sample)
+        self._received += 1
+        self._print_sample(sample)
+
+    def _print_sample(self, sample: Dict[str, object]) -> None:
+        line = (
+            f"{sample['topic']} {sample['msg_type']} frame={sample['frame']} "
+            f"center=({float(sample['center_x']):.3f},{float(sample['center_y']):.3f}) "
+            f"window={float(sample['window_size_m']):.2f}m cells={sample['cells']} "
+            f"free={sample[FREE]} intermediate={sample[INTERMEDIATE]} "
+            f"inscribed={sample[INSCRIBED]} lethal={sample[LETHAL]} "
+            f"unknown={sample[UNKNOWN]} top={sample['top_values']}"
+        )
+        print(line, flush=True)
+
+    def finished(self) -> bool:
+        return self._received >= self.args.samples
+
+
+def write_text(path: Path, samples: Iterable[Dict[str, object]]) -> None:
+    with path.open("w", encoding="utf-8") as output:
+        for sample in samples:
+            output.write(
+                f"{sample['topic']} {sample['msg_type']} frame={sample['frame']} "
+                f"center=({float(sample['center_x']):.3f},{float(sample['center_y']):.3f}) "
+                f"window={float(sample['window_size_m']):.2f}m cells={sample['cells']} "
+                f"free={sample[FREE]} intermediate={sample[INTERMEDIATE]} "
+                f"inscribed={sample[INSCRIBED]} lethal={sample[LETHAL]} "
+                f"unknown={sample[UNKNOWN]} top={sample['top_values']}\n"
+            )
+
+
+def write_csv(path: Path, samples: Iterable[Dict[str, object]]) -> None:
+    fieldnames = [
+        "stamp",
+        "topic",
+        "msg_type",
+        "frame",
+        "base_frame",
+        "center_x",
+        "center_y",
+        "window_size_m",
+        "resolution",
+        "cells",
+        FREE,
+        INTERMEDIATE,
+        INSCRIBED,
+        LETHAL,
+        UNKNOWN,
+        "top_values",
+    ]
+    with path.open("w", newline="", encoding="utf-8") as output:
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+        for sample in samples:
+            writer.writerow(sample)
+
+
+def parse_args(argv: List[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--topic", default="/local_costmap/costmap_raw")
+    parser.add_argument("--base-frame", default="base_link")
+    parser.add_argument("--window-size", type=float, default=2.0)
+    parser.add_argument("--samples", type=int, default=1)
+    parser.add_argument("--timeout", type=float, default=10.0)
+    parser.add_argument("--tf-timeout", type=float, default=0.2)
+    parser.add_argument("--output", type=Path)
+    parser.add_argument("--csv", type=Path)
+    parser.add_argument(
+        "--center",
+        nargs=2,
+        type=float,
+        metavar=("X", "Y"),
+        help="Use an explicit center in the costmap frame instead of TF.",
+    )
+    args = parser.parse_args(argv)
+    if args.samples < 1:
+        parser.error("--samples must be >= 1")
+    if args.window_size <= 0.0:
+        parser.error("--window-size must be > 0")
+    return args
+
+
+def main(argv: List[str]) -> int:
+    args = parse_args(argv)
+    rclpy.init()
+    node = CostmapInspector(args)
+    deadline = node.get_clock().now() + Duration(seconds=args.timeout)
+    try:
+        while rclpy.ok() and not node.finished():
+            rclpy.spin_once(node, timeout_sec=0.1)
+            if node.get_clock().now() > deadline:
+                print(
+                    f"Timed out waiting for {args.samples} sample(s) on {args.topic}",
+                    file=sys.stderr,
+                )
+                return 2
+        if args.output:
+            write_text(args.output, node.samples)
+        if args.csv:
+            write_csv(args.csv, node.samples)
+        return 0
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))

@@ -1,7 +1,14 @@
-# 2026 old-car experiment profile for local and global dynamic obstacle decay.
-# This keeps the same Nav2/MPPI and serial limits as the local-scan profile, but
-# uses experimental short-TTL obstacle layers so /plan can see current dynamic
-# obstacles without preserving them indefinitely.
+# 2026 old-car STVL experiment profile.
+#
+# This file is intentionally not the default old-car profile. It keeps the
+# controller, planner, serial, behavior-tree, footprint, inflation, and global
+# costmap policy from nav2_old_car_2026_left.yaml, but replaces the local
+# VoxelLayer with SpatioTemporalVoxelLayer to test short-lived dynamic obstacle
+# decay for MID360 PointCloud2 residuals.
+#
+# Runtime requirement: the external spatio_temporal_voxel_layer package must be
+# installed or built in the workspace. Enable only by explicitly passing this
+# file through nav2_params:=...nav2_old_car_2026_left_stvl.yaml.
 
 bt_navigator:
   ros__parameters:
@@ -215,23 +222,68 @@ local_costmap:
       footprint: "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]"
       footprint_padding: 0.02
 
-      plugins: [timed_obstacle_layer, inflation_layer]
+      plugins: [stvl_layer, inflation_layer]
 
-      timed_obstacle_layer:
-        plugin: rm_nav2_plugins::TimedObstacleLayer
+      stvl_layer:
+        plugin: spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer
         enabled: true
-        # /livox/left/pointcloud_filtered -> /local_scan -> TimedObstacleLayer.
-        # Finite LaserScan returns mark cells. Cells that are not seen again
-        # expire from this layer after decay_time_sec, so dynamic people trails
-        # do not depend only on raytrace or footprint clearing.
-        topic: /local_scan
-        decay_time_sec: 1.0
-        obstacle_min_range: 0.45
-        obstacle_max_range: 3.5
-        expected_update_rate: 0.2
-        transform_tolerance: 0.05
-        clear_radius: 0.35
+
+        # Short local decay experiment. The previous VoxelLayer profile kept
+        # stale lethal cells after dynamic obstacles left. This profile tests
+        # whether STVL's temporal decay and frustum clearing remove stale cells
+        # in roughly the 0.5-2.0 second window while still preserving obstacles
+        # that are continuously observed.
+        voxel_decay: 1.5
+        decay_model: 0
+        voxel_size: 0.05
+        track_unknown_space: false
+        observation_persistence: 0.0
+        max_obstacle_height: 2.0
+        mark_threshold: 1
+        update_footprint_enabled: true
+        footprint_clearing_enabled: true
         combination_method: 1
+        obstacle_range: 3.5
+        origin_z: -0.2
+        publish_voxel_map: false
+        transform_tolerance: 0.3
+        mapping_mode: false
+
+        observation_sources: left_mid360_mark left_mid360_clear
+
+        left_mid360_mark:
+          topic: /livox/left/pointcloud_filtered
+          data_type: PointCloud2
+          marking: true
+          clearing: false
+          observation_persistence: 0.0
+          expected_update_rate: 0.2
+          min_obstacle_height: 0.18
+          max_obstacle_height: 2.0
+          obstacle_min_range: 0.45
+          obstacle_max_range: 3.5
+          clear_after_reading: true
+          filter: voxel
+          voxel_min_points: 1
+
+        left_mid360_clear:
+          topic: /livox/left/pointcloud_filtered
+          data_type: PointCloud2
+          marking: false
+          clearing: true
+          min_z: 0.0
+          max_z: 6.0
+
+          # MID360 has full horizontal coverage and a non-symmetric vertical
+          # field of view. For 3D lidar STVL uses model_type 1 and the vertical
+          # FOV/offset to define the clearing frustum. These values are an
+          # experiment starting point; tune from recorded bags if clearing still
+          # misses stale cells.
+          horizontal_fov_angle: 6.283185
+          vertical_fov_angle: 1.03
+          vertical_fov_offset: 0.3927
+          decay_acceleration: 1.0
+          model_type: 1
 
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
@@ -258,23 +310,12 @@ global_costmap:
       footprint: "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]"
       footprint_padding: 0.02
 
-      # Experimental global dynamic obstacle view. This is intentionally not
-      # the default old-car profile: it only mirrors short-lived /local_scan
-      # obstacles so the global /plan can route around active local obstacles
-      # without keeping people trails forever.
-      plugins: [timed_obstacle_layer, inflation_layer]
-
-      timed_obstacle_layer:
-        plugin: rm_nav2_plugins::TimedObstacleLayer
-        enabled: true
-        topic: /local_scan
-        decay_time_sec: 1.5
-        obstacle_min_range: 0.45
-        obstacle_max_range: 3.5
-        expected_update_rate: 0.2
-        transform_tolerance: 0.05
-        clear_radius: 0.70
-        combination_method: 1
+      # Do not feed dynamic raw MID360 point clouds into the old-car global
+      # costmap. PointCloud2 has no max-range free rays like LaserScan inf
+      # returns, so global marking can preserve self/ground ghosts. Keep
+      # dynamic obstacle handling in the local costmap until a map/static layer
+      # and point-cloud filtering pipeline are validated.
+      plugins: [inflation_layer]
 
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
