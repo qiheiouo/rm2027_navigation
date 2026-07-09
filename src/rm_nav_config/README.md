@@ -43,8 +43,13 @@ dynamic-obstacle residuals. It keeps the default old-car controller, planner,
 serial, behavior-tree, footprint, inflation, and global-costmap policy, but
 replaces the local VoxelLayer with
 `spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer`. It is enabled only by
-explicitly passing that file through `nav2_params:=...`; the external STVL
-package must be installed or built before using it.
+explicitly passing that file through `nav2_params:=...`. The project Docker
+image installs the Humble binary package
+`ros-humble-spatio-temporal-voxel-layer=2.3.4-1jammy.20260607.082704` and its
+matching `ros-humble-openvdb-vendor` dependency. Do not replace this with a
+floating source checkout from the upstream `ros2` branch; that branch currently
+depends on newer packages such as `nav2_ros_common` and `point_cloud_transport`
+that are not part of this old-car Humble baseline.
 `rviz/old_car_2026.rviz` is the matching visualization profile for old-car
 debugging. It shows TF, RobotModel, left MID360 point cloud, LIO odometry,
 local/global costmaps, and Nav2 plans.

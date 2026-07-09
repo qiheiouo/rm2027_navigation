@@ -132,8 +132,13 @@ nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_ol
 ```
 
 This profile requires the external `spatio_temporal_voxel_layer` package to be
-available in the ROS environment. It keeps the global costmap dynamic-obstacle
-policy unchanged; only the local obstacle layer is changed for the experiment.
+available in the ROS environment. In the project Docker image this is provided
+by the pinned Humble apt package
+`ros-humble-spatio-temporal-voxel-layer=2.3.4-1jammy.20260607.082704`. Do not
+use a floating upstream source checkout for this profile; the upstream `ros2`
+branch has dependencies that do not match this Humble baseline. The profile
+keeps the global costmap dynamic-obstacle policy unchanged; only the local
+obstacle layer is changed for the experiment.
 
 Before comparing RViz screenshots, record numeric costmap evidence:
 

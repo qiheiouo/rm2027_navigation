@@ -11,6 +11,7 @@ from collections import Counter
 from math import atan2, cos, floor, sin
 from pathlib import Path
 import sys
+import time
 from typing import Dict, Iterable, List, Optional, Tuple
 
 import rclpy
@@ -18,6 +19,7 @@ from nav2_msgs.msg import Costmap
 from nav_msgs.msg import OccupancyGrid
 from rclpy.duration import Duration
 from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSProfile, ReliabilityPolicy
 from tf2_ros import Buffer, TransformException, TransformListener
 
 
@@ -26,6 +28,8 @@ LETHAL = "lethal"
 INSCRIBED = "inscribed"
 INTERMEDIATE = "intermediate"
 FREE = "free"
+NAV2_COSTMAP_TYPE = "nav2_msgs/msg/Costmap"
+OCCUPANCY_GRID_TYPE = "nav_msgs/msg/OccupancyGrid"
 
 
 def quaternion_yaw(q) -> float:
@@ -66,12 +70,68 @@ class CostmapInspector(Node):
         self.tf_listener = TransformListener(self.tf_buffer, self)
         self.samples: List[Dict[str, object]] = []
         self._received = 0
+        self._last_sample_time = None
+        self._first_sample_time = None
+        self._end_time = None
+        self._subscription = None
 
-        self.create_subscription(Costmap, args.topic, self._on_nav2_costmap, 10)
-        self.create_subscription(OccupancyGrid, args.topic, self._on_occupancy_grid, 10)
+    def configure_subscription(self) -> None:
+        msg_type = self._resolve_topic_type()
+        qos = QoSProfile(
+            history=HistoryPolicy.KEEP_LAST,
+            depth=1,
+            reliability=ReliabilityPolicy.RELIABLE,
+            durability=DurabilityPolicy.TRANSIENT_LOCAL,
+        )
+        if msg_type == NAV2_COSTMAP_TYPE:
+            self._subscription = self.create_subscription(
+                Costmap, self.args.topic, self._on_nav2_costmap, qos
+            )
+        elif msg_type == OCCUPANCY_GRID_TYPE:
+            self._subscription = self.create_subscription(
+                OccupancyGrid, self.args.topic, self._on_occupancy_grid, qos
+            )
+        else:
+            raise ValueError(
+                f"Unsupported topic type for {self.args.topic}: {msg_type}. "
+                f"Supported: {OCCUPANCY_GRID_TYPE}, {NAV2_COSTMAP_TYPE}"
+            )
+        self.get_logger().info(f"Inspecting {self.args.topic} as {msg_type}")
+
+    def _resolve_topic_type(self) -> str:
+        forced = {
+            "occupancy_grid": OCCUPANCY_GRID_TYPE,
+            "nav2_costmap": NAV2_COSTMAP_TYPE,
+        }.get(self.args.msg_type)
+        if forced:
+            return forced
+
+        deadline = time.monotonic() + self.args.timeout
+        while rclpy.ok() and time.monotonic() < deadline:
+            topics = dict(self.get_topic_names_and_types())
+            types = topics.get(self.args.topic)
+            if types:
+                supported = [t for t in types if t in (OCCUPANCY_GRID_TYPE, NAV2_COSTMAP_TYPE)]
+                if len(supported) == 1:
+                    return supported[0]
+                if len(supported) > 1:
+                    raise ValueError(
+                        f"Topic {self.args.topic} has multiple supported types {supported}; "
+                        "use --msg-type occupancy_grid or --msg-type nav2_costmap."
+                    )
+                raise ValueError(
+                    f"Topic {self.args.topic} has unsupported type(s) {types}. "
+                    f"Supported: {OCCUPANCY_GRID_TYPE}, {NAV2_COSTMAP_TYPE}"
+                )
+            rclpy.spin_once(self, timeout_sec=0.1)
+
+        raise TimeoutError(
+            f"Timed out waiting for topic {self.args.topic} to appear. "
+            "If the publisher starts later, pass --msg-type explicitly."
+        )
 
     def _on_nav2_costmap(self, msg: Costmap) -> None:
-        if self._received >= self.args.samples:
+        if not self._should_accept_sample():
             return
         metadata = msg.metadata
         origin = metadata.origin
@@ -90,7 +150,7 @@ class CostmapInspector(Node):
         )
 
     def _on_occupancy_grid(self, msg: OccupancyGrid) -> None:
-        if self._received >= self.args.samples:
+        if not self._should_accept_sample():
             return
         info = msg.info
         self._handle_message(
@@ -106,6 +166,18 @@ class CostmapInspector(Node):
             data=list(msg.data),
             classifier=classify_occupancy_value,
         )
+
+    def _should_accept_sample(self) -> bool:
+        now = self.get_clock().now()
+        if not self.args.duration and self._received >= self.args.samples:
+            return False
+        if self.args.duration and self._end_time is not None and now > self._end_time:
+            return False
+        if self._last_sample_time is None:
+            return True
+        min_period = 1.0 / self.args.rate
+        elapsed = (now - self._last_sample_time).nanoseconds * 1e-9
+        return elapsed >= min_period
 
     def _lookup_center(self, frame_id: str) -> Optional[Tuple[float, float]]:
         if self.args.center:
@@ -161,6 +233,12 @@ class CostmapInspector(Node):
         if center is None:
             return
 
+        now = self.get_clock().now()
+        if self._first_sample_time is None:
+            self._first_sample_time = now
+            if self.args.duration:
+                self._end_time = now + Duration(seconds=self.args.duration)
+
         cx, cy = center
         mx, my = self._world_to_map(cx, cy, origin_x, origin_y, origin_yaw, resolution)
         half_cells = max(0, int(round((self.args.window_size / 2.0) / resolution)))
@@ -183,6 +261,13 @@ class CostmapInspector(Node):
             f"{value}:{count}" for value, count in Counter(values).most_common(8)
         )
         sample = {
+            "sample_index": self._received,
+            "record_time_sec": now.nanoseconds * 1e-9,
+            "elapsed_sec": (
+                (now - self._first_sample_time).nanoseconds * 1e-9
+                if self._first_sample_time is not None
+                else 0.0
+            ),
             "stamp": f"{stamp.sec}.{stamp.nanosec:09d}",
             "topic": self.args.topic,
             "msg_type": msg_type,
@@ -192,6 +277,11 @@ class CostmapInspector(Node):
             "center_y": cy,
             "window_size_m": self.args.window_size,
             "resolution": resolution,
+            "width": width,
+            "height": height,
+            "origin_x": origin_x,
+            "origin_y": origin_y,
+            "origin_yaw": origin_yaw,
             "cells": total,
             FREE: counts[FREE],
             INTERMEDIATE: counts[INTERMEDIATE],
@@ -202,11 +292,17 @@ class CostmapInspector(Node):
         }
         self.samples.append(sample)
         self._received += 1
+        self._last_sample_time = now
         self._print_sample(sample)
 
     def _print_sample(self, sample: Dict[str, object]) -> None:
         line = (
+            f"sample={sample['sample_index']} elapsed={float(sample['elapsed_sec']):.3f}s "
             f"{sample['topic']} {sample['msg_type']} frame={sample['frame']} "
+            f"size={sample['width']}x{sample['height']} "
+            f"resolution={float(sample['resolution']):.3f} "
+            f"origin=({float(sample['origin_x']):.3f},{float(sample['origin_y']):.3f},"
+            f"{float(sample['origin_yaw']):.3f}) "
             f"center=({float(sample['center_x']):.3f},{float(sample['center_y']):.3f}) "
             f"window={float(sample['window_size_m']):.2f}m cells={sample['cells']} "
             f"free={sample[FREE]} intermediate={sample[INTERMEDIATE]} "
@@ -216,6 +312,10 @@ class CostmapInspector(Node):
         print(line, flush=True)
 
     def finished(self) -> bool:
+        if self.args.duration:
+            if self._end_time is None:
+                return False
+            return self.get_clock().now() > self._end_time
         return self._received >= self.args.samples
 
 
@@ -223,7 +323,12 @@ def write_text(path: Path, samples: Iterable[Dict[str, object]]) -> None:
     with path.open("w", encoding="utf-8") as output:
         for sample in samples:
             output.write(
+                f"sample={sample['sample_index']} elapsed={float(sample['elapsed_sec']):.3f}s "
                 f"{sample['topic']} {sample['msg_type']} frame={sample['frame']} "
+                f"size={sample['width']}x{sample['height']} "
+                f"resolution={float(sample['resolution']):.3f} "
+                f"origin=({float(sample['origin_x']):.3f},{float(sample['origin_y']):.3f},"
+                f"{float(sample['origin_yaw']):.3f}) "
                 f"center=({float(sample['center_x']):.3f},{float(sample['center_y']):.3f}) "
                 f"window={float(sample['window_size_m']):.2f}m cells={sample['cells']} "
                 f"free={sample[FREE]} intermediate={sample[INTERMEDIATE]} "
@@ -234,6 +339,9 @@ def write_text(path: Path, samples: Iterable[Dict[str, object]]) -> None:
 
 def write_csv(path: Path, samples: Iterable[Dict[str, object]]) -> None:
     fieldnames = [
+        "sample_index",
+        "record_time_sec",
+        "elapsed_sec",
         "stamp",
         "topic",
         "msg_type",
@@ -243,6 +351,11 @@ def write_csv(path: Path, samples: Iterable[Dict[str, object]]) -> None:
         "center_y",
         "window_size_m",
         "resolution",
+        "width",
+        "height",
+        "origin_x",
+        "origin_y",
+        "origin_yaw",
         "cells",
         FREE,
         INTERMEDIATE,
@@ -261,9 +374,22 @@ def write_csv(path: Path, samples: Iterable[Dict[str, object]]) -> None:
 def parse_args(argv: List[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--topic", default="/local_costmap/costmap_raw")
+    parser.add_argument(
+        "--msg-type",
+        choices=["auto", "occupancy_grid", "nav2_costmap"],
+        default="auto",
+        help="Topic type. The default auto mode queries the ROS graph first.",
+    )
     parser.add_argument("--base-frame", default="base_link")
     parser.add_argument("--window-size", type=float, default=2.0)
     parser.add_argument("--samples", type=int, default=1)
+    parser.add_argument(
+        "--duration",
+        type=float,
+        default=0.0,
+        help="Record for this many seconds. When set, --samples is ignored.",
+    )
+    parser.add_argument("--rate", type=float, default=10.0)
     parser.add_argument("--timeout", type=float, default=10.0)
     parser.add_argument("--tf-timeout", type=float, default=0.2)
     parser.add_argument("--output", type=Path)
@@ -278,6 +404,10 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
     args = parser.parse_args(argv)
     if args.samples < 1:
         parser.error("--samples must be >= 1")
+    if args.duration < 0.0:
+        parser.error("--duration must be >= 0")
+    if args.rate <= 0.0:
+        parser.error("--rate must be > 0")
     if args.window_size <= 0.0:
         parser.error("--window-size must be > 0")
     return args
@@ -287,19 +417,26 @@ def main(argv: List[str]) -> int:
     args = parse_args(argv)
     rclpy.init()
     node = CostmapInspector(args)
-    deadline = node.get_clock().now() + Duration(seconds=args.timeout)
     try:
+        try:
+            node.configure_subscription()
+        except (TimeoutError, ValueError) as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        deadline = node.get_clock().now() + Duration(seconds=args.timeout + args.duration)
         while rclpy.ok() and not node.finished():
             rclpy.spin_once(node, timeout_sec=0.1)
             if node.get_clock().now() > deadline:
                 print(
-                    f"Timed out waiting for {args.samples} sample(s) on {args.topic}",
+                    f"Timed out waiting for sample(s) on {args.topic}",
                     file=sys.stderr,
                 )
                 return 2
         if args.output:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
             write_text(args.output, node.samples)
         if args.csv:
+            args.csv.parent.mkdir(parents=True, exist_ok=True)
             write_csv(args.csv, node.samples)
         return 0
     finally:

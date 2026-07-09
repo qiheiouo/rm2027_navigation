@@ -6,9 +6,9 @@
 # VoxelLayer with SpatioTemporalVoxelLayer to test short-lived dynamic obstacle
 # decay for MID360 PointCloud2 residuals.
 #
-# Runtime requirement: the external spatio_temporal_voxel_layer package must be
-# installed or built in the workspace. Enable only by explicitly passing this
-# file through nav2_params:=...nav2_old_car_2026_left_stvl.yaml.
+# Runtime requirement: the project Docker image installs the pinned Humble apt
+# package ros-humble-spatio-temporal-voxel-layer. Enable only by explicitly
+# passing this file through nav2_params:=...nav2_old_car_2026_left_stvl.yaml.
 
 bt_navigator:
   ros__parameters:
@@ -233,7 +233,7 @@ local_costmap:
         # whether STVL's temporal decay and frustum clearing remove stale cells
         # in roughly the 0.5-2.0 second window while still preserving obstacles
         # that are continuously observed.
-        voxel_decay: 1.5
+        voxel_decay: 0.5
         decay_model: 0
         voxel_size: 0.05
         track_unknown_space: false
@@ -256,7 +256,7 @@ local_costmap:
           data_type: PointCloud2
           marking: true
           clearing: false
-          observation_persistence: 0.0
+          observation_persistence: 0.2
           expected_update_rate: 0.2
           min_obstacle_height: 0.18
           max_obstacle_height: 2.0
@@ -279,7 +279,7 @@ local_costmap:
           # FOV/offset to define the clearing frustum. These values are an
           # experiment starting point; tune from recorded bags if clearing still
           # misses stale cells.
-          horizontal_fov_angle: 6.283185
+          horizontal_fov_angle: 4.71239
           vertical_fov_angle: 1.03
           vertical_fov_offset: 0.3927
           decay_acceleration: 1.0
