@@ -509,6 +509,103 @@ ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
 - 1.4 m 通道仍能通过。
 - 若效果变差，回退为默认 `nav2_old_car_2026_left.yaml` 并不启用 `local_scan_enabled`。
 
+### 6.6 STVL 动态障碍残留实验结论与后续调参方向
+
+当前 old-car 实车导航主链路已经基本可用：在 RViz 中发布目标点后，机器人可以到达目标。此前通道问题已经确认主要来自 footprint 和 local inflation 偏保守，导致真实约 1.4 m 通道在 local costmap 中被障碍和膨胀层挤满。
+
+已经保留的 old-car 落地调试参数：
+
+```yaml
+footprint: "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]"
+footprint_padding: 0.02
+
+inflation_layer:
+  inflation_radius: 0.30
+  cost_scaling_factor: 6.0
+```
+
+这组参数更接近实车约 `0.60 m x 0.50 m` 的尺寸，同时仍保留少量安全余量。实测通道通过能力明显改善，应继续保留，暂不把通道问题归因到 controller 或 MPPI critic。
+
+后续主要问题转为 local costmap 动态障碍残留：
+
+- 人从车前经过并离开后，local costmap 中会留下黑色障碍轨迹。
+- 部分残留不会自然消失，只有机器人靠近甚至 footprint 压过去后才被清掉。
+- 该现象不是 RViz 假象，也不是 unknown space。
+- `/local_costmap/costmap_raw` 中确实存在 `lethal=254` 和 `inscribed=253`。
+- filtered pointcloud 在动态障碍离开后，机器人 1 m 内 markable 点可以降到很少，但 costmap 仍保留大量 lethal/inscribed。
+
+因此当前根因判断为：
+
+```text
+标准 Nav2 VoxelLayer 对 MID360 PointCloud2 hit-only 输入的 clearing 不充分。
+近场点云仍会制造障碍，但不是残留不消的唯一原因。
+```
+
+已尝试过的方向：
+
+1. 调整 VoxelLayer 参数，例如 `observation_persistence: 0.0`、`mark_threshold`、`obstacle_max_range`、`raytrace_max_range`。有一定改善，但不能根治。
+2. 增加 `PointCloud2 -> LaserScan -> ObstacleLayer` 清除链路。效果不稳定，不能作为最终解。
+3. 自定义 `TimedObstacleLayer`。方向合理，但实测不理想，维护成本也偏高，暂不作为主线推进。
+
+当前 STVL 实验 profile 已能运行。RViz 观察显示，STVL 对动态障碍残留的清除明显优于默认 VoxelLayer：动态障碍离开后，残留大约在 `0.5 s` 左右开始消失。这说明“带时间衰减的 voxel layer”方向有效。
+
+STVL 的核心价值：
+
+```text
+不再完全依赖 PointCloud2 clearing ray 必须穿过旧 obstacle cell；
+未被持续观测到的 voxel 会随时间过期；
+动态障碍残留因此更容易自然消失。
+```
+
+但 STVL 当前不是最终完成状态。实测仍观察到：
+
+- 静态障碍物有时会被清除一瞬间，然后重新生成。
+- 这可能说明 `voxel_decay` / `decay_model` / clearing frustum 参数偏激进。
+- 也可能说明 MID360 对某些静态障碍的观测不够连续，导致 STVL 将其短暂判为过期。
+
+该现象在实验阶段可以接受，但不能忽略。后续 STVL 调参目标是：
+
+- 动态障碍离开后，残留在 `0.5-1.5 s` 内明显消失。
+- 静态障碍持续存在时，不出现明显整块闪烁或周期性清空。
+- 1.4 m 通道仍能通过。
+- 不破坏 RViz 发布目标点后基本准确到达的能力。
+
+当前策略：
+
+- 默认 `nav2_old_car_2026_left.yaml` 继续作为 VoxelLayer 主线配置。
+- STVL 只作为显式实验 profile，例如 `nav2_old_car_2026_left_stvl.yaml`。
+- 不把 STVL 直接设为默认。
+- 不修改 MPPI、planner、controller、serial、BT。
+- 不继续把 `TimedObstacleLayer` 作为推荐主线；如保留，也只能作为历史实验分支。
+- `costmap_inspector` 诊断工具仍需保持可用，后续用于定量比较 VoxelLayer 与 STVL 下 lethal/inscribed 数量的变化。
+
+推荐 STVL 后续调参优先级：
+
+1. 先调 `voxel_decay`，从当前偏快衰减逐步放慢，例如围绕 `1.0-2.0 s` 试验。
+2. 再检查 STVL 的 clearing frustum，例如 vertical FOV、vertical offset、model type、clearing observation source。
+3. 观察静态障碍闪烁是否和点云稀疏、遮挡或 filtered pointcloud 有关。
+4. 不要同时改 controller、inflation、footprint、serial，避免混淆变量。
+
+#### global path 穿过 local 黑区的解释
+
+当前 RViz 中有时会看到 global path 直接穿过 local costmap 的黑色障碍区域，但机器人实际会绕可走区域过去。这不是串口问题，也不优先是 controller 问题。
+
+原因是 global/local costmap 信息不一致：
+
+- RViz 的全局路径 `/plan` 来自 `planner_server + global_costmap`。
+- 当前 old-car global costmap 基本不包含动态障碍或静态地图信息。
+- 因此 global planner 看到的是较自由的空间，可能规划出穿过 local 黑区的直线路径。
+- controller/MPPI 使用 local costmap，会根据 local 障碍进行局部避让或停车。
+
+所以现象会表现为：
+
+```text
+全局路径看起来穿过障碍；
+机器人实际不按这条线硬穿，而是根据 local costmap 绕行或停住。
+```
+
+若后续希望 global path 也绕障碍，需要引入全局地图/static layer，或谨慎给 global costmap 加 obstacle layer。但在 dynamic residual 尚未稳定前，不建议急着把动态障碍加入 global costmap，否则可能把局部假障碍扩散成全局假障碍。
+
 ## 7. Livox 网络和多雷达干扰
 
 ### 7.1 IP 配置不匹配导致 TF 断裂
