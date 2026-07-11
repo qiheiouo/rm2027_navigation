@@ -14,6 +14,7 @@ setup(
             ["resource/" + package_name],
         ),
         ("share/" + package_name, ["package.xml"]),
+        ("share/" + package_name + "/config", ["config/mapping_octomap.yaml"]),
         (
             "share/" + package_name + "/maps/phase2e_test",
             [
@@ -29,10 +30,12 @@ setup(
     zip_safe=True,
     maintainer="RM Navigation",
     maintainer_email="todo@example.com",
-    description="Versioned PCD and occupancy-map bundle validation tools.",
+    description="Managed PCD/occupancy export and versioned map-bundle tools.",
     license="Apache-2.0",
     entry_points={
         "console_scripts": [
+            "mapping_session_node = rm_map_tools.mapping_session_node:main",
+            "pointcloud_sampler_node = rm_map_tools.pointcloud_sampler_node:main",
             "resolve_map_bundle = rm_map_tools.resolve_map_bundle:main",
             "validate_map_bundle = rm_map_tools.validate_map_bundle:main",
         ],

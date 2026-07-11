@@ -124,3 +124,18 @@ def test_rejects_invalid_occupancy_thresholds(tmp_path: Path) -> None:
     _save_manifest(manifest, data)
     with pytest.raises(MapBundleError, match="0 <= free < occupied <= 1"):
         validate_map_bundle(manifest)
+
+
+def test_rejects_truncated_binary_pgm(tmp_path: Path) -> None:
+    manifest = _copy_fixture(tmp_path)
+    pgm = manifest.parent / "phase2e_test.pgm"
+    data = pgm.read_bytes()
+    if data.startswith(b"P5"):
+        pgm.write_bytes(data[:-1])
+    else:
+        pgm.write_bytes(b"P5\n4 4\n255\n" + bytes(15))
+    manifest_data = _load_manifest(manifest)
+    manifest_data["artifacts"]["occupancy"]["image_sha256"] = _hash(pgm)
+    _save_manifest(manifest, manifest_data)
+    with pytest.raises(MapBundleError, match="payload size"):
+        validate_map_bundle(manifest)

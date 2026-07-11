@@ -168,9 +168,35 @@ def _pgm_tokens(data: bytes) -> list[bytes]:
     return tokens
 
 
+def _pgm_header(data: bytes) -> tuple[list[bytes], int]:
+    tokens: list[bytes] = []
+    index = 0
+    while len(tokens) < 4:
+        while index < len(data) and data[index] in b" \t\r\n":
+            index += 1
+        if index < len(data) and data[index] == ord("#"):
+            newline = data.find(b"\n", index)
+            if newline < 0:
+                break
+            index = newline + 1
+            continue
+        start = index
+        while index < len(data) and data[index] not in b" \t\r\n#":
+            index += 1
+        if start == index:
+            break
+        tokens.append(data[start:index])
+
+    if len(tokens) < 4 or index >= len(data) or data[index] not in b" \t\r\n":
+        raise MapBundleError("PGM header is incomplete")
+    if data[index] == ord("\r") and index + 1 < len(data) and data[index + 1] == ord("\n"):
+        return tokens, index + 2
+    return tokens, index + 1
+
+
 def _parse_pgm(path: Path) -> dict[str, int | str]:
     data = path.read_bytes()
-    tokens = _pgm_tokens(data)
+    tokens, payload_offset = _pgm_header(data)
     if len(tokens) < 4 or tokens[0] not in {b"P2", b"P5"}:
         raise MapBundleError("occupancy image must be a P2 or P5 PGM")
     try:
@@ -182,14 +208,23 @@ def _parse_pgm(path: Path) -> dict[str, int | str]:
     if width <= 0 or height <= 0 or not 0 < max_value <= 65535:
         raise MapBundleError("PGM dimensions or max value are invalid")
     if tokens[0] == b"P2":
-        if len(tokens[4:]) != width * height:
+        payload_tokens = _pgm_tokens(data[payload_offset:])
+        if len(payload_tokens) != width * height:
             raise MapBundleError("P2 PGM pixel count does not match its dimensions")
         try:
-            pixels = [int(token) for token in tokens[4:]]
+            pixels = [int(token) for token in payload_tokens]
         except ValueError as exc:
             raise MapBundleError("P2 PGM pixels must be integers") from exc
         if any(pixel < 0 or pixel > max_value for pixel in pixels):
             raise MapBundleError("P2 PGM pixel is outside the declared range")
+    else:
+        bytes_per_pixel = 1 if max_value < 256 else 2
+        expected_size = width * height * bytes_per_pixel
+        actual_size = len(data) - payload_offset
+        if actual_size != expected_size:
+            raise MapBundleError(
+                f"P5 PGM payload size {actual_size} does not match expected {expected_size}"
+            )
     return {
         "format": tokens[0].decode("ascii"),
         "width": width,

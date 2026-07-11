@@ -36,3 +36,20 @@ ros2 run rm_map_tools resolve_map_bundle \
 ```
 
 Never use `--allow-test-map` on a robot.
+
+## Managed Mapping Session
+
+`mapping_session_node` is the artifact boundary for real mapping. It consumes a
+world-registered PointCloud2 and an OccupancyGrid, then saves one immutable
+`candidate` bundle through `/mapping/save`.
+
+```bash
+ros2 service call /mapping/save std_srvs/srv/Trigger {}
+```
+
+The response contains the generated manifest path. The node also provides
+`/mapping/start`, `/mapping/stop`, and `/mapping/reset`. It does not start a
+sensor, publish TF, control the chassis, or approve a map.
+
+See `docs/phase2i_managed_mapping.md` for the OctoMap projection and full
+operator flow.

@@ -91,14 +91,16 @@ ros2 launch rm_serial_driver serial_dry_run.launch.py \
   protocol_profile:=legacy_v1_no_crc
 ```
 
-Mapping guard:
+Mapping safe default:
 
 ```bash
 ros2 launch rm_navigation_bringup mapping.launch.py
 ```
 
-The mapping profile intentionally starts no mapper until a controlled PCD and
-occupancy-map exporter exists.
+The default still starts no mapper. Phase 2I now provides an explicit
+`enable_mapping:=true` path for controlled candidate PCD and occupancy-map
+export. See `docs/phase2i_managed_mapping.md`; it does not weaken the deployment
+approval gate.
 
 ## Freeze Rules
 

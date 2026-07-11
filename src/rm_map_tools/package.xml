@@ -3,11 +3,19 @@
 <package format="3">
   <name>rm_map_tools</name>
   <version>0.1.0</version>
-  <description>Versioned PCD and occupancy-map bundle validation tools.</description>
+  <description>Managed PCD/occupancy export and versioned map-bundle tools.</description>
   <maintainer email="todo@example.com">RM Navigation</maintainer>
   <license>Apache-2.0</license>
 
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
   <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>sensor_msgs_py</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
 
   <test_depend>python3-pytest</test_depend>
 

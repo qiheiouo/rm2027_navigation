@@ -150,3 +150,17 @@ The old receive path does not define four individual wheel encoder values. If 20
 Phase 2 connects to real serial hardware while keeping the existing protocol as compatible as possible.
 
 Phase 3 adds referee, mission/BT, recovery behavior, and match robustness.
+
+## Phase 2I Mapping Decision
+
+Map production is a replaceable pipeline outside Nav2 and outside the LIO
+backend. FAST-LIO publishes world-registered scans but does not choose artifact
+paths or deployment status. The released ROS 2 `octomap_server` consumes a
+sensor-frame cloud and canonical TF to produce a raytraced 2D occupancy
+projection. `rm_map_tools` accumulates a bounded, voxelized PCD and atomically
+packages both artifacts as a Phase 2E `candidate` bundle.
+
+The mapping profile owns no canonical TF and cannot run with Nav2 or serial
+control in the integrated old-car entry. A map becomes `approved` only after
+human landmark and origin/yaw review. Runtime relocalization against the PCD is
+a separate component behind the existing global-pose bridge.

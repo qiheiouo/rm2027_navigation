@@ -102,23 +102,23 @@ time and `ros2 bag play --clock`.
 ros2 launch rm_navigation_bringup mapping.launch.py
 ```
 
-The current mapping entry is intentionally guarded and starts no nodes.
-Upstream FAST-LIO can save PCD data, but it writes to a build-time source path
-and does not produce a validated `rm_map_tools` bundle or a paired occupancy
-map. Automatically enabling that behavior would bypass the Phase 2E map asset
-contract.
+The safe default is guarded and starts no nodes. Explicit
+`enable_mapping:=true` starts OctoMap projection plus the managed bundle
+exporter, but no driver, LIO, Nav2, or chassis component. A platform bringup or
+bag replay must provide the pointcloud and TF inputs.
 
-The guard may be replaced only after the mapping workflow has:
+The managed mapping workflow provides:
 
 1. a controlled output directory;
 2. explicit start/stop and failure behavior;
-3. PCD generation and filtering;
+3. bounded PCD generation and OctoMap occupancy projection;
 4. 2D occupancy generation with a documented shared origin;
 5. bundle hashes and metadata;
 6. review before changing deployment status to `approved`.
 
 Mapping must not run together with Nav2 navigation or a global relocalization
-backend.
+backend. See `docs/phase2i_managed_mapping.md` for generic and old-car launch
+examples plus the candidate-map review gate.
 
 ## Serial Dry-Run
 

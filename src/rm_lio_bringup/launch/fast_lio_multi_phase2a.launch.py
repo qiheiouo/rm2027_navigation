@@ -5,6 +5,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, LogInfo, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 TRUE_VALUES = {"1", "true", "yes", "on"}
@@ -64,7 +65,12 @@ def _launch_setup(context, *args, **kwargs):
         )
 
     parameter_overrides = {
-        "use_sim_time": LaunchConfiguration("use_sim_time"),
+        "use_sim_time": ParameterValue(
+            LaunchConfiguration("use_sim_time"), value_type=bool
+        ),
+        "publish.scan_publish_en": ParameterValue(
+            LaunchConfiguration("scan_publish_en"), value_type=bool
+        ),
     }
     if sensor_mode == "single":
         parameter_overrides["common.lid_topic"] = f"/livox/{selected_side}/lidar"
@@ -113,5 +119,13 @@ def generate_launch_description():
             default_value="/fast_lio/_quarantine/tf_static",
         ),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
+        DeclareLaunchArgument(
+            "scan_publish_en",
+            default_value="false",
+            description=(
+                "Publish world-registered scans. Keep disabled for normal "
+                "navigation and enable explicitly for managed mapping."
+            ),
+        ),
         OpaqueFunction(function=_launch_setup),
     ])

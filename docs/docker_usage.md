@@ -53,6 +53,17 @@ USER_UID=$(id -u) USER_GID=$(id -g) docker compose -f docker/docker-compose.yml 
 
 Inside the container, ROS2 Humble is already sourced by `docker/entrypoint.sh`.
 
+The Compose profile also mounts the ignored host directory `artifacts/maps` at
+`/data/rm27_maps`. To keep map artifacts on another disk, export an absolute
+host path before creating the container:
+
+```bash
+export RM_MAP_OUTPUT_DIR=/home/$USER/rm27_maps
+```
+
+Managed mapping writes only below `/data/rm27_maps`; map candidates therefore
+survive container recreation without being committed to Git.
+
 ## Validate Packages
 
 Inside the container:

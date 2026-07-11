@@ -11,7 +11,7 @@ from launch_ros.substitutions import FindPackageShare
 TRUE_VALUES = {"1", "true", "yes", "on"}
 
 
-def _validate_serial_modes(context, *args, **kwargs):
+def _validate_runtime_modes(context, *args, **kwargs):
     use_serial_dry_run = (
         LaunchConfiguration("use_serial_dry_run").perform(context).strip().lower()
         in TRUE_VALUES
@@ -20,9 +20,45 @@ def _validate_serial_modes(context, *args, **kwargs):
         LaunchConfiguration("use_real_serial").perform(context).strip().lower()
         in TRUE_VALUES
     )
+    use_mapping = (
+        LaunchConfiguration("use_mapping").perform(context).strip().lower()
+        in TRUE_VALUES
+    )
+    use_nav2 = (
+        LaunchConfiguration("use_nav2").perform(context).strip().lower()
+        in TRUE_VALUES
+    )
+    use_driver = (
+        LaunchConfiguration("use_driver").perform(context).strip().lower()
+        in TRUE_VALUES
+    )
+    use_lio_backend = (
+        LaunchConfiguration("use_lio_backend").perform(context).strip().lower()
+        in TRUE_VALUES
+    )
+    use_map_odom_stub = (
+        LaunchConfiguration("use_map_odom_stub").perform(context).strip().lower()
+        in TRUE_VALUES
+    )
+    selected_side = LaunchConfiguration("selected_side").perform(context).strip().lower()
     if use_serial_dry_run and use_real_serial:
         raise RuntimeError(
             "use_serial_dry_run and use_real_serial must not be true at the same time."
+        )
+    if use_mapping and (use_nav2 or use_serial_dry_run or use_real_serial):
+        raise RuntimeError(
+            "old-car mapping mode cannot run Nav2 or either serial mode. "
+            "Build the map under manual control only."
+        )
+    if use_mapping and not (use_driver and use_lio_backend and use_map_odom_stub):
+        raise RuntimeError(
+            "old-car integrated mapping requires use_driver:=true, "
+            "use_lio_backend:=true, and use_map_odom_stub:=true."
+        )
+    if use_mapping and selected_side != "left":
+        raise RuntimeError(
+            "old-car integrated mapping currently requires selected_side:=left "
+            "because its verified self-filter profile is left-lidar specific."
         )
     return []
 
@@ -48,6 +84,10 @@ def generate_launch_description():
     local_scan_enabled = LaunchConfiguration("local_scan_enabled")
     local_scan_input_topic = LaunchConfiguration("local_scan_input_topic")
     local_scan_output_topic = LaunchConfiguration("local_scan_output_topic")
+    use_mapping = LaunchConfiguration("use_mapping")
+    mapping_output_root = LaunchConfiguration("mapping_output_root")
+    mapping_map_id = LaunchConfiguration("mapping_map_id")
+    mapping_revision = LaunchConfiguration("mapping_revision")
 
     old_description_launch = PathJoinSubstitution([
         FindPackageShare("rm_description"),
@@ -114,6 +154,11 @@ def generate_launch_description():
         "config",
         "old_car_pointcloud_to_laserscan.yaml",
     ])
+    mapping_launch = PathJoinSubstitution([
+        FindPackageShare("rm_navigation_bringup"),
+        "launch",
+        "mapping.launch.py",
+    ])
 
     return LaunchDescription([
         DeclareLaunchArgument("selected_side", default_value="left"),
@@ -121,6 +166,14 @@ def generate_launch_description():
         DeclareLaunchArgument("use_lio_backend", default_value="false"),
         DeclareLaunchArgument("use_map_odom_stub", default_value="true"),
         DeclareLaunchArgument("use_nav2", default_value="false"),
+        DeclareLaunchArgument(
+            "use_mapping",
+            default_value="false",
+            description=(
+                "Start the generic map exporter and OctoMap projection. "
+                "Mutually exclusive with Nav2 and serial modes."
+            ),
+        ),
         DeclareLaunchArgument("use_serial_dry_run", default_value="false"),
         DeclareLaunchArgument("use_real_serial", default_value="false"),
         DeclareLaunchArgument(
@@ -166,12 +219,17 @@ def generate_launch_description():
             "local_scan_output_topic",
             default_value="/local_scan",
         ),
+        DeclareLaunchArgument(
+            "mapping_output_root", default_value="/data/rm27_maps"
+        ),
+        DeclareLaunchArgument("mapping_map_id", default_value="old_car_field"),
+        DeclareLaunchArgument("mapping_revision", default_value="auto"),
         LogInfo(msg=(
             "[old_car_2026_validation] Experiment-only bringup for the 2026 "
             "car. Safe defaults start no real driver, no FAST-LIO, no Nav2, "
             "and no serial transport."
         )),
-        OpaqueFunction(function=_validate_serial_modes),
+        OpaqueFunction(function=_validate_runtime_modes),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(old_description_launch),
             launch_arguments={"use_sim_time": use_sim_time}.items(),
@@ -191,6 +249,7 @@ def generate_launch_description():
                 "selected_side": selected_side,
                 "update_method": update_method,
                 "config_file": old_fast_lio_config,
+                "scan_publish_en": use_mapping,
                 "use_sim_time": use_sim_time,
             }.items(),
         ),
@@ -242,6 +301,22 @@ def generate_launch_description():
                 "use_sim_time": use_sim_time,
                 "params_file": nav2_params,
                 "autostart": "true",
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(mapping_launch),
+            condition=IfCondition(use_mapping),
+            launch_arguments={
+                "enable_mapping": "true",
+                "pointcloud_topic": pointcloud_filter_output_topic,
+                "registered_cloud_topic": "/lio/cloud_registered",
+                "occupancy_topic": "/mapping/projected_map",
+                "map_frame": "map",
+                "base_frame": "base_link",
+                "output_root": mapping_output_root,
+                "map_id": mapping_map_id,
+                "revision": mapping_revision,
+                "use_sim_time": use_sim_time,
             }.items(),
         ),
         IncludeLaunchDescription(

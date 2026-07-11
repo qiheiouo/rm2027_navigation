@@ -27,8 +27,9 @@ referee, competition BT, or real hardware.
   Gazebo MPPI scenario without starting hardware.
 - `bag_replay.launch.py`: replays either raw sensors or backend-private raw
   odometry while preserving canonical TF ownership.
-- `mapping.launch.py`: a deliberate safety boundary. It does not start mapping
-  until a controlled exporter can produce a versioned PCD + occupancy bundle.
+- `mapping.launch.py`: an explicit opt-in managed mapping backend. It starts
+  OctoMap projection and `rm_map_tools` export only; it never starts a driver,
+  LIO, Nav2, serial, referee, or mission tree by itself.
 - `old_car_2026_validation.launch.py`: experiment-only profile for using the
   available 2026 chassis as a pre-2027 hardware test platform. It defaults to
   no real driver, no FAST-LIO backend, no Nav2, and no serial transport.

@@ -67,7 +67,7 @@ Top-level runtime profiles are provided by `rm_navigation_bringup`:
 
 They are mutually exclusive operating modes rather than a command that starts
 every package. See `docs/runtime_profiles.md` for the safety defaults and
-current mapping limitation.
+`docs/phase2i_managed_mapping.md` for the candidate map production workflow.
 
 The first Phase 1.5 simulation milestone adds:
 
@@ -145,6 +145,7 @@ See:
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
 - `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter, reset/validity interfaces, and no-hardware test source.
-- `rm_map_tools`: Phase 2E PCD/occupancy map-bundle validator and synthetic test fixture.
+- `rm_map_tools`: map-bundle validation plus the Phase 2I managed PCD and
+  occupancy export session.
 - `fast_lio_multi`: external GPL-2.0 FAST-LIO Multi ROS2 submodule; disabled by default and consumed only through `rm_lio_bringup`.
 - `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.

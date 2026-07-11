@@ -18,6 +18,7 @@ services:
     volumes:
       - ..:/workspace/rm2027_navigation
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${RM_MAP_OUTPUT_DIR:-../artifacts/maps}:/data/rm27_maps
     working_dir: /workspace/rm2027_navigation
     stdin_open: true
     tty: true
