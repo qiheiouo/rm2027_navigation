@@ -57,7 +57,8 @@ The recommended route is not "fully self-developed". It is "self-owned canonical
 Priority references:
 
 1. `rmu_gazebo_simulator`: RM fields, MID360/IMU simulation, chassis/referee simulation, Sim2Real workflow.
-2. `small_gicp_relocalization`: Phase 2 candidate for global relocalization and `map -> odom` publication.
+2. `small_gicp_relocalization`: future 3D global-relocalization reference; an
+   adapted backend must publish `/localization/global_pose`, not canonical TF.
 3. `pb_omni_pid_pursuit_controller`: holonomic Nav2 controller candidate for comparison with DWB/MPPI.
 4. `pb_nav2_plugins`: IntensityVoxelLayer and BackUpFreeSpace for later RM-specific costmap/recovery work.
 5. PolarBear map workflow: 2D occupancy map for Nav2 and 3D PCD map for relocalization.
@@ -164,3 +165,22 @@ The mapping profile owns no canonical TF and cannot run with Nav2 or serial
 control in the integrated old-car entry. A map becomes `approved` only after
 human landmark and origin/yaw review. Runtime relocalization against the PCD is
 a separate component behind the existing global-pose bridge.
+
+## Phase 2J 2D Relocalization Decision
+
+The first production-oriented global-localization backend is Nav2 AMCL over a
+reviewed occupancy map and planar scan. This provides a competition fallback
+that does not depend on a PCD or on completion of the Phase 2I real mapping
+test. AMCL uses the omni motion model and runs with `tf_broadcast: false`.
+
+AMCL output passes through a timestamp, frame, planarity, finite-value, and
+covariance gate before becoming `/localization/global_pose`. The existing
+Phase 2C bridge remains the only canonical `map -> odom` owner. The 2D backend,
+map server, and optional PointCloud2-to-LaserScan projection are replaceable
+components with explicit launch switches.
+
+The parallel `gicp_3d` profile uses PCL GICP as a reproducible first engine and
+requires an initial-pose seed plus a reviewed PCD bundle. It may later replace
+the internal engine with pinned `small_gicp` or add a coarse place-recognition
+stage without changing the ROS boundary. It is not a dependency of the 2D
+competition fallback and must not introduce another TF owner.

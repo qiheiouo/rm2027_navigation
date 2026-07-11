@@ -15,6 +15,14 @@
 | `/gimbal/state` | `sensor_msgs/msg/JointState` or documented future interface | `gimbal_state_adapter` | diagnostics, `lio_adapter` if needed | Gimbal yaw angle, optional yaw velocity, timestamp, and validity information |
 | `/odometry/fast_lio_raw` | `nav_msgs/msg/Odometry` | selected LIO backend | `lio_adapter` | Backend-private odometry input. Phase 2A FAST-LIO Multi uses `frame_id=odom`, hard-coded `child_frame_id=body`; it is never consumed directly by Nav2 |
 | `/odometry/lio` | `nav_msgs/msg/Odometry` | `lio_adapter` | Nav2, debug, optional fusion | LIO odometry. `frame_id=odom`, `child_frame_id=base_link`; twist is expressed in `base_link`. FAST-LIO Phase 2B estimates it from consecutive canonical base poses |
+| `/localization/scan` | `sensor_msgs/msg/LaserScan` | selected native scan or explicit PointCloud2 projection | AMCL 2D backend | Planar localization observation; separate from costmap obstacle input |
+| `/localization/amcl_pose_raw` | `geometry_msgs/msg/PoseWithCovarianceStamped` | AMCL with TF broadcasting disabled | `amcl_pose_gate` | Backend-private AMCL estimate; never a canonical TF source |
+| `/localization/amcl_backend_valid` | `std_msgs/msg/Bool` | `amcl_pose_gate` | diagnostics, future safety/mission layer | Latched backend-specific pose-gate validity |
+| `/localization/gicp_pose_raw` | `geometry_msgs/msg/PoseWithCovarianceStamped` | `gicp_relocalization` | `global_pose_gate` | Backend-private 3D registration estimate; never a canonical TF source |
+| `/localization/gicp_registration_valid` | `std_msgs/msg/Bool` | `gicp_relocalization` | diagnostics | Convergence, fitness and correction-jump acceptance for the latest registration |
+| `/localization/gicp_fitness_score` | `std_msgs/msg/Float64` | `gicp_relocalization` | diagnostics | Latest PCL GICP fitness score; lower is better but threshold requires field validation |
+| `/localization/gicp_map_id` | `std_msgs/msg/String` | `gicp_relocalization` | diagnostics, deployment audit | Latched map identity resolved from the validated bundle |
+| `/localization/gicp_backend_valid` | `std_msgs/msg/Bool` | `global_pose_gate` | diagnostics, future safety/mission layer | Latched validity after the common frame/time/pose/covariance gate |
 | `/localization/global_pose` | `geometry_msgs/msg/PoseWithCovarianceStamped` | selected global localization backend | `map_odom_from_global_pose` | Timestamped global robot pose with `frame_id=map`; backends must not publish canonical TF directly |
 | `/localization/map_to_odom` | `geometry_msgs/msg/TransformStamped` | `map_odom_from_global_pose` | diagnostics, validation | Inspectable copy of the accepted canonical correction; the same node owns dynamic `map -> odom` |
 | `/localization/global_localization_valid` | `std_msgs/msg/Bool` | `map_odom_from_global_pose` | diagnostics, future safety/mission layer | Latched validity of the current correction; false before the first valid match and after reset/time reset |
@@ -55,6 +63,16 @@ bridge matches that pose with `/odometry/lio` at the source timestamp and owns
 the transform. `map_odom_stub` and `map_odom_from_global_pose` are mutually
 exclusive. Missing, stale, invalid, or unmatched input must not create an
 identity fallback.
+
+Phase 2J AMCL publishes only `/localization/amcl_pose_raw`. The gate rejects
+invalid frame, time, planar pose, finite-value, and covariance conditions before
+republishing `/localization/global_pose`. `/localization/amcl_backend_valid`
+describes the backend gate; `/localization/global_localization_valid` describes
+the accepted canonical correction, so the two topics are not interchangeable.
+
+The `gicp_3d` backend uses the same two-stage validity model: registration
+diagnostics describe algorithm acceptance, while the common gate controls
+whether the result reaches `/localization/global_pose`.
 
 An adapter may estimate `/odometry/lio.twist` only after producing canonical
 `odom -> base_link`. Differentiating a gimbal-mounted sensor pose directly is

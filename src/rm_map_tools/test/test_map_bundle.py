@@ -42,6 +42,23 @@ def test_validates_synthetic_bundle() -> None:
     assert result["pcd"]["points"] == 4
     assert result["occupancy"]["width"] == 4
     assert result["occupancy"]["height"] == 4
+    assert result["map_type"] == "occupancy_with_pcd"
+
+
+def test_validates_occupancy_only_bundle() -> None:
+    result = validate_map_bundle(FIXTURE / "phase2j_occupancy_only.bundle.yaml")
+    assert result["schema_version"] == 2
+    assert result["map_type"] == "occupancy_only"
+    assert result["pcd"] is None
+    assert result["occupancy"]["width"] == 4
+    assert result["occupancy_origin_reviewed"] is False
+
+
+def test_validates_phase2j_3d_bundle() -> None:
+    result = validate_map_bundle(FIXTURE / "phase2j_3d_test.bundle.yaml")
+    assert result["map_type"] == "occupancy_with_pcd"
+    assert result["pcd"]["points"] == 522
+    assert result["shared_origin_confirmed"] is True
 
 
 def test_require_approved_rejects_test_fixture() -> None:
@@ -75,6 +92,63 @@ def test_runtime_resolver_returns_nav2_and_pcd_paths_when_allowed() -> None:
     assert result["frame_id"] == "map"
     assert result["pcd_path"].endswith("phase2e_test.pcd")
     assert result["occupancy_yaml_path"].endswith("phase2e_test.yaml")
+
+
+def test_runtime_resolver_supports_occupancy_only_map() -> None:
+    result = resolve_map_bundle_for_runtime(
+        FIXTURE / "phase2j_occupancy_only.bundle.yaml",
+        allow_test_map=True,
+    )
+    assert result["map_type"] == "occupancy_only"
+    assert result["pcd_path"] is None
+    assert result["occupancy_yaml_path"].endswith("phase2e_test.yaml")
+
+
+def test_occupancy_only_bundle_rejects_pcd_artifact(tmp_path: Path) -> None:
+    manifest = _copy_fixture(tmp_path)
+    data = _load_manifest(manifest)
+    data["schema_version"] = 2
+    data["map_type"] = "occupancy_only"
+    data["alignment"] = {"occupancy_origin_reviewed": False}
+    _save_manifest(manifest, data)
+    with pytest.raises(MapBundleError, match="must not contain a PCD"):
+        validate_map_bundle(manifest)
+
+
+def test_approved_occupancy_only_requires_origin_review(tmp_path: Path) -> None:
+    manifest = _copy_fixture(tmp_path)
+    data = _load_manifest(manifest)
+    data["schema_version"] = 2
+    data["map_type"] = "occupancy_only"
+    data["deployment_status"] = "approved"
+    del data["artifacts"]["pcd"]
+    data["alignment"] = {"occupancy_origin_reviewed": False}
+    _save_manifest(manifest, data)
+    with pytest.raises(MapBundleError, match="confirm origin review"):
+        validate_map_bundle(manifest, require_approved=True)
+
+
+def test_approved_occupancy_only_accepts_reviewed_origin(tmp_path: Path) -> None:
+    manifest = _copy_fixture(tmp_path)
+    data = _load_manifest(manifest)
+    data["schema_version"] = 2
+    data["map_type"] = "occupancy_only"
+    data["deployment_status"] = "approved"
+    del data["artifacts"]["pcd"]
+    data["alignment"] = {"occupancy_origin_reviewed": True}
+    _save_manifest(manifest, data)
+    result = validate_map_bundle(manifest, require_approved=True)
+    assert result["pcd"] is None
+    assert result["occupancy_origin_reviewed"] is True
+
+
+def test_schema_two_requires_explicit_map_type(tmp_path: Path) -> None:
+    manifest = _copy_fixture(tmp_path)
+    data = _load_manifest(manifest)
+    data["schema_version"] = 2
+    _save_manifest(manifest, data)
+    with pytest.raises(MapBundleError, match="map_type"):
+        validate_map_bundle(manifest)
 
 
 def test_rejects_hash_mismatch(tmp_path: Path) -> None:

@@ -15,6 +15,13 @@ mutually exclusive `stub` and `external_pose` global-localization modes. The
 test launch uses fake inputs only and does not start small_gicp, serial,
 referee, competition BT, or real hardware.
 
+Phase 2J adds a disabled-by-default `amcl_2d` backend selection and a synthetic
+no-hardware test launch. AMCL does not publish TF; the Phase 2C bridge remains
+the sole `map -> odom` owner.
+
+The parallel `gicp_3d` profile resolves a PCD from a validated map bundle and
+also publishes only a gated global pose. It is mutually exclusive with AMCL.
+
 ## Top-Level Runtime Profiles
 
 - `navigation.launch.py`: canonical real-stack composition. MID360, FAST-LIO,

@@ -58,6 +58,19 @@ that:
 This keeps PCD registration replaceable by scan-to-map or NDT without changing
 Nav2, LIO, chassis, or TF contracts.
 
+## Phase 2J Decision
+
+Phase 2J does not import this wrapper. The first parallel 3D backend is the
+self-owned `rm_gicp_relocalization` package using PCL GICP already available in
+the Humble dependency set. It implements the required map-bundle, initial-pose,
+fitness, jump-rejection, validity, and `/localization/global_pose` boundaries
+without publishing TF.
+
+The registration engine may later change to a pinned `koide3/small_gicp`
+release after Linux benchmarks. Such a change is internal to the backend and
+must not restore the reviewed wrapper's direct TF ownership or moving-master
+FetchContent fallback.
+
 ## License And Maintenance
 
 Apache-2.0 is compatible with selective adaptation when notices are preserved.

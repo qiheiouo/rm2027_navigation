@@ -85,6 +85,15 @@ publish `/localization/global_pose`; it must not publish canonical TF directly.
 Backend TF remapping is not an acceptable substitute when the same process also
 needs canonical TF as input.
 
+Phase 2J applies the same rule to AMCL. `amcl_2d` must run with
+`tf_broadcast: false`; its pose is validated before reaching
+`/localization/global_pose`. Selecting it requires `external_pose` mode, so the
+stub is absent and `map_odom_from_global_pose` remains the sole canonical owner.
+
+The parallel Phase 2J `gicp_3d` backend follows the same rule. GICP estimates a
+global pose and diagnostics only; it never broadcasts `map -> odom`. The 2D and
+3D backends are mutually exclusive launch choices.
+
 ## LIO Adapter Rule
 
 Only `lio_adapter` may publish the external canonical `odom -> base_link` transform.

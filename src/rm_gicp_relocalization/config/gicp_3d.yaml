@@ -1,0 +1,41 @@
+gicp_relocalization:
+  ros__parameters:
+    use_sim_time: false
+    prior_pcd_file: ""
+    map_id: untracked
+    input_cloud_topic: /lio/cloud_registered
+    raw_pose_topic: /localization/gicp_pose_raw
+    valid_topic: /localization/gicp_registration_valid
+    score_topic: /localization/gicp_fitness_score
+    initial_pose_topic: /initialpose
+    map_frame: map
+    odom_frame: odom
+    base_frame: base_link
+    map_leaf_size: 0.25
+    source_leaf_size: 0.20
+    registration_rate_hz: 2.0
+    max_correspondence_distance: 1.0
+    transformation_epsilon: 0.001
+    euclidean_fitness_epsilon: 0.001
+    max_iterations: 30
+    min_source_points: 100
+    min_target_points: 100
+    max_fitness_score: 0.50
+    max_translation_jump: 2.0
+    max_yaw_jump: 1.0
+    transform_timeout_sec: 0.10
+
+gicp_pose_gate:
+  ros__parameters:
+    use_sim_time: false
+    input_topic: /localization/gicp_pose_raw
+    output_topic: /localization/global_pose
+    valid_topic: /localization/gicp_backend_valid
+    map_frame: map
+    max_pose_age_sec: 0.5
+    max_future_sec: 0.1
+    max_xy_variance: 1.0
+    max_yaw_variance: 0.5
+    max_abs_z: 0.50
+    max_abs_roll_pitch: 0.20
+    validity_timeout_sec: 1.5

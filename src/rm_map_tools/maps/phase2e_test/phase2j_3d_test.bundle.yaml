@@ -1,0 +1,24 @@
+schema_version: 2
+map_type: occupancy_with_pcd
+map_id: phase2j_3d_synthetic
+revision: test-v1
+deployment_status: test_only
+frame_id: map
+source:
+  method: synthetic_fixture
+  created_utc: "2026-07-11T00:00:00Z"
+  robot_revision: none
+artifacts:
+  pcd:
+    path: phase2j_3d_test.pcd
+    frame_id: map
+    sha256: 30ad9cf2decae2ad45f1ed3698ed123c7954ea1792dfd8e8a2b47e271622e3d1
+  occupancy:
+    yaml_path: phase2e_test.yaml
+    image_path: phase2e_test.pgm
+    frame_id: map
+    yaml_sha256: 07278b16682c7dabb0bbb88f8329c31d32df38e6d47880a4091855668abb1f92
+    image_sha256: a02b54f3fd32efab24075fed33921992144734d69f2c6d4ee2cbccc5040c886b
+alignment:
+  pcd_and_occupancy_share_map_origin: true
+notes: Synthetic GICP identity-alignment fixture. Never deploy on a robot.

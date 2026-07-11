@@ -48,6 +48,28 @@ ros2 launch rm_navigation_bringup navigation.launch.py \
 Using `global_localization_mode:=external_pose` removes the stub and makes
 `map_odom_from_global_pose` the sole `map -> odom` owner.
 
+Phase 2J adds an explicit upstream backend selector. The safe default is
+`relocalization_backend:=none`. Selecting `amcl_2d` requires external-pose mode
+and a map server; AMCL has TF broadcasting disabled and sends its gated pose to
+the existing Phase 2C bridge:
+
+```bash
+ros2 launch rm_navigation_bringup navigation.launch.py \
+  global_localization_mode:=external_pose \
+  relocalization_backend:=amcl_2d \
+  use_map_server:=true \
+  map_bundle_manifest:=/maps/field/field.bundle.yaml
+```
+
+The optional MID360 projection is enabled separately with
+`use_relocalization_pointcloud_projection:=true` and an explicit filtered
+pointcloud topic. See `docs/phase2j_2d_relocalization.md`.
+
+`relocalization_backend:=gicp_3d` is the parallel PCD path. It requires a
+reviewed `occupancy_with_pcd` bundle, a current registered PointCloud2, and a
+standard `/initialpose` seed. It does not run with AMCL and publishes no TF.
+See `docs/phase2j_3d_relocalization.md`.
+
 Deployment-map support is an explicit gate:
 
 ```bash
@@ -59,8 +81,8 @@ ros2 launch rm_navigation_bringup navigation.launch.py \
 
 The map bundle must be `approved` unless `allow_test_map:=true` is deliberately
 set for offline synthetic-fixture validation. The map server does not publish
-localization TF; it only provides `/map` to Nav2 and exposes the paired PCD path
-in logs for future relocalization backends.
+localization TF; it only provides `/map`. Schema-2 occupancy-only bundles
+intentionally expose no PCD path.
 
 ## Simulation
 

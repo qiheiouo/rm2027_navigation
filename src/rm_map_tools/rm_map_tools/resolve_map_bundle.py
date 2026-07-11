@@ -21,6 +21,7 @@ def main() -> int:
             "manifest",
             "map_id",
             "revision",
+            "map_type",
             "deployment_status",
             "pcd_path",
             "occupancy_yaml_path",

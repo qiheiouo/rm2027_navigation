@@ -2,8 +2,8 @@
 
 ## Goal
 
-Phase 2E defines one reproducible artifact boundary for the 3D prior map and
-Nav2 occupancy map. A map is not accepted as a loose PCD/YAML/PGM collection.
+Phase 2E defines one reproducible artifact boundary for map assets. A map is
+not accepted as a loose PCD/YAML/PGM collection.
 It must have one `*.bundle.yaml` manifest that ties the files to the same
 canonical `map` frame, revision and hashes.
 
@@ -14,15 +14,27 @@ map represents a RoboMaster field.
 
 Required root fields:
 
-- `schema_version: 1`
+- `schema_version: 1` or `2`
 - stable `map_id` and `revision`
 - `deployment_status`: `test_only`, `candidate`, or `approved`
 - `frame_id: map`
 - source method and UTC creation time
-- PCD path, frame and SHA-256
+- PCD path, frame and SHA-256 when `map_type` requires PCD
 - occupancy YAML/image paths, frame and SHA-256 values
 - explicit confirmation that PCD and occupancy coordinates share one map
-  origin
+  origin, or occupancy-origin review for an occupancy-only map
+
+Schema version 1 remains the dual-artifact contract and is interpreted as
+`map_type: occupancy_with_pcd`.
+
+Phase 2J adds backward-compatible schema version 2. It requires an explicit
+`map_type`:
+
+- `occupancy_with_pcd`: retains the PCD and shared-origin requirements;
+- `occupancy_only`: contains only occupancy YAML/image artifacts, forbids a
+  fake PCD entry, and requires `alignment.occupancy_origin_reviewed`.
+
+An approved occupancy-only bundle must set the origin-review flag to true.
 
 All paths are relative to the manifest and must remain inside its bundle
 directory. Absolute paths and `..` escapes are rejected.
@@ -36,19 +48,21 @@ checks its structure and bytes; it cannot prove geometric alignment by itself.
 
 1. schema, identifiers, deployment state and canonical frame;
 2. path containment and artifact existence;
-3. SHA-256 for PCD, occupancy YAML and PGM;
-4. PCD `FIELDS` containing x/y/z, positive dimensions, point count and data
-   mode;
+3. SHA-256 for required artifacts;
+4. when present, PCD `FIELDS` containing x/y/z, positive dimensions, point
+   count and data mode;
 5. ASCII PCD row count when applicable;
 6. occupancy resolution, origin, negate and threshold ordering;
 7. occupancy YAML image reference matching the manifest;
 8. P2/P5 PGM header and P2 pixel count;
-9. approved-state and shared-origin gates when `--require-approved` is used.
+9. approved-state and applicable alignment-review gates when
+   `--require-approved` is used.
 
 ## Synthetic Fixture
 
-`src/rm_map_tools/maps/phase2e_test` is a four-point/four-pixel test fixture.
-It is marked `test_only` and must never be used for navigation.
+`src/rm_map_tools/maps/phase2e_test` contains test-only fixtures: the original
+four-point/four-pixel bundle, an occupancy-only schema-2 bundle, and an
+asymmetric 522-point GICP smoke-test bundle. None may be used for navigation.
 
 Git attributes preserve PCD/PGM bytes and force map YAML to LF so manifest
 hashes remain stable across Windows and Linux checkouts.

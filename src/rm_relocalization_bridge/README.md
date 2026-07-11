@@ -28,3 +28,9 @@ poses from `/odometry/lio` and a configured correction, and publishes no TF.
 The Phase 2C test launch uses one publication so reset behavior remains
 observable. The test publisher uses transient-local QoS and supports a startup
 delay; this is a test convenience, not the required QoS of a real backend.
+
+Phase 2J adds `amcl_2d_backend.launch.py`. AMCL runs with `tf_broadcast=false`
+and publishes backend-private `/localization/amcl_pose_raw`. The
+`global_pose_gate_node` validates frame, timestamp, finite values, planar pose,
+and covariance before publishing `/localization/global_pose`. The optional
+PointCloud2 projection and AMCL itself remain replaceable upstream components.

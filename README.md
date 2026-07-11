@@ -121,6 +121,9 @@ See:
 - `docs/phase2f_map_deployment.md`
 - `docs/phase2g_pointcloud_obstacle_boundary.md`
 - `docs/phase2h_serial_dry_run.md`
+- `docs/phase2i_managed_mapping.md`
+- `docs/phase2j_2d_relocalization.md`
+- `docs/phase2j_3d_relocalization.md`
 - `docs/old_car_2026_validation_plan.md`
 - `docs/pre_hardware_freeze_status.md`
 - `docs/minipc_hardware_bringup_sequence.md`
@@ -144,7 +147,8 @@ See:
 - `rm_serial_driver`: no-CRC and HPM CRC16 protocol profiles, framing tests, a dry-run `/cmd_vel -> /serial/mock_tx` encoder, and an opt-in old-car real serial writer for off-ground validation.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
-- `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter, reset/validity interfaces, and no-hardware test source.
+- `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter plus the Phase 2J common pose gate and AMCL 2D wrapper.
+- `rm_gicp_relocalization`: Phase 2J PCL GICP backend for seeded 3D PCD relocalization; it publishes diagnostics and a gated global pose, never TF.
 - `rm_map_tools`: map-bundle validation plus the Phase 2I managed PCD and
   occupancy export session.
 - `fast_lio_multi`: external GPL-2.0 FAST-LIO Multi ROS2 submodule; disabled by default and consumed only through `rm_lio_bringup`.

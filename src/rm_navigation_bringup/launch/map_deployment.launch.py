@@ -39,10 +39,12 @@ def _start_map_server(context, *args, **kwargs):
             bundle["revision"],
             " status=",
             bundle["deployment_status"],
+            " map_type=",
+            bundle["map_type"],
             " occupancy=",
             bundle["occupancy_yaml_path"],
             " pcd=",
-            bundle["pcd_path"],
+            bundle["pcd_path"] or "<none>",
         ]),
         Node(
             package="nav2_map_server",

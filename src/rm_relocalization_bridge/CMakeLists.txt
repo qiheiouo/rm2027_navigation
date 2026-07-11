@@ -14,6 +14,7 @@ find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 
@@ -44,10 +45,35 @@ ament_target_dependencies(fake_global_pose_publisher
   tf2
 )
 
+add_library(global_pose_gate src/global_pose_gate.cpp)
+target_include_directories(global_pose_gate PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+ament_target_dependencies(global_pose_gate geometry_msgs)
+
+add_executable(global_pose_gate_node src/amcl_pose_gate_node.cpp)
+target_link_libraries(global_pose_gate_node global_pose_gate)
+ament_target_dependencies(global_pose_gate_node
+  rclcpp
+  geometry_msgs
+  std_msgs
+)
+
+add_executable(fake_2d_localization_world src/fake_2d_localization_world.cpp)
+ament_target_dependencies(fake_2d_localization_world
+  rclcpp
+  nav_msgs
+  sensor_msgs
+)
+
 install(TARGETS
   relocalization_math
   map_odom_from_global_pose
   fake_global_pose_publisher
+  global_pose_gate
+  global_pose_gate_node
+  fake_2d_localization_world
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -66,6 +92,10 @@ if(BUILD_TESTING)
   ament_add_gtest(test_relocalization_math test/test_relocalization_math.cpp)
   target_link_libraries(test_relocalization_math relocalization_math)
   ament_target_dependencies(test_relocalization_math tf2)
+
+  ament_add_gtest(test_global_pose_gate test/test_global_pose_gate.cpp)
+  target_link_libraries(test_global_pose_gate global_pose_gate)
+  ament_target_dependencies(test_global_pose_gate geometry_msgs)
 endif()
 
 ament_package()

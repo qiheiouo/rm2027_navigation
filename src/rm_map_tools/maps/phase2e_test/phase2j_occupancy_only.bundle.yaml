@@ -1,0 +1,20 @@
+schema_version: 2
+map_type: occupancy_only
+map_id: phase2j_occupancy_synthetic
+revision: test-v1
+deployment_status: test_only
+frame_id: map
+source:
+  method: synthetic_fixture
+  created_utc: "2026-07-11T00:00:00Z"
+  robot_revision: none
+artifacts:
+  occupancy:
+    yaml_path: phase2e_test.yaml
+    image_path: phase2e_test.pgm
+    frame_id: map
+    yaml_sha256: 07278b16682c7dabb0bbb88f8329c31d32df38e6d47880a4091855668abb1f92
+    image_sha256: a02b54f3fd32efab24075fed33921992144734d69f2c6d4ee2cbccc5040c886b
+alignment:
+  occupancy_origin_reviewed: false
+notes: Test fixture only. Never deploy on a robot.

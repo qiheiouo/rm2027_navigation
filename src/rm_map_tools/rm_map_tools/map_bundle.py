@@ -15,6 +15,7 @@ class MapBundleError(ValueError):
 
 _MAP_ID_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
 _DEPLOYMENT_STATES = {"test_only", "candidate", "approved"}
+_MAP_TYPES = {"occupancy_only", "occupancy_with_pcd"}
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -278,8 +279,15 @@ def validate_map_bundle(
     root = manifest.parent.resolve()
     data = _load_yaml(manifest)
 
-    if data.get("schema_version") != 1:
-        raise MapBundleError("schema_version must be 1")
+    schema_version = data.get("schema_version")
+    if schema_version not in {1, 2}:
+        raise MapBundleError("schema_version must be 1 or 2")
+    if schema_version == 1:
+        map_type = "occupancy_with_pcd"
+    else:
+        map_type = _required_string(data, "map_type")
+        if map_type not in _MAP_TYPES:
+            raise MapBundleError(f"unsupported map_type: {map_type}")
     map_id = _required_string(data, "map_id")
     if not _MAP_ID_PATTERN.fullmatch(map_id):
         raise MapBundleError("map_id contains unsupported characters")
@@ -297,15 +305,26 @@ def validate_map_bundle(
     _required_string(source, "method")
     _required_string(source, "created_utc")
     artifacts = _required_mapping(data, "artifacts")
-    pcd = _required_mapping(artifacts, "pcd")
     occupancy = _required_mapping(artifacts, "occupancy")
 
-    if _required_string(pcd, "frame_id") != frame_id:
-        raise MapBundleError("PCD frame_id must match bundle frame_id")
     if _required_string(occupancy, "frame_id") != frame_id:
         raise MapBundleError("occupancy frame_id must match bundle frame_id")
 
-    pcd_path = _resolve_artifact(root, _required_string(pcd, "path"), "PCD")
+    pcd_metadata = None
+    if map_type == "occupancy_with_pcd":
+        pcd = _required_mapping(artifacts, "pcd")
+        if _required_string(pcd, "frame_id") != frame_id:
+            raise MapBundleError("PCD frame_id must match bundle frame_id")
+        pcd_path = _resolve_artifact(root, _required_string(pcd, "path"), "PCD")
+        pcd_hash = _verify_hash(pcd_path, pcd.get("sha256"), "PCD")
+        pcd_metadata = {
+            **_parse_pcd(pcd_path),
+            "path": str(pcd_path),
+            "sha256": pcd_hash,
+        }
+    elif "pcd" in artifacts:
+        raise MapBundleError("occupancy_only bundle must not contain a PCD artifact")
+
     occupancy_yaml_path = _resolve_artifact(
         root, _required_string(occupancy, "yaml_path"), "occupancy YAML"
     )
@@ -313,7 +332,6 @@ def validate_map_bundle(
         root, _required_string(occupancy, "image_path"), "occupancy image"
     )
 
-    pcd_hash = _verify_hash(pcd_path, pcd.get("sha256"), "PCD")
     occupancy_yaml_hash = _verify_hash(
         occupancy_yaml_path, occupancy.get("yaml_sha256"), "occupancy YAML"
     )
@@ -321,7 +339,6 @@ def validate_map_bundle(
         occupancy_image_manifest, occupancy.get("image_sha256"), "occupancy image"
     )
 
-    pcd_metadata = _parse_pcd(pcd_path)
     occupancy_yaml, occupancy_image_from_yaml = _validate_occupancy_yaml(
         occupancy_yaml_path, root
     )
@@ -330,20 +347,32 @@ def validate_map_bundle(
     pgm_metadata = _parse_pgm(occupancy_image_manifest)
 
     alignment = _required_mapping(data, "alignment")
-    shared_origin = alignment.get("pcd_and_occupancy_share_map_origin")
-    if not isinstance(shared_origin, bool):
-        raise MapBundleError("alignment shared-origin flag must be boolean")
-    if require_approved and not shared_origin:
-        raise MapBundleError("approved map bundle must confirm a shared map origin")
+    shared_origin = None
+    occupancy_origin_reviewed = None
+    if map_type == "occupancy_with_pcd":
+        shared_origin = alignment.get("pcd_and_occupancy_share_map_origin")
+        if not isinstance(shared_origin, bool):
+            raise MapBundleError("alignment shared-origin flag must be boolean")
+        if require_approved and not shared_origin:
+            raise MapBundleError("approved map bundle must confirm a shared map origin")
+    else:
+        occupancy_origin_reviewed = alignment.get("occupancy_origin_reviewed")
+        if not isinstance(occupancy_origin_reviewed, bool):
+            raise MapBundleError("occupancy_only alignment review flag must be boolean")
+        if require_approved and not occupancy_origin_reviewed:
+            raise MapBundleError("approved occupancy map must confirm origin review")
 
     return {
         "manifest": str(manifest),
         "map_id": map_id,
         "revision": revision,
+        "schema_version": schema_version,
+        "map_type": map_type,
         "frame_id": frame_id,
         "deployment_status": deployment_status,
         "shared_origin_confirmed": shared_origin,
-        "pcd": {**pcd_metadata, "path": str(pcd_path), "sha256": pcd_hash},
+        "occupancy_origin_reviewed": occupancy_origin_reviewed,
+        "pcd": pcd_metadata,
         "occupancy": {
             "yaml_path": str(occupancy_yaml_path),
             "image_path": str(occupancy_image_manifest),
@@ -369,10 +398,12 @@ def resolve_map_bundle_for_runtime(
         "manifest": result["manifest"],
         "map_id": result["map_id"],
         "revision": result["revision"],
+        "map_type": result["map_type"],
         "deployment_status": result["deployment_status"],
         "frame_id": result["frame_id"],
-        "pcd_path": result["pcd"]["path"],
+        "pcd_path": result["pcd"]["path"] if result["pcd"] else None,
         "occupancy_yaml_path": result["occupancy"]["yaml_path"],
         "occupancy_image_path": result["occupancy"]["image_path"],
         "shared_origin_confirmed": result["shared_origin_confirmed"],
+        "occupancy_origin_reviewed": result["occupancy_origin_reviewed"],
     }

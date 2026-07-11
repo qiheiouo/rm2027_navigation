@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <functional>
 #include <limits>
@@ -38,13 +39,15 @@ public:
     min_height_ = declare_parameter<double>("min_height", 0.18);
     max_height_ = declare_parameter<double>("max_height", 2.0);
     transform_timeout_sec_ = declare_parameter<double>("transform_timeout_sec", 0.05);
+    max_publish_rate_hz_ = declare_parameter<double>("max_publish_rate_hz", 0.0);
 
     if (!std::isfinite(angle_min_) || !std::isfinite(angle_max_) ||
       !std::isfinite(angle_increment_) || angle_increment_ <= 0.0 ||
       angle_max_ <= angle_min_ || !std::isfinite(range_min_) ||
       !std::isfinite(range_max_) || range_max_ <= range_min_ ||
       !std::isfinite(min_height_) || !std::isfinite(max_height_) ||
-      max_height_ < min_height_)
+      max_height_ < min_height_ || !std::isfinite(max_publish_rate_hz_) ||
+      max_publish_rate_hz_ < 0.0)
     {
       throw std::invalid_argument("invalid pointcloud_to_laserscan projection parameters");
     }
@@ -58,14 +61,23 @@ public:
     RCLCPP_INFO(
       get_logger(),
       "pointcloud to laserscan: %s -> %s, target_frame=%s, range=[%.2f, %.2f], "
-      "height=[%.2f, %.2f]",
+      "height=[%.2f, %.2f], max_rate=%.2f Hz (0 means unlimited)",
       input_topic_.c_str(), output_topic_.c_str(), target_frame_.c_str(),
-      range_min_, range_max_, min_height_, max_height_);
+      range_min_, range_max_, min_height_, max_height_, max_publish_rate_hz_);
   }
 
 private:
   void cloud_callback(const sensor_msgs::msg::PointCloud2::SharedPtr msg)
   {
+    const auto callback_time = std::chrono::steady_clock::now();
+    if (max_publish_rate_hz_ > 0.0 && has_published_) {
+      const double elapsed = std::chrono::duration<double>(
+        callback_time - last_publish_time_).count();
+      if (elapsed < 1.0 / max_publish_rate_hz_) {
+        return;
+      }
+    }
+
     tf2::Transform input_to_target;
     if (!lookup_input_to_target(*msg, input_to_target)) {
       return;
@@ -131,6 +143,8 @@ private:
       get_logger(), "projected cloud width=%u used_points=%zu bins=%zu frame=%s",
       msg->width, used_points, scan.ranges.size(), scan.header.frame_id.c_str());
     pub_->publish(scan);
+    last_publish_time_ = callback_time;
+    has_published_ = true;
   }
 
   bool lookup_input_to_target(
@@ -175,6 +189,9 @@ private:
   double min_height_;
   double max_height_;
   double transform_timeout_sec_;
+  double max_publish_rate_hz_;
+  bool has_published_{false};
+  std::chrono::steady_clock::time_point last_publish_time_;
 
   tf2_ros::Buffer tf_buffer_;
   tf2_ros::TransformListener tf_listener_;

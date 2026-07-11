@@ -19,6 +19,9 @@ setup(
             "share/" + package_name + "/maps/phase2e_test",
             [
                 "maps/phase2e_test/phase2e_test.bundle.yaml",
+                "maps/phase2e_test/phase2j_occupancy_only.bundle.yaml",
+                "maps/phase2e_test/phase2j_3d_test.bundle.yaml",
+                "maps/phase2e_test/phase2j_3d_test.pcd",
                 "maps/phase2e_test/phase2e_test.pcd",
                 "maps/phase2e_test/phase2e_test.yaml",
                 "maps/phase2e_test/phase2e_test.pgm",

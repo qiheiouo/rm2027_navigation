@@ -1,7 +1,8 @@
 # rm_map_tools
 
-`validate_map_bundle` checks that a 3D PCD and Nav2 occupancy map form one
-versioned, reproducible map asset.
+`validate_map_bundle` checks a versioned, reproducible map asset. Schema 1
+contains a 3D PCD and Nav2 occupancy map. Schema 2 explicitly supports either
+that dual artifact or an `occupancy_only` map with no fake PCD.
 
 It validates:
 
@@ -26,7 +27,7 @@ Runtime launch files use the stricter resolver:
 ros2 run rm_map_tools resolve_map_bundle /path/to/map.bundle.yaml
 ```
 
-It prints the approved occupancy YAML and PCD paths consumed by
+It prints the approved occupancy YAML and optional PCD path consumed by
 `rm_navigation_bringup`. The synthetic fixture requires an explicit offline
 override:
 

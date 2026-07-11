@@ -27,11 +27,16 @@ def main() -> int:
     if arguments.json:
         print(json.dumps(result, indent=2, sort_keys=True))
     else:
+        pcd_summary = (
+            f"pcd_points={result['pcd']['points']}"
+            if result["pcd"] is not None
+            else "pcd=none"
+        )
         print(
             "map bundle valid: "
             f"{result['map_id']} revision={result['revision']} "
             f"status={result['deployment_status']} "
-            f"pcd_points={result['pcd']['points']}"
+            f"map_type={result['map_type']} {pcd_summary}"
         )
     return 0
 

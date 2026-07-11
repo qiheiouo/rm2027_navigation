@@ -1,16 +1,51 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    LogInfo,
+    OpaqueFunction,
+)
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import (
+    LaunchConfiguration,
+    PathJoinSubstitution,
+    PythonExpression,
+)
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+
+
+TRUE_VALUES = {"1", "true", "yes", "on"}
+
+
+def _validate_localization_backend(context, *args, **kwargs):
+    del args, kwargs
+    backend = LaunchConfiguration("relocalization_backend").perform(context)
+    if backend == "none":
+        return []
+    localization_mode = LaunchConfiguration("global_localization_mode").perform(context)
+    use_map_server = (
+        LaunchConfiguration("use_map_server").perform(context).strip().lower()
+        in TRUE_VALUES
+    )
+    if localization_mode != "external_pose":
+        raise RuntimeError(
+            "a relocalization backend requires "
+            "global_localization_mode:=external_pose"
+        )
+    if not use_map_server:
+        raise RuntimeError(
+            "a relocalization backend requires use_map_server:=true"
+        )
+    return []
 
 
 def generate_launch_description():
     sensor_mode = LaunchConfiguration("sensor_mode")
     selected_side = LaunchConfiguration("selected_side")
     global_localization_mode = LaunchConfiguration("global_localization_mode")
+    relocalization_backend = LaunchConfiguration("relocalization_backend")
     use_driver = LaunchConfiguration("use_driver")
     use_lio_backend = LaunchConfiguration("use_lio_backend")
     use_nav2 = LaunchConfiguration("use_nav2")
@@ -23,6 +58,15 @@ def generate_launch_description():
     map_bundle_manifest = LaunchConfiguration("map_bundle_manifest")
     allow_test_map = LaunchConfiguration("allow_test_map")
     rviz_config = LaunchConfiguration("rviz_config")
+    relocalization_params = LaunchConfiguration("relocalization_params")
+    relocalization_scan_topic = LaunchConfiguration("relocalization_scan_topic")
+    relocalization_pointcloud_topic = LaunchConfiguration(
+        "relocalization_pointcloud_topic"
+    )
+    use_relocalization_pointcloud_projection = LaunchConfiguration(
+        "use_relocalization_pointcloud_projection"
+    )
+    gicp_input_cloud_topic = LaunchConfiguration("gicp_input_cloud_topic")
 
     localization_launch = PathJoinSubstitution([
         FindPackageShare("rm_navigation_bringup"),
@@ -38,6 +82,16 @@ def generate_launch_description():
         FindPackageShare("rm_navigation_bringup"),
         "launch",
         "map_deployment.launch.py",
+    ])
+    amcl_2d_launch = PathJoinSubstitution([
+        FindPackageShare("rm_relocalization_bridge"),
+        "launch",
+        "amcl_2d_backend.launch.py",
+    ])
+    gicp_3d_launch = PathJoinSubstitution([
+        FindPackageShare("rm_gicp_relocalization"),
+        "launch",
+        "gicp_3d_backend.launch.py",
     ])
     chassis_launch = PathJoinSubstitution([
         FindPackageShare("rm_chassis_interface"),
@@ -60,6 +114,17 @@ def generate_launch_description():
         "rviz",
         "phase1.rviz",
     ])
+    default_relocalization_params = PathJoinSubstitution([
+        FindPackageShare("rm_relocalization_bridge"),
+        "config",
+        "amcl_2d.yaml",
+    ])
+    amcl_2d_enabled = PythonExpression([
+        "'", relocalization_backend, "' == 'amcl_2d'",
+    ])
+    gicp_3d_enabled = PythonExpression([
+        "'", relocalization_backend, "' == 'gicp_3d'",
+    ])
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -78,6 +143,14 @@ def generate_launch_description():
             default_value="stub",
             choices=["stub", "external_pose"],
             description="Select exactly one map->odom owner.",
+        ),
+        DeclareLaunchArgument(
+            "relocalization_backend",
+            default_value="none",
+            choices=["none", "amcl_2d", "gicp_3d"],
+            description=(
+                "Selected upstream global-pose backend. It never owns canonical TF."
+            ),
         ),
         DeclareLaunchArgument("use_driver", default_value="false"),
         DeclareLaunchArgument("use_lio_backend", default_value="false"),
@@ -113,12 +186,30 @@ def generate_launch_description():
             description="Only for offline tests with the synthetic phase2e fixture.",
         ),
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
+        DeclareLaunchArgument(
+            "relocalization_params", default_value=default_relocalization_params
+        ),
+        DeclareLaunchArgument(
+            "relocalization_scan_topic", default_value="/localization/scan"
+        ),
+        DeclareLaunchArgument(
+            "relocalization_pointcloud_topic", default_value="/points/obstacles"
+        ),
+        DeclareLaunchArgument(
+            "use_relocalization_pointcloud_projection", default_value="false"
+        ),
+        DeclareLaunchArgument(
+            "gicp_input_cloud_topic", default_value="/lio/cloud_registered"
+        ),
+        OpaqueFunction(function=_validate_localization_backend),
         LogInfo(msg=[
             "[navigation] Canonical stack entry. Hardware, FAST-LIO, and Nav2 ",
             "remain explicit opt-ins. global_localization_mode=",
             global_localization_mode,
             ", sensor_mode=",
             sensor_mode,
+            ", relocalization_backend=",
+            relocalization_backend,
             ".",
         ]),
         LogInfo(msg=(
@@ -152,6 +243,30 @@ def generate_launch_description():
                 "allow_test_map": allow_test_map,
                 "use_sim_time": use_sim_time,
                 "autostart": "true",
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(amcl_2d_launch),
+            condition=IfCondition(amcl_2d_enabled),
+            launch_arguments={
+                "enable_backend": "true",
+                "params_file": relocalization_params,
+                "scan_topic": relocalization_scan_topic,
+                "map_topic": "/map",
+                "use_pointcloud_to_scan": use_relocalization_pointcloud_projection,
+                "pointcloud_topic": relocalization_pointcloud_topic,
+                "use_sim_time": use_sim_time,
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(gicp_3d_launch),
+            condition=IfCondition(gicp_3d_enabled),
+            launch_arguments={
+                "enable_backend": "true",
+                "map_bundle_manifest": map_bundle_manifest,
+                "allow_test_map": allow_test_map,
+                "input_cloud_topic": gicp_input_cloud_topic,
+                "use_sim_time": use_sim_time,
             }.items(),
         ),
         IncludeLaunchDescription(
