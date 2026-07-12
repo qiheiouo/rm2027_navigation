@@ -17,6 +17,11 @@ def generate_launch_description():
         "launch",
         "gicp_3d_backend.launch.py",
     ])
+    gicp_params = PathJoinSubstitution([
+        FindPackageShare("rm_gicp_relocalization"),
+        "config",
+        "gicp_3d.yaml",
+    ])
     test_manifest = PathJoinSubstitution([
         FindPackageShare("rm_map_tools"),
         "maps",
@@ -82,6 +87,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(gicp_launch),
             launch_arguments={
                 "enable_backend": "true",
+                "params_file": gicp_params,
                 "map_bundle_manifest": test_manifest,
                 "allow_test_map": "true",
                 "input_cloud_topic": "/lio/cloud_registered",

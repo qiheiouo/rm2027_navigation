@@ -12,6 +12,27 @@ find_package(ament_cmake REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED COMPONENTS common filters io registration)
+# Compatibility shim for PCL/Qhull target naming on Ubuntu 22.04.
+# PCL may reference QHULL::QHULL, while libqhull-dev exports Qhull::*.
+find_package(Qhull CONFIG QUIET)
+
+if(NOT TARGET QHULL::QHULL)
+  if(TARGET Qhull::qhull_r)
+    add_library(QHULL::QHULL INTERFACE IMPORTED)
+    target_link_libraries(QHULL::QHULL INTERFACE Qhull::qhull_r)
+  elseif(TARGET Qhull::libqhull)
+    add_library(QHULL::QHULL INTERFACE IMPORTED)
+    target_link_libraries(QHULL::QHULL INTERFACE Qhull::libqhull)
+  else()
+    find_library(QHULL_LIBRARY NAMES qhull_r qhull)
+    if(QHULL_LIBRARY)
+      add_library(QHULL::QHULL UNKNOWN IMPORTED)
+      set_target_properties(QHULL::QHULL PROPERTIES
+        IMPORTED_LOCATION "${QHULL_LIBRARY}"
+      )
+    endif()
+  endif()
+endif()
 find_package(builtin_interfaces REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(pcl_conversions REQUIRED)

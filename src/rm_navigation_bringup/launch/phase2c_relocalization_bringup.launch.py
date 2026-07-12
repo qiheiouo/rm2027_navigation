@@ -26,6 +26,11 @@ def generate_launch_description():
         "launch",
         "global_pose_bridge.launch.py",
     ])
+    global_pose_bridge_config = PathJoinSubstitution([
+        FindPackageShare("rm_relocalization_bridge"),
+        "config",
+        "map_odom_from_global_pose.yaml",
+    ])
 
     stub_mode = PythonExpression([
         "'", global_localization_mode, "' == 'stub'",
@@ -72,6 +77,9 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(global_pose_bridge_launch),
             condition=IfCondition(external_pose_mode),
-            launch_arguments={"use_sim_time": use_sim_time}.items(),
+            launch_arguments={
+                "use_sim_time": use_sim_time,
+                "config_file": global_pose_bridge_config,
+            }.items(),
         ),
     ])

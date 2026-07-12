@@ -17,6 +17,11 @@ def generate_launch_description():
         "launch",
         "amcl_2d_backend.launch.py",
     ])
+    amcl_params = PathJoinSubstitution([
+        FindPackageShare("rm_relocalization_bridge"),
+        "config",
+        "amcl_2d.yaml",
+    ])
 
     return LaunchDescription([
         LogInfo(msg=(
@@ -64,6 +69,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(amcl_launch),
             launch_arguments={
                 "enable_backend": "true",
+                "params_file": amcl_params,
                 "use_pointcloud_to_scan": "false",
                 "scan_topic": "/localization/scan",
                 "map_topic": "/map",
