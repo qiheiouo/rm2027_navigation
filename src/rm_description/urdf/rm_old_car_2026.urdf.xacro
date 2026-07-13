@@ -30,6 +30,14 @@
   <xacro:property name="old_car_l1_imu_x" value="0.157178"/>
   <xacro:property name="old_car_l1_imu_y" value="0.172624"/>
   <xacro:property name="old_car_l1_imu_z" value="0.174374"/>
+  <!-- Provisional L2 values from the documented 180-degree XOY symmetry.
+       They require physical measurement before dual-lidar acceptance. -->
+  <xacro:property name="old_car_l2_x" value="-0.1935"/>
+  <xacro:property name="old_car_l2_y" value="-0.1753"/>
+  <xacro:property name="old_car_l2_z" value="0.2102"/>
+  <xacro:property name="old_car_l2_roll" value="0.332345"/>
+  <xacro:property name="old_car_l2_pitch" value="0.287549"/>
+  <xacro:property name="old_car_l2_yaw" value="-1.473223"/>
 
   <link name="base_link">
     <visual>
@@ -84,6 +92,16 @@
     <origin
       xyz="${old_car_l1_x} ${old_car_l1_y} ${old_car_l1_z}"
       rpy="${old_car_l1_roll} ${old_car_l1_pitch} ${old_car_l1_yaw}"/>
+  </joint>
+
+  <link name="mid360_right_frame"/>
+
+  <joint name="gimbal_yaw_link_to_mid360_right_frame" type="fixed">
+    <parent link="gimbal_yaw_link"/>
+    <child link="mid360_right_frame"/>
+    <origin
+      xyz="${old_car_l2_x} ${old_car_l2_y} ${old_car_l2_z}"
+      rpy="${old_car_l2_roll} ${old_car_l2_pitch} ${old_car_l2_yaw}"/>
   </joint>
 
   <link name="base_imu_link"/>
