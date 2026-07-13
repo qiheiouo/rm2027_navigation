@@ -32,6 +32,10 @@ input topics.
   grid used by the exporter.
 - `mapping_session_node` consumes the LIO world-registered cloud, transforms it
   into canonical `map`, performs bounded voxel accumulation, and writes the PCD.
+- The old-car profile uses `/lio/cloud_registered_transformed` only while
+  managed mapping is enabled. This corrects the initial sensor/body basis of
+  the zero-start FAST-LIO cloud before accumulation without changing LIO
+  odometry, public TF, or the normal navigation pointcloud path.
 - Every exported bundle is `candidate`. No code path marks a map `approved` or
   replaces the deployed map automatically.
 - Mapping starts no Nav2, serial transport, referee logic, or mission tree. The
@@ -105,10 +109,24 @@ ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
 This mode rejects Nav2 and both serial modes. Move the car with the remote
 controller at moderate speed and cover the field from multiple viewing angles.
 
+The old-car mapping entry enables FAST-LIO's transformed registered-cloud
+output only when `use_mapping:=true`. Normal navigation keeps that output
+disabled. The mapping session therefore consumes:
+
+```text
+/lio/cloud_registered_transformed
+```
+
+instead of `/lio/cloud_registered`. The transform parameters are the measured
+`base_link <- lio_imu_link` basis correction for this old-car profile. They are
+not generic 2027 vehicle extrinsics and must not be copied to a future chassis
+without measurement and validation.
+
 ## Operator Flow
 
-1. Confirm `/odometry/lio`, `/lio/cloud_registered`, the selected sensor cloud,
-   `map -> odom`, and `odom -> base_link` are available.
+1. Confirm `/odometry/lio`, the selected registered-cloud topic, the selected
+   sensor cloud, `map -> odom`, and `odom -> base_link` are available. The
+   old-car integrated profile uses `/lio/cloud_registered_transformed`.
 2. Confirm `/mapping/projected_map` grows while the robot moves.
 3. Use RViz to check that the registered cloud is level and repeated structures
    align instead of forming double walls.
@@ -147,6 +165,12 @@ mapping parameters, not local costmap or STVL parameters. Tune them using map
 completeness, wall thickness and low-obstacle retention; do not tune MPPI or
 local costmap in the same experiment.
 
+The current profile sets `incremental_2D_projection: false`. On the verified
+ROS 2 Humble `octomap_server`, incremental projection left the exported grid
+entirely unknown even though the 3D tree already contained occupied voxels.
+Disabling incremental projection immediately restored free and occupied cells.
+This is an export-path compatibility setting, not a local-costmap parameter.
+
 The mapping launch samples the sensor cloud at no more than 5 Hz before OctoMap.
 FAST-LIO and the navigation perception topics keep their original rates; only
 the mapping consumer is throttled to protect the low-power minipc.
@@ -181,3 +205,49 @@ session can still be saved.
   the bundle contract.
 - Mapping creates assets. Runtime relocalization against the PCD remains a
   separate phase behind `rm_relocalization_bridge`.
+
+## Old-Car Validation Record
+
+The old-car Phase 2I chain has passed functional real-hardware validation. The
+result does not approve any generated map for competition deployment.
+
+Two separate faults were identified and corrected:
+
+1. Registered clouds could lead timestamped `map <- odom` TF by roughly 20 ms
+   to 1.2 s. Optional latest-TF fallback reduced dropped clouds from more than
+   one thousand per run to zero in the accepted motion run. The manifest
+   records how many samples used the fallback.
+2. With `zero_start_pose: true`, the registered cloud was expressed in the
+   initial sensor/body basis while its header used `odom`. Accumulating it
+   directly produced a visibly tilted PCD. The mapping-only transformed cloud
+   applies the measured old-car basis correction before export.
+
+Static-chain evidence after both corrections:
+
+```text
+accepted_clouds: 132
+dropped_tf_clouds: 0
+pcd_points: 370
+measured dominant-plane tilt samples: 1.030 deg, 1.381 deg, 0.195 deg
+pre-fix dominant-plane tilt: approximately 22.76 deg
+occupancy cells: 3012 occupied, 23344 free, 51524 unknown
+```
+
+Short motion-run evidence:
+
+```text
+accepted_clouds: 536
+dropped_tf_clouds: 0
+latest_transform_fallback_clouds: 118
+pcd_points: 12237
+validate_map_bundle: passed
+deployment_status: candidate
+review_status: requires_human_landmark_review
+```
+
+The PGM is no longer entirely unknown after disabling incremental 2D
+projection. It is still visually noisy and may need later parameter tuning or
+careful manual cleanup. That quality issue is accepted for the current stage;
+it must not trigger another blocking parameter loop, and it does not justify
+marking the bundle `approved`. Real map files and logs remain outside the
+source repository.

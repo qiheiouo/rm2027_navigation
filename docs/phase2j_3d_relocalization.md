@@ -91,6 +91,13 @@ ros2 run tf2_ros tf2_echo map odom
 ros2 topic info /tf -v
 ```
 
+The Linux smoke test has passed with the real PCL GICP implementation, the
+synthetic asymmetric PCD/current-cloud pair, fake canonical odometry, the real
+pose gate, and the Phase 2C bridge. Registration was accepted,
+`/localization/global_pose` was produced, GICP published no TF, the stub was
+absent, and `map_odom_from_global_pose` remained the only canonical
+`map -> odom` owner. This does not establish convergence on a real field PCD.
+
 Real acceptance additionally requires multiple initial-pose errors, repeated
 field structures, partial overlap, occlusion, collision-induced displacement,
 long runs, and target-minipc CPU/latency tests.
@@ -98,3 +105,19 @@ long runs, and target-minipc CPU/latency tests.
 The first pose covariance is a conservative fitness-derived placeholder. It is
 useful for gating but is not a calibrated probabilistic uncertainty model; real
 bags must be used before a strategy layer relies on its numeric value.
+
+## Current Status And Next Evidence
+
+The backend and synthetic chain are functionally complete. The next bounded
+test is a no-motion old-car run against the candidate Phase 2I PCD:
+
+- start driver, LIO, GICP, and `map_odom_from_global_pose`;
+- keep Nav2 and real serial disabled;
+- provide several measured `/initialpose` seeds with controlled error;
+- verify accepted fitness, stable `/localization/global_pose`, and one
+  canonical `map -> odom` owner;
+- test partial overlap and repeated geometry before considering deployment.
+
+The current Phase 2I motion PCD is large enough for functional experiments,
+but its bundle remains `candidate` and requires human landmark alignment
+review. Passing GICP on that PCD would validate the chain, not approve the map.

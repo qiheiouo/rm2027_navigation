@@ -147,6 +147,17 @@ Mapping must not run together with Nav2 navigation or a global relocalization
 backend. See `docs/phase2i_managed_mapping.md` for generic and old-car launch
 examples plus the candidate-map review gate.
 
+For the old-car integrated profile, `use_mapping:=true` also enables the
+mapping-only `/lio/cloud_registered_transformed` output and makes the mapping
+session consume it. With `use_mapping:=false`, that transformed output remains
+disabled and the normal navigation/LIO behavior is unchanged. The old-car
+mapping guard also rejects Nav2, real serial, and serial dry-run combinations.
+
+Generated occupancy and PCD artifacts always remain `candidate` until explicit
+human landmark and origin review. The verified PGM is no longer entirely
+unknown, but it is still visually noisy; later cleanup is allowed without
+blocking the Phase 2J real-map no-motion tests.
+
 ## Serial Dry-Run
 
 ```bash

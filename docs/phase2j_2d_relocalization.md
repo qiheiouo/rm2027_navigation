@@ -119,6 +119,13 @@ ros2 run tf2_ros tf2_echo map odom
 ros2 topic info /tf -v
 ```
 
+The Linux smoke test has passed with real Humble AMCL, a synthetic occupancy
+map, synthetic scan, fake canonical odometry, and the real Phase 2C bridge.
+Verified boundaries include `tf_broadcast: false`, `save_pose_rate: 0.5`, no
+`map_odom_stub`, `/localization/global_pose` output, and a single canonical
+`map -> odom` owner. This is interface and ownership evidence only; real-map
+AMCL stability remains a separate acceptance step.
+
 ## Real Runtime Shape
 
 After an occupancy-only bundle and scan source are approved:
@@ -151,3 +158,17 @@ For manual startup, publish that pose with RViz `2D Pose Estimate` (the standard
    covariance do not reach `/localization/global_pose`.
 7. No map or no scan cannot produce a false valid result.
 8. Occupancy-only deployment requires no PCD and no fake PCD artifact.
+
+## Current Status And Next Evidence
+
+The backend and no-hardware chain are functionally complete. The next bounded
+test is a no-motion old-car run using a reviewed candidate occupancy map:
+
+- start driver, LIO, AMCL, and `map_odom_from_global_pose`;
+- keep Nav2 and real serial disabled;
+- verify stable `/localization/global_pose` and canonical `map -> odom`;
+- verify AMCL still publishes no TF and the stub remains absent;
+- compare estimated pose with measured laboratory landmarks.
+
+A candidate PGM may be used for this validation, but it remains unsuitable for
+formal navigation deployment until human landmark and origin review passes.
