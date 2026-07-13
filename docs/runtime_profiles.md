@@ -158,6 +158,17 @@ human landmark and origin review. The verified PGM is no longer entirely
 unknown, but it is still visually noisy; later cleanup is allowed without
 blocking the Phase 2J real-map no-motion tests.
 
+Map runtime policy is explicit:
+
+```text
+map_acceptance_policy:=approved_only | allow_candidate | allow_test
+```
+
+`approved_only` remains the default. `allow_candidate` permits deliberate
+field experiments with unapproved but structurally valid assets, while
+`allow_test` is reserved for synthetic fixtures. The legacy
+`allow_test_map:=true` argument remains as an alias for `allow_test`.
+
 ## Serial Dry-Run
 
 ```bash

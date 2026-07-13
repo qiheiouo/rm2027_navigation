@@ -12,8 +12,15 @@ only proves that a reviewed bundle can be resolved into:
 
 ## Runtime Gate
 
-`rm_map_tools resolve_map_bundle` rejects `test_only` and `candidate` bundles
-by default. Production launch files must use approved bundles:
+`rm_map_tools resolve_map_bundle` uses an explicit three-level runtime policy:
+
+- `approved_only`: default production gate;
+- `allow_candidate`: accepts candidate and approved assets for deliberate
+  mapping, relocalization and field experiments;
+- `allow_test`: also accepts `test_only` synthetic fixtures.
+
+The default rejects `test_only` and `candidate` bundles. Production launch
+files continue to use approved bundles:
 
 ```bash
 ros2 run rm_map_tools resolve_map_bundle /path/to/map.bundle.yaml
@@ -28,6 +35,18 @@ ros2 run rm_map_tools resolve_map_bundle \
 ```
 
 Never use `--allow-test-map` on a robot.
+
+A candidate bundle can be used without pretending it is approved:
+
+```bash
+ros2 run rm_map_tools resolve_map_bundle \
+  /data/rm27_maps/field/revision/field.bundle.yaml \
+  --acceptance-policy allow_candidate
+```
+
+This mode still verifies paths, hashes, PGM/PCD structure and canonical frames.
+It relaxes only the deployment-status gate. Candidate use must be explicit in
+the command and remains experimental.
 
 ## Launch Entry
 
@@ -45,6 +64,14 @@ Offline fixture example:
 ```bash
 ros2 launch rm_navigation_bringup map_deployment.launch.py \
   allow_test_map:=true
+```
+
+Candidate experiment example:
+
+```bash
+ros2 launch rm_navigation_bringup map_deployment.launch.py \
+  map_bundle_manifest:=/data/rm27_maps/field/revision/field.bundle.yaml \
+  map_acceptance_policy:=allow_candidate
 ```
 
 Real deployment example:
@@ -70,6 +97,7 @@ Safe defaults remain unchanged:
 - `use_map_server:=false`
 - `use_nav2:=false`
 - `allow_test_map:=false`
+- `map_acceptance_policy:=approved_only`
 - driver, FAST-LIO backend and real serial remain opt-in
 
 The default Nav2 parameter file is `nav2_phase2f_deployment.yaml`. It keeps the

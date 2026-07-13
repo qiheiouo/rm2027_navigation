@@ -26,11 +26,14 @@ def _launch_backend(context, *args, **kwargs):
     allow_test_map = _as_bool(
         LaunchConfiguration("allow_test_map").perform(context)
     )
+    acceptance_policy = LaunchConfiguration("map_acceptance_policy").perform(context)
     if not manifest:
         raise RuntimeError("gicp_3d requires map_bundle_manifest")
     try:
         bundle = resolve_map_bundle_for_runtime(
-            manifest, allow_test_map=allow_test_map
+            manifest,
+            allow_test_map=allow_test_map,
+            acceptance_policy=acceptance_policy,
         )
     except MapBundleError as exc:
         raise RuntimeError(f"GICP map bundle rejected: {exc}") from exc
@@ -99,6 +102,11 @@ def generate_launch_description():
         DeclareLaunchArgument("params_file", default_value=default_params),
         DeclareLaunchArgument("map_bundle_manifest", default_value=""),
         DeclareLaunchArgument("allow_test_map", default_value="false"),
+        DeclareLaunchArgument(
+            "map_acceptance_policy",
+            default_value="approved_only",
+            choices=["approved_only", "allow_candidate", "allow_test"],
+        ),
         DeclareLaunchArgument(
             "input_cloud_topic", default_value="/lio/cloud_registered"
         ),

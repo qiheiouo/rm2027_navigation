@@ -13,7 +13,19 @@ def main() -> int:
     parser.add_argument(
         "--allow-test-map",
         action="store_true",
-        help="Allow test_only/candidate bundles. Never use this on a robot.",
+        help=(
+            "Backward-compatible alias for --acceptance-policy allow_test. "
+            "Never use test_only assets for real navigation."
+        ),
+    )
+    parser.add_argument(
+        "--acceptance-policy",
+        choices=["approved_only", "allow_candidate", "allow_test"],
+        default="approved_only",
+        help=(
+            "Runtime asset gate. allow_candidate is for explicit field "
+            "experiments; allow_test also accepts synthetic fixtures."
+        ),
     )
     parser.add_argument(
         "--field",
@@ -35,6 +47,7 @@ def main() -> int:
         result = resolve_map_bundle_for_runtime(
             arguments.manifest,
             allow_test_map=arguments.allow_test_map,
+            acceptance_policy=arguments.acceptance_policy,
         )
     except MapBundleError as exc:
         print(f"map bundle unresolved: {exc}", file=sys.stderr)

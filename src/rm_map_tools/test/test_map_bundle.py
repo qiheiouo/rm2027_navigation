@@ -92,6 +92,35 @@ def test_runtime_resolver_returns_nav2_and_pcd_paths_when_allowed() -> None:
     assert result["frame_id"] == "map"
     assert result["pcd_path"].endswith("phase2e_test.pcd")
     assert result["occupancy_yaml_path"].endswith("phase2e_test.yaml")
+    assert result["acceptance_policy"] == "allow_test"
+
+
+def test_candidate_policy_accepts_candidate_and_rejects_test_only(tmp_path: Path) -> None:
+    with pytest.raises(MapBundleError, match="not allowed by runtime policy"):
+        resolve_map_bundle_for_runtime(
+            FIXTURE / "phase2e_test.bundle.yaml",
+            acceptance_policy="allow_candidate",
+        )
+
+    manifest = _copy_fixture(tmp_path)
+    data = _load_manifest(manifest)
+    data["deployment_status"] = "candidate"
+    _save_manifest(manifest, data)
+    result = resolve_map_bundle_for_runtime(
+        manifest,
+        acceptance_policy="allow_candidate",
+    )
+    assert result["deployment_status"] == "candidate"
+    assert result["acceptance_policy"] == "allow_candidate"
+
+
+def test_allow_test_alias_conflicts_with_candidate_policy() -> None:
+    with pytest.raises(MapBundleError, match="conflicts"):
+        resolve_map_bundle_for_runtime(
+            FIXTURE / "phase2e_test.bundle.yaml",
+            allow_test_map=True,
+            acceptance_policy="allow_candidate",
+        )
 
 
 def test_runtime_resolver_supports_occupancy_only_map() -> None:
@@ -140,6 +169,21 @@ def test_approved_occupancy_only_accepts_reviewed_origin(tmp_path: Path) -> None
     result = validate_map_bundle(manifest, require_approved=True)
     assert result["pcd"] is None
     assert result["occupancy_origin_reviewed"] is True
+
+
+def test_approved_bundle_review_is_enforced_under_permissive_policy(
+    tmp_path: Path,
+) -> None:
+    manifest = _copy_fixture(tmp_path)
+    data = _load_manifest(manifest)
+    data["deployment_status"] = "approved"
+    data["alignment"]["pcd_and_occupancy_share_map_origin"] = False
+    _save_manifest(manifest, data)
+    with pytest.raises(MapBundleError, match="confirm a shared map origin"):
+        resolve_map_bundle_for_runtime(
+            manifest,
+            acceptance_policy="allow_test",
+        )
 
 
 def test_schema_two_requires_explicit_map_type(tmp_path: Path) -> None:

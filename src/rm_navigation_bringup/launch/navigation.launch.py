@@ -57,6 +57,7 @@ def generate_launch_description():
     nav2_params = LaunchConfiguration("nav2_params")
     map_bundle_manifest = LaunchConfiguration("map_bundle_manifest")
     allow_test_map = LaunchConfiguration("allow_test_map")
+    map_acceptance_policy = LaunchConfiguration("map_acceptance_policy")
     rviz_config = LaunchConfiguration("rviz_config")
     relocalization_params = LaunchConfiguration("relocalization_params")
     gicp_relocalization_params = LaunchConfiguration("gicp_relocalization_params")
@@ -189,7 +190,19 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "allow_test_map",
             default_value="false",
-            description="Only for offline tests with the synthetic phase2e fixture.",
+            description=(
+                "Deprecated compatibility alias for "
+                "map_acceptance_policy:=allow_test."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "map_acceptance_policy",
+            default_value="approved_only",
+            choices=["approved_only", "allow_candidate", "allow_test"],
+            description=(
+                "Explicit map asset gate. Candidate maps are allowed only when "
+                "this argument is set to allow_candidate."
+            ),
         ),
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
         DeclareLaunchArgument(
@@ -251,6 +264,7 @@ def generate_launch_description():
             launch_arguments={
                 "map_bundle_manifest": map_bundle_manifest,
                 "allow_test_map": allow_test_map,
+                "map_acceptance_policy": map_acceptance_policy,
                 "use_sim_time": use_sim_time,
                 "autostart": "true",
             }.items(),
@@ -276,6 +290,7 @@ def generate_launch_description():
                 "params_file": gicp_relocalization_params,
                 "map_bundle_manifest": map_bundle_manifest,
                 "allow_test_map": allow_test_map,
+                "map_acceptance_policy": map_acceptance_policy,
                 "input_cloud_topic": gicp_input_cloud_topic,
                 "use_sim_time": use_sim_time,
             }.items(),

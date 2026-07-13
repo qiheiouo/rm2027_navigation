@@ -16,6 +16,11 @@ class MapBundleError(ValueError):
 _MAP_ID_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
 _DEPLOYMENT_STATES = {"test_only", "candidate", "approved"}
 _MAP_TYPES = {"occupancy_only", "occupancy_with_pcd"}
+_RUNTIME_ACCEPTANCE_POLICIES = {
+    "approved_only": {"approved"},
+    "allow_candidate": {"candidate", "approved"},
+    "allow_test": _DEPLOYMENT_STATES,
+}
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -353,13 +358,15 @@ def validate_map_bundle(
         shared_origin = alignment.get("pcd_and_occupancy_share_map_origin")
         if not isinstance(shared_origin, bool):
             raise MapBundleError("alignment shared-origin flag must be boolean")
-        if require_approved and not shared_origin:
+        if (require_approved or deployment_status == "approved") and not shared_origin:
             raise MapBundleError("approved map bundle must confirm a shared map origin")
     else:
         occupancy_origin_reviewed = alignment.get("occupancy_origin_reviewed")
         if not isinstance(occupancy_origin_reviewed, bool):
             raise MapBundleError("occupancy_only alignment review flag must be boolean")
-        if require_approved and not occupancy_origin_reviewed:
+        if (
+            require_approved or deployment_status == "approved"
+        ) and not occupancy_origin_reviewed:
             raise MapBundleError("approved occupancy map must confirm origin review")
 
     return {
@@ -388,12 +395,31 @@ def validate_map_bundle(
 def resolve_map_bundle_for_runtime(
     manifest_path: str | Path,
     allow_test_map: bool = False,
+    acceptance_policy: str | None = None,
 ) -> dict[str, Any]:
     """Validate a bundle and return the runtime paths consumed by launch files."""
+    policy = acceptance_policy or "approved_only"
+    if allow_test_map:
+        if policy not in {"approved_only", "allow_test"}:
+            raise MapBundleError(
+                "allow_test_map conflicts with acceptance_policy=" + repr(policy)
+            )
+        policy = "allow_test"
+    if policy not in _RUNTIME_ACCEPTANCE_POLICIES:
+        choices = ", ".join(sorted(_RUNTIME_ACCEPTANCE_POLICIES))
+        raise MapBundleError(
+            f"unsupported runtime acceptance policy '{policy}'; expected one of: {choices}"
+        )
+
     result = validate_map_bundle(
         manifest_path,
-        require_approved=not allow_test_map,
+        require_approved=policy == "approved_only",
     )
+    if result["deployment_status"] not in _RUNTIME_ACCEPTANCE_POLICIES[policy]:
+        raise MapBundleError(
+            "map bundle status "
+            f"'{result['deployment_status']}' is not allowed by runtime policy '{policy}'"
+        )
     return {
         "manifest": result["manifest"],
         "map_id": result["map_id"],
@@ -406,4 +432,5 @@ def resolve_map_bundle_for_runtime(
         "occupancy_image_path": result["occupancy"]["image_path"],
         "shared_origin_confirmed": result["shared_origin_confirmed"],
         "occupancy_origin_reviewed": result["occupancy_origin_reviewed"],
+        "acceptance_policy": policy,
     }

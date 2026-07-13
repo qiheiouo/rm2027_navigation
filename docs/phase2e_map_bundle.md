@@ -55,8 +55,14 @@ checks its structure and bytes; it cannot prove geometric alignment by itself.
 6. occupancy resolution, origin, negate and threshold ordering;
 7. occupancy YAML image reference matching the manifest;
 8. P2/P5 PGM header and P2 pixel count;
-9. approved-state and applicable alignment-review gates when
-   `--require-approved` is used.
+9. approved-state and applicable alignment-review gates. An artifact labelled
+   `approved` must satisfy its review flags even when inspected through a
+   permissive experimental runtime policy.
+
+Runtime acceptance is separate from structural validation. Candidate use does
+not skip hashes, path containment, frame checks or artifact parsing; it only
+allows `deployment_status: candidate` when the operator explicitly selects
+`allow_candidate`.
 
 ## Synthetic Fixture
 

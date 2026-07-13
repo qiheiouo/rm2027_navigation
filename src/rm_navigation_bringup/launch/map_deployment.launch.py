@@ -17,6 +17,7 @@ def _start_map_server(context, *args, **kwargs):
 
     manifest = LaunchConfiguration("map_bundle_manifest").perform(context).strip()
     allow_test_map = _as_bool(LaunchConfiguration("allow_test_map").perform(context))
+    acceptance_policy = LaunchConfiguration("map_acceptance_policy").perform(context)
     use_sim_time = _as_bool(LaunchConfiguration("use_sim_time").perform(context))
     autostart = _as_bool(LaunchConfiguration("autostart").perform(context))
 
@@ -27,6 +28,7 @@ def _start_map_server(context, *args, **kwargs):
         bundle = resolve_map_bundle_for_runtime(
             manifest,
             allow_test_map=allow_test_map,
+            acceptance_policy=acceptance_policy,
         )
     except MapBundleError as exc:
         raise RuntimeError(f"map bundle rejected for runtime: {exc}") from exc
@@ -39,6 +41,8 @@ def _start_map_server(context, *args, **kwargs):
             bundle["revision"],
             " status=",
             bundle["deployment_status"],
+            " acceptance_policy=",
+            bundle["acceptance_policy"],
             " map_type=",
             bundle["map_type"],
             " occupancy=",
@@ -89,7 +93,19 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "allow_test_map",
             default_value="false",
-            description="Allow test_only/candidate bundles. Never enable on a robot.",
+            description=(
+                "Deprecated compatibility alias for "
+                "map_acceptance_policy:=allow_test."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "map_acceptance_policy",
+            default_value="approved_only",
+            choices=["approved_only", "allow_candidate", "allow_test"],
+            description=(
+                "approved_only is the deployment default; allow_candidate is "
+                "for explicit field experiments; allow_test also accepts fixtures."
+            ),
         ),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument("autostart", default_value="true"),
