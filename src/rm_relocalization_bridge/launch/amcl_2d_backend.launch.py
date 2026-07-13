@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, LogInfo, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -19,7 +21,11 @@ def _launch_backend(context, *args, **kwargs):
         return [LogInfo(msg="[amcl_2d] backend disabled; no localization node started.")]
 
     use_sim_time = LaunchConfiguration("use_sim_time")
-    params_file = LaunchConfiguration("params_file")
+    params_file = LaunchConfiguration("params_file").perform(context).strip()
+    if not params_file or not Path(params_file).is_file():
+        raise RuntimeError(
+            f"amcl_2d params_file must be a regular file, got: {params_file!r}"
+        )
     scan_topic = LaunchConfiguration("scan_topic")
     map_topic = LaunchConfiguration("map_topic")
     raw_pose_topic = LaunchConfiguration("raw_pose_topic")
@@ -39,13 +45,21 @@ def _launch_backend(context, *args, **kwargs):
         in TRUE_VALUES
     )
     if use_pointcloud_to_scan:
+        projection_params = (
+            LaunchConfiguration("scan_projection_params").perform(context).strip()
+        )
+        if not projection_params or not Path(projection_params).is_file():
+            raise RuntimeError(
+                "amcl_2d scan_projection_params must be a regular file, "
+                f"got: {projection_params!r}"
+            )
         actions.append(Node(
             package="rm_mid360_driver_bridge",
             executable="pointcloud_to_laserscan_node",
             name="pointcloud_to_laserscan_node",
             output="screen",
             parameters=[
-                LaunchConfiguration("scan_projection_params"),
+                projection_params,
                 {
                     "input_topic": LaunchConfiguration("pointcloud_topic"),
                     "output_topic": scan_topic,

@@ -70,6 +70,11 @@ reviewed `occupancy_with_pcd` bundle, a current registered PointCloud2, and a
 standard `/initialpose` seed. It does not run with AMCL and publishes no TF.
 See `docs/phase2j_3d_relocalization.md`.
 
+Parameter files are explicit launch arguments. `relocalization_params` selects
+the AMCL/gate YAML; `gicp_relocalization_params` selects the GICP/gate YAML.
+Backend launches reject empty paths, directories, and missing files before
+starting nodes.
+
 Deployment-map support is an explicit gate:
 
 ```bash

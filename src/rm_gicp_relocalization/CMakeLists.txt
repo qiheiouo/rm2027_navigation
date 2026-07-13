@@ -18,20 +18,27 @@ find_package(Qhull CONFIG QUIET)
 
 if(NOT TARGET QHULL::QHULL)
   if(TARGET Qhull::qhull_r)
-    add_library(QHULL::QHULL INTERFACE IMPORTED)
+    add_library(QHULL::QHULL INTERFACE IMPORTED GLOBAL)
     target_link_libraries(QHULL::QHULL INTERFACE Qhull::qhull_r)
   elseif(TARGET Qhull::libqhull)
-    add_library(QHULL::QHULL INTERFACE IMPORTED)
+    add_library(QHULL::QHULL INTERFACE IMPORTED GLOBAL)
     target_link_libraries(QHULL::QHULL INTERFACE Qhull::libqhull)
   else()
     find_library(QHULL_LIBRARY NAMES qhull_r qhull)
     if(QHULL_LIBRARY)
-      add_library(QHULL::QHULL UNKNOWN IMPORTED)
+      add_library(QHULL::QHULL UNKNOWN IMPORTED GLOBAL)
       set_target_properties(QHULL::QHULL PROPERTIES
         IMPORTED_LOCATION "${QHULL_LIBRARY}"
       )
     endif()
   endif()
+endif()
+
+if(NOT TARGET QHULL::QHULL)
+  message(FATAL_ERROR
+    "PCL references QHULL::QHULL, but no compatible Qhull target or library was found. "
+    "Install libqhull-dev."
+  )
 endif()
 find_package(builtin_interfaces REQUIRED)
 find_package(geometry_msgs REQUIRED)

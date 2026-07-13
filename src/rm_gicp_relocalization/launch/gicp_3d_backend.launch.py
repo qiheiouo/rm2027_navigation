@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, LogInfo, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -39,7 +41,11 @@ def _launch_backend(context, *args, **kwargs):
         )
 
     use_sim_time = LaunchConfiguration("use_sim_time")
-    params_file = LaunchConfiguration("params_file")
+    params_file = LaunchConfiguration("params_file").perform(context).strip()
+    if not params_file or not Path(params_file).is_file():
+        raise RuntimeError(
+            f"gicp_3d params_file must be a regular file, got: {params_file!r}"
+        )
     raw_pose_topic = LaunchConfiguration("raw_pose_topic")
     global_pose_topic = LaunchConfiguration("global_pose_topic")
     return [

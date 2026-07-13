@@ -41,6 +41,12 @@ claim full-field place recognition or brute-force global search. A descriptor,
 multi-hypothesis, referee, or other coarse prior can be added later upstream of
 the same seed interface.
 
+On Ubuntu 22.04, the PCL export may reference `QHULL::QHULL` while the distro
+Qhull package exports `Qhull::qhull_r`. The package contains a narrow CMake
+compatibility target and fails configuration explicitly if neither target nor
+the `qhull_r/qhull` library exists. The container installs `libqhull-dev`; this
+shim changes only dependency naming, not registration behavior.
+
 ## Map Location
 
 The production interface is an approved map bundle, not a hard-coded PCD path.

@@ -59,6 +59,7 @@ def generate_launch_description():
     allow_test_map = LaunchConfiguration("allow_test_map")
     rviz_config = LaunchConfiguration("rviz_config")
     relocalization_params = LaunchConfiguration("relocalization_params")
+    gicp_relocalization_params = LaunchConfiguration("gicp_relocalization_params")
     relocalization_scan_topic = LaunchConfiguration("relocalization_scan_topic")
     relocalization_pointcloud_topic = LaunchConfiguration(
         "relocalization_pointcloud_topic"
@@ -118,6 +119,11 @@ def generate_launch_description():
         FindPackageShare("rm_relocalization_bridge"),
         "config",
         "amcl_2d.yaml",
+    ])
+    default_gicp_relocalization_params = PathJoinSubstitution([
+        FindPackageShare("rm_gicp_relocalization"),
+        "config",
+        "gicp_3d.yaml",
     ])
     amcl_2d_enabled = PythonExpression([
         "'", relocalization_backend, "' == 'amcl_2d'",
@@ -188,6 +194,10 @@ def generate_launch_description():
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
         DeclareLaunchArgument(
             "relocalization_params", default_value=default_relocalization_params
+        ),
+        DeclareLaunchArgument(
+            "gicp_relocalization_params",
+            default_value=default_gicp_relocalization_params,
         ),
         DeclareLaunchArgument(
             "relocalization_scan_topic", default_value="/localization/scan"
@@ -263,6 +273,7 @@ def generate_launch_description():
             condition=IfCondition(gicp_3d_enabled),
             launch_arguments={
                 "enable_backend": "true",
+                "params_file": gicp_relocalization_params,
                 "map_bundle_manifest": map_bundle_manifest,
                 "allow_test_map": allow_test_map,
                 "input_cloud_topic": gicp_input_cloud_topic,

@@ -84,6 +84,12 @@ The projection is independently switchable and rate-limited to reduce AMCL
 load. Localization scan filtering is a separate concern from local costmap
 obstacle processing; changing it must not silently change the costmap input.
 
+ROS 2 Humble AMCL must use a positive `save_pose_rate`; `0.0` overflows the
+timer-period conversion in the released implementation. The baseline uses
+`0.5 Hz`, which is the upstream-style low-rate persistence behavior and has
+negligible runtime cost. Keep `tf_broadcast: false` independently of this
+setting.
+
 ## No-Hardware Test
 
 ```bash
