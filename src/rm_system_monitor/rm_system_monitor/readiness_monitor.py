@@ -6,7 +6,7 @@ from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rclpy.qos import qos_profile_sensor_data
 from rm_competition_interfaces.msg import ChassisMode, SystemReadiness
-from sensor_msgs.msg import PointCloud2
+from sensor_msgs.msg import LaserScan, PointCloud2
 from std_msgs.msg import Bool
 
 from .readiness import RequirementPolicy, evaluate_readiness
@@ -44,6 +44,11 @@ class ReadinessMonitor(Node):
         self._obstacle_topic = self.declare_parameter(
             "obstacle_topic", "/livox/left/pointcloud_filtered"
         ).value
+        self._obstacle_type = self.declare_parameter(
+            "obstacle_type", "pointcloud2"
+        ).value
+        if self._obstacle_type not in ("pointcloud2", "laserscan"):
+            raise ValueError("obstacle_type must be pointcloud2 or laserscan")
         self._last_odom = None
         self._last_obstacle = None
         self._localization_valid = False
@@ -57,8 +62,14 @@ class ReadinessMonitor(Node):
             SystemReadiness, "/system/readiness", latched
         )
         self.create_subscription(Odometry, self._odom_topic, self._on_odom, 10)
+        obstacle_message_type = (
+            PointCloud2 if self._obstacle_type == "pointcloud2" else LaserScan
+        )
         self.create_subscription(
-            PointCloud2, self._obstacle_topic, self._on_obstacle, qos_profile_sensor_data
+            obstacle_message_type,
+            self._obstacle_topic,
+            self._on_obstacle,
+            qos_profile_sensor_data,
         )
         self.create_subscription(
             Bool,
@@ -94,7 +105,8 @@ class ReadinessMonitor(Node):
     def _fresh(self, stamp):
         if stamp is None:
             return False
-        return (self.get_clock().now() - stamp).nanoseconds * 1.0e-9 <= self._timeout_sec
+        age = (self.get_clock().now() - stamp).nanoseconds * 1.0e-9
+        return 0.0 <= age <= self._timeout_sec
 
     def _serial_node_present(self):
         return any(name == "serial_transport_node" for name, _namespace in self.get_node_names_and_namespaces())

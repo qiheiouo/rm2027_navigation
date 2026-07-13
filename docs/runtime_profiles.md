@@ -179,3 +179,26 @@ The dry-run node converts `/cmd_vel` into protocol bytes on `/serial/mock_tx`.
 It is useful for validating runtime timing and watchdog behavior before the
 real lower controller is connected. It never opens `/dev/tty*` and must not be
 used as proof that the final 2027 serial profile is correct.
+
+## Competition
+
+The old-car competition composition is:
+
+```bash
+ros2 launch rm_navigation_bringup old_car_2026_competition.launch.py
+```
+
+Its safe default starts nothing. Sensor, LIO, map, one relocalization backend,
+Nav2, real serial, referee interface, pursuit and mission remain independent
+opt-ins. The launch rejects real serial with mock state, synthetic test maps or
+an auto-enabled mission. See `docs/phase3d_competition_bringup.md`.
+
+The no-hardware mission test is separate:
+
+```bash
+ros2 launch rm_navigation_bringup competition_no_hardware_test.launch.py \
+  enable_test:=true headless:=true
+```
+
+It uses Gazebo and explicit mocks, opens no serial device, and keeps the
+mission disabled until `/mission/set_mode` is called.
