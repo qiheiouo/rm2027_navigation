@@ -24,3 +24,9 @@ Forbidden in Phase 1:
 - No real serial hardware connection.
 
 The old serial protocol is a hardware asset and should be migrated later into `rm_serial_driver` and `rm_chassis_interface`, not copied back as the old monolithic `serial_task`.
+
+`chassis_mode_gate_node` is the separate lower-controller authority boundary.
+It validates `/chassis/mode_raw`, publishes latched `/chassis/mode`, and turns
+stale or inconsistent state into offline emergency-stop state. It does not
+publish velocity. The current write-only serial transport is not yet a real
+producer for this input.
