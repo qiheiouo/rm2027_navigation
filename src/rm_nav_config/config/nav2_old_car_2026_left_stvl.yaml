@@ -310,12 +310,16 @@ global_costmap:
       footprint: "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]"
       footprint_padding: 0.02
 
-      # Do not feed dynamic raw MID360 point clouds into the old-car global
-      # costmap. PointCloud2 has no max-range free rays like LaserScan inf
-      # returns, so global marking can preserve self/ground ghosts. Keep
-      # dynamic obstacle handling in the local costmap until a map/static layer
-      # and point-cloud filtering pipeline are validated.
-      plugins: [inflation_layer]
+      # The deployment occupancy map shapes the global plan. Dynamic MID360
+      # observations remain local-only so short-lived perception does not
+      # become a persistent global obstacle.
+      plugins: [static_layer, inflation_layer]
+
+      static_layer:
+        plugin: nav2_costmap_2d::StaticLayer
+        map_subscribe_transient_local: true
+        subscribe_to_updates: true
+        transform_tolerance: 0.5
 
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer

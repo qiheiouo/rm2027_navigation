@@ -9,5 +9,7 @@ protocol.
 - `TargetTrack` is the perception-to-pursuit boundary with frame, timestamp,
   confidence and velocity.
 - `MissionState` reports decision execution without becoming a control topic.
+- `SystemReadiness` reports missing runtime requirements without granting
+  motion authority.
 - `SetMissionMode` is the explicit enable/mode gate for competition mission
   execution.

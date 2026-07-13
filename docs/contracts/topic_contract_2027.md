@@ -38,6 +38,7 @@
 | `/mission/pursuit_goal` | `geometry_msgs/msg/PoseStamped` | `pursuit_goal_planner` | competition mission/BT | Validated standoff candidate in `map`; it is not sent to Nav2 without mission authority |
 | `/mission/pursuit_goal_valid` | `std_msgs/msg/Bool` | `pursuit_goal_planner` | competition mission/BT, diagnostics | Latched freshness/quality/TF validity of the pursuit candidate |
 | `/mission/state` | `rm_competition_interfaces/msg/MissionState` | competition mission executor | diagnostics, operator UI | Current mission gate, branch and Nav2-action status; never a chassis command |
+| `/system/readiness` | `rm_competition_interfaces/msg/SystemReadiness` | `readiness_monitor` | operator UI, validation | Read-only missing-requirement summary; never grants motion authority |
 | `/tf` | `tf2_msgs/msg/TFMessage` | TF owners | all modules | Dynamic TF |
 | `/tf_static` | `tf2_msgs/msg/TFMessage` | static TF owners | all modules | Static TF |
 
