@@ -99,6 +99,10 @@ def _mapping_setup(context, *args, **kwargs):
                 "min_observations": ParameterValue(
                     LaunchConfiguration("min_observations"), value_type=int
                 ),
+                "allow_latest_transform_fallback": ParameterValue(
+                    LaunchConfiguration("allow_latest_transform_fallback"),
+                    value_type=bool,
+                ),
                 "autostart": ParameterValue(
                     LaunchConfiguration("autostart"), value_type=bool
                 ),
@@ -146,6 +150,15 @@ def generate_launch_description():
         DeclareLaunchArgument("pcd_voxel_size", default_value="0.05"),
         DeclareLaunchArgument("sample_period_sec", default_value="0.20"),
         DeclareLaunchArgument("min_observations", default_value="2"),
+        DeclareLaunchArgument(
+            "allow_latest_transform_fallback",
+            default_value="false",
+            description=(
+                "Use the latest TF when the cloud timestamp is newer than the TF "
+                "buffer. Enable only when the map-to-cloud transform is known to "
+                "be time-invariant, such as old-car mapping with map_odom_stub."
+            ),
+        ),
         DeclareLaunchArgument("autostart", default_value="true"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         OpaqueFunction(function=_mapping_setup),

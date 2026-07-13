@@ -313,6 +313,7 @@ def generate_launch_description():
                 "occupancy_topic": "/mapping/projected_map",
                 "map_frame": "map",
                 "base_frame": "base_link",
+                "allow_latest_transform_fallback": "true",
                 "output_root": mapping_output_root,
                 "map_id": mapping_map_id,
                 "revision": mapping_revision,

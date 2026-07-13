@@ -61,6 +61,9 @@ class MappingSessionNode(Node):
         self._tf_timeout = float(
             self.declare_parameter("transform_timeout_sec", 0.10).value
         )
+        self._allow_latest_tf_fallback = bool(
+            self.declare_parameter("allow_latest_transform_fallback", False).value
+        )
         self._max_voxels = int(
             self.declare_parameter("max_voxels", 2000000).value
         )
@@ -88,6 +91,7 @@ class MappingSessionNode(Node):
         self._last_sample_ns = -1
         self._accepted_clouds = 0
         self._dropped_tf = 0
+        self._latest_tf_fallbacks = 0
 
         self._tf_buffer = Buffer(cache_time=Duration(seconds=30.0))
         self._tf_listener = TransformListener(self._tf_buffer, self)
@@ -143,6 +147,7 @@ class MappingSessionNode(Node):
         ):
             return
 
+        used_latest_transform = False
         try:
             transform = self._tf_buffer.lookup_transform(
                 self._map_frame,
@@ -151,13 +156,37 @@ class MappingSessionNode(Node):
                 timeout=Duration(seconds=self._tf_timeout),
             )
         except TransformException as exc:
-            self._dropped_tf += 1
-            self.get_logger().warning(
-                "drop registered cloud without timestamped %s <- %s transform: %s"
-                % (self._map_frame, msg.header.frame_id, exc),
-                throttle_duration_sec=2.0,
-            )
-            return
+            if self._allow_latest_tf_fallback:
+                try:
+                    transform = self._tf_buffer.lookup_transform(
+                        self._map_frame,
+                        msg.header.frame_id,
+                        Time(),
+                        timeout=Duration(seconds=self._tf_timeout),
+                    )
+                    used_latest_transform = True
+                except TransformException as latest_exc:
+                    self._dropped_tf += 1
+                    self.get_logger().warning(
+                        "drop registered cloud: timestamped %s <- %s failed (%s); "
+                        "latest transform also failed (%s)"
+                        % (
+                            self._map_frame,
+                            msg.header.frame_id,
+                            exc,
+                            latest_exc,
+                        ),
+                        throttle_duration_sec=2.0,
+                    )
+                    return
+            else:
+                self._dropped_tf += 1
+                self.get_logger().warning(
+                    "drop registered cloud without timestamped %s <- %s transform: %s"
+                    % (self._map_frame, msg.header.frame_id, exc),
+                    throttle_duration_sec=2.0,
+                )
+                return
 
         try:
             points = point_cloud2.read_points_numpy(
@@ -210,6 +239,8 @@ class MappingSessionNode(Node):
                 averaged = previous_point + (point - previous_point) / float(next_count)
                 self._voxels[key] = (averaged.astype(np.float32), next_count)
             self._accepted_clouds += 1
+            if used_latest_transform:
+                self._latest_tf_fallbacks += 1
             self._last_sample_ns = stamp_ns
 
     def _start(self, request: Trigger.Request, response: Trigger.Response) -> Trigger.Response:
@@ -242,6 +273,7 @@ class MappingSessionNode(Node):
             self._last_sample_ns = -1
             self._accepted_clouds = 0
             self._dropped_tf = 0
+            self._latest_tf_fallbacks = 0
         self._octomap_reset_client.call_async(Empty.Request())
         response.success = True
         response.message = "mapping session and OctoMap reset requested; recording is paused"
@@ -279,6 +311,7 @@ class MappingSessionNode(Node):
             occupancy = self._latest_occupancy
             accepted_clouds = self._accepted_clouds
             dropped_tf = self._dropped_tf
+            latest_tf_fallbacks = self._latest_tf_fallbacks
 
         revision = self._revision
         if revision.strip().lower() == "auto":
@@ -331,6 +364,7 @@ class MappingSessionNode(Node):
                     "min_observations": self._min_observations,
                     "accepted_clouds": accepted_clouds,
                     "dropped_tf_clouds": dropped_tf,
+                    "latest_transform_fallback_clouds": latest_tf_fallbacks,
                 },
             )
         except Exception as exc:
@@ -347,16 +381,24 @@ class MappingSessionNode(Node):
     def _report_progress(self) -> None:
         with self._lock:
             voxel_count = len(self._voxels)
+            stable_voxel_count = sum(
+                1
+                for _, count in self._voxels.values()
+                if count >= self._min_observations
+            )
             cloud_count = self._accepted_clouds
             has_occupancy = self._latest_occupancy is not None
         self.get_logger().info(
-            "mapping progress: recording=%s clouds=%d voxels=%d occupancy=%s tf_drops=%d"
+            "mapping progress: recording=%s clouds=%d voxels=%d stable_voxels=%d "
+            "occupancy=%s tf_drops=%d latest_tf_fallbacks=%d"
             % (
                 self._recording,
                 cloud_count,
                 voxel_count,
+                stable_voxel_count,
                 has_occupancy,
                 self._dropped_tf,
+                self._latest_tf_fallbacks,
             )
         )
 
