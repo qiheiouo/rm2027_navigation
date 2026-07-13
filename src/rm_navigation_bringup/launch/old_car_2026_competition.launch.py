@@ -49,6 +49,10 @@ def _validate_competition_profile(context, *args, **kwargs):
         )
     if use_real_serial and not use_nav2:
         raise RuntimeError("competition real serial requires use_nav2:=true")
+    if use_real_serial and not (use_driver and use_lio):
+        raise RuntimeError(
+            "competition real serial requires the real driver and LIO backend"
+        )
     if use_real_serial and policy == "allow_test":
         raise RuntimeError("real serial must not run with synthetic test map assets")
     if use_mission and (not use_nav2 or backend == "none" or not use_referee):
@@ -67,6 +71,8 @@ def _validate_competition_profile(context, *args, **kwargs):
         )
     if use_right_driver and not use_dual:
         raise RuntimeError("use_right_driver requires use_dual_obstacle_fusion:=true")
+    if use_right_driver and not use_driver:
+        raise RuntimeError("use_right_driver requires the primary hardware driver gate")
     if use_dual and use_real_serial and not allow_provisional_dual:
         raise RuntimeError(
             "old-car right-lidar extrinsic is provisional; real motion requires an explicit override"
@@ -303,7 +309,11 @@ def generate_launch_description():
                 "'", enable_stack, "'.lower() in ['1','true','yes','on'] and '",
                 use_right_driver, "'.lower() in ['1','true','yes','on']",
             ])),
-            launch_arguments={"use_driver": "true", "side": "right"}.items(),
+            launch_arguments={
+                "use_driver": "true",
+                "side": "right",
+                "imu_topic": "/livox/right/imu_raw",
+            }.items(),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(dual_fusion_launch),

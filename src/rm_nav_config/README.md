@@ -50,6 +50,9 @@ matching `ros-humble-openvdb-vendor` dependency. Do not replace this with a
 floating source checkout from the upstream `ros2` branch; that branch currently
 depends on newer packages such as `nav2_ros_common` and `point_cloud_transport`
 that are not part of this old-car Humble baseline.
+`config/nav2_old_car_2026_dual_stvl.yaml` is the explicit counterpart for the
+optional `/points/obstacles_fused` stream. It keeps localization on the left
+MID360 and is never selected automatically.
 `rviz/old_car_2026.rviz` is the matching visualization profile for old-car
 debugging. It shows TF, RobotModel, left MID360 point cloud, LIO odometry,
 local/global costmaps, and Nav2 plans.

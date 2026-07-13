@@ -1,7 +1,7 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
@@ -26,7 +26,10 @@ def generate_launch_description():
             }],
         ),
         Node(
-            condition=IfCondition([enabled, " and ", use_mock]),
+            condition=IfCondition(PythonExpression([
+                "'", enabled, "'.lower() in ['1','true','yes','on'] and '",
+                use_mock, "'.lower() in ['1','true','yes','on']",
+            ])),
             package="rm_pursuit",
             executable="target_track_mock",
             name="target_track_mock",

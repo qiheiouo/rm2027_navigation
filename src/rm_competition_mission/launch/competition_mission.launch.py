@@ -1,7 +1,7 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
@@ -51,7 +51,10 @@ def generate_launch_description():
             ],
         ),
         Node(
-            condition=IfCondition([enabled, " and ", use_safety_mock]),
+            condition=IfCondition(PythonExpression([
+                "'", enabled, "'.lower() in ['1','true','yes','on'] and '",
+                use_safety_mock, "'.lower() in ['1','true','yes','on']",
+            ])),
             package="rm_competition_mission",
             executable="mission_safety_mock_node",
             name="mission_safety_mock_node",

@@ -21,13 +21,16 @@ def _launch_setup(context, *args, **kwargs):
 
     config_name = f"{side}_mid360_config.json"
     frame_id = LaunchConfiguration("frame_id").perform(context)
+    imu_topic = LaunchConfiguration("imu_topic").perform(context).strip()
     if not frame_id:
         frame_id = f"mid360_{side}_frame"
+    if not imu_topic:
+        return [LogInfo(msg="imu_topic must not be empty. No driver node launched.")]
 
     actions = [
         LogInfo(msg=[
             "rm_mid360_driver_bridge single contract: ",
-            f"{side} lidar=/livox/{side}/lidar, raw IMU=/livox/lio_imu_raw. ",
+            f"{side} lidar=/livox/{side}/lidar, raw IMU={imu_topic}. ",
             "This bridge must not publish localization TF or odometry."
         ])
     ]
@@ -62,7 +65,7 @@ def _launch_setup(context, *args, **kwargs):
         remappings=[
             ("/livox/lidar", f"/livox/{side}/lidar"),
             ("/livox/lidar/pointcloud", f"/livox/{side}/pointcloud"),
-            ("/livox/imu", "/livox/lio_imu_raw"),
+            ("/livox/imu", imu_topic),
         ],
     ))
     return actions
@@ -74,6 +77,7 @@ def generate_launch_description():
         DeclareLaunchArgument("driver_package", default_value="livox_ros_driver2"),
         DeclareLaunchArgument("side", default_value="left"),
         DeclareLaunchArgument("frame_id", default_value=""),
+        DeclareLaunchArgument("imu_topic", default_value="/livox/lio_imu_raw"),
         DeclareLaunchArgument("xfer_format", default_value="4"),
         DeclareLaunchArgument("publish_freq", default_value="50.0"),
         DeclareLaunchArgument("output_type", default_value="0"),

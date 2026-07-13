@@ -17,6 +17,10 @@ transformed to `base_link` at its own timestamp. Clouds outside the configured
 age window are excluded; `require_all_inputs: false` permits safe degradation
 to one lidar if the other stream is absent.
 
+Localization remains left-lidar-only. The competition entry remaps the right
+MID360 IMU to `/livox/right/imu_raw`; it must not share the canonical
+`/livox/lio_imu_raw` input used by FAST-LIO.
+
 ## Launch
 
 The processing launch does not start either hardware driver:
@@ -27,9 +31,17 @@ ros2 launch rm_mid360_driver_bridge dual_pointcloud_obstacle_fusion.launch.py \
 ```
 
 Start `dual_mid360_driver.launch.py` separately only after both device IPs,
-frames and permissions are confirmed. A Nav2/STVL profile may consume
-`/points/obstacles_fused` explicitly; the current default profile remains the
-verified single-left input.
+frames and permissions are confirmed. The explicit Nav2 profile
+`nav2_old_car_2026_dual_stvl.yaml` consumes `/points/obstacles_fused`; the
+default profile remains the verified single-left input.
+
+The competition bringup does not switch profiles implicitly. Select the dual
+profile together with `use_dual_obstacle_fusion:=true`, and enable the right
+driver only after its extrinsic has been measured:
+
+```bash
+nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_dual_stvl.yaml
+```
 
 ## Old-Car Right Extrinsic
 
