@@ -154,6 +154,10 @@ nav2_msgs/action/NavigateToPose
 Phase 1 may send goals manually or through test tools. Phase 1 does not connect competition BT.
 
 Phase 3 mission or BT may call navigation only through standard Nav2 action interfaces.
+`competition_mission_node` is the single mission-level Nav2 action authority.
+Pursuit, referee, serial and perception nodes provide candidates or state and
+must not call Nav2 independently. Mission disable or any required safety-input
+invalidation must cancel the active mission goal.
 
 ## Forbidden Topic Glue
 
