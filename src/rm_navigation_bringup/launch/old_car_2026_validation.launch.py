@@ -85,6 +85,9 @@ def generate_launch_description():
     local_scan_input_topic = LaunchConfiguration("local_scan_input_topic")
     local_scan_output_topic = LaunchConfiguration("local_scan_output_topic")
     use_mapping = LaunchConfiguration("use_mapping")
+    publish_transformed_registered_cloud = LaunchConfiguration(
+        "publish_transformed_registered_cloud"
+    )
     mapping_output_root = LaunchConfiguration("mapping_output_root")
     mapping_map_id = LaunchConfiguration("mapping_map_id")
     mapping_revision = LaunchConfiguration("mapping_revision")
@@ -159,6 +162,11 @@ def generate_launch_description():
         "launch",
         "mapping.launch.py",
     ])
+    registered_cloud_enabled = PythonExpression([
+        "'", use_mapping, "'.lower() in ['1', 'true', 'yes', 'on'] or '",
+        publish_transformed_registered_cloud,
+        "'.lower() in ['1', 'true', 'yes', 'on']",
+    ])
 
     return LaunchDescription([
         DeclareLaunchArgument("selected_side", default_value="left"),
@@ -224,6 +232,14 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument("mapping_map_id", default_value="old_car_field"),
         DeclareLaunchArgument("mapping_revision", default_value="auto"),
+        DeclareLaunchArgument(
+            "publish_transformed_registered_cloud",
+            default_value="false",
+            description=(
+                "Publish the old-car registered cloud in the corrected odom "
+                "basis for mapping or 3D relocalization."
+            ),
+        ),
         LogInfo(msg=(
             "[old_car_2026_validation] Experiment-only bringup for the 2026 "
             "car. Safe defaults start no real driver, no FAST-LIO, no Nav2, "
@@ -249,8 +265,8 @@ def generate_launch_description():
                 "selected_side": selected_side,
                 "update_method": update_method,
                 "config_file": old_fast_lio_config,
-                "scan_publish_en": use_mapping,
-                "publish_tf_results": use_mapping,
+                "scan_publish_en": registered_cloud_enabled,
+                "publish_tf_results": registered_cloud_enabled,
                 "use_sim_time": use_sim_time,
             }.items(),
         ),
