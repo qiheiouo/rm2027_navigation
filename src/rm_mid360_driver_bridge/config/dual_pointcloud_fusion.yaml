@@ -1,0 +1,11 @@
+pointcloud_fusion_node:
+  ros__parameters:
+    input_topics:
+      - /livox/left/pointcloud_filtered
+      - /livox/right/pointcloud_filtered
+    output_topic: /points/obstacles_fused
+    target_frame: base_link
+    max_cloud_age_sec: 0.15
+    transform_timeout_sec: 0.05
+    require_all_inputs: false
+    max_output_points: 200000

@@ -8,6 +8,7 @@
 | `/livox/right/lidar` | `livox_ros_driver2/msg/CustomMsg` | LiDAR driver | LIO backend | Right MID360 raw point cloud with per-point timing; may be unused if falling back to one MID360 |
 | `/livox/left/pointcloud` | `sensor_msgs/msg/PointCloud2` | LiDAR driver or simulator | costmap, debug, map tools | Left MID360 standard point cloud |
 | `/livox/right/pointcloud` | `sensor_msgs/msg/PointCloud2` | LiDAR driver or simulator | costmap, debug, map tools | Right MID360 standard point cloud |
+| `/points/obstacles_fused` | `sensor_msgs/msg/PointCloud2` | optional dual-lidar obstacle fusion | local costmap, diagnostics | Filtered left/right obstacle points transformed into `base_link`; not a LIO or mapping input |
 | `/livox/lio_imu_raw` | `sensor_msgs/msg/Imu` | Selected MID360 driver | `imu_frame_adapter` | Raw selected MID360 internal IMU. Driver frame_id may be non-canonical |
 | `/livox/lio_imu` | `sensor_msgs/msg/Imu` | `imu_frame_adapter` | LIO backend | Canonical MID360 internal IMU used as the main LIO IMU. `header.frame_id=lio_imu_link` |
 | `/base_imu/data` | `sensor_msgs/msg/Imu` | Optional chassis IMU driver | diagnostics, slip detection, future low-weight fusion | Optional chassis-mounted IMU, not the main LIO IMU for gimbal-mounted LiDARs |
@@ -54,6 +55,12 @@ navigation goals.
 `moving_obstacle_controller` may publish only its simulation joint target and
 diagnostics. It must not publish TF, odometry, chassis commands, or navigation
 goals. Gazebo model pose remains outside the canonical ROS TF tree.
+
+Dual-lidar obstacle fusion is separate from LIO sensor selection. The fusion
+node may consume filtered standard PointCloud2 streams and publish only
+`/points/obstacles_fused`. It must not publish TF, odometry or commands, and it
+must exclude stale inputs instead of replaying the last cloud indefinitely.
+Enabling this topic does not authorize a second FAST-LIO input.
 
 Do not use `/lio/odom`. The canonical LIO odometry topic is `/odometry/lio`.
 
