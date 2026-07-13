@@ -5,10 +5,7 @@
 Run in the ROS 2 Humble container before testing hardware:
 
 ```bash
-colcon build --symlink-install --packages-select \
-  rm_competition_interfaces rm_referee_interface rm_pursuit \
-  rm_competition_mission rm_system_monitor rm_chassis_interface \
-  rm_mid360_driver_bridge rm_navigation_bringup
+colcon build --symlink-install
 source install/setup.bash
 
 colcon test --packages-select \
@@ -21,7 +18,21 @@ Also parse all new top-level launches:
 ```bash
 ros2 launch rm_navigation_bringup old_car_2026_competition.launch.py --show-args
 ros2 launch rm_navigation_bringup competition_no_hardware_test.launch.py --show-args
+ros2 launch rm_mid360_driver_bridge dual_pointcloud_obstacle_fusion.launch.py --show-args
 ```
+
+Static dual-lidar checks before any right-lidar hardware start:
+
+```bash
+grep -n "/points/obstacles_fused" \
+  src/rm_nav_config/config/nav2_old_car_2026_dual_stvl.yaml
+grep -n 'imu_topic.*livox/right/imu_raw' \
+  src/rm_navigation_bringup/launch/old_car_2026_competition.launch.py
+```
+
+The first confirms the explicit Nav2 consumer profile. The second confirms
+that the right MID360 cannot publish into the canonical left-lidar FAST-LIO IMU
+topic.
 
 ## No-Hardware Mission Smoke Test
 
