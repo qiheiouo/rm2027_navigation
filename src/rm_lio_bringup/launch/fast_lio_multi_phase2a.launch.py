@@ -68,6 +68,9 @@ def _launch_setup(context, *args, **kwargs):
         "use_sim_time": ParameterValue(
             LaunchConfiguration("use_sim_time"), value_type=bool
         ),
+        "common.publish_tf_results": ParameterValue(
+            LaunchConfiguration("publish_tf_results"), value_type=bool
+        ),
         "publish.scan_publish_en": ParameterValue(
             LaunchConfiguration("scan_publish_en"), value_type=bool
         ),
@@ -119,6 +122,7 @@ def generate_launch_description():
             default_value="/fast_lio/_quarantine/tf_static",
         ),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
+        DeclareLaunchArgument("publish_tf_results", default_value="false"),
         DeclareLaunchArgument(
             "scan_publish_en",
             default_value="false",

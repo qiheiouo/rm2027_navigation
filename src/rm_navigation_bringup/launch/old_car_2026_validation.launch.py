@@ -250,6 +250,7 @@ def generate_launch_description():
                 "update_method": update_method,
                 "config_file": old_fast_lio_config,
                 "scan_publish_en": use_mapping,
+                "publish_tf_results": use_mapping,
                 "use_sim_time": use_sim_time,
             }.items(),
         ),
@@ -309,7 +310,7 @@ def generate_launch_description():
             launch_arguments={
                 "enable_mapping": "true",
                 "pointcloud_topic": pointcloud_filter_output_topic,
-                "registered_cloud_topic": "/lio/cloud_registered",
+                "registered_cloud_topic": "/lio/cloud_registered_transformed",
                 "occupancy_topic": "/mapping/projected_map",
                 "map_frame": "map",
                 "base_frame": "base_link",

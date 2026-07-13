@@ -57,10 +57,14 @@
       extrinsic_R_L2_wrt_L1: [1.0, 0.0, 0.0,
                               0.0, 1.0, 0.0,
                               0.0, 0.0, 1.0]
-      extrinsic_T_L1_wrt_drone: [0.0, 0.0, 0.0]
-      extrinsic_R_L1_wrt_drone: [1.0, 0.0, 0.0,
-                                 0.0, 1.0, 0.0,
-                                 0.0, 0.0, 1.0]
+      # Upstream applies this basis transform only to cloud_registered_tf and
+      # the optional visualization pose. With zero_start_pose, registered
+      # clouds are expressed in the initial IMU/body basis, so use the measured
+      # base_link <- lio_imu_link transform to produce canonical odom points.
+      extrinsic_T_L1_wrt_drone: [0.157178, 0.172624, 0.174374]
+      extrinsic_R_L1_wrt_drone: [-0.093419081, -0.949797621, 0.298592287,
+                                 0.954380625, 0.000000135, 0.298592738,
+                                -0.283602713, 0.312864953, 0.906468434]
 
     publish:
       path_en: false
