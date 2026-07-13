@@ -1,0 +1,19 @@
+competition_mission_node:
+  ros__parameters:
+    startup_enabled: false
+    default_mode: patrol
+    map_frame: map
+    navigate_action: /navigate_to_pose
+    tick_rate_hz: 10.0
+    require_localization_valid: true
+    require_referee_state: true
+    require_game_running: true
+    require_chassis_mode: true
+    allow_pursuit: true
+    game_running_value: 4
+    retreat_hp_threshold: 150
+    goal_update_distance: 0.35
+    goal_update_yaw: 0.35
+    minimum_goal_update_sec: 0.5
+    home_pose: [0.0, 0.0, 0.0]
+    patrol_waypoints: [1.0, 0.0, 0.0, 1.0, 1.0, 1.57, 0.0, 1.0, 3.14]

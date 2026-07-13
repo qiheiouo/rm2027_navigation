@@ -1,0 +1,26 @@
+<root main_tree_to_execute="CompetitionMission">
+  <BehaviorTree ID="CompetitionMission">
+    <ReactiveFallback name="mission_or_hold">
+      <Sequence name="enabled_and_safe">
+        <MissionEnabled/>
+        <SafetyReady/>
+        <ReactiveFallback name="strategy_priority">
+          <Sequence name="return_home">
+            <ShouldReturnHome/>
+            <SelectHome/>
+          </Sequence>
+          <Sequence name="pursue_valid_target">
+            <CanPursue/>
+            <SelectPursuit/>
+          </Sequence>
+          <Sequence name="patrol_route">
+            <CanPatrol/>
+            <SelectPatrol/>
+          </Sequence>
+          <SelectHold/>
+        </ReactiveFallback>
+      </Sequence>
+      <SelectHold/>
+    </ReactiveFallback>
+  </BehaviorTree>
+</root>
