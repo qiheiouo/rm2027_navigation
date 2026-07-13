@@ -12,6 +12,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
+find_package(rm_competition_interfaces REQUIRED)
+find_package(std_msgs REQUIRED)
 
 add_executable(chassis_interface_stub src/chassis_interface_stub.cpp)
 ament_target_dependencies(chassis_interface_stub
@@ -20,8 +22,16 @@ ament_target_dependencies(chassis_interface_stub
   diagnostic_msgs
 )
 
+add_executable(chassis_mode_gate_node src/chassis_mode_gate_node.cpp)
+ament_target_dependencies(chassis_mode_gate_node
+  rclcpp
+  rm_competition_interfaces
+  std_msgs
+)
+
 install(TARGETS
   chassis_interface_stub
+  chassis_mode_gate_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

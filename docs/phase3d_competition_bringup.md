@@ -20,6 +20,7 @@ false by default and does not imply any child switch.
 - Real serial with a synthetic map policy.
 - Real serial with mock referee, target or chassis/localization authority.
 - Mission without Nav2, relocalization and referee interface.
+- Mission without a chassis-authority gate or explicit no-hardware safety mock.
 - Mission auto-enabled at launch while real serial is active.
 - Real motion with the provisional right-lidar extrinsic unless explicitly
   overridden after physical validation.

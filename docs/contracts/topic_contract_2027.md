@@ -30,7 +30,9 @@
 | `/cmd_vel` | `geometry_msgs/msg/Twist` | Nav2 | `rm_chassis_interface` | Commanded chassis velocity in `base_link` |
 | `/chassis/twist_raw` | `geometry_msgs/msg/TwistWithCovarianceStamped` | `rm_chassis_interface` | diagnostics, slip detection, future low-weight fusion | Chassis feedback velocity, not the main localization source |
 | `/chassis/wheel_states_raw` | `sensor_msgs/msg/JointState` | future `rm_chassis_interface` feedback path | chassis kinematics, diagnostics | Proposed four-wheel raw feedback topic; serial wire layout is not yet confirmed |
-| `/chassis/state` | TBD | `rm_chassis_interface` | monitor, strategy | Chassis mode, error code, limit state, communication state |
+| `/chassis/mode_raw` | `rm_competition_interfaces/msg/ChassisMode` | future lower-controller receive adapter | `chassis_mode_gate` | Untrusted timestamped authority candidate |
+| `/chassis/mode` | `rm_competition_interfaces/msg/ChassisMode` | `chassis_mode_gate` | mission/BT, readiness monitor | Fresh, internally consistent manual/autonomous/emergency authority state |
+| `/chassis/mode_valid` | `std_msgs/msg/Bool` | `chassis_mode_gate` | diagnostics | Latched freshness and consistency of chassis authority input |
 | `/referee/state_raw` | `rm_competition_interfaces/msg/RefereeState` | future serial/referee decoder or explicit mock | `referee_state_gate` | Untrusted normalized referee candidate; never consumed directly by mission logic |
 | `/referee/state` | `rm_competition_interfaces/msg/RefereeState` | `referee_state_gate` | mission/BT, diagnostics | Fresh, range-checked competition state; not a navigation command |
 | `/referee/state_valid` | `std_msgs/msg/Bool` | `referee_state_gate` | mission/BT, diagnostics | Latched referee freshness and validation result |

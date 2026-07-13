@@ -31,6 +31,7 @@ def _validate_competition_profile(context, *args, **kwargs):
     use_referee_mock = _as_bool(context, "use_referee_mock")
     use_target_mock = _as_bool(context, "use_target_mock")
     use_safety_mock = _as_bool(context, "use_mission_safety_mock")
+    use_chassis_mode = _as_bool(context, "use_chassis_mode_interface")
     startup_enabled = _as_bool(context, "mission_startup_enabled")
     use_dual = _as_bool(context, "use_dual_obstacle_fusion")
     use_right_driver = _as_bool(context, "use_right_driver")
@@ -53,6 +54,10 @@ def _validate_competition_profile(context, *args, **kwargs):
     if use_mission and (not use_nav2 or backend == "none" or not use_referee):
         raise RuntimeError(
             "mission requires Nav2, a real relocalization backend, and referee interface"
+        )
+    if use_mission and not (use_chassis_mode or use_safety_mock):
+        raise RuntimeError(
+            "mission requires chassis authority input or explicit no-hardware safety mock"
         )
     if use_real_serial and (use_referee_mock or use_target_mock or use_safety_mock):
         raise RuntimeError("mock competition inputs are forbidden with real serial")
@@ -84,6 +89,7 @@ def generate_launch_description():
     use_target_mock = LaunchConfiguration("use_target_mock")
     use_mission = LaunchConfiguration("use_mission")
     use_safety_mock = LaunchConfiguration("use_mission_safety_mock")
+    use_chassis_mode = LaunchConfiguration("use_chassis_mode_interface")
     mission_startup_enabled = LaunchConfiguration("mission_startup_enabled")
     use_dual_fusion = LaunchConfiguration("use_dual_obstacle_fusion")
     use_right_driver = LaunchConfiguration("use_right_driver")
@@ -115,6 +121,9 @@ def generate_launch_description():
     ])
     mission_launch = PathJoinSubstitution([
         FindPackageShare("rm_competition_mission"), "launch", "competition_mission.launch.py"
+    ])
+    chassis_mode_launch = PathJoinSubstitution([
+        FindPackageShare("rm_chassis_interface"), "launch", "chassis_mode_gate.launch.py"
     ])
     right_driver_launch = PathJoinSubstitution([
         FindPackageShare("rm_mid360_driver_bridge"), "launch", "single_mid360_driver.launch.py"
@@ -171,6 +180,7 @@ def generate_launch_description():
         DeclareLaunchArgument("use_target_mock", default_value="false"),
         DeclareLaunchArgument("use_mission", default_value="false"),
         DeclareLaunchArgument("use_mission_safety_mock", default_value="false"),
+        DeclareLaunchArgument("use_chassis_mode_interface", default_value="false"),
         DeclareLaunchArgument("mission_startup_enabled", default_value="false"),
         DeclareLaunchArgument("mission_config", default_value=default_mission),
         DeclareLaunchArgument("use_dual_obstacle_fusion", default_value="false"),
@@ -277,6 +287,14 @@ def generate_launch_description():
                 "use_safety_mock": use_safety_mock,
                 "use_sim_time": use_sim_time,
                 "mission_config": mission_config,
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(chassis_mode_launch),
+            condition=IfCondition(enable_stack),
+            launch_arguments={
+                "enable_chassis_mode_gate": use_chassis_mode,
+                "use_sim_time": use_sim_time,
             }.items(),
         ),
         IncludeLaunchDescription(
