@@ -76,6 +76,9 @@ public:
     goal_update_distance_ = declare_parameter<double>("goal_update_distance", 0.35);
     goal_update_yaw_ = declare_parameter<double>("goal_update_yaw", 0.35);
     minimum_goal_update_sec_ = declare_parameter<double>("minimum_goal_update_sec", 0.5);
+    goal_failure_retry_sec_ = declare_parameter<double>("goal_failure_retry_sec", 2.0);
+    max_consecutive_goal_failures_ = declare_parameter<int>(
+      "max_consecutive_goal_failures", 3);
     home_values_ = declare_parameter<std::vector<double>>(
       "home_pose", std::vector<double>{});
     patrol_values_ = declare_parameter<std::vector<double>>(
@@ -88,7 +91,8 @@ public:
       throw std::invalid_argument("default_mode must be hold, home, patrol, pursuit or auto");
     }
     if (tick_rate_hz_ <= 0.0 || goal_update_distance_ < 0.0 ||
-      goal_update_yaw_ < 0.0 || minimum_goal_update_sec_ < 0.0)
+      goal_update_yaw_ < 0.0 || minimum_goal_update_sec_ < 0.0 ||
+      goal_failure_retry_sec_ < 0.0 || max_consecutive_goal_failures_ < 1)
     {
       throw std::invalid_argument("mission timing and goal thresholds are invalid");
     }
@@ -140,6 +144,8 @@ public:
         }
         operator_enabled_ = request->enable;
         requested_mode_ = request->mode;
+        failed_goal_.reset();
+        consecutive_goal_failures_ = 0;
         response->accepted = true;
         response->message = operator_enabled_ ? "mission enabled" : "mission disabled";
       });
@@ -312,6 +318,18 @@ private:
       navigation_status_ = "goal_complete";
       return;
     }
+    if (failed_goal_.has_value()) {
+      if (goalChanged(*desired_goal_, *failed_goal_)) {
+        failed_goal_.reset();
+        consecutive_goal_failures_ = 0;
+      } else if (consecutive_goal_failures_ >= max_consecutive_goal_failures_) {
+        navigation_status_ = "goal_retry_limit";
+        return;
+      } else if ((now() - last_goal_send_time_).seconds() < goal_failure_retry_sec_) {
+        navigation_status_ = "goal_retry_backoff";
+        return;
+      }
+    }
     if (last_sent_goal_.has_value() && !goalChanged(*desired_goal_, *last_sent_goal_)) {
       return;
     }
@@ -350,6 +368,9 @@ private:
         active_goal_handle_ = handle;
         navigation_status_ = handle ? "goal_active" : "goal_rejected";
         if (!handle) {
+          failed_goal_ = last_sent_goal_;
+          ++consecutive_goal_failures_;
+          last_goal_send_time_ = now();
           last_sent_goal_.reset();
         }
       };
@@ -361,6 +382,8 @@ private:
         active_goal_handle_.reset();
         if (result.code == rclcpp_action::ResultCode::SUCCEEDED) {
           navigation_status_ = "goal_succeeded";
+          failed_goal_.reset();
+          consecutive_goal_failures_ = 0;
           completed_goal_ = last_sent_goal_;
           if (last_sent_goal_.has_value() && last_sent_goal_->source == "patrol" &&
             !patrol_poses_.empty())
@@ -372,6 +395,9 @@ private:
           navigation_status_ = "goal_canceled";
         } else {
           navigation_status_ = "goal_failed";
+          failed_goal_ = last_sent_goal_;
+          ++consecutive_goal_failures_;
+          last_goal_send_time_ = now();
           last_sent_goal_.reset();
         }
       };
@@ -426,6 +452,8 @@ private:
   double goal_update_distance_;
   double goal_update_yaw_;
   double minimum_goal_update_sec_;
+  double goal_failure_retry_sec_;
+  int max_consecutive_goal_failures_;
   std::vector<double> home_values_;
   std::vector<double> patrol_values_;
   std::optional<geometry_msgs::msg::PoseStamped> home_pose_;
@@ -446,6 +474,8 @@ private:
   std::optional<GoalRequest> desired_goal_;
   std::optional<GoalRequest> last_sent_goal_;
   std::optional<GoalRequest> completed_goal_;
+  std::optional<GoalRequest> failed_goal_;
+  int consecutive_goal_failures_{0};
   std::string active_branch_{"hold"};
   std::string navigation_status_{"holding"};
   rclcpp::Time last_goal_send_time_{0, 0, RCL_ROS_TIME};

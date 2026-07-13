@@ -36,9 +36,12 @@ Phase 2H adds a no-hardware serial dry-run node that encodes `/cmd_vel` into
 mock protocol bytes without opening a real serial device. The old-car
 experiment branch also contains an opt-in real serial writer for off-ground
 legacy no-CRC validation; it is not the final 2027 serial acceptance path.
-The repository is now in a pre-hardware freeze state: remaining acceptance
-depends primarily on real MID360, gimbal, chassis, serial and map data rather
-than additional offline module scaffolding.
+Phase 2I/2J add managed mapping plus parallel AMCL 2D and GICP 3D
+relocalization boundaries. The competition integration branch also contains
+normalized referee/chassis authority contracts, dual-lidar obstacle-only
+fusion, pursuit-goal generation, a BehaviorTree.CPP mission executor, unified
+competition bringup and readiness diagnostics. Hardware producers and field
+acceptance remain explicit gates.
 
 Phase 1 target:
 
@@ -46,7 +49,10 @@ Phase 1 target:
 LiDAR/IMU -> LIO -> canonical TF -> Nav2 -> /cmd_vel -> chassis_interface
 ```
 
-Phase 1 is not a complete competition system. It does not include real serial hardware, referee integration, competition behavior trees, or full global relocalization.
+The mainline baseline is not yet a fully accepted competition system. The
+integration branch implements the software boundaries, while real referee RX,
+auto-aim target production, chassis authority feedback, right-lidar calibration
+and reviewed field assets still require hardware validation.
 
 Current no-hardware Phase 1 validation can run:
 
@@ -64,6 +70,8 @@ Top-level runtime profiles are provided by `rm_navigation_bringup`:
 - `bag_replay.launch.py`
 - `mapping.launch.py`
 - `old_car_2026_validation.launch.py` on the old-car experiment branch only
+- `old_car_2026_competition.launch.py` on the competition integration branch
+- `competition_no_hardware_test.launch.py` for mock-only mission validation
 
 They are mutually exclusive operating modes rather than a command that starts
 every package. See `docs/runtime_profiles.md` for the safety defaults and
@@ -124,6 +132,12 @@ See:
 - `docs/phase2i_managed_mapping.md`
 - `docs/phase2j_2d_relocalization.md`
 - `docs/phase2j_3d_relocalization.md`
+- `docs/competition_capability_status.md`
+- `docs/phase3_software_validation.md`
+- `docs/phase3a_competition_state_boundary.md`
+- `docs/phase3b_pursuit_boundary.md`
+- `docs/phase3c_competition_mission_bt.md`
+- `docs/phase3d_competition_bringup.md`
 - `docs/old_car_2026_validation_plan.md`
 - `docs/pre_hardware_freeze_status.md`
 - `docs/minipc_hardware_bringup_sequence.md`
@@ -151,5 +165,12 @@ See:
 - `rm_gicp_relocalization`: Phase 2J PCL GICP backend for seeded 3D PCD relocalization; it publishes diagnostics and a gated global pose, never TF.
 - `rm_map_tools`: map-bundle validation plus the Phase 2I managed PCD and
   occupancy export session.
+- `rm_competition_interfaces`: normalized referee, chassis authority, target,
+  mission and readiness contracts.
+- `rm_referee_interface`: referee-state freshness/range gate and explicit mock.
+- `rm_pursuit`: target-track validation and standoff goal candidate generation.
+- `rm_competition_mission`: safety-gated BehaviorTree.CPP mission selection and
+  the sole mission-level Nav2 action client.
+- `rm_system_monitor`: read-only navigation/mission readiness summary.
 - `fast_lio_multi`: external GPL-2.0 FAST-LIO Multi ROS2 submodule; disabled by default and consumed only through `rm_lio_bringup`.
 - `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.

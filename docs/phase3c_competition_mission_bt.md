@@ -11,6 +11,10 @@ BehaviorTree.CPP chooses one branch: `hold`, `home`, `pursuit` or `patrol`.
 `NavigateToPose` action client. Branch changes, invalid safety state and mission
 disable cancel the active Nav2 goal.
 
+Repeated failure of the same goal uses a configurable backoff and finite retry
+limit. A materially changed goal or an explicit `/mission/set_mode` request
+resets the failure latch; the mission layer does not hammer Nav2 indefinitely.
+
 ## Safety Gate
 
 Defaults require all of:
