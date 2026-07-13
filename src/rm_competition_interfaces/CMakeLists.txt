@@ -10,6 +10,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ChassisMode.msg"
   "msg/MissionState.msg"
   "msg/RefereeState.msg"
+  "msg/SystemReadiness.msg"
   "msg/TargetTrack.msg"
   "srv/SetMissionMode.srv"
   DEPENDENCIES geometry_msgs std_msgs
