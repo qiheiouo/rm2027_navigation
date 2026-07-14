@@ -190,8 +190,10 @@ ros2 launch rm_navigation_bringup old_car_2026_competition.launch.py
 
 Its safe default starts nothing. Sensor, LIO, map, one relocalization backend,
 Nav2, real serial, referee interface, pursuit and mission remain independent
-opt-ins. The launch rejects real serial with mock state, synthetic test maps or
-an auto-enabled mission. See `docs/phase3d_competition_bringup.md`.
+opt-ins. The launch rejects real serial with mock target/safety authority,
+synthetic test maps or an auto-enabled mission. Synthetic referee data requires
+the explicit field-debug waiver described below. See
+`docs/phase3d_competition_bringup.md`.
 
 The no-hardware mission test is separate:
 
@@ -202,3 +204,9 @@ ros2 launch rm_navigation_bringup competition_no_hardware_test.launch.py \
 
 It uses Gazebo and explicit mocks, opens no serial device, and keeps the
 mission disabled until `/mission/set_mode` is called.
+
+Old-car field debugging may explicitly use synthetic referee state while the
+remote switch remains the physical chassis authority. This requires both
+`allow_field_debug_inputs:=true` and `use_operator_chassis_authority:=true`;
+the defaults remain false. Follow `docs/field_debug_competition_tutorial.md`
+rather than adapting the no-hardware command to a real robot.

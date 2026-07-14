@@ -18,3 +18,8 @@ ros2 launch rm_referee_interface referee_interface.launch.py \
 
 The safe defaults start neither the gate nor the mock. This package publishes
 no TF, odometry, navigation goals or chassis commands.
+
+The mock fields are launch arguments. For example, a running match with 400 HP
+uses the defaults, while `mock_current_hp:=100` can exercise a low-HP mission
+branch. These values are test input only and must pass through
+`referee_state_gate` before mission consumers see them.

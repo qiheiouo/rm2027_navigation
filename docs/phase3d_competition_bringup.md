@@ -18,12 +18,29 @@ false by default and does not imply any child switch.
 - Nav2 without AMCL or GICP global relocalization.
 - A localization backend without map deployment.
 - Real serial with a synthetic map policy.
-- Real serial with mock referee, target or chassis/localization authority.
+- Real serial with mock target or chassis/localization authority. Mock referee
+  remains rejected unless the explicit field-debug waiver is enabled.
 - Mission without Nav2, relocalization and referee interface.
 - Mission without a chassis-authority gate or explicit no-hardware safety mock.
 - Mission auto-enabled at launch while real serial is active.
 - Real motion with the provisional right-lidar extrinsic unless explicitly
   overridden after physical validation.
+
+## Field Debug Inputs
+
+`allow_field_debug_inputs:=true` is a deliberate old-car field-test waiver,
+not a competition profile. It permits a mock referee source with real serial
+and permits `use_operator_chassis_authority:=true` when the lower controller's
+remote manual/automatic switch is the only available chassis authority.
+
+The waiver is rejected unless real serial and the mission are explicitly
+selected. It never permits the target mock or the all-in-one mission safety
+mock with real serial. Mission startup must remain disabled, and the operator
+must enable a mission only after localization, Nav2, serial and remote takeover
+have been checked. Switching the remote back to automatic can resume an active
+Nav2 goal, so disable the mission before ending a test.
+
+See `docs/field_debug_competition_tutorial.md` for the complete procedure.
 
 ## Readiness
 

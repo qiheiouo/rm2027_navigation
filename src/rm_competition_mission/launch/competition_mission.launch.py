@@ -11,6 +11,7 @@ def generate_launch_description():
     enabled = LaunchConfiguration("enable_mission_node")
     startup_enabled = LaunchConfiguration("startup_enabled")
     use_safety_mock = LaunchConfiguration("use_safety_mock")
+    require_chassis_mode = LaunchConfiguration("require_chassis_mode")
     use_sim_time = LaunchConfiguration("use_sim_time")
     mission_config = LaunchConfiguration("mission_config")
     tree_xml = LaunchConfiguration("tree_xml")
@@ -30,6 +31,7 @@ def generate_launch_description():
         DeclareLaunchArgument("enable_mission_node", default_value="false"),
         DeclareLaunchArgument("startup_enabled", default_value="false"),
         DeclareLaunchArgument("use_safety_mock", default_value="false"),
+        DeclareLaunchArgument("require_chassis_mode", default_value="true"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument("mission_config", default_value=default_config),
         DeclareLaunchArgument("tree_xml", default_value=default_tree),
@@ -45,6 +47,9 @@ def generate_launch_description():
                     "tree_xml": tree_xml,
                     "startup_enabled": ParameterValue(
                         startup_enabled, value_type=bool
+                    ),
+                    "require_chassis_mode": ParameterValue(
+                        require_chassis_mode, value_type=bool
                     ),
                     "use_sim_time": ParameterValue(use_sim_time, value_type=bool),
                 },

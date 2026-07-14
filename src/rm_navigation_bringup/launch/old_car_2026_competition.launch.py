@@ -31,6 +31,8 @@ def _validate_competition_profile(context, *args, **kwargs):
     use_referee_mock = _as_bool(context, "use_referee_mock")
     use_target_mock = _as_bool(context, "use_target_mock")
     use_safety_mock = _as_bool(context, "use_mission_safety_mock")
+    allow_field_debug = _as_bool(context, "allow_field_debug_inputs")
+    use_operator_authority = _as_bool(context, "use_operator_chassis_authority")
     use_chassis_mode = _as_bool(context, "use_chassis_mode_interface")
     startup_enabled = _as_bool(context, "mission_startup_enabled")
     use_dual = _as_bool(context, "use_dual_obstacle_fusion")
@@ -59,12 +61,39 @@ def _validate_competition_profile(context, *args, **kwargs):
         raise RuntimeError(
             "mission requires Nav2, a real relocalization backend, and referee interface"
         )
-    if use_mission and not (use_chassis_mode or use_safety_mock):
+    if use_mission and not (
+        use_chassis_mode or use_safety_mock or use_operator_authority
+    ):
         raise RuntimeError(
-            "mission requires chassis authority input or explicit no-hardware safety mock"
+            "mission requires chassis authority input, explicit no-hardware safety mock, "
+            "or operator chassis authority"
         )
-    if use_real_serial and (use_referee_mock or use_target_mock or use_safety_mock):
-        raise RuntimeError("mock competition inputs are forbidden with real serial")
+    if use_operator_authority and use_chassis_mode:
+        raise RuntimeError(
+            "operator chassis authority and the real chassis-mode gate are mutually exclusive"
+        )
+    if use_operator_authority and use_safety_mock:
+        raise RuntimeError(
+            "operator chassis authority cannot be combined with the no-hardware safety mock"
+        )
+    if use_operator_authority and not (use_mission and use_real_serial):
+        raise RuntimeError(
+            "operator chassis authority is only valid for a real-serial mission debug run"
+        )
+    if allow_field_debug and not use_real_serial:
+        raise RuntimeError("field debug inputs are only valid with explicit real serial")
+    if use_real_serial and (use_target_mock or use_safety_mock):
+        raise RuntimeError(
+            "target and mission-safety mocks remain forbidden with real serial"
+        )
+    if use_real_serial and use_referee_mock and not allow_field_debug:
+        raise RuntimeError(
+            "real serial with mock referee requires allow_field_debug_inputs:=true"
+        )
+    if use_real_serial and use_operator_authority and not allow_field_debug:
+        raise RuntimeError(
+            "operator chassis authority requires allow_field_debug_inputs:=true"
+        )
     if use_real_serial and startup_enabled:
         raise RuntimeError(
             "mission_startup_enabled must remain false with real serial; enable by service after checks"
@@ -91,10 +120,26 @@ def generate_launch_description():
     use_map_server = LaunchConfiguration("use_map_server")
     use_referee = LaunchConfiguration("use_referee_interface")
     use_referee_mock = LaunchConfiguration("use_referee_mock")
+    referee_mock_game_progress = LaunchConfiguration("referee_mock_game_progress")
+    referee_mock_stage_remain_time = LaunchConfiguration(
+        "referee_mock_stage_remain_time"
+    )
+    referee_mock_robot_id = LaunchConfiguration("referee_mock_robot_id")
+    referee_mock_current_hp = LaunchConfiguration("referee_mock_current_hp")
+    referee_mock_self_outpost_hp = LaunchConfiguration(
+        "referee_mock_self_outpost_hp"
+    )
+    referee_mock_enemy_outpost_hp = LaunchConfiguration(
+        "referee_mock_enemy_outpost_hp"
+    )
+    referee_mock_projectiles = LaunchConfiguration("referee_mock_projectiles")
+    referee_mock_coins = LaunchConfiguration("referee_mock_coins")
     use_pursuit = LaunchConfiguration("use_pursuit")
     use_target_mock = LaunchConfiguration("use_target_mock")
     use_mission = LaunchConfiguration("use_mission")
     use_safety_mock = LaunchConfiguration("use_mission_safety_mock")
+    allow_field_debug = LaunchConfiguration("allow_field_debug_inputs")
+    use_operator_authority = LaunchConfiguration("use_operator_chassis_authority")
     use_chassis_mode = LaunchConfiguration("use_chassis_mode_interface")
     mission_startup_enabled = LaunchConfiguration("mission_startup_enabled")
     use_dual_fusion = LaunchConfiguration("use_dual_obstacle_fusion")
@@ -156,6 +201,13 @@ def generate_launch_description():
     amcl_enabled = PythonExpression(["'", backend, "' == 'amcl_2d'"])
     gicp_enabled = PythonExpression(["'", backend, "' == 'gicp_3d'"])
     map_stub_enabled = PythonExpression(["'", backend, "' == 'none'"])
+    mission_requires_chassis = PythonExpression([
+        "not '", use_operator_authority, "'.lower() in ['1','true','yes','on']"
+    ])
+    readiness_requires_chassis = PythonExpression([
+        "'", use_mission, "'.lower() in ['1','true','yes','on'] and not '",
+        use_operator_authority, "'.lower() in ['1','true','yes','on']",
+    ])
 
     return LaunchDescription([
         DeclareLaunchArgument("enable_competition_stack", default_value="false"),
@@ -182,6 +234,16 @@ def generate_launch_description():
         DeclareLaunchArgument("serial_baudrate", default_value="115200"),
         DeclareLaunchArgument("use_referee_interface", default_value="false"),
         DeclareLaunchArgument("use_referee_mock", default_value="false"),
+        DeclareLaunchArgument("referee_mock_game_progress", default_value="4"),
+        DeclareLaunchArgument("referee_mock_stage_remain_time", default_value="300"),
+        DeclareLaunchArgument("referee_mock_robot_id", default_value="7"),
+        DeclareLaunchArgument("referee_mock_current_hp", default_value="400"),
+        DeclareLaunchArgument("referee_mock_self_outpost_hp", default_value="1500"),
+        DeclareLaunchArgument("referee_mock_enemy_outpost_hp", default_value="1500"),
+        DeclareLaunchArgument("referee_mock_projectiles", default_value="100"),
+        DeclareLaunchArgument("referee_mock_coins", default_value="0"),
+        DeclareLaunchArgument("allow_field_debug_inputs", default_value="false"),
+        DeclareLaunchArgument("use_operator_chassis_authority", default_value="false"),
         DeclareLaunchArgument("use_pursuit", default_value="false"),
         DeclareLaunchArgument("use_target_mock", default_value="false"),
         DeclareLaunchArgument("use_mission", default_value="false"),
@@ -197,6 +259,14 @@ def generate_launch_description():
             "[competition] Safe default starts nothing. Hardware, map, localization, "
             "Nav2, serial, referee, pursuit and mission are independent opt-ins."
         )),
+        LogInfo(
+            condition=IfCondition(allow_field_debug),
+            msg=(
+                "[competition] FIELD DEBUG INPUTS ENABLED: referee data may be synthetic "
+                "and remote manual/automatic switching is the physical chassis authority. "
+                "Mission startup remains disabled."
+            ),
+        ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(old_car_launch),
             condition=IfCondition(enable_stack),
@@ -273,6 +343,14 @@ def generate_launch_description():
                 "enable_referee_interface": use_referee,
                 "use_mock": use_referee_mock,
                 "use_sim_time": use_sim_time,
+                "mock_game_progress": referee_mock_game_progress,
+                "mock_stage_remain_time": referee_mock_stage_remain_time,
+                "mock_robot_id": referee_mock_robot_id,
+                "mock_current_hp": referee_mock_current_hp,
+                "mock_self_outpost_hp": referee_mock_self_outpost_hp,
+                "mock_enemy_outpost_hp": referee_mock_enemy_outpost_hp,
+                "mock_projectile_allowance_17mm": referee_mock_projectiles,
+                "mock_remaining_gold_coin": referee_mock_coins,
             }.items(),
         ),
         IncludeLaunchDescription(
@@ -291,6 +369,7 @@ def generate_launch_description():
                 "enable_mission_node": use_mission,
                 "startup_enabled": mission_startup_enabled,
                 "use_safety_mock": use_safety_mock,
+                "require_chassis_mode": mission_requires_chassis,
                 "use_sim_time": use_sim_time,
                 "mission_config": mission_config,
             }.items(),
@@ -344,7 +423,9 @@ def generate_launch_description():
                 ),
                 "require_nav2": ParameterValue(use_nav2, value_type=bool),
                 "require_referee": ParameterValue(use_mission, value_type=bool),
-                "require_chassis_mode": ParameterValue(use_mission, value_type=bool),
+                "require_chassis_mode": ParameterValue(
+                    readiness_requires_chassis, value_type=bool
+                ),
                 "require_serial_transport": ParameterValue(
                     use_real_serial, value_type=bool
                 ),
