@@ -1,7 +1,7 @@
 import rclpy
-from nav2_msgs.action import NavigateToPose
 from nav_msgs.msg import Odometry
-from rclpy.action import ActionClient
+from rclpy.action.graph import get_action_server_names_and_types_by_node
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rclpy.qos import qos_profile_sensor_data
@@ -86,7 +86,6 @@ class ReadinessMonitor(Node):
         self.create_subscription(
             ChassisMode, "/chassis/mode", self._on_chassis_mode, latched
         )
-        self._nav_client = ActionClient(self, NavigateToPose, "/navigate_to_pose")
         self._timer = self.create_timer(0.2, self._publish)
 
     def _on_odom(self, _message):
@@ -111,6 +110,19 @@ class ReadinessMonitor(Node):
     def _serial_node_present(self):
         return any(name == "serial_transport_node" for name, _namespace in self.get_node_names_and_namespaces())
 
+    def _nav2_action_server_present(self):
+        for name, namespace in self.get_node_names_and_namespaces():
+            action_servers = get_action_server_names_and_types_by_node(
+                self, name, namespace
+            )
+            for action_name, action_types in action_servers:
+                if (
+                    action_name == "/navigate_to_pose"
+                    and "nav2_msgs/action/NavigateToPose" in action_types
+                ):
+                    return True
+        return False
+
     def _publish(self):
         available = set()
         if self._fresh(self._last_odom):
@@ -119,7 +131,7 @@ class ReadinessMonitor(Node):
             available.add("obstacle_input")
         if self._localization_valid:
             available.add("global_localization")
-        if self._nav_client.server_is_ready():
+        if self._nav2_action_server_present():
             available.add("nav2_action")
         if self._referee_valid:
             available.add("referee_state")
@@ -145,6 +157,9 @@ def main(args=None):
     node = ReadinessMonitor()
     try:
         rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()

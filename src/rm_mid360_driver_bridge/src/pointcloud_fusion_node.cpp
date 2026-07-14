@@ -83,6 +83,16 @@ private:
         "drop fusion input with zero timestamp or empty frame_id");
       return;
     }
+    const double source_age = (now() - stamp).seconds();
+    if (!std::isfinite(source_age) || source_age < -max_cloud_age_sec_ ||
+      source_age > max_cloud_age_sec_)
+    {
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "drop stale fusion input: age=%.3f s limit=%.3f s",
+        source_age, max_cloud_age_sec_);
+      return;
+    }
 
     tf2::Transform input_to_target;
     if (!lookupTransform(message, input_to_target)) {

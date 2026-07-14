@@ -3,6 +3,7 @@ import math
 import rclpy
 from geometry_msgs.msg import PoseStamped
 from rclpy.duration import Duration
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rm_competition_interfaces.msg import TargetTrack
@@ -224,6 +225,9 @@ def main(args=None):
     node = PursuitGoalPlanner()
     try:
         rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
