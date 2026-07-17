@@ -1,9 +1,19 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo, OpaqueFunction
+from launch.actions import (
+    DeclareLaunchArgument,
+    GroupAction,
+    IncludeLaunchDescription,
+    LogInfo,
+    OpaqueFunction,
+)
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
-from launch_ros.actions import Node
+from launch.substitutions import (
+    LaunchConfiguration,
+    PathJoinSubstitution,
+    PythonExpression,
+)
+from launch_ros.actions import Node, SetRemap
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
@@ -311,14 +321,24 @@ def generate_launch_description():
                 "use_map_odom_stub": use_map_odom_stub,
             }.items(),
         ),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(nav2_launch),
+        GroupAction(
             condition=IfCondition(use_nav2),
-            launch_arguments={
-                "use_sim_time": use_sim_time,
-                "params_file": nav2_params,
-                "autostart": "true",
-            }.items(),
+            scoped=True,
+            actions=[
+                # Nav2 Humble remaps controller output through velocity_smoother,
+                # but behavior_server otherwise publishes recovery commands
+                # directly on /cmd_vel. Keep every Nav2 motion producer behind
+                # the same smoothed old-car serial command path.
+                SetRemap(src="cmd_vel", dst="cmd_vel_nav"),
+                IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource(nav2_launch),
+                    launch_arguments={
+                        "use_sim_time": use_sim_time,
+                        "params_file": nav2_params,
+                        "autostart": "true",
+                    }.items(),
+                ),
+            ],
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(mapping_launch),
