@@ -68,6 +68,7 @@ public:
     base_frame_ = declare_parameter<std::string>("base_frame", "base_link");
     global_pose_topic_ = declare_parameter<std::string>(
       "global_pose_topic", "/localization/global_pose");
+    upstream_valid_topic_ = declare_parameter<std::string>("upstream_valid_topic", "");
     odom_topic_ = declare_parameter<std::string>("odom_topic", "/odometry/lio");
     output_topic_ = declare_parameter<std::string>(
       "map_to_odom_topic", "/localization/map_to_odom");
@@ -105,6 +106,12 @@ public:
       [this](const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg) {
         handleGlobalPose(*msg);
       });
+    if (!upstream_valid_topic_.empty()) {
+      upstream_valid_required_ = true;
+      upstream_valid_sub_ = create_subscription<std_msgs::msg::Bool>(
+        upstream_valid_topic_, rclcpp::QoS(1).reliable().transient_local(),
+        [this](const std_msgs::msg::Bool::SharedPtr msg) {handleUpstreamValid(msg->data);});
+    }
 
     reset_service_ = create_service<std_srvs::srv::Trigger>(
       "/localization/reset_map_to_odom",
@@ -131,6 +138,11 @@ public:
       "Global-pose bridge ready: %s + %s -> dynamic %s -> %s. "
       "It publishes no identity fallback.",
       global_pose_topic_.c_str(), odom_topic_.c_str(), map_frame_.c_str(), odom_frame_.c_str());
+    if (upstream_valid_required_) {
+      RCLCPP_INFO(
+        get_logger(), "map->odom validity follows upstream gate %s.",
+        upstream_valid_topic_.c_str());
+    }
   }
 
 private:
@@ -152,6 +164,17 @@ private:
     }
     const tf2::Transform transform = poseToTransform(pose);
     return rm_relocalization_bridge::isFiniteTransform(transform);
+  }
+
+  void handleUpstreamValid(bool value)
+  {
+    std::lock_guard<std::mutex> lock(mutex_);
+    upstream_valid_ = value;
+    if (!value) {
+      valid_ = false;
+      pending_global_poses_.clear();
+    }
+    publishValid(valid_ && upstream_valid_);
   }
 
   void handleOdometry(const nav_msgs::msg::Odometry & msg)
@@ -279,7 +302,7 @@ private:
     }
 
     valid_ = true;
-    publishValid(true);
+    publishValid(valid_ && (!upstream_valid_required_ || upstream_valid_));
     RCLCPP_INFO_THROTTLE(
       get_logger(), *get_clock(), 2000,
       "Accepted global pose at %.6f; map->odom correction updated.",
@@ -298,7 +321,7 @@ private:
     tf2::Transform transform;
     {
       std::lock_guard<std::mutex> lock(mutex_);
-      if (!valid_) {
+      if (!valid_ || (upstream_valid_required_ && !upstream_valid_)) {
         return;
       }
       transform = map_to_odom_;
@@ -319,6 +342,7 @@ private:
   std::string odom_frame_;
   std::string base_frame_;
   std::string global_pose_topic_;
+  std::string upstream_valid_topic_;
   std::string odom_topic_;
   std::string output_topic_;
   bool publish_tf_;
@@ -333,6 +357,8 @@ private:
   std::deque<PendingGlobalPose> pending_global_poses_;
   tf2::Transform map_to_odom_;
   bool valid_ = false;
+  bool upstream_valid_required_ = false;
+  bool upstream_valid_ = false;
 
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   rclcpp::Publisher<geometry_msgs::msg::TransformStamped>::SharedPtr transform_pub_;
@@ -340,6 +366,7 @@ private:
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
   rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr
   global_pose_sub_;
+  rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr upstream_valid_sub_;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr reset_service_;
   rclcpp::TimerBase::SharedPtr publish_timer_;
 };

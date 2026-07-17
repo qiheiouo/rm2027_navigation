@@ -26,7 +26,10 @@ def _launch_bridge(context, *args, **kwargs):
             {
                 "use_sim_time": ParameterValue(
                     LaunchConfiguration("use_sim_time"), value_type=bool
-                )
+                ),
+                "upstream_valid_topic": LaunchConfiguration(
+                    "upstream_valid_topic"
+                ),
             },
         ],
     )]
@@ -41,6 +44,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument("use_sim_time", default_value="false"),
+        DeclareLaunchArgument("upstream_valid_topic", default_value=""),
         DeclareLaunchArgument("config_file", default_value=default_config),
         OpaqueFunction(function=_launch_bridge),
     ])

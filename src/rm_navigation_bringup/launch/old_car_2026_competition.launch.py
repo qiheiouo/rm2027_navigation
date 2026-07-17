@@ -208,6 +208,10 @@ def generate_launch_description():
     amcl_enabled = PythonExpression(["'", backend, "' == 'amcl_2d'"])
     gicp_enabled = PythonExpression(["'", backend, "' == 'gicp_3d'"])
     map_stub_enabled = PythonExpression(["'", backend, "' == 'none'"])
+    backend_valid_topic = PythonExpression([
+        "'/localization/amcl_backend_valid' if '", backend,
+        "' == 'amcl_2d' else '/localization/gicp_backend_valid'",
+    ])
     mission_requires_chassis = PythonExpression([
         "not '", use_operator_authority, "'.lower() in ['1','true','yes','on']"
     ])
@@ -318,7 +322,10 @@ def generate_launch_description():
                 "'", enable_stack, "'.lower() in ['1','true','yes','on'] and ",
                 external_localization,
             ])),
-            launch_arguments={"use_sim_time": use_sim_time}.items(),
+            launch_arguments={
+                "use_sim_time": use_sim_time,
+                "upstream_valid_topic": backend_valid_topic,
+            }.items(),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(amcl_launch),

@@ -147,7 +147,10 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(global_pose_bridge_launch),
             condition=IfCondition(enabled),
-            launch_arguments={"use_sim_time": use_sim_time}.items(),
+            launch_arguments={
+                "use_sim_time": use_sim_time,
+                "upstream_valid_topic": "/localization/amcl_backend_valid",
+            }.items(),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(amcl_launch),
