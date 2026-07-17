@@ -82,7 +82,7 @@ The default `xfer_format` is `4`, matching the locally inspected Livox ROS drive
 
 ## Placeholder Values
 
-The JSON files contain placeholder host IP, LiDAR IP, ports, and timing settings. They are not 2027 final hardware configuration. The current placeholder LiDAR IPs follow the 2026 historical pair `192.168.1.166` and `192.168.1.3`; the real values must be checked after MID360 network setup.
+The JSON files contain placeholder host IP, LiDAR IP, ports, and timing settings. They are not 2027 final hardware configuration. The current old-car assignment is left/L1 `192.168.1.3` and right/L2 `192.168.1.166`; the real values must still be checked after MID360 network setup.
 
 The `extrinsic_parameter` values intentionally stay zero in the Livox config. The canonical robot/sensor extrinsics belong in `rm_description` and the TF contract, not in scattered driver config.
 
@@ -90,4 +90,4 @@ The locally inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livo
 
 ## Notes for Dual MID360
 
-The dual launch starts separate left/right driver nodes when `use_driver:=true`. This lets each side use its own frame id and topic remaps. If the selected `livox_ros_driver2` version behaves better with one multi-lidar node, use `dual_mid360_config.json` as the starting point and document the changed launch behavior before merging.
+The dual launch starts separate left/right driver nodes when `use_driver:=true`. This lets each side use its own frame id and topic remaps, with the left LiDAR remaining the default LIO IMU source. The fallback `dual_mid360_config.json` keeps the same left-first, right-second device order. If the selected `livox_ros_driver2` version behaves better with one multi-lidar node, use that file as the starting point and document the changed launch behavior before merging.
