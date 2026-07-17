@@ -148,6 +148,7 @@ def generate_launch_description():
     map_manifest = LaunchConfiguration("map_bundle_manifest")
     map_policy = LaunchConfiguration("map_acceptance_policy")
     nav2_params = LaunchConfiguration("nav2_params")
+    relocalization_params = LaunchConfiguration("relocalization_params")
     mission_config = LaunchConfiguration("mission_config")
     serial_device = LaunchConfiguration("serial_device")
     serial_baudrate = LaunchConfiguration("serial_baudrate")
@@ -186,6 +187,12 @@ def generate_launch_description():
     ])
     default_nav2 = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"), "config", "nav2_old_car_2026_left_stvl.yaml"
+    ])
+
+    default_relocalization_params = PathJoinSubstitution([
+        FindPackageShare("rm_relocalization_bridge"),
+        "config",
+        "amcl_2d.yaml",
     ])
     default_map = PathJoinSubstitution([
         FindPackageShare("rm_map_tools"),
@@ -230,6 +237,10 @@ def generate_launch_description():
             choices=["approved_only", "allow_candidate", "allow_test"],
         ),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2),
+        DeclareLaunchArgument(
+            "relocalization_params",
+            default_value=default_relocalization_params,
+        ),
         DeclareLaunchArgument("serial_device", default_value="/dev/ttyACM0"),
         DeclareLaunchArgument("serial_baudrate", default_value="115200"),
         DeclareLaunchArgument("use_referee_interface", default_value="false"),
@@ -316,6 +327,7 @@ def generate_launch_description():
             ])),
             launch_arguments={
                 "enable_backend": "true",
+                "params_file": relocalization_params,
                 "use_pointcloud_to_scan": "true",
                 "pointcloud_topic": "/livox/left/pointcloud_filtered",
                 "scan_topic": "/localization/scan",

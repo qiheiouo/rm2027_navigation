@@ -112,6 +112,22 @@ Visualization Manager:
     - Alpha: 0.65
       Class: rviz_default_plugins/Map
       Color Scheme: map
+      Draw Behind: true
+      Enabled: true
+      Name: Static Map
+      Topic:
+        Depth: 1
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /map
+      Update Topic:
+        Value: /map_updates
+      Use Timestamp: false
+      Value: true
+    - Alpha: 0.65
+      Class: rviz_default_plugins/Map
+      Color Scheme: map
       Draw Behind: false
       Enabled: true
       Name: Local Costmap
