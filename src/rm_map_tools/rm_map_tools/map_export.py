@@ -106,6 +106,11 @@ def write_candidate_map_bundle(
 ) -> Path:
     clean_map_id = _checked_identifier(map_id, "map_id")
     clean_revision = _checked_identifier(revision, "revision")
+    occupancy_cells = list(occupancy_values)
+    if not any(value >= 0 for value in occupancy_cells):
+        raise MapBundleError(
+            "candidate occupancy grid has no known cells; refuse an all-unknown map"
+        )
     if not math.isfinite(occupancy_resolution) or occupancy_resolution <= 0.0:
         raise MapBundleError("occupancy resolution must be positive and finite")
     origin = [float(value) for value in occupancy_origin]
@@ -131,7 +136,7 @@ def write_candidate_map_bundle(
         write_ascii_pcd(pcd_path, points)
         pgm_path.write_bytes(
             occupancy_values_to_pgm(
-                occupancy_values,
+                occupancy_cells,
                 occupancy_width,
                 occupancy_height,
             )
@@ -143,7 +148,11 @@ def write_candidate_map_bundle(
             "origin": origin,
             "negate": 0,
             "occupied_thresh": 0.65,
-            "free_thresh": 0.25,
+            # PGM unknown cells are encoded as 205, whose occupancy
+            # probability is 50/255 ~= 0.196078 for negate=0. Keep the free
+            # threshold just below that value so map_server reloads them as
+            # unknown instead of silently converting them to free space.
+            "free_thresh": 0.196,
         }
         occupancy_yaml_path.write_text(
             yaml.safe_dump(occupancy_yaml, sort_keys=False),
