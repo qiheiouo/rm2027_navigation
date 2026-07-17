@@ -59,15 +59,17 @@ exact Git state before the next commit was formed:
   `修复：收紧候选地图导出`
 - `770131296641ec0cf50bd8b26b43e78f422a5988` —
   `修复：校正 MID360 设备地址`
+- `2e20fd07835ad0d6bd23e3015ff608241b71774a` —
+  `修复：同步双雷达设备配置`
 
 The external archive contains one directory per commit under
-`commit_validation/`. Its 86 evidence files include full build output, launch
+`commit_validation/`. Its 106 evidence files include full build output, launch
 argument parsing, package tests, verbose test results, installed-resource
 checks, and the no-hardware runtime probes used where a build alone was not a
 meaningful check.
 
 - Commit-validation manifest SHA-256:
-  `2354c91f718b4f0df77d262202cbeae73ed9ea5ae09a02298cb32f8d4339bbc1`
+  `2fcc66c9aa5e54141a8b66d537cb4bc7f2f0bad4f173ad0dc8ae769bd5ea7621`
 - `ec2aa71`: 17 dependency packages built; both old-car launch files parsed;
   the three selected packages registered no tests.
 - `6f78feb`: three affected launch files parsed; existing tests reported
@@ -82,6 +84,12 @@ meaningful check.
 - `7701312`: build, launch parsing, installed JSON/YAML consistency, and
   `use_driver:=false` smoke passed; the package registered no tests. This is
   not a real right-lidar or dual-lidar acceptance result.
+- `2e20fd0`: normalized the fallback dual JSON to left-first `.3`, right-second
+  `.166`; package build, launch parsing, `use_driver:=false` smoke, installed
+  resource consistency, a 19-package incremental build, and all 36 first-party
+  tests passed. The first temporary installed-resource probe had a Python
+  f-string escaping error; that harness failure and the successful corrected
+  retry are both retained.
 
 ## Final cumulative Linux validation
 
@@ -108,7 +116,11 @@ in full and were not hidden by the successful build.
 
 The complete first-party layer, excluding only `livox_ros_driver2` and
 `fast_lio_multi`, then passed: 17 packages, 36 tests, 0 errors, 0 failures, and
-0 skipped. The final logs are under `commit_validation/021dea0_final/`.
+0 skipped. After the dual-config normalization, the same clean-submodule
+workspace completed an additional 19-package incremental build and repeated
+the 36 first-party tests with no failures. The final logs are under
+`commit_validation/021dea0_final/`, `commit_validation/2e20fd0/`, and
+`commit_validation/2e20fd0_final/`.
 
 Verify the added commit evidence independently:
 
