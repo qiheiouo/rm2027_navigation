@@ -54,3 +54,62 @@ sensor, publish TF, control the chassis, or approve a map.
 
 See `docs/phase2i_managed_mapping.md` for the OctoMap projection and full
 operator flow.
+
+## Offline PCD/PGM Quality Diagnostics
+
+`analyze_map_quality` validates an immutable bundle, reads the exporter ASCII
+XYZ PCD and trinary PGM/YAML, and writes a new evidence directory containing:
+
+- occupied-component CSV and pixel/coverage statistics;
+- eight fixed Z-layer log-density PNGs;
+- 0.05/0.10/0.25 m stable-PCD support statistics and overlay;
+- the explicit world/grid/PGM row-direction contract;
+- optional known-free, protected-obstacle and landmark hard-gate results;
+- optional rosbag topic-coverage status.
+
+It refuses binary PCDs instead of silently guessing their layout. It also
+refuses existing output paths or paths outside `/tmp/rm27_pcd_pgm_diag`, so it
+cannot overwrite a bundle:
+
+```bash
+ros2 run rm_map_tools analyze_map_quality \
+  /path/to/map.bundle.yaml \
+  --labels /external/evidence/map_quality_labels.yaml \
+  --bag /external/evidence/mapping_bag \
+  --output /tmp/rm27_pcd_pgm_diag/field01_baseline
+```
+
+The installed `map_quality_labels.example.yaml` is a template only. Replace
+its map hash and all coordinates from field measurements; it must never be
+treated as ground truth as shipped.
+
+`sweep_map_projection plan` creates a baseline-plus-single-variable matrix.
+It deliberately does not create a Cartesian product. A plan remains blocked
+until at least two bags contain every required mapping topic. Complete topic
+counts only advance the plan to message-level time-overlap and TF-coverage
+preflight; metadata alone never marks a bag replay-ready:
+
+```bash
+ros2 run rm_map_tools sweep_map_projection plan \
+  --baseline-config /path/to/mapping_octomap.yaml \
+  --bag /external/evidence/closed_loop_1 \
+  --bag /external/evidence/closed_loop_2 \
+  --output /tmp/rm27_pcd_pgm_diag/sweep_plan
+```
+
+`sweep_map_projection rank` applies the over-filtering hard gates to analyzer
+summaries. Missing labels, per-frame evidence, or two-dataset replication makes
+a candidate ineligible; it never promotes a candidate or changes a deployment
+manifest. Bag replay, ray evidence, TF timestamp/fallback attribution,
+map-server reload, RViz review and robot validation remain separate stages.
+
+After launching an isolated `map_deployment.launch.py`, verify that Nav2 loaded
+the exact PGM/YAML contract, including every cell and lifecycle state:
+
+```bash
+ros2 run rm_map_tools verify_map_server /path/to/map.bundle.yaml --timeout 10
+```
+
+This command is read-only. A successful comparison proves serialization and
+reload consistency; it does not prove obstacle truth, localization quality, or
+approval readiness.

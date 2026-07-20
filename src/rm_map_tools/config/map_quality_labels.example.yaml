@@ -1,0 +1,42 @@
+# Copy this file to the external evidence directory for a specific candidate.
+# Bind every label file to the exact analyzed PGM before using it as a hard gate.
+frame_id: map
+map_image_sha256: REPLACE_WITH_EXACT_PGM_SHA256
+
+known_free:
+  - name: robot_start_clearance
+    safety_critical: true
+    polygon:
+      - [0.0, 0.0]
+      - [1.0, 0.0]
+      - [1.0, 1.0]
+      - [0.0, 1.0]
+
+protected_obstacles:
+  - name: measured_low_obstacle
+    kind: obstacle
+    critical: true
+    tolerance_m: 0.10
+    sample_spacing_m: 0.05
+    points:
+      - [2.0, 2.0]
+  - name: measured_wall
+    kind: wall
+    critical: false
+    tolerance_m: 0.10
+    sample_spacing_m: 0.05
+    points:
+      - [3.0, 0.0]
+      - [3.0, 0.05]
+      - [3.0, 0.10]
+
+landmarks:
+  - name: landmark_a
+    point: [3.0, 0.0]
+    tolerance_m: 0.10
+  - name: landmark_b
+    point: [3.0, 1.0]
+    tolerance_m: 0.10
+  - name: landmark_c
+    point: [3.0, 2.0]
+    tolerance_m: 0.10

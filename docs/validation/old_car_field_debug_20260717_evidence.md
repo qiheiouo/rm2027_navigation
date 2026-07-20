@@ -31,6 +31,8 @@ The archive was verified successfully when created. It includes the full `rm27_*
 ## Small evidence committed with the repository
 
 - [Old-Car field debug update report](old_car_field_debug_20260717.md)
+- [PCD/PGM map-quality implementation](pcd_pgm_map_quality_implementation_20260717.md)
+- [fresh03 candidate limited field validation](old_car_fresh03_field_validation_20260720.md)
 - This evidence index
 - The external archive also contains:
   - `01_git_state.log`
@@ -144,6 +146,36 @@ sha256sum -c SHA256SUMS
 - `rm27_field_debug_full_validation/current_map_analysis`
 - `rm27_field_debug_full_validation/relocalization_analysis`
 - `rm27_field_debug_full_validation/final_analysis`
+
+## PCD/PGM endpoint-gate rejection addendum (2026-07-20)
+
+The later PCD/PGM investigation retained a rejected native-derived exact-min2
+projection prototype and its deterministic replay evidence outside Git:
+
+`/home/wpie/rm2027_validation_archives/20260718_pcd_pgm_diag_checkpoint/diag/20260720_native_min2_rejected/`
+
+The directory contains 50 files: the archived prototype/integration snapshot,
+fresh03/r1/r2 replay analyses, launch/reset smoke evidence, the rejection
+report, and the post-rollback default mapping smoke. Key frozen hashes:
+
+```text
+prototype archive: 75a718be981bb8323a9041724b0876a3596d8337eff906f9725cd60ab0a220bc
+rejection report:  a417a321a6a579d25913a1e5ed46d9b64ff95909a70d7fec9eade31a0642fa28
+double-pass JSON:  b32ebd824f5cc6c2165f347a9b7ea1cd6d432aa67c2502ac4afe0bad6ebf04ca
+```
+
+The prototype was rejected because its 0.10 m double-pass protected-proxy
+recall was 96.64%/96.11%, below the required 99%. It was removed from product
+source, launch, reset and dependency paths. No map was saved or approved.
+
+Before cleaning the repository-local diagnostic scratch directory, all 148
+files (5.1 MiB) were copied to:
+
+`/home/wpie/rm2027_validation_archives/20260718_pcd_pgm_diag_checkpoint/diag/20260720_workspace_temp_snapshot/`
+
+The local and external counts matched. The largest diagnostic bag, the native
+fresh03 baseline grid and the corrected replay publisher were each verified by
+matching SHA-256 before `.rm27_capture_tmp` was removed.
 
 ## Explicit exclusions and boundaries
 

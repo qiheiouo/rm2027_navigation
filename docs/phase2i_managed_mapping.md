@@ -130,25 +130,44 @@ without measurement and validation.
 2. Confirm `/mapping/projected_map` grows while the robot moves.
 3. Use RViz to check that the registered cloud is level and repeated structures
    align instead of forming double walls.
-4. Pause both PCD accumulation and new OctoMap sensor insertion if needed:
+4. Before any person enters the mapped area, an object is carried, or the
+   static scene is intentionally rearranged, pause both PCD accumulation and
+   new OctoMap sensor insertion:
 
    ```bash
    ros2 service call /mapping/stop std_srvs/srv/Trigger {}
+   ros2 topic echo --once /mapping/recording
    ```
 
-5. Save one immutable candidate revision:
+   Require `data: false` before changing the scene. After all people leave and
+   the scene is static, resume and require `data: true`:
+
+   ```bash
+   ros2 service call /mapping/start std_srvs/srv/Trigger {}
+   ros2 topic echo --once /mapping/recording
+   ```
+
+   The sampler deliberately skips the last cloud received while paused. Revisit
+   the affected view after resuming so fresh free rays and static endpoints are
+   inserted. This pause rule is for static-map acquisition; it is separate from
+   Nav2 costmap dynamic-obstacle clearing during navigation.
+
+5. Repeat important structures from a second viewing position or a second loop.
+   Keep people outside the recorded scene for both passes.
+
+6. Save one immutable candidate revision:
 
    ```bash
    ros2 service call /mapping/save std_srvs/srv/Trigger {}
    ```
 
-6. Validate the returned manifest:
+7. Validate the returned manifest:
 
    ```bash
    ros2 run rm_map_tools validate_map_bundle /absolute/path/to/map.bundle.yaml
    ```
 
-7. Review PCD and occupancy alignment against at least three measured field
+8. Review PCD and occupancy alignment against at least three measured field
    landmarks. Only after human review may a copied revision be promoted to
    `approved` with updated hashes.
 
@@ -251,3 +270,34 @@ careful manual cleanup. That quality issue is accepted for the current stage;
 it must not trigger another blocking parameter loop, and it does not justify
 marking the bundle `approved`. Real map files and logs remain outside the
 source repository.
+
+## PCD/PGM Quality Diagnostics
+
+Use `analyze_map_quality` before changing mapping parameters. It writes a new
+directory under `/tmp/rm27_pcd_pgm_diag`, reproduces the immutable map
+histogram and connected components, emits eight Z-layer density maps, and
+reports stable-PCD support at 0.05/0.10/0.25 m. Saved-PCD support is diagnostic
+evidence only because the PCD has no sensor origins and cannot reconstruct
+free or unknown rays.
+
+```bash
+ros2 run rm_map_tools analyze_map_quality \
+  /absolute/path/to/map.bundle.yaml \
+  --output /tmp/rm27_pcd_pgm_diag/baseline_run
+```
+
+Use `sweep_map_projection plan` only after collecting two independent mapping
+bags. Missing required topics, message-time overlap, timestamped TF coverage,
+known-free regions, protected obstacles, walls, or three measured landmarks
+must block parameter selection. `verify_map_server` compares every live `/map`
+cell with the bundle's offline PGM/YAML decode. The full old-car implementation
+record and remaining field gates are in
+[PCD/PGM map-quality implementation](validation/pcd_pgm_map_quality_implementation_20260717.md).
+
+The completed 2026-07-20 screen rejected an experimental native-derived
+two-frame occupied-projection gate: its double-pass protected recall was only
+96.64%/96.11% against the required 99%. The prototype was removed from the
+product package and launch chain. The supported mitigation remains the
+operator flow above: pause static mapping before people enter or objects move,
+resume after the scene is static, and revisit the affected view. Do not confuse
+this acquisition rule with Nav2 runtime dynamic-obstacle clearing.

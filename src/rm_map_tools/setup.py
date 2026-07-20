@@ -14,7 +14,13 @@ setup(
             ["resource/" + package_name],
         ),
         ("share/" + package_name, ["package.xml"]),
-        ("share/" + package_name + "/config", ["config/mapping_octomap.yaml"]),
+        (
+            "share/" + package_name + "/config",
+            [
+                "config/map_quality_labels.example.yaml",
+                "config/mapping_octomap.yaml",
+            ],
+        ),
         (
             "share/" + package_name + "/maps/phase2e_test",
             [
@@ -39,8 +45,11 @@ setup(
         "console_scripts": [
             "mapping_session_node = rm_map_tools.mapping_session_node:main",
             "pointcloud_sampler_node = rm_map_tools.pointcloud_sampler_node:main",
+            "analyze_map_quality = rm_map_tools.analyze_map_quality:main",
             "resolve_map_bundle = rm_map_tools.resolve_map_bundle:main",
+            "sweep_map_projection = rm_map_tools.sweep_map_projection:main",
             "validate_map_bundle = rm_map_tools.validate_map_bundle:main",
+            "verify_map_server = rm_map_tools.verify_map_server:main",
         ],
     },
 )
