@@ -14,6 +14,7 @@ This report records the open source research used for the 2027 sentry navigation
 | Algorithm | https://gitee.com/SMBU-POLARBEAR/Algorithm | `F:\rm27_nav\external_research\Algorithm_repo` | `master` | `7c3a71a81ddb4a841e8722a2baf2dfa5595881b6` | MIT | Complete | No `.gitmodules` | `README.md`, repository index links |
 | livox_ros_driver2_humble | https://gitee.com/SMBU-POLARBEAR/livox_ros_driver2_humble | `F:\rm27_nav\external_research\pb_algorithm_livox_ros_driver2_humble_repo` | `master` | `2a2029a6e62a2196b280be6ec00bb2418065b8e0` | MIT | Complete | No `.gitmodules` | `README.md`, `src/launch/msg_MID360_launch.py`, `src/config/MID360_config.json`, `src/package.xml`, `src/msg`, `src/src` |
 | rm_behavior_tree | https://gitee.com/SMBU-POLARBEAR/rm_behavior_tree | `F:\rm27_nav\external_research\pb_algorithm_rm_behavior_tree_repo` | `master` | `2e39c2b08e6f30901b9693a573a2ddeb093f6f5c` | MIT root, bundled BehaviorTree.ROS2 has its own license | Complete | No `.gitmodules` | `README.md`, `rm_behavior_tree/launch`, `rm_behavior_tree/config/*.xml`, `plugins/action`, `plugins/condition`, `rm_decision_interfaces/msg` |
+| pb2025_sentry_behavior | https://github.com/SMBU-PolarBear-Robotics-Team/pb2025_sentry_behavior | `F:\rm27_nav\external_research\pb2025_sentry_behavior_repo` | `main` | `d111b635d326775c6c19aa12500a0bbd6a27a588` | Apache-2.0 | Complete | Dependencies are declared through `dependencies.repos`, not imported into this project | `README.md`, `behavior_trees`, `plugins/action/calculate_attack_pose.cpp`, `plugins/condition/is_detect_enemy.cpp` |
 | Point-LIO PolarBear fork | https://github.com/SMBU-PolarBear-Robotics-Team/point_lio | `F:\rm27_nav\external_research\pb_point_lio_repo` | `RM2025_SMBU_auto_sentry` | `e85e79558cf746f6699888a54285fe48b3b0ac71` | Package BSD, bundled `IKFoM` GPL | Complete | No `.gitmodules` | `README.md`, `launch/point_lio.launch.py`, `config/mid360.yaml`, `src`, `package.xml`, `include/IKFoM/LICENSE` |
 | small_gicp_relocalization | https://github.com/SMBU-PolarBear-Robotics-Team/small_gicp_relocalization | `F:\rm27_nav\external_research\pb_small_gicp_relocalization_repo` | `main` | `8aa3b750b16b24d7ca73622c71b11de4b1abff6e` | Apache-2.0 | Complete | No `.gitmodules` | `README.md`, `launch`, `src/small_gicp_relocalization.cpp`, `package.xml` |
 | pb_omni_pid_pursuit_controller | https://github.com/SMBU-PolarBear-Robotics-Team/pb_omni_pid_pursuit_controller | `F:\rm27_nav\external_research\pb_omni_pid_pursuit_controller_repo` | `main` | `0dd298c1244b28ddcf04cadaf430e6903ba0a43d` | Apache-2.0 | Complete | No `.gitmodules` | `README.md`, `src/omni_pid_pursuit_controller.cpp`, `package.xml` |
@@ -45,6 +46,7 @@ COD, TUP, SCAU, NEXTE, CSU, Taurus and other projects that were not completely r
 | pb_omni_pid_pursuit_controller | Not default Phase 1 | Strong yes | Phase 1.5 or Phase 2 candidate | Holonomic Nav2 controller producing `vx`, `vy`, `wz` | Needs tuning and comparison with DWB/MPPI on our robot |
 | pb_nav2_plugins | No | Yes | Phase 2 or Phase 3 candidate | IntensityVoxelLayer, BackUpFreeSpace | Not needed for minimum closure |
 | rm_behavior_tree | No | Phase 3 reference | Not initially | Strategy tree, Nav2 action client examples, referee topic usage | Mission/referee/chassis coupling must not enter Phase 1 |
+| pb2025_sentry_behavior | No | Phase 3 pursuit/strategy reference | No as a whole package | Enemy-detection condition and costmap-aware attack-pose candidate generation | Depends on PolarBear vision/referee interfaces, frames, blackboard and direct Nav2/velocity plugins |
 
 ## TF And Coupling Findings
 
@@ -66,3 +68,10 @@ PolarBear 2025 does not use this exact canonical tree. Its navigation parameters
 Use a self-owned canonical skeleton plus selected open source modules. Do not fork a full open source repository as the main 2027 navigation system.
 
 PolarBear remains the first reference object. The recommended absorption targets are `rmu_gazebo_simulator`, `small_gicp_relocalization`, `pb_omni_pid_pursuit_controller`, `pb_nav2_plugins`, and the 2D map plus 3D PCD workflow.
+
+The word `pursuit` has two different meanings in these sources.
+`pb_omni_pid_pursuit_controller` follows a Nav2 path and is not an enemy-chase
+module. Enemy-facing behavior is found in `pb2025_sentry_behavior`; only its
+costmap-aware attack-pose selection is a candidate for later adaptation into
+the self-owned `rm_pursuit` boundary. See
+`docs/external/polarbear_pursuit_and_behavior.md`.

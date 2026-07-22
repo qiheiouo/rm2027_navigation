@@ -24,3 +24,9 @@ pose facing the target.
 
 The real producer must later define track identity, frame, timestamp source,
 confidence calibration, covariance and loss behavior with the auto-aim team.
+
+PolarBear's 2025 behavior package was reviewed as a strategy reference. Its
+costmap-aware ring of feasible attack poses may be adapted later, but the whole
+package is not imported because it owns different vision/referee interfaces,
+frames and Nav2/velocity actions. See
+`docs/external/polarbear_pursuit_and_behavior.md`.
