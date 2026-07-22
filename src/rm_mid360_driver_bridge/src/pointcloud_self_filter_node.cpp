@@ -1,18 +1,24 @@
+#include <tf2/LinearMath/Transform.h>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+#include <exception>
 #include <functional>
 #include <memory>
+#include <stdexcept>
 #include <string>
+#include <vector>
 
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <sensor_msgs/point_cloud2_iterator.hpp>
-#include <tf2/LinearMath/Transform.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
-#include <tf2_ros/buffer.h>
-#include <tf2_ros/transform_listener.h>
+
+#include "rm_mid360_driver_bridge/pointcloud_deskew.hpp"
 
 namespace
 {
@@ -94,54 +100,56 @@ private:
       return;
     }
 
-    sensor_msgs::PointCloud2ConstIterator<float> input_x(*msg, "x");
-    sensor_msgs::PointCloud2ConstIterator<float> input_y(*msg, "y");
-    sensor_msgs::PointCloud2ConstIterator<float> input_z(*msg, "z");
-
-    sensor_msgs::msg::PointCloud2 output;
-    output.header = msg->header;
-    output.height = 1;
-    output.is_bigendian = msg->is_bigendian;
-    output.is_dense = false;
-
-    sensor_msgs::PointCloud2Modifier modifier(output);
-    modifier.setPointCloud2FieldsByString(1, "xyz");
-    modifier.resize(msg->width * msg->height);
-
-    sensor_msgs::PointCloud2Iterator<float> output_x(output, "x");
-    sensor_msgs::PointCloud2Iterator<float> output_y(output, "y");
-    sensor_msgs::PointCloud2Iterator<float> output_z(output, "z");
-
+    std::vector<std::size_t> kept_indices;
+    kept_indices.reserve(static_cast<std::size_t>(msg->width) * msg->height);
     std::size_t kept = 0;
     std::size_t removed = 0;
-    for (; input_x != input_x.end(); ++input_x, ++input_y, ++input_z) {
-      const float x = *input_x;
-      const float y = *input_y;
-      const float z = *input_z;
-      if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z)) {
-        ++removed;
-        continue;
+    try {
+      sensor_msgs::PointCloud2ConstIterator<float> input_x(*msg, "x");
+      sensor_msgs::PointCloud2ConstIterator<float> input_y(*msg, "y");
+      sensor_msgs::PointCloud2ConstIterator<float> input_z(*msg, "z");
+      std::size_t linear_index = 0;
+      for (; input_x != input_x.end();
+        ++input_x, ++input_y, ++input_z, ++linear_index)
+      {
+        const float x = *input_x;
+        const float y = *input_y;
+        const float z = *input_z;
+        if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z)) {
+          ++removed;
+          continue;
+        }
+
+        const tf2::Vector3 point_in_input(x, y, z);
+        const tf2::Vector3 point_in_target = input_to_target * point_in_input;
+
+        if (should_remove(point_in_target)) {
+          ++removed;
+          continue;
+        }
+
+        kept_indices.push_back(linear_index);
+        ++kept;
       }
-
-      const tf2::Vector3 point_in_input(x, y, z);
-      const tf2::Vector3 point_in_target = input_to_target * point_in_input;
-
-      if (should_remove(point_in_target)) {
-        ++removed;
-        continue;
-      }
-
-      *output_x = x;
-      *output_y = y;
-      *output_z = z;
-      ++output_x;
-      ++output_y;
-      ++output_z;
-      ++kept;
+    } catch (const std::runtime_error & error) {
+      RCLCPP_ERROR_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "drop malformed pointcloud; cannot read xyz fields: %s", error.what());
+      return;
     }
 
-    modifier.resize(kept);
-    output.width = static_cast<std::uint32_t>(kept);
+    sensor_msgs::msg::PointCloud2 output;
+    try {
+      // Copy complete point records rather than rebuilding an xyz-only cloud.
+      // This preserves Livox intensity/tag/line/FLOAT64 timestamp byte-for-byte.
+      output = rm_mid360_driver_bridge::select_points_preserving_fields(
+        *msg, kept_indices);
+    } catch (const std::exception & error) {
+      RCLCPP_ERROR_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "drop malformed pointcloud while preserving fields: %s", error.what());
+      return;
+    }
 
     RCLCPP_DEBUG(
       get_logger(), "filtered cloud kept=%zu removed=%zu frame=%s",

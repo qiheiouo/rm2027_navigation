@@ -1,16 +1,38 @@
 cmake_minimum_required(VERSION 3.8)
 project(rm_mid360_driver_bridge)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
 find_package(ament_cmake REQUIRED)
+find_package(diagnostic_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 
+add_library(pointcloud_deskew src/pointcloud_deskew.cpp)
+target_include_directories(pointcloud_deskew PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+ament_target_dependencies(pointcloud_deskew
+  sensor_msgs
+  std_msgs
+  tf2
+)
+
 add_executable(pointcloud_self_filter_node src/pointcloud_self_filter_node.cpp)
 target_compile_features(pointcloud_self_filter_node PUBLIC cxx_std_17)
+target_link_libraries(pointcloud_self_filter_node pointcloud_deskew)
 ament_target_dependencies(pointcloud_self_filter_node
   geometry_msgs
   rclcpp
@@ -22,9 +44,13 @@ ament_target_dependencies(pointcloud_self_filter_node
 
 add_executable(pointcloud_to_laserscan_node src/pointcloud_to_laserscan_node.cpp)
 target_compile_features(pointcloud_to_laserscan_node PUBLIC cxx_std_17)
+target_link_libraries(pointcloud_to_laserscan_node pointcloud_deskew)
 ament_target_dependencies(pointcloud_to_laserscan_node
+  diagnostic_msgs
+  nav_msgs
   rclcpp
   sensor_msgs
+  std_msgs
   tf2
   tf2_geometry_msgs
   tf2_ros
@@ -41,10 +67,15 @@ ament_target_dependencies(pointcloud_fusion_node
 )
 
 install(TARGETS
+  pointcloud_deskew
   pointcloud_self_filter_node
   pointcloud_to_laserscan_node
   pointcloud_fusion_node
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY include/
+  DESTINATION include
 )
 
 install(DIRECTORY
@@ -52,5 +83,12 @@ install(DIRECTORY
   launch
   DESTINATION share/${PROJECT_NAME}
 )
+
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_pointcloud_deskew test/test_pointcloud_deskew.cpp)
+  target_link_libraries(test_pointcloud_deskew pointcloud_deskew)
+  ament_target_dependencies(test_pointcloud_deskew sensor_msgs std_msgs tf2)
+endif()
 
 ament_package()
