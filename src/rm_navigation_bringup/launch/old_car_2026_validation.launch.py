@@ -30,6 +30,14 @@ def _validate_runtime_modes(context, *args, **kwargs):
         LaunchConfiguration("use_real_serial").perform(context).strip().lower()
         in TRUE_VALUES
     )
+    referee_rx_enabled = (
+        LaunchConfiguration("serial_referee_rx_enabled")
+        .perform(context)
+        .strip()
+        .lower()
+        in TRUE_VALUES
+    )
+    serial_profile = LaunchConfiguration("serial_protocol_profile").perform(context)
     use_mapping = (
         LaunchConfiguration("use_mapping").perform(context).strip().lower()
         in TRUE_VALUES
@@ -54,6 +62,13 @@ def _validate_runtime_modes(context, *args, **kwargs):
     if use_serial_dry_run and use_real_serial:
         raise RuntimeError(
             "use_serial_dry_run and use_real_serial must not be true at the same time."
+        )
+    if referee_rx_enabled and not use_real_serial:
+        raise RuntimeError("serial referee receive requires use_real_serial:=true")
+    if referee_rx_enabled and serial_profile != "hpm_crc_v1":
+        raise RuntimeError(
+            "the currently flashed referee upload requires "
+            "serial_protocol_profile:=hpm_crc_v1"
         )
     if use_mapping and (use_nav2 or use_serial_dry_run or use_real_serial):
         raise RuntimeError(
@@ -87,6 +102,8 @@ def generate_launch_description():
     serial_max_vx = LaunchConfiguration("serial_max_vx")
     serial_max_vy = LaunchConfiguration("serial_max_vy")
     serial_max_wz = LaunchConfiguration("serial_max_wz")
+    serial_referee_rx_enabled = LaunchConfiguration("serial_referee_rx_enabled")
+    serial_referee_raw_topic = LaunchConfiguration("serial_referee_raw_topic")
     use_rviz = LaunchConfiguration("use_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     update_method = LaunchConfiguration("update_method")
@@ -207,6 +224,10 @@ def generate_launch_description():
         DeclareLaunchArgument("serial_max_vx", default_value="0.50"),
         DeclareLaunchArgument("serial_max_vy", default_value="0.50"),
         DeclareLaunchArgument("serial_max_wz", default_value="1.20"),
+        DeclareLaunchArgument("serial_referee_rx_enabled", default_value="false"),
+        DeclareLaunchArgument(
+            "serial_referee_raw_topic", default_value="/referee/state_raw"
+        ),
         DeclareLaunchArgument("update_method", default_value="bundle"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
@@ -383,6 +404,8 @@ def generate_launch_description():
                 "max_vx": serial_max_vx,
                 "max_vy": serial_max_vy,
                 "max_wz": serial_max_wz,
+                "referee_rx_enabled": serial_referee_rx_enabled,
+                "referee_raw_topic": serial_referee_raw_topic,
             }.items(),
         ),
         Node(

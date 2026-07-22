@@ -260,4 +260,60 @@ void StreamDecoder::clear()
 }
 
 }  // namespace hpm_crc_v1
+
+namespace hpm_referee_v1
+{
+namespace
+{
+
+std::uint16_t read_u16_le(const std::uint8_t * input)
+{
+  return static_cast<std::uint16_t>(
+    static_cast<std::uint16_t>(input[0]) |
+    (static_cast<std::uint16_t>(input[1]) << 8U));
+}
+
+float read_float_le(const std::uint8_t * input)
+{
+  const std::uint32_t bits =
+    static_cast<std::uint32_t>(input[0]) |
+    (static_cast<std::uint32_t>(input[1]) << 8U) |
+    (static_cast<std::uint32_t>(input[2]) << 16U) |
+    (static_cast<std::uint32_t>(input[3]) << 24U);
+  float value = 0.0F;
+  std::memcpy(&value, &bits, sizeof(value));
+  return value;
+}
+
+}  // namespace
+
+std::optional<Feedback> decode_feedback(const hpm_crc_v1::Frame & frame)
+{
+  if (frame.payload.size() != kFeedbackPayloadSize) {
+    return std::nullopt;
+  }
+
+  const auto * data = frame.payload.data();
+  Feedback feedback;
+  feedback.yaw = read_float_le(data + 0);
+  feedback.target_position_x = read_float_le(data + 4);
+  feedback.target_position_y = read_float_le(data + 8);
+  feedback.game_progress = data[12];
+  feedback.stage_remain_time = read_u16_le(data + 13);
+  feedback.red_outpost_hp = read_u16_le(data + 15);
+  feedback.blue_outpost_hp = read_u16_le(data + 17);
+  feedback.robot_id = data[19];
+  feedback.current_hp = read_u16_le(data + 20);
+  feedback.projectile_allowance_17mm = read_u16_le(data + 22);
+  feedback.remaining_gold_coin = read_u16_le(data + 24);
+  std::copy_n(data + 26, feedback.sentry_info.size(), feedback.sentry_info.begin());
+  feedback.keyboard_command = data[30];
+  feedback.target_distance = read_float_le(data + 31);
+  feedback.life = data[35];
+  feedback.chassis_detect_error = data[36];
+  feedback.redundancy = read_float_le(data + 37);
+  return feedback;
+}
+
+}  // namespace hpm_referee_v1
 }  // namespace rm_serial_driver

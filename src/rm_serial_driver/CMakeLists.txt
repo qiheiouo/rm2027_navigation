@@ -11,6 +11,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rm_competition_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
 
 add_library(rm_serial_protocol src/protocol.cpp)
@@ -32,6 +33,7 @@ target_link_libraries(serial_transport_node rm_serial_protocol)
 ament_target_dependencies(serial_transport_node
   geometry_msgs
   rclcpp
+  rm_competition_interfaces
 )
 
 install(TARGETS rm_serial_protocol

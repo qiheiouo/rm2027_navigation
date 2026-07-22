@@ -72,6 +72,50 @@ A future new CRC format still requires coordinated versioning. The existing
 `hpm_crc_v1` codec records a discovered historical format; it does not prove
 that the 2027 firmware uses it.
 
+## Confirmed Old-Car Lower-to-Upper Feedback
+
+On 2026-07-22 the user confirmed that the supplied `computer_task.c/.h` and
+`crc_16.c/.h` are the firmware currently flashed on the old car. The feedback
+frame is packed with `#pragma pack(1)` and has this envelope:
+
+```text
+0       header 0x3e
+1       payload length 41
+2..42   packed feedback payload
+43      payload-only Modbus CRC16 low byte
+44      payload-only Modbus CRC16 high byte
+```
+
+The CRC implementation is equivalent to `hpm_crc_v1`: polynomial `0xA001`,
+initial value `0xFFFF`, payload-only coverage and low byte first. The packed
+payload offsets are:
+
+| Offset | Type | Field |
+| ---: | --- | --- |
+| 0 | float32 | yaw |
+| 4 | float32 | target position x |
+| 8 | float32 | target position y |
+| 12 | uint8 | game progress |
+| 13 | uint16 | stage remaining time |
+| 15 | uint16 | red outpost HP |
+| 17 | uint16 | blue outpost HP |
+| 19 | uint8 | robot ID |
+| 20 | uint16 | current HP |
+| 22 | uint16 | 17 mm projectile allowance |
+| 24 | uint16 | remaining gold coin |
+| 26 | uint8[4] | sentry information bytes |
+| 30 | uint8 | keyboard command |
+| 31 | float32 | target distance |
+| 35 | uint8 | life |
+| 36 | uint8 | chassis detection error |
+| 37 | float32 | redundancy field |
+
+The firmware uploads one feedback frame only after accepting a CRC-valid upper
+command. Therefore referee receive requires the `hpm_crc_v1` transmit profile.
+The frame has no source timestamp, sequence number or explicit referee-valid
+bit. The host stamps it on receipt and treats robot ID zero as source-invalid;
+`rm_referee_interface` remains responsible for range and freshness rejection.
+
 ## Historical Upper-Bound Feedback
 
 An early old-system revision decoded six IMU floats, chassis yaw, three `C_odom` floats, operator target coordinates, and referee fields. The three `C_odom` values were treated as chassis `vx/vy/wz`, not as four individual wheel encoder values.

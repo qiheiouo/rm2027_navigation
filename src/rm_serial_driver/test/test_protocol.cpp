@@ -1,6 +1,7 @@
 #include "rm_serial_driver/protocol.hpp"
 
 #include <cstdint>
+#include <cstring>
 #include <limits>
 #include <vector>
 
@@ -8,6 +9,28 @@
 
 namespace legacy = rm_serial_driver::legacy_v1;
 namespace hpm = rm_serial_driver::hpm_crc_v1;
+namespace referee = rm_serial_driver::hpm_referee_v1;
+
+namespace
+{
+
+void append_u16_le(std::vector<std::uint8_t> & bytes, std::uint16_t value)
+{
+  bytes.push_back(static_cast<std::uint8_t>(value & 0xffU));
+  bytes.push_back(static_cast<std::uint8_t>((value >> 8U) & 0xffU));
+}
+
+void append_float_le(std::vector<std::uint8_t> & bytes, float value)
+{
+  std::uint32_t bits = 0;
+  std::memcpy(&bits, &value, sizeof(bits));
+  bytes.push_back(static_cast<std::uint8_t>(bits & 0xffU));
+  bytes.push_back(static_cast<std::uint8_t>((bits >> 8U) & 0xffU));
+  bytes.push_back(static_cast<std::uint8_t>((bits >> 16U) & 0xffU));
+  bytes.push_back(static_cast<std::uint8_t>((bits >> 24U) & 0xffU));
+}
+
+}  // namespace
 
 TEST(LegacyProtocol, EncodesKnownCommandLayout)
 {
@@ -192,4 +215,67 @@ TEST(HpmCrcProtocol, ResynchronizesAfterCorruptedFrame)
   ASSERT_EQ(frame.payload.size(), hpm::kCommandPayloadSize);
   EXPECT_EQ(frame.payload[12], 0x42);
   EXPECT_EQ(decoder.buffered_size(), 0U);
+}
+
+TEST(HpmRefereeProtocol, DecodesCurrentFlashedFeedbackLayout)
+{
+  std::vector<std::uint8_t> payload;
+  append_float_le(payload, 1.25F);
+  append_float_le(payload, 2.5F);
+  append_float_le(payload, -3.75F);
+  payload.push_back(4);
+  append_u16_le(payload, 299);
+  append_u16_le(payload, 1200);
+  append_u16_le(payload, 1100);
+  payload.push_back(107);
+  append_u16_le(payload, 400);
+  append_u16_le(payload, 88);
+  append_u16_le(payload, 25);
+  payload.insert(payload.end(), {1, 2, 3, 4});
+  payload.push_back(5);
+  append_float_le(payload, 6.5F);
+  payload.push_back(1);
+  payload.push_back(0);
+  append_float_le(payload, 7.5F);
+  ASSERT_EQ(payload.size(), referee::kFeedbackPayloadSize);
+
+  std::vector<std::uint8_t> bytes{legacy::kFrameHeader, referee::kFeedbackPayloadSize};
+  bytes.insert(bytes.end(), payload.begin(), payload.end());
+  const auto crc = hpm::crc16_modbus(payload.data(), payload.size());
+  bytes.push_back(static_cast<std::uint8_t>(crc & 0xffU));
+  bytes.push_back(static_cast<std::uint8_t>((crc >> 8U) & 0xffU));
+  ASSERT_EQ(bytes.size(), referee::kFeedbackFrameSize);
+
+  hpm::StreamDecoder stream;
+  stream.append(bytes.data(), 7);
+  hpm::Frame frame;
+  EXPECT_FALSE(stream.pop(frame));
+  stream.append(bytes.data() + 7, bytes.size() - 7);
+  ASSERT_TRUE(stream.pop(frame));
+  const auto feedback = referee::decode_feedback(frame);
+  ASSERT_TRUE(feedback.has_value());
+  EXPECT_FLOAT_EQ(feedback->yaw, 1.25F);
+  EXPECT_FLOAT_EQ(feedback->target_position_x, 2.5F);
+  EXPECT_FLOAT_EQ(feedback->target_position_y, -3.75F);
+  EXPECT_EQ(feedback->game_progress, 4);
+  EXPECT_EQ(feedback->stage_remain_time, 299);
+  EXPECT_EQ(feedback->red_outpost_hp, 1200);
+  EXPECT_EQ(feedback->blue_outpost_hp, 1100);
+  EXPECT_EQ(feedback->robot_id, 107);
+  EXPECT_EQ(feedback->current_hp, 400);
+  EXPECT_EQ(feedback->projectile_allowance_17mm, 88);
+  EXPECT_EQ(feedback->remaining_gold_coin, 25);
+  EXPECT_EQ(feedback->sentry_info, (std::array<std::uint8_t, 4>{1, 2, 3, 4}));
+  EXPECT_EQ(feedback->keyboard_command, 5);
+  EXPECT_FLOAT_EQ(feedback->target_distance, 6.5F);
+  EXPECT_EQ(feedback->life, 1);
+  EXPECT_EQ(feedback->chassis_detect_error, 0);
+  EXPECT_FLOAT_EQ(feedback->redundancy, 7.5F);
+}
+
+TEST(HpmRefereeProtocol, RejectsWrongPayloadSize)
+{
+  hpm::Frame frame;
+  frame.payload.resize(referee::kFeedbackPayloadSize - 1);
+  EXPECT_FALSE(referee::decode_feedback(frame).has_value());
 }

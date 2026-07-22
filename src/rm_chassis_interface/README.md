@@ -28,5 +28,5 @@ The old serial protocol is a hardware asset and should be migrated later into `r
 `chassis_mode_gate_node` is the separate lower-controller authority boundary.
 It validates `/chassis/mode_raw`, publishes latched `/chassis/mode`, and turns
 stale or inconsistent state into offline emergency-stop state. It does not
-publish velocity. The current write-only serial transport is not yet a real
-producer for this input.
+publish velocity. The serial receiver now decodes referee feedback only; it is
+still not a real producer for `/chassis/mode_raw`.

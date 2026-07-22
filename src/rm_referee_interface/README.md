@@ -4,10 +4,10 @@
 publishes `/referee/state` plus latched `/referee/state_valid`. Stale, invalid
 or out-of-range input invalidates the boundary.
 
-The package intentionally does not decode bytes. The current serial transport
-is write-only, so the real 2027/old-car receive protocol remains a hardware
-contract gate. A future packet adapter may publish `/referee/state_raw` without
-changing mission consumers.
+The package intentionally does not decode bytes. For the confirmed old-car HPM
+profile, `rm_serial_driver/serial_transport_node` validates the 45-byte feedback
+frame and publishes `/referee/state_raw`; this package continues to own range,
+timestamp and freshness validation before mission consumers see the data.
 
 No-hardware source:
 

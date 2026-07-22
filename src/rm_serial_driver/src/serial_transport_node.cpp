@@ -18,6 +18,7 @@
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "rm_competition_interfaces/msg/referee_state.hpp"
 #include "rm_serial_driver/protocol.hpp"
 
 namespace
@@ -141,6 +142,19 @@ public:
     return true;
   }
 
+  ssize_t read_some(std::uint8_t * bytes, std::size_t capacity, std::string & error)
+  {
+    const ssize_t ret = ::read(fd_, bytes, capacity);
+    if (ret >= 0) {
+      return ret;
+    }
+    if (errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
+      return 0;
+    }
+    error = std::strerror(errno);
+    return -1;
+  }
+
 private:
   void close()
   {
@@ -180,12 +194,29 @@ public:
       static_cast<std::uint8_t>(declare_parameter<int>("bullet_command", 0));
     allow_restart_ =
       static_cast<std::uint8_t>(declare_parameter<int>("allow_restart", 0));
+    referee_rx_enabled_ = declare_parameter<bool>("referee_rx_enabled", false);
+    referee_raw_topic_ =
+      declare_parameter<std::string>("referee_raw_topic", "/referee/state_raw");
+    read_poll_rate_hz_ = declare_parameter<double>("read_poll_rate_hz", 200.0);
+    blue_team_robot_id_min_ =
+      declare_parameter<int>("blue_team_robot_id_min", 100);
 
     if (!std::isfinite(publish_rate_hz_) || publish_rate_hz_ <= 0.0) {
       throw std::runtime_error("publish_rate_hz must be positive and finite");
     }
     if (!std::isfinite(cmd_vel_timeout_sec_) || cmd_vel_timeout_sec_ < 0.0) {
       throw std::runtime_error("cmd_vel_timeout_sec must be finite and non-negative");
+    }
+    if (!std::isfinite(read_poll_rate_hz_) || read_poll_rate_hz_ <= 0.0) {
+      throw std::runtime_error("read_poll_rate_hz must be positive and finite");
+    }
+    if (blue_team_robot_id_min_ <= 0 || blue_team_robot_id_min_ > 255) {
+      throw std::runtime_error("blue_team_robot_id_min must be in [1, 255]");
+    }
+    if (referee_rx_enabled_ && protocol_profile_ != ProtocolProfile::HpmPayloadCrc) {
+      throw std::runtime_error(
+              "referee_rx_enabled requires protocol_profile:=hpm_crc_v1 because the "
+              "currently flashed lower controller only replies to CRC-valid commands");
     }
 
     serial_ = std::make_unique<PosixSerialPort>(device_, baudrate_);
@@ -200,12 +231,22 @@ public:
         std::chrono::duration<double>(1.0 / publish_rate_hz_)),
       std::bind(&SerialTransportNode::writeFrame, this));
 
+    if (referee_rx_enabled_) {
+      referee_pub_ = create_publisher<rm_competition_interfaces::msg::RefereeState>(
+        referee_raw_topic_, rclcpp::QoS(10));
+      read_timer_ = create_wall_timer(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(
+          std::chrono::duration<double>(1.0 / read_poll_rate_hz_)),
+        std::bind(&SerialTransportNode::readFrames, this));
+    }
+
     RCLCPP_WARN(
       get_logger(),
       "REAL SERIAL TRANSPORT ENABLED: device=%s baudrate=%d profile=%s "
-      "limits=(%.3f, %.3f, %.3f). This node writes bytes to the lower controller "
-      "but publishes no TF, odometry, referee state, or navigation goals.",
-      device_.c_str(), baudrate_, protocol_profile_text_.c_str(), max_vx_, max_vy_, max_wz_);
+      "limits=(%.3f, %.3f, %.3f) referee_rx=%s. This node owns serial bytes only "
+      "and publishes no TF, odometry, or navigation goals.",
+      device_.c_str(), baudrate_, protocol_profile_text_.c_str(), max_vx_, max_vy_, max_wz_,
+      referee_rx_enabled_ ? "true" : "false");
   }
 
 private:
@@ -272,6 +313,57 @@ private:
     }
   }
 
+  void readFrames()
+  {
+    std::array<std::uint8_t, 512> bytes{};
+    for (int attempt = 0; attempt < 8; ++attempt) {
+      std::string error;
+      const ssize_t count = serial_->read_some(bytes.data(), bytes.size(), error);
+      if (count < 0) {
+        RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 1000,
+          "Failed to read serial feedback from %s: %s", device_.c_str(), error.c_str());
+        return;
+      }
+      if (count == 0) {
+        break;
+      }
+      feedback_stream_.append(bytes.data(), static_cast<std::size_t>(count));
+    }
+
+    rm_serial_driver::hpm_crc_v1::Frame frame;
+    while (feedback_stream_.pop(frame)) {
+      const auto feedback = rm_serial_driver::hpm_referee_v1::decode_feedback(frame);
+      if (!feedback.has_value()) {
+        RCLCPP_DEBUG(
+          get_logger(), "Ignoring CRC-valid lower-controller payload of length %zu",
+          frame.payload.size());
+        continue;
+      }
+      publishRefereeState(*feedback);
+    }
+  }
+
+  void publishRefereeState(const rm_serial_driver::hpm_referee_v1::Feedback & feedback)
+  {
+    rm_competition_interfaces::msg::RefereeState message;
+    message.header.stamp = get_clock()->now();
+    message.valid = feedback.robot_id != 0U;
+    message.game_progress = feedback.game_progress;
+    message.stage_remain_time = feedback.stage_remain_time;
+    message.robot_id = feedback.robot_id;
+    message.current_hp = feedback.current_hp;
+    const bool blue_team =
+      static_cast<int>(feedback.robot_id) >= blue_team_robot_id_min_;
+    message.self_outpost_hp =
+      blue_team ? feedback.blue_outpost_hp : feedback.red_outpost_hp;
+    message.enemy_outpost_hp =
+      blue_team ? feedback.red_outpost_hp : feedback.blue_outpost_hp;
+    message.projectile_allowance_17mm = feedback.projectile_allowance_17mm;
+    message.remaining_gold_coin = feedback.remaining_gold_coin;
+    referee_pub_->publish(message);
+  }
+
   std::string cmd_vel_topic_;
   std::string device_;
   int baudrate_;
@@ -286,12 +378,19 @@ private:
   std::uint8_t remake_command_;
   std::uint8_t bullet_command_;
   std::uint8_t allow_restart_;
+  bool referee_rx_enabled_;
+  std::string referee_raw_topic_;
+  double read_poll_rate_hz_;
+  int blue_team_robot_id_min_;
   std::uint8_t sequence_ = 0;
   rm_serial_driver::legacy_v1::Command latest_command_;
   std::chrono::steady_clock::time_point last_cmd_time_;
   std::unique_ptr<PosixSerialPort> serial_;
+  rm_serial_driver::hpm_crc_v1::StreamDecoder feedback_stream_;
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
+  rclcpp::Publisher<rm_competition_interfaces::msg::RefereeState>::SharedPtr referee_pub_;
   rclcpp::TimerBase::SharedPtr timer_;
+  rclcpp::TimerBase::SharedPtr read_timer_;
 };
 
 int main(int argc, char ** argv)

@@ -94,6 +94,42 @@ private:
 };
 
 }  // namespace hpm_crc_v1
+
+namespace hpm_referee_v1
+{
+
+constexpr std::size_t kFeedbackPayloadSize = 41;
+constexpr std::size_t kFeedbackFrameSize =
+  2 + kFeedbackPayloadSize + hpm_crc_v1::kCrcSize;
+
+// Packed lower-to-upper payload used by the currently flashed old-car HPM
+// firmware. Integer and IEEE-754 float fields are little-endian on the wire.
+struct Feedback
+{
+  float yaw = 0.0F;
+  float target_position_x = 0.0F;
+  float target_position_y = 0.0F;
+  std::uint8_t game_progress = 0;
+  std::uint16_t stage_remain_time = 0;
+  std::uint16_t red_outpost_hp = 0;
+  std::uint16_t blue_outpost_hp = 0;
+  std::uint8_t robot_id = 0;
+  std::uint16_t current_hp = 0;
+  std::uint16_t projectile_allowance_17mm = 0;
+  std::uint16_t remaining_gold_coin = 0;
+  std::array<std::uint8_t, 4> sentry_info{};
+  std::uint8_t keyboard_command = 0;
+  float target_distance = 0.0F;
+  std::uint8_t life = 0;
+  std::uint8_t chassis_detect_error = 0;
+  float redundancy = 0.0F;
+};
+
+// The enclosing hpm_crc_v1::StreamDecoder must validate the payload CRC before
+// this semantic decoder is called.
+std::optional<Feedback> decode_feedback(const hpm_crc_v1::Frame & frame);
+
+}  // namespace hpm_referee_v1
 }  // namespace rm_serial_driver
 
 #endif  // RM_SERIAL_DRIVER__PROTOCOL_HPP_

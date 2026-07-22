@@ -25,6 +25,7 @@ def _validate_competition_profile(context, *args, **kwargs):
     use_lio = _as_bool(context, "use_lio_backend")
     use_nav2 = _as_bool(context, "use_nav2")
     use_real_serial = _as_bool(context, "use_real_serial")
+    serial_referee_rx = _as_bool(context, "serial_referee_rx_enabled")
     use_map_server = _as_bool(context, "use_map_server")
     use_mission = _as_bool(context, "use_mission")
     use_referee = _as_bool(context, "use_referee_interface")
@@ -40,6 +41,7 @@ def _validate_competition_profile(context, *args, **kwargs):
     allow_provisional_dual = _as_bool(context, "allow_provisional_dual_extrinsic")
     backend = LaunchConfiguration("relocalization_backend").perform(context)
     policy = LaunchConfiguration("map_acceptance_policy").perform(context)
+    serial_profile = LaunchConfiguration("serial_protocol_profile").perform(context)
 
     if use_driver and not use_lio:
         raise RuntimeError("competition hardware driver requires use_lio_backend:=true")
@@ -57,6 +59,17 @@ def _validate_competition_profile(context, *args, **kwargs):
         )
     if use_real_serial and policy == "allow_test":
         raise RuntimeError("real serial must not run with synthetic test map assets")
+    if serial_referee_rx and not (use_real_serial and use_referee):
+        raise RuntimeError(
+            "serial referee receive requires real serial and referee interface"
+        )
+    if serial_referee_rx and use_referee_mock:
+        raise RuntimeError("real serial referee receive cannot be combined with referee mock")
+    if serial_referee_rx and serial_profile != "hpm_crc_v1":
+        raise RuntimeError(
+            "the currently flashed referee upload requires "
+            "serial_protocol_profile:=hpm_crc_v1"
+        )
     if use_mission and (not use_nav2 or backend == "none" or not use_referee):
         raise RuntimeError(
             "mission requires Nav2, a real relocalization backend, and referee interface"
@@ -157,6 +170,8 @@ def generate_launch_description():
     serial_max_vx = LaunchConfiguration("serial_max_vx")
     serial_max_vy = LaunchConfiguration("serial_max_vy")
     serial_max_wz = LaunchConfiguration("serial_max_wz")
+    serial_protocol_profile = LaunchConfiguration("serial_protocol_profile")
+    serial_referee_rx_enabled = LaunchConfiguration("serial_referee_rx_enabled")
 
     share = FindPackageShare("rm_navigation_bringup")
     old_car_launch = PathJoinSubstitution([share, "launch", "old_car_2026_validation.launch.py"])
@@ -269,6 +284,12 @@ def generate_launch_description():
         DeclareLaunchArgument("serial_max_vx", default_value="0.50"),
         DeclareLaunchArgument("serial_max_vy", default_value="0.50"),
         DeclareLaunchArgument("serial_max_wz", default_value="1.20"),
+        DeclareLaunchArgument(
+            "serial_protocol_profile",
+            default_value="hpm_crc_v1",
+            choices=["legacy_v1_no_crc", "hpm_crc_v1"],
+        ),
+        DeclareLaunchArgument("serial_referee_rx_enabled", default_value="false"),
         DeclareLaunchArgument("use_referee_interface", default_value="false"),
         DeclareLaunchArgument("use_referee_mock", default_value="false"),
         DeclareLaunchArgument("referee_mock_game_progress", default_value="4"),
@@ -321,12 +342,14 @@ def generate_launch_description():
                 "nav2_params": nav2_params,
                 "pointcloud_filter_enabled": "true",
                 "publish_transformed_registered_cloud": gicp_enabled,
-                "serial_protocol_profile": "legacy_v1_no_crc",
+                "serial_protocol_profile": serial_protocol_profile,
                 "serial_device": serial_device,
                 "serial_baudrate": serial_baudrate,
                 "serial_max_vx": serial_max_vx,
                 "serial_max_vy": serial_max_vy,
                 "serial_max_wz": serial_max_wz,
+                "serial_referee_rx_enabled": serial_referee_rx_enabled,
+                "serial_referee_raw_topic": "/referee/state_raw",
             }.items(),
         ),
         IncludeLaunchDescription(

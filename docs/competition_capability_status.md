@@ -15,7 +15,7 @@ validated for competition.
 | 3D relocalization | Seeded PCL GICP -> global-pose bridge | Explicit `gicp_3d` | Real PCD, fitness thresholds and coarse prior |
 | Map deployment | Approved/candidate/test policies with hash validation | `approved_only` | fresh03 is a validated occupancy-only candidate, not approved and not a GICP asset |
 | Dual lidar | Single left LIO plus dual filtered obstacle PointCloud2 fusion | Disabled | Right extrinsic, time sync, alignment and resources |
-| Referee state | Normalized message, freshness/range gate and mock | Disabled | Real receive-frame parser/producer |
+| Referee state | Confirmed HPM feedback parser -> normalized message -> freshness/range gate | Disabled | Real serial observation intentionally not run |
 | Chassis authority | Manual/auto/estop consistency and freshness gate | Disabled | Deferred for current old-car scope; remote control remains external physical authority |
 | Pursuit | Target-track validation, TF, prediction and standoff candidate | Disabled | Auto-aim producer and competition tuning |
 | Mission behavior | BehaviorTree.CPP hold/home/pursuit/patrol plus isolated three-point Spin candidate | Disabled, safe config has no points | Candidate dwell-spin and low-HP home have field smoke evidence; low-projectile home, final points, real state input and match soak remain |
@@ -23,8 +23,9 @@ validated for competition.
 
 ## Deliberately Not Claimed
 
-1. Real lower-controller competition-state decoding is not present because the
-   current serial transport is write-only.
+1. Real lower-controller competition-state decoding is implemented from the
+   confirmed currently flashed firmware, but no live serial acceptance was run
+   in this implementation turn.
 2. Real target tracking is not present; the mock is only an interface test.
 3. Dual-lidar LIO is not selected. Dual sensors currently enhance obstacle
    coverage without changing the verified left-lidar localization source.
@@ -43,8 +44,8 @@ validated for competition.
    restart rejected OctoMap cleanup experiments without new evidence.
 3. Preserve the successful old-car high-spin A/B result while keeping the
    candidate explicit until the competition profile is finalized.
-4. Add and validate the real lower-controller competition-state serial parser with
-   mission disabled.
+4. Validate the lower-controller competition-state serial parser on the live
+   link with mission disabled.
 5. Add low-projectile home behavior and configure reviewed field poses; keep
    the existing patrol/spin candidate as the reference implementation.
 6. Validate the complete mission at low speed and run a match-duration soak.

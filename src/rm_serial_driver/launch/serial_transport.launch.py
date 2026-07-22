@@ -15,6 +15,9 @@ def generate_launch_description():
     max_vx = LaunchConfiguration("max_vx")
     max_vy = LaunchConfiguration("max_vy")
     max_wz = LaunchConfiguration("max_wz")
+    referee_rx_enabled = LaunchConfiguration("referee_rx_enabled")
+    referee_raw_topic = LaunchConfiguration("referee_raw_topic")
+    read_poll_rate_hz = LaunchConfiguration("read_poll_rate_hz")
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -30,6 +33,9 @@ def generate_launch_description():
         DeclareLaunchArgument("max_vx", default_value="0.15"),
         DeclareLaunchArgument("max_vy", default_value="0.15"),
         DeclareLaunchArgument("max_wz", default_value="0.30"),
+        DeclareLaunchArgument("referee_rx_enabled", default_value="false"),
+        DeclareLaunchArgument("referee_raw_topic", default_value="/referee/state_raw"),
+        DeclareLaunchArgument("read_poll_rate_hz", default_value="200.0"),
         LogInfo(msg=[
             "[serial_transport] REAL serial writer requested. device=",
             device,
@@ -52,6 +58,13 @@ def generate_launch_description():
                 "max_vx": ParameterValue(max_vx, value_type=float),
                 "max_vy": ParameterValue(max_vy, value_type=float),
                 "max_wz": ParameterValue(max_wz, value_type=float),
+                "referee_rx_enabled": ParameterValue(
+                    referee_rx_enabled, value_type=bool
+                ),
+                "referee_raw_topic": referee_raw_topic,
+                "read_poll_rate_hz": ParameterValue(
+                    read_poll_rate_hz, value_type=float
+                ),
             }],
         ),
     ])
