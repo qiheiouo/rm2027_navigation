@@ -116,6 +116,14 @@ The frame has no source timestamp, sequence number or explicit referee-valid
 bit. The host stamps it on receipt and treats robot ID zero as source-invalid;
 `rm_referee_interface` remains responsible for range and freshness rejection.
 
+The target-position floats have no confirmed units, origin, alliance transform
+or new-command marker in this packet. When explicitly enabled, the serial
+adapter may expose them on `/operator/navigation_target_raw` with coordinate
+system `UNKNOWN`. It must not convert them into a navigation goal. Historical
+red/blue field conversion is recorded in
+`docs/phase3e_operator_navigation_target_boundary.md` for later protocol
+confirmation.
+
 ## Historical Upper-Bound Feedback
 
 An early old-system revision decoded six IMU floats, chassis yaw, three `C_odom` floats, operator target coordinates, and referee fields. The three `C_odom` values were treated as chassis `vx/vy/wz`, not as four individual wheel encoder values.
@@ -154,3 +162,5 @@ Wheel-derived twist is optional feedback for diagnostics, slip detection, or fut
 `rm_serial_driver` owns byte framing, serial IO in Phase 2, and protocol statistics. `rm_chassis_interface` owns command safety, chassis packet semantics, wheel kinematics, and public chassis feedback. `rm_referee_interface` owns referee-field interpretation.
 
 No serial-related module may publish localization TF or call Nav2 directly.
+Publishing the untrusted raw operator target does not transfer navigation-goal
+ownership to the serial driver.

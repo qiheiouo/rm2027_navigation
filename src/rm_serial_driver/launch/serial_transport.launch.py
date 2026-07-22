@@ -17,6 +17,11 @@ def generate_launch_description():
     max_wz = LaunchConfiguration("max_wz")
     referee_rx_enabled = LaunchConfiguration("referee_rx_enabled")
     referee_raw_topic = LaunchConfiguration("referee_raw_topic")
+    operator_goal_rx_enabled = LaunchConfiguration("operator_goal_rx_enabled")
+    operator_goal_raw_topic = LaunchConfiguration("operator_goal_raw_topic")
+    operator_goal_coordinate_system = LaunchConfiguration(
+        "operator_goal_coordinate_system"
+    )
     read_poll_rate_hz = LaunchConfiguration("read_poll_rate_hz")
 
     return LaunchDescription([
@@ -35,6 +40,16 @@ def generate_launch_description():
         DeclareLaunchArgument("max_wz", default_value="0.30"),
         DeclareLaunchArgument("referee_rx_enabled", default_value="false"),
         DeclareLaunchArgument("referee_raw_topic", default_value="/referee/state_raw"),
+        DeclareLaunchArgument("operator_goal_rx_enabled", default_value="false"),
+        DeclareLaunchArgument(
+            "operator_goal_raw_topic",
+            default_value="/operator/navigation_target_raw",
+        ),
+        DeclareLaunchArgument(
+            "operator_goal_coordinate_system",
+            default_value="unknown",
+            choices=["unknown", "referee_field", "map"],
+        ),
         DeclareLaunchArgument("read_poll_rate_hz", default_value="200.0"),
         LogInfo(msg=[
             "[serial_transport] REAL serial writer requested. device=",
@@ -62,6 +77,11 @@ def generate_launch_description():
                     referee_rx_enabled, value_type=bool
                 ),
                 "referee_raw_topic": referee_raw_topic,
+                "operator_goal_rx_enabled": ParameterValue(
+                    operator_goal_rx_enabled, value_type=bool
+                ),
+                "operator_goal_raw_topic": operator_goal_raw_topic,
+                "operator_goal_coordinate_system": operator_goal_coordinate_system,
                 "read_poll_rate_hz": ParameterValue(
                     read_poll_rate_hz, value_type=float
                 ),

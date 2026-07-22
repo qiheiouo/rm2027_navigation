@@ -36,9 +36,10 @@
 | `/chassis/mode_raw` | `rm_competition_interfaces/msg/ChassisMode` | future lower-controller receive adapter | `chassis_mode_gate` | Untrusted timestamped authority candidate |
 | `/chassis/mode` | `rm_competition_interfaces/msg/ChassisMode` | `chassis_mode_gate` | mission/BT, readiness monitor | Fresh, internally consistent manual/autonomous/emergency authority state |
 | `/chassis/mode_valid` | `std_msgs/msg/Bool` | `chassis_mode_gate` | diagnostics | Latched freshness and consistency of chassis authority input |
-| `/referee/state_raw` | `rm_competition_interfaces/msg/RefereeState` | future serial/referee decoder or explicit mock | `referee_state_gate` | Untrusted normalized referee candidate; never consumed directly by mission logic |
+| `/referee/state_raw` | `rm_competition_interfaces/msg/RefereeState` | old-car serial feedback adapter or explicit mock | `referee_state_gate` | Untrusted normalized referee candidate; never consumed directly by mission logic |
 | `/referee/state` | `rm_competition_interfaces/msg/RefereeState` | `referee_state_gate` | mission/BT, diagnostics | Fresh, range-checked competition state; not a navigation command |
 | `/referee/state_valid` | `std_msgs/msg/Bool` | `referee_state_gate` | mission/BT, diagnostics | Latched referee freshness and validation result |
+| `/operator/navigation_target_raw` | `rm_competition_interfaces/msg/OperatorNavigationTarget` | optional serial feedback adapter | future coordinate/command gate, diagnostics | Raw untrusted target coordinates with explicit coordinate-system enum. It is not a Nav2 goal and grants no motion authority |
 | `/perception/target_track` | `rm_competition_interfaces/msg/TargetTrack` | armor/target perception adapter | pursuit boundary | Timestamped target estimate with frame, covariance, velocity, confidence and validity |
 | `/mission/pursuit_goal` | `geometry_msgs/msg/PoseStamped` | `pursuit_goal_planner` | competition mission/BT | Validated standoff candidate in `map`; it is not sent to Nav2 without mission authority |
 | `/mission/pursuit_goal_valid` | `std_msgs/msg/Bool` | `pursuit_goal_planner` | competition mission/BT, diagnostics | Latched freshness/quality/TF validity of the pursuit candidate |

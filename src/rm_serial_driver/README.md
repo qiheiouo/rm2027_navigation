@@ -15,6 +15,9 @@ This package currently provides only:
 - an optional parser for the currently flashed old-car 45-byte HPM feedback
   frame. After payload CRC validation it publishes normalized
   `/referee/state_raw` for `rm_referee_interface`;
+- an independent, disabled-by-default raw operator target publisher on
+  `/operator/navigation_target_raw`. It preserves the packet coordinates and
+  never calls Nav2;
 - unit tests for framing, little-endian floats, CRC vectors, corruption,
   fragmentation, and resynchronization.
 
@@ -29,8 +32,8 @@ CRC remains an explicit protocol profile, not an automatic upgrade. Referee
 receive is rejected unless `protocol_profile:=hpm_crc_v1` is selected.
 
 This package must never publish TF, odometry, navigation goals or behavior
-commands. It only publishes the byte-adapter boundary `/referee/state_raw`;
-range and freshness validation remain in `rm_referee_interface`.
+commands. It publishes only byte-adapter boundaries; range, freshness,
+coordinate conversion and mission authority remain outside the serial driver.
 
 See `docs/contracts/serial_protocol_2027.md` for the known legacy layout and the unresolved four-wheel feedback requirements.
 
@@ -47,6 +50,15 @@ Old-car off-ground real-serial example:
 ros2 launch rm_serial_driver serial_transport.launch.py \
   protocol_profile:=hpm_crc_v1 device:=/dev/ttyACM0 baudrate:=115200 \
   referee_rx_enabled:=true
+```
+
+Raw operator-target inspection is a separate opt-in and must keep coordinate
+system `unknown` until the lower-controller contract is confirmed:
+
+```bash
+ros2 launch rm_serial_driver serial_transport.launch.py \
+  protocol_profile:=hpm_crc_v1 device:=/dev/ttyACM0 baudrate:=115200 \
+  operator_goal_rx_enabled:=true operator_goal_coordinate_system:=unknown
 ```
 
 Only run this with the wheels off the ground, the remote/manual stop ready, and

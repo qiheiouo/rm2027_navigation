@@ -33,6 +33,7 @@ SERIAL_BAUDRATE = "115200"
 SERIAL_MAX_VX = "3.0"
 SERIAL_MAX_VY = "3.0"
 SERIAL_MAX_WZ = "10.0"
+OPERATOR_GOAL_COORDINATE_SYSTEM = "unknown"
 
 FEATURES = set()
 FEATURES.add("driver")          # 左 MID360
@@ -49,6 +50,9 @@ FEATURES.add("mission")         # 指定 XML 的比赛行为树；启动后仍�
 # FEATURES.add("right_lidar")   # 必须与 dual_fusion 同时启用
 
 # 右雷达外参当前仍是 provisional。即使取消上面两行，也必须再次显式改为 True。
+# Optional raw operator target boundary. Keep disabled until units, origin,
+# alliance mirroring and command edge semantics are confirmed with firmware.
+# FEATURES.add("operator_goal_rx")
 ALLOW_PROVISIONAL_DUAL_EXTRINSIC = False
 # ==================================================================
 
@@ -79,6 +83,7 @@ def generate_launch_description():
     nav2_enabled = _enabled("nav2") and relocalization_enabled
     serial_enabled = _enabled("serial") and nav2_enabled and driver_enabled and lio_enabled
     referee_enabled = _enabled("referee")
+    operator_goal_rx_enabled = _enabled("operator_goal_rx") and serial_enabled
     mission_enabled = (
         _enabled("mission") and nav2_enabled and serial_enabled and referee_enabled
     )
@@ -175,6 +180,12 @@ def generate_launch_description():
                 "serial_protocol_profile": "hpm_crc_v1",
                 "serial_referee_rx_enabled": _bool_text(
                     serial_enabled and referee_enabled
+                ),
+                "serial_operator_goal_rx_enabled": _bool_text(
+                    operator_goal_rx_enabled
+                ),
+                "serial_operator_goal_coordinate_system": (
+                    OPERATOR_GOAL_COORDINATE_SYSTEM
                 ),
                 "serial_device": SERIAL_DEVICE,
                 "serial_baudrate": SERIAL_BAUDRATE,
