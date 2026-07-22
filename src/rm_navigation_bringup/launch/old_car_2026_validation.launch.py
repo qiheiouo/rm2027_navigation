@@ -84,6 +84,9 @@ def generate_launch_description():
     serial_protocol_profile = LaunchConfiguration("serial_protocol_profile")
     serial_device = LaunchConfiguration("serial_device")
     serial_baudrate = LaunchConfiguration("serial_baudrate")
+    serial_max_vx = LaunchConfiguration("serial_max_vx")
+    serial_max_vy = LaunchConfiguration("serial_max_vy")
+    serial_max_wz = LaunchConfiguration("serial_max_wz")
     use_rviz = LaunchConfiguration("use_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     update_method = LaunchConfiguration("update_method")
@@ -201,6 +204,9 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument("serial_device", default_value="/dev/ttyACM0"),
         DeclareLaunchArgument("serial_baudrate", default_value="115200"),
+        DeclareLaunchArgument("serial_max_vx", default_value="0.50"),
+        DeclareLaunchArgument("serial_max_vy", default_value="0.50"),
+        DeclareLaunchArgument("serial_max_wz", default_value="1.20"),
         DeclareLaunchArgument("update_method", default_value="bundle"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
@@ -374,9 +380,9 @@ def generate_launch_description():
                 "device": serial_device,
                 "baudrate": serial_baudrate,
                 "cmd_vel_topic": "/cmd_vel",
-                "max_vx": "0.50",
-                "max_vy": "0.50",
-                "max_wz": "1.20",
+                "max_vx": serial_max_vx,
+                "max_vy": serial_max_vy,
+                "max_wz": serial_max_wz,
             }.items(),
         ),
         Node(

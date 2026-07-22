@@ -1,0 +1,41 @@
+competition_mission_node:
+  ros__parameters:
+    # fresh03 candidate 专用高风险运动测试；必须显式选择配套 BT 和 Nav2 配置。
+    # 默认 hold 且不自动启用，不能作为比赛启动默认值。
+    startup_enabled: false
+    default_mode: hold
+    map_frame: map
+    navigate_action: /navigate_to_pose
+    spin_action: /spin
+    tick_rate_hz: 10.0
+    require_localization_valid: true
+    require_referee_state: true
+    require_game_running: true
+    require_chassis_mode: true
+    allow_pursuit: false
+    game_running_value: 4
+
+    # ShouldReturnHome 使用 <=；199 精确表达“HP < 200”。
+    retreat_hp_threshold: 199
+    goal_update_distance: 0.35
+    goal_update_yaw: 0.35
+    minimum_goal_update_sec: 0.5
+    goal_failure_retry_sec: 2.0
+    max_consecutive_goal_failures: 3
+
+    # Spin action 的目标角为 10 rad/s * 10 s = 100 rad。
+    # 实际角速度仍受 Nav2 behavior、velocity smoother 和下位机共同限制。
+    patrol_spin_angular_velocity: 10.0
+    patrol_spin_duration_sec: 10.0
+    spin_time_allowance_sec: 15.0
+    spin_failure_retry_sec: 2.0
+    max_consecutive_spin_failures: 3
+
+    # 当前 fresh03 地图上的候选点。离障碍/unknown 的离线净空至少 0.70 m；
+    # 点间保守自由区路径距离约为 3.25 m、3.90 m、6.05 m。
+    home_pose: [0.872, 0.469, -0.061]
+    patrol_waypoints: [
+      4.775, 2.075, 0.0,
+      2.575, 2.125, 3.141593,
+      0.575, 0.225, 3.141593,
+    ]

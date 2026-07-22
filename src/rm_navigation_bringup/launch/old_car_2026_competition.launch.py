@@ -149,9 +149,14 @@ def generate_launch_description():
     map_policy = LaunchConfiguration("map_acceptance_policy")
     nav2_params = LaunchConfiguration("nav2_params")
     relocalization_params = LaunchConfiguration("relocalization_params")
+    scan_projection_params = LaunchConfiguration("scan_projection_params")
     mission_config = LaunchConfiguration("mission_config")
+    mission_tree_xml = LaunchConfiguration("mission_tree_xml")
     serial_device = LaunchConfiguration("serial_device")
     serial_baudrate = LaunchConfiguration("serial_baudrate")
+    serial_max_vx = LaunchConfiguration("serial_max_vx")
+    serial_max_vy = LaunchConfiguration("serial_max_vy")
+    serial_max_wz = LaunchConfiguration("serial_max_wz")
 
     share = FindPackageShare("rm_navigation_bringup")
     old_car_launch = PathJoinSubstitution([share, "launch", "old_car_2026_validation.launch.py"])
@@ -194,6 +199,11 @@ def generate_launch_description():
         "config",
         "amcl_2d.yaml",
     ])
+    default_scan_projection_params = PathJoinSubstitution([
+        FindPackageShare("rm_relocalization_bridge"),
+        "config",
+        "pointcloud_to_scan_2d.yaml",
+    ])
     default_map = PathJoinSubstitution([
         FindPackageShare("rm_map_tools"),
         "maps",
@@ -202,6 +212,11 @@ def generate_launch_description():
     ])
     default_mission = PathJoinSubstitution([
         FindPackageShare("rm_competition_mission"), "config", "mission_safe.yaml"
+    ])
+    default_mission_tree = PathJoinSubstitution([
+        FindPackageShare("rm_competition_mission"),
+        "trees",
+        "competition_default.xml",
     ])
 
     external_localization = PythonExpression(["'", backend, "' != 'none'"])
@@ -245,8 +260,15 @@ def generate_launch_description():
             "relocalization_params",
             default_value=default_relocalization_params,
         ),
+        DeclareLaunchArgument(
+            "scan_projection_params",
+            default_value=default_scan_projection_params,
+        ),
         DeclareLaunchArgument("serial_device", default_value="/dev/ttyACM0"),
         DeclareLaunchArgument("serial_baudrate", default_value="115200"),
+        DeclareLaunchArgument("serial_max_vx", default_value="0.50"),
+        DeclareLaunchArgument("serial_max_vy", default_value="0.50"),
+        DeclareLaunchArgument("serial_max_wz", default_value="1.20"),
         DeclareLaunchArgument("use_referee_interface", default_value="false"),
         DeclareLaunchArgument("use_referee_mock", default_value="false"),
         DeclareLaunchArgument("referee_mock_game_progress", default_value="4"),
@@ -266,6 +288,7 @@ def generate_launch_description():
         DeclareLaunchArgument("use_chassis_mode_interface", default_value="false"),
         DeclareLaunchArgument("mission_startup_enabled", default_value="false"),
         DeclareLaunchArgument("mission_config", default_value=default_mission),
+        DeclareLaunchArgument("mission_tree_xml", default_value=default_mission_tree),
         DeclareLaunchArgument("use_dual_obstacle_fusion", default_value="false"),
         DeclareLaunchArgument("use_right_driver", default_value="false"),
         DeclareLaunchArgument("allow_provisional_dual_extrinsic", default_value="false"),
@@ -301,6 +324,9 @@ def generate_launch_description():
                 "serial_protocol_profile": "legacy_v1_no_crc",
                 "serial_device": serial_device,
                 "serial_baudrate": serial_baudrate,
+                "serial_max_vx": serial_max_vx,
+                "serial_max_vy": serial_max_vy,
+                "serial_max_wz": serial_max_wz,
             }.items(),
         ),
         IncludeLaunchDescription(
@@ -339,6 +365,7 @@ def generate_launch_description():
                 "pointcloud_topic": "/livox/left/pointcloud_filtered",
                 "scan_topic": "/localization/scan",
                 "map_topic": "/map",
+                "scan_projection_params": scan_projection_params,
                 "use_sim_time": use_sim_time,
             }.items(),
         ),
@@ -391,6 +418,7 @@ def generate_launch_description():
                 "require_chassis_mode": mission_requires_chassis,
                 "use_sim_time": use_sim_time,
                 "mission_config": mission_config,
+                "tree_xml": mission_tree_xml,
             }.items(),
         ),
         IncludeLaunchDescription(

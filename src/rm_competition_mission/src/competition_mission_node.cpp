@@ -13,6 +13,7 @@
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "nav2_msgs/action/navigate_to_pose.hpp"
+#include "nav2_msgs/action/spin.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "rm_competition_interfaces/msg/chassis_mode.hpp"
@@ -54,6 +55,8 @@ class CompetitionMissionNode : public rclcpp::Node
 public:
   using NavigateToPose = nav2_msgs::action::NavigateToPose;
   using GoalHandle = rclcpp_action::ClientGoalHandle<NavigateToPose>;
+  using Spin = nav2_msgs::action::Spin;
+  using SpinGoalHandle = rclcpp_action::ClientGoalHandle<Spin>;
 
   CompetitionMissionNode()
   : Node("competition_mission_node")
@@ -64,6 +67,7 @@ public:
     map_frame_ = declare_parameter<std::string>("map_frame", "map");
     navigate_action_ = declare_parameter<std::string>(
       "navigate_action", "/navigate_to_pose");
+    spin_action_ = declare_parameter<std::string>("spin_action", "/spin");
     tick_rate_hz_ = declare_parameter<double>("tick_rate_hz", 10.0);
     require_localization_valid_ = declare_parameter<bool>(
       "require_localization_valid", true);
@@ -79,6 +83,16 @@ public:
     goal_failure_retry_sec_ = declare_parameter<double>("goal_failure_retry_sec", 2.0);
     max_consecutive_goal_failures_ = declare_parameter<int>(
       "max_consecutive_goal_failures", 3);
+    patrol_spin_angular_velocity_ = declare_parameter<double>(
+      "patrol_spin_angular_velocity", 1.2);
+    patrol_spin_duration_sec_ = declare_parameter<double>(
+      "patrol_spin_duration_sec", 10.0);
+    spin_time_allowance_sec_ = declare_parameter<double>(
+      "spin_time_allowance_sec", 15.0);
+    spin_failure_retry_sec_ = declare_parameter<double>(
+      "spin_failure_retry_sec", 2.0);
+    max_consecutive_spin_failures_ = declare_parameter<int>(
+      "max_consecutive_spin_failures", 3);
     home_values_ = declare_parameter<std::vector<double>>(
       "home_pose", std::vector<double>{});
     patrol_values_ = declare_parameter<std::vector<double>>(
@@ -92,7 +106,10 @@ public:
     }
     if (tick_rate_hz_ <= 0.0 || goal_update_distance_ < 0.0 ||
       goal_update_yaw_ < 0.0 || minimum_goal_update_sec_ < 0.0 ||
-      goal_failure_retry_sec_ < 0.0 || max_consecutive_goal_failures_ < 1)
+      goal_failure_retry_sec_ < 0.0 || max_consecutive_goal_failures_ < 1 ||
+      patrol_spin_angular_velocity_ == 0.0 || patrol_spin_duration_sec_ <= 0.0 ||
+      spin_time_allowance_sec_ < patrol_spin_duration_sec_ ||
+      spin_failure_retry_sec_ < 0.0 || max_consecutive_spin_failures_ < 1)
     {
       throw std::invalid_argument("mission timing and goal thresholds are invalid");
     }
@@ -102,6 +119,7 @@ public:
     registerTreeNodes();
     tree_ = std::make_unique<BT::Tree>(factory_.createTreeFromFile(tree_xml_));
     navigation_client_ = rclcpp_action::create_client<NavigateToPose>(this, navigate_action_);
+    spin_client_ = rclcpp_action::create_client<Spin>(this, spin_action_);
 
     auto latched = rclcpp::QoS(1).reliable().transient_local();
     mission_state_pub_ = create_publisher<rm_competition_interfaces::msg::MissionState>(
@@ -146,6 +164,7 @@ public:
         requested_mode_ = request->mode;
         failed_goal_.reset();
         consecutive_goal_failures_ = 0;
+        consecutive_spin_failures_ = 0;
         response->accepted = true;
         response->message = operator_enabled_ ? "mission enabled" : "mission disabled";
       });
@@ -157,7 +176,7 @@ public:
     RCLCPP_WARN(
       get_logger(),
       "competition mission ready: enabled=%s mode=%s pursuit=%s. "
-      "Only this node may convert mission choices into NavigateToPose goals.",
+      "Only this node may convert mission choices into NavigateToPose or Spin goals.",
       operator_enabled_ ? "true" : "false", requested_mode_.c_str(),
       allow_pursuit_ ? "true" : "false");
   }
@@ -225,6 +244,9 @@ private:
     factory_.registerSimpleAction(
       "SelectPatrol", [this](BT::TreeNode &) {return selectPatrol();});
     factory_.registerSimpleAction(
+      "SelectPatrolWithSpin",
+      [this](BT::TreeNode &) {return selectPatrolWithSpin();});
+    factory_.registerSimpleAction(
       "SelectHold", [this](BT::TreeNode &) {
         active_branch_ = "hold";
         desired_goal_.reset();
@@ -287,11 +309,37 @@ private:
     return BT::NodeStatus::SUCCESS;
   }
 
+  BT::NodeStatus selectPatrolWithSpin()
+  {
+    if (patrol_poses_.empty()) {
+      return BT::NodeStatus::FAILURE;
+    }
+    patrol_spin_selected_ = true;
+    if (patrol_spin_pending_ || spin_goal_sent_ || active_spin_goal_handle_) {
+      desired_goal_.reset();
+      active_branch_ = "patrol_spin";
+      return BT::NodeStatus::SUCCESS;
+    }
+    const auto index = patrol_index_ % patrol_poses_.size();
+    desired_goal_ = GoalRequest{patrol_poses_[index], "patrol_spin"};
+    active_branch_ = "patrol";
+    return BT::NodeStatus::SUCCESS;
+  }
+
   void tick()
   {
     desired_goal_.reset();
+    patrol_spin_selected_ = false;
     tree_->tickRoot();
-    reconcileNavigation();
+    if (patrol_spin_selected_ &&
+      (patrol_spin_pending_ || spin_goal_sent_ || active_spin_goal_handle_))
+    {
+      cancelNavigation("patrol spin", false);
+      reconcileSpin();
+    } else {
+      cancelSpin("mission branch changed");
+      reconcileNavigation();
+    }
     publishState();
   }
 
@@ -385,11 +433,16 @@ private:
           failed_goal_.reset();
           consecutive_goal_failures_ = 0;
           completed_goal_ = last_sent_goal_;
-          if (last_sent_goal_.has_value() && last_sent_goal_->source == "patrol" &&
-            !patrol_poses_.empty())
-          {
-            patrol_index_ = (patrol_index_ + 1) % patrol_poses_.size();
-            completed_goal_.reset();
+          if (last_sent_goal_.has_value() && !patrol_poses_.empty()) {
+            if (last_sent_goal_->source == "patrol") {
+              patrol_index_ = (patrol_index_ + 1) % patrol_poses_.size();
+              completed_goal_.reset();
+            } else if (last_sent_goal_->source == "patrol_spin") {
+              patrol_spin_pending_ = true;
+              navigation_status_ = "spin_pending";
+              completed_goal_.reset();
+              last_sent_goal_.reset();
+            }
           }
         } else if (result.code == rclcpp_action::ResultCode::CANCELED) {
           navigation_status_ = "goal_canceled";
@@ -402,6 +455,105 @@ private:
         }
       };
     navigation_client_->async_send_goal(goal, options);
+  }
+
+  void reconcileSpin()
+  {
+    if (!patrol_spin_pending_) {
+      return;
+    }
+    if (spin_goal_sent_ || active_spin_goal_handle_) {
+      return;
+    }
+    if (consecutive_spin_failures_ >= max_consecutive_spin_failures_) {
+      navigation_status_ = "spin_retry_limit";
+      return;
+    }
+    if (last_spin_send_time_.nanoseconds() > 0 &&
+      (now() - last_spin_send_time_).seconds() < spin_failure_retry_sec_)
+    {
+      navigation_status_ = "spin_retry_backoff";
+      return;
+    }
+    sendSpin();
+  }
+
+  void sendSpin()
+  {
+    if (!spin_client_->action_server_is_ready()) {
+      navigation_status_ = "waiting_for_spin_server";
+      return;
+    }
+    Spin::Goal goal;
+    goal.target_yaw = static_cast<float>(
+      patrol_spin_angular_velocity_ * patrol_spin_duration_sec_);
+    goal.time_allowance = static_cast<builtin_interfaces::msg::Duration>(
+      rclcpp::Duration::from_seconds(spin_time_allowance_sec_));
+
+    const std::uint64_t generation = ++spin_generation_;
+    spin_goal_sent_ = true;
+    last_spin_send_time_ = now();
+    navigation_status_ = "spin_goal_pending";
+
+    auto options = rclcpp_action::Client<Spin>::SendGoalOptions();
+    options.goal_response_callback =
+      [this, generation](SpinGoalHandle::SharedPtr handle) {
+        if (generation != spin_generation_) {
+          if (handle) {
+            spin_client_->async_cancel_goal(handle);
+          }
+          return;
+        }
+        active_spin_goal_handle_ = handle;
+        navigation_status_ = handle ? "spin_active" : "spin_rejected";
+        if (!handle) {
+          spin_goal_sent_ = false;
+          ++consecutive_spin_failures_;
+          last_spin_send_time_ = now();
+        }
+      };
+    options.result_callback =
+      [this, generation](const SpinGoalHandle::WrappedResult & result) {
+        if (generation != spin_generation_) {
+          return;
+        }
+        active_spin_goal_handle_.reset();
+        spin_goal_sent_ = false;
+        if (result.code == rclcpp_action::ResultCode::SUCCEEDED) {
+          navigation_status_ = "spin_succeeded";
+          patrol_spin_pending_ = false;
+          consecutive_spin_failures_ = 0;
+          if (!patrol_poses_.empty()) {
+            patrol_index_ = (patrol_index_ + 1) % patrol_poses_.size();
+          }
+        } else if (result.code == rclcpp_action::ResultCode::CANCELED) {
+          navigation_status_ = "spin_canceled";
+          ++consecutive_spin_failures_;
+          last_spin_send_time_ = now();
+        } else {
+          navigation_status_ = "spin_failed";
+          ++consecutive_spin_failures_;
+          last_spin_send_time_ = now();
+        }
+      };
+    spin_client_->async_send_goal(goal, options);
+  }
+
+  void cancelSpin(const std::string & reason)
+  {
+    const bool had_spin = patrol_spin_pending_ || spin_goal_sent_ || active_spin_goal_handle_;
+    if (!had_spin) {
+      return;
+    }
+    if (active_spin_goal_handle_) {
+      spin_client_->async_cancel_goal(active_spin_goal_handle_);
+    }
+    ++spin_generation_;
+    active_spin_goal_handle_.reset();
+    spin_goal_sent_ = false;
+    patrol_spin_pending_ = false;
+    consecutive_spin_failures_ = 0;
+    navigation_status_ = "spin_canceled: " + reason;
   }
 
   void cancelNavigation(const std::string & reason, bool clear_completed = true)
@@ -441,6 +593,7 @@ private:
   std::string requested_mode_;
   std::string map_frame_;
   std::string navigate_action_;
+  std::string spin_action_;
   double tick_rate_hz_;
   bool require_localization_valid_;
   bool require_referee_state_;
@@ -454,11 +607,18 @@ private:
   double minimum_goal_update_sec_;
   double goal_failure_retry_sec_;
   int max_consecutive_goal_failures_;
+  double patrol_spin_angular_velocity_;
+  double patrol_spin_duration_sec_;
+  double spin_time_allowance_sec_;
+  double spin_failure_retry_sec_;
+  int max_consecutive_spin_failures_;
   std::vector<double> home_values_;
   std::vector<double> patrol_values_;
   std::optional<geometry_msgs::msg::PoseStamped> home_pose_;
   std::vector<geometry_msgs::msg::PoseStamped> patrol_poses_;
   std::size_t patrol_index_{0};
+  bool patrol_spin_selected_{false};
+  bool patrol_spin_pending_{false};
 
   bool localization_valid_{false};
   bool referee_valid_{false};
@@ -476,13 +636,19 @@ private:
   std::optional<GoalRequest> completed_goal_;
   std::optional<GoalRequest> failed_goal_;
   int consecutive_goal_failures_{0};
+  int consecutive_spin_failures_{0};
+  bool spin_goal_sent_{false};
   std::string active_branch_{"hold"};
   std::string navigation_status_{"holding"};
   rclcpp::Time last_goal_send_time_{0, 0, RCL_ROS_TIME};
+  rclcpp::Time last_spin_send_time_{0, 0, RCL_ROS_TIME};
   std::uint64_t goal_generation_{0};
+  std::uint64_t spin_generation_{0};
   GoalHandle::SharedPtr active_goal_handle_;
+  SpinGoalHandle::SharedPtr active_spin_goal_handle_;
 
   rclcpp_action::Client<NavigateToPose>::SharedPtr navigation_client_;
+  rclcpp_action::Client<Spin>::SharedPtr spin_client_;
   rclcpp::Publisher<rm_competition_interfaces::msg::MissionState>::SharedPtr
     mission_state_pub_;
   rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr localization_sub_;

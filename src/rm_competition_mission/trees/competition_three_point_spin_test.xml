@@ -1,0 +1,22 @@
+<root main_tree_to_execute="CompetitionThreePointSpinTest">
+  <BehaviorTree ID="CompetitionThreePointSpinTest">
+    <ReactiveFallback name="mission_or_hold">
+      <Sequence name="enabled_and_safe">
+        <MissionEnabled/>
+        <SafetyReady/>
+        <ReactiveFallback name="strategy_priority">
+          <Sequence name="low_hp_return_home">
+            <ShouldReturnHome/>
+            <SelectHome/>
+          </Sequence>
+          <Sequence name="three_point_patrol_with_spin">
+            <CanPatrol/>
+            <SelectPatrolWithSpin/>
+          </Sequence>
+          <SelectHold/>
+        </ReactiveFallback>
+      </Sequence>
+      <SelectHold/>
+    </ReactiveFallback>
+  </BehaviorTree>
+</root>
