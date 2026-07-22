@@ -1,0 +1,38 @@
+# EXPERIMENTAL ONLY: strict per-point SE(3) deskew for AMCL observation scans.
+pointcloud_to_laserscan_node:
+  ros__parameters:
+    input_topic: /livox/left/pointcloud_filtered
+    output_topic: /localization/scan
+    target_frame: base_link
+    angle_min: -3.141592653589793
+    angle_max: 3.141592653589793
+    angle_increment: 0.01
+    scan_time: 0.10
+    range_min: 0.45
+    range_max: 12.0
+    min_height: 0.20
+    max_height: 1.50
+    transform_timeout_sec: 0.05
+    # Keep the proven online update budget; do not switch this candidate to 50 Hz.
+    max_publish_rate_hz: 10.0
+
+    deskew:
+      enabled: true
+      timestamp_field: timestamp
+      # Verified against Livox driver2 source and trial02: FLOAT64 absolute ns.
+      timestamp_interpretation: absolute_nanoseconds
+      # Driver header is pkg.base_time / the first point time.
+      reference_time_policy: header_stamp
+      failure_policy: drop_frame
+      odom_topic: /odometry/lio
+      odom_frame: odom
+      odom_child_frame: base_link
+      odom_buffer_duration_sec: 3.0
+      max_interpolation_gap_sec: 0.10
+      max_cloud_span_sec: 0.10
+      point_time_before_header_tolerance_sec: 0.001
+      max_point_time_after_header_sec: 0.10
+      pending_timeout_sec: 0.20
+      pending_queue_size: 5
+      status_topic: /localization/scan_deskew/status
+      active_topic: /localization/scan_deskew/active

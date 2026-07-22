@@ -68,6 +68,8 @@ def generate_launch_description():
     map_bundle_manifest = LaunchConfiguration("map_bundle_manifest")
     map_acceptance_policy = LaunchConfiguration("map_acceptance_policy")
     pointcloud_topic = LaunchConfiguration("pointcloud_topic")
+    amcl_params_file = LaunchConfiguration("amcl_params_file")
+    scan_projection_params = LaunchConfiguration("scan_projection_params")
 
     old_car_launch = PathJoinSubstitution([
         FindPackageShare("rm_navigation_bringup"),
@@ -112,6 +114,22 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "pointcloud_topic",
             default_value="/livox/left/pointcloud_filtered",
+        ),
+        DeclareLaunchArgument(
+            "amcl_params_file",
+            default_value=PathJoinSubstitution([
+                FindPackageShare("rm_relocalization_bridge"),
+                "config",
+                "amcl_2d.yaml",
+            ]),
+        ),
+        DeclareLaunchArgument(
+            "scan_projection_params",
+            default_value=PathJoinSubstitution([
+                FindPackageShare("rm_relocalization_bridge"),
+                "config",
+                "pointcloud_to_scan_2d.yaml",
+            ]),
         ),
         DeclareLaunchArgument("set_initial_pose", default_value="false"),
         DeclareLaunchArgument("initial_pose_x", default_value="0.0"),
@@ -161,6 +179,8 @@ def generate_launch_description():
                 "pointcloud_topic": pointcloud_topic,
                 "scan_topic": "/localization/scan",
                 "map_topic": "/map",
+                "params_file": amcl_params_file,
+                "scan_projection_params": scan_projection_params,
                 "set_initial_pose": LaunchConfiguration("set_initial_pose"),
                 "initial_pose_x": LaunchConfiguration("initial_pose_x"),
                 "initial_pose_y": LaunchConfiguration("initial_pose_y"),

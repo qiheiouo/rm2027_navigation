@@ -89,6 +89,7 @@ install(DIRECTORY
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
+  find_package(ament_cmake_pytest REQUIRED)
   ament_add_gtest(test_relocalization_math test/test_relocalization_math.cpp)
   target_link_libraries(test_relocalization_math relocalization_math)
   ament_target_dependencies(test_relocalization_math tf2)
@@ -96,6 +97,12 @@ if(BUILD_TESTING)
   ament_add_gtest(test_global_pose_gate test/test_global_pose_gate.cpp)
   target_link_libraries(test_global_pose_gate global_pose_gate)
   ament_target_dependencies(test_global_pose_gate geometry_msgs)
+
+  ament_add_pytest_test(
+    test_spin_candidate_profiles
+    test/test_spin_candidate_profiles.py
+    APPEND_ENV "RM_RELOCALIZATION_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+  )
 endif()
 
 ament_package()
