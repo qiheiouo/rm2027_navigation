@@ -31,7 +31,15 @@ documenting which lower-controller authority remains outside ROS.
 ## Remaining Field Work
 
 - Replace example home/patrol poses with reviewed map coordinates.
-- Implement the real referee packet producer.
-- Implement or explicitly waive a real `/chassis/mode` adapter.
+- Implement the real lower-controller competition-state serial producer.
+- Keep the real `/chassis/mode` adapter deferred for the current old-car scope;
+  the remote remains the external physical authority.
+- Retain the isolated three-point Nav2 `Spin` candidate as the reference
+  implementation without allowing the mission node to publish final `/cmd_vel`.
+- Add a low-projectile return-home condition; stale competition state must
+  cancel and hold rather than trigger blind home motion.
 - Validate action preemption, target loss, low-HP retreat and manual takeover
   in simulation before real competition speed.
+
+The exact minimum old-car behavior, candidate status and remaining gap are
+tracked in `docs/old_car_competition_minimum_behavior.md`.

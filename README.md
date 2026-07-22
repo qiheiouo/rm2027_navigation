@@ -43,16 +43,29 @@ fusion, pursuit-goal generation, a BehaviorTree.CPP mission executor, unified
 competition bringup and readiness diagnostics. Hardware producers and field
 acceptance remain explicit gates.
 
+The old-car field branch now also contains read-only PCD/PGM quality tools and
+an occupancy-only `fresh03` candidate that has passed limited AMCL, planning and
+short-navigation validation. The map remains `candidate`, not `approved`.
+Separately, an experimental high-spin AMCL profile combines `alpha4=0.02` with
+strict per-point SE(3) scan deskew. Its deterministic replay and no-hardware
+smoke tests passed, and the subsequent old-car field A/B was reported as
+successful. It remains an explicit candidate rather than the normal launch
+default.
+
 Phase 1 target:
 
 ```text
 LiDAR/IMU -> LIO -> canonical TF -> Nav2 -> /cmd_vel -> chassis_interface
 ```
 
-The mainline baseline is not yet a fully accepted competition system. The
-integration branch implements the software boundaries, while real referee RX,
-auto-aim target production, chassis authority feedback, right-lidar calibration
-and reviewed field assets still require hardware validation.
+The mainline baseline is not yet a fully accepted competition system. For the
+minimum old-car competition behavior, the immediate missing producer is the
+lower-controller competition-state receive frame and parser. Final home/patrol
+poses, low-projectile return-home handling and match-duration validation also
+remain. An isolated three-point patrol/spin candidate is implemented and has
+passed an initial field smoke test.
+Auto-aim pursuit, chassis-mode feedback, right-lidar calibration and automatic
+place recognition are explicitly deferred rather than implied complete.
 
 Current no-hardware Phase 1 validation can run:
 
@@ -69,8 +82,12 @@ Top-level runtime profiles are provided by `rm_navigation_bringup`:
 - `simulation.launch.py`
 - `bag_replay.launch.py`
 - `mapping.launch.py`
-- `old_car_2026_validation.launch.py` on the old-car experiment branch only
-- `old_car_2026_competition.launch.py` on the competition integration branch
+- `old_car_2026_validation.launch.py` for explicit old-car hardware validation
+- `old_car_2026_amcl_spin_candidate.launch.py` for no-motion experimental
+  localization validation only
+- `old_car_2026_three_point_spin_test.launch.py` for the explicit field-test
+  patrol/spin candidate
+- `old_car_2026_competition.launch.py` for the guarded old-car competition composition
 - `competition_no_hardware_test.launch.py` for mock-only mission validation
 
 They are mutually exclusive operating modes rather than a command that starts
@@ -115,6 +132,7 @@ PolarBear projects remain the first reference object, especially `rmu_gazebo_sim
 See:
 
 - `docs/2027_open_source_research_report.md`
+- `docs/project_structure_and_documentation_index.md`
 - `docs/2027_architecture_decision.md`
 - `docs/2027_phase1_plan.md`
 - `docs/phase1_5_gazebo_validation.md`
@@ -138,10 +156,15 @@ See:
 - `docs/phase3b_pursuit_boundary.md`
 - `docs/phase3c_competition_mission_bt.md`
 - `docs/phase3d_competition_bringup.md`
+- `docs/old_car_competition_minimum_behavior.md`
 - `docs/old_car_2026_validation_plan.md`
 - `docs/pre_hardware_freeze_status.md`
 - `docs/minipc_hardware_bringup_sequence.md`
 - `docs/real_hardware_confirmation_checklist.md`
+- `docs/validation/old_car_navigation_status_and_roadmap_20260720.md`
+- `docs/validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md`
+- `docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`
+- `docs/validation/old_car_three_point_spin_field_test_20260722.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`
@@ -157,14 +180,17 @@ See:
 - `rm_chassis_interface`: `/cmd_vel` chassis stub without real serial.
 - `rm_nav_config`: Phase 1 DWB fallback, accepted Phase 1.5 MPPI simulation configuration, Phase 2F deployment-map Nav2 profile, and Phase 2G point-cloud obstacle profile.
 - `rm_navigation_bringup`: top-level navigation, simulation, bag replay, mapping, map-deployment, and experiment-only old-car launch profiles.
-- `rm_mid360_driver_bridge`: MID360 driver configuration and topic bridge skeleton.
+- `rm_mid360_driver_bridge`: MID360 driver configuration, field-preserving
+  pointcloud filters, localization/costmap projection, dual-obstacle fusion and
+  the experimental strict SE(3) scan-deskew boundary.
 - `rm_serial_driver`: no-CRC and HPM CRC16 protocol profiles, framing tests, a dry-run `/cmd_vel -> /serial/mock_tx` encoder, and an opt-in old-car real serial writer for off-ground validation.
 - `rm_simulation`: Phase 1.5 Gazebo Fortress holonomic dynamics and canonical navigation-loop validation.
 - `rm_lio_bringup`: Phase 2A FAST-LIO backend configuration, output normalization, and TF quarantine boundary.
 - `rm_relocalization_bridge`: Phase 2C timestamped global-pose to canonical `map -> odom` adapter plus the Phase 2J common pose gate and AMCL 2D wrapper.
 - `rm_gicp_relocalization`: Phase 2J PCL GICP backend for seeded 3D PCD relocalization; it publishes diagnostics and a gated global pose, never TF.
-- `rm_map_tools`: map-bundle validation plus the Phase 2I managed PCD and
-  occupancy export session.
+- `rm_map_tools`: map-bundle validation, the Phase 2I managed PCD/occupancy
+  export session, immutable map-quality analysis, constrained projection
+  screening and live map-server comparison.
 - `rm_competition_interfaces`: normalized referee, chassis authority, target,
   mission and readiness contracts.
 - `rm_referee_interface`: referee-state freshness/range gate and explicit mock.

@@ -8,6 +8,7 @@
 | `/livox/right/lidar` | `livox_ros_driver2/msg/CustomMsg` | LiDAR driver | LIO backend | Right MID360 raw point cloud with per-point timing; may be unused if falling back to one MID360 |
 | `/livox/left/pointcloud` | `sensor_msgs/msg/PointCloud2` | LiDAR driver or simulator | costmap, debug, map tools | Left MID360 standard point cloud |
 | `/livox/right/pointcloud` | `sensor_msgs/msg/PointCloud2` | LiDAR driver or simulator | costmap, debug, map tools | Right MID360 standard point cloud |
+| `/livox/left/pointcloud_filtered` | `sensor_msgs/msg/PointCloud2` | selected left-pointcloud filter | localization projection, local obstacle processing, diagnostics | Filtered cloud in the original sensor frame. Retained point records preserve the input field layout, including verified Livox per-point timing; the filter does not take TF ownership |
 | `/points/obstacles_fused` | `sensor_msgs/msg/PointCloud2` | optional dual-lidar obstacle fusion | local costmap, diagnostics | Filtered left/right obstacle points transformed into `base_link`; not a LIO or mapping input |
 | `/livox/lio_imu_raw` | `sensor_msgs/msg/Imu` | Selected MID360 driver | `imu_frame_adapter` | Raw selected MID360 internal IMU. Driver frame_id may be non-canonical |
 | `/livox/lio_imu` | `sensor_msgs/msg/Imu` | `imu_frame_adapter` | LIO backend | Canonical MID360 internal IMU used as the main LIO IMU. `header.frame_id=lio_imu_link` |
@@ -17,6 +18,8 @@
 | `/odometry/fast_lio_raw` | `nav_msgs/msg/Odometry` | selected LIO backend | `lio_adapter` | Backend-private odometry input. Phase 2A FAST-LIO Multi uses `frame_id=odom`, hard-coded `child_frame_id=body`; it is never consumed directly by Nav2 |
 | `/odometry/lio` | `nav_msgs/msg/Odometry` | `lio_adapter` | Nav2, debug, optional fusion | LIO odometry. `frame_id=odom`, `child_frame_id=base_link`; twist is expressed in `base_link`. FAST-LIO Phase 2B estimates it from consecutive canonical base poses |
 | `/localization/scan` | `sensor_msgs/msg/LaserScan` | selected native scan or explicit PointCloud2 projection | AMCL 2D backend | Planar localization observation; separate from costmap obstacle input |
+| `/localization/scan_deskew/active` | `std_msgs/msg/Bool` | experimental strict scan projector | diagnostics, operator validation | Latched true only while the selected candidate is producing fully deskewed scans; it grants no motion or localization authority |
+| `/localization/scan_deskew/status` | `diagnostic_msgs/msg/DiagnosticArray` | experimental strict scan projector | diagnostics, validation | Timing interpretation, odometry coverage, queue/drop counters, latency and latest failure reason for the deskew candidate |
 | `/localization/amcl_pose_raw` | `geometry_msgs/msg/PoseWithCovarianceStamped` | AMCL with TF broadcasting disabled | `amcl_pose_gate` | Backend-private AMCL estimate; never a canonical TF source |
 | `/localization/amcl_backend_valid` | `std_msgs/msg/Bool` | `amcl_pose_gate` | diagnostics, future safety/mission layer | Latched backend-specific pose-gate validity |
 | `/localization/gicp_pose_raw` | `geometry_msgs/msg/PoseWithCovarianceStamped` | `gicp_relocalization` | `global_pose_gate` | Backend-private 3D registration estimate; never a canonical TF source |
@@ -86,6 +89,17 @@ invalid frame, time, planar pose, finite-value, and covariance conditions before
 republishing `/localization/global_pose`. `/localization/amcl_backend_valid`
 describes the backend gate; `/localization/global_localization_valid` describes
 the accepted canonical correction, so the two topics are not interchangeable.
+
+For the verified old-car Livox driver profile, retained PointCloud2 records use
+a `timestamp` field with datatype `FLOAT64` and absolute nanoseconds. The
+experimental high-spin projector interprets that field only under its explicit
+candidate profile, interpolates canonical `odom -> base_link`, applies the
+timestamped sensor-to-base extrinsic once, and emits a scan in `base_link` at
+the cloud header reference time. Missing fields, incomplete odometry coverage,
+invalid interpolation or unavailable timestamped TF drop the whole frame. The
+projector must not silently substitute a raw scan while reporting deskew
+active. Other sensors require their own documented timing interpretation; the
+old-car convention is not a universal PointCloud2 contract.
 
 The `gicp_3d` backend uses the same two-stage validity model: registration
 diagnostics describe algorithm acceptance, while the common gate controls

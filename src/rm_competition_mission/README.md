@@ -40,3 +40,16 @@ default.
 high-spin and deskew candidate profiles, including the final serial limits.
 Every hardware and motion switch still defaults to false, and mission startup
 is fixed to disabled.
+
+## Current Old-Car Gap
+
+The isolated three-point candidate now covers patrol, waypoint Spin actions
+and low-HP preemption to home. It has passed an initial field smoke test, while
+the exact achieved yaw rate, complete match-duration behavior and final field
+coordinates still require review. The home branch does not yet react to low
+projectile allowance, and real lower-controller competition-state serial RX is
+not implemented.
+
+The minimum field behavior, accepted candidate boundary and remaining work are
+specified in `docs/old_car_competition_minimum_behavior.md`. Do not describe
+the isolated test profile as the final match configuration.

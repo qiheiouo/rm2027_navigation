@@ -6,13 +6,22 @@ The project uses one top-level launch per operating mode. A ROS2 package is not
 automatically a runtime node, and starting every package together would create
 duplicate TF owners, conflicting sensor sources, and unsafe hardware behavior.
 
-The top-level entry points live in `rm_navigation_bringup`:
+The generic top-level entry points live in `rm_navigation_bringup`:
 
 1. `navigation.launch.py`
 2. `map_deployment.launch.py`
 3. `simulation.launch.py`
 4. `bag_replay.launch.py`
 5. `mapping.launch.py`
+
+Hardware and competition work adds explicit specialized compositions:
+
+1. `old_car_2026_validation.launch.py`;
+2. `old_car_2026_amcl_relocalization.launch.py`;
+3. `old_car_2026_amcl_spin_candidate.launch.py`;
+4. `old_car_2026_three_point_spin_test.launch.py`;
+5. `old_car_2026_competition.launch.py`;
+6. `competition_no_hardware_test.launch.py`.
 
 Only one profile should run in a ROS domain at a time.
 
@@ -74,6 +83,40 @@ Parameter files are explicit launch arguments. `relocalization_params` selects
 the AMCL/gate YAML; `gicp_relocalization_params` selects the GICP/gate YAML.
 Backend launches reject empty paths, directories, and missing files before
 starting nodes.
+
+### Old-Car AMCL Profiles
+
+The normal old-car AMCL launch keeps the accepted baseline projection and AMCL
+parameters:
+
+```text
+old_car_2026_amcl_relocalization.launch.py
+```
+
+The high-speed-spin candidate is isolated behind:
+
+```text
+old_car_2026_amcl_spin_candidate.launch.py
+```
+
+It selects `alpha4=0.02` and strict per-point SE(3) deskew using the Livox
+`timestamp` field. The wrapper cannot start Nav2 motion, serial transport,
+controller or mission. Its offline/no-hardware checks and subsequent old-car
+field A/B were reported successful. The wrapper remains the no-motion
+diagnostic entry, while the normal old-car launch continues to select the
+baseline files.
+
+The strict candidate drops a complete scan frame when point timing, odometry
+coverage, interpolation or timestamped sensor TF is invalid. It does not fall
+back to an uncorrected scan. Inspect:
+
+```bash
+ros2 topic echo --once /localization/scan_deskew/active
+ros2 topic echo --once /localization/scan_deskew/status
+```
+
+See `docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md` for
+the exact evidence boundary and field-validation procedure.
 
 Deployment-map support is an explicit gate:
 
@@ -158,6 +201,12 @@ human landmark and origin review. The verified PGM is no longer entirely
 unknown, but it is still visually noisy; later cleanup is allowed without
 blocking the Phase 2J real-map no-motion tests.
 
+The current old-car `fresh03` asset is an external occupancy-only candidate. It
+has passed strict decoding, live map-server cell comparison, AMCL alignment,
+static planning and one limited short navigation test. It must still be
+selected with `map_acceptance_policy:=allow_candidate`; it is not stored in Git
+and cannot be used as a GICP PCD map.
+
 Map runtime policy is explicit:
 
 ```text
@@ -194,6 +243,17 @@ opt-ins. The launch rejects real serial with mock target/safety authority,
 synthetic test maps or an auto-enabled mission. Synthetic referee data requires
 the explicit field-debug waiver described below. See
 `docs/phase3d_competition_bringup.md`.
+
+The three-point patrol/spin field candidate is separate:
+
+```bash
+ros2 launch rm_navigation_bringup old_car_2026_three_point_spin_test.launch.py
+```
+
+It binds the candidate map coordinates, Nav2 Spin mission, high-spin AMCL
+profile and elevated velocity limits. Hardware and motion switches remain
+explicit, and mission startup remains disabled. It is not the safe competition
+default.
 
 The no-hardware mission test is separate:
 

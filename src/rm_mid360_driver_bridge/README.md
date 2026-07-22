@@ -29,6 +29,13 @@ Nav2 local costmap marking. The node keeps the published cloud in the original
 sensor frame, so it does not take ownership of TF or localization data.
 The old-car defaults live in `config/old_car_pointcloud_filter.yaml`.
 
+The filter copies complete retained point records instead of reconstructing an
+XYZ-only cloud. This preserves `intensity`, `tag`, `line`, the Livox
+`timestamp` field, offsets, datatypes, `point_step` and endianness. Output is
+compacted to `height=1`, but bytes inside each retained point record are not
+reinterpreted. Downstream localization deskew depends on this preservation;
+costmap consumers may continue to read only XYZ.
+
 Default old-car chain:
 
 ```text
@@ -61,6 +68,32 @@ or other dynamic obstacle leaves.
 This is a switchable alternative to the VoxelLayer path above; it does not
 replace the raw driver topic or take ownership of TF. Defaults live in
 `config/old_car_pointcloud_to_laserscan.yaml`.
+
+## Experimental Localization Scan Deskew
+
+The same executable has an explicit strict-deskew profile for AMCL localization
+only. It is separate from `/local_scan` costmap clearing:
+
+```text
+/livox/left/pointcloud_filtered + /odometry/lio + timestamped sensor TF
+  -> per-point SE(3) compensation to the cloud header time
+  -> /localization/scan in base_link
+```
+
+The verified old-car PointCloud2 convention is `timestamp` as `FLOAT64`
+absolute nanoseconds, with the cloud header representing the first-point/base
+time. The profile does not guess alternate field names or units.
+
+If timing, odometry coverage, interpolation, frame semantics or timestamped TF
+is invalid, the entire scan frame is dropped. Diagnostics are published on
+`/localization/scan_deskew/active` and `/localization/scan_deskew/status`.
+There is no degraded raw-scan fallback while active is reported true.
+
+The strict profile is selected by the isolated
+`old_car_2026_amcl_spin_candidate.launch.py` wrapper. It is not selected by the
+normal old-car or competition launches and has not yet passed real high-speed
+rotation acceptance. See
+`docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`.
 
 ## Driver Policy
 

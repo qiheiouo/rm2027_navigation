@@ -84,6 +84,30 @@ The projection is independently switchable and rate-limited to reduce AMCL
 load. Localization scan filtering is a separate concern from local costmap
 obstacle processing; changing it must not silently change the costmap input.
 
+### Experimental High-Spin Candidate
+
+Field evidence showed that the baseline Omni motion model can inject excessive
+translation noise during high-speed stationary rotation, while a frame-level
+pointcloud projection also leaves scan motion distortion. The isolated
+candidate combines:
+
+```text
+AMCL Omni alpha4: 0.2 -> 0.02
+filtered PointCloud2 with preserved per-point timestamps
+strict per-point SE(3) deskew from canonical /odometry/lio
+```
+
+The candidate is selected only by
+`old_car_2026_amcl_spin_candidate.launch.py`. The normal AMCL and competition
+launches remain unchanged. Deskew failure drops the frame and reports inactive;
+there is no raw-scan fallback disguised as a valid deskew result.
+
+Deterministic replay and no-hardware short-bag smoke passed, but real static,
+translation, ordinary turn, Nav2 spin and high-speed-spin acceptance remain
+open. Do not make this candidate the competition default based only on replay
+seeds. See
+`docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`.
+
 ROS 2 Humble AMCL must use a positive `save_pose_rate`; `0.0` overflows the
 timer-period conversion in the released implementation. The baseline uses
 `0.5 Hz`, which is the upstream-style low-rate persistence behavior and has

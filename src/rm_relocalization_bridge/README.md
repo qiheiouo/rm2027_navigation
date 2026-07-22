@@ -34,3 +34,11 @@ and publishes backend-private `/localization/amcl_pose_raw`. The
 `global_pose_gate_node` validates frame, timestamp, finite values, planar pose,
 and covariance before publishing `/localization/global_pose`. The optional
 PointCloud2 projection and AMCL itself remain replaceable upstream components.
+
+The normal 2D profile remains `config/amcl_2d.yaml`. The separate
+`config/amcl_2d_spin_robust_candidate.yaml` changes only the documented
+high-speed-spin motion term (`alpha4=0.02`) and is paired with
+`config/pointcloud_to_scan_2d_spin_robust_candidate.yaml`. It is experimental,
+not a competition default, and must be launched through the no-motion
+`old_car_2026_amcl_spin_candidate.launch.py` wrapper until field acceptance is
+complete.

@@ -12,7 +12,6 @@
 不适用范围：
 
 - 2027 新车最终双 MID360 外参
-- 高速自转验证
 - 最终比赛策略、行为树、裁判系统
 - 新下位机四轮编码器协议验收
 
@@ -28,6 +27,8 @@
 6. global costmap 不应重新接入原始动态点云，否则容易形成全局拖影污染。
 7. 真实串口链路已经打通，但 Docker 默认容器不会自动看到 `/dev/ttyACM0`，必须用 serial compose override 映射设备。
 8. 短目标落地运动出现圆弧/绕行时，当前证据更支持 Nav2/local costmap 误判或目标方向问题，不优先怀疑串口协议或底盘坐标映射。
+9. fresh03 occupancy-only 地图已经通过严格文件检查、AMCL 对齐、静态规划和一次限速短导航，但仍是 `candidate`，不能用于 GICP。
+10. 高速自转后的米级全局跳变主要发生在 AMCL，而不是 FAST-LIO 同步产生同量级平移。当前独立候选采用 `alpha4=0.02 + 严格逐点 SE(3) deskew`；离线、无硬件和后续实车 A/B 均已报告通过，但候选仍保持显式启用，不直接替换通用默认配置。
 
 ## 2. 快速故障索引
 
@@ -42,6 +43,7 @@
 | 完整 launch 有路径但机器人不动 | 串口节点未启动、自动模式未开、设备未映射、cmd_vel 未输出 | 先查节点、设备、`/cmd_vel`、遥控自动模式 |
 | 机器人短目标走圆弧而非直线 | local costmap 误占、目标方向不准、MPPI 避障输出 | 先看 `/cmd_vel` 分量和 costmap，不先改串口 |
 | Livox driver 报 `found lidar not defined` | 网络中有额外 MID360 或 IP 配置不匹配 | 只保留目标雷达，或临时隔离额外 IP |
+| 高速原地自转后 AMCL 米级跳变且协方差仍小 | Omni `alpha4` 在大角增量下注入平移噪声，叠加 scan 帧内畸变和重复结构 | 使用独立 spin candidate 做 A/B；不要只凭小协方差判定定位正确，也不要直接改比赛默认配置 |
 
 ## 3. RViz 点云倾斜排查逻辑
 
@@ -606,6 +608,21 @@ STVL 的核心价值：
 
 若后续希望 global path 也绕障碍，需要引入全局地图/static layer，或谨慎给 global costmap 加 obstacle layer。但在 dynamic residual 尚未稳定前，不建议急着把动态障碍加入 global costmap，否则可能把局部假障碍扩散成全局假障碍。
 
+### 6.7 静态 PGM 脏点不是 local clearing 问题
+
+后续回放确认，静态建图 PGM 的主要脏点来自少量高层瞬态 endpoint 在 3D OctoMap 中持续占用，free ray 因空间错开没有清除同一 voxel，最终二维高度投影将其压到占用栅格。PGM 写出、YAML origin 和 `map_server` 加载已经逐格验证，不是主因。
+
+多种自动清理原型虽然减少 occupied 数量，但没有达到双数据集 99% 真实障碍保护门，因此均未进入产品链。当前收敛策略是：
+
+- 静态建图时在人员或物体搬运过渡段调用 `/mapping/stop`，恢复后重新覆盖相关视角；
+- fresh03 仅以 occupancy-only candidate 使用；
+- 后期人工修图必须生成新 revision，保持尺寸、分辨率、origin 和 `0/205/254` 灰度语义，并重跑 map-server、规划和短导航验证；
+- 不把人工修图描述为自动建图算法已经修复。
+
+完整诊断和被否决原型见：
+
+`docs/validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md`。
+
 ## 7. Livox 网络和多雷达干扰
 
 ### 7.1 IP 配置不匹配导致 TF 断裂
@@ -849,7 +866,29 @@ wz ≈ 0.09
 - 三分量方向映射基本正确。
 - 低速死区明显，尤其角速度。
 - 但比赛常用速度通常高于这些极低值，低速死区不是当前主要阻塞项。
-- 老车雷达与底盘固连，不建议用原地自转作为 2027 云台雷达方案的有效验证。
+- 老车雷达与底盘固连，高速原地自转可以验证旧车 AMCL/LIO 链，但不能替代 2027 云台雷达动态外参验收。
+
+### 10.1 高速自转定位候选
+
+高速自转失败样本表明，FAST-LIO 只产生厘米级真实平移时，AMCL 仍可能跳到米级错误峰，且错误峰协方差可能很小。当前第一版候选仅在独立入口中启用：
+
+```text
+alpha4 = 0.02
+PointCloud2 timestamp = FLOAT64 absolute nanoseconds
+strict per-point SE(3) deskew
+deskew failure = drop complete frame
+```
+
+运行时应检查：
+
+```bash
+ros2 topic echo --once /localization/scan_deskew/active
+ros2 topic echo --once /localization/scan_deskew/status
+```
+
+正常通用 launch 仍使用 baseline。候选已经完成旧车实车 A/B，但仍通过独立入口显式选择；最终比赛点位、整场任务和长期运行收敛前不将其无条件改成通用默认。完整公式、回放矩阵和实车步骤见：
+
+`docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`。
 
 ## 11. 开机后建议流程
 
