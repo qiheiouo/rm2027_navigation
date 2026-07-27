@@ -235,8 +235,10 @@ private:
       if (path.has_parent_path()) {
         std::filesystem::create_directories(path.parent_path());
       }
-      log_stream_.open(log_csv_, std::ios::out | std::ios::trunc);
-      if (log_stream_) {
+      const bool write_header =
+        !std::filesystem::exists(path) || std::filesystem::file_size(path) == 0;
+      log_stream_.open(log_csv_, std::ios::out | std::ios::app);
+      if (log_stream_ && write_header) {
         log_stream_ <<
           "time_sec,state,control_mode,longitudinal_m,lateral_m,"
           "heading_error_rad,minimum_clearance_m,vx_mps,vy_mps,wz_radps\n";
