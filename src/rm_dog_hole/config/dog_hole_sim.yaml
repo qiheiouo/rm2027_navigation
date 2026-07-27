@@ -1,0 +1,51 @@
+dog_hole_manager:
+  ros__parameters:
+    use_sim_time: true
+
+    map_frame: map
+    base_frame: base_link
+    navigate_action: /navigate_to_pose
+    compute_path_action: /compute_path_to_pose
+    command_topic: /cmd_vel_nav
+
+    # Rules V2.1.0 figure 4-35 confirms 0.80 m width and 0.25 m height.
+    # The complete tunnel depth is not stated clearly, so 1.0 m is a
+    # conservative temporary value until the final field drawing is supplied.
+    dog_hole.center_x: -3.0
+    dog_hole.center_y: 0.0
+    dog_hole.yaw: 3.141592653589793
+    dog_hole.width: 0.80
+    dog_hole.length: 1.00
+    dog_hole.wall_height: 0.45
+    dog_hole.wall_thickness: 0.10
+    dog_hole.roof_clearance: 0.25
+    dog_hole.entry_clearance: 0.80
+    dog_hole.exit_clearance: 0.50
+
+    # Optional terrain parameters. Zero keeps the first controller comparison
+    # planar; 11/15 degree profiles can be enabled without changing code.
+    dog_hole.deck_height: 0.0
+    dog_hole.entry_slope_deg: 0.0
+    dog_hole.exit_slope_deg: 0.0
+
+    # Temporary Phase 1.5 robot dimensions, not final new-car CAD values.
+    robot.length: 0.60
+    robot.width: 0.50
+    robot.height: 0.22
+
+    approach_offset: 0.15
+    final_goal: [-5.0, 0.0, 3.141592653589793]
+    auto_start: true
+    auto_start_delay_sec: 8.0
+
+    control.rate_hz: 30.0
+    control.forward_speed: 0.35
+    control.lateral_gain: 1.8
+    control.heading_gain: 2.5
+    control.max_lateral_speed: 0.20
+    control.max_angular_speed: 0.80
+    control.minimum_clearance: 0.03
+    control.maximum_heading_error: 0.40
+    control.crossing_timeout_sec: 12.0
+
+    log_csv: /tmp/rm2027_dog_hole_sim/dog_hole_run.csv
