@@ -39,13 +39,14 @@
     <!--
       Simulation-only planar scan frame for Phase 1.5 obstacle validation.
       This is not a MID360 frame and must not be enabled in real-hardware
-      bringup. Its placeholder origin matches phase1_omni.sdf.
+      bringup. It follows the simulated gimbal so scan geometry and ROS TF
+      remain consistent when the gimbal is not aligned with the chassis.
     -->
     <link name="sim_lidar_link"/>
-    <joint name="base_link_to_sim_lidar_link" type="fixed">
-      <parent link="base_link"/>
+    <joint name="gimbal_yaw_link_to_sim_lidar_link" type="fixed">
+      <parent link="gimbal_yaw_link"/>
       <child link="sim_lidar_link"/>
-      <origin xyz="0 0 0.35" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
   </xacro:if>
 

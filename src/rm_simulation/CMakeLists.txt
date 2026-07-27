@@ -33,10 +33,18 @@ ament_target_dependencies(moving_obstacle_controller
   std_msgs
 )
 
+add_executable(sim_gimbal_state_publisher src/sim_gimbal_state_publisher.cpp)
+ament_target_dependencies(sim_gimbal_state_publisher
+  rclcpp
+  sensor_msgs
+  std_msgs
+)
+
 install(TARGETS
   fake_pointcloud_obstacle_publisher
   scan_frame_adapter
   moving_obstacle_controller
+  sim_gimbal_state_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 

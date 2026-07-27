@@ -143,8 +143,31 @@
         </visual>
       </link>
 
-      <link name="sim_lidar_link">
+      <link name="gimbal_yaw_link">
         <pose relative_to="base_link">0 0 0.35 0 0 0</pose>
+        <inertial>
+          <mass>0.2</mass>
+          <inertia>
+            <ixx>0.0002</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.0002</iyy><iyz>0</iyz><izz>0.0002</izz>
+          </inertia>
+        </inertial>
+      </link>
+
+      <joint name="gimbal_yaw_joint" type="revolute">
+        <parent>base_link</parent>
+        <child>gimbal_yaw_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28318530718</lower>
+            <upper>6.28318530718</upper>
+          </limit>
+        </axis>
+      </joint>
+
+      <link name="sim_lidar_link">
+        <pose relative_to="gimbal_yaw_link">0 0 0 0 0 0</pose>
         <inertial>
           <mass>0.1</mass>
           <inertia>
@@ -186,10 +209,18 @@
         </sensor>
       </link>
 
-      <joint name="base_link_to_sim_lidar_link" type="fixed">
-        <parent>base_link</parent>
+      <joint name="gimbal_yaw_link_to_sim_lidar_link" type="fixed">
+        <parent>gimbal_yaw_link</parent>
         <child>sim_lidar_link</child>
       </joint>
+
+      <plugin
+        filename="ignition-gazebo-joint-position-controller-system"
+        name="ignition::gazebo::systems::JointPositionController">
+        <joint_name>gimbal_yaw_joint</joint_name>
+        <topic>/model/rm_sentry_2027/gimbal_yaw_cmd</topic>
+        <p_gain>20.0</p_gain>
+      </plugin>
 
       <link name="front_left_wheel">
         <pose>0.25 0.225 0.075 -1.57079632679 0 0</pose>

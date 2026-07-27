@@ -4,6 +4,7 @@ from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -12,6 +13,9 @@ def generate_launch_description():
     use_nav2 = LaunchConfiguration("use_nav2")
     use_rviz = LaunchConfiguration("use_rviz")
     use_scan_adapter = LaunchConfiguration("use_scan_adapter")
+    gimbal_use_input = LaunchConfiguration("gimbal_use_input")
+    gimbal_input_topic = LaunchConfiguration("gimbal_input_topic")
+    gimbal_yaw = LaunchConfiguration("gimbal_yaw")
     nav2_params = LaunchConfiguration("nav2_params")
     rviz_config = LaunchConfiguration("rviz_config")
 
@@ -61,6 +65,9 @@ def generate_launch_description():
         DeclareLaunchArgument("use_nav2", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_scan_adapter", default_value="true"),
+        DeclareLaunchArgument("gimbal_use_input", default_value="true"),
+        DeclareLaunchArgument("gimbal_input_topic", default_value="/gimbal/state"),
+        DeclareLaunchArgument("gimbal_yaw", default_value="0.0"),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2_params),
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
         LogInfo(msg=[
@@ -88,6 +95,20 @@ def generate_launch_description():
         ),
         Node(
             package="rm_simulation",
+            executable="sim_gimbal_state_publisher",
+            name="sim_gimbal_state_publisher",
+            output="screen",
+            condition=IfCondition(gimbal_use_input),
+            parameters=[{
+                "use_sim_time": True,
+                "state_topic": gimbal_input_topic,
+                "offset_rad": ParameterValue(gimbal_yaw, value_type=float),
+                "amplitude_rad": 0.0,
+                "frequency_hz": 0.0,
+            }],
+        ),
+        Node(
+            package="rm_simulation",
             executable="scan_frame_adapter",
             name="scan_frame_adapter",
             output="screen",
@@ -111,6 +132,8 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": "true",
                 "raw_odom_topic": "/simulation/ground_truth/odom",
+                "gimbal_use_input": gimbal_use_input,
+                "gimbal_input_topic": gimbal_input_topic,
             }.items(),
         ),
         Node(
