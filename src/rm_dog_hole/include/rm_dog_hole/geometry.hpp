@@ -30,6 +30,7 @@ CorridorPose evaluatePose(
   double y,
   double yaw,
   const Corridor & corridor,
+  double robot_length,
   double robot_width);
 
 bool pointInTraversalZone(

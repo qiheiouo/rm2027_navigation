@@ -142,7 +142,6 @@ private:
   enum class GoalPurpose
   {
     APPROACH,
-    ALIGN,
     FINAL
   };
 
@@ -189,6 +188,18 @@ private:
       declare_parameter<double>("control.minimum_clearance", 0.03);
     maximum_heading_error_ =
       declare_parameter<double>("control.maximum_heading_error", 0.4);
+    alignment_forward_speed_ =
+      declare_parameter<double>("control.alignment_forward_speed", 0.25);
+    alignment_longitudinal_gain_ =
+      declare_parameter<double>("control.alignment_longitudinal_gain", 1.0);
+    alignment_longitudinal_tolerance_ =
+      declare_parameter<double>("control.alignment_longitudinal_tolerance", 0.05);
+    alignment_lateral_tolerance_ =
+      declare_parameter<double>("control.alignment_lateral_tolerance", 0.04);
+    alignment_heading_tolerance_ =
+      declare_parameter<double>("control.alignment_heading_tolerance", 0.10);
+    alignment_timeout_sec_ =
+      declare_parameter<double>("control.alignment_timeout_sec", 15.0);
     crossing_timeout_sec_ =
       declare_parameter<double>("control.crossing_timeout_sec", 12.0);
     log_csv_ = declare_parameter<std::string>(
@@ -210,11 +221,18 @@ private:
       throw std::invalid_argument("final_goal must be [x, y, yaw]");
     }
     if (entry_clearance_ < 0.0 || exit_clearance_ < 0.0 ||
-      approach_offset_ < 0.0 || control_rate_hz_ <= 0.0 ||
+      approach_offset_ < 0.0 || approach_offset_ > entry_clearance_ ||
+      control_rate_hz_ <= 0.0 ||
       forward_speed_ <= 0.0 || forward_speed_ > 0.8 ||
       lateral_gain_ < 0.0 || heading_gain_ < 0.0 ||
       max_lateral_speed_ < 0.0 || max_angular_speed_ < 0.0 ||
       minimum_clearance_ < 0.0 || maximum_heading_error_ <= 0.0 ||
+      alignment_forward_speed_ <= 0.0 || alignment_forward_speed_ > 0.8 ||
+      alignment_longitudinal_gain_ <= 0.0 ||
+      alignment_longitudinal_tolerance_ <= 0.0 ||
+      alignment_lateral_tolerance_ <= 0.0 ||
+      alignment_heading_tolerance_ <= 0.0 ||
+      alignment_timeout_sec_ <= 0.0 ||
       crossing_timeout_sec_ <= 0.0 || auto_start_delay_sec_ < 0.0)
     {
       throw std::invalid_argument("dog-hole timing, control, or clearance parameter is invalid");
@@ -222,6 +240,9 @@ private:
     const double nominal_clearance = 0.5 * (corridor_.width - robot_width_);
     if (minimum_clearance_ >= nominal_clearance) {
       throw std::invalid_argument("minimum clearance leaves no feasible centerline");
+    }
+    if (alignment_lateral_tolerance_ >= nominal_clearance) {
+      throw std::invalid_argument("alignment lateral tolerance exceeds nominal clearance");
     }
   }
 
@@ -295,6 +316,8 @@ private:
       fail("cannot plan without map -> base_link");
       return;
     }
+    const double approach_yaw =
+      yawFromQuaternion(base_transform.transform.rotation);
 
     ComputePath::Goal goal;
     goal.goal = finalGoalPose();
@@ -312,7 +335,8 @@ private:
         }
       };
     options.result_callback =
-      [this, generation](const ComputePathGoalHandle::WrappedResult & result)
+      [this, generation, approach_yaw](
+        const ComputePathGoalHandle::WrappedResult & result)
       {
         if (generation != mission_generation_) {
           return;
@@ -336,7 +360,7 @@ private:
         if (path_crosses_) {
           transition(State::APPROACHING, "NAV2");
           sendNavigationGoal(
-            poseAt(-0.5 * corridor_.length - entry_clearance_),
+            poseAt(-0.5 * corridor_.length - entry_clearance_, approach_yaw),
             GoalPurpose::APPROACH, generation);
         } else {
           transition(State::EXITING, "NAV2");
@@ -346,7 +370,7 @@ private:
     compute_path_client_->async_send_goal(goal, options);
   }
 
-  geometry_msgs::msg::PoseStamped poseAt(double longitudinal) const
+  geometry_msgs::msg::PoseStamped poseAt(double longitudinal, double yaw) const
   {
     const auto point = rm_dog_hole::pointAtLongitudinal(corridor_, longitudinal);
     geometry_msgs::msg::PoseStamped pose;
@@ -354,7 +378,7 @@ private:
     pose.header.frame_id = map_frame_;
     pose.pose.position.x = point.first;
     pose.pose.position.y = point.second;
-    pose.pose.orientation = quaternionFromYaw(corridor_.yaw);
+    pose.pose.orientation = quaternionFromYaw(yaw);
     return pose;
   }
 
@@ -397,23 +421,17 @@ private:
           fail("NavigateToPose failed or was canceled");
           return;
         }
-        handleNavigationSuccess(purpose, generation);
+        handleNavigationSuccess(purpose);
       };
     navigate_client_->async_send_goal(goal, options);
   }
 
-  void handleNavigationSuccess(GoalPurpose purpose, std::size_t generation)
+  void handleNavigationSuccess(GoalPurpose purpose)
   {
     if (purpose == GoalPurpose::APPROACH) {
-      transition(State::ALIGNING, "NAV2");
-      sendNavigationGoal(
-        poseAt(-0.5 * corridor_.length - approach_offset_),
-        GoalPurpose::ALIGN, generation);
-      return;
-    }
-    if (purpose == GoalPurpose::ALIGN) {
-      crossing_start_time_ = now();
-      transition(State::CROSSING, "CENTERLINE");
+      alignment_start_time_ = now();
+      publishZero();
+      transition(State::ALIGNING, "CENTERLINE_ALIGN");
       return;
     }
 
@@ -438,6 +456,84 @@ private:
     }
   }
 
+  geometry_msgs::msg::Twist centerlineCommand(
+    const rm_dog_hole::CorridorPose & pose,
+    double base_yaw,
+    double forward) const
+  {
+    const double axis_x = std::cos(corridor_.yaw);
+    const double axis_y = std::sin(corridor_.yaw);
+    const double normal_x = -axis_y;
+    const double normal_y = axis_x;
+    const double lateral = std::clamp(
+      -lateral_gain_ * pose.lateral, -max_lateral_speed_, max_lateral_speed_);
+    const double map_velocity_x = forward * axis_x + lateral * normal_x;
+    const double map_velocity_y = forward * axis_y + lateral * normal_y;
+
+    geometry_msgs::msg::Twist command;
+    command.linear.x =
+      std::cos(base_yaw) * map_velocity_x + std::sin(base_yaw) * map_velocity_y;
+    command.linear.y =
+      -std::sin(base_yaw) * map_velocity_x + std::cos(base_yaw) * map_velocity_y;
+    command.angular.z = std::clamp(
+      heading_gain_ * pose.heading_error, -max_angular_speed_, max_angular_speed_);
+    return command;
+  }
+
+  void alignmentTick()
+  {
+    if ((now() - alignment_start_time_).seconds() > alignment_timeout_sec_) {
+      fail("centerline alignment timeout");
+      return;
+    }
+
+    geometry_msgs::msg::TransformStamped transform;
+    if (!lookupBase(transform)) {
+      publishZero();
+      return;
+    }
+    const double base_yaw = yawFromQuaternion(transform.transform.rotation);
+    const auto pose = rm_dog_hole::evaluatePose(
+      transform.transform.translation.x,
+      transform.transform.translation.y,
+      base_yaw,
+      corridor_,
+      robot_length_,
+      robot_width_);
+    latest_pose_ = pose;
+
+    const double target_longitudinal =
+      -0.5 * corridor_.length - approach_offset_;
+    const double longitudinal_error = target_longitudinal - pose.longitudinal;
+    const bool heading_aligned =
+      std::abs(pose.heading_error) <= alignment_heading_tolerance_;
+    const bool lateral_aligned =
+      std::abs(pose.lateral) <= alignment_lateral_tolerance_;
+    const bool longitudinal_aligned =
+      longitudinal_error <= alignment_longitudinal_tolerance_;
+
+    if (heading_aligned && lateral_aligned && longitudinal_aligned) {
+      publishZero();
+      crossing_start_time_ = now();
+      transition(State::CROSSING, "CENTERLINE");
+      return;
+    }
+
+    // Rotate in the open entry area before moving the rectangular footprint
+    // towards the walls. Once aligned, approach the tunnel on its centerline.
+    const double forward = heading_aligned ?
+      std::clamp(
+        alignment_longitudinal_gain_ * std::max(0.0, longitudinal_error),
+        0.0, alignment_forward_speed_) :
+      0.0;
+    auto command = centerlineCommand(pose, base_yaw, forward);
+    if (!heading_aligned) {
+      command.linear.x = 0.0;
+      command.linear.y = 0.0;
+    }
+    publishCommand(command);
+  }
+
   void crossingTick()
   {
     if ((now() - crossing_start_time_).seconds() > crossing_timeout_sec_) {
@@ -456,6 +552,7 @@ private:
       transform.transform.translation.y,
       base_yaw,
       corridor_,
+      robot_length_,
       robot_width_);
     latest_pose_ = pose;
 
@@ -476,26 +573,10 @@ private:
       return;
     }
 
-    const double axis_x = std::cos(corridor_.yaw);
-    const double axis_y = std::sin(corridor_.yaw);
-    const double normal_x = -axis_y;
-    const double normal_y = axis_x;
     const double heading_scale = std::clamp(
       1.0 - std::abs(pose.heading_error) / maximum_heading_error_, 0.2, 1.0);
     const double forward = forward_speed_ * heading_scale;
-    const double lateral = std::clamp(
-      -lateral_gain_ * pose.lateral, -max_lateral_speed_, max_lateral_speed_);
-    const double map_velocity_x = forward * axis_x + lateral * normal_x;
-    const double map_velocity_y = forward * axis_y + lateral * normal_y;
-
-    geometry_msgs::msg::Twist command;
-    command.linear.x =
-      std::cos(base_yaw) * map_velocity_x + std::sin(base_yaw) * map_velocity_y;
-    command.linear.y =
-      -std::sin(base_yaw) * map_velocity_x + std::cos(base_yaw) * map_velocity_y;
-    command.angular.z = std::clamp(
-      heading_gain_ * pose.heading_error, -max_angular_speed_, max_angular_speed_);
-    publishCommand(command);
+    publishCommand(centerlineCommand(pose, base_yaw, forward));
   }
 
   void controlTick()
@@ -508,7 +589,9 @@ private:
       }
     }
 
-    if (state_ == State::CROSSING) {
+    if (state_ == State::ALIGNING) {
+      alignmentTick();
+    } else if (state_ == State::CROSSING) {
       crossingTick();
     }
     publishStatus();
@@ -634,6 +717,12 @@ private:
   double max_angular_speed_;
   double minimum_clearance_;
   double maximum_heading_error_;
+  double alignment_forward_speed_;
+  double alignment_longitudinal_gain_;
+  double alignment_longitudinal_tolerance_;
+  double alignment_lateral_tolerance_;
+  double alignment_heading_tolerance_;
+  double alignment_timeout_sec_;
   double crossing_timeout_sec_;
   std::string log_csv_;
 
@@ -645,6 +734,7 @@ private:
   rm_dog_hole::CorridorPose latest_pose_;
   geometry_msgs::msg::Twist latest_command_;
   rclcpp::Time mission_start_time_;
+  rclcpp::Time alignment_start_time_;
   rclcpp::Time crossing_start_time_;
   std::chrono::steady_clock::time_point steady_start_time_;
   std::ofstream log_stream_;

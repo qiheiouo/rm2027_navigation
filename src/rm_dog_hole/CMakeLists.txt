@@ -52,6 +52,12 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
+install(PROGRAMS
+  scripts/dog_hole_capture_matrix.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME dog_hole_capture_matrix
+)
+
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
   ament_add_gtest(test_dog_hole_geometry test/test_dog_hole_geometry.cpp)

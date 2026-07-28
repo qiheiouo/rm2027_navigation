@@ -15,6 +15,7 @@ CorridorPose evaluatePose(
   double y,
   double yaw,
   const Corridor & corridor,
+  double robot_length,
   double robot_width)
 {
   const double axis_x = std::cos(corridor.yaw);
@@ -28,8 +29,11 @@ CorridorPose evaluatePose(
   pose.longitudinal = delta_x * axis_x + delta_y * axis_y;
   pose.lateral = delta_x * normal_x + delta_y * normal_y;
   pose.heading_error = normalizeAngle(corridor.yaw - yaw);
+  const double projected_half_width =
+    0.5 * robot_width * std::abs(std::cos(pose.heading_error)) +
+    0.5 * robot_length * std::abs(std::sin(pose.heading_error));
   pose.minimum_wall_clearance =
-    0.5 * corridor.width - 0.5 * robot_width - std::abs(pose.lateral);
+    0.5 * corridor.width - projected_half_width - std::abs(pose.lateral);
   return pose;
 }
 
@@ -40,7 +44,7 @@ bool pointInTraversalZone(
   double entry_margin,
   double exit_margin)
 {
-  const auto pose = evaluatePose(x, y, corridor.yaw, corridor, 0.0);
+  const auto pose = evaluatePose(x, y, corridor.yaw, corridor, 0.0, 0.0);
   const double minimum_longitudinal = -0.5 * corridor.length - entry_margin;
   const double maximum_longitudinal = 0.5 * corridor.length + exit_margin;
   return pose.longitudinal >= minimum_longitudinal &&
@@ -63,7 +67,7 @@ bool pathCrossesCorridor(
       continue;
     }
     const auto pose = evaluatePose(
-      point.first, point.second, corridor.yaw, corridor, 0.0);
+      point.first, point.second, corridor.yaw, corridor, 0.0, 0.0);
     saw_entry_side = saw_entry_side || pose.longitudinal <= -0.25 * corridor.length;
     saw_exit_side = saw_exit_side || pose.longitudinal >= 0.25 * corridor.length;
   }

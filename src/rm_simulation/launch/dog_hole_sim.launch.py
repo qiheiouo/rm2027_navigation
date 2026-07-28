@@ -183,6 +183,11 @@ def _make_nav2_profile(params):
     follow_path = data["controller_server"]["ros__parameters"]["FollowPath"]
     follow_path.update(
         {
+            # The narrow-entry profile needs enough samples to avoid the
+            # repeated soft-reset/abort cycle seen with the 300-sample base
+            # profile before the dedicated alignment controller takes over.
+            "batch_size": 1000,
+            "retry_attempt_limit": 3,
             "vx_max": 0.65,
             "vx_min": -0.30,
             "vy_max": 0.35,

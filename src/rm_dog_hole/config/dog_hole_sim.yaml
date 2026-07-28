@@ -46,6 +46,14 @@ dog_hole_manager:
     control.max_angular_speed: 0.80
     control.minimum_clearance: 0.03
     control.maximum_heading_error: 0.40
+    # Nav2 stops at the open preparation point. The dedicated controller then
+    # rotates the base, centers it, and advances to the tunnel entrance.
+    control.alignment_forward_speed: 0.25
+    control.alignment_longitudinal_gain: 1.0
+    control.alignment_longitudinal_tolerance: 0.05
+    control.alignment_lateral_tolerance: 0.04
+    control.alignment_heading_tolerance: 0.10
+    control.alignment_timeout_sec: 15.0
     control.crossing_timeout_sec: 12.0
 
     log_csv: /tmp/rm2027_dog_hole_sim/dog_hole_run.csv
