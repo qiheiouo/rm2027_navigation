@@ -250,6 +250,54 @@ def _launch_setup(context):
                 "gimbal_use_input": "true",
                 "gimbal_input_topic": "/gimbal/state",
                 "gimbal_yaw": gimbal_yaw,
+                "use_localization_disturbance": "true",
+                "localization_reference_yaw": str(
+                    params["dog_hole.yaw"]
+                ),
+                "localization_lateral_noise_std_m": str(
+                    params["simulation.localization.lateral_noise_std_m"]
+                ),
+                "localization_yaw_noise_std_rad": str(
+                    params["simulation.localization.yaw_noise_std_rad"]
+                ),
+                "localization_delay_sec": str(
+                    params["simulation.localization.delay_sec"]
+                ),
+                "localization_lateral_drift_amplitude_m": str(
+                    params[
+                        "simulation.localization.lateral_drift_amplitude_m"
+                    ]
+                ),
+                "localization_yaw_drift_amplitude_rad": str(
+                    params[
+                        "simulation.localization.yaw_drift_amplitude_rad"
+                    ]
+                ),
+                "localization_drift_frequency_hz": str(
+                    params["simulation.localization.drift_frequency_hz"]
+                ),
+                "localization_random_seed": str(
+                    params["simulation.localization.random_seed"]
+                ),
+                "use_chassis_disturbance": "true",
+                "chassis_forward_scale": str(
+                    params["simulation.chassis.forward_scale"]
+                ),
+                "chassis_lateral_positive_scale": str(
+                    params["simulation.chassis.lateral_positive_scale"]
+                ),
+                "chassis_lateral_negative_scale": str(
+                    params["simulation.chassis.lateral_negative_scale"]
+                ),
+                "chassis_angular_scale": str(
+                    params["simulation.chassis.angular_scale"]
+                ),
+                "chassis_lateral_time_constant_sec": str(
+                    params["simulation.chassis.lateral_time_constant_sec"]
+                ),
+                "chassis_angular_time_constant_sec": str(
+                    params["simulation.chassis.angular_time_constant_sec"]
+                ),
             }.items(),
         ),
         Node(

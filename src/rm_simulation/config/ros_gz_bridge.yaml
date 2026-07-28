@@ -20,6 +20,12 @@
   gz_type_name: ignition.msgs.Odometry
   direction: GZ_TO_ROS
 
+- ros_topic_name: /simulation/ground_truth/odom_3d
+  gz_topic_name: /model/rm_sentry_2027/odometry_3d
+  ros_type_name: nav_msgs/msg/Odometry
+  gz_type_name: ignition.msgs.Odometry
+  direction: GZ_TO_ROS
+
 - ros_topic_name: /simulation/scan_raw
   gz_topic_name: /model/rm_sentry_2027/sim_lidar/scan
   ros_type_name: sensor_msgs/msg/LaserScan

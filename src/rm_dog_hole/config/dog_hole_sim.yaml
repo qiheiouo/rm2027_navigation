@@ -33,6 +33,25 @@ dog_hole_manager:
     robot.width: 0.50
     robot.height: 0.22
 
+    # Simulation-only localization disturbance. These remain zero in the
+    # nominal profile and never affect real localization launches.
+    simulation.localization.lateral_noise_std_m: 0.0
+    simulation.localization.yaw_noise_std_rad: 0.0
+    simulation.localization.delay_sec: 0.0
+    simulation.localization.lateral_drift_amplitude_m: 0.0
+    simulation.localization.yaw_drift_amplitude_rad: 0.0
+    simulation.localization.drift_frequency_hz: 0.0
+    simulation.localization.random_seed: 20270728
+
+    # Simulation-only execution response. Unit scales and zero time constants
+    # preserve the nominal Gazebo command path.
+    simulation.chassis.forward_scale: 1.0
+    simulation.chassis.lateral_positive_scale: 1.0
+    simulation.chassis.lateral_negative_scale: 1.0
+    simulation.chassis.angular_scale: 1.0
+    simulation.chassis.lateral_time_constant_sec: 0.0
+    simulation.chassis.angular_time_constant_sec: 0.0
+
     approach_offset: 0.15
     final_goal: [-5.0, 0.0, 3.141592653589793]
     auto_start: true

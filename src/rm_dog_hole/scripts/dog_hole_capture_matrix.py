@@ -11,6 +11,7 @@ import time
 
 import rclpy
 from ament_index_python.packages import get_package_share_directory
+from geometry_msgs.msg import Twist
 from nav2_msgs.srv import ClearEntireCostmap
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
@@ -39,6 +40,14 @@ def yaw_from_quaternion(quaternion):
     return math.atan2(sin_yaw, cos_yaw)
 
 
+def pitch_from_quaternion(quaternion):
+    sin_pitch = 2.0 * (
+        quaternion.w * quaternion.y
+        - quaternion.z * quaternion.x
+    )
+    return math.asin(max(-1.0, min(1.0, sin_pitch)))
+
+
 def make_case_id(lateral_m, yaw_offset_deg, repeat_index):
     return (
         f"L{lateral_m * 100.0:+05.1f}cm_"
@@ -60,9 +69,74 @@ class CaptureMatrixRunner(Node):
         self.entry_clearance = float(config["dog_hole.entry_clearance"])
         self.robot_length = float(config["robot.length"])
         self.robot_width = float(config["robot.width"])
+        self.localization_lateral_noise_std_m = float(
+            config.get(
+                "simulation.localization.lateral_noise_std_m", 0.0
+            )
+        )
+        self.localization_yaw_noise_std_deg = math.degrees(
+            float(
+                config.get(
+                    "simulation.localization.yaw_noise_std_rad", 0.0
+                )
+            )
+        )
+        self.localization_delay_sec = float(
+            config.get("simulation.localization.delay_sec", 0.0)
+        )
+        self.localization_lateral_drift_amplitude_m = float(
+            config.get(
+                "simulation.localization.lateral_drift_amplitude_m", 0.0
+            )
+        )
+        self.localization_yaw_drift_amplitude_deg = math.degrees(
+            float(
+                config.get(
+                    "simulation.localization.yaw_drift_amplitude_rad", 0.0
+                )
+            )
+        )
+        self.localization_drift_frequency_hz = float(
+            config.get(
+                "simulation.localization.drift_frequency_hz", 0.0
+            )
+        )
+        self.localization_random_seed = int(
+            config.get("simulation.localization.random_seed", 20270728)
+        )
+        self.chassis_forward_scale = float(
+            config.get("simulation.chassis.forward_scale", 1.0)
+        )
+        self.chassis_lateral_positive_scale = float(
+            config.get(
+                "simulation.chassis.lateral_positive_scale", 1.0
+            )
+        )
+        self.chassis_lateral_negative_scale = float(
+            config.get(
+                "simulation.chassis.lateral_negative_scale", 1.0
+            )
+        )
+        self.chassis_angular_scale = float(
+            config.get("simulation.chassis.angular_scale", 1.0)
+        )
+        self.chassis_lateral_time_constant_sec = float(
+            config.get(
+                "simulation.chassis.lateral_time_constant_sec", 0.0
+            )
+        )
+        self.chassis_angular_time_constant_sec = float(
+            config.get(
+                "simulation.chassis.angular_time_constant_sec", 0.0
+            )
+        )
 
         self.current_state = "UNKNOWN"
         self.latest_odom = None
+        self.latest_odom_3d = None
+        self.latest_estimated_odom = None
+        self.latest_chassis_command = None
+        self.latest_applied_chassis_command = None
         self.trial_active = False
         self.state_sequence = []
         self.state_times = {}
@@ -87,6 +161,30 @@ class CaptureMatrixRunner(Node):
             Odometry,
             "/simulation/ground_truth/odom",
             self._odom_callback,
+            sensor_qos,
+        )
+        self.create_subscription(
+            Odometry,
+            "/simulation/ground_truth/odom_3d",
+            self._odom_3d_callback,
+            sensor_qos,
+        )
+        self.create_subscription(
+            Odometry,
+            "/odometry/lio",
+            self._estimated_odom_callback,
+            sensor_qos,
+        )
+        self.create_subscription(
+            Twist,
+            "/simulation/chassis/cmd_vel",
+            self._chassis_command_callback,
+            sensor_qos,
+        )
+        self.create_subscription(
+            Twist,
+            "/simulation/chassis/cmd_vel_applied",
+            self._applied_chassis_command_callback,
             sensor_qos,
         )
 
@@ -169,6 +267,121 @@ class CaptureMatrixRunner(Node):
                 abs(math.degrees(heading_error)),
             )
             self.metrics["last_crossing_longitudinal_m"] = longitudinal
+
+    def _odom_3d_callback(self, message):
+        self.latest_odom_3d = message
+        if (
+            not self.trial_active
+            or self.current_state not in ("ALIGNING", "CROSSING")
+        ):
+            return
+        pitch_deg = math.degrees(
+            pitch_from_quaternion(message.pose.pose.orientation)
+        )
+        self.metrics["maximum_ground_truth_z_m"] = max(
+            self.metrics["maximum_ground_truth_z_m"],
+            message.pose.pose.position.z,
+        )
+        self.metrics["max_abs_ground_truth_pitch_deg"] = max(
+            self.metrics["max_abs_ground_truth_pitch_deg"],
+            abs(pitch_deg),
+        )
+
+    def _estimated_odom_callback(self, message):
+        self.latest_estimated_odom = message
+        if (
+            not self.trial_active
+            or self.latest_odom is None
+            or self.current_state not in ("ALIGNING", "CROSSING")
+        ):
+            return
+        _, true_lateral, true_heading_error, _ = self._evaluate_pose(
+            self.latest_odom
+        )
+        _, estimated_lateral, estimated_heading_error, _ = (
+            self._evaluate_pose(message)
+        )
+        lateral_error = estimated_lateral - true_lateral
+        yaw_error_deg = math.degrees(
+            normalize_angle(estimated_heading_error - true_heading_error)
+        )
+        self.metrics[
+            "max_abs_effective_localization_lateral_error_m"
+        ] = max(
+            self.metrics[
+                "max_abs_effective_localization_lateral_error_m"
+            ],
+            abs(lateral_error),
+        )
+        self.metrics[
+            "max_abs_effective_localization_yaw_error_deg"
+        ] = max(
+            self.metrics["max_abs_effective_localization_yaw_error_deg"],
+            abs(yaw_error_deg),
+        )
+        if self.current_state == "CROSSING":
+            self.metrics[
+                "crossing_max_abs_effective_localization_lateral_error_m"
+            ] = max(
+                self.metrics[
+                    "crossing_max_abs_effective_localization_lateral_error_m"
+                ],
+                abs(lateral_error),
+            )
+            self.metrics[
+                "crossing_max_abs_effective_localization_yaw_error_deg"
+            ] = max(
+                self.metrics[
+                    "crossing_max_abs_effective_localization_yaw_error_deg"
+                ],
+                abs(yaw_error_deg),
+            )
+
+    def _update_chassis_response_metrics(self):
+        if (
+            not self.trial_active
+            or self.latest_chassis_command is None
+            or self.latest_applied_chassis_command is None
+            or self.current_state not in ("ALIGNING", "CROSSING")
+        ):
+            return
+        lateral_error = (
+            self.latest_chassis_command.linear.y
+            - self.latest_applied_chassis_command.linear.y
+        )
+        angular_error = (
+            self.latest_chassis_command.angular.z
+            - self.latest_applied_chassis_command.angular.z
+        )
+        self.metrics["max_abs_lateral_command_error_mps"] = max(
+            self.metrics["max_abs_lateral_command_error_mps"],
+            abs(lateral_error),
+        )
+        self.metrics["max_abs_angular_command_error_radps"] = max(
+            self.metrics["max_abs_angular_command_error_radps"],
+            abs(angular_error),
+        )
+        if self.current_state == "CROSSING":
+            self.metrics["crossing_max_abs_lateral_command_error_mps"] = max(
+                self.metrics[
+                    "crossing_max_abs_lateral_command_error_mps"
+                ],
+                abs(lateral_error),
+            )
+            self.metrics["crossing_max_abs_angular_command_error_radps"] = max(
+                self.metrics[
+                    "crossing_max_abs_angular_command_error_radps"
+                ],
+                abs(angular_error),
+            )
+
+    def _chassis_command_callback(self, message):
+        self.latest_chassis_command = message
+        self._update_chassis_response_metrics()
+
+    def _applied_chassis_command_callback(self, message):
+        self.latest_applied_chassis_command = message
+        self._update_chassis_response_metrics()
 
     def _spin_until(self, predicate, timeout_sec):
         deadline = time.monotonic() + timeout_sec
@@ -281,6 +494,16 @@ class CaptureMatrixRunner(Node):
             "crossing_max_abs_yaw_error_deg": 0.0,
             "crossing_samples": 0,
             "last_crossing_longitudinal_m": math.nan,
+            "max_abs_effective_localization_lateral_error_m": 0.0,
+            "max_abs_effective_localization_yaw_error_deg": 0.0,
+            "crossing_max_abs_effective_localization_lateral_error_m": 0.0,
+            "crossing_max_abs_effective_localization_yaw_error_deg": 0.0,
+            "max_abs_lateral_command_error_mps": 0.0,
+            "max_abs_angular_command_error_radps": 0.0,
+            "crossing_max_abs_lateral_command_error_mps": 0.0,
+            "crossing_max_abs_angular_command_error_radps": 0.0,
+            "maximum_ground_truth_z_m": -math.inf,
+            "max_abs_ground_truth_pitch_deg": 0.0,
         }
 
     def run_trial(self, lateral_m, yaw_offset_deg, repeat_index):
@@ -315,6 +538,28 @@ class CaptureMatrixRunner(Node):
             "requested_lateral_m": lateral_m,
             "requested_yaw_error_deg": yaw_offset_deg,
             "repeat": repeat_index,
+            "localization_lateral_noise_std_m":
+                self.localization_lateral_noise_std_m,
+            "localization_yaw_noise_std_deg":
+                self.localization_yaw_noise_std_deg,
+            "localization_delay_sec": self.localization_delay_sec,
+            "localization_lateral_drift_amplitude_m":
+                self.localization_lateral_drift_amplitude_m,
+            "localization_yaw_drift_amplitude_deg":
+                self.localization_yaw_drift_amplitude_deg,
+            "localization_drift_frequency_hz":
+                self.localization_drift_frequency_hz,
+            "localization_random_seed": self.localization_random_seed,
+            "chassis_forward_scale": self.chassis_forward_scale,
+            "chassis_lateral_positive_scale":
+                self.chassis_lateral_positive_scale,
+            "chassis_lateral_negative_scale":
+                self.chassis_lateral_negative_scale,
+            "chassis_angular_scale": self.chassis_angular_scale,
+            "chassis_lateral_time_constant_sec":
+                self.chassis_lateral_time_constant_sec,
+            "chassis_angular_time_constant_sec":
+                self.chassis_angular_time_constant_sec,
             "pose_reset_ok": False,
             "mission_started": False,
             "success": False,
@@ -327,6 +572,18 @@ class CaptureMatrixRunner(Node):
             "crossing_max_abs_lateral_m": math.nan,
             "crossing_max_abs_yaw_error_deg": math.nan,
             "minimum_clearance_m": math.nan,
+            "max_abs_effective_localization_lateral_error_m": math.nan,
+            "max_abs_effective_localization_yaw_error_deg": math.nan,
+            "crossing_max_abs_effective_localization_lateral_error_m":
+                math.nan,
+            "crossing_max_abs_effective_localization_yaw_error_deg":
+                math.nan,
+            "max_abs_lateral_command_error_mps": math.nan,
+            "max_abs_angular_command_error_radps": math.nan,
+            "crossing_max_abs_lateral_command_error_mps": math.nan,
+            "crossing_max_abs_angular_command_error_radps": math.nan,
+            "maximum_ground_truth_z_m": math.nan,
+            "max_abs_ground_truth_pitch_deg": math.nan,
             "alignment_sec": math.nan,
             "crossing_sec": math.nan,
             "traversal_sec": math.nan,
@@ -374,6 +631,8 @@ class CaptureMatrixRunner(Node):
         result.update(self.metrics)
         if math.isinf(result["minimum_clearance_m"]):
             result["minimum_clearance_m"] = math.nan
+        if math.isinf(result["maximum_ground_truth_z_m"]):
+            result["maximum_ground_truth_z_m"] = math.nan
         result["collision_or_overlap"] = (
             not math.isnan(result["minimum_clearance_m"])
             and result["minimum_clearance_m"] < 0.0
@@ -406,6 +665,19 @@ RESULT_FIELDS = [
     "requested_lateral_m",
     "requested_yaw_error_deg",
     "repeat",
+    "localization_lateral_noise_std_m",
+    "localization_yaw_noise_std_deg",
+    "localization_delay_sec",
+    "localization_lateral_drift_amplitude_m",
+    "localization_yaw_drift_amplitude_deg",
+    "localization_drift_frequency_hz",
+    "localization_random_seed",
+    "chassis_forward_scale",
+    "chassis_lateral_positive_scale",
+    "chassis_lateral_negative_scale",
+    "chassis_angular_scale",
+    "chassis_lateral_time_constant_sec",
+    "chassis_angular_time_constant_sec",
     "pose_reset_ok",
     "mission_started",
     "success",
@@ -420,6 +692,16 @@ RESULT_FIELDS = [
     "minimum_clearance_m",
     "crossing_samples",
     "last_crossing_longitudinal_m",
+    "max_abs_effective_localization_lateral_error_m",
+    "max_abs_effective_localization_yaw_error_deg",
+    "crossing_max_abs_effective_localization_lateral_error_m",
+    "crossing_max_abs_effective_localization_yaw_error_deg",
+    "max_abs_lateral_command_error_mps",
+    "max_abs_angular_command_error_radps",
+    "crossing_max_abs_lateral_command_error_mps",
+    "crossing_max_abs_angular_command_error_radps",
+    "maximum_ground_truth_z_m",
+    "max_abs_ground_truth_pitch_deg",
     "alignment_sec",
     "crossing_sec",
     "traversal_sec",

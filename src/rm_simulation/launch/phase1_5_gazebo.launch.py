@@ -16,6 +16,48 @@ def generate_launch_description():
     gimbal_use_input = LaunchConfiguration("gimbal_use_input")
     gimbal_input_topic = LaunchConfiguration("gimbal_input_topic")
     gimbal_yaw = LaunchConfiguration("gimbal_yaw")
+    use_localization_disturbance = LaunchConfiguration(
+        "use_localization_disturbance"
+    )
+    localization_reference_yaw = LaunchConfiguration(
+        "localization_reference_yaw"
+    )
+    localization_lateral_noise_std_m = LaunchConfiguration(
+        "localization_lateral_noise_std_m"
+    )
+    localization_yaw_noise_std_rad = LaunchConfiguration(
+        "localization_yaw_noise_std_rad"
+    )
+    localization_delay_sec = LaunchConfiguration("localization_delay_sec")
+    localization_lateral_drift_amplitude_m = LaunchConfiguration(
+        "localization_lateral_drift_amplitude_m"
+    )
+    localization_yaw_drift_amplitude_rad = LaunchConfiguration(
+        "localization_yaw_drift_amplitude_rad"
+    )
+    localization_drift_frequency_hz = LaunchConfiguration(
+        "localization_drift_frequency_hz"
+    )
+    localization_random_seed = LaunchConfiguration(
+        "localization_random_seed"
+    )
+    use_chassis_disturbance = LaunchConfiguration(
+        "use_chassis_disturbance"
+    )
+    chassis_forward_scale = LaunchConfiguration("chassis_forward_scale")
+    chassis_lateral_positive_scale = LaunchConfiguration(
+        "chassis_lateral_positive_scale"
+    )
+    chassis_lateral_negative_scale = LaunchConfiguration(
+        "chassis_lateral_negative_scale"
+    )
+    chassis_angular_scale = LaunchConfiguration("chassis_angular_scale")
+    chassis_lateral_time_constant_sec = LaunchConfiguration(
+        "chassis_lateral_time_constant_sec"
+    )
+    chassis_angular_time_constant_sec = LaunchConfiguration(
+        "chassis_angular_time_constant_sec"
+    )
     nav2_params = LaunchConfiguration("nav2_params")
     rviz_config = LaunchConfiguration("rviz_config")
 
@@ -68,6 +110,46 @@ def generate_launch_description():
         DeclareLaunchArgument("gimbal_use_input", default_value="true"),
         DeclareLaunchArgument("gimbal_input_topic", default_value="/gimbal/state"),
         DeclareLaunchArgument("gimbal_yaw", default_value="0.0"),
+        DeclareLaunchArgument(
+            "use_localization_disturbance", default_value="false"
+        ),
+        DeclareLaunchArgument(
+            "localization_reference_yaw", default_value="0.0"
+        ),
+        DeclareLaunchArgument(
+            "localization_lateral_noise_std_m", default_value="0.0"
+        ),
+        DeclareLaunchArgument(
+            "localization_yaw_noise_std_rad", default_value="0.0"
+        ),
+        DeclareLaunchArgument("localization_delay_sec", default_value="0.0"),
+        DeclareLaunchArgument(
+            "localization_lateral_drift_amplitude_m", default_value="0.0"
+        ),
+        DeclareLaunchArgument(
+            "localization_yaw_drift_amplitude_rad", default_value="0.0"
+        ),
+        DeclareLaunchArgument(
+            "localization_drift_frequency_hz", default_value="0.0"
+        ),
+        DeclareLaunchArgument(
+            "localization_random_seed", default_value="20270728"
+        ),
+        DeclareLaunchArgument("use_chassis_disturbance", default_value="false"),
+        DeclareLaunchArgument("chassis_forward_scale", default_value="1.0"),
+        DeclareLaunchArgument(
+            "chassis_lateral_positive_scale", default_value="1.0"
+        ),
+        DeclareLaunchArgument(
+            "chassis_lateral_negative_scale", default_value="1.0"
+        ),
+        DeclareLaunchArgument("chassis_angular_scale", default_value="1.0"),
+        DeclareLaunchArgument(
+            "chassis_lateral_time_constant_sec", default_value="0.0"
+        ),
+        DeclareLaunchArgument(
+            "chassis_angular_time_constant_sec", default_value="0.0"
+        ),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2_params),
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
         LogInfo(msg=[
@@ -91,7 +173,51 @@ def generate_launch_description():
             executable="parameter_bridge",
             name="simulation_bridge",
             output="screen",
+            condition=UnlessCondition(use_chassis_disturbance),
             parameters=[{"config_file": bridge_config}],
+        ),
+        Node(
+            package="ros_gz_bridge",
+            executable="parameter_bridge",
+            name="simulation_bridge",
+            output="screen",
+            condition=IfCondition(use_chassis_disturbance),
+            parameters=[{"config_file": bridge_config}],
+            remappings=[
+                (
+                    "/simulation/chassis/cmd_vel",
+                    "/simulation/chassis/cmd_vel_applied",
+                )
+            ],
+        ),
+        Node(
+            package="rm_simulation",
+            executable="chassis_command_disturbance",
+            name="chassis_command_disturbance",
+            output="screen",
+            condition=IfCondition(use_chassis_disturbance),
+            parameters=[{
+                "input_topic": "/simulation/chassis/cmd_vel",
+                "output_topic": "/simulation/chassis/cmd_vel_applied",
+                "forward_scale": ParameterValue(
+                    chassis_forward_scale, value_type=float
+                ),
+                "lateral_positive_scale": ParameterValue(
+                    chassis_lateral_positive_scale, value_type=float
+                ),
+                "lateral_negative_scale": ParameterValue(
+                    chassis_lateral_negative_scale, value_type=float
+                ),
+                "angular_scale": ParameterValue(
+                    chassis_angular_scale, value_type=float
+                ),
+                "lateral_time_constant_sec": ParameterValue(
+                    chassis_lateral_time_constant_sec, value_type=float
+                ),
+                "angular_time_constant_sec": ParameterValue(
+                    chassis_angular_time_constant_sec, value_type=float
+                ),
+            }],
         ),
         Node(
             package="rm_simulation",
@@ -127,11 +253,60 @@ def generate_launch_description():
                 "use_sim_lidar": "true",
             }.items(),
         ),
+        Node(
+            package="rm_simulation",
+            executable="localization_disturbance",
+            name="localization_disturbance",
+            output="screen",
+            condition=IfCondition(use_localization_disturbance),
+            parameters=[{
+                "use_sim_time": True,
+                "input_topic": "/simulation/ground_truth/odom",
+                "output_topic": "/simulation/localization/odom",
+                "reference_yaw": ParameterValue(
+                    localization_reference_yaw, value_type=float
+                ),
+                "lateral_noise_std_m": ParameterValue(
+                    localization_lateral_noise_std_m, value_type=float
+                ),
+                "yaw_noise_std_rad": ParameterValue(
+                    localization_yaw_noise_std_rad, value_type=float
+                ),
+                "delay_sec": ParameterValue(
+                    localization_delay_sec, value_type=float
+                ),
+                "lateral_drift_amplitude_m": ParameterValue(
+                    localization_lateral_drift_amplitude_m,
+                    value_type=float,
+                ),
+                "yaw_drift_amplitude_rad": ParameterValue(
+                    localization_yaw_drift_amplitude_rad,
+                    value_type=float,
+                ),
+                "drift_frequency_hz": ParameterValue(
+                    localization_drift_frequency_hz, value_type=float
+                ),
+                "random_seed": ParameterValue(
+                    localization_random_seed, value_type=int
+                ),
+            }],
+        ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(localization_launch),
+            condition=UnlessCondition(use_localization_disturbance),
             launch_arguments={
                 "use_sim_time": "true",
                 "raw_odom_topic": "/simulation/ground_truth/odom",
+                "gimbal_use_input": gimbal_use_input,
+                "gimbal_input_topic": gimbal_input_topic,
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(localization_launch),
+            condition=IfCondition(use_localization_disturbance),
+            launch_arguments={
+                "use_sim_time": "true",
+                "raw_odom_topic": "/simulation/localization/odom",
                 "gimbal_use_input": gimbal_use_input,
                 "gimbal_input_topic": gimbal_input_topic,
             }.items(),

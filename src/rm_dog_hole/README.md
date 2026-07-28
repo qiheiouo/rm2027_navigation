@@ -76,3 +76,22 @@ width / 2
 
 这部分仍是二维平面接管范围验证；坡面、俯仰和 250 mm 洞顶需要使用最终
 三维车体模型另行验证。
+
+## 仿真扰动
+
+`dog_hole_sim.yaml` 中的 `simulation.localization.*` 可为仿真定位链增加：
+
+- 横向和 yaw 白噪声；
+- 时间延迟；
+- 横向和 yaw 低频漂移。
+
+定位扰动节点位于 Gazebo ground truth 与 `lio_adapter` 之间，不发布 TF。
+`simulation.chassis.*` 可设置前进/横移/旋转增益，以及横移和旋转的一阶
+响应时常。底盘扰动位于 `chassis_interface_stub` 与 Gazebo bridge 之间，
+不会进入真实下位机链路。
+
+实验工具始终用 `/simulation/ground_truth/odom` 计算二维真实间隙，并用
+`/simulation/ground_truth/odom_3d` 记录高度和俯仰。当前
+`phase1_omni.sdf` 的 Mecanum 模型仍受平面运动约束，因此 3D 话题不会把
+坡面参数冒充成已完成的爬坡验证；最终坡面和洞顶必须换用可产生 z/pitch
+运动的车体模型。
