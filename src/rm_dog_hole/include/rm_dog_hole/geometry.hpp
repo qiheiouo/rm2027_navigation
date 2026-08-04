@@ -50,4 +50,10 @@ std::pair<double, double> pointAtLongitudinal(
   const Corridor & corridor,
   double longitudinal);
 
+double requiredAlignmentOffset(
+  double robot_length,
+  double deck_height,
+  double entry_slope_rad,
+  double safety_margin);
+
 }  // namespace rm_dog_hole

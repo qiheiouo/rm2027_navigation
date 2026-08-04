@@ -66,9 +66,13 @@ class CaptureMatrixRunner(Node):
         self.corridor_yaw = float(config["dog_hole.yaw"])
         self.corridor_width = float(config["dog_hole.width"])
         self.corridor_length = float(config["dog_hole.length"])
+        self.wall_thickness = float(config["dog_hole.wall_thickness"])
+        self.roof_clearance = float(config["dog_hole.roof_clearance"])
+        self.deck_height = float(config["dog_hole.deck_height"])
         self.entry_clearance = float(config["dog_hole.entry_clearance"])
         self.robot_length = float(config["robot.length"])
         self.robot_width = float(config["robot.width"])
+        self.robot_height = float(config["robot.height"])
         self.localization_lateral_noise_std_m = float(
             config.get(
                 "simulation.localization.lateral_noise_std_m", 0.0
@@ -286,6 +290,68 @@ class CaptureMatrixRunner(Node):
             self.metrics["max_abs_ground_truth_pitch_deg"],
             abs(pitch_deg),
         )
+        if self.current_state == "CROSSING":
+            roof_clearances = self._roof_clearances(message)
+            if roof_clearances:
+                self.metrics["minimum_roof_clearance_m"] = min(
+                    self.metrics["minimum_roof_clearance_m"],
+                    min(roof_clearances),
+                )
+
+    def _roof_clearances(self, odometry):
+        position = odometry.pose.pose.position
+        q = odometry.pose.pose.orientation
+        rotation = (
+            (
+                1.0 - 2.0 * (q.y * q.y + q.z * q.z),
+                2.0 * (q.x * q.y - q.z * q.w),
+                2.0 * (q.x * q.z + q.y * q.w),
+            ),
+            (
+                2.0 * (q.x * q.y + q.z * q.w),
+                1.0 - 2.0 * (q.x * q.x + q.z * q.z),
+                2.0 * (q.y * q.z - q.x * q.w),
+            ),
+            (
+                2.0 * (q.x * q.z - q.y * q.w),
+                2.0 * (q.y * q.z + q.x * q.w),
+                1.0 - 2.0 * (q.x * q.x + q.y * q.y),
+            ),
+        )
+        axis_x = math.cos(self.corridor_yaw)
+        axis_y = math.sin(self.corridor_yaw)
+        normal_x = -axis_y
+        normal_y = axis_x
+        roof_half_width = 0.5 * (
+            self.corridor_width + 2.0 * self.wall_thickness
+        )
+        roof_bottom_z = self.deck_height + self.roof_clearance
+        clearances = []
+        for local_x in (-0.5 * self.robot_length, 0.5 * self.robot_length):
+            for local_y in (-0.5 * self.robot_width, 0.5 * self.robot_width):
+                local_point = (local_x, local_y, self.robot_height)
+                world_x = position.x + sum(
+                    rotation[0][index] * value
+                    for index, value in enumerate(local_point)
+                )
+                world_y = position.y + sum(
+                    rotation[1][index] * value
+                    for index, value in enumerate(local_point)
+                )
+                world_z = position.z + sum(
+                    rotation[2][index] * value
+                    for index, value in enumerate(local_point)
+                )
+                delta_x = world_x - self.center_x
+                delta_y = world_y - self.center_y
+                longitudinal = delta_x * axis_x + delta_y * axis_y
+                lateral = delta_x * normal_x + delta_y * normal_y
+                if (
+                    abs(longitudinal) <= 0.5 * self.corridor_length
+                    and abs(lateral) <= roof_half_width
+                ):
+                    clearances.append(roof_bottom_z - world_z)
+        return clearances
 
     def _estimated_odom_callback(self, message):
         self.latest_estimated_odom = message
@@ -504,6 +570,7 @@ class CaptureMatrixRunner(Node):
             "crossing_max_abs_angular_command_error_radps": 0.0,
             "maximum_ground_truth_z_m": -math.inf,
             "max_abs_ground_truth_pitch_deg": 0.0,
+            "minimum_roof_clearance_m": math.inf,
         }
 
     def run_trial(self, lateral_m, yaw_offset_deg, repeat_index):
@@ -564,7 +631,10 @@ class CaptureMatrixRunner(Node):
             "mission_started": False,
             "success": False,
             "final_state": "NOT_STARTED",
+            "dog_hole_traversed": False,
             "collision_or_overlap": False,
+            "wall_collision_or_overlap": False,
+            "roof_collision_or_overlap": False,
             "observed_initial_lateral_m": math.nan,
             "observed_initial_yaw_error_deg": math.nan,
             "max_abs_lateral_m": math.nan,
@@ -584,6 +654,7 @@ class CaptureMatrixRunner(Node):
             "crossing_max_abs_angular_command_error_radps": math.nan,
             "maximum_ground_truth_z_m": math.nan,
             "max_abs_ground_truth_pitch_deg": math.nan,
+            "minimum_roof_clearance_m": math.nan,
             "alignment_sec": math.nan,
             "crossing_sec": math.nan,
             "traversal_sec": math.nan,
@@ -633,9 +704,19 @@ class CaptureMatrixRunner(Node):
             result["minimum_clearance_m"] = math.nan
         if math.isinf(result["maximum_ground_truth_z_m"]):
             result["maximum_ground_truth_z_m"] = math.nan
-        result["collision_or_overlap"] = (
+        if math.isinf(result["minimum_roof_clearance_m"]):
+            result["minimum_roof_clearance_m"] = math.nan
+        result["wall_collision_or_overlap"] = (
             not math.isnan(result["minimum_clearance_m"])
             and result["minimum_clearance_m"] < 0.0
+        )
+        result["roof_collision_or_overlap"] = (
+            not math.isnan(result["minimum_roof_clearance_m"])
+            and result["minimum_roof_clearance_m"] < -0.002
+        )
+        result["collision_or_overlap"] = (
+            result["wall_collision_or_overlap"]
+            or result["roof_collision_or_overlap"]
         )
 
         aligning = self.state_times.get("ALIGNING")
@@ -648,12 +729,19 @@ class CaptureMatrixRunner(Node):
         if aligning is not None and exiting is not None:
             result["traversal_sec"] = exiting - aligning
         result["state_sequence"] = ">".join(self.state_sequence)
+        result["dog_hole_traversed"] = "CROSSING" in self.state_sequence
         result["success"] = (
             result["final_state"] == "FINISHED"
+            and result["dog_hole_traversed"]
             and not result["collision_or_overlap"]
         )
         if not result["success"] and not result["failure_reason"]:
-            result["failure_reason"] = result["final_state"]
+            result["failure_reason"] = (
+                "dog-hole crossing was bypassed"
+                if result["final_state"] == "FINISHED"
+                and not result["dog_hole_traversed"]
+                else result["final_state"]
+            )
 
         self._call_trigger(self.cancel_client, timeout_sec=2.0)
         self._spin_until(lambda: self.current_state == "IDLE", 2.0)
@@ -682,7 +770,10 @@ RESULT_FIELDS = [
     "mission_started",
     "success",
     "final_state",
+    "dog_hole_traversed",
     "collision_or_overlap",
+    "wall_collision_or_overlap",
+    "roof_collision_or_overlap",
     "observed_initial_lateral_m",
     "observed_initial_yaw_error_deg",
     "max_abs_lateral_m",
@@ -702,6 +793,7 @@ RESULT_FIELDS = [
     "crossing_max_abs_angular_command_error_radps",
     "maximum_ground_truth_z_m",
     "max_abs_ground_truth_pitch_deg",
+    "minimum_roof_clearance_m",
     "alignment_sec",
     "crossing_sec",
     "traversal_sec",
@@ -885,6 +977,12 @@ def main():
         if result["traversal_sec"]
         and not math.isnan(float(result["traversal_sec"]))
     ]
+    valid_roof_clearances = [
+        float(result["minimum_roof_clearance_m"])
+        for result in results
+        if result["minimum_roof_clearance_m"]
+        and not math.isnan(float(result["minimum_roof_clearance_m"]))
+    ]
     summary = {
         "cases_completed": len(results),
         "successes": successes,
@@ -894,6 +992,9 @@ def main():
         ),
         "maximum_traversal_sec": (
             max(valid_traversal_times) if valid_traversal_times else None
+        ),
+        "minimum_roof_clearance_m": (
+            min(valid_roof_clearances) if valid_roof_clearances else None
         ),
         "failed_cases": [
             result["case_id"]

@@ -42,9 +42,6 @@ def _marker_visual(name, longitudinal, color):
 
 
 def _make_scene(params):
-    center_x = float(params["dog_hole.center_x"])
-    center_y = float(params["dog_hole.center_y"])
-    yaw = float(params["dog_hole.yaw"])
     width = float(params["dog_hole.width"])
     length = float(params["dog_hole.length"])
     wall_height = float(params["dog_hole.wall_height"])
@@ -55,6 +52,12 @@ def _make_scene(params):
     deck_height = float(params["dog_hole.deck_height"])
     entry_slope_deg = float(params["dog_hole.entry_slope_deg"])
     exit_slope_deg = float(params["dog_hole.exit_slope_deg"])
+    robot_height = float(params["robot.height"])
+
+    if robot_height >= roof_clearance:
+        raise RuntimeError(
+            "robot.height must be lower than dog_hole.roof_clearance"
+        )
 
     side_offset = 0.5 * (width + wall_thickness)
     wall_z = deck_height + 0.5 * wall_height
@@ -131,11 +134,19 @@ def _make_scene(params):
         "0.46 0.39 0.26 1",
     )}
       {_box_visual(
-        "roof_visual_only",
+        "roof_visual",
         f"0 0 {roof_z} 0 0 0",
         f"{length} {width + 2.0 * wall_thickness} {roof_thickness}",
         "0.40 0.34 0.23 0.28",
     )}
+      <collision name="roof_collision">
+        <pose>0 0 {roof_z} 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>{length} {width + 2.0 * wall_thickness} {roof_thickness}</size>
+          </box>
+        </geometry>
+      </collision>
       {_box_visual(
         "centerline_visual",
         f"{centerline_x} 0 {deck_height + 0.003} 0 0 0",
@@ -153,7 +164,10 @@ def _make_scene(params):
 <sdf version="1.7">
   <model name="dog_hole_scene">
     <static>true</static>
-    <pose>{center_x} {center_y} 0 0 0 {yaw}</pose>
+    <!-- ros_gz_sim create supplies the configured world pose. Keeping this
+         pose local avoids its default zero pose silently overriding the
+         configured corridor center and yaw. -->
+    <pose>0 0 0 0 0 0</pose>
     <link name="dog_hole_link">
       {link_contents}
     </link>
@@ -325,6 +339,12 @@ def _launch_setup(context):
                         str(scene_path),
                         "-name",
                         "dog_hole_scene",
+                        "-x",
+                        str(params["dog_hole.center_x"]),
+                        "-y",
+                        str(params["dog_hole.center_y"]),
+                        "-Y",
+                        str(params["dog_hole.yaw"]),
                     ],
                 )
             ],

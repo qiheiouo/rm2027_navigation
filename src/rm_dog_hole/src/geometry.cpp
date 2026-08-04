@@ -84,4 +84,16 @@ std::pair<double, double> pointAtLongitudinal(
   };
 }
 
+double requiredAlignmentOffset(
+  double robot_length,
+  double deck_height,
+  double entry_slope_rad,
+  double safety_margin)
+{
+  const double ramp_horizontal_length =
+    deck_height > 0.0 && entry_slope_rad > 0.0 ?
+    deck_height / std::tan(entry_slope_rad) : 0.0;
+  return 0.5 * robot_length + ramp_horizontal_length + safety_margin;
+}
+
 }  // namespace rm_dog_hole

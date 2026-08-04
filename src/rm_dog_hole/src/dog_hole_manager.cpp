@@ -65,6 +65,7 @@ public:
   {
     loadParameters();
     validateParameters();
+    configureAlignmentOffset();
 
     command_pub_ = create_publisher<geometry_msgs::msg::Twist>(command_topic_, 10);
     state_pub_ = create_publisher<std_msgs::msg::String>("/dog_hole/state", 10);
@@ -155,6 +156,8 @@ private:
       declare_parameter<std::string>("compute_path_action", "/compute_path_to_pose");
     command_topic_ =
       declare_parameter<std::string>("command_topic", "/cmd_vel_nav");
+    require_traversal_ =
+      declare_parameter<bool>("task.require_traversal", false);
 
     corridor_.center_x = declare_parameter<double>("dog_hole.center_x", -3.0);
     corridor_.center_y = declare_parameter<double>("dog_hole.center_y", 0.0);
@@ -165,10 +168,15 @@ private:
       declare_parameter<double>("dog_hole.entry_clearance", 0.8);
     exit_clearance_ =
       declare_parameter<double>("dog_hole.exit_clearance", 0.5);
+    deck_height_ = declare_parameter<double>("dog_hole.deck_height", 0.0);
+    entry_slope_deg_ =
+      declare_parameter<double>("dog_hole.entry_slope_deg", 0.0);
 
     robot_length_ = declare_parameter<double>("robot.length", 0.6);
     robot_width_ = declare_parameter<double>("robot.width", 0.5);
     approach_offset_ = declare_parameter<double>("approach_offset", 0.15);
+    alignment_margin_ =
+      declare_parameter<double>("control.alignment_margin", 0.05);
 
     final_goal_values_ = declare_parameter<std::vector<double>>(
       "final_goal", std::vector<double>{-5.0, 0.0, M_PI});
@@ -222,6 +230,8 @@ private:
     }
     if (entry_clearance_ < 0.0 || exit_clearance_ < 0.0 ||
       approach_offset_ < 0.0 || approach_offset_ > entry_clearance_ ||
+      deck_height_ < 0.0 || entry_slope_deg_ < 0.0 || entry_slope_deg_ >= 89.0 ||
+      alignment_margin_ < 0.0 ||
       control_rate_hz_ <= 0.0 ||
       forward_speed_ <= 0.0 || forward_speed_ > 0.8 ||
       lateral_gain_ < 0.0 || heading_gain_ < 0.0 ||
@@ -243,6 +253,28 @@ private:
     }
     if (alignment_lateral_tolerance_ >= nominal_clearance) {
       throw std::invalid_argument("alignment lateral tolerance exceeds nominal clearance");
+    }
+    const double required_offset = rm_dog_hole::requiredAlignmentOffset(
+      robot_length_, deck_height_, entry_slope_deg_ * M_PI / 180.0,
+      alignment_margin_);
+    if (required_offset > entry_clearance_) {
+      throw std::invalid_argument(
+              "entry clearance is too short to align the full robot before the ramp");
+    }
+  }
+
+  void configureAlignmentOffset()
+  {
+    alignment_offset_ = std::max(
+      approach_offset_, rm_dog_hole::requiredAlignmentOffset(
+        robot_length_, deck_height_, entry_slope_deg_ * M_PI / 180.0,
+        alignment_margin_));
+    if (alignment_offset_ > approach_offset_ + 1e-6) {
+      RCLCPP_WARN(
+        get_logger(),
+        "Alignment offset raised from %.3f m to %.3f m so the full robot "
+        "aligns before the entry ramp.",
+        approach_offset_, alignment_offset_);
     }
   }
 
@@ -354,10 +386,12 @@ private:
           points, corridor_, entry_clearance_, exit_clearance_);
         publishPathCrosses();
         RCLCPP_INFO(
-          get_logger(), "Global path has %zu poses; dog-hole crossing=%s.",
-          points.size(), path_crosses_ ? "true" : "false");
+          get_logger(),
+          "Global path has %zu poses; dog-hole crossing=%s, traversal required=%s.",
+          points.size(), path_crosses_ ? "true" : "false",
+          require_traversal_ ? "true" : "false");
 
-        if (path_crosses_) {
+        if (path_crosses_ || require_traversal_) {
           transition(State::APPROACHING, "NAV2");
           sendNavigationGoal(
             poseAt(-0.5 * corridor_.length - entry_clearance_, approach_yaw),
@@ -503,7 +537,7 @@ private:
     latest_pose_ = pose;
 
     const double target_longitudinal =
-      -0.5 * corridor_.length - approach_offset_;
+      -0.5 * corridor_.length - alignment_offset_;
     const double longitudinal_error = target_longitudinal - pose.longitudinal;
     const bool heading_aligned =
       std::abs(pose.heading_error) <= alignment_heading_tolerance_;
@@ -700,12 +734,17 @@ private:
   std::string navigate_action_;
   std::string compute_path_action_;
   std::string command_topic_;
+  bool require_traversal_;
   rm_dog_hole::Corridor corridor_;
   double entry_clearance_;
   double exit_clearance_;
+  double deck_height_;
+  double entry_slope_deg_;
   double robot_length_;
   double robot_width_;
   double approach_offset_;
+  double alignment_margin_;
+  double alignment_offset_ = 0.0;
   std::vector<double> final_goal_values_;
   bool auto_start_;
   double auto_start_delay_sec_;

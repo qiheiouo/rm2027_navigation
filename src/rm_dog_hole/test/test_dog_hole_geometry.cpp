@@ -67,4 +67,21 @@ TEST(DogHoleGeometry, RejectsAPathThatPassesOutsideTheWalls)
       path, makeCorridor(), 0.8, 0.5));
 }
 
+TEST(DogHoleGeometry, KeepsFullRobotBeforeAFlatEntrance)
+{
+  EXPECT_NEAR(
+    rm_dog_hole::requiredAlignmentOffset(0.6, 0.0, 0.0, 0.05),
+    0.35,
+    1e-9);
+}
+
+TEST(DogHoleGeometry, IncludesEntryRampRunInAlignmentOffset)
+{
+  const double angle = 11.0 * kPi / 180.0;
+  EXPECT_NEAR(
+    rm_dog_hole::requiredAlignmentOffset(0.6, 0.06, angle, 0.05),
+    0.35 + 0.06 / std::tan(angle),
+    1e-9);
+}
+
 }  // namespace

@@ -109,7 +109,7 @@
 
       <link name="base_link">
         <inertial>
-          <pose>0 0 0.17 0 0 0</pose>
+          <pose>0 0 0.15 0 0 0</pose>
           <mass>30.0</mass>
           <inertia>
             <ixx>0.706</ixx>
@@ -121,18 +121,19 @@
           </inertia>
         </inertial>
         <collision name="base_collision">
-          <pose>0 0 0.17 0 0 0</pose>
+          <!-- Temporary dog-hole body envelope: wheel contact to 0.22 m. -->
+          <pose>0 0 0.15 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.60 0.50 0.18</size>
+              <size>0.60 0.50 0.14</size>
             </box>
           </geometry>
         </collision>
         <visual name="base_visual">
-          <pose>0 0 0.17 0 0 0</pose>
+          <pose>0 0 0.11 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.60 0.50 0.18</size>
+              <size>0.60 0.50 0.22</size>
             </box>
           </geometry>
           <material>
@@ -144,7 +145,7 @@
       </link>
 
       <link name="gimbal_yaw_link">
-        <pose relative_to="base_link">0 0 0.35 0 0 0</pose>
+        <pose relative_to="base_link">0 0 0.20 0 0 0</pose>
         <inertial>
           <mass>0.2</mass>
           <inertia>

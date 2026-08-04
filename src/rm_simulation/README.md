@@ -41,6 +41,13 @@ gimbal source publishes the same angle to ROS joint state and Gazebo joint
 control. The default `0.65 rad` yaw demonstrates that lidar direction is not
 the chassis heading used by the tunnel controller.
 
+The generated scene is spawned with the configured world `x/y/yaw` explicitly;
+`ros_gz_sim create` otherwise replaces the SDF model pose with its zero-valued
+CLI defaults. Optional deck and ramp geometry produces real 3D chassis motion,
+and the `0.25 m` roof is a collision rather than a visual marker. The temporary
+simulation body and gimbal envelope is `0.22 m` high. Final CAD and mechanical
+parameters are still required before real-vehicle acceptance.
+
 It does not simulate MID360 point clouds, FAST-LIO, serial, referee, or the
 competition mission tree. Those concerns remain separate milestones.
 

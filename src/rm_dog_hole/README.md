@@ -5,7 +5,8 @@
 第一版采用混合职责：
 
 - Nav2/MPPI 生成原始路径，只负责到达入口外的开阔准备点和出洞后的目标恢复；
-- `dog_hole_manager` 检查路径是否同时穿过隧道两半；
+- `dog_hole_manager` 检查路径是否同时穿过隧道两半；显式狗洞任务可用
+  `task.require_traversal:=true` 禁止普通全局规划器从开放场景绕洞；
 - 到达准备点后由专用控制器先原地对齐底盘，再校正中心线并推进到洞口；
 - 对正和洞内控制均根据 `map -> base_link` 计算横向误差与底盘航向误差；
 - 专用速度发布到 `/cmd_vel_nav`，继续经过现有 velocity smoother 和最终
@@ -74,8 +75,9 @@ width / 2
 - robot_length / 2 * abs(sin(yaw_error))
 ```
 
-这部分仍是二维平面接管范围验证；坡面、俯仰和 250 mm 洞顶需要使用最终
-三维车体模型另行验证。
+实验成功必须实际进入 `CROSSING`；普通 Nav2 绕洞后到达终点不再计为成功。
+除二维墙间隙外，脚本还用 3D 真值和旋转车体顶角记录
+`minimum_roof_clearance_m`。
 
 ## 仿真扰动
 
@@ -91,7 +93,8 @@ width / 2
 不会进入真实下位机链路。
 
 实验工具始终用 `/simulation/ground_truth/odom` 计算二维真实间隙，并用
-`/simulation/ground_truth/odom_3d` 记录高度和俯仰。当前
-`phase1_omni.sdf` 的 Mecanum 模型仍受平面运动约束，因此 3D 话题不会把
-坡面参数冒充成已完成的爬坡验证；最终坡面和洞顶必须换用可产生 z/pitch
-运动的车体模型。
+`/simulation/ground_truth/odom_3d` 记录高度、俯仰和洞顶净空。Gazebo
+Mecanum 轮地接触已经验证能在临时 `11°/15°` 坡面产生真实 `z/pitch`，
+`250 mm` 洞顶也具有实体碰撞。这里的 `0.22 m` 车体包络、轮地参数和坡面
+仍是临时仿真值；必须用最终 CAD、质心、轮径和场地尺寸复测，不能替代实车
+验收。

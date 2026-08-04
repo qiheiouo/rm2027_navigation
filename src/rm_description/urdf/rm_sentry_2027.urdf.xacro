@@ -25,9 +25,9 @@
   <link name="base_link">
     <visual>
       <!-- Placeholder body sits above the Phase 1.5 base_link ground origin. -->
-      <origin xyz="0 0 0.17" rpy="0 0 0"/>
+      <origin xyz="0 0 0.11" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.5 0.2"/>
+        <box size="0.6 0.5 0.22"/>
       </geometry>
       <material name="phase1_gray">
         <color rgba="0.5 0.5 0.5 0.4"/>
@@ -66,7 +66,7 @@
     <parent link="base_link"/>
     <child link="gimbal_yaw_link"/>
     <!-- Phase 1 zero-yaw joint state is a placeholder. Real robot requires dynamic yaw. -->
-    <origin xyz="0 0 0.35" rpy="0 0 0"/>
+    <origin xyz="0 0 0.20" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 
