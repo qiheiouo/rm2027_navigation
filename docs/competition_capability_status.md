@@ -36,7 +36,7 @@ validated for competition.
 5. Mission coordinates are intentionally empty in the safe config. The
    10-second/10-rad/s three-point behavior exists only in an explicit candidate
    and is not the final competition configuration.
-6. The new-car protocol software boundary and both direct-gimbal and chassis-heading
+6. The new-car protocol software boundary and both direct-gimbal and
    chassis-heading candidates exist, but firmware, geometry, timing and
    dog-hole mission behavior remain future hardware work. No dry-run result is
    a localization or actuator closed-loop claim.
