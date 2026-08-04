@@ -150,6 +150,14 @@ The old receive path does not define four individual wheel encoder values. If 20
 
 Phase 2 connects to real serial hardware while keeping the existing protocol as compatible as possible.
 
+The new car has concrete requirements that do not fit the historical fixed
+payload: independent posture desired-state/ACK, relative gimbal state,
+operator-target freshness and capability/restart discovery. These are isolated
+in the explicit `competition_v2` profile; old-car profiles remain unchanged.
+The protocol layer carries state but not dog-hole workflow or pursuit logic.
+Vision pursuit remains ROS-only on the upper computer. See
+`docs/competition_v2_protocol.md`.
+
 Phase 3 adds referee, mission/BT, recovery behavior, and match robustness.
 
 ## Phase 2I Mapping Decision

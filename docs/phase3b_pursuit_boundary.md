@@ -25,6 +25,15 @@ pose facing the target.
 The real producer must later define track identity, frame, timestamp source,
 confidence calibration, covariance and loss behavior with the auto-aim team.
 
+The intended producer is a ROS process on the same upper computer. Pose and
+linear velocity share `TargetTrack.header.frame_id`; the header stamp is sensor
+measurement time. `track_id` should remain stable for one tracked object,
+`valid=false` must be published on explicit loss, and the final valid sample
+must not be replayed indefinitely. If velocity is unavailable, publish zero
+velocity and document the quality downgrade rather than inventing motion. The
+planner's freshness timer invalidates pursuit when the producer exits or data
+stops. No target-track serial round trip is part of `competition_v2`.
+
 PolarBear's 2025 behavior package was reviewed as a strategy reference. Its
 costmap-aware ring of feasible attack poses may be adapted later, but the whole
 package is not imported because it owns different vision/referee interfaces,

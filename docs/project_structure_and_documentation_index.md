@@ -47,14 +47,14 @@ contracts take precedence over historical behavior.
 | `rm_map_tools` | Immutable bundle validation, managed mapping, quality analysis, projection screening and map-server comparison | Mapping is guarded | package README, `docs/phase2e_map_bundle.md`, `docs/phase2i_managed_mapping.md` |
 | `rm_navigation_bringup` | Mutually exclusive top-level launch profiles | Hardware and motion disabled by default | `docs/runtime_profiles.md` |
 | `rm_chassis_interface` | Chassis stub and authority gate boundary | Stub or disabled | `docs/contracts/chassis_contract_2027.md` |
-| `rm_serial_driver` | Protocol framing, dry-run and opt-in real transport | Dry-run/real IO explicit | `docs/contracts/serial_protocol_2027.md`, `docs/phase2h_serial_dry_run.md` |
+| `rm_serial_driver` | Legacy framing plus versioned competition-v2 codec, dry-run and opt-in real transport | Dry-run/real IO explicit | `docs/contracts/serial_protocol_2027.md`, `docs/competition_v2_protocol.md`, `docs/competition_v2_lower_controller_integration.md` |
 | `rm_simulation` | Gazebo and no-hardware sensor/obstacle fixtures | Simulation only | Phase 1.5 documents |
 
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |
 | --- | --- | --- | --- |
-| `rm_competition_interfaces` | Normalized referee, chassis, pursuit, raw operator-target, mission and readiness messages | Interface definitions only | `docs/contracts/topic_contract_2027.md`, `docs/phase3e_operator_navigation_target_boundary.md` |
+| `rm_competition_interfaces` | Normalized referee, chassis, pursuit, posture, gimbal, serial health, raw operator-target, mission and readiness messages | Interface definitions only | `docs/contracts/topic_contract_2027.md`, `docs/competition_v2_ros_interfaces.md`, `docs/phase3e_operator_navigation_target_boundary.md` |
 | `rm_referee_interface` | Range/freshness gate and explicit mock | Old-car HPM serial producer available; gate remains separate | `docs/phase3a_competition_state_boundary.md` |
 | `rm_pursuit` | Validated target-to-standoff-goal candidate | Real producer deferred | `docs/phase3b_pursuit_boundary.md` |
 | `rm_competition_mission` | Safety-gated mission selection and sole mission Nav2 action client | Disabled by default | `docs/phase3c_competition_mission_bt.md`, `docs/old_car_competition_minimum_behavior.md` |

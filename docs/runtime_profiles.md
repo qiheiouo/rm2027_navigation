@@ -229,6 +229,18 @@ It is useful for validating runtime timing and watchdog behavior before the
 real lower controller is connected. It never opens `/dev/tty*` and must not be
 used as proof that the final 2027 serial profile is correct.
 
+The new-car protocol has a separate bidirectional no-hardware profile:
+
+```bash
+ros2 launch rm_serial_driver competition_v2_no_hardware_test.launch.py \
+  publish_operator_target:=true
+```
+
+It starts the v2 transport in dry-run mode, a mock lower controller and the
+real gimbal adapter boundary. It opens no device and starts no TF, odometry,
+Nav2 or mission owner. Old-car profiles continue selecting only
+`legacy_v1_no_crc` or `hpm_crc_v1`.
+
 ## Competition
 
 The old-car competition composition is:
