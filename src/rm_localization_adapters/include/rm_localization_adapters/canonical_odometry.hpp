@@ -5,6 +5,7 @@
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "tf2/LinearMath/Transform.h"
+#include "tf2/LinearMath/Vector3.h"
 
 namespace rm_localization_adapters
 {
@@ -29,6 +30,7 @@ ChassisHeadingFusionResult compute_base_transform_from_chassis_heading(
   const tf2::Transform & raw_initial_to_sensor_at_start,
   const tf2::Transform & raw_initial_to_sensor,
   const tf2::Transform & initial_base_to_sensor,
+  const tf2::Vector3 & gimbal_center_in_base,
   double initial_chassis_heading_rad,
   double chassis_heading_rad,
   double initial_gimbal_yaw_rad = 0.0);

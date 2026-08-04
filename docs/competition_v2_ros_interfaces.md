@@ -36,7 +36,7 @@ frame. `online` requires a ready heartbeat inside the timeout. `compatible`
 also requires configured capability bits.
 
 `ChassisHeadingState` is separate from `GimbalState`. It contains lower-world
-chassis yaw and reset identity for the optional coaxial heading-fusion profile;
+chassis yaw and reset identity for the optional chassis heading-fusion profile;
 it is never interpreted as a mechanical joint angle by the serial node.
 
 ## Gimbal Chain

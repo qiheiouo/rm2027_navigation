@@ -41,10 +41,10 @@ On the real robot, `base_link -> gimbal_yaw_link` is dynamic. Static direct
 placeholders for build, RViz, and early bag tests.
 
 The preferred hardware contract remains a timestamped mechanical gimbal yaw.
-For the planned coaxial single-MID360 layout, an explicit alternative combines
+For the planned centered-gimbal single-MID360 layout, an explicit alternative combines
 FAST-LIO sensor motion with timestamped lower-controller chassis heading. That
 alternative is not a generic replacement: it requires a repeatable gimbal-home
-startup, sensor/yaw-center coincidence, reset detection and new-car A/B
+startup, a measured yaw-axis center and home sensor extrinsic, reset detection and new-car A/B
 acceptance. Both modes preserve the same canonical TF and navigation APIs; see
 `docs/chassis_heading_lio_fusion.md`.
 

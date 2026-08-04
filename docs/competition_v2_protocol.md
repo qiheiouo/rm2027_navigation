@@ -275,7 +275,7 @@ operator target at (0,0):
 
 1. Dog-hole entry and exit posture choices among the six values.
 2. Gimbal mechanical zero, positive sign, encoder source, and continuous range,
-   or explicit acceptance of the coaxial chassis-heading fusion alternative.
+   or explicit acceptance of the chassis-heading fusion alternative.
 3. MCU timing quality and maximum serial bandwidth/control period.
 4. Real posture limit switches, fault definitions, and fault-code table.
 5. Referee diagnostic flag meanings and field reliability.

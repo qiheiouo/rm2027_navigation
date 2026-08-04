@@ -135,7 +135,7 @@ contract, and no canonical node may consume them.
 
 The preferred contract is enough measured gimbal state for the upper computer
 to reconstruct `base_link -> gimbal_yaw_link`. If a mechanical angle is not
-available, the explicit coaxial heading-fusion profile may instead consume
+available, the explicit chassis heading-fusion profile may instead consume
 timestamped chassis world yaw plus FAST-LIO sensor motion.
 
 Required data:
@@ -159,7 +159,7 @@ moving-gimbal LIO compensation remain separate new-car work.
 
 The alternative uses `ChassisHeadingState -> lio_adapter ->
 /gimbal/state_derived`. Direct and derived gimbal topics must never drive the
-same joint simultaneously. Its startup, reset and coaxial-geometry constraints
+same joint simultaneously. Its startup, reset and yaw-axis geometry constraints
 are defined in `docs/chassis_heading_lio_fusion.md`.
 
 ## Serial And Referee Boundaries

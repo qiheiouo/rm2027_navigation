@@ -3,8 +3,8 @@
 ## Purpose
 
 This candidate supports a new-car layout where one MID360 is rigidly mounted
-to the yaw gimbal, the sensor origin is coaxial with the chassis yaw center,
-and the lower controller cannot report mechanical gimbal yaw. The lower
+to the yaw gimbal, the gimbal axis center is known in `base_link`, and the lower
+controller cannot report mechanical gimbal yaw. The lower
 controller instead reports its chassis world heading. The mode is optional;
 the established measured-gimbal and fixed-gimbal profiles remain unchanged.
 
@@ -17,6 +17,7 @@ the geometry, timing and initialization assumptions below.
 FAST-LIO sensor pose /odometry/fast_lio_raw
 competition_v2 chassis heading /chassis/heading
 known base_link -> sensor transform at gimbal home
+known gimbal yaw-axis center in base_link
   -> lio_adapter pose_conversion_mode=chassis_heading_fusion
   -> /odometry/lio and odom -> base_link
   -> /gimbal/state_derived
@@ -37,15 +38,20 @@ The profile stores the measured home transform `T_B0_S0`. For each raw pose:
 T_S0_S = inverse(T_R_S(start)) * T_R_S(t)
 T_B0_S = T_B0_S0 * T_S0_S
 yaw_B0_B = wrap(yaw_chassis(t) - yaw_chassis(start))
-p_B0_B = p_B0_S - R_B0_B * p_B_S
-```
-
-The output orientation is planar `Rz(yaw_B0_B)`. The relative gimbal rotation
-is recovered from:
-
-```text
 R_joint = inverse(R_B0_B) * R_B0_S * inverse(R_B0_S0)
+p_B_S(t) = p_B_G + Rz(yaw_joint) * (p_B_S0 - p_B_G)
+p_B0_B = p_B0_S - R_B0_B * p_B_S(t)
 ```
+
+`p_B_S` is not assumed constant when the sensor is offset from the yaw axis.
+After recovering the relative joint yaw, the adapter rotates the measured home
+center-to-sensor lever arm about the configured gimbal center before computing
+the base position. A centered gimbal axis therefore does not require the
+MID360 measurement origin itself to be centered.
+
+The output orientation is planar `Rz(yaw_B0_B)`. `p_B_G` is the configured
+gimbal yaw-axis center in `base_link`; `yaw_joint` is the yaw component of
+`R_joint`.
 
 Only heading deltas are used. The lower-controller world frame does not need
 to equal ROS `map` or `odom`, but its yaw convention must be right-handed,
@@ -56,9 +62,10 @@ positive counterclockwise and expressed in radians after transport decoding.
 1. At startup the gimbal is at a known, repeatable home angle. Otherwise the
    constant sensor-to-chassis yaw offset is unobservable from two world
    orientations.
-2. The sensor origin and chassis yaw center are coaxial within
-   `max_center_offset_xy_m`. A significant lever arm needs a more complete
-   moving-joint model and this candidate must not be enabled.
+2. The gimbal yaw axis is parallel to `base_link +z`, its center in `base_link`
+   is measured, and the joint is well modeled as one yaw rotation. A sensor
+   lever arm is supported; an unknown axis center or tilted/multi-axis joint is
+   not.
 3. FAST-LIO pose and chassis heading have meaningful, comparable timestamps.
    The nearest heading sample is rate-propagated to the odometry timestamp only
    inside `max_heading_match_dt_sec`; larger gaps drop the odometry sample.
@@ -92,7 +99,8 @@ bits for the selected competition profile.
 ## New-Car Acceptance
 
 1. Measure `base_link -> lio_imu_link` at the documented gimbal home pose.
-2. Confirm sensor-to-yaw-center XY offset is inside the configured limit.
+2. Measure the gimbal yaw-axis center in `base_link`; do not substitute the
+   MID360 measurement origin for that center.
 3. Confirm lower yaw sign, units, wrap, sample rate, timestamps, boot ID and
    reset-counter behavior with packet captures.
 4. Run static, pure chassis yaw, pure gimbal yaw, translation and combined

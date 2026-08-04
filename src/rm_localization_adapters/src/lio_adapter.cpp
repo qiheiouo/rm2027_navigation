@@ -103,8 +103,12 @@ public:
       "heading_fusion.yaw_variance", 0.01);
     initial_gimbal_yaw_rad_ = declare_parameter<double>(
       "heading_fusion.initial_gimbal_yaw_rad", 0.0);
-    max_center_offset_xy_m_ = declare_parameter<double>(
-      "heading_fusion.max_center_offset_xy_m", 0.05);
+    const double gimbal_center_x = declare_parameter<double>(
+      "heading_fusion.gimbal_center_in_base.x", 0.0);
+    const double gimbal_center_y = declare_parameter<double>(
+      "heading_fusion.gimbal_center_in_base.y", 0.0);
+    const double gimbal_center_z = declare_parameter<double>(
+      "heading_fusion.gimbal_center_in_base.z", 0.0);
     const bool initial_alignment_confirmed = declare_parameter<bool>(
       "heading_fusion.initial_alignment_confirmed", false);
 
@@ -120,6 +124,18 @@ public:
       "heading_fusion.initial_base_to_sensor.pitch", 0.0);
     const double initial_sensor_yaw = declare_parameter<double>(
       "heading_fusion.initial_base_to_sensor.yaw", 0.0);
+    if (heading_cache_size <= 0 || !std::isfinite(max_heading_match_dt_sec_) ||
+      max_heading_match_dt_sec_ <= 0.0 || !std::isfinite(heading_yaw_variance_) ||
+      heading_yaw_variance_ < 0.0 || !std::isfinite(initial_gimbal_yaw_rad_) ||
+      !std::isfinite(gimbal_center_x) || !std::isfinite(gimbal_center_y) ||
+      !std::isfinite(gimbal_center_z) || !std::isfinite(initial_sensor_x) ||
+      !std::isfinite(initial_sensor_y) || !std::isfinite(initial_sensor_z) ||
+      !std::isfinite(initial_sensor_roll) || !std::isfinite(initial_sensor_pitch) ||
+      !std::isfinite(initial_sensor_yaw))
+    {
+      throw std::invalid_argument("heading_fusion parameters are invalid");
+    }
+
     tf2::Quaternion initial_sensor_rotation;
     initial_sensor_rotation.setRPY(
       initial_sensor_roll, initial_sensor_pitch, initial_sensor_yaw);
@@ -127,25 +143,15 @@ public:
     initial_base_to_sensor_.setOrigin(
       tf2::Vector3(initial_sensor_x, initial_sensor_y, initial_sensor_z));
     initial_base_to_sensor_.setRotation(initial_sensor_rotation);
+    gimbal_center_in_base_ = tf2::Vector3(
+      gimbal_center_x, gimbal_center_y, gimbal_center_z);
 
-    if (heading_cache_size <= 0 || !std::isfinite(max_heading_match_dt_sec_) ||
-      max_heading_match_dt_sec_ <= 0.0 || !std::isfinite(heading_yaw_variance_) ||
-      heading_yaw_variance_ < 0.0 || !std::isfinite(initial_gimbal_yaw_rad_) ||
-      !std::isfinite(max_center_offset_xy_m_) || max_center_offset_xy_m_ < 0.0)
-    {
-      throw std::invalid_argument("heading_fusion parameters are invalid");
-    }
     heading_cache_max_size_ = static_cast<std::size_t>(heading_cache_size);
     if (pose_conversion_mode_ == "chassis_heading_fusion") {
       if (!initial_alignment_confirmed) {
         throw std::invalid_argument(
           "chassis_heading_fusion requires initial_alignment_confirmed=true after "
           "placing the gimbal at its documented home angle");
-      }
-      if (std::hypot(initial_sensor_x, initial_sensor_y) > max_center_offset_xy_m_) {
-        throw std::invalid_argument(
-          "chassis_heading_fusion requires the sensor origin to be coaxial with the "
-          "chassis yaw center within max_center_offset_xy_m");
       }
     }
 
@@ -602,7 +608,8 @@ private:
       const auto fused =
         rm_localization_adapters::compute_base_transform_from_chassis_heading(
         raw_initial_to_sensor_at_fusion_start_, odom_to_input, initial_base_to_sensor_,
-        initial_chassis_heading_rad_, matched_heading->yaw_rad, initial_gimbal_yaw_rad_);
+        gimbal_center_in_base_, initial_chassis_heading_rad_, matched_heading->yaw_rad,
+        initial_gimbal_yaw_rad_);
       odom_to_base = fused.base_initial_to_base;
       derived_gimbal_yaw_rad = fused.gimbal_yaw_rad;
     } else if (input_child != base_frame_) {
@@ -751,10 +758,10 @@ private:
   double max_heading_match_dt_sec_;
   double heading_yaw_variance_;
   double initial_gimbal_yaw_rad_;
-  double max_center_offset_xy_m_;
   std::array<double, 6> twist_variance_diagonal_{};
   tf2::Transform input_to_base_placeholder_;
   tf2::Transform initial_base_to_sensor_;
+  tf2::Vector3 gimbal_center_in_base_;
   tf2::Transform raw_initial_to_sensor_at_fusion_start_;
   std::unique_ptr<rm_localization_adapters::PoseTwistEstimator> twist_estimator_;
 

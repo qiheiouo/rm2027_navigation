@@ -75,6 +75,7 @@ ChassisHeadingFusionResult compute_base_transform_from_chassis_heading(
   const tf2::Transform & raw_initial_to_sensor_at_start,
   const tf2::Transform & raw_initial_to_sensor,
   const tf2::Transform & initial_base_to_sensor,
+  const tf2::Vector3 & gimbal_center_in_base,
   double initial_chassis_heading_rad,
   double chassis_heading_rad,
   double initial_gimbal_yaw_rad)
@@ -89,11 +90,6 @@ ChassisHeadingFusionResult compute_base_transform_from_chassis_heading(
   base_rotation.setRPY(0.0, 0.0, base_yaw);
   base_rotation.normalize();
 
-  const tf2::Vector3 base_position =
-    base_initial_to_sensor.getOrigin() -
-    tf2::quatRotate(base_rotation, initial_base_to_sensor.getOrigin());
-  const tf2::Transform base_initial_to_base(base_rotation, base_position);
-
   tf2::Quaternion base_to_sensor_rotation =
     base_rotation.inverse() * base_initial_to_sensor.getRotation();
   base_to_sensor_rotation.normalize();
@@ -106,6 +102,19 @@ ChassisHeadingFusionResult compute_base_transform_from_chassis_heading(
   tf2::Matrix3x3(relative_joint_rotation).getRPY(roll, pitch, gimbal_delta);
   static_cast<void>(roll);
   static_cast<void>(pitch);
+
+  tf2::Quaternion planar_joint_rotation;
+  planar_joint_rotation.setRPY(0.0, 0.0, gimbal_delta);
+  planar_joint_rotation.normalize();
+  const tf2::Vector3 initial_center_to_sensor =
+    initial_base_to_sensor.getOrigin() - gimbal_center_in_base;
+  const tf2::Vector3 current_base_to_sensor =
+    gimbal_center_in_base +
+    tf2::quatRotate(planar_joint_rotation, initial_center_to_sensor);
+  const tf2::Vector3 base_position =
+    base_initial_to_sensor.getOrigin() -
+    tf2::quatRotate(base_rotation, current_base_to_sensor);
+  const tf2::Transform base_initial_to_base(base_rotation, base_position);
 
   ChassisHeadingFusionResult result;
   result.base_initial_to_base = base_initial_to_base;

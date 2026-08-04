@@ -52,8 +52,10 @@ An explicit second pose-conversion mode,
 single-MID360 new car when no mechanical gimbal angle is available. It combines
 the FAST-LIO sensor trajectory with timestamp-matched `/chassis/heading`, uses
 a measured home `base_link -> sensor` transform, and publishes a derived
-`/gimbal/state_derived`. It requires a coaxial sensor/yaw center and known
-startup home; lower heading reset latches output invalid. See
+`/gimbal/state_derived`. It requires a measured yaw-axis center, a pure yaw
+joint aligned with `base_link +z`, and a known startup home. Sensor lever-arm
+motion is compensated from the measured home extrinsic; lower heading reset
+latches output invalid. See
 `docs/chassis_heading_lio_fusion.md`. The default remains `sensor_tf`.
 
 The Phase 2A FAST-LIO Multi integration is a narrowly documented exception to

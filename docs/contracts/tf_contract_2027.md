@@ -57,10 +57,10 @@ robot revision and calibration method.
 Because the LiDARs are mounted on the gimbal, `base_link -> mid360_*_frame` must not be modeled as a direct fixed transform on the real robot. The transform must pass through `gimbal_yaw_link`.
 
 The gimbal yaw angle is a dynamic state. The preferred source is a measured
-mechanical angle with a meaningful timestamp. The explicit coaxial-heading
+mechanical angle with a meaningful timestamp. The explicit chassis-heading
 candidate may instead reconstruct it from FAST-LIO sensor orientation and
 timestamped lower-controller chassis heading. That candidate requires a known
-startup home, sensor/yaw-center coincidence, reset detection and hardware A/B
+startup home, measured yaw-axis center and sensor lever arm, reset detection and hardware A/B
 acceptance as documented in `docs/chassis_heading_lio_fusion.md`. Missing or
 stale input in either mode must not be treated as validated base localization.
 

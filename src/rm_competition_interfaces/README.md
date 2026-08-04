@@ -21,7 +21,7 @@ protocol.
   is not an INS world heading.
 - `ChassisHeadingState` carries timestamped lower-controller world yaw,
   estimator reset identity and source boot identity. It is an optional input
-  to the coaxial sensor/chassis heading-fusion candidate, not a TF owner.
+  to the sensor/chassis heading-fusion candidate, not a TF owner.
 - `SerialConnectionState` reports protocol version, peer capabilities/restart,
   freshness and parser counters without granting mission authority.
 - `SetMissionMode` is the explicit enable/mode gate for competition mission

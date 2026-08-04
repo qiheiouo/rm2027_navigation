@@ -95,7 +95,8 @@ TEST(CanonicalOdometry, ChassisHeadingFusionStartsAtCanonicalIdentity)
     3.0, -2.0, 1.0, 0.1, 0.2, -0.3);
 
   const auto result = rm_localization_adapters::compute_base_transform_from_chassis_heading(
-    raw_start, raw_start, initial_base_to_sensor, 2.8, 2.8);
+    raw_start, raw_start, initial_base_to_sensor, tf2::Vector3(0.0, 0.0, 0.0),
+    2.8, 2.8);
 
   EXPECT_NEAR(result.base_initial_to_base.getOrigin().length(), 0.0, 1.0e-9);
   EXPECT_NEAR(result.base_initial_to_base.getRotation().getAngle(), 0.0, 1.0e-9);
@@ -105,18 +106,24 @@ TEST(CanonicalOdometry, ChassisHeadingFusionStartsAtCanonicalIdentity)
 TEST(CanonicalOdometry, ChassisHeadingFusionRecoversTranslationYawAndGimbalMotion)
 {
   const auto initial_base_to_sensor = make_transform_rpy(
-    0.0, 0.0, 0.35, 0.25, -0.2, 0.6);
+    0.18, -0.11, 0.35, 0.25, -0.2, 0.6);
   const auto expected_base = make_transform(1.2, -0.7, 0.0, 0.8);
+  const tf2::Vector3 gimbal_center(0.03, -0.02, 0.08);
   const auto gimbal_delta = make_transform(0.0, 0.0, 0.0, -1.1);
-  const auto base_to_sensor = gimbal_delta * initial_base_to_sensor;
+  const auto base_to_gimbal_center = make_transform(
+    gimbal_center.x(), gimbal_center.y(), gimbal_center.z(), 0.0);
+  const auto gimbal_center_to_base = make_transform(
+    -gimbal_center.x(), -gimbal_center.y(), -gimbal_center.z(), 0.0);
+  const auto base_to_sensor =
+    base_to_gimbal_center * gimbal_delta * gimbal_center_to_base * initial_base_to_sensor;
   const auto sensor_start_to_sensor =
     initial_base_to_sensor.inverse() * expected_base * base_to_sensor;
 
   tf2::Transform raw_start;
   raw_start.setIdentity();
   const auto result = rm_localization_adapters::compute_base_transform_from_chassis_heading(
-    raw_start, sensor_start_to_sensor, initial_base_to_sensor, 2.9, -2.583185307179586,
-    0.0);
+    raw_start, sensor_start_to_sensor, initial_base_to_sensor,
+    gimbal_center, 2.9, -2.583185307179586, 0.0);
 
   EXPECT_NEAR(result.base_initial_to_base.getOrigin().x(), 1.2, 1.0e-9);
   EXPECT_NEAR(result.base_initial_to_base.getOrigin().y(), -0.7, 1.0e-9);
@@ -133,7 +140,7 @@ TEST(CanonicalOdometry, ChassisHeadingFusionHandlesHeadingWrap)
   tf2::Transform identity;
   identity.setIdentity();
   const auto result = rm_localization_adapters::compute_base_transform_from_chassis_heading(
-    identity, identity, identity, 3.10, -3.10);
+    identity, identity, identity, tf2::Vector3(0.0, 0.0, 0.0), 3.10, -3.10);
   double roll = 0.0;
   double pitch = 0.0;
   double yaw = 0.0;

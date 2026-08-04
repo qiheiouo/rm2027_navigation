@@ -42,10 +42,18 @@ lio_adapter:
       max_heading_match_dt_sec: 0.03
       yaw_variance: 0.01
       initial_gimbal_yaw_rad: 0.0
-      max_center_offset_xy_m: 0.05
+
+      # Gimbal yaw-axis center expressed in base_link. The planned centered
+      # installation uses zero, but measured nonzero offsets are supported.
+      gimbal_center_in_base:
+        x: 0.0
+        y: 0.0
+        z: 0.0
 
       # Keep false until the new car exists and all values below have been
-      # measured at the documented gimbal home pose. The node intentionally
+      # measured at the documented gimbal home pose. Sensor x/y may be
+      # nonzero; the fusion code compensates its rotation about the center
+      # above. The node intentionally
       # refuses to start while this remains false.
       initial_alignment_confirmed: false
       initial_base_to_sensor:
