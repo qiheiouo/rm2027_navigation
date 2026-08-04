@@ -1,0 +1,5 @@
+std_msgs/Header header
+rm_competition_interfaces/RobotPosture requested_posture
+uint32 command_id
+bool valid
+uint8 request_flags

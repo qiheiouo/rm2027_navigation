@@ -9,3 +9,4 @@ uint16 self_outpost_hp
 uint16 enemy_outpost_hp
 uint16 projectile_allowance_17mm
 uint16 remaining_gold_coin
+uint16 diagnostic_flags

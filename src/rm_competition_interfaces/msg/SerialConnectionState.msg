@@ -1,0 +1,14 @@
+std_msgs/Header header
+bool online
+bool compatible
+uint8 protocol_version
+uint32 local_boot_id
+uint32 remote_capabilities
+uint32 remote_boot_id
+uint32 remote_uptime_ms
+uint16 last_rx_sequence
+builtin_interfaces/Time last_valid_frame_stamp
+uint64 valid_frame_count
+uint64 crc_error_count
+uint64 framing_error_count
+uint64 unknown_message_count

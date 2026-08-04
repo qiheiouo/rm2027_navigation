@@ -1,0 +1,12 @@
+std_msgs/Header header
+rm_competition_interfaces/RobotPosture posture_target
+rm_competition_interfaces/RobotPosture posture_actual
+uint32 ack_command_id
+uint32 ack_requester_boot_id
+bool ack_matches_request
+bool completed
+bool transitioning
+bool fault
+uint16 fault_code
+bool online
+bool valid
