@@ -21,7 +21,9 @@ LiDAR/IMU or bag/sim input
 
 ## Gimbal-Mounted MID360 Decision
 
-The 2027 robot is expected to use two MID360 LiDARs mounted on the gimbal, facing left and right, with an upward installation angle near 45 degrees. If the dual-LiDAR route proves too risky late in the season, the architecture may keep both sensors installed while using only one MID360 in software.
+The current 2027 vehicle plan uses one MID360 mounted on the gimbal. The
+software keeps optional dual-sensor obstacle-fusion boundaries, but a second
+MID360 is not a localization or competition-readiness requirement.
 
 The main LIO IMU should be the internal IMU of the selected MID360. This keeps the LiDAR and IMU rigidly attached inside the same gimbal-mounted sensor group. A chassis-mounted IMU may be installed under the rotation axis as an auxiliary sensor, but it should be used for diagnostics, slip checks, latency checks, or future low-weight fusion rather than as the main IMU for gimbal-mounted LIO.
 
@@ -34,9 +36,17 @@ base_link -> gimbal_yaw_link -> mid360_left_frame
           -> base_imu_link
 ```
 
-On the real robot, `base_link -> gimbal_yaw_link` is dynamic and depends on lower-controller gimbal yaw. Static direct `base_link -> mid360_*_frame` transforms are allowed only as Phase 1 zero-yaw placeholders for build, RViz, and early bag tests.
+On the real robot, `base_link -> gimbal_yaw_link` is dynamic. Static direct
+`base_link -> mid360_*_frame` transforms are allowed only as Phase 1 zero-yaw
+placeholders for build, RViz, and early bag tests.
 
-This decision adds a hard interface requirement for the lower controller: the upper computer needs gimbal yaw angle, validity, and timing information. Without that state, the system can estimate the gimbal sensor pose but cannot safely convert it into a validated `odom -> base_link` localization output during gimbal rotation.
+The preferred hardware contract remains a timestamped mechanical gimbal yaw.
+For the planned coaxial single-MID360 layout, an explicit alternative combines
+FAST-LIO sensor motion with timestamped lower-controller chassis heading. That
+alternative is not a generic replacement: it requires a repeatable gimbal-home
+startup, sensor/yaw-center coincidence, reset detection and new-car A/B
+acceptance. Both modes preserve the same canonical TF and navigation APIs; see
+`docs/chassis_heading_lio_fusion.md`.
 
 ## Why Not Fork PolarBear As The Main System
 
@@ -151,9 +161,10 @@ The old receive path does not define four individual wheel encoder values. If 20
 Phase 2 connects to real serial hardware while keeping the existing protocol as compatible as possible.
 
 The new car has concrete requirements that do not fit the historical fixed
-payload: independent posture desired-state/ACK, relative gimbal state,
-operator-target freshness and capability/restart discovery. These are isolated
-in the explicit `competition_v2` profile; old-car profiles remain unchanged.
+payload: independent posture desired-state/ACK, relative gimbal state or the
+optional chassis-heading alternative, operator-target freshness and
+capability/restart discovery. These are isolated in the explicit
+`competition_v2` profile; old-car profiles remain unchanged.
 The protocol layer carries state but not dog-hole workflow or pursuit logic.
 Vision pursuit remains ROS-only on the upper computer. See
 `docs/competition_v2_protocol.md`.

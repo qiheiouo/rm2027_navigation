@@ -99,6 +99,11 @@ if(BUILD_TESTING)
     test/test_competition_v2_runtime.py
     TIMEOUT 30
   )
+  ament_add_pytest_test(
+    test_chassis_heading_fusion_runtime
+    test/test_chassis_heading_fusion_runtime.py
+    TIMEOUT 30
+  )
 endif()
 
 ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)

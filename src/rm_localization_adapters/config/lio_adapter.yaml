@@ -11,6 +11,8 @@ lio_adapter:
     use_tf_sensor_to_base: true
     use_latest_transform: false
     allow_placeholder_fallback: false
+    # Default and existing profiles keep the measured-TF conversion path.
+    pose_conversion_mode: sensor_tf
     tf_lookup_timeout_sec: 0.05
     tf_queue:
       max_size: 100
@@ -22,6 +24,24 @@ lio_adapter:
     # Phase 1 fake/simulation odometry already provides canonical base twist.
     twist_mode: passthrough
     twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
+
+    # Inactive unless pose_conversion_mode=chassis_heading_fusion.
+    heading_fusion:
+      heading_topic: /chassis/heading
+      derived_gimbal_topic: /gimbal/state_derived
+      cache_size: 500
+      max_heading_match_dt_sec: 0.03
+      yaw_variance: 0.01
+      initial_gimbal_yaw_rad: 0.0
+      max_center_offset_xy_m: 0.05
+      initial_alignment_confirmed: false
+      initial_base_to_sensor:
+        x: 0.0
+        y: 0.0
+        z: 0.0
+        roll: 0.0
+        pitch: 0.0
+        yaw: 0.0
 
     # Fallback placeholder only.
     # Default operation must use TF from base_link to input_sensor_frame.

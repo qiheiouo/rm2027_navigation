@@ -45,6 +45,10 @@ after the sensor message, without weakening the contract to latest-TF lookup.
   measured `base_link -> lio_imu_link` transform through TF. It sets
   `raw_odom_parent_frame_mode: sensor_initial` because FAST-LIO raw odometry
   uses the initial sensor frame as its parent. It is not 2027 calibration.
+- `lio_adapter_chassis_heading_fusion.yaml`: disabled-by-calibration template
+  for the single gimbal-mounted MID360 candidate that combines sensor position
+  with lower-controller chassis heading. It deliberately refuses to start
+  until home alignment and new-car extrinsics are confirmed.
 
 Any remaining zero extrinsics in these files are deliberate no-hardware or
 unused-side placeholders, not 2027 calibration results.

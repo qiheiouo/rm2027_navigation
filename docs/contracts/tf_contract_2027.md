@@ -29,8 +29,8 @@ changes.
 | `map -> odom` | Dynamic | `global_localization` implementation | `map_odom_stub` publishes identity `map -> odom` as the temporary owner |
 | `odom -> base_link` | Dynamic | `lio_adapter` | Required |
 | `base_link -> gimbal_yaw_link` | Dynamic on real robot | `gimbal_state_adapter` through `robot_state_publisher` or an equivalent TF owner | Phase 1 may use a documented zero-yaw placeholder before hardware validation |
-| `gimbal_yaw_link -> mid360_left_frame` | Static | `robot_state_publisher` or static extrinsic publisher | Required for dual-MID360 design |
-| `gimbal_yaw_link -> mid360_right_frame` | Static | `robot_state_publisher` or static extrinsic publisher | Required for dual-MID360 design; may be unused if Phase 1 falls back to one MID360 |
+| `gimbal_yaw_link -> mid360_left_frame` | Static | `robot_state_publisher` or static extrinsic publisher | Required for the current single-MID360 design |
+| `gimbal_yaw_link -> mid360_right_frame` | Static | `robot_state_publisher` or static extrinsic publisher | Optional future obstacle-coverage sensor only |
 | `gimbal_yaw_link -> lio_imu_link` | Static | `robot_state_publisher` or static extrinsic publisher | Required; represents the selected MID360 internal IMU used by LIO |
 | `base_link -> base_imu_link` | Static | `robot_state_publisher` or static extrinsic publisher | Optional chassis IMU frame |
 
@@ -48,11 +48,21 @@ bringup, and must never be published by Gazebo or `scan_frame_adapter`.
 
 ## Gimbal-Mounted MID360 Policy
 
-The 2027 real robot is expected to mount two MID360 LiDARs on the gimbal, facing left and right, with an upward installation angle near 45 degrees. The exact roll, pitch, yaw, and cable-direction-dependent sensor orientation must be measured after installation using the MID360 manual and recorded with robot revision and calibration method.
+The current 2027 plan uses one MID360 on the gimbal. A second sensor remains an
+optional future obstacle-coverage extension, not a localization requirement.
+The exact roll, pitch, yaw, and cable-direction-dependent sensor orientation
+must be measured after installation using the MID360 manual and recorded with
+robot revision and calibration method.
 
 Because the LiDARs are mounted on the gimbal, `base_link -> mid360_*_frame` must not be modeled as a direct fixed transform on the real robot. The transform must pass through `gimbal_yaw_link`.
 
-The gimbal yaw angle is a dynamic state. During real hardware operation, `base_link -> gimbal_yaw_link` must be derived from the lower controller's gimbal state with a meaningful timestamp. If the gimbal angle is unavailable, stale, or not timestamped well enough, gimbal-mounted LIO must not be treated as validated base localization.
+The gimbal yaw angle is a dynamic state. The preferred source is a measured
+mechanical angle with a meaningful timestamp. The explicit coaxial-heading
+candidate may instead reconstruct it from FAST-LIO sensor orientation and
+timestamped lower-controller chassis heading. That candidate requires a known
+startup home, sensor/yaw-center coincidence, reset detection and hardware A/B
+acceptance as documented in `docs/chassis_heading_lio_fusion.md`. Missing or
+stale input in either mode must not be treated as validated base localization.
 
 Phase 1 skeletons may use a zero-yaw gimbal placeholder for Linux build, RViz, bag, or early adapter tests. That placeholder is not a real-robot acceptance condition and must be replaced before validating a rotating gimbal.
 

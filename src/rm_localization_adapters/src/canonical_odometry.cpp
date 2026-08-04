@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include "tf2/LinearMath/Quaternion.h"
+#include "tf2/LinearMath/Matrix3x3.h"
 #include "tf2/LinearMath/Vector3.h"
 
 namespace rm_localization_adapters
@@ -62,6 +63,54 @@ tf2::Transform compute_base_transform_from_sensor_initial(
   const tf2::Transform & base_to_sensor)
 {
   return base_to_sensor * sensor_initial_to_sensor * base_to_sensor.inverse();
+}
+
+double wrap_angle(double angle_rad)
+{
+  constexpr double kPi = 3.14159265358979323846;
+  return std::atan2(std::sin(angle_rad), std::cos(angle_rad));
+}
+
+ChassisHeadingFusionResult compute_base_transform_from_chassis_heading(
+  const tf2::Transform & raw_initial_to_sensor_at_start,
+  const tf2::Transform & raw_initial_to_sensor,
+  const tf2::Transform & initial_base_to_sensor,
+  double initial_chassis_heading_rad,
+  double chassis_heading_rad,
+  double initial_gimbal_yaw_rad)
+{
+  const tf2::Transform sensor_start_to_sensor =
+    raw_initial_to_sensor_at_start.inverse() * raw_initial_to_sensor;
+  const tf2::Transform base_initial_to_sensor =
+    initial_base_to_sensor * sensor_start_to_sensor;
+
+  const double base_yaw = wrap_angle(chassis_heading_rad - initial_chassis_heading_rad);
+  tf2::Quaternion base_rotation;
+  base_rotation.setRPY(0.0, 0.0, base_yaw);
+  base_rotation.normalize();
+
+  const tf2::Vector3 base_position =
+    base_initial_to_sensor.getOrigin() -
+    tf2::quatRotate(base_rotation, initial_base_to_sensor.getOrigin());
+  const tf2::Transform base_initial_to_base(base_rotation, base_position);
+
+  tf2::Quaternion base_to_sensor_rotation =
+    base_rotation.inverse() * base_initial_to_sensor.getRotation();
+  base_to_sensor_rotation.normalize();
+  tf2::Quaternion relative_joint_rotation =
+    base_to_sensor_rotation * initial_base_to_sensor.getRotation().inverse();
+  relative_joint_rotation.normalize();
+  double roll = 0.0;
+  double pitch = 0.0;
+  double gimbal_delta = 0.0;
+  tf2::Matrix3x3(relative_joint_rotation).getRPY(roll, pitch, gimbal_delta);
+  static_cast<void>(roll);
+  static_cast<void>(pitch);
+
+  ChassisHeadingFusionResult result;
+  result.base_initial_to_base = base_initial_to_base;
+  result.gimbal_yaw_rad = wrap_angle(initial_gimbal_yaw_rad + gimbal_delta);
+  return result;
 }
 
 PoseTwistEstimator::PoseTwistEstimator(const TwistEstimatorConfig & config)

@@ -11,6 +11,7 @@ lio_adapter:
     use_tf_sensor_to_base: true
     use_latest_transform: false
     allow_placeholder_fallback: false
+    pose_conversion_mode: sensor_tf
     # FAST-LIO raw odom uses its initial sensor frame as the parent. Convert
     # both parent and child basis so startup does not inherit MID360 mount rpy.
     raw_odom_parent_frame_mode: sensor_initial

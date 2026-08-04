@@ -17,6 +17,22 @@ tf2::Transform compute_base_transform_from_sensor_initial(
   const tf2::Transform & sensor_initial_to_sensor,
   const tf2::Transform & base_to_sensor);
 
+struct ChassisHeadingFusionResult
+{
+  tf2::Transform base_initial_to_base;
+  double gimbal_yaw_rad{0.0};
+};
+
+double wrap_angle(double angle_rad);
+
+ChassisHeadingFusionResult compute_base_transform_from_chassis_heading(
+  const tf2::Transform & raw_initial_to_sensor_at_start,
+  const tf2::Transform & raw_initial_to_sensor,
+  const tf2::Transform & initial_base_to_sensor,
+  double initial_chassis_heading_rad,
+  double chassis_heading_rad,
+  double initial_gimbal_yaw_rad = 0.0);
+
 enum class TwistEstimateStatus
 {
   kInitialized,

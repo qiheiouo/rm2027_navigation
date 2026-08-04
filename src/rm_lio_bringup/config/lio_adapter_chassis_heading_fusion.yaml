@@ -8,29 +8,24 @@ lio_adapter:
     input_sensor_frame: lio_imu_link
     gimbal_frame: gimbal_yaw_link
     publish_tf: true
-    use_tf_sensor_to_base: true
+
+    # Experimental new-car mode. Existing sensor_tf profiles are unchanged.
+    pose_conversion_mode: chassis_heading_fusion
+    raw_odom_parent_frame_mode: sensor_initial
+    use_tf_sensor_to_base: false
     use_latest_transform: false
     allow_placeholder_fallback: false
-    pose_conversion_mode: sensor_tf
-    # Exact timestamp lookup is non-blocking. Missing future transforms enter
-    # the bounded queue below instead of falling back to latest TF.
+
     tf_lookup_timeout_sec: 0.0
     tf_queue:
       max_size: 100
       max_wait_sec: 0.2
       retry_rate_hz: 200.0
 
-    # FAST_LIO_MULTI_ROS2 hard-codes child_frame_id=body for the filter's IMU
-    # state pose. This explicit alias maps that backend-private semantic frame
-    # to lio_imu_link, then lio_adapter still computes the full transform:
-    #   T_odom_base = T_odom_lio_imu * inverse(T_base_lio_imu)
-    # It does not alias body directly to base_link.
     backend_child_frame_alias_enabled: true
     backend_child_frame_alias_source: body
     backend_child_frame_alias_target: lio_imu_link
 
-    # Upstream FAST-LIO Multi does not populate Odometry.twist. Estimate the
-    # base-frame twist only after pose conversion removes dynamic gimbal motion.
     twist_mode: finite_difference
     twist_estimator:
       min_dt_sec: 0.001
@@ -38,10 +33,28 @@ lio_adapter:
       smoothing_alpha: 0.3
       max_linear_speed: 5.0
       max_angular_speed: 20.0
-
-    # Conservative placeholders for Phase 2B interface testing. Replace with
-    # measured values before real Nav2 acceptance.
     twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
+
+    heading_fusion:
+      heading_topic: /chassis/heading
+      derived_gimbal_topic: /gimbal/state_derived
+      cache_size: 500
+      max_heading_match_dt_sec: 0.03
+      yaw_variance: 0.01
+      initial_gimbal_yaw_rad: 0.0
+      max_center_offset_xy_m: 0.05
+
+      # Keep false until the new car exists and all values below have been
+      # measured at the documented gimbal home pose. The node intentionally
+      # refuses to start while this remains false.
+      initial_alignment_confirmed: false
+      initial_base_to_sensor:
+        x: 0.0
+        y: 0.0
+        z: 0.0
+        roll: 0.0
+        pitch: 0.0
+        yaw: 0.0
 
     input_to_base_placeholder:
       x: 0.0

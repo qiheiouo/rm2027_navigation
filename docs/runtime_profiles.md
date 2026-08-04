@@ -241,6 +241,23 @@ real gimbal adapter boundary. It opens no device and starts no TF, odometry,
 Nav2 or mission owner. Old-car profiles continue selecting only
 `legacy_v1_no_crc` or `hpm_crc_v1`.
 
+The single-gimbal-MID360 chassis-heading fusion candidate is a separate new-car
+profile. It must remain disabled until its home transform is measured and
+`initial_alignment_confirmed` is deliberately changed in a robot-specific
+config:
+
+```bash
+ros2 launch rm_navigation_bringup phase2a_lio_bringup.launch.py \
+  use_driver:=true use_lio_backend:=true sensor_mode:=single \
+  lio_adapter_config:=$(ros2 pkg prefix rm_lio_bringup)/share/rm_lio_bringup/config/lio_adapter_chassis_heading_fusion.yaml \
+  gimbal_state_adapter_config:=$(ros2 pkg prefix rm_localization_adapters)/share/rm_localization_adapters/config/gimbal_state_adapter_derived.yaml
+```
+
+Start the explicitly selected `competition_v2` serial transport separately
+with required capability mask `33` or the wider mask required by the complete
+competition profile. See `docs/chassis_heading_lio_fusion.md`; this command is
+not a current real-hardware acceptance instruction.
+
 ## Competition
 
 The old-car competition composition is:

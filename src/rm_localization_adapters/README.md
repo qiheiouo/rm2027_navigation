@@ -47,6 +47,15 @@ initial sensor frame.
 
 `T_base_sensor` is expected to come from `robot_state_publisher`, measured sensor extrinsics, and `gimbal_yaw_joint`.
 
+An explicit second pose-conversion mode,
+`pose_conversion_mode: chassis_heading_fusion`, exists for the proposed
+single-MID360 new car when no mechanical gimbal angle is available. It combines
+the FAST-LIO sensor trajectory with timestamp-matched `/chassis/heading`, uses
+a measured home `base_link -> sensor` transform, and publishes a derived
+`/gimbal/state_derived`. It requires a coaxial sensor/yaw center and known
+startup home; lower heading reset latches output invalid. See
+`docs/chassis_heading_lio_fusion.md`. The default remains `sensor_tf`.
+
 The Phase 2A FAST-LIO Multi integration is a narrowly documented exception to
 the raw frame-name rule. Upstream hard-codes `child_frame_id=body` for its IMU
 state pose. The Phase 2A config may alias that backend-private `body` semantic
