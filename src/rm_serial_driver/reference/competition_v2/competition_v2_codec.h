@@ -24,7 +24,8 @@ typedef enum {
   RMCV2_MSG_POSTURE_STATE = 0x81,
   RMCV2_MSG_GIMBAL_STATE = 0x82,
   RMCV2_MSG_REFEREE_STATE = 0x83,
-  RMCV2_MSG_OPERATOR_TARGET = 0x84
+  RMCV2_MSG_OPERATOR_TARGET = 0x84,
+  RMCV2_MSG_CHASSIS_HEADING_STATE = 0x85
 } rmcv2_message_type_t;
 
 typedef enum {
@@ -53,7 +54,8 @@ enum {
   RMCV2_CAP_POSTURE = 1u << 1u,
   RMCV2_CAP_GIMBAL_STATE = 1u << 2u,
   RMCV2_CAP_REFEREE_STATE = 1u << 3u,
-  RMCV2_CAP_OPERATOR_TARGET = 1u << 4u
+  RMCV2_CAP_OPERATOR_TARGET = 1u << 4u,
+  RMCV2_CAP_CHASSIS_HEADING_STATE = 1u << 5u
 };
 
 typedef enum {
@@ -94,6 +96,12 @@ typedef struct {
   uint32_t sample_sequence, mcu_time_ms;
   bool valid, online;
 } rmcv2_gimbal_state_t;
+typedef struct {
+  float yaw_rad, yaw_rate_rad_s;
+  uint32_t sample_sequence, mcu_time_ms;
+  uint16_t reset_counter;
+  bool valid, online;
+} rmcv2_chassis_heading_state_t;
 typedef struct {
   uint8_t game_progress;
   uint16_t stage_remain_time;
@@ -146,6 +154,11 @@ rmcv2_result_t rmcv2_encode_gimbal_state(
   uint8_t *output, size_t capacity, size_t *size);
 rmcv2_result_t rmcv2_decode_gimbal_state(
   const rmcv2_frame_t *frame, rmcv2_gimbal_state_t *message);
+rmcv2_result_t rmcv2_encode_chassis_heading_state(
+  const rmcv2_chassis_heading_state_t *message, uint16_t sequence,
+  uint8_t *output, size_t capacity, size_t *size);
+rmcv2_result_t rmcv2_decode_chassis_heading_state(
+  const rmcv2_frame_t *frame, rmcv2_chassis_heading_state_t *message);
 rmcv2_result_t rmcv2_encode_referee_state(
   const rmcv2_referee_state_t *message, uint16_t sequence,
   uint8_t *output, size_t capacity, size_t *size);

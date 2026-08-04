@@ -28,6 +28,7 @@ enum class MessageType : std::uint8_t
   GimbalState = 0x82,
   RefereeState = 0x83,
   OperatorNavigationTarget = 0x84,
+  ChassisHeadingState = 0x85,
 };
 
 enum class Posture : std::uint8_t
@@ -61,6 +62,7 @@ enum Capability : std::uint32_t
   CapabilityGimbalState = 1U << 2U,
   CapabilityRefereeState = 1U << 3U,
   CapabilityOperatorNavigationTarget = 1U << 4U,
+  CapabilityChassisHeadingState = 1U << 5U,
 };
 
 struct Frame
@@ -107,6 +109,17 @@ struct GimbalState
   float yaw_rate_rad_s = 0.0F;
   std::uint32_t sample_sequence = 0;
   std::uint32_t mcu_time_ms = 0;
+  bool valid = false;
+  bool online = false;
+};
+
+struct ChassisHeadingState
+{
+  float yaw_rad = 0.0F;
+  float yaw_rate_rad_s = 0.0F;
+  std::uint32_t sample_sequence = 0;
+  std::uint32_t mcu_time_ms = 0;
+  std::uint16_t reset_counter = 0;
   bool valid = false;
   bool online = false;
 };
@@ -161,6 +174,7 @@ std::optional<std::vector<std::uint8_t>> encode_payload(const ChassisCommand & m
 std::optional<std::vector<std::uint8_t>> encode_payload(const PostureRequest & message);
 std::optional<std::vector<std::uint8_t>> encode_payload(const PostureState & message);
 std::optional<std::vector<std::uint8_t>> encode_payload(const GimbalState & message);
+std::optional<std::vector<std::uint8_t>> encode_payload(const ChassisHeadingState & message);
 std::optional<std::vector<std::uint8_t>> encode_payload(const RefereeState & message);
 std::optional<std::vector<std::uint8_t>> encode_payload(
   const OperatorNavigationTarget & message);
@@ -170,6 +184,7 @@ std::optional<ChassisCommand> decode_chassis_command(const Frame & frame);
 std::optional<PostureRequest> decode_posture_request(const Frame & frame);
 std::optional<PostureState> decode_posture_state(const Frame & frame);
 std::optional<GimbalState> decode_gimbal_state(const Frame & frame);
+std::optional<ChassisHeadingState> decode_chassis_heading_state(const Frame & frame);
 std::optional<RefereeState> decode_referee_state(const Frame & frame);
 std::optional<OperatorNavigationTarget> decode_operator_navigation_target(const Frame & frame);
 std::optional<Heartbeat> decode_heartbeat(const Frame & frame);

@@ -337,6 +337,45 @@ rmcv2_result_t rmcv2_decode_gimbal_state(
          RMCV2_OK : RMCV2_INVALID_PAYLOAD;
 }
 
+rmcv2_result_t rmcv2_encode_chassis_heading_state(
+  const rmcv2_chassis_heading_state_t * message, uint16_t sequence,
+  uint8_t * output, size_t capacity, size_t * size)
+{
+  uint8_t payload[19];
+  if (message == NULL || !yaw_valid(message->yaw_rad) ||
+    !isfinite(message->yaw_rate_rad_s))
+  {
+    return RMCV2_INVALID_PAYLOAD;
+  }
+  put_f32(payload, message->yaw_rad);
+  put_f32(payload + 4, message->yaw_rate_rad_s);
+  put_u32(payload + 8, message->sample_sequence);
+  put_u32(payload + 12, message->mcu_time_ms);
+  put_u16(payload + 16, message->reset_counter);
+  payload[18] = (message->valid ? 1u : 0u) | (message->online ? 2u : 0u);
+  return rmcv2_encode_frame(
+    RMCV2_MSG_CHASSIS_HEADING_STATE, sequence, payload, 19, output, capacity, size);
+}
+
+rmcv2_result_t rmcv2_decode_chassis_heading_state(
+  const rmcv2_frame_t * frame, rmcv2_chassis_heading_state_t * message)
+{
+  if (message == NULL ||
+    !type_and_size(frame, RMCV2_MSG_CHASSIS_HEADING_STATE, 19))
+  {
+    return RMCV2_INVALID_PAYLOAD;
+  }
+  message->yaw_rad = get_f32(frame->payload);
+  message->yaw_rate_rad_s = get_f32(frame->payload + 4);
+  message->sample_sequence = get_u32(frame->payload + 8);
+  message->mcu_time_ms = get_u32(frame->payload + 12);
+  message->reset_counter = get_u16(frame->payload + 16);
+  message->valid = (frame->payload[18] & 1u) != 0u;
+  message->online = (frame->payload[18] & 2u) != 0u;
+  return yaw_valid(message->yaw_rad) && isfinite(message->yaw_rate_rad_s) ?
+         RMCV2_OK : RMCV2_INVALID_PAYLOAD;
+}
+
 rmcv2_result_t rmcv2_encode_referee_state(
   const rmcv2_referee_state_t * message, uint16_t sequence,
   uint8_t * output, size_t capacity, size_t * size)

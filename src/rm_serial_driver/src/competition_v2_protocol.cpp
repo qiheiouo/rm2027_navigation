@@ -17,6 +17,7 @@ constexpr std::size_t kChassisCommandPayloadSize = 13;
 constexpr std::size_t kPostureRequestPayloadSize = 11;
 constexpr std::size_t kPostureStatePayloadSize = 13;
 constexpr std::size_t kGimbalStatePayloadSize = 17;
+constexpr std::size_t kChassisHeadingStatePayloadSize = 19;
 constexpr std::size_t kRefereeStatePayloadSize = 17;
 constexpr std::size_t kOperatorTargetPayloadSize = 25;
 constexpr std::size_t kHeartbeatPayloadSize = 13;
@@ -105,6 +106,7 @@ bool is_known_message_type(std::uint8_t value)
     case MessageType::GimbalState:
     case MessageType::RefereeState:
     case MessageType::OperatorNavigationTarget:
+    case MessageType::ChassisHeadingState:
       return true;
   }
   return false;
@@ -238,6 +240,25 @@ std::optional<std::vector<std::uint8_t>> encode_payload(const GimbalState & mess
   return output;
 }
 
+std::optional<std::vector<std::uint8_t>> encode_payload(
+  const ChassisHeadingState & message)
+{
+  if (!valid_wrapped_yaw(message.yaw_rad) || !finite(message.yaw_rate_rad_s)) {
+    return std::nullopt;
+  }
+  std::vector<std::uint8_t> output;
+  output.reserve(kChassisHeadingStatePayloadSize);
+  append_float(output, message.yaw_rad);
+  append_float(output, message.yaw_rate_rad_s);
+  append_u32(output, message.sample_sequence);
+  append_u32(output, message.mcu_time_ms);
+  append_u16(output, message.reset_counter);
+  output.push_back(
+    (message.valid ? kPostureValidFlag : 0U) |
+    (message.online ? kPostureOnlineFlag : 0U));
+  return output;
+}
+
 std::optional<std::vector<std::uint8_t>> encode_payload(const RefereeState & message)
 {
   std::vector<std::uint8_t> output;
@@ -357,6 +378,27 @@ std::optional<GimbalState> decode_gimbal_state(const Frame & frame)
   message.valid = (frame.payload[16] & kPostureValidFlag) != 0U;
   message.online = (frame.payload[16] & kPostureOnlineFlag) != 0U;
   if (!valid_wrapped_yaw(message.relative_yaw_rad) || !finite(message.yaw_rate_rad_s)) {
+    return std::nullopt;
+  }
+  return message;
+}
+
+std::optional<ChassisHeadingState> decode_chassis_heading_state(const Frame & frame)
+{
+  if (!frame_matches(
+      frame, MessageType::ChassisHeadingState, kChassisHeadingStatePayloadSize))
+  {
+    return std::nullopt;
+  }
+  ChassisHeadingState message;
+  message.yaw_rad = read_float(frame.payload.data());
+  message.yaw_rate_rad_s = read_float(frame.payload.data() + 4);
+  message.sample_sequence = read_u32(frame.payload.data() + 8);
+  message.mcu_time_ms = read_u32(frame.payload.data() + 12);
+  message.reset_counter = read_u16(frame.payload.data() + 16);
+  message.valid = (frame.payload[18] & kPostureValidFlag) != 0U;
+  message.online = (frame.payload[18] & kPostureOnlineFlag) != 0U;
+  if (!valid_wrapped_yaw(message.yaw_rad) || !finite(message.yaw_rate_rad_s)) {
     return std::nullopt;
   }
   return message;

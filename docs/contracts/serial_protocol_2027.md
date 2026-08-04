@@ -174,7 +174,8 @@ type, bounded payload length, per-type sequence, explicit little-endian payload
 and CRC16/Modbus over version through payload.
 
 Separate messages cover high-rate chassis velocity, desired posture requests,
-posture ACK/actual/fault state, relative mechanical gimbal yaw, normalized
+posture ACK/actual/fault state, relative mechanical gimbal yaw, optional
+chassis world heading with reset identity, normalized
 referee state, raw operator navigation targets and heartbeat/capabilities.
 Vision pursuit remains an upper-computer ROS path and has no serial message.
 
