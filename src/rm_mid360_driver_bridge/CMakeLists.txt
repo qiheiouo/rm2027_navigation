@@ -11,6 +11,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(livox_ros_driver2 REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -66,11 +67,20 @@ ament_target_dependencies(pointcloud_fusion_node
   tf2_ros
 )
 
+add_executable(livox_pointcloud_adapter_node src/livox_pointcloud_adapter_node.cpp)
+target_compile_features(livox_pointcloud_adapter_node PUBLIC cxx_std_17)
+ament_target_dependencies(livox_pointcloud_adapter_node
+  livox_ros_driver2
+  rclcpp
+  sensor_msgs
+)
+
 install(TARGETS
   pointcloud_deskew
   pointcloud_self_filter_node
   pointcloud_to_laserscan_node
   pointcloud_fusion_node
+  livox_pointcloud_adapter_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -95,6 +105,11 @@ if(BUILD_TESTING)
     test_pointcloud_fusion_runtime
     test/test_pointcloud_fusion_runtime.py
     TIMEOUT 40
+  )
+  ament_add_pytest_test(
+    test_livox_pointcloud_adapter_runtime
+    test/test_livox_pointcloud_adapter_runtime.py
+    TIMEOUT 30
   )
 endif()
 

@@ -12,76 +12,90 @@ def _bool_arg(context, name):
     return LaunchConfiguration(name).perform(context).strip().lower() in TRUE_VALUES
 
 
-def _driver_node(context, side, config_name, imu_target):
-    package_share = FindPackageShare("rm_mid360_driver_bridge")
-    config_path = PathJoinSubstitution([package_share, "config", config_name]).perform(context)
-    driver_package = LaunchConfiguration("driver_package").perform(context)
-    xfer_format = int(LaunchConfiguration("xfer_format").perform(context))
-    publish_freq = float(LaunchConfiguration("publish_freq").perform(context))
-    output_type = int(LaunchConfiguration("output_type").perform(context))
-    frame_id = LaunchConfiguration(f"{side}_frame_id").perform(context)
-
+def _adapter(side, frame_id, lidar_id):
     return Node(
-        package=driver_package,
-        executable="livox_ros_driver2_node",
-        name=f"livox_{side}_driver",
+        package="rm_mid360_driver_bridge",
+        executable="livox_pointcloud_adapter_node",
+        name=f"livox_{side}_pointcloud_adapter",
         output="screen",
         parameters=[{
-            "xfer_format": xfer_format,
-            "multi_topic": 0,
+            "input_topic": f"/livox/{side}/pointcloud_native",
+            "pointcloud_output_topic": f"/livox/{side}/pointcloud",
+            "custom_output_topic": f"/livox/{side}/lidar",
+            "output_frame_id": frame_id,
+            "publish_custom": True,
+            "lidar_id": lidar_id,
+        }],
+    )
+
+
+def _launch_setup(context, *args, **kwargs):
+    del args, kwargs
+    if not _bool_arg(context, "use_driver"):
+        return [LogInfo(msg=(
+            "use_driver:=false, so livox_ros_driver2 is not launched. "
+            "This is the expected default for build-only and no-hardware validation."
+        ))]
+
+    enable_left = _bool_arg(context, "enable_left")
+    enable_right = _bool_arg(context, "enable_right")
+    if not (enable_left and enable_right):
+        raise RuntimeError(
+            "dual_mid360_driver requires enable_left:=true and enable_right:=true; "
+            "use single_mid360_driver.launch.py for one sensor"
+        )
+
+    lio_imu_source = LaunchConfiguration("lio_imu_source").perform(context).strip().lower()
+    if lio_imu_source not in {"left", "right"}:
+        raise RuntimeError("lio_imu_source must be 'left' or 'right'")
+
+    package_share = FindPackageShare("rm_mid360_driver_bridge")
+    config_path = PathJoinSubstitution([
+        package_share, "config", "dual_mid360_config.json"
+    ]).perform(context)
+    driver_package = LaunchConfiguration("driver_package").perform(context)
+    left_frame = LaunchConfiguration("left_frame_id").perform(context)
+    right_frame = LaunchConfiguration("right_frame_id").perform(context)
+    left_imu = "/livox/lio_imu_raw" if lio_imu_source == "left" else "/livox/left/imu_raw"
+    right_imu = "/livox/lio_imu_raw" if lio_imu_source == "right" else "/livox/right/imu_raw"
+
+    driver = Node(
+        package=driver_package,
+        executable="livox_ros_driver2_node",
+        name="livox_dual_driver",
+        output="screen",
+        parameters=[{
+            # One SDK instance must configure both MID360s. Two instances race
+            # and the last one redirects both sensors to its UDP host ports.
+            # Multi-topic PointCloud2 is adapted below into canonical per-side
+            # PointCloud2 and timing-preserving Livox CustomMsg topics.
+            "xfer_format": 0,
+            "multi_topic": 1,
             "data_src": 0,
-            "publish_freq": publish_freq,
-            "output_data_type": output_type,
-            "frame_id": frame_id,
+            "publish_freq": float(LaunchConfiguration("publish_freq").perform(context)),
+            "output_data_type": int(LaunchConfiguration("output_type").perform(context)),
+            "frame_id": "livox_frame",
             "lvx_file_path": "",
             "user_config_path": config_path,
             "cmdline_input_bd_code": "livox0000000001",
         }],
         remappings=[
-            ("/livox/lidar", f"/livox/{side}/lidar"),
-            ("/livox/lidar/pointcloud", f"/livox/{side}/pointcloud"),
-            ("/livox/imu", imu_target),
+            ("/livox/lidar_192_168_1_3", "/livox/left/pointcloud_native"),
+            ("/livox/lidar_192_168_1_166", "/livox/right/pointcloud_native"),
+            ("/livox/imu_192_168_1_3", left_imu),
+            ("/livox/imu_192_168_1_166", right_imu),
         ],
     )
 
-
-def _launch_setup(context, *args, **kwargs):
-    use_driver = _bool_arg(context, "use_driver")
-    enable_left = _bool_arg(context, "enable_left")
-    enable_right = _bool_arg(context, "enable_right")
-    lio_imu_source = LaunchConfiguration("lio_imu_source").perform(context).strip().lower()
-
-    actions = [
-        LogInfo(msg=[
-            "rm_mid360_driver_bridge dual contract: left=/livox/left/lidar, ",
-            "right=/livox/right/lidar, selected raw IMU=/livox/lio_imu_raw. ",
-            "This bridge must not publish localization TF or odometry."
-        ])
+    return [
+        LogInfo(msg=(
+            "dual MID360 contract: one SDK instance, left=192.168.1.3, "
+            "right=192.168.1.166, canonical PointCloud2 and CustomMsg per side"
+        )),
+        driver,
+        _adapter("left", left_frame, 1),
+        _adapter("right", right_frame, 2),
     ]
-
-    if not use_driver:
-        actions.append(LogInfo(msg=[
-            "use_driver:=false, so livox_ros_driver2 is not launched. ",
-            "This is the expected default for build-only and no-hardware validation."
-        ]))
-        return actions
-
-    if lio_imu_source not in {"left", "right"}:
-        actions.append(LogInfo(msg="Invalid lio_imu_source. Use 'left' or 'right'. No driver nodes launched."))
-        return actions
-
-    if enable_left:
-        left_imu_topic = "/livox/lio_imu_raw" if lio_imu_source == "left" else "/livox/left/imu_raw"
-        actions.append(_driver_node(context, "left", "left_mid360_config.json", left_imu_topic))
-
-    if enable_right:
-        right_imu_topic = "/livox/lio_imu_raw" if lio_imu_source == "right" else "/livox/right/imu_raw"
-        actions.append(_driver_node(context, "right", "right_mid360_config.json", right_imu_topic))
-
-    if not enable_left and not enable_right:
-        actions.append(LogInfo(msg="Both enable_left and enable_right are false. No driver nodes launched."))
-
-    return actions
 
 
 def generate_launch_description():
@@ -93,7 +107,6 @@ def generate_launch_description():
         DeclareLaunchArgument("lio_imu_source", default_value="left"),
         DeclareLaunchArgument("left_frame_id", default_value="mid360_left_frame"),
         DeclareLaunchArgument("right_frame_id", default_value="mid360_right_frame"),
-        DeclareLaunchArgument("xfer_format", default_value="4"),
         DeclareLaunchArgument("publish_freq", default_value="50.0"),
         DeclareLaunchArgument("output_type", default_value="0"),
         OpaqueFunction(function=_launch_setup),

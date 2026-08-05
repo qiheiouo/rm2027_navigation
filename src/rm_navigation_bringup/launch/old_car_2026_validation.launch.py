@@ -59,6 +59,14 @@ def _validate_runtime_modes(context, *args, **kwargs):
         in TRUE_VALUES
     )
     selected_side = LaunchConfiguration("selected_side").perform(context).strip().lower()
+    driver_mode = LaunchConfiguration("driver_mode").perform(context).strip().lower()
+    if driver_mode not in {"single", "dual"}:
+        raise RuntimeError("driver_mode must be 'single' or 'dual'")
+    if driver_mode == "dual" and selected_side != "left":
+        raise RuntimeError(
+            "old-car dual driver currently requires selected_side:=left so the "
+            "verified left MID360 remains the LIO/IMU source"
+        )
     if use_serial_dry_run and use_real_serial:
         raise RuntimeError(
             "use_serial_dry_run and use_real_serial must not be true at the same time."
@@ -90,6 +98,7 @@ def _validate_runtime_modes(context, *args, **kwargs):
 
 def generate_launch_description():
     selected_side = LaunchConfiguration("selected_side")
+    driver_mode = LaunchConfiguration("driver_mode")
     use_driver = LaunchConfiguration("use_driver")
     use_lio_backend = LaunchConfiguration("use_lio_backend")
     use_map_odom_stub = LaunchConfiguration("use_map_odom_stub")
@@ -131,6 +140,11 @@ def generate_launch_description():
         FindPackageShare("rm_mid360_driver_bridge"),
         "launch",
         "single_mid360_driver.launch.py",
+    ])
+    dual_driver_launch = PathJoinSubstitution([
+        FindPackageShare("rm_mid360_driver_bridge"),
+        "launch",
+        "dual_mid360_driver.launch.py",
     ])
     lio_backend_launch = PathJoinSubstitution([
         FindPackageShare("rm_lio_bringup"),
@@ -200,6 +214,11 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument("selected_side", default_value="left"),
+        DeclareLaunchArgument(
+            "driver_mode",
+            default_value="single",
+            description="Use one left/right driver or one dual-device SDK instance.",
+        ),
         DeclareLaunchArgument("use_driver", default_value="false"),
         DeclareLaunchArgument("use_lio_backend", default_value="false"),
         DeclareLaunchArgument("use_map_odom_stub", default_value="true"),
@@ -289,9 +308,22 @@ def generate_launch_description():
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(single_driver_launch),
+            condition=IfCondition(PythonExpression([
+                "'", driver_mode, "' == 'single'",
+            ])),
             launch_arguments={
                 "use_driver": use_driver,
                 "side": selected_side,
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(dual_driver_launch),
+            condition=IfCondition(PythonExpression([
+                "'", driver_mode, "' == 'dual'",
+            ])),
+            launch_arguments={
+                "use_driver": use_driver,
+                "lio_imu_source": selected_side,
             }.items(),
         ),
         IncludeLaunchDescription(

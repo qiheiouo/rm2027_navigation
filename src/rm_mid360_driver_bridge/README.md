@@ -134,4 +134,11 @@ The locally inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livo
 
 ## Notes for Dual MID360
 
-The dual launch starts separate left/right driver nodes when `use_driver:=true`. This lets each side use its own frame id and topic remaps, with the left LiDAR remaining the default LIO IMU source. The fallback `dual_mid360_config.json` keeps the same left-first, right-second device order. If the selected `livox_ros_driver2` version behaves better with one multi-lidar node, use that file as the starting point and document the changed launch behavior before merging.
+The dual launch starts one multi-device `livox_ros_driver2` process. Two SDK
+instances are not safe on the old car: each instance discovers both MID360s and
+the later process redirects both devices to its own UDP ports. The single
+process loads `dual_mid360_config.json` and publishes IP-specific PointCloud2
+topics. `livox_pointcloud_adapter_node` restores the canonical left/right frame
+ids and topics, and reconstructs the per-side Livox `CustomMsg` while preserving
+the point timestamps required by FAST-LIO. The left MID360 remains the default
+LIO IMU source.

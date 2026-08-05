@@ -157,6 +157,10 @@ def generate_launch_description():
     mission_startup_enabled = LaunchConfiguration("mission_startup_enabled")
     use_dual_fusion = LaunchConfiguration("use_dual_obstacle_fusion")
     use_right_driver = LaunchConfiguration("use_right_driver")
+    driver_mode = PythonExpression([
+        "'dual' if '", use_right_driver,
+        "'.lower() in ['1','true','yes','on'] else 'single'",
+    ])
     backend = LaunchConfiguration("relocalization_backend")
     map_manifest = LaunchConfiguration("map_bundle_manifest")
     map_policy = LaunchConfiguration("map_acceptance_policy")
@@ -196,9 +200,6 @@ def generate_launch_description():
     ])
     chassis_mode_launch = PathJoinSubstitution([
         FindPackageShare("rm_chassis_interface"), "launch", "chassis_mode_gate.launch.py"
-    ])
-    right_driver_launch = PathJoinSubstitution([
-        FindPackageShare("rm_mid360_driver_bridge"), "launch", "single_mid360_driver.launch.py"
     ])
     dual_fusion_launch = PathJoinSubstitution([
         FindPackageShare("rm_mid360_driver_bridge"),
@@ -331,6 +332,7 @@ def generate_launch_description():
             condition=IfCondition(enable_stack),
             launch_arguments={
                 "selected_side": "left",
+                "driver_mode": driver_mode,
                 "use_driver": use_driver,
                 "use_lio_backend": use_lio,
                 "use_map_odom_stub": map_stub_enabled,
@@ -450,18 +452,6 @@ def generate_launch_description():
             launch_arguments={
                 "enable_chassis_mode_gate": use_chassis_mode,
                 "use_sim_time": use_sim_time,
-            }.items(),
-        ),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(right_driver_launch),
-            condition=IfCondition(PythonExpression([
-                "'", enable_stack, "'.lower() in ['1','true','yes','on'] and '",
-                use_right_driver, "'.lower() in ['1','true','yes','on']",
-            ])),
-            launch_arguments={
-                "use_driver": "true",
-                "side": "right",
-                "imu_topic": "/livox/right/imu_raw",
             }.items(),
         ),
         IncludeLaunchDescription(
