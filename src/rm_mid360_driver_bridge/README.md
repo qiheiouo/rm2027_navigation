@@ -95,6 +95,17 @@ normal old-car or competition launches and has not yet passed real high-speed
 rotation acceptance. See
 `docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`.
 
+## Dual PointCloud2 Obstacle Fusion
+
+`dual_pointcloud_obstacle_fusion.launch.py` filters the left and right streams
+independently, transforms accepted clouds at their own timestamps, and
+publishes `/points/obstacles_fused` in `base_link`. It is obstacle perception
+only; the selected left MID360 remains the default single LIO source.
+
+The runtime regression covers left-only, right-only, dual-stream and stale-input
+degradation. It also checks the launch-time string-array parameter boundary so
+the fusion process cannot silently exit while the two filter nodes remain up.
+
 ## Driver Policy
 
 Phase 1 keeps `use_driver:=false` as the safe default so that the workspace builds and launch files can be inspected without real hardware or `livox_ros_driver2`.

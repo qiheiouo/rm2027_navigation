@@ -60,3 +60,9 @@ translation and orientation and compare walls/floor from each cloud separately.
 5. Static obstacles from both sides align without double walls.
 6. CPU and bandwidth remain acceptable on the target minipc.
 7. Dual perception does not silently switch FAST-LIO to dual mode.
+
+The package runtime regression launches the real processing entry with fake
+PointCloud2 inputs and checks left-only, right-only, dual, stale-input
+degradation and `base_link` output. This protects the Humble string-array
+launch parameter boundary; it is still not a substitute for extrinsic and
+resource acceptance on either car.

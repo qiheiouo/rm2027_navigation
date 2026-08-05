@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
@@ -7,16 +7,43 @@ from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
+def _create_fusion_node(context):
+    left_filtered = LaunchConfiguration("left_filtered_topic").perform(context)
+    right_filtered = LaunchConfiguration("right_filtered_topic").perform(context)
+    output_topic = LaunchConfiguration("output_topic").perform(context)
+    fusion_config = LaunchConfiguration("fusion_config").perform(context)
+
+    return [
+        Node(
+            package="rm_mid360_driver_bridge",
+            executable="pointcloud_fusion_node",
+            name="pointcloud_fusion_node",
+            output="screen",
+            parameters=[
+                fusion_config,
+                {
+                    # Resolve each substitution before constructing the array.
+                    # Passing a list of unresolved substitutions makes Humble
+                    # serialize the override as one string parameter.
+                    "input_topics": [left_filtered, right_filtered],
+                    "output_topic": output_topic,
+                    "use_sim_time": ParameterValue(
+                        LaunchConfiguration("use_sim_time"), value_type=bool
+                    ),
+                },
+            ],
+        )
+    ]
+
+
 def generate_launch_description():
     enabled = LaunchConfiguration("enable_fusion")
     use_sim_time = LaunchConfiguration("use_sim_time")
     filter_config = LaunchConfiguration("filter_config")
-    fusion_config = LaunchConfiguration("fusion_config")
     left_input = LaunchConfiguration("left_input_topic")
     right_input = LaunchConfiguration("right_input_topic")
     left_filtered = LaunchConfiguration("left_filtered_topic")
     right_filtered = LaunchConfiguration("right_filtered_topic")
-    output_topic = LaunchConfiguration("output_topic")
 
     default_filter_config = PathJoinSubstitution([
         FindPackageShare("rm_mid360_driver_bridge"),
@@ -79,19 +106,8 @@ def generate_launch_description():
                 },
             ],
         ),
-        Node(
+        OpaqueFunction(
             condition=IfCondition(enabled),
-            package="rm_mid360_driver_bridge",
-            executable="pointcloud_fusion_node",
-            name="pointcloud_fusion_node",
-            output="screen",
-            parameters=[
-                fusion_config,
-                {
-                    "input_topics": [left_filtered, right_filtered],
-                    "output_topic": output_topic,
-                    "use_sim_time": ParameterValue(use_sim_time, value_type=bool),
-                },
-            ],
+            function=_create_fusion_node,
         ),
     ])

@@ -86,9 +86,16 @@ install(DIRECTORY
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
+  find_package(ament_cmake_pytest REQUIRED)
   ament_add_gtest(test_pointcloud_deskew test/test_pointcloud_deskew.cpp)
   target_link_libraries(test_pointcloud_deskew pointcloud_deskew)
   ament_target_dependencies(test_pointcloud_deskew sensor_msgs std_msgs tf2)
+
+  ament_add_pytest_test(
+    test_pointcloud_fusion_runtime
+    test/test_pointcloud_fusion_runtime.py
+    TIMEOUT 40
+  )
 endif()
 
 ament_package()
