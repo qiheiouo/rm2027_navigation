@@ -156,6 +156,7 @@ See:
 - `docs/phase3b_pursuit_boundary.md`
 - `docs/phase3c_competition_mission_bt.md`
 - `docs/phase3d_competition_bringup.md`
+- `docs/phase3e_operator_navigation_target_boundary.md`
 - `docs/old_car_competition_minimum_behavior.md`
 - `docs/old_car_2026_validation_plan.md`
 - `docs/pre_hardware_freeze_status.md`
@@ -172,6 +173,7 @@ See:
 - `docs/external/gazebo_fortress_systems.md`
 - `docs/external/fast_lio_multi_ros2.md`
 - `docs/external/small_gicp_relocalization.md`
+- `docs/external/polarbear_pursuit_and_behavior.md`
 
 ## Current Packages
 

@@ -54,8 +54,8 @@ contracts take precedence over historical behavior.
 
 | Package | Responsibility | Current boundary | Primary documentation |
 | --- | --- | --- | --- |
-| `rm_competition_interfaces` | Normalized referee, chassis, target, mission and readiness messages | Interface definitions only | `docs/contracts/topic_contract_2027.md` |
-| `rm_referee_interface` | Range/freshness gate and explicit mock | Real serial producer missing | `docs/phase3a_competition_state_boundary.md` |
+| `rm_competition_interfaces` | Normalized referee, chassis, pursuit, raw operator-target, mission and readiness messages | Interface definitions only | `docs/contracts/topic_contract_2027.md`, `docs/phase3e_operator_navigation_target_boundary.md` |
+| `rm_referee_interface` | Range/freshness gate and explicit mock | Old-car HPM serial producer available; gate remains separate | `docs/phase3a_competition_state_boundary.md` |
 | `rm_pursuit` | Validated target-to-standoff-goal candidate | Real producer deferred | `docs/phase3b_pursuit_boundary.md` |
 | `rm_competition_mission` | Safety-gated mission selection and sole mission Nav2 action client | Disabled by default | `docs/phase3c_competition_mission_bt.md`, `docs/old_car_competition_minimum_behavior.md` |
 | `rm_system_monitor` | Read-only navigation and mission readiness summary | Diagnostic only | `docs/phase3d_competition_bringup.md` |

@@ -26,6 +26,9 @@ def _validate_competition_profile(context, *args, **kwargs):
     use_nav2 = _as_bool(context, "use_nav2")
     use_real_serial = _as_bool(context, "use_real_serial")
     serial_referee_rx = _as_bool(context, "serial_referee_rx_enabled")
+    serial_operator_goal_rx = _as_bool(
+        context, "serial_operator_goal_rx_enabled"
+    )
     use_map_server = _as_bool(context, "use_map_server")
     use_mission = _as_bool(context, "use_mission")
     use_referee = _as_bool(context, "use_referee_interface")
@@ -68,6 +71,15 @@ def _validate_competition_profile(context, *args, **kwargs):
     if serial_referee_rx and serial_profile != "hpm_crc_v1":
         raise RuntimeError(
             "the currently flashed referee upload requires "
+            "serial_protocol_profile:=hpm_crc_v1"
+        )
+    if serial_operator_goal_rx and not use_real_serial:
+        raise RuntimeError(
+            "serial operator target receive requires use_real_serial:=true"
+        )
+    if serial_operator_goal_rx and serial_profile != "hpm_crc_v1":
+        raise RuntimeError(
+            "the currently flashed operator target upload requires "
             "serial_protocol_profile:=hpm_crc_v1"
         )
     if use_mission and (not use_nav2 or backend == "none" or not use_referee):
@@ -176,6 +188,12 @@ def generate_launch_description():
     serial_max_wz = LaunchConfiguration("serial_max_wz")
     serial_protocol_profile = LaunchConfiguration("serial_protocol_profile")
     serial_referee_rx_enabled = LaunchConfiguration("serial_referee_rx_enabled")
+    serial_operator_goal_rx_enabled = LaunchConfiguration(
+        "serial_operator_goal_rx_enabled"
+    )
+    serial_operator_goal_coordinate_system = LaunchConfiguration(
+        "serial_operator_goal_coordinate_system"
+    )
 
     share = FindPackageShare("rm_navigation_bringup")
     old_car_launch = PathJoinSubstitution([share, "launch", "old_car_2026_validation.launch.py"])
@@ -291,6 +309,14 @@ def generate_launch_description():
             choices=["legacy_v1_no_crc", "hpm_crc_v1"],
         ),
         DeclareLaunchArgument("serial_referee_rx_enabled", default_value="false"),
+        DeclareLaunchArgument(
+            "serial_operator_goal_rx_enabled", default_value="false"
+        ),
+        DeclareLaunchArgument(
+            "serial_operator_goal_coordinate_system",
+            default_value="unknown",
+            choices=["unknown", "referee_field", "map"],
+        ),
         DeclareLaunchArgument("use_referee_interface", default_value="false"),
         DeclareLaunchArgument("use_referee_mock", default_value="false"),
         DeclareLaunchArgument("referee_mock_game_progress", default_value="4"),
@@ -352,6 +378,13 @@ def generate_launch_description():
                 "serial_max_wz": serial_max_wz,
                 "serial_referee_rx_enabled": serial_referee_rx_enabled,
                 "serial_referee_raw_topic": "/referee/state_raw",
+                "serial_operator_goal_rx_enabled": serial_operator_goal_rx_enabled,
+                "serial_operator_goal_raw_topic": (
+                    "/operator/navigation_target_raw"
+                ),
+                "serial_operator_goal_coordinate_system": (
+                    serial_operator_goal_coordinate_system
+                ),
             }.items(),
         ),
         IncludeLaunchDescription(

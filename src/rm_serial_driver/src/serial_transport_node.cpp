@@ -18,6 +18,7 @@
 
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "rm_competition_interfaces/msg/operator_navigation_target.hpp"
 #include "rm_competition_interfaces/msg/referee_state.hpp"
 #include "rm_serial_driver/protocol.hpp"
 
@@ -41,6 +42,23 @@ ProtocolProfile parse_profile(const std::string & profile)
   throw std::runtime_error(
     "Unsupported protocol_profile '" + profile +
     "'. Expected legacy_v1_no_crc or hpm_crc_v1.");
+}
+
+std::uint8_t parse_operator_goal_coordinate_system(const std::string & value)
+{
+  using Message = rm_competition_interfaces::msg::OperatorNavigationTarget;
+  if (value == "unknown") {
+    return Message::COORDINATE_SYSTEM_UNKNOWN;
+  }
+  if (value == "referee_field") {
+    return Message::COORDINATE_SYSTEM_REFEREE_FIELD;
+  }
+  if (value == "map") {
+    return Message::COORDINATE_SYSTEM_MAP;
+  }
+  throw std::runtime_error(
+    "Unsupported operator_goal_coordinate_system '" + value +
+    "'. Expected unknown, referee_field, or map.");
 }
 
 speed_t parse_baudrate(const int baudrate)
@@ -197,6 +215,14 @@ public:
     referee_rx_enabled_ = declare_parameter<bool>("referee_rx_enabled", false);
     referee_raw_topic_ =
       declare_parameter<std::string>("referee_raw_topic", "/referee/state_raw");
+    operator_goal_rx_enabled_ =
+      declare_parameter<bool>("operator_goal_rx_enabled", false);
+    operator_goal_raw_topic_ = declare_parameter<std::string>(
+      "operator_goal_raw_topic", "/operator/navigation_target_raw");
+    const auto operator_goal_coordinate_system_text = declare_parameter<std::string>(
+      "operator_goal_coordinate_system", "unknown");
+    operator_goal_coordinate_system_ = parse_operator_goal_coordinate_system(
+      operator_goal_coordinate_system_text);
     read_poll_rate_hz_ = declare_parameter<double>("read_poll_rate_hz", 200.0);
     blue_team_robot_id_min_ =
       declare_parameter<int>("blue_team_robot_id_min", 100);
@@ -213,9 +239,11 @@ public:
     if (blue_team_robot_id_min_ <= 0 || blue_team_robot_id_min_ > 255) {
       throw std::runtime_error("blue_team_robot_id_min must be in [1, 255]");
     }
-    if (referee_rx_enabled_ && protocol_profile_ != ProtocolProfile::HpmPayloadCrc) {
+    if ((referee_rx_enabled_ || operator_goal_rx_enabled_) &&
+      protocol_profile_ != ProtocolProfile::HpmPayloadCrc)
+    {
       throw std::runtime_error(
-              "referee_rx_enabled requires protocol_profile:=hpm_crc_v1 because the "
+              "serial feedback receive requires protocol_profile:=hpm_crc_v1 because the "
               "currently flashed lower controller only replies to CRC-valid commands");
     }
 
@@ -234,6 +262,13 @@ public:
     if (referee_rx_enabled_) {
       referee_pub_ = create_publisher<rm_competition_interfaces::msg::RefereeState>(
         referee_raw_topic_, rclcpp::QoS(10));
+    }
+    if (operator_goal_rx_enabled_) {
+      operator_goal_pub_ =
+        create_publisher<rm_competition_interfaces::msg::OperatorNavigationTarget>(
+          operator_goal_raw_topic_, rclcpp::QoS(10));
+    }
+    if (referee_rx_enabled_ || operator_goal_rx_enabled_) {
       read_timer_ = create_wall_timer(
         std::chrono::duration_cast<std::chrono::nanoseconds>(
           std::chrono::duration<double>(1.0 / read_poll_rate_hz_)),
@@ -243,10 +278,12 @@ public:
     RCLCPP_WARN(
       get_logger(),
       "REAL SERIAL TRANSPORT ENABLED: device=%s baudrate=%d profile=%s "
-      "limits=(%.3f, %.3f, %.3f) referee_rx=%s. This node owns serial bytes only "
+      "limits=(%.3f, %.3f, %.3f) referee_rx=%s operator_goal_rx=%s. "
+      "This node owns serial bytes only "
       "and publishes no TF, odometry, or navigation goals.",
       device_.c_str(), baudrate_, protocol_profile_text_.c_str(), max_vx_, max_vy_, max_wz_,
-      referee_rx_enabled_ ? "true" : "false");
+      referee_rx_enabled_ ? "true" : "false",
+      operator_goal_rx_enabled_ ? "true" : "false");
   }
 
 private:
@@ -340,7 +377,12 @@ private:
           frame.payload.size());
         continue;
       }
-      publishRefereeState(*feedback);
+      if (referee_rx_enabled_) {
+        publishRefereeState(*feedback);
+      }
+      if (operator_goal_rx_enabled_) {
+        publishOperatorNavigationTarget(*feedback);
+      }
     }
   }
 
@@ -364,6 +406,21 @@ private:
     referee_pub_->publish(message);
   }
 
+  void publishOperatorNavigationTarget(
+    const rm_serial_driver::hpm_referee_v1::Feedback & feedback)
+  {
+    rm_competition_interfaces::msg::OperatorNavigationTarget message;
+    message.header.stamp = get_clock()->now();
+    message.target_x = feedback.target_position_x;
+    message.target_y = feedback.target_position_y;
+    message.robot_id = feedback.robot_id;
+    message.coordinate_system = operator_goal_coordinate_system_;
+    message.transport_valid =
+      feedback.robot_id != 0U && std::isfinite(feedback.target_position_x) &&
+      std::isfinite(feedback.target_position_y);
+    operator_goal_pub_->publish(message);
+  }
+
   std::string cmd_vel_topic_;
   std::string device_;
   int baudrate_;
@@ -380,6 +437,9 @@ private:
   std::uint8_t allow_restart_;
   bool referee_rx_enabled_;
   std::string referee_raw_topic_;
+  bool operator_goal_rx_enabled_;
+  std::string operator_goal_raw_topic_;
+  std::uint8_t operator_goal_coordinate_system_;
   double read_poll_rate_hz_;
   int blue_team_robot_id_min_;
   std::uint8_t sequence_ = 0;
@@ -389,6 +449,8 @@ private:
   rm_serial_driver::hpm_crc_v1::StreamDecoder feedback_stream_;
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
   rclcpp::Publisher<rm_competition_interfaces::msg::RefereeState>::SharedPtr referee_pub_;
+  rclcpp::Publisher<rm_competition_interfaces::msg::OperatorNavigationTarget>::SharedPtr
+    operator_goal_pub_;
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::TimerBase::SharedPtr read_timer_;
 };

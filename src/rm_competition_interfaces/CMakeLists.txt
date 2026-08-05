@@ -9,6 +9,7 @@ find_package(std_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ChassisMode.msg"
   "msg/MissionState.msg"
+  "msg/OperatorNavigationTarget.msg"
   "msg/RefereeState.msg"
   "msg/SystemReadiness.msg"
   "msg/TargetTrack.msg"

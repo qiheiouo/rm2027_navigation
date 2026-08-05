@@ -37,6 +37,13 @@ def _validate_runtime_modes(context, *args, **kwargs):
         .lower()
         in TRUE_VALUES
     )
+    operator_goal_rx_enabled = (
+        LaunchConfiguration("serial_operator_goal_rx_enabled")
+        .perform(context)
+        .strip()
+        .lower()
+        in TRUE_VALUES
+    )
     serial_profile = LaunchConfiguration("serial_protocol_profile").perform(context)
     use_mapping = (
         LaunchConfiguration("use_mapping").perform(context).strip().lower()
@@ -73,9 +80,11 @@ def _validate_runtime_modes(context, *args, **kwargs):
         )
     if referee_rx_enabled and not use_real_serial:
         raise RuntimeError("serial referee receive requires use_real_serial:=true")
-    if referee_rx_enabled and serial_profile != "hpm_crc_v1":
+    if operator_goal_rx_enabled and not use_real_serial:
+        raise RuntimeError("serial operator target receive requires use_real_serial:=true")
+    if (referee_rx_enabled or operator_goal_rx_enabled) and serial_profile != "hpm_crc_v1":
         raise RuntimeError(
-            "the currently flashed referee upload requires "
+            "the currently flashed feedback upload requires "
             "serial_protocol_profile:=hpm_crc_v1"
         )
     if use_mapping and (use_nav2 or use_serial_dry_run or use_real_serial):
@@ -113,6 +122,15 @@ def generate_launch_description():
     serial_max_wz = LaunchConfiguration("serial_max_wz")
     serial_referee_rx_enabled = LaunchConfiguration("serial_referee_rx_enabled")
     serial_referee_raw_topic = LaunchConfiguration("serial_referee_raw_topic")
+    serial_operator_goal_rx_enabled = LaunchConfiguration(
+        "serial_operator_goal_rx_enabled"
+    )
+    serial_operator_goal_raw_topic = LaunchConfiguration(
+        "serial_operator_goal_raw_topic"
+    )
+    serial_operator_goal_coordinate_system = LaunchConfiguration(
+        "serial_operator_goal_coordinate_system"
+    )
     use_rviz = LaunchConfiguration("use_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
     update_method = LaunchConfiguration("update_method")
@@ -246,6 +264,18 @@ def generate_launch_description():
         DeclareLaunchArgument("serial_referee_rx_enabled", default_value="false"),
         DeclareLaunchArgument(
             "serial_referee_raw_topic", default_value="/referee/state_raw"
+        ),
+        DeclareLaunchArgument(
+            "serial_operator_goal_rx_enabled", default_value="false"
+        ),
+        DeclareLaunchArgument(
+            "serial_operator_goal_raw_topic",
+            default_value="/operator/navigation_target_raw",
+        ),
+        DeclareLaunchArgument(
+            "serial_operator_goal_coordinate_system",
+            default_value="unknown",
+            choices=["unknown", "referee_field", "map"],
         ),
         DeclareLaunchArgument("update_method", default_value="bundle"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
@@ -438,6 +468,11 @@ def generate_launch_description():
                 "max_wz": serial_max_wz,
                 "referee_rx_enabled": serial_referee_rx_enabled,
                 "referee_raw_topic": serial_referee_raw_topic,
+                "operator_goal_rx_enabled": serial_operator_goal_rx_enabled,
+                "operator_goal_raw_topic": serial_operator_goal_raw_topic,
+                "operator_goal_coordinate_system": (
+                    serial_operator_goal_coordinate_system
+                ),
             }.items(),
         ),
         Node(
