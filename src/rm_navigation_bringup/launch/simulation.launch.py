@@ -26,6 +26,11 @@ def generate_launch_description():
         "launch",
         "phase2g_pointcloud_obstacle.launch.py",
     ])
+    dog_hole_launch = PathJoinSubstitution([
+        FindPackageShare("rm_simulation"),
+        "launch",
+        "dog_hole_sim.launch.py",
+    ])
 
     basic_mode = IfCondition(PythonExpression(["'", scenario, "' == 'basic'"]))
     static_course_mode = IfCondition(
@@ -37,12 +42,21 @@ def generate_launch_description():
     pointcloud_mode = IfCondition(
         PythonExpression(["'", scenario, "' == 'pointcloud'"])
     )
+    dog_hole_mode = IfCondition(
+        PythonExpression(["'", scenario, "' == 'dog_hole'"])
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument(
             "scenario",
             default_value="basic",
-            choices=["basic", "course_static", "course_dynamic", "pointcloud"],
+            choices=[
+                "basic",
+                "course_static",
+                "course_dynamic",
+                "pointcloud",
+                "dog_hole",
+            ],
         ),
         DeclareLaunchArgument("headless", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
@@ -80,6 +94,14 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(pointcloud_launch),
             condition=pointcloud_mode,
+            launch_arguments={
+                "headless": headless,
+                "use_rviz": use_rviz,
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(dog_hole_launch),
+            condition=dog_hole_mode,
             launch_arguments={
                 "headless": headless,
                 "use_rviz": use_rviz,

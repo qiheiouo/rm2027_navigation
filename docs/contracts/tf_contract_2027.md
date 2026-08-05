@@ -36,15 +36,18 @@ changes.
 
 ## Simulation-Only TF
 
-Phase 1.5 may add the static leaf transform:
+Phase 1.5 may add the simulation-only leaf:
 
 ```text
-base_link -> sim_lidar_link
+base_link -> gimbal_yaw_link -> sim_lidar_link
 ```
 
-It is owned only by `robot_state_publisher` when the simulation launch enables
-`use_sim_lidar`. It is not a MID360 frame, must not be enabled by real-hardware
-bringup, and must never be published by Gazebo or `scan_frame_adapter`.
+`base_link -> gimbal_yaw_link` remains the dynamic joint transform owned by
+`robot_state_publisher`; `gimbal_yaw_link -> sim_lidar_link` is fixed. The
+simulation gimbal source publishes a joint state and the same commanded angle
+to Gazebo, so the physical scan orientation and ROS TF agree. `sim_lidar_link`
+is not a MID360 frame, must not be enabled by real-hardware bringup, and must
+never be published by Gazebo or `scan_frame_adapter`.
 
 ## Gimbal-Mounted MID360 Policy
 

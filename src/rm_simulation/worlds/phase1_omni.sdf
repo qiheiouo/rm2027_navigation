@@ -109,7 +109,7 @@
 
       <link name="base_link">
         <inertial>
-          <pose>0 0 0.17 0 0 0</pose>
+          <pose>0 0 0.15 0 0 0</pose>
           <mass>30.0</mass>
           <inertia>
             <ixx>0.706</ixx>
@@ -121,18 +121,19 @@
           </inertia>
         </inertial>
         <collision name="base_collision">
-          <pose>0 0 0.17 0 0 0</pose>
+          <!-- Temporary dog-hole body envelope: wheel contact to 0.22 m. -->
+          <pose>0 0 0.15 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.60 0.50 0.18</size>
+              <size>0.60 0.50 0.14</size>
             </box>
           </geometry>
         </collision>
         <visual name="base_visual">
-          <pose>0 0 0.17 0 0 0</pose>
+          <pose>0 0 0.11 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.60 0.50 0.18</size>
+              <size>0.60 0.50 0.22</size>
             </box>
           </geometry>
           <material>
@@ -143,8 +144,31 @@
         </visual>
       </link>
 
+      <link name="gimbal_yaw_link">
+        <pose relative_to="base_link">0 0 0.20 0 0 0</pose>
+        <inertial>
+          <mass>0.2</mass>
+          <inertia>
+            <ixx>0.0002</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.0002</iyy><iyz>0</iyz><izz>0.0002</izz>
+          </inertia>
+        </inertial>
+      </link>
+
+      <joint name="gimbal_yaw_joint" type="revolute">
+        <parent>base_link</parent>
+        <child>gimbal_yaw_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.28318530718</lower>
+            <upper>6.28318530718</upper>
+          </limit>
+        </axis>
+      </joint>
+
       <link name="sim_lidar_link">
-        <pose relative_to="base_link">0 0 0.35 0 0 0</pose>
+        <pose relative_to="gimbal_yaw_link">0 0 0 0 0 0</pose>
         <inertial>
           <mass>0.1</mass>
           <inertia>
@@ -186,10 +210,18 @@
         </sensor>
       </link>
 
-      <joint name="base_link_to_sim_lidar_link" type="fixed">
-        <parent>base_link</parent>
+      <joint name="gimbal_yaw_link_to_sim_lidar_link" type="fixed">
+        <parent>gimbal_yaw_link</parent>
         <child>sim_lidar_link</child>
       </joint>
+
+      <plugin
+        filename="ignition-gazebo-joint-position-controller-system"
+        name="ignition::gazebo::systems::JointPositionController">
+        <joint_name>gimbal_yaw_joint</joint_name>
+        <topic>/model/rm_sentry_2027/gimbal_yaw_cmd</topic>
+        <p_gain>20.0</p_gain>
+      </plugin>
 
       <link name="front_left_wheel">
         <pose>0.25 0.225 0.075 -1.57079632679 0 0</pose>
@@ -338,6 +370,17 @@
         <odom_frame>odom</odom_frame>
         <robot_base_frame>base_link</robot_base_frame>
         <dimensions>2</dimensions>
+      </plugin>
+
+      <plugin
+        filename="ignition-gazebo-odometry-publisher-system"
+        name="ignition::gazebo::systems::OdometryPublisher">
+        <odom_publish_frequency>50</odom_publish_frequency>
+        <odom_topic>/model/rm_sentry_2027/odometry_3d</odom_topic>
+        <tf_topic>/model/rm_sentry_2027/ground_truth_pose_3d</tf_topic>
+        <odom_frame>odom</odom_frame>
+        <robot_base_frame>base_link</robot_base_frame>
+        <dimensions>3</dimensions>
       </plugin>
     </model>
   </world>

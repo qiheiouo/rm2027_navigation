@@ -10,6 +10,8 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     use_map_odom_stub = LaunchConfiguration("use_map_odom_stub")
     raw_odom_topic = LaunchConfiguration("raw_odom_topic")
+    gimbal_use_input = LaunchConfiguration("gimbal_use_input")
+    gimbal_input_topic = LaunchConfiguration("gimbal_input_topic")
     default_lio_adapter_config = PathJoinSubstitution([
         FindPackageShare("rm_localization_adapters"),
         "config",
@@ -44,6 +46,8 @@ def generate_launch_description():
             "gimbal_state_adapter_config",
             default_value=default_gimbal_state_adapter_config,
         ),
+        DeclareLaunchArgument("gimbal_use_input", default_value="false"),
+        DeclareLaunchArgument("gimbal_input_topic", default_value="/gimbal/state"),
         Node(
             condition=IfCondition(use_map_odom_stub),
             package="rm_localization_adapters",
@@ -72,7 +76,11 @@ def generate_launch_description():
             output="screen",
             parameters=[
                 gimbal_state_adapter_config,
-                {"use_sim_time": use_sim_time},
+                {
+                    "use_sim_time": use_sim_time,
+                    "use_input": gimbal_use_input,
+                    "input_topic": gimbal_input_topic,
+                },
             ],
         ),
         Node(

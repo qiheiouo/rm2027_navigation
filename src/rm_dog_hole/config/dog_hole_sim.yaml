@@ -1,0 +1,86 @@
+dog_hole_manager:
+  ros__parameters:
+    use_sim_time: true
+
+    map_frame: map
+    base_frame: base_link
+    navigate_action: /navigate_to_pose
+    compute_path_action: /compute_path_to_pose
+    command_topic: /cmd_vel_nav
+
+    # This launch is an explicit dog-hole task. Keep the raw path_crosses
+    # diagnostic, but do not let an unconstrained global planner bypass the
+    # tunnel through the open simulation world.
+    task.require_traversal: true
+
+    # Rules V2.1.0 figure 4-35 confirms 0.80 m width and 0.25 m height.
+    # The complete tunnel depth is not stated clearly, so 1.0 m is a
+    # conservative temporary value until the final field drawing is supplied.
+    dog_hole.center_x: -3.0
+    dog_hole.center_y: 0.0
+    dog_hole.yaw: 3.141592653589793
+    dog_hole.width: 0.80
+    dog_hole.length: 1.00
+    dog_hole.wall_height: 0.45
+    dog_hole.wall_thickness: 0.10
+    dog_hole.roof_clearance: 0.25
+    dog_hole.entry_clearance: 0.80
+    dog_hole.exit_clearance: 0.50
+
+    # Optional terrain parameters. Zero keeps the first controller comparison
+    # planar; 11/15 degree profiles can be enabled without changing code.
+    dog_hole.deck_height: 0.0
+    dog_hole.entry_slope_deg: 0.0
+    dog_hole.exit_slope_deg: 0.0
+
+    # Temporary Phase 1.5 robot dimensions, not final new-car CAD values.
+    robot.length: 0.60
+    robot.width: 0.50
+    robot.height: 0.22
+
+    # Simulation-only localization disturbance. These remain zero in the
+    # nominal profile and never affect real localization launches.
+    simulation.localization.lateral_noise_std_m: 0.0
+    simulation.localization.yaw_noise_std_rad: 0.0
+    simulation.localization.delay_sec: 0.0
+    simulation.localization.lateral_drift_amplitude_m: 0.0
+    simulation.localization.yaw_drift_amplitude_rad: 0.0
+    simulation.localization.drift_frequency_hz: 0.0
+    simulation.localization.random_seed: 20270728
+
+    # Simulation-only execution response. Unit scales and zero time constants
+    # preserve the nominal Gazebo command path.
+    simulation.chassis.forward_scale: 1.0
+    simulation.chassis.lateral_positive_scale: 1.0
+    simulation.chassis.lateral_negative_scale: 1.0
+    simulation.chassis.angular_scale: 1.0
+    simulation.chassis.lateral_time_constant_sec: 0.0
+    simulation.chassis.angular_time_constant_sec: 0.0
+
+    approach_offset: 0.15
+    final_goal: [-5.0, 0.0, 3.141592653589793]
+    auto_start: true
+    auto_start_delay_sec: 8.0
+
+    control.rate_hz: 30.0
+    control.forward_speed: 0.35
+    control.lateral_gain: 1.8
+    control.heading_gain: 2.5
+    control.max_lateral_speed: 0.20
+    control.max_angular_speed: 0.80
+    control.minimum_clearance: 0.03
+    control.maximum_heading_error: 0.40
+    # Nav2 stops at the open preparation point. The dedicated controller then
+    # rotates the base, centers it, and advances to the tunnel entrance.
+    control.alignment_forward_speed: 0.25
+    # The controller automatically raises approach_offset when needed so the
+    # complete footprint stays before the configured entry ramp while aligning.
+    control.alignment_margin: 0.05
+    control.alignment_longitudinal_gain: 1.0
+    control.alignment_longitudinal_tolerance: 0.05
+    control.alignment_lateral_tolerance: 0.04
+    control.alignment_heading_tolerance: 0.10
+    control.alignment_timeout_sec: 15.0
+    control.crossing_timeout_sec: 12.0
+
+    log_csv: /tmp/rm2027_dog_hole_sim/dog_hole_run.csv

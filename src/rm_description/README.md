@@ -15,7 +15,11 @@ Phase 1 defines only:
 
 The sensor extrinsics in this package are placeholders. They are not the final 2027 real-robot calibration and must be measured again during the hardware stage.
 
-The current `base_link -> gimbal_yaw_link` transform is a zero-yaw Phase 1 placeholder. Real hardware must replace it with a dynamic gimbal yaw state before validating localization with gimbal-mounted MID360 data.
+The default `base_link -> gimbal_yaw_link` input remains a zero-yaw Phase 1
+placeholder. The dog-hole simulation supplies a timestamped non-zero joint
+state and commands the matching Gazebo joint, so simulated lidar direction can
+differ from chassis direction. Real hardware must still replace the simulation
+source with lower-controller gimbal yaw before validating localization.
 
 `description.launch.py` sets the `robot_state_publisher` dynamic-TF ceiling to
 `100 Hz` by default. This removes its upstream 20 Hz throttle while leaving the

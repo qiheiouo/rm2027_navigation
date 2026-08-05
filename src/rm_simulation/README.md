@@ -33,6 +33,21 @@ LaserScan adapter and publishes a synthetic `PointCloud2` obstacle on
 `/points/obstacles` in `sim_lidar_link`. It validates the Nav2 VoxelLayer
 boundary only; it is not a MID360 physics or timing simulation.
 
+The new-car dog-hole candidate uses `dog_hole_sim.launch.py`. It generates a
+parameterized `0.80 m` tunnel model from the single configuration in
+`rm_dog_hole/config/dog_hole_sim.yaml`, derives a narrow-passage MPPI profile,
+and runs the approach/align/centerline-cross/exit sequence. A simulation-only
+gimbal source publishes the same angle to ROS joint state and Gazebo joint
+control. The default `0.65 rad` yaw demonstrates that lidar direction is not
+the chassis heading used by the tunnel controller.
+
+The generated scene is spawned with the configured world `x/y/yaw` explicitly;
+`ros_gz_sim create` otherwise replaces the SDF model pose with its zero-valued
+CLI defaults. Optional deck and ramp geometry produces real 3D chassis motion,
+and the `0.25 m` roof is a collision rather than a visual marker. The temporary
+simulation body and gimbal envelope is `0.22 m` high. Final CAD and mechanical
+parameters are still required before real-vehicle acceptance.
+
 It does not simulate MID360 point clouds, FAST-LIO, serial, referee, or the
 competition mission tree. Those concerns remain separate milestones.
 
@@ -47,7 +62,8 @@ remain `map_odom_stub`, `lio_adapter`, and `robot_state_publisher`.
 
 `scan_frame_adapter` rewrites only the simulation scan message frame to
 `sim_lidar_link`. It does not publish TF. `sim_lidar_link` is enabled in the
-robot description only by the simulation launch.
+robot description only by the simulation launch and is fixed below the dynamic
+`gimbal_yaw_link`, not directly below `base_link`.
 
 `fake_pointcloud_obstacle_publisher` publishes only PointCloud2 test data. It
 does not publish TF, odometry, velocity commands, or navigation goals.

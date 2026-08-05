@@ -49,6 +49,14 @@
 | `/mission/pursuit_goal` | `geometry_msgs/msg/PoseStamped` | `pursuit_goal_planner` | competition mission/BT | Validated standoff candidate in `map`; it is not sent to Nav2 without mission authority |
 | `/mission/pursuit_goal_valid` | `std_msgs/msg/Bool` | `pursuit_goal_planner` | competition mission/BT, diagnostics | Latched freshness/quality/TF validity of the pursuit candidate |
 | `/mission/state` | `rm_competition_interfaces/msg/MissionState` | competition mission executor | diagnostics, operator UI | Current mission gate, branch and Nav2-action status; never a chassis command |
+| `/dog_hole/state` | `std_msgs/msg/String` | new-car `dog_hole_manager` | mission adapter, diagnostics | Tunnel task state from `IDLE` through `FINISHED` or `FAILED`; simulation candidate only |
+| `/dog_hole/control_mode` | `std_msgs/msg/String` | new-car `dog_hole_manager` | diagnostics | Active `PLANNER`, `NAV2`, `CENTERLINE` or stopped control mode |
+| `/dog_hole/path_crosses` | `std_msgs/msg/Bool` | new-car `dog_hole_manager` | mission adapter, diagnostics | Latched result of checking whether the generated global path crosses both halves of the configured tunnel |
+| `/dog_hole/lateral_error` | `std_msgs/msg/Float64` | new-car `dog_hole_manager` | diagnostics | Signed base-center error from the configured tunnel centerline |
+| `/dog_hole/heading_error` | `std_msgs/msg/Float64` | new-car `dog_hole_manager` | diagnostics | Tunnel heading minus `map -> base_link` yaw; never derived from lidar yaw |
+| `/dog_hole/minimum_wall_clearance` | `std_msgs/msg/Float64` | new-car `dog_hole_manager` | diagnostics | Geometric side clearance from configured tunnel and robot widths |
+| `/dog_hole/command` | `geometry_msgs/msg/Twist` | new-car `dog_hole_manager` | diagnostics, CSV validation | Inspectable copy of the centerline command; not the final chassis topic |
+| `/dog_hole/succeeded` | `std_msgs/msg/Bool` | new-car `dog_hole_manager` | mission adapter, diagnostics | Latched result of the current traversal attempt |
 | `/system/readiness` | `rm_competition_interfaces/msg/SystemReadiness` | `readiness_monitor` | operator UI, validation | Read-only missing-requirement summary; never grants motion authority |
 | `/tf` | `tf2_msgs/msg/TFMessage` | TF owners | all modules | Dynamic TF |
 | `/tf_static` | `tf2_msgs/msg/TFMessage` | static TF owners | all modules | Static TF |
@@ -62,6 +70,7 @@
 | `/simulation/scan_raw` | `sensor_msgs/msg/LaserScan` | Gazebo GPU lidar through `ros_gz_bridge` | `scan_frame_adapter` | Raw simulation scan; Gazebo frame name is not a canonical ROS frame |
 | `/scan` | `sensor_msgs/msg/LaserScan` | `scan_frame_adapter` in simulation | Nav2 obstacle layers, RViz | Phase 1.5 planar obstacle-test scan with `frame_id=sim_lidar_link`; not a MID360 public topic |
 | `/simulation/moving_obstacle/target` | `std_msgs/msg/Float64` | `moving_obstacle_controller` | one-way `ros_gz_bridge`, Gazebo joint controller | Phase 1.5D simulated obstacle joint position target; never a chassis, localization, or real-hardware API |
+| `/simulation/gimbal_yaw/command` | `std_msgs/msg/Float64` | `sim_gimbal_state_publisher` | one-way `ros_gz_bridge`, Gazebo gimbal joint controller | Simulation-only yaw command matching the `/gimbal/state` sample used by ROS TF |
 
 Gazebo pose and TF topics must not be bridged to ROS `/tf` or `/tf_static`.
 The simulation ground-truth odometry may replace the raw LIO input only in a
@@ -74,6 +83,11 @@ navigation goals.
 `moving_obstacle_controller` may publish only its simulation joint target and
 diagnostics. It must not publish TF, odometry, chassis commands, or navigation
 goals. Gazebo model pose remains outside the canonical ROS TF tree.
+
+The dog-hole centerline controller publishes only to the existing Nav2
+intermediate `/cmd_vel_nav` input while no NavigateToPose controller goal is
+active. `velocity_smoother` remains the only final `/cmd_vel` publisher. The
+dog-hole manager must stop its intermediate command before resuming Nav2.
 
 Dual-lidar obstacle fusion is separate from LIO sensor selection. The fusion
 node may consume filtered standard PointCloud2 streams and publish only
@@ -194,6 +208,12 @@ Phase 3 mission or BT may call navigation only through standard Nav2 action inte
 Pursuit, referee, serial and perception nodes provide candidates or state and
 must not call Nav2 independently. Mission disable or any required safety-input
 invalidation must cancel the active mission goal.
+
+`dog_hole_manager` is a mutually exclusive new-car simulation candidate that
+temporarily owns NavigateToPose while the competition mission is absent. It
+must not be launched alongside `competition_mission_node`. Production
+integration must move approach/align/resume authority into the competition
+mission or an explicitly reviewed single action owner before real-vehicle use.
 
 ## Forbidden Topic Glue
 
