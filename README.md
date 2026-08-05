@@ -160,6 +160,7 @@ See:
 - `docs/old_car_competition_minimum_behavior.md`
 - `docs/old_car_2026_validation_plan.md`
 - `docs/pre_hardware_freeze_status.md`
+- `docs/branch_mainlines.md`
 - `docs/minipc_hardware_bringup_sequence.md`
 - `docs/real_hardware_confirmation_checklist.md`
 - `docs/validation/old_car_navigation_status_and_roadmap_20260720.md`
