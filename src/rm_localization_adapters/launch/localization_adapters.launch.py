@@ -16,11 +16,12 @@ def generate_launch_description():
         "lio_adapter.yaml",
     ])
     lio_adapter_config = LaunchConfiguration("lio_adapter_config")
-    gimbal_state_adapter_config = PathJoinSubstitution([
+    default_gimbal_state_adapter_config = PathJoinSubstitution([
         FindPackageShare("rm_localization_adapters"),
         "config",
         "gimbal_state_adapter.yaml",
     ])
+    gimbal_state_adapter_config = LaunchConfiguration("gimbal_state_adapter_config")
     imu_frame_adapter_config = PathJoinSubstitution([
         FindPackageShare("rm_localization_adapters"),
         "config",
@@ -38,6 +39,10 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "lio_adapter_config",
             default_value=default_lio_adapter_config,
+        ),
+        DeclareLaunchArgument(
+            "gimbal_state_adapter_config",
+            default_value=default_gimbal_state_adapter_config,
         ),
         Node(
             condition=IfCondition(use_map_odom_stub),

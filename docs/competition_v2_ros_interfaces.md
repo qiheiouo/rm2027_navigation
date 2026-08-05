@@ -14,6 +14,7 @@ or mission authority.
 | same | subscribe | `/robot/posture/request` | `PostureRequest` |
 | same | publish | `/robot/posture/state` | `PostureState` |
 | same | publish | `/gimbal/state` | `GimbalState` |
+| same | publish | `/chassis/heading` | `ChassisHeadingState` |
 | same | publish | `/referee/state_raw` | `RefereeState` |
 | same | publish | `/operator/navigation_target_raw` | `OperatorNavigationTarget` |
 | same | publish | `/serial/connection_state` | `SerialConnectionState` |
@@ -33,6 +34,10 @@ on this field and serial compatibility, not on receipt of a state message.
 counters, the latest sequence, and the ROS timestamp of the latest CRC-valid
 frame. `online` requires a ready heartbeat inside the timeout. `compatible`
 also requires configured capability bits.
+
+`ChassisHeadingState` is separate from `GimbalState`. It contains lower-world
+chassis yaw and reset identity for the optional chassis heading-fusion profile;
+it is never interpreted as a mechanical joint angle by the serial node.
 
 ## Gimbal Chain
 
@@ -132,8 +137,12 @@ ros2 launch rm_serial_driver serial_transport.launch.py \
   protocol_profile:=competition_v2 \
   competition_v2_dry_run:=false \
   device:=/dev/ttyACM0 baudrate:=115200 \
-  required_remote_capabilities:=31
+  required_remote_capabilities:=63
 ```
+
+For the heading-fusion candidate with only chassis command and heading required,
+use mask `33` (bits 0 and 5). Add posture/referee/operator bits only when those
+features are required by the selected runtime profile.
 
 Do not use the real command until firmware version, capabilities, watchdog,
 signs, baud rate, and packet captures have been accepted off-ground.

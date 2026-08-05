@@ -42,11 +42,18 @@ def generate_launch_description():
         "launch",
         "localization_adapters.launch.py",
     ])
-    lio_adapter_config = PathJoinSubstitution([
+    default_lio_adapter_config = PathJoinSubstitution([
         FindPackageShare("rm_lio_bringup"),
         "config",
         "lio_adapter_fast_lio_multi.yaml",
     ])
+    lio_adapter_config = LaunchConfiguration("lio_adapter_config")
+    default_gimbal_state_adapter_config = PathJoinSubstitution([
+        FindPackageShare("rm_localization_adapters"),
+        "config",
+        "gimbal_state_adapter.yaml",
+    ])
+    gimbal_state_adapter_config = LaunchConfiguration("gimbal_state_adapter_config")
     rviz_config = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "rviz",
@@ -69,6 +76,14 @@ def generate_launch_description():
         DeclareLaunchArgument("update_method", default_value="bundle"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
+        DeclareLaunchArgument(
+            "lio_adapter_config",
+            default_value=default_lio_adapter_config,
+        ),
+        DeclareLaunchArgument(
+            "gimbal_state_adapter_config",
+            default_value=default_gimbal_state_adapter_config,
+        ),
         LogInfo(msg=[
             "Phase 2A LIO boundary. Safe defaults keep MID360 driver and ",
             "FAST-LIO disabled. No serial, referee, Nav2, or competition BT."
@@ -109,6 +124,7 @@ def generate_launch_description():
                 "use_sim_time": use_sim_time,
                 "raw_odom_topic": "/odometry/fast_lio_raw",
                 "lio_adapter_config": lio_adapter_config,
+                "gimbal_state_adapter_config": gimbal_state_adapter_config,
                 "use_map_odom_stub": use_map_odom_stub,
             }.items(),
         ),

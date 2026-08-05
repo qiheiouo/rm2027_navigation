@@ -10,6 +10,12 @@ share/rm_serial_driver/reference/competition_v2/
   competition_v2_codec.c
 ```
 
+The reference codec also defines optional lower-to-upper chassis heading
+message `0x85`. New-car firmware that uses the no-gimbal-encoder candidate must
+advertise capability bit 5 and populate yaw, yaw rate, sample sequence, MCU
+time and `reset_counter`. Increment `reset_counter` on every INS re-zero that
+does not reboot the MCU; heartbeat `boot_id` covers MCU restarts.
+
 It is C11-compatible, uses explicit byte encoding, and has no packed-struct
 wire dependency. The canonical C++ and reference C codecs share golden-vector
 tests. This code is an integration reference, not a claim that the historical

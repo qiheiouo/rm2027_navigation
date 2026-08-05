@@ -19,6 +19,9 @@ protocol.
   boundary for `competition_v2`.
 - `GimbalState` carries timestamped mechanical yaw relative to the chassis; it
   is not an INS world heading.
+- `ChassisHeadingState` carries timestamped lower-controller world yaw,
+  estimator reset identity and source boot identity. It is an optional input
+  to the sensor/chassis heading-fusion candidate, not a TF owner.
 - `SerialConnectionState` reports protocol version, peer capabilities/restart,
   freshness and parser counters without granting mission authority.
 - `SetMissionMode` is the explicit enable/mode gate for competition mission

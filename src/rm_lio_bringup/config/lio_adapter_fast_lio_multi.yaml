@@ -11,6 +11,7 @@ lio_adapter:
     use_tf_sensor_to_base: true
     use_latest_transform: false
     allow_placeholder_fallback: false
+    pose_conversion_mode: sensor_tf
     # Exact timestamp lookup is non-blocking. Missing future transforms enter
     # the bounded queue below instead of falling back to latest TF.
     tf_lookup_timeout_sec: 0.0

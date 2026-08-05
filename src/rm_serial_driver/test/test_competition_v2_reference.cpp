@@ -106,6 +106,25 @@ TEST(CompetitionV2Reference, RoundTripsEveryMessageType)
   ASSERT_EQ(rmcv2_decode_gimbal_state(&frame, &decoded_gimbal), RMCV2_OK);
   EXPECT_FLOAT_EQ(decoded_gimbal.relative_yaw_rad, gimbal.relative_yaw_rad);
 
+  rmcv2_chassis_heading_state_t heading{};
+  heading.yaw_rad = 2.75F;
+  heading.yaw_rate_rad_s = -1.25F;
+  heading.sample_sequence = 0x10203040U;
+  heading.mcu_time_ms = 4321U;
+  heading.reset_counter = 17U;
+  heading.valid = true;
+  heading.online = true;
+  ASSERT_EQ(
+    rmcv2_encode_chassis_heading_state(&heading, 4, bytes.data(), bytes.size(), &size),
+    RMCV2_OK);
+  ASSERT_EQ(rmcv2_decode_frame(bytes.data(), size, &frame, &consumed), RMCV2_OK);
+  rmcv2_chassis_heading_state_t decoded_heading{};
+  ASSERT_EQ(
+    rmcv2_decode_chassis_heading_state(&frame, &decoded_heading), RMCV2_OK);
+  EXPECT_FLOAT_EQ(decoded_heading.yaw_rad, heading.yaw_rad);
+  EXPECT_FLOAT_EQ(decoded_heading.yaw_rate_rad_s, heading.yaw_rate_rad_s);
+  EXPECT_EQ(decoded_heading.reset_counter, heading.reset_counter);
+
   rmcv2_referee_state_t referee{};
   referee.game_progress = 4;
   referee.stage_remain_time = 299;
@@ -118,7 +137,7 @@ TEST(CompetitionV2Reference, RoundTripsEveryMessageType)
   referee.diagnostic_flags = 0x55aa;
   referee.valid = true;
   ASSERT_EQ(
-    rmcv2_encode_referee_state(&referee, 4, bytes.data(), bytes.size(), &size),
+    rmcv2_encode_referee_state(&referee, 5, bytes.data(), bytes.size(), &size),
     RMCV2_OK);
   ASSERT_EQ(rmcv2_decode_frame(bytes.data(), size, &frame, &consumed), RMCV2_OK);
   rmcv2_referee_state_t decoded_referee{};
@@ -137,7 +156,7 @@ TEST(CompetitionV2Reference, RoundTripsEveryMessageType)
   target.valid = true;
   target.has_yaw = true;
   ASSERT_EQ(
-    rmcv2_encode_operator_target(&target, 5, bytes.data(), bytes.size(), &size),
+    rmcv2_encode_operator_target(&target, 6, bytes.data(), bytes.size(), &size),
     RMCV2_OK);
   ASSERT_EQ(rmcv2_decode_frame(bytes.data(), size, &frame, &consumed), RMCV2_OK);
   rmcv2_operator_target_t decoded_target{};
@@ -151,7 +170,7 @@ TEST(CompetitionV2Reference, RoundTripsEveryMessageType)
   heartbeat.capabilities = RMCV2_CAP_POSTURE | RMCV2_CAP_GIMBAL_STATE;
   heartbeat.ready = true;
   ASSERT_EQ(
-    rmcv2_encode_heartbeat(&heartbeat, 6, bytes.data(), bytes.size(), &size),
+    rmcv2_encode_heartbeat(&heartbeat, 7, bytes.data(), bytes.size(), &size),
     RMCV2_OK);
   ASSERT_EQ(rmcv2_decode_frame(bytes.data(), size, &frame, &consumed), RMCV2_OK);
   rmcv2_heartbeat_t decoded_heartbeat{};

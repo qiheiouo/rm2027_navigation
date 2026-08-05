@@ -127,6 +127,32 @@ TEST(CompetitionV2Protocol, GimbalYawBoundariesAndNonFiniteValues)
   EXPECT_FALSE(v2::encode_payload(invalid).has_value());
 }
 
+TEST(CompetitionV2Protocol, RoundTripsChassisHeadingAndResetCounter)
+{
+  v2::ChassisHeadingState state;
+  state.yaw_rad = -2.5F;
+  state.yaw_rate_rad_s = 6.0F;
+  state.sample_sequence = 0xabcdef01U;
+  state.mcu_time_ms = 987654U;
+  state.reset_counter = 23U;
+  state.valid = true;
+  state.online = true;
+  const auto bytes = v2::encode_message(v2::MessageType::ChassisHeadingState, 11, state);
+  ASSERT_TRUE(bytes.has_value());
+  const auto decoded = v2::decode_chassis_heading_state(decodeSingle(*bytes));
+  ASSERT_TRUE(decoded.has_value());
+  EXPECT_FLOAT_EQ(decoded->yaw_rad, state.yaw_rad);
+  EXPECT_FLOAT_EQ(decoded->yaw_rate_rad_s, state.yaw_rate_rad_s);
+  EXPECT_EQ(decoded->sample_sequence, state.sample_sequence);
+  EXPECT_EQ(decoded->mcu_time_ms, state.mcu_time_ms);
+  EXPECT_EQ(decoded->reset_counter, state.reset_counter);
+  EXPECT_TRUE(decoded->valid);
+  EXPECT_TRUE(decoded->online);
+
+  state.yaw_rad = std::numeric_limits<float>::infinity();
+  EXPECT_FALSE(v2::encode_payload(state).has_value());
+}
+
 TEST(CompetitionV2Protocol, OperatorTargetTreatsOriginAsValid)
 {
   v2::OperatorNavigationTarget target;

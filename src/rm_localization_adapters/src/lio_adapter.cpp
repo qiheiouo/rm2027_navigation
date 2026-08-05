@@ -1,16 +1,21 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <cstdint>
 #include <deque>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+#include "builtin_interfaces/msg/time.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "rm_competition_interfaces/msg/chassis_heading_state.hpp"
+#include "rm_competition_interfaces/msg/gimbal_state.hpp"
 #include "rm_localization_adapters/canonical_odometry.hpp"
 #include "tf2/exceptions.h"
 #include "tf2/LinearMath/Quaternion.h"
@@ -40,6 +45,14 @@ public:
     use_tf_sensor_to_base_ = declare_parameter<bool>("use_tf_sensor_to_base", true);
     use_latest_transform_ = declare_parameter<bool>("use_latest_transform", false);
     allow_placeholder_fallback_ = declare_parameter<bool>("allow_placeholder_fallback", false);
+    pose_conversion_mode_ = declare_parameter<std::string>(
+      "pose_conversion_mode", "sensor_tf");
+    if (pose_conversion_mode_ != "sensor_tf" &&
+      pose_conversion_mode_ != "chassis_heading_fusion")
+    {
+      throw std::invalid_argument(
+        "pose_conversion_mode must be 'sensor_tf' or 'chassis_heading_fusion'");
+    }
     raw_odom_parent_frame_mode_ = declare_parameter<std::string>(
       "raw_odom_parent_frame_mode", "canonical_odom");
     if (raw_odom_parent_frame_mode_ != "canonical_odom" &&
@@ -70,6 +83,76 @@ public:
 
     if (twist_mode_ != "passthrough" && twist_mode_ != "finite_difference") {
       throw std::invalid_argument("twist_mode must be 'passthrough' or 'finite_difference'");
+    }
+    if (pose_conversion_mode_ == "chassis_heading_fusion" &&
+      twist_mode_ != "finite_difference")
+    {
+      throw std::invalid_argument(
+        "chassis_heading_fusion requires twist_mode=finite_difference");
+    }
+
+    heading_topic_ = declare_parameter<std::string>(
+      "heading_fusion.heading_topic", "/chassis/heading");
+    derived_gimbal_topic_ = declare_parameter<std::string>(
+      "heading_fusion.derived_gimbal_topic", "/gimbal/state_derived");
+    const int heading_cache_size = declare_parameter<int>(
+      "heading_fusion.cache_size", 500);
+    max_heading_match_dt_sec_ = declare_parameter<double>(
+      "heading_fusion.max_heading_match_dt_sec", 0.03);
+    heading_yaw_variance_ = declare_parameter<double>(
+      "heading_fusion.yaw_variance", 0.01);
+    initial_gimbal_yaw_rad_ = declare_parameter<double>(
+      "heading_fusion.initial_gimbal_yaw_rad", 0.0);
+    const double gimbal_center_x = declare_parameter<double>(
+      "heading_fusion.gimbal_center_in_base.x", 0.0);
+    const double gimbal_center_y = declare_parameter<double>(
+      "heading_fusion.gimbal_center_in_base.y", 0.0);
+    const double gimbal_center_z = declare_parameter<double>(
+      "heading_fusion.gimbal_center_in_base.z", 0.0);
+    const bool initial_alignment_confirmed = declare_parameter<bool>(
+      "heading_fusion.initial_alignment_confirmed", false);
+
+    const double initial_sensor_x = declare_parameter<double>(
+      "heading_fusion.initial_base_to_sensor.x", 0.0);
+    const double initial_sensor_y = declare_parameter<double>(
+      "heading_fusion.initial_base_to_sensor.y", 0.0);
+    const double initial_sensor_z = declare_parameter<double>(
+      "heading_fusion.initial_base_to_sensor.z", 0.0);
+    const double initial_sensor_roll = declare_parameter<double>(
+      "heading_fusion.initial_base_to_sensor.roll", 0.0);
+    const double initial_sensor_pitch = declare_parameter<double>(
+      "heading_fusion.initial_base_to_sensor.pitch", 0.0);
+    const double initial_sensor_yaw = declare_parameter<double>(
+      "heading_fusion.initial_base_to_sensor.yaw", 0.0);
+    if (heading_cache_size <= 0 || !std::isfinite(max_heading_match_dt_sec_) ||
+      max_heading_match_dt_sec_ <= 0.0 || !std::isfinite(heading_yaw_variance_) ||
+      heading_yaw_variance_ < 0.0 || !std::isfinite(initial_gimbal_yaw_rad_) ||
+      !std::isfinite(gimbal_center_x) || !std::isfinite(gimbal_center_y) ||
+      !std::isfinite(gimbal_center_z) || !std::isfinite(initial_sensor_x) ||
+      !std::isfinite(initial_sensor_y) || !std::isfinite(initial_sensor_z) ||
+      !std::isfinite(initial_sensor_roll) || !std::isfinite(initial_sensor_pitch) ||
+      !std::isfinite(initial_sensor_yaw))
+    {
+      throw std::invalid_argument("heading_fusion parameters are invalid");
+    }
+
+    tf2::Quaternion initial_sensor_rotation;
+    initial_sensor_rotation.setRPY(
+      initial_sensor_roll, initial_sensor_pitch, initial_sensor_yaw);
+    initial_sensor_rotation.normalize();
+    initial_base_to_sensor_.setOrigin(
+      tf2::Vector3(initial_sensor_x, initial_sensor_y, initial_sensor_z));
+    initial_base_to_sensor_.setRotation(initial_sensor_rotation);
+    gimbal_center_in_base_ = tf2::Vector3(
+      gimbal_center_x, gimbal_center_y, gimbal_center_z);
+
+    heading_cache_max_size_ = static_cast<std::size_t>(heading_cache_size);
+    if (pose_conversion_mode_ == "chassis_heading_fusion") {
+      if (!initial_alignment_confirmed) {
+        throw std::invalid_argument(
+          "chassis_heading_fusion requires initial_alignment_confirmed=true after "
+          "placing the gimbal at its documented home angle");
+      }
     }
 
     const auto twist_variance = declare_parameter<std::vector<double>>(
@@ -126,6 +209,15 @@ public:
     odom_sub_ = create_subscription<nav_msgs::msg::Odometry>(
       raw_odom_topic_, 10,
       std::bind(&LioAdapter::handleRawOdometry, this, std::placeholders::_1));
+    if (pose_conversion_mode_ == "chassis_heading_fusion") {
+      derived_gimbal_pub_ = create_publisher<rm_competition_interfaces::msg::GimbalState>(
+        derived_gimbal_topic_, rclcpp::QoS(50));
+      heading_sub_ = create_subscription<
+        rm_competition_interfaces::msg::ChassisHeadingState>(
+        heading_topic_, rclcpp::QoS(100),
+        std::bind(&LioAdapter::handleChassisHeading, this, std::placeholders::_1));
+      publishInvalidDerivedGimbal("waiting for synchronized LIO and chassis heading");
+    }
     const auto retry_period = std::chrono::duration<double>(1.0 / tf_queue_retry_rate_hz_);
     tf_retry_timer_ = create_wall_timer(
       std::chrono::duration_cast<std::chrono::nanoseconds>(retry_period),
@@ -134,10 +226,10 @@ public:
     RCLCPP_WARN(
       get_logger(),
       "Canonical LIO adapter: adapting %s to %s through TF %s->sensor with gimbal frame %s. "
-      "raw_odom_parent_frame_mode=%s. twist_mode=%s. Real hardware still requires calibrated "
-      "and timestamped gimbal yaw.",
+      "pose_conversion_mode=%s raw_odom_parent_frame_mode=%s twist_mode=%s.",
       raw_odom_topic_.c_str(), output_odom_topic_.c_str(),
-      base_frame_.c_str(), gimbal_frame_.c_str(), raw_odom_parent_frame_mode_.c_str(),
+      base_frame_.c_str(), gimbal_frame_.c_str(), pose_conversion_mode_.c_str(),
+      raw_odom_parent_frame_mode_.c_str(),
       twist_mode_.c_str());
   }
 
@@ -147,6 +239,171 @@ private:
     nav_msgs::msg::Odometry::SharedPtr message;
     std::chrono::steady_clock::time_point queued_at;
   };
+
+  struct HeadingSample
+  {
+    std::int64_t stamp_nanoseconds{0};
+    double yaw_rad{0.0};
+    double yaw_rate_rad_s{0.0};
+    std::uint32_t sample_sequence{0};
+    std::uint32_t mcu_time_ms{0};
+    std::uint32_t source_boot_id{0};
+    std::uint16_t reset_counter{0};
+  };
+
+  static bool isNewerSequence(std::uint32_t candidate, std::uint32_t reference)
+  {
+    const auto delta = static_cast<std::uint32_t>(candidate - reference);
+    return delta != 0U && delta < 0x80000000U;
+  }
+
+  void handleChassisHeading(
+    const rm_competition_interfaces::msg::ChassisHeadingState::SharedPtr msg)
+  {
+    const bool has_stamp = msg->header.stamp.sec != 0 || msg->header.stamp.nanosec != 0;
+    if (!msg->valid || !msg->online || !has_stamp || !std::isfinite(msg->yaw_rad) ||
+      !std::isfinite(msg->yaw_rate_rad_s))
+    {
+      heading_cache_.clear();
+      heading_stream_valid_ = false;
+      publishInvalidDerivedGimbal("invalid, offline, or non-finite chassis heading");
+      return;
+    }
+
+    HeadingSample sample;
+    sample.stamp_nanoseconds = rclcpp::Time(msg->header.stamp).nanoseconds();
+    sample.yaw_rad = rm_localization_adapters::wrap_angle(msg->yaw_rad);
+    sample.yaw_rate_rad_s = msg->yaw_rate_rad_s;
+    sample.sample_sequence = msg->sample_sequence;
+    sample.mcu_time_ms = msg->mcu_time_ms;
+    sample.source_boot_id = msg->source_boot_id;
+    sample.reset_counter = msg->reset_counter;
+    if (sample.stamp_nanoseconds <= 0) {
+      heading_stream_valid_ = false;
+      publishInvalidDerivedGimbal("zero chassis-heading timestamp");
+      return;
+    }
+
+    if (have_last_heading_identity_) {
+      if (sample.source_boot_id != last_heading_boot_id_ ||
+        sample.reset_counter != last_heading_reset_counter_)
+      {
+        if (heading_fusion_initialized_) {
+          heading_reset_latched_ = true;
+          heading_stream_valid_ = false;
+          heading_cache_.clear();
+          pending_odometry_.clear();
+          if (twist_estimator_) {
+            twist_estimator_->reset();
+          }
+          publishInvalidDerivedGimbal(
+            "chassis heading reset; restart lio_adapter after re-homing the gimbal");
+          RCLCPP_ERROR(
+            get_logger(),
+            "Chassis heading source reset while fusion was active. Output is latched invalid "
+            "until lio_adapter restarts with the gimbal at its known home angle.");
+          return;
+        }
+        heading_cache_.clear();
+      } else if (!isNewerSequence(sample.sample_sequence, last_heading_sequence_)) {
+        return;
+      }
+    }
+
+    if (!heading_cache_.empty() &&
+      sample.stamp_nanoseconds <= heading_cache_.back().stamp_nanoseconds)
+    {
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "Dropping non-monotonic chassis-heading timestamp.");
+      return;
+    }
+
+    last_heading_boot_id_ = sample.source_boot_id;
+    last_heading_reset_counter_ = sample.reset_counter;
+    last_heading_sequence_ = sample.sample_sequence;
+    have_last_heading_identity_ = true;
+    heading_stream_valid_ = true;
+    heading_cache_.push_back(sample);
+    while (heading_cache_.size() > heading_cache_max_size_) {
+      heading_cache_.pop_front();
+    }
+  }
+
+  std::optional<HeadingSample> nearestHeading(std::int64_t stamp_nanoseconds) const
+  {
+    if (!heading_stream_valid_ || heading_reset_latched_ || heading_cache_.empty()) {
+      return std::nullopt;
+    }
+    const auto tolerance_nanoseconds = static_cast<std::int64_t>(
+      max_heading_match_dt_sec_ * 1.0e9);
+    const HeadingSample * nearest = nullptr;
+    std::int64_t nearest_delta = tolerance_nanoseconds + 1;
+    for (const auto & sample : heading_cache_) {
+      const std::int64_t signed_delta = sample.stamp_nanoseconds - stamp_nanoseconds;
+      const std::int64_t delta = signed_delta < 0 ? -signed_delta : signed_delta;
+      if (delta < nearest_delta) {
+        nearest = &sample;
+        nearest_delta = delta;
+      }
+    }
+    if (nearest == nullptr || nearest_delta > tolerance_nanoseconds) {
+      return std::nullopt;
+    }
+    HeadingSample aligned = *nearest;
+    const double dt = static_cast<double>(
+      stamp_nanoseconds - nearest->stamp_nanoseconds) * 1.0e-9;
+    aligned.yaw_rad = rm_localization_adapters::wrap_angle(
+      nearest->yaw_rad + nearest->yaw_rate_rad_s * dt);
+    aligned.stamp_nanoseconds = stamp_nanoseconds;
+    return aligned;
+  }
+
+  void publishInvalidDerivedGimbal(const char * reason)
+  {
+    if (!derived_gimbal_pub_ || derived_gimbal_invalid_published_) {
+      return;
+    }
+    rm_competition_interfaces::msg::GimbalState message;
+    message.header.stamp = now();
+    message.valid = false;
+    message.online = false;
+    derived_gimbal_pub_->publish(message);
+    derived_gimbal_invalid_published_ = true;
+    RCLCPP_WARN_THROTTLE(
+      get_logger(), *get_clock(), 2000, "Derived gimbal state invalidated: %s", reason);
+  }
+
+  void publishDerivedGimbal(
+    double gimbal_yaw_rad,
+    const builtin_interfaces::msg::Time & stamp,
+    const HeadingSample & heading)
+  {
+    double yaw_rate_rad_s = 0.0;
+    const std::int64_t stamp_nanoseconds = rclcpp::Time(stamp).nanoseconds();
+    if (have_previous_derived_gimbal_) {
+      const double dt = static_cast<double>(
+        stamp_nanoseconds - previous_derived_gimbal_stamp_nanoseconds_) * 1.0e-9;
+      if (dt > 1.0e-4 && dt < 0.5) {
+        yaw_rate_rad_s = rm_localization_adapters::wrap_angle(
+          gimbal_yaw_rad - previous_derived_gimbal_yaw_rad_) / dt;
+      }
+    }
+    previous_derived_gimbal_yaw_rad_ = gimbal_yaw_rad;
+    previous_derived_gimbal_stamp_nanoseconds_ = stamp_nanoseconds;
+    have_previous_derived_gimbal_ = true;
+
+    rm_competition_interfaces::msg::GimbalState message;
+    message.header.stamp = stamp;
+    message.relative_yaw_rad = gimbal_yaw_rad;
+    message.yaw_rate_rad_s = yaw_rate_rad_s;
+    message.sample_sequence = derived_gimbal_sequence_++;
+    message.mcu_time_ms = heading.mcu_time_ms;
+    message.online = true;
+    message.valid = true;
+    derived_gimbal_pub_->publish(message);
+    derived_gimbal_invalid_published_ = false;
+  }
 
   static tf2::Transform poseToTransform(const geometry_msgs::msg::Pose & pose)
   {
@@ -305,8 +562,57 @@ private:
 
     tf2::Transform odom_to_input = poseToTransform(msg->pose.pose);
     tf2::Transform odom_to_base = odom_to_input;
+    std::optional<HeadingSample> matched_heading;
+    double derived_gimbal_yaw_rad = 0.0;
 
-    if (input_child != base_frame_) {
+    if (pose_conversion_mode_ == "chassis_heading_fusion") {
+      if (heading_reset_latched_) {
+        return true;
+      }
+      if (input_child == base_frame_) {
+        RCLCPP_ERROR_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "chassis_heading_fusion requires raw odometry for a sensor frame, not base_link.");
+        return true;
+      }
+      if (msg->header.stamp.sec == 0 && msg->header.stamp.nanosec == 0) {
+        RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Waiting for non-zero raw odometry timestamps in chassis_heading_fusion mode.");
+        return true;
+      }
+      const auto stamp_nanoseconds = rclcpp::Time(msg->header.stamp).nanoseconds();
+      matched_heading = nearestHeading(stamp_nanoseconds);
+      if (!matched_heading.has_value()) {
+        return false;
+      }
+      if (!heading_fusion_initialized_) {
+        raw_initial_to_sensor_at_fusion_start_ = odom_to_input;
+        initial_chassis_heading_rad_ = matched_heading->yaw_rad;
+        fusion_source_boot_id_ = matched_heading->source_boot_id;
+        fusion_reset_counter_ = matched_heading->reset_counter;
+        heading_fusion_initialized_ = true;
+        RCLCPP_WARN(
+          get_logger(),
+          "Initialized chassis-heading fusion at heading %.6f rad. This zero is valid only "
+          "because the selected profile asserts that the gimbal is at its known home angle.",
+          initial_chassis_heading_rad_);
+      }
+      if (matched_heading->source_boot_id != fusion_source_boot_id_ ||
+        matched_heading->reset_counter != fusion_reset_counter_)
+      {
+        heading_reset_latched_ = true;
+        publishInvalidDerivedGimbal("heading identity changed during fusion");
+        return true;
+      }
+      const auto fused =
+        rm_localization_adapters::compute_base_transform_from_chassis_heading(
+        raw_initial_to_sensor_at_fusion_start_, odom_to_input, initial_base_to_sensor_,
+        gimbal_center_in_base_, initial_chassis_heading_rad_, matched_heading->yaw_rad,
+        initial_gimbal_yaw_rad_);
+      odom_to_base = fused.base_initial_to_base;
+      derived_gimbal_yaw_rad = fused.gimbal_yaw_rad;
+    } else if (input_child != base_frame_) {
       if (use_tf_sensor_to_base_) {
         try {
           geometry_msgs::msg::TransformStamped base_to_input_msg;
@@ -358,6 +664,9 @@ private:
     output.header.frame_id = odom_frame_;
     output.child_frame_id = base_frame_;
     transformToPose(odom_to_base, output.pose.pose);
+    if (pose_conversion_mode_ == "chassis_heading_fusion") {
+      output.pose.covariance[35] = heading_yaw_variance_;
+    }
 
     if (twist_mode_ == "finite_difference") {
       if (msg->header.stamp.sec == 0 && msg->header.stamp.nanosec == 0) {
@@ -391,6 +700,10 @@ private:
       }
     }
     odom_pub_->publish(output);
+    if (matched_heading.has_value()) {
+      publishDerivedGimbal(
+        derived_gimbal_yaw_rad, output.header.stamp, *matched_heading);
+    }
 
     if (publish_tf_) {
       geometry_msgs::msg::TransformStamped tf_msg;
@@ -429,6 +742,7 @@ private:
   bool use_tf_sensor_to_base_;
   bool use_latest_transform_;
   bool allow_placeholder_fallback_;
+  std::string pose_conversion_mode_;
   std::string raw_odom_parent_frame_mode_;
   double tf_lookup_timeout_sec_;
   std::size_t tf_queue_max_size_;
@@ -438,12 +752,42 @@ private:
   std::string backend_child_frame_alias_source_;
   std::string backend_child_frame_alias_target_;
   std::string twist_mode_;
+  std::string heading_topic_;
+  std::string derived_gimbal_topic_;
+  std::size_t heading_cache_max_size_;
+  double max_heading_match_dt_sec_;
+  double heading_yaw_variance_;
+  double initial_gimbal_yaw_rad_;
   std::array<double, 6> twist_variance_diagonal_{};
   tf2::Transform input_to_base_placeholder_;
+  tf2::Transform initial_base_to_sensor_;
+  tf2::Vector3 gimbal_center_in_base_;
+  tf2::Transform raw_initial_to_sensor_at_fusion_start_;
   std::unique_ptr<rm_localization_adapters::PoseTwistEstimator> twist_estimator_;
 
+  std::deque<HeadingSample> heading_cache_;
+  bool heading_stream_valid_ = false;
+  bool heading_fusion_initialized_ = false;
+  bool heading_reset_latched_ = false;
+  bool have_last_heading_identity_ = false;
+  bool derived_gimbal_invalid_published_ = false;
+  bool have_previous_derived_gimbal_ = false;
+  std::uint32_t last_heading_boot_id_ = 0;
+  std::uint32_t last_heading_sequence_ = 0;
+  std::uint32_t fusion_source_boot_id_ = 0;
+  std::uint32_t derived_gimbal_sequence_ = 0;
+  std::uint16_t last_heading_reset_counter_ = 0;
+  std::uint16_t fusion_reset_counter_ = 0;
+  std::int64_t previous_derived_gimbal_stamp_nanoseconds_ = 0;
+  double initial_chassis_heading_rad_ = 0.0;
+  double previous_derived_gimbal_yaw_rad_ = 0.0;
+
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
+  rclcpp::Subscription<rm_competition_interfaces::msg::ChassisHeadingState>::SharedPtr
+    heading_sub_;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
+  rclcpp::Publisher<rm_competition_interfaces::msg::GimbalState>::SharedPtr
+    derived_gimbal_pub_;
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
   std::unique_ptr<tf2_ros::TransformListener> tf_listener_;

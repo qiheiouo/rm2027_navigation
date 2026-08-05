@@ -40,7 +40,9 @@ ament_target_dependencies(map_odom_stub
 add_executable(lio_adapter src/lio_adapter.cpp)
 target_link_libraries(lio_adapter canonical_odometry)
 ament_target_dependencies(lio_adapter
+  builtin_interfaces
   rclcpp
+  rm_competition_interfaces
   nav_msgs
   geometry_msgs
   tf2

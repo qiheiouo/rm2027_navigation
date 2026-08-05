@@ -23,6 +23,7 @@
 #include "builtin_interfaces/msg/time.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "rm_competition_interfaces/msg/chassis_heading_state.hpp"
 #include "rm_competition_interfaces/msg/gimbal_state.hpp"
 #include "rm_competition_interfaces/msg/operator_navigation_target.hpp"
 #include "rm_competition_interfaces/msg/posture_request.hpp"
@@ -174,6 +175,8 @@ public:
       "posture_state_topic", "/robot/posture/state");
     gimbal_state_topic_ = declare_parameter<std::string>(
       "gimbal_state_topic", "/gimbal/state");
+    chassis_heading_topic_ = declare_parameter<std::string>(
+      "chassis_heading_topic", "/chassis/heading");
     referee_raw_topic_ = declare_parameter<std::string>(
       "referee_raw_topic", "/referee/state_raw");
     operator_goal_raw_topic_ = declare_parameter<std::string>(
@@ -190,6 +193,8 @@ public:
     cmd_vel_timeout_sec_ = declare_parameter<double>("cmd_vel_timeout_sec", 0.2);
     connection_timeout_sec_ = declare_parameter<double>("connection_timeout_sec", 0.75);
     gimbal_timeout_sec_ = declare_parameter<double>("gimbal_timeout_sec", 0.2);
+    chassis_heading_timeout_sec_ = declare_parameter<double>(
+      "chassis_heading_timeout_sec", 0.2);
     posture_timeout_sec_ = declare_parameter<double>("posture_timeout_sec", 0.5);
     max_vx_ = declare_parameter<double>("max_vx", 0.8);
     max_vy_ = declare_parameter<double>("max_vy", 0.5);
@@ -214,6 +219,9 @@ public:
       posture_state_topic_, latched);
     gimbal_state_pub_ = create_publisher<rm_competition_interfaces::msg::GimbalState>(
       gimbal_state_topic_, rclcpp::QoS(10));
+    chassis_heading_pub_ = create_publisher<
+      rm_competition_interfaces::msg::ChassisHeadingState>(
+      chassis_heading_topic_, rclcpp::QoS(50));
     referee_pub_ = create_publisher<rm_competition_interfaces::msg::RefereeState>(
       referee_raw_topic_, rclcpp::QoS(10));
     operator_goal_pub_ = create_publisher<
@@ -243,6 +251,7 @@ public:
     last_cmd_vel_time_ = steadyNow() - std::chrono::hours(24);
     last_heartbeat_time_ = steadyNow() - std::chrono::hours(24);
     last_gimbal_time_ = steadyNow() - std::chrono::hours(24);
+    last_chassis_heading_time_ = steadyNow() - std::chrono::hours(24);
     last_posture_time_ = steadyNow() - std::chrono::hours(24);
     start_time_ = steadyNow();
 
@@ -276,9 +285,10 @@ private:
 
   void validateParameters() const
   {
-    const std::array<double, 10> positive_values{
+    const std::array<double, 11> positive_values{
       chassis_rate_hz_, posture_rate_hz_, heartbeat_rate_hz_, read_poll_rate_hz_,
-      health_rate_hz_, connection_timeout_sec_, gimbal_timeout_sec_, posture_timeout_sec_,
+      health_rate_hz_, connection_timeout_sec_, gimbal_timeout_sec_,
+      chassis_heading_timeout_sec_, posture_timeout_sec_,
       max_vx_, max_vy_};
     for (const auto value : positive_values) {
       if (!std::isfinite(value) || value <= 0.0) {
@@ -383,7 +393,7 @@ private:
     heartbeat.capabilities =
       v2::CapabilityChassisCommand | v2::CapabilityPosture |
       v2::CapabilityGimbalState | v2::CapabilityRefereeState |
-      v2::CapabilityOperatorNavigationTarget;
+      v2::CapabilityOperatorNavigationTarget | v2::CapabilityChassisHeadingState;
     heartbeat.ready = true;
     sendMessage(v2::MessageType::Heartbeat, heartbeat_sequence_++, heartbeat);
   }
@@ -452,6 +462,7 @@ private:
         case v2::MessageType::Heartbeat: handleHeartbeat(frame); break;
         case v2::MessageType::PostureState: handlePostureState(frame); break;
         case v2::MessageType::GimbalState: handleGimbalState(frame); break;
+        case v2::MessageType::ChassisHeadingState: handleChassisHeadingState(frame); break;
         case v2::MessageType::RefereeState: handleRefereeState(frame); break;
         case v2::MessageType::OperatorNavigationTarget: handleOperatorTarget(frame); break;
         case v2::MessageType::ChassisCommand:
@@ -472,6 +483,7 @@ private:
     if (have_remote_heartbeat_ && remote_boot_id_ != heartbeat->boot_id) {
       publishInvalidPosture("lower-controller restart");
       publishInvalidGimbal("lower-controller restart");
+      publishInvalidChassisHeading("lower-controller restart");
     }
     remote_boot_id_ = heartbeat->boot_id;
     remote_uptime_ms_ = heartbeat->uptime_ms;
@@ -537,6 +549,27 @@ private:
     gimbal_state_pub_->publish(message);
     last_gimbal_time_ = steadyNow();
     gimbal_invalid_published_ = false;
+  }
+
+  void handleChassisHeadingState(const v2::Frame & frame)
+  {
+    const auto state = v2::decode_chassis_heading_state(frame);
+    if (!state.has_value()) {
+      return;
+    }
+    rm_competition_interfaces::msg::ChassisHeadingState message;
+    message.header.stamp = estimateMcuStamp(state->mcu_time_ms);
+    message.yaw_rad = state->yaw_rad;
+    message.yaw_rate_rad_s = state->yaw_rate_rad_s;
+    message.sample_sequence = state->sample_sequence;
+    message.mcu_time_ms = state->mcu_time_ms;
+    message.reset_counter = state->reset_counter;
+    message.source_boot_id = remote_boot_id_;
+    message.online = state->online && remoteSupports(v2::CapabilityChassisHeadingState);
+    message.valid = state->valid && message.online && have_clock_sync_;
+    chassis_heading_pub_->publish(message);
+    last_chassis_heading_time_ = steadyNow();
+    chassis_heading_invalid_published_ = false;
   }
 
   void handleRefereeState(const v2::Frame & frame)
@@ -635,6 +668,12 @@ private:
     {
       publishInvalidGimbal(state.online ? "stale" : "serial offline");
     }
+    if ((!state.online ||
+      ageSeconds(last_chassis_heading_time_) > chassis_heading_timeout_sec_) &&
+      !chassis_heading_invalid_published_)
+    {
+      publishInvalidChassisHeading(state.online ? "stale" : "serial offline");
+    }
     if ((!state.online || ageSeconds(last_posture_time_) > posture_timeout_sec_) &&
       !posture_invalid_published_)
     {
@@ -659,6 +698,19 @@ private:
       get_logger(), *get_clock(), 2000, "Gimbal state invalidated: %s", reason);
   }
 
+  void publishInvalidChassisHeading(const char * reason)
+  {
+    rm_competition_interfaces::msg::ChassisHeadingState message;
+    message.header.stamp = now();
+    message.source_boot_id = remote_boot_id_;
+    message.online = remoteSupports(v2::CapabilityChassisHeadingState);
+    message.valid = false;
+    chassis_heading_pub_->publish(message);
+    chassis_heading_invalid_published_ = true;
+    RCLCPP_WARN_THROTTLE(
+      get_logger(), *get_clock(), 2000, "Chassis heading invalidated: %s", reason);
+  }
+
   void publishInvalidPosture(const char * reason)
   {
     rm_competition_interfaces::msg::PostureState message;
@@ -678,6 +730,7 @@ private:
   std::string posture_request_topic_;
   std::string posture_state_topic_;
   std::string gimbal_state_topic_;
+  std::string chassis_heading_topic_;
   std::string referee_raw_topic_;
   std::string operator_goal_raw_topic_;
   std::string connection_state_topic_;
@@ -691,6 +744,7 @@ private:
   double cmd_vel_timeout_sec_;
   double connection_timeout_sec_;
   double gimbal_timeout_sec_;
+  double chassis_heading_timeout_sec_;
   double posture_timeout_sec_;
   double max_vx_;
   double max_vy_;
@@ -705,12 +759,14 @@ private:
   SteadyTime last_cmd_vel_time_;
   SteadyTime last_heartbeat_time_;
   SteadyTime last_gimbal_time_;
+  SteadyTime last_chassis_heading_time_;
   SteadyTime last_posture_time_;
   SteadyTime start_time_;
   bool have_remote_heartbeat_ = false;
   bool remote_ready_ = false;
   bool have_clock_sync_ = false;
   bool gimbal_invalid_published_ = false;
+  bool chassis_heading_invalid_published_ = false;
   bool posture_invalid_published_ = false;
   std::int64_t heartbeat_clock_offset_ns_ = 0;
   std::uint32_t remote_capabilities_ = 0;
@@ -729,6 +785,8 @@ private:
   v2::StreamDecoder decoder_;
   rclcpp::Publisher<rm_competition_interfaces::msg::PostureState>::SharedPtr posture_state_pub_;
   rclcpp::Publisher<rm_competition_interfaces::msg::GimbalState>::SharedPtr gimbal_state_pub_;
+  rclcpp::Publisher<rm_competition_interfaces::msg::ChassisHeadingState>::SharedPtr
+    chassis_heading_pub_;
   rclcpp::Publisher<rm_competition_interfaces::msg::RefereeState>::SharedPtr referee_pub_;
   rclcpp::Publisher<rm_competition_interfaces::msg::OperatorNavigationTarget>::SharedPtr
     operator_goal_pub_;

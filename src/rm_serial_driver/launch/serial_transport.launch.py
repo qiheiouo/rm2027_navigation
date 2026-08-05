@@ -28,9 +28,13 @@ def generate_launch_description():
     posture_request_topic = LaunchConfiguration("posture_request_topic")
     posture_state_topic = LaunchConfiguration("posture_state_topic")
     gimbal_state_topic = LaunchConfiguration("gimbal_state_topic")
+    chassis_heading_topic = LaunchConfiguration("chassis_heading_topic")
     connection_state_topic = LaunchConfiguration("connection_state_topic")
     connection_timeout_sec = LaunchConfiguration("connection_timeout_sec")
     gimbal_timeout_sec = LaunchConfiguration("gimbal_timeout_sec")
+    chassis_heading_timeout_sec = LaunchConfiguration(
+        "chassis_heading_timeout_sec"
+    )
     posture_timeout_sec = LaunchConfiguration("posture_timeout_sec")
     posture_rate_hz = LaunchConfiguration("posture_rate_hz")
     heartbeat_rate_hz = LaunchConfiguration("heartbeat_rate_hz")
@@ -80,10 +84,14 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument("gimbal_state_topic", default_value="/gimbal/state"),
         DeclareLaunchArgument(
+            "chassis_heading_topic", default_value="/chassis/heading"
+        ),
+        DeclareLaunchArgument(
             "connection_state_topic", default_value="/serial/connection_state"
         ),
         DeclareLaunchArgument("connection_timeout_sec", default_value="0.75"),
         DeclareLaunchArgument("gimbal_timeout_sec", default_value="0.2"),
+        DeclareLaunchArgument("chassis_heading_timeout_sec", default_value="0.2"),
         DeclareLaunchArgument("posture_timeout_sec", default_value="0.5"),
         DeclareLaunchArgument("posture_rate_hz", default_value="10.0"),
         DeclareLaunchArgument("heartbeat_rate_hz", default_value="2.0"),
@@ -158,12 +166,16 @@ def generate_launch_description():
                 "posture_request_topic": posture_request_topic,
                 "posture_state_topic": posture_state_topic,
                 "gimbal_state_topic": gimbal_state_topic,
+                "chassis_heading_topic": chassis_heading_topic,
                 "connection_state_topic": connection_state_topic,
                 "connection_timeout_sec": ParameterValue(
                     connection_timeout_sec, value_type=float
                 ),
                 "gimbal_timeout_sec": ParameterValue(
                     gimbal_timeout_sec, value_type=float
+                ),
+                "chassis_heading_timeout_sec": ParameterValue(
+                    chassis_heading_timeout_sec, value_type=float
                 ),
                 "posture_timeout_sec": ParameterValue(
                     posture_timeout_sec, value_type=float

@@ -11,6 +11,7 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rm_competition_interfaces.msg import (
+    ChassisHeadingState,
     GimbalState,
     OperatorNavigationTarget,
     PostureRequest,
@@ -31,6 +32,7 @@ class CompetitionV2Probe(Node):
         )
         self.connection = None
         self.gimbal = None
+        self.chassis_heading = None
         self.operator_target = None
         self.joint_state = None
         self.posture_states = []
@@ -48,6 +50,12 @@ class CompetitionV2Probe(Node):
         )
         self.create_subscription(
             GimbalState, "/gimbal/state", self._gimbal_callback, 10
+        )
+        self.create_subscription(
+            ChassisHeadingState,
+            "/chassis/heading",
+            self._chassis_heading_callback,
+            50,
         )
         self.create_subscription(
             OperatorNavigationTarget,
@@ -72,6 +80,9 @@ class CompetitionV2Probe(Node):
 
     def _gimbal_callback(self, message):
         self.gimbal = message
+
+    def _chassis_heading_callback(self, message):
+        self.chassis_heading = message
 
     def _operator_callback(self, message):
         self.operator_target = message
@@ -110,7 +121,7 @@ def test_competition_v2_no_hardware_flow():
             executable("rm_serial_driver", "competition_v2_transport_node"),
             "--ros-args",
             "-p", "dry_run:=true",
-            "-p", "required_remote_capabilities:=31",
+            "-p", "required_remote_capabilities:=63",
         ],
         [
             executable("rm_serial_driver", "competition_v2_mock_lower_node"),
@@ -118,6 +129,7 @@ def test_competition_v2_no_hardware_flow():
             "-p", "publish_operator_target:=true",
             "-p", "posture_transition_responses:=10",
             "-p", "gimbal_publish_duration_sec:=2.0",
+            "-p", "chassis_heading_publish_duration_sec:=2.0",
             "-p", "heartbeat_publish_duration_sec:=3.0",
         ],
         [
@@ -152,6 +164,13 @@ def test_competition_v2_no_hardware_flow():
             lambda: node.gimbal is not None and node.gimbal.valid,
             3.0,
             "valid gimbal state",
+            processes,
+        )
+        wait_for(
+            lambda: node.chassis_heading is not None
+            and node.chassis_heading.valid,
+            3.0,
+            "valid chassis heading",
             processes,
         )
         wait_for(
@@ -193,6 +212,9 @@ def test_competition_v2_no_hardware_flow():
 
         assert node.connection.last_valid_frame_stamp.sec != 0
         assert math.isclose(node.gimbal.relative_yaw_rad, 0.25, abs_tol=1e-6)
+        assert math.isclose(node.chassis_heading.yaw_rad, 0.4, abs_tol=1e-6)
+        assert node.chassis_heading.reset_counter == 0
+        assert node.chassis_heading.source_boot_id == 0x20270001
         joint_index = node.joint_state.name.index("gimbal_yaw_joint")
         assert math.isclose(node.joint_state.position[joint_index], 0.25, abs_tol=1e-6)
         assert node.operator_target.transport_valid
@@ -203,6 +225,13 @@ def test_competition_v2_no_hardware_flow():
             lambda: node.gimbal is not None and not node.gimbal.valid,
             4.0,
             "stale gimbal invalidation",
+            processes,
+        )
+        wait_for(
+            lambda: node.chassis_heading is not None
+            and not node.chassis_heading.valid,
+            4.0,
+            "stale chassis heading invalidation",
             processes,
         )
         wait_for(

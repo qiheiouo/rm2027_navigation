@@ -59,6 +59,7 @@ a legacy profile after receiving malformed bytes.
 | `0x82` | lower -> upper | Gimbal state | 17 |
 | `0x83` | lower -> upper | Referee/robot state | 17 |
 | `0x84` | lower -> upper | Operator navigation target | 25 |
+| `0x85` | lower -> upper | Chassis heading state | 19 |
 
 ### Chassis Command `0x01`
 
@@ -108,6 +109,7 @@ Capability bits are:
 | 2 | Relative gimbal state |
 | 3 | Referee/robot state |
 | 4 | Operator navigation target |
+| 5 | Chassis heading state |
 
 Both endpoints normally send heartbeat at 2 Hz. A changed `boot_id` means the
 peer restarted. The upper endpoint invalidates stale posture and gimbal state.
@@ -203,6 +205,24 @@ agreed. The serial transport therefore publishes only the raw topic. A future
 coordinate/command gate must enforce frame, alliance, TTL, command freshness,
 map bounds, and mission authority before creating a candidate goal.
 
+### Chassis Heading State `0x85`
+
+| Payload offset | Size | Type | Field |
+| ---: | ---: | --- | --- |
+| 0 | 4 | `float32` | `yaw_rad`, wrapped to `[-pi, pi)` |
+| 4 | 4 | `float32` | `yaw_rate_rad_s` from the same sample |
+| 8 | 4 | `uint32` | `sample_sequence` |
+| 12 | 4 | `uint32` | `mcu_time_ms` |
+| 16 | 2 | `uint16` | `reset_counter` |
+| 18 | 1 | flags | bit 0 valid, bit 1 online |
+
+This is chassis yaw in the lower controller's own world/initial frame, not a
+mechanical gimbal angle and not automatically ROS `map` yaw. The transport adds
+the current heartbeat `boot_id` to the ROS message. Firmware must increment
+`reset_counter` whenever its heading estimator is re-zeroed without rebooting.
+The optional LIO heading-fusion profile uses only yaw deltas after a known
+gimbal-home initialization; see `docs/chassis_heading_lio_fusion.md`.
+
 ## Canonical Posture Enum
 
 | Value | Name |
@@ -254,9 +274,11 @@ operator target at (0,0):
 ## Team Confirmation Items
 
 1. Dog-hole entry and exit posture choices among the six values.
-2. Gimbal mechanical zero, positive sign, encoder source, and continuous range.
+2. Gimbal mechanical zero, positive sign, encoder source, and continuous range,
+   or explicit acceptance of the chassis-heading fusion alternative.
 3. MCU timing quality and maximum serial bandwidth/control period.
 4. Real posture limit switches, fault definitions, and fault-code table.
 5. Referee diagnostic flag meanings and field reliability.
 6. Operator field origin, axes, alliance mirroring owner, bounds, and yaw rule.
 7. New-car firmware repository/commit and packet captures used for acceptance.
+8. Chassis-heading sign, wrap, rate, sampling time, reset-counter and reboot behavior.

@@ -3,6 +3,7 @@
 
 #include "gtest/gtest.h"
 #include "rm_localization_adapters/canonical_odometry.hpp"
+#include "tf2/LinearMath/Matrix3x3.h"
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2/LinearMath/Transform.h"
 
@@ -84,6 +85,69 @@ TEST(CanonicalOdometry, SensorInitialModeRecoversBaseMotion)
   EXPECT_NEAR(recovered.getOrigin().z(), 0.0, 1.0e-9);
   EXPECT_NEAR(
     recovered.getRotation().angleShortestPath(base_initial_to_base.getRotation()), 0.0, 1.0e-9);
+}
+
+TEST(CanonicalOdometry, ChassisHeadingFusionStartsAtCanonicalIdentity)
+{
+  const auto initial_base_to_sensor = make_transform_rpy(
+    0.0, 0.0, 0.35, 0.25, -0.2, 0.6);
+  const auto raw_start = make_transform_rpy(
+    3.0, -2.0, 1.0, 0.1, 0.2, -0.3);
+
+  const auto result = rm_localization_adapters::compute_base_transform_from_chassis_heading(
+    raw_start, raw_start, initial_base_to_sensor, tf2::Vector3(0.0, 0.0, 0.0),
+    2.8, 2.8);
+
+  EXPECT_NEAR(result.base_initial_to_base.getOrigin().length(), 0.0, 1.0e-9);
+  EXPECT_NEAR(result.base_initial_to_base.getRotation().getAngle(), 0.0, 1.0e-9);
+  EXPECT_NEAR(result.gimbal_yaw_rad, 0.0, 1.0e-9);
+}
+
+TEST(CanonicalOdometry, ChassisHeadingFusionRecoversTranslationYawAndGimbalMotion)
+{
+  const auto initial_base_to_sensor = make_transform_rpy(
+    0.18, -0.11, 0.35, 0.25, -0.2, 0.6);
+  const auto expected_base = make_transform(1.2, -0.7, 0.0, 0.8);
+  const tf2::Vector3 gimbal_center(0.03, -0.02, 0.08);
+  const auto gimbal_delta = make_transform(0.0, 0.0, 0.0, -1.1);
+  const auto base_to_gimbal_center = make_transform(
+    gimbal_center.x(), gimbal_center.y(), gimbal_center.z(), 0.0);
+  const auto gimbal_center_to_base = make_transform(
+    -gimbal_center.x(), -gimbal_center.y(), -gimbal_center.z(), 0.0);
+  const auto base_to_sensor =
+    base_to_gimbal_center * gimbal_delta * gimbal_center_to_base * initial_base_to_sensor;
+  const auto sensor_start_to_sensor =
+    initial_base_to_sensor.inverse() * expected_base * base_to_sensor;
+
+  tf2::Transform raw_start;
+  raw_start.setIdentity();
+  const auto result = rm_localization_adapters::compute_base_transform_from_chassis_heading(
+    raw_start, sensor_start_to_sensor, initial_base_to_sensor,
+    gimbal_center, 2.9, -2.583185307179586, 0.0);
+
+  EXPECT_NEAR(result.base_initial_to_base.getOrigin().x(), 1.2, 1.0e-9);
+  EXPECT_NEAR(result.base_initial_to_base.getOrigin().y(), -0.7, 1.0e-9);
+  EXPECT_NEAR(result.base_initial_to_base.getOrigin().z(), 0.0, 1.0e-9);
+  EXPECT_NEAR(
+    result.base_initial_to_base.getRotation().angleShortestPath(
+      expected_base.getRotation()),
+    0.0, 1.0e-9);
+  EXPECT_NEAR(result.gimbal_yaw_rad, -1.1, 1.0e-9);
+}
+
+TEST(CanonicalOdometry, ChassisHeadingFusionHandlesHeadingWrap)
+{
+  tf2::Transform identity;
+  identity.setIdentity();
+  const auto result = rm_localization_adapters::compute_base_transform_from_chassis_heading(
+    identity, identity, identity, tf2::Vector3(0.0, 0.0, 0.0), 3.10, -3.10);
+  double roll = 0.0;
+  double pitch = 0.0;
+  double yaw = 0.0;
+  tf2::Matrix3x3(result.base_initial_to_base.getRotation()).getRPY(roll, pitch, yaw);
+  static_cast<void>(roll);
+  static_cast<void>(pitch);
+  EXPECT_NEAR(yaw, 0.083185307179586, 1.0e-9);
 }
 
 TEST(PoseTwistEstimator, EstimatesForwardAndLateralVelocity)

@@ -9,8 +9,8 @@ This package currently provides only:
 - a 21-byte HPM profile using the same payload plus payload-only Modbus CRC16;
 - separate stream decoders for no-CRC and CRC-framed data;
 - an independent `competition_v2` envelope with version, message type, length,
-  sequence, CRC, capability heartbeat, chassis, posture, gimbal, referee and
-  operator-target messages;
+  sequence, CRC, capability heartbeat, chassis, posture, gimbal, chassis
+  heading, referee and operator-target messages;
 - a compiler-layout-independent C reference codec for lower-controller teams;
 - `serial_dry_run_node`, which encodes `/cmd_vel` into `/serial/mock_tx`
   without touching `/dev/tty*`;
@@ -23,10 +23,11 @@ This package currently provides only:
   `/operator/navigation_target_raw`. It preserves the packet coordinates and
   never calls Nav2;
 - unit tests for framing, little-endian floats, CRC vectors, corruption,
-  fragmentation, and resynchronization.
+  fragmentation, and resynchronization;
 - a no-hardware v2 transport/mock integration test covering independent
   posture scheduling, transition/completion ACK, relative gimbal state,
-  connection health and a valid `(0,0)` raw operator target.
+  optional chassis heading, connection health and a valid `(0,0)` raw
+  operator target.
 
 Normal launches intentionally do not open a serial device. Real serial IO starts
 only when a hardware profile explicitly includes `serial_transport.launch.py`.

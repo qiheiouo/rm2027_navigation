@@ -34,8 +34,8 @@ contracts take precedence over historical behavior.
 | --- | --- | --- | --- |
 | `rm_description` | Robot model and static sensor frames | Static TF only | `docs/contracts/tf_contract_2027.md` |
 | `rm_mid360_driver_bridge` | Driver launch/config, field-preserving self filter, PointCloud2 projection, dual obstacle fusion and experimental SE(3) scan deskew | No localization TF, odometry or commands | package README, `docs/phase2l_dual_lidar_obstacle_fusion.md`, `docs/phase2j_2d_relocalization.md` |
-| `rm_lio_bringup` | FAST-LIO configuration and upstream TF quarantine | No canonical TF | `docs/phase2a_lio_validation.md` |
-| `rm_localization_adapters` | Canonical LIO odometry, gimbal/IMU/frame adapters and stubs | Sole `odom -> base_link` owner through `lio_adapter` | `docs/contracts/tf_contract_2027.md`, `docs/phase2b_twist_validation.md` |
+| `rm_lio_bringup` | FAST-LIO configuration, optional chassis-heading fusion profile and upstream TF quarantine | No canonical TF | `docs/phase2a_lio_validation.md`, `docs/chassis_heading_lio_fusion.md` |
+| `rm_localization_adapters` | Canonical LIO odometry, direct/derived gimbal, IMU/frame adapters and stubs | Sole `odom -> base_link` owner through `lio_adapter` | `docs/contracts/tf_contract_2027.md`, `docs/phase2b_twist_validation.md`, `docs/chassis_heading_lio_fusion.md` |
 | `rm_relocalization_bridge` | AMCL/generic global-pose gates and canonical map/odom bridge | Sole dynamic `map -> odom` owner in external-pose mode | `docs/phase2c_relocalization_boundary.md`, `docs/phase2j_2d_relocalization.md` |
 | `rm_gicp_relocalization` | Seeded PCD registration backend | Publishes candidate pose and diagnostics, never TF | `docs/phase2j_3d_relocalization.md` |
 
@@ -54,7 +54,7 @@ contracts take precedence over historical behavior.
 
 | Package | Responsibility | Current boundary | Primary documentation |
 | --- | --- | --- | --- |
-| `rm_competition_interfaces` | Normalized referee, chassis, pursuit, posture, gimbal, serial health, raw operator-target, mission and readiness messages | Interface definitions only | `docs/contracts/topic_contract_2027.md`, `docs/competition_v2_ros_interfaces.md`, `docs/phase3e_operator_navigation_target_boundary.md` |
+| `rm_competition_interfaces` | Normalized referee, chassis heading/mode, pursuit, posture, gimbal, serial health, raw operator-target, mission and readiness messages | Interface definitions only | `docs/contracts/topic_contract_2027.md`, `docs/competition_v2_ros_interfaces.md`, `docs/phase3e_operator_navigation_target_boundary.md` |
 | `rm_referee_interface` | Range/freshness gate and explicit mock | Old-car HPM serial producer available; gate remains separate | `docs/phase3a_competition_state_boundary.md` |
 | `rm_pursuit` | Validated target-to-standoff-goal candidate | Real producer deferred | `docs/phase3b_pursuit_boundary.md` |
 | `rm_competition_mission` | Safety-gated mission selection and sole mission Nav2 action client | Disabled by default | `docs/phase3c_competition_mission_bt.md`, `docs/old_car_competition_minimum_behavior.md` |

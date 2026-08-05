@@ -16,7 +16,8 @@ validated for competition.
 | Map deployment | Approved/candidate/test policies with hash validation | `approved_only` | fresh03 is a validated occupancy-only candidate, not approved and not a GICP asset |
 | Dual lidar | Single left LIO plus dual filtered obstacle PointCloud2 fusion | Disabled | Right extrinsic, time sync, alignment and resources |
 | Referee state | Confirmed HPM feedback parser -> normalized message -> freshness/range gate | Disabled | Real serial observation intentionally not run |
-| New-car serial | Versioned `competition_v2` codec, C firmware reference, dry-run transport, posture/gimbal/referee/operator/health topics | Disabled; legacy profiles unchanged | New firmware integration, packet capture, signs, watchdog, mechanism and gimbal acceptance |
+| New-car serial | Versioned `competition_v2` codec, C firmware reference, dry-run transport, posture/gimbal/chassis-heading/referee/operator/health topics | Disabled; legacy profiles unchanged | New firmware integration, packet capture, signs, watchdog, mechanism and selected heading-source acceptance |
+| Chassis-heading LIO | Optional chassis heading + FAST-LIO sensor motion -> canonical base pose and derived gimbal state | Disabled; calibration template refuses startup | New-car yaw-axis center, home extrinsic, timestamps, reset behavior and motion A/B |
 | Chassis authority | Manual/auto/estop consistency and freshness gate | Disabled | Deferred for current old-car scope; remote control remains external physical authority |
 | Pursuit | Target-track validation, TF, prediction and standoff candidate | Disabled | Auto-aim producer and competition tuning |
 | Mission behavior | BehaviorTree.CPP hold/home/pursuit/patrol plus isolated three-point Spin candidate | Disabled, safe config has no points | Candidate dwell-spin and low-HP home have field smoke evidence; low-projectile home, final points, real state input and match soak remain |
@@ -35,9 +36,10 @@ validated for competition.
 5. Mission coordinates are intentionally empty in the safe config. The
    10-second/10-rad/s three-point behavior exists only in an explicit candidate
    and is not the final competition configuration.
-6. The new-car protocol software boundary and relative-gimbal ROS chain exist,
-   but firmware, gimbal mechanics and dog-hole mission behavior remain future
-   hardware work. No dry-run result is an actuator closed-loop claim.
+6. The new-car protocol software boundary and both direct-gimbal and
+   chassis-heading candidates exist, but firmware, geometry, timing and
+   dog-hole mission behavior remain future hardware work. No dry-run result is
+   a localization or actuator closed-loop claim.
 
 ## Recommended Validation Order
 

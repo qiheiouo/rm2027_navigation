@@ -8,24 +8,33 @@ lio_adapter:
     input_sensor_frame: lio_imu_link
     gimbal_frame: gimbal_yaw_link
     publish_tf: true
-    use_tf_sensor_to_base: true
+
+    # Experimental new-car mode. Existing sensor_tf profiles are unchanged.
+    pose_conversion_mode: chassis_heading_fusion
+    raw_odom_parent_frame_mode: sensor_initial
+    use_tf_sensor_to_base: false
     use_latest_transform: false
     allow_placeholder_fallback: false
-    # Default and existing profiles keep the measured-TF conversion path.
-    pose_conversion_mode: sensor_tf
-    tf_lookup_timeout_sec: 0.05
+
+    tf_lookup_timeout_sec: 0.0
     tf_queue:
       max_size: 100
       max_wait_sec: 0.2
       retry_rate_hz: 200.0
-    backend_child_frame_alias_enabled: false
+
+    backend_child_frame_alias_enabled: true
     backend_child_frame_alias_source: body
     backend_child_frame_alias_target: lio_imu_link
-    # Phase 1 fake/simulation odometry already provides canonical base twist.
-    twist_mode: passthrough
+
+    twist_mode: finite_difference
+    twist_estimator:
+      min_dt_sec: 0.001
+      max_dt_sec: 0.5
+      smoothing_alpha: 0.3
+      max_linear_speed: 5.0
+      max_angular_speed: 20.0
     twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
 
-    # Inactive unless pose_conversion_mode=chassis_heading_fusion.
     heading_fusion:
       heading_topic: /chassis/heading
       derived_gimbal_topic: /gimbal/state_derived
@@ -33,10 +42,19 @@ lio_adapter:
       max_heading_match_dt_sec: 0.03
       yaw_variance: 0.01
       initial_gimbal_yaw_rad: 0.0
+
+      # Gimbal yaw-axis center expressed in base_link. The planned centered
+      # installation uses zero, but measured nonzero offsets are supported.
       gimbal_center_in_base:
         x: 0.0
         y: 0.0
         z: 0.0
+
+      # Keep false until the new car exists and all values below have been
+      # measured at the documented gimbal home pose. Sensor x/y may be
+      # nonzero; the fusion code compensates its rotation about the center
+      # above. The node intentionally
+      # refuses to start while this remains false.
       initial_alignment_confirmed: false
       initial_base_to_sensor:
         x: 0.0
@@ -46,12 +64,6 @@ lio_adapter:
         pitch: 0.0
         yaw: 0.0
 
-    # Fallback placeholder only.
-    # Default operation must use TF from base_link to input_sensor_frame.
-    # If the backend outputs odom->lio_imu_link or odom->mid360_*_frame,
-    # lio_adapter computes:
-    #   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
-    # Do not fake the conversion by only changing child_frame_id.
     input_to_base_placeholder:
       x: 0.0
       y: 0.0

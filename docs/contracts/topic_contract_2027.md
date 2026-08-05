@@ -15,6 +15,8 @@
 | `/base_imu/data` | `sensor_msgs/msg/Imu` | Optional chassis IMU driver | diagnostics, slip detection, future low-weight fusion | Optional chassis-mounted IMU, not the main LIO IMU for gimbal-mounted LiDARs |
 | `/joint_states` | `sensor_msgs/msg/JointState` | `gimbal_state_adapter`, other joint-state owners | `robot_state_publisher` | Must contain `gimbal_yaw_joint` when real gimbal TF is enabled |
 | `/gimbal/state` | `rm_competition_interfaces/msg/GimbalState` | selected `competition_v2` transport or explicit mock | `gimbal_state_adapter`, diagnostics | Timestamped mechanical gimbal yaw relative to chassis, velocity, sequence, online and validity. It is not INS world yaw |
+| `/chassis/heading` | `rm_competition_interfaces/msg/ChassisHeadingState` | selected `competition_v2` transport or explicit mock | optional `lio_adapter` heading-fusion mode, diagnostics | Lower-controller world yaw, rate, MCU time, sequence, reset counter and boot identity. Consumers use heading deltas unless frames are explicitly aligned |
+| `/gimbal/state_derived` | `rm_competition_interfaces/msg/GimbalState` | `lio_adapter` only in explicit heading-fusion mode | `gimbal_state_adapter`, diagnostics | Derived mechanical yaw candidate. It is mutually exclusive with direct `/gimbal/state` as the joint-state source |
 | `/odometry/fast_lio_raw` | `nav_msgs/msg/Odometry` | selected LIO backend | `lio_adapter` | Backend-private odometry input. Phase 2A FAST-LIO Multi uses `frame_id=odom`, hard-coded `child_frame_id=body`; it is never consumed directly by Nav2 |
 | `/odometry/lio` | `nav_msgs/msg/Odometry` | `lio_adapter` | Nav2, debug, optional fusion | LIO odometry. `frame_id=odom`, `child_frame_id=base_link`; twist is expressed in `base_link`. FAST-LIO Phase 2B estimates it from consecutive canonical base poses |
 | `/localization/scan` | `sensor_msgs/msg/LaserScan` | selected native scan or explicit PointCloud2 projection | AMCL 2D backend | Planar localization observation; separate from costmap obstacle input |
@@ -129,9 +131,12 @@ Phase 2A uses `/fast_lio/_quarantine/tf` and
 broadcasts. They are diagnostic containment topics, not part of the public TF
 contract, and no canonical node may consume them.
 
-## Gimbal State Boundary
+## Gimbal And Chassis-Heading Boundary
 
-The lower controller should provide enough gimbal state for the upper computer to reconstruct `base_link -> gimbal_yaw_link`.
+The preferred contract is enough measured gimbal state for the upper computer
+to reconstruct `base_link -> gimbal_yaw_link`. If a mechanical angle is not
+available, the explicit chassis heading-fusion profile may instead consume
+timestamped chassis world yaw plus FAST-LIO sensor motion.
 
 Required data:
 
@@ -151,6 +156,11 @@ The upper computer should convert lower-controller packets into standard ROS top
 by `gimbal_state_adapter -> /joint_states`. Invalid or stale real input pauses
 joint publication instead of fabricating zero yaw. Per-point cloud deskew and
 moving-gimbal LIO compensation remain separate new-car work.
+
+The alternative uses `ChassisHeadingState -> lio_adapter ->
+/gimbal/state_derived`. Direct and derived gimbal topics must never drive the
+same joint simultaneously. Its startup, reset and yaw-axis geometry constraints
+are defined in `docs/chassis_heading_lio_fusion.md`.
 
 ## Serial And Referee Boundaries
 
