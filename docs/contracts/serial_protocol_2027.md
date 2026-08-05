@@ -164,3 +164,21 @@ Wheel-derived twist is optional feedback for diagnostics, slip detection, or fut
 No serial-related module may publish localization TF or call Nav2 directly.
 Publishing the untrusted raw operator target does not transfer navigation-goal
 ownership to the serial driver.
+
+## Competition V2 Extension
+
+The proposed new-car protocol is isolated as the explicit `competition_v2`
+profile. It does not reuse the historical 17-byte payload and does not change
+either legacy profile. Its envelope contains `RM` magic, version 2, message
+type, bounded payload length, per-type sequence, explicit little-endian payload
+and CRC16/Modbus over version through payload.
+
+Separate messages cover high-rate chassis velocity, desired posture requests,
+posture ACK/actual/fault state, relative mechanical gimbal yaw, normalized
+referee state, raw operator navigation targets and heartbeat/capabilities.
+Vision pursuit remains an upper-computer ROS path and has no serial message.
+
+The C++ codec, lower-controller C reference, mock lower controller and
+no-hardware ROS loop are implemented. The profile is not selected by old-car
+launches and is not new-car hardware-accepted. Full byte layouts, timeout and
+restart rules are in `docs/competition_v2_protocol.md`.

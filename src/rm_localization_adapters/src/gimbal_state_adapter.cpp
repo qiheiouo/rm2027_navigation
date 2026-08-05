@@ -1,12 +1,11 @@
-#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "builtin_interfaces/msg/time.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "rm_competition_interfaces/msg/gimbal_state.hpp"
 #include "sensor_msgs/msg/joint_state.hpp"
 
 class GimbalStateAdapter : public rclcpp::Node
@@ -27,13 +26,17 @@ public:
       RCLCPP_WARN(get_logger(), "publish_rate_hz must be positive. Falling back to 50 Hz.");
       publish_rate_hz_ = 50.0;
     }
+    if (stale_timeout_sec_ < 0.0) {
+      RCLCPP_WARN(get_logger(), "stale_timeout_sec must not be negative. Falling back to 0.2 s.");
+      stale_timeout_sec_ = 0.2;
+    }
 
     joint_pub_ = create_publisher<sensor_msgs::msg::JointState>(output_topic_, 10);
 
     if (use_input_) {
-      joint_sub_ = create_subscription<sensor_msgs::msg::JointState>(
+      gimbal_sub_ = create_subscription<rm_competition_interfaces::msg::GimbalState>(
         input_topic_, 10,
-        [this](const sensor_msgs::msg::JointState::SharedPtr msg) {
+        [this](const rm_competition_interfaces::msg::GimbalState::SharedPtr msg) {
           handleInput(*msg);
         });
     }
@@ -45,36 +48,56 @@ public:
         publishJointState();
       });
 
-    RCLCPP_WARN(
-      get_logger(),
-      "Phase 1 skeleton: publishing %s on %s. Real hardware must provide "
-      "timestamped gimbal yaw before rotating-gimbal localization is accepted.",
-      joint_name_.c_str(), output_topic_.c_str());
+    if (use_input_) {
+      RCLCPP_INFO(
+        get_logger(),
+        "Real gimbal input mode: %s -> %s[%s]. Invalid or stale input pauses output.",
+        input_topic_.c_str(), output_topic_.c_str(), joint_name_.c_str());
+    } else {
+      RCLCPP_WARN(
+        get_logger(),
+        "Placeholder gimbal mode: publishing fixed %.3f rad on %s[%s].",
+        placeholder_yaw_rad_, output_topic_.c_str(), joint_name_.c_str());
+    }
   }
 
 private:
-  void handleInput(const sensor_msgs::msg::JointState & msg)
+  void handleInput(const rm_competition_interfaces::msg::GimbalState & msg)
   {
-    const auto it = std::find(msg.name.begin(), msg.name.end(), joint_name_);
-    if (it == msg.name.end()) {
+    if (!msg.valid || !msg.online) {
+      have_valid_input_ = false;
       RCLCPP_WARN_THROTTLE(
         get_logger(), *get_clock(), 5000,
-        "Input %s does not contain joint '%s'.",
-        input_topic_.c_str(), joint_name_.c_str());
+        "Input %s reports invalid or offline gimbal state.", input_topic_.c_str());
+      return;
+    }
+    if (!std::isfinite(msg.relative_yaw_rad) || !std::isfinite(msg.yaw_rate_rad_s)) {
+      have_valid_input_ = false;
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 5000,
+        "Input %s has non-finite gimbal state.", input_topic_.c_str());
+      return;
+    }
+    if (msg.header.stamp.sec == 0 && msg.header.stamp.nanosec == 0) {
+      have_valid_input_ = false;
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 5000,
+        "Input %s has a zero sample timestamp.", input_topic_.c_str());
+      return;
+    }
+    const rclcpp::Time sample_stamp(msg.header.stamp, get_clock()->get_clock_type());
+    const double sample_age = (now() - sample_stamp).seconds();
+    if (sample_age < -stale_timeout_sec_ || sample_age > stale_timeout_sec_) {
+      have_valid_input_ = false;
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 5000,
+        "Input %s sample age %.3f s exceeds the freshness window.",
+        input_topic_.c_str(), sample_age);
       return;
     }
 
-    const auto index = static_cast<std::size_t>(std::distance(msg.name.begin(), it));
-    if (index >= msg.position.size() || !std::isfinite(msg.position[index])) {
-      RCLCPP_WARN_THROTTLE(
-        get_logger(), *get_clock(), 5000,
-        "Input joint '%s' has no finite position.", joint_name_.c_str());
-      return;
-    }
-
-    latest_yaw_rad_ = msg.position[index];
-    latest_velocity_rad_s_ =
-      index < msg.velocity.size() && std::isfinite(msg.velocity[index]) ? msg.velocity[index] : 0.0;
+    latest_yaw_rad_ = msg.relative_yaw_rad;
+    latest_velocity_rad_s_ = msg.yaw_rate_rad_s;
     latest_input_stamp_msg_ = msg.header.stamp;
     latest_input_received_time_ = now();
     have_valid_input_ = true;
@@ -93,10 +116,15 @@ private:
         yaw_velocity_rad_s = latest_velocity_rad_s_;
         using_input = true;
       } else {
+        have_valid_input_ = false;
         RCLCPP_WARN_THROTTLE(
           get_logger(), *get_clock(), 5000,
-          "Gimbal input is stale for %.3f s. Publishing placeholder yaw.", age);
+          "Gimbal input is stale for %.3f s. Joint-state publication is paused.", age);
       }
+    }
+
+    if (use_input_ && !using_input) {
+      return;
     }
 
     sensor_msgs::msg::JointState joint_state;
@@ -125,7 +153,7 @@ private:
   rclcpp::Time latest_input_received_time_;
   bool have_valid_input_ = false;
 
-  rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_sub_;
+  rclcpp::Subscription<rm_competition_interfaces::msg::GimbalState>::SharedPtr gimbal_sub_;
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_pub_;
   rclcpp::TimerBase::SharedPtr timer_;
 };

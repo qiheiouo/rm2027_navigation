@@ -14,7 +14,7 @@
 | `/livox/lio_imu` | `sensor_msgs/msg/Imu` | `imu_frame_adapter` | LIO backend | Canonical MID360 internal IMU used as the main LIO IMU. `header.frame_id=lio_imu_link` |
 | `/base_imu/data` | `sensor_msgs/msg/Imu` | Optional chassis IMU driver | diagnostics, slip detection, future low-weight fusion | Optional chassis-mounted IMU, not the main LIO IMU for gimbal-mounted LiDARs |
 | `/joint_states` | `sensor_msgs/msg/JointState` | `gimbal_state_adapter`, other joint-state owners | `robot_state_publisher` | Must contain `gimbal_yaw_joint` when real gimbal TF is enabled |
-| `/gimbal/state` | `sensor_msgs/msg/JointState` or documented future interface | `gimbal_state_adapter` | diagnostics, `lio_adapter` if needed | Gimbal yaw angle, optional yaw velocity, timestamp, and validity information |
+| `/gimbal/state` | `rm_competition_interfaces/msg/GimbalState` | selected `competition_v2` transport or explicit mock | `gimbal_state_adapter`, diagnostics | Timestamped mechanical gimbal yaw relative to chassis, velocity, sequence, online and validity. It is not INS world yaw |
 | `/odometry/fast_lio_raw` | `nav_msgs/msg/Odometry` | selected LIO backend | `lio_adapter` | Backend-private odometry input. Phase 2A FAST-LIO Multi uses `frame_id=odom`, hard-coded `child_frame_id=body`; it is never consumed directly by Nav2 |
 | `/odometry/lio` | `nav_msgs/msg/Odometry` | `lio_adapter` | Nav2, debug, optional fusion | LIO odometry. `frame_id=odom`, `child_frame_id=base_link`; twist is expressed in `base_link`. FAST-LIO Phase 2B estimates it from consecutive canonical base poses |
 | `/localization/scan` | `sensor_msgs/msg/LaserScan` | selected native scan or explicit PointCloud2 projection | AMCL 2D backend | Planar localization observation; separate from costmap obstacle input |
@@ -30,16 +30,19 @@
 | `/localization/global_pose` | `geometry_msgs/msg/PoseWithCovarianceStamped` | selected global localization backend | `map_odom_from_global_pose` | Timestamped global robot pose with `frame_id=map`; backends must not publish canonical TF directly |
 | `/localization/map_to_odom` | `geometry_msgs/msg/TransformStamped` | `map_odom_from_global_pose` | diagnostics, validation | Inspectable copy of the accepted canonical correction; the same node owns dynamic `map -> odom` |
 | `/localization/global_localization_valid` | `std_msgs/msg/Bool` | `map_odom_from_global_pose` | diagnostics, future safety/mission layer | Latched validity of the current correction; false before the first valid match and after reset/time reset |
-| `/cmd_vel` | `geometry_msgs/msg/Twist` | Nav2 | `rm_chassis_interface` | Commanded chassis velocity in `base_link` |
+| `/cmd_vel` | `geometry_msgs/msg/Twist` | Nav2 | selected chassis/serial transport | Commanded chassis velocity in `base_link` |
 | `/chassis/twist_raw` | `geometry_msgs/msg/TwistWithCovarianceStamped` | `rm_chassis_interface` | diagnostics, slip detection, future low-weight fusion | Chassis feedback velocity, not the main localization source |
 | `/chassis/wheel_states_raw` | `sensor_msgs/msg/JointState` | future `rm_chassis_interface` feedback path | chassis kinematics, diagnostics | Proposed four-wheel raw feedback topic; serial wire layout is not yet confirmed |
 | `/chassis/mode_raw` | `rm_competition_interfaces/msg/ChassisMode` | future lower-controller receive adapter | `chassis_mode_gate` | Untrusted timestamped authority candidate |
 | `/chassis/mode` | `rm_competition_interfaces/msg/ChassisMode` | `chassis_mode_gate` | mission/BT, readiness monitor | Fresh, internally consistent manual/autonomous/emergency authority state |
 | `/chassis/mode_valid` | `std_msgs/msg/Bool` | `chassis_mode_gate` | diagnostics | Latched freshness and consistency of chassis authority input |
-| `/referee/state_raw` | `rm_competition_interfaces/msg/RefereeState` | old-car serial feedback adapter or explicit mock | `referee_state_gate` | Untrusted normalized referee candidate; never consumed directly by mission logic |
+| `/referee/state_raw` | `rm_competition_interfaces/msg/RefereeState` | selected serial feedback adapter or explicit mock | `referee_state_gate` | Untrusted normalized referee/robot candidate, including uninterpreted diagnostic flags when available; never consumed directly by mission logic |
 | `/referee/state` | `rm_competition_interfaces/msg/RefereeState` | `referee_state_gate` | mission/BT, diagnostics | Fresh, range-checked competition state; not a navigation command |
 | `/referee/state_valid` | `std_msgs/msg/Bool` | `referee_state_gate` | mission/BT, diagnostics | Latched referee freshness and validation result |
 | `/operator/navigation_target_raw` | `rm_competition_interfaces/msg/OperatorNavigationTarget` | optional serial feedback adapter | future coordinate/command gate, diagnostics | Raw untrusted target coordinates with explicit coordinate-system enum. It is not a Nav2 goal and grants no motion authority |
+| `/robot/posture/request` | `rm_competition_interfaces/msg/PostureRequest` | future mission/posture task | `competition_v2_transport_node` | Desired one-of-six posture with command ID; independent of `/cmd_vel` |
+| `/robot/posture/state` | `rm_competition_interfaces/msg/PostureState` | `competition_v2_transport_node` | future mission/posture task, diagnostics | Target/actual posture, current-session ACK match, completion, transition and fault state |
+| `/serial/connection_state` | `rm_competition_interfaces/msg/SerialConnectionState` | `competition_v2_transport_node` | readiness, diagnostics | Heartbeat freshness, compatibility, peer boot/capabilities and parser counters |
 | `/perception/target_track` | `rm_competition_interfaces/msg/TargetTrack` | armor/target perception adapter | pursuit boundary | Timestamped target estimate with frame, covariance, velocity, confidence and validity |
 | `/mission/pursuit_goal` | `geometry_msgs/msg/PoseStamped` | `pursuit_goal_planner` | competition mission/BT | Validated standoff candidate in `map`; it is not sent to Nav2 without mission authority |
 | `/mission/pursuit_goal_valid` | `std_msgs/msg/Bool` | `pursuit_goal_planner` | competition mission/BT, diagnostics | Latched freshness/quality/TF validity of the pursuit candidate |
@@ -143,6 +146,11 @@ Recommended data:
 3. hardware-side sample time in microseconds or milliseconds.
 
 The upper computer should convert lower-controller packets into standard ROS topics through `rm_serial_driver` and a future `gimbal_state_adapter`. Serial, chassis, and referee modules must not publish localization TF directly.
+
+`competition_v2` implements this boundary as a custom `GimbalState` followed
+by `gimbal_state_adapter -> /joint_states`. Invalid or stale real input pauses
+joint publication instead of fabricating zero yaw. Per-point cloud deskew and
+moving-gimbal LIO compensation remain separate new-car work.
 
 ## Serial And Referee Boundaries
 

@@ -3,12 +3,13 @@
 <package format="3">
   <name>rm_serial_driver</name>
   <version>0.1.0</version>
-  <description>Versioned chassis command and old-car referee feedback transport.</description>
+  <description>Legacy and competition-v2 serial protocol codecs and transports.</description>
   <maintainer email="todo@example.com">RM Navigation</maintainer>
   <license>Proprietary</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <depend>builtin_interfaces</depend>
   <depend>geometry_msgs</depend>
   <depend>rclcpp</depend>
   <depend>rm_competition_interfaces</depend>
@@ -16,8 +17,13 @@
 
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
+  <exec_depend>rm_localization_adapters</exec_depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>ament_index_python</test_depend>
+  <test_depend>rclpy</test_depend>
+  <test_depend>sensor_msgs</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

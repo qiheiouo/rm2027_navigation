@@ -5,7 +5,9 @@ gimbal_state_adapter:
     joint_name: gimbal_yaw_joint
 
     # Phase 1 placeholder mode.
-    # Real hardware must set use_input=true and feed timestamped gimbal yaw.
+    # Real hardware must set use_input=true and feed a timestamped
+    # rm_competition_interfaces/GimbalState. Invalid or stale input stops
+    # joint-state publication; it never falls back to a fake zero angle.
     use_input: false
     placeholder_yaw_rad: 0.0
     publish_rate_hz: 50.0

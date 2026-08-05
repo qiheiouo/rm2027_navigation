@@ -18,6 +18,11 @@ lower controller HPM feedback
 Only the first two arrows exist. The serial driver never calls Nav2 and never
 publishes a mission goal.
 
+The parallel `competition_v2` profile now provides a formal raw packet with
+command ID, valid bit, coordinate and alliance enums, optional yaw, MCU sample
+time and TTL. It still stops at `/operator/navigation_target_raw`; unresolved
+coordinate and authority rules are intentionally not bypassed.
+
 ## Message Contract
 
 `rm_competition_interfaces/msg/OperatorNavigationTarget` carries:
@@ -27,6 +32,8 @@ publishes a mission goal.
 - the robot ID from the same feedback frame;
 - an explicit coordinate-system enum;
 - `transport_valid`.
+- command ID, optional yaw, alliance, MCU sample time and TTL when supplied by
+  `competition_v2` (legacy HPM feedback leaves unavailable fields at defaults).
 
 `transport_valid` means only that the CRC-framed packet decoded, the robot ID
 is nonzero and both coordinates are finite. It does not mean that the target
@@ -47,6 +54,10 @@ and operator-client owners:
 5. how a new command is distinguished from a repeated feedback sample;
 6. whether a command ID, edge bit, validity bit or timeout is available;
 7. whether the target includes a desired yaw.
+
+For competition v2, `(0,0)` is explicitly valid and command absence is encoded
+by validity/command freshness. Field origin, axes, alliance mirroring, bounds
+and mission authorization remain unresolved and block Nav2 conversion.
 
 Historical 2026 code converted red coordinates by subtracting `(5.5, 7.5)`
 and blue coordinates by first mirroring inside a `28 x 15` field. This is useful
