@@ -39,9 +39,8 @@ through `nav2_costmap_2d::ObstacleLayer` with `inf_is_valid: true`. The scan is
 projected from `/livox/left/pointcloud_filtered` by
 `rm_mid360_driver_bridge/pointcloud_to_laserscan_node`.
 `config/nav2_old_car_2026_left_stvl.yaml` is an experiment-only profile for
-dynamic-obstacle residuals. It keeps the default old-car controller, planner,
-serial, behavior-tree, footprint, inflation, and global-costmap policy, but
-replaces the local VoxelLayer with
+dynamic-obstacle residuals. It keeps the default old-car controller, serial,
+and rectangular footprint, and replaces the local VoxelLayer with
 `spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer`. It is enabled only by
 explicitly passing that file through `nav2_params:=...`. The project Docker
 image installs the Humble binary package
@@ -53,18 +52,46 @@ that are not part of this old-car Humble baseline.
 `config/nav2_old_car_2026_dual_stvl.yaml` is the explicit counterpart for the
 optional `/points/obstacles_fused` stream. It keeps localization on the left
 MID360 and is never selected automatically.
+
+The old-car STVL profiles use the complete static occupancy map in the global
+costmap and add a `nav2_costmap_2d::ObstacleLayer` fed by
+`/localization/scan`. That scan is the existing full-horizontal AMCL projection
+from the filtered left MID360; empty bins are `+inf`, so `inf_is_valid` gives
+the global layer explicit clearing rays. A two-second observation window
+accumulates sparse per-frame wall hits, and the 6 m marking/clearing horizons
+are kept equal so a still-visible obstacle cannot clear itself after the robot
+moves away. This lets Navfn select a different route when a persistent observed
+obstacle blocks the static-map route without putting raw PointCloud2 into the
+global costmap. The global dynamic layer is an AMCL-mode capability: a
+GICP-only launch that does not publish
+`/localization/scan` retains static-map planning but cannot dynamically reroute.
+The same profiles select
+`behavior_trees/old_car_replan_on_follow_failure.xml` as Nav2's internal
+NavigateToPose tree. It computes one path and retains it while `FollowPath` is
+running. A goal change cancels that path and plans the new goal; a controller
+failure stops, waits one second for fresh observations, and then replans. It
+does not periodically invoke `IsPathValid`: on Humble, Navfn accepts
+center-point paths that the service may immediately reject with the full
+footprint, especially on the current dirty occupancy map. Automatic Spin,
+BackUp, and costmap clearing are excluded, so a failed plan cannot cause an
+unexpected recovery motion or erase a real dynamic obstacle. This tree is
+separate from the upper-level competition mission XML.
+The matching controller profiles use `PoseProgressChecker`: within four
+seconds the chassis must translate at least 0.15 m or rotate at least 0.50 rad.
+This is deliberately above the small obstacle-front oscillation that previously
+kept the 0.05 m SimpleProgressChecker alive indefinitely. A larger oscillation
+can still count as progress and remains a field-test boundary rather than an
+MPPI parameter change.
 `rviz/old_car_2026.rviz` is the matching visualization profile for old-car
 debugging. It shows TF, RobotModel, left MID360 point cloud, LIO odometry,
 local/global costmaps, and Nav2 plans.
 In this RViz profile, `Global Plan` is `/plan` from `planner_server` and the
-global costmap. It may cross obstacles that exist only in the local costmap.
-Use `/local_plan` or MPPI visualization, when available, to inspect controller
-local intent.
-For the old-car profile, dynamic MID360 PointCloud2 is intentionally used only
-by the local costmap, and it enters through the filtered topic above. The global
-costmap does not subscribe to the raw point cloud because PointCloud2 does not
-provide LaserScan-style max-range free rays, and feeding it globally caused
-self/ground ghosts to persist while the robot moved.
+global costmap. For the STVL profiles it includes obstacles projected into
+`/localization/scan`; `/local_plan` or MPPI visualization still shows the
+controller's local intent. Dynamic MID360 PointCloud2 remains local-only. The
+global costmap deliberately consumes the clearing-capable LaserScan projection
+instead, because feeding PointCloud2 globally caused self/ground ghosts to
+persist while the robot moved.
 
 Both Phase 1.5 LaserScan profiles enable `inf_is_valid` so Gazebo max-range
 returns can clear cells previously occupied by moving simulated obstacles.

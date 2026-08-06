@@ -1,0 +1,30 @@
+<!--
+  Old-car event-driven NavigateToPose policy.
+
+  Plan once and retain the same path while FollowPath is running. Recompute
+  only after FollowPath reports failure or the navigation goal changes. This
+  avoids periodic route replacement and avoids rejecting every Navfn path via
+  Humble planner_server's stricter full-footprint IsPathValid service.
+
+  Recovery is intentionally motionless: no Spin, BackUp, or costmap clearing.
+  A failed attempt stops, waits for fresh observations, and plans again.
+-->
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <RecoveryNode number_of_retries="6" name="EventDrivenNavigateRecovery">
+      <ReactiveSequence name="ReplanOnGoalUpdateOrFollowFailure">
+        <Inverter>
+          <GlobalUpdatedGoal/>
+        </Inverter>
+        <Sequence name="PlanOnceAndFollow">
+          <ComputePathToPose
+            goal="{goal}"
+            path="{path}"
+            planner_id="GridBased"/>
+          <FollowPath path="{path}" controller_id="FollowPath"/>
+        </Sequence>
+      </ReactiveSequence>
+      <Wait name="WaitForFreshObservation" wait_duration="1"/>
+    </RecoveryNode>
+  </BehaviorTree>
+</root>
