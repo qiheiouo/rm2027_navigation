@@ -166,6 +166,12 @@ See:
 - `docs/validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md`
 - `docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`
 - `docs/validation/old_car_three_point_spin_field_test_20260722.md`
+- `docs/navigation_integrity/design_audit.md`
+- `docs/navigation_integrity/localization_verifier_design.md`
+- `docs/navigation_integrity/regression_test_design.md`
+- `docs/navigation_integrity/mission_stress_audit.md`
+- `docs/navigation_integrity/field_validation_plan.md`
+- `docs/navigation_integrity/implementation_report.md`
 - `docs/contracts/tf_contract_2027.md`
 - `docs/contracts/topic_contract_2027.md`
 - `docs/contracts/chassis_contract_2027.md`
@@ -199,5 +205,7 @@ See:
 - `rm_competition_mission`: safety-gated BehaviorTree.CPP mission selection and
   the sole mission-level Nav2 action client.
 - `rm_system_monitor`: read-only navigation/mission readiness summary.
+- `rm_navigation_integrity`: default-off shadow localization evidence monitor
+  and raw-metric regression evaluator; it owns no TF, goal or command output.
 - `fast_lio_multi`: external GPL-2.0 FAST-LIO Multi ROS2 submodule; disabled by default and consumed only through `rm_lio_bringup`.
 - `livox_ros_driver2_humble`: external MIT-licensed Livox ROS2 Humble driver submodule, recorded for MID360 hardware integration.

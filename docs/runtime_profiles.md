@@ -270,3 +270,26 @@ remote switch remains the physical chassis authority. This requires both
 `allow_field_debug_inputs:=true` and `use_operator_chassis_authority:=true`;
 the defaults remain false. Follow `docs/field_debug_competition_tutorial.md`
 rather than adapting the no-hardware command to a real robot.
+
+## Navigation Integrity Shadow
+
+The integrity monitor is an independent, default-off observer. It is not part
+of the competition launch authority chain and does not publish TF, accepted
+localization, goals, or velocity commands.
+
+Start it only after the selected localization profile is already publishing
+the canonical inputs:
+
+```bash
+ros2 launch rm_navigation_integrity localization_integrity_shadow.launch.py \
+  enabled:=true \
+  profile:=old_car_2026 \
+  metrics_output_path:=/tmp/navigation_integrity/run.metrics.jsonl
+```
+
+It consumes the parameterized static map, `/localization/scan`,
+`/localization/global_pose`, `/odometry/lio`, and timestamped sensor TF. Its
+`GOOD/SUSPECT/REJECT/UNKNOWN` status on `/diagnostics` is shadow evidence only.
+The launch rejects no localization result and grants no motion authority.
+Thresholds remain provisional until normal and failed field runs have been
+compared. See `docs/navigation_integrity/field_validation_plan.md`.

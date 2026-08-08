@@ -38,6 +38,7 @@ contracts take precedence over historical behavior.
 | `rm_localization_adapters` | Canonical LIO odometry, gimbal/IMU/frame adapters and stubs | Sole `odom -> base_link` owner through `lio_adapter` | `docs/contracts/tf_contract_2027.md`, `docs/phase2b_twist_validation.md` |
 | `rm_relocalization_bridge` | AMCL/generic global-pose gates and canonical map/odom bridge | Sole dynamic `map -> odom` owner in external-pose mode | `docs/phase2c_relocalization_boundary.md`, `docs/phase2j_2d_relocalization.md` |
 | `rm_gicp_relocalization` | Seeded PCD registration backend | Publishes candidate pose and diagnostics, never TF | `docs/phase2j_3d_relocalization.md` |
+| `rm_navigation_integrity` | Shadow pose/odom/scan-map integrity evidence and regression summaries | Diagnostics only; no gate or TF ownership | `docs/navigation_integrity/` |
 
 ### Navigation, Maps And Runtime Composition
 
@@ -59,6 +60,10 @@ contracts take precedence over historical behavior.
 | `rm_pursuit` | Validated target-to-standoff-goal candidate | Real producer deferred | `docs/phase3b_pursuit_boundary.md` |
 | `rm_competition_mission` | Safety-gated mission selection and sole mission Nav2 action client | Disabled by default | `docs/phase3c_competition_mission_bt.md`, `docs/old_car_competition_minimum_behavior.md` |
 | `rm_system_monitor` | Read-only navigation and mission readiness summary | Diagnostic only | `docs/phase3d_competition_bringup.md` |
+
+`rm_system_monitor` answers whether required runtime inputs are present.
+`rm_navigation_integrity` separately answers whether timestamped localization
+evidence agrees. Neither monitor grants mission or motion authority.
 
 ## Current Old-Car Evidence
 
