@@ -113,3 +113,25 @@ ros2 run rm_map_tools verify_map_server /path/to/map.bundle.yaml --timeout 10
 This command is read-only. A successful comparison proves serialization and
 reload consistency; it does not prove obstacle truth, localization quality, or
 approval readiness.
+
+## Experimental Ray-Evidence Cleanup
+
+`ray_evidence_cleanup` is an optional offline prototype inspired by the
+HWSentryNav26 3D-DDA cleanup. It requires per-frame sensor origins and
+endpoints in a strict map-frame JSONL sidecar; a final merged PCD alone is not
+enough to reconstruct free-space rays.
+
+```bash
+ros2 run rm_map_tools ray_evidence_cleanup \
+  --input-pcd /maps/source.pcd \
+  --observations /evidence/rays.jsonl \
+  --report /tmp/ray_cleanup/report.json \
+  --output-pcd /tmp/ray_cleanup/cleaned_candidate.pcd \
+  --write-candidate
+```
+
+The command refuses existing outputs and never changes a bundle, PGM,
+deployment manifest, or approval state. Phase 2I does not currently record the
+required sidecar, so real-map use remains blocked until an explicitly enabled,
+bounded recorder is designed and validated. See
+`docs/hwsentry_migration/offline_map_cleanup.md`.

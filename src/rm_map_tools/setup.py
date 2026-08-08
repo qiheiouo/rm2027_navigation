@@ -47,6 +47,7 @@ setup(
             "pointcloud_sampler_node = rm_map_tools.pointcloud_sampler_node:main",
             "analyze_map_quality = rm_map_tools.analyze_map_quality:main",
             "resolve_map_bundle = rm_map_tools.resolve_map_bundle:main",
+            "ray_evidence_cleanup = rm_map_tools.ray_evidence_cleanup:main",
             "sweep_map_projection = rm_map_tools.sweep_map_projection:main",
             "validate_map_bundle = rm_map_tools.validate_map_bundle:main",
             "verify_map_server = rm_map_tools.verify_map_server:main",
