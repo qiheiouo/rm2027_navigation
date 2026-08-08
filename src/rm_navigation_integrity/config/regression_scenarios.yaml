@@ -1,0 +1,95 @@
+schema_version: 1
+notes:
+  - Definitions describe evidence requirements; they do not invent pass/fail thresholds.
+  - Platform-specific motion values belong in a separately reviewed field profile.
+scenarios:
+  T01:
+    name: stationary localization stability
+    automation: integrity_metrics
+    required_topics: [/map, /localization/scan, /localization/global_pose, /odometry/lio, /tf, /tf_static]
+    required_metrics: [global_translation_jump_m, global_yaw_jump_rad, scan_map_agreement, scan_rate_hz]
+    expected: no sustained localization inconsistency while the robot remains stationary
+  T02:
+    name: low-speed straight motion
+    automation: integrity_metrics_and_field_observation
+    required_topics: [/localization/scan, /localization/global_pose, /odometry/lio, /cmd_vel]
+    required_metrics: [correction_translation_rate_mps, scan_map_agreement]
+    expected: continuous odometry and supported global poses
+  T03:
+    name: ordinary turn
+    automation: integrity_metrics_and_field_observation
+    required_topics: [/localization/scan, /localization/global_pose, /odometry/lio, /cmd_vel]
+    required_metrics: [correction_yaw_rate_rps, scan_map_agreement]
+    expected: no persistent suspect event during ordinary turning
+  T04:
+    name: ordinary stationary spin
+    automation: integrity_metrics_and_field_observation
+    required_topics: [/localization/scan, /localization/global_pose, /odometry/lio, /cmd_vel]
+    required_metrics: [global_yaw_jump_rad, correction_translation_jump_m, scan_map_agreement]
+    expected: rotation does not create a false translation correction
+  T05:
+    name: high-speed stationary spin
+    automation: integrity_metrics_and_field_observation
+    required_topics: [/localization/scan, /localization/global_pose, /localization/map_to_odom, /odometry/lio, /tf, /tf_static]
+    required_metrics: [global_translation_jump_m, global_yaw_jump_rad, correction_translation_m, correction_yaw_rad, correction_translation_jump_m, correction_yaw_jump_rad, scan_map_agreement]
+    expected: compare normal and failed localization evidence without automatic gating
+  T06:
+    name: obstacle suddenly appears
+    automation: future_costmap_extractor
+    required_topics: [/local_costmap/costmap, /local_costmap/costmap_updates, /odometry/lio]
+    required_metrics: [obstacle_mark_latency_sec]
+    expected: obstacle becomes represented in the local costmap
+  T07:
+    name: obstacle removal and costmap clearing
+    automation: future_costmap_extractor
+    required_topics: [/local_costmap/costmap, /local_costmap/costmap_updates, /odometry/lio]
+    required_metrics: [costmap_clearing_time_sec]
+    expected: stale dynamic obstacle cost decays after the observation disappears
+  T08:
+    name: crossing dynamic obstacle
+    automation: field_and_bag_analysis
+    required_topics: [/local_costmap/costmap, /plan, /local_plan, /cmd_vel, /odometry/lio]
+    required_metrics: [goal_result, navigation_duration_sec]
+    expected: avoid the crossing obstacle without stale blockage
+  T09:
+    name: rapid sequential navigation goals
+    automation: future_action_probe
+    required_topics: [/navigate_to_pose/_action/status, /mission/state]
+    required_metrics: [stale_goal_result_count]
+    expected: only the latest authorized goal remains active
+  T10:
+    name: action cancel
+    automation: future_action_probe
+    required_topics: [/navigate_to_pose/_action/status, /cmd_vel, /mission/state]
+    required_metrics: [cancel_latency_sec, post_cancel_nonzero_cmd_count]
+    expected: canceled goals do not resume and command output returns to zero
+  T11:
+    name: event-driven replan
+    automation: field_and_bag_analysis
+    required_topics: [/plan, /local_costmap/costmap, /global_costmap/costmap, /mission/state]
+    required_metrics: [replan_latency_sec]
+    expected: follow failure causes a new plan without periodic replan churn
+  T12:
+    name: recovery behavior
+    automation: field_and_bag_analysis
+    required_topics: [/behavior_tree_log, /navigate_to_pose/_action/status, /cmd_vel]
+    required_metrics: [recovery_duration_sec, goal_result]
+    expected: recovery cannot revive an invalidated path or goal
+  T13:
+    name: patrol preempted by home
+    automation: mission_state_and_action_probe
+    required_topics: [/mission/state, /navigate_to_pose/_action/status]
+    required_metrics: [preemption_latency_sec, stale_goal_result_count]
+    expected: home supersedes patrol and stale patrol callbacks are ignored
+  T14:
+    name: localization scan dropout
+    automation: integrity_metrics
+    required_topics: [/diagnostics, /localization/global_pose, /odometry/lio]
+    required_metrics: [state_counts, reason_counts]
+    expected: integrity state becomes UNKNOWN or SUSPECT with an explicit scan reason
+  T15:
+    name: transient global localization failure
+    automation: integrity_metrics
+    required_topics: [/diagnostics, /localization/global_localization_valid, /odometry/lio]
+    required_metrics: [state_counts, reason_counts]
+    expected: invalid or stale localization is visible without fabricated TF fallback

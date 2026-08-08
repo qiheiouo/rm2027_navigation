@@ -1,0 +1,45 @@
+localization_integrity:
+  ros__parameters:
+    mode: shadow
+    profile: generic
+    use_sim_time: false
+    map_frame: map
+    odom_frame: odom
+    base_frame: base_link
+    map_topic: /map
+    scan_topic: /localization/scan
+    global_pose_topic: /localization/global_pose
+    odom_topic: /odometry/lio
+    diagnostics_topic: /diagnostics
+    # Diagnostics heartbeat; each accepted global-pose event also publishes.
+    publish_rate_hz: 2.0
+    tf_timeout_sec: 0.05
+    scan_cache_size: 30
+    odom_cache_size: 500
+    occupied_threshold: 65
+    agreement_distance_m: 0.20
+    residual_cap_m: 2.0
+    max_scan_points: 720
+    metrics_output_path: ""
+
+    # Provisional shadow thresholds. They label evidence but grant no authority.
+    # Calibrate them with old-car normal/failure bags before considering a gate.
+    limits.max_global_pose_age_sec: 0.5
+    limits.max_scan_age_sec: 0.5
+    limits.max_pose_scan_dt_sec: 0.15
+    limits.max_pose_odom_dt_sec: 0.05
+    limits.max_tf_scan_dt_sec: 0.05
+    limits.min_valid_scan_points: 30
+    limits.min_scan_map_agreement_warn: 0.45
+    limits.min_scan_map_agreement_reject: 0.20
+    limits.max_scan_map_mean_residual_warn_m: 0.30
+    limits.max_global_translation_jump_warn_m: 0.30
+    limits.max_global_translation_jump_reject_m: 0.75
+    limits.max_global_yaw_jump_warn_rad: 0.60
+    limits.max_global_yaw_jump_reject_rad: 1.20
+    limits.max_correction_translation_jump_warn_m: 0.30
+    limits.max_correction_translation_jump_reject_m: 0.75
+    limits.max_correction_yaw_jump_warn_rad: 0.60
+    limits.max_correction_yaw_jump_reject_rad: 1.20
+    limits.max_correction_translation_rate_warn_mps: 1.50
+    limits.max_correction_yaw_rate_warn_rps: 3.00
