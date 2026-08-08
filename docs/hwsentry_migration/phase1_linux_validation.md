@@ -113,4 +113,3 @@ REAL MAP VALIDATION REQUIRED
 逐项结果、false tracks、确认延迟、ID switches、coasting/deletion、预测误差、
 CPU/RSS/P95 latency、topic/TF 污染检查和日志路径。结论只能是通过、部分通过或
 失败；通过 tracker shadow 不代表允许接入 MPPI。
-
