@@ -1,0 +1,37 @@
+dynamic_obstacle_tracker_shadow:
+  ros__parameters:
+    use_sim_time: false
+    map_topic: /map
+    scan_topic: /local_scan
+    map_frame: map
+    markers_topic: /perception/dynamic_obstacles_shadow/markers
+    diagnostics_topic: /perception/dynamic_obstacles_shadow/diagnostics
+
+    # Endpoints close to static occupied cells are explained by the map.
+    static_distance_threshold: 0.25
+    require_known_free: true
+    occupied_threshold: 65
+
+    cluster_tolerance: 0.20
+    cluster_min_points: 3
+    cluster_max_extent: 1.50
+    tf_timeout_sec: 0.08
+    max_scan_age_sec: 0.40
+    max_future_scan_sec: 0.05
+    show_tentative_tracks: true
+    marker_lifetime_sec: 0.40
+
+    tracker:
+      association_gate: 0.60
+      process_noise: 3.0
+      measurement_noise: 0.08
+      initial_variance: 1.0
+      min_hits_to_confirm: 3
+      tentative_max_misses: 1
+      max_coast_time_sec: 0.60
+
+    prediction:
+      steps: 15
+      dt: 0.10
+      velocity_decay_tau: 1.50
+      max_speed: 3.0
