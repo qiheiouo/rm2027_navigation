@@ -218,6 +218,24 @@ field experiments with unapproved but structurally valid assets, while
 `allow_test` is reserved for synthetic fixtures. The legacy
 `allow_test_map:=true` argument remains as an alias for `allow_test`.
 
+## Dynamic Obstacle Tracking Shadow
+
+The optional HWSentry-inspired tracker is deliberately separate from Nav2:
+
+```bash
+ros2 launch rm_dynamic_obstacle_tracking \
+  dynamic_obstacle_tracking_shadow.launch.py enabled:=true
+```
+
+It compares timestamped `/local_scan` endpoints with `/map`, clusters
+unexplained observations, tracks them with a constant-velocity model, and
+publishes visualization and diagnostics only. The launch defaults to
+`enabled:=false`. It does not modify either costmap, does not publish TF,
+plans, goals, or velocity commands, and is not a competition dependency.
+
+This profile is `SHADOW ONLY`, `LINUX BUILD REQUIRED`, and
+`FIELD VALIDATION REQUIRED`. See `docs/hwsentry_migration/phase1_design.md`.
+
 ## Serial Dry-Run
 
 ```bash

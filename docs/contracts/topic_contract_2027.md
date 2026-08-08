@@ -40,6 +40,8 @@
 | `/referee/state` | `rm_competition_interfaces/msg/RefereeState` | `referee_state_gate` | mission/BT, diagnostics | Fresh, range-checked competition state; not a navigation command |
 | `/referee/state_valid` | `std_msgs/msg/Bool` | `referee_state_gate` | mission/BT, diagnostics | Latched referee freshness and validation result |
 | `/perception/target_track` | `rm_competition_interfaces/msg/TargetTrack` | armor/target perception adapter | pursuit boundary | Timestamped target estimate with frame, covariance, velocity, confidence and validity |
+| `/perception/dynamic_obstacles_shadow/markers` | `visualization_msgs/msg/MarkerArray` | optional dynamic-obstacle shadow tracker | RViz, rosbag | Unstable visualization-only tracks and predictions; never a controller or costmap API |
+| `/perception/dynamic_obstacles_shadow/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | optional dynamic-obstacle shadow tracker | diagnostics, rosbag | Input, extraction, lifecycle and latency evidence; shadow status grants no motion authority |
 | `/mission/pursuit_goal` | `geometry_msgs/msg/PoseStamped` | `pursuit_goal_planner` | competition mission/BT | Validated standoff candidate in `map`; it is not sent to Nav2 without mission authority |
 | `/mission/pursuit_goal_valid` | `std_msgs/msg/Bool` | `pursuit_goal_planner` | competition mission/BT, diagnostics | Latched freshness/quality/TF validity of the pursuit candidate |
 | `/mission/state` | `rm_competition_interfaces/msg/MissionState` | competition mission executor | diagnostics, operator UI | Current mission gate, branch and Nav2-action status; never a chassis command |
@@ -176,6 +178,11 @@ Phase 3 mission or BT may call navigation only through standard Nav2 action inte
 Pursuit, referee, serial and perception nodes provide candidates or state and
 must not call Nav2 independently. Mission disable or any required safety-input
 invalidation must cancel the active mission goal.
+
+The dynamic-obstacle shadow tracker has no navigation authority. Its MarkerArray
+is not a stable prediction interface and must not be consumed by MPPI. A future
+controller integration requires a separately reviewed, timestamped prediction
+message and must preserve the single Nav2 command path.
 
 ## Forbidden Topic Glue
 
