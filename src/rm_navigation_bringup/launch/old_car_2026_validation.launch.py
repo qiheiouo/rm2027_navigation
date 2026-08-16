@@ -42,6 +42,13 @@ def _validate_runtime_modes(context, *args, **kwargs):
         LaunchConfiguration("use_mapping").perform(context).strip().lower()
         in TRUE_VALUES
     )
+    record_ray_observations = (
+        LaunchConfiguration("mapping_record_ray_observations")
+        .perform(context)
+        .strip()
+        .lower()
+        in TRUE_VALUES
+    )
     use_nav2 = (
         LaunchConfiguration("use_nav2").perform(context).strip().lower()
         in TRUE_VALUES
@@ -93,6 +100,10 @@ def _validate_runtime_modes(context, *args, **kwargs):
             "old-car integrated mapping currently requires selected_side:=left "
             "because its verified self-filter profile is left-lidar specific."
         )
+    if record_ray_observations and not use_mapping:
+        raise RuntimeError(
+            "mapping_record_ray_observations requires use_mapping:=true"
+        )
     return []
 
 
@@ -130,6 +141,23 @@ def generate_launch_description():
     mapping_output_root = LaunchConfiguration("mapping_output_root")
     mapping_map_id = LaunchConfiguration("mapping_map_id")
     mapping_revision = LaunchConfiguration("mapping_revision")
+    mapping_record_ray_observations = LaunchConfiguration(
+        "mapping_record_ray_observations"
+    )
+    mapping_ray_sample_period_sec = LaunchConfiguration(
+        "mapping_ray_sample_period_sec"
+    )
+    mapping_ray_min_range = LaunchConfiguration("mapping_ray_min_range")
+    mapping_ray_max_range = LaunchConfiguration("mapping_ray_max_range")
+    mapping_ray_voxel_size = LaunchConfiguration("mapping_ray_voxel_size")
+    mapping_ray_max_frames = LaunchConfiguration("mapping_ray_max_frames")
+    mapping_ray_max_rays_per_frame = LaunchConfiguration(
+        "mapping_ray_max_rays_per_frame"
+    )
+    mapping_ray_max_total_rays = LaunchConfiguration(
+        "mapping_ray_max_total_rays"
+    )
+    mapping_ray_max_bytes = LaunchConfiguration("mapping_ray_max_bytes")
 
     old_description_launch = PathJoinSubstitution([
         FindPackageShare("rm_description"),
@@ -289,6 +317,35 @@ def generate_launch_description():
         DeclareLaunchArgument("mapping_map_id", default_value="old_car_field"),
         DeclareLaunchArgument("mapping_revision", default_value="auto"),
         DeclareLaunchArgument(
+            "mapping_record_ray_observations",
+            default_value="false",
+            description=(
+                "Opt in to bounded offline ray evidence from the verified left "
+                "MID360. It remains disabled by default."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "mapping_ray_sample_period_sec",
+            default_value="0.50",
+            description=(
+                "Old-car ray evidence sampling period. Tune only after the "
+                "two-minute capacity preflight."
+            ),
+        ),
+        DeclareLaunchArgument("mapping_ray_min_range", default_value="0.30"),
+        DeclareLaunchArgument("mapping_ray_max_range", default_value="12.0"),
+        DeclareLaunchArgument("mapping_ray_voxel_size", default_value="0.10"),
+        DeclareLaunchArgument("mapping_ray_max_frames", default_value="10000"),
+        DeclareLaunchArgument(
+            "mapping_ray_max_rays_per_frame", default_value="10000"
+        ),
+        DeclareLaunchArgument(
+            "mapping_ray_max_total_rays", default_value="10000000"
+        ),
+        DeclareLaunchArgument(
+            "mapping_ray_max_bytes", default_value="536870912"
+        ),
+        DeclareLaunchArgument(
             "publish_transformed_registered_cloud",
             default_value="false",
             description=(
@@ -406,6 +463,16 @@ def generate_launch_description():
                 "enable_mapping": "true",
                 "pointcloud_topic": pointcloud_filter_output_topic,
                 "registered_cloud_topic": "/lio/cloud_registered_transformed",
+                "record_ray_observations": mapping_record_ray_observations,
+                "ray_source_frame": "mid360_left_frame",
+                "ray_sample_period_sec": mapping_ray_sample_period_sec,
+                "ray_min_range": mapping_ray_min_range,
+                "ray_max_range": mapping_ray_max_range,
+                "ray_voxel_size": mapping_ray_voxel_size,
+                "ray_max_frames": mapping_ray_max_frames,
+                "ray_max_rays_per_frame": mapping_ray_max_rays_per_frame,
+                "ray_max_total_rays": mapping_ray_max_total_rays,
+                "ray_max_bytes": mapping_ray_max_bytes,
                 "occupancy_topic": "/mapping/projected_map",
                 "map_frame": "map",
                 "base_frame": "base_link",

@@ -21,6 +21,15 @@ FEATURES.add("rviz")     # 注释此行：不启动 RViz
 MAP_OUTPUT_ROOT = "/data/rm27_maps"
 MAP_ID = "old_car_field"
 MAP_REVISION = "auto"
+RECORD_RAY_OBSERVATIONS = False
+RAY_SAMPLE_PERIOD_SEC = "0.50"
+RAY_MIN_RANGE = "0.30"
+RAY_MAX_RANGE = "12.0"
+RAY_VOXEL_SIZE = "0.10"
+RAY_MAX_FRAMES = "10000"
+RAY_MAX_RAYS_PER_FRAME = "10000"
+RAY_MAX_TOTAL_RAYS = "10000000"
+RAY_MAX_BYTES = "536870912"
 # ==================================================================
 
 
@@ -47,6 +56,24 @@ def generate_launch_description():
         DeclareLaunchArgument("output_root", default_value=MAP_OUTPUT_ROOT),
         DeclareLaunchArgument("map_id", default_value=MAP_ID),
         DeclareLaunchArgument("revision", default_value=MAP_REVISION),
+        DeclareLaunchArgument(
+            "record_ray_observations",
+            default_value=_bool_text(RECORD_RAY_OBSERVATIONS),
+        ),
+        DeclareLaunchArgument(
+            "ray_sample_period_sec", default_value=RAY_SAMPLE_PERIOD_SEC
+        ),
+        DeclareLaunchArgument("ray_min_range", default_value=RAY_MIN_RANGE),
+        DeclareLaunchArgument("ray_max_range", default_value=RAY_MAX_RANGE),
+        DeclareLaunchArgument("ray_voxel_size", default_value=RAY_VOXEL_SIZE),
+        DeclareLaunchArgument("ray_max_frames", default_value=RAY_MAX_FRAMES),
+        DeclareLaunchArgument(
+            "ray_max_rays_per_frame", default_value=RAY_MAX_RAYS_PER_FRAME
+        ),
+        DeclareLaunchArgument(
+            "ray_max_total_rays", default_value=RAY_MAX_TOTAL_RAYS
+        ),
+        DeclareLaunchArgument("ray_max_bytes", default_value=RAY_MAX_BYTES),
         LogInfo(msg=(
             "[rm_navigation_launch] 旧车建图入口：只启动显式保留的模块；"
             "Nav2、串口和 mission 始终关闭。"
@@ -66,6 +93,23 @@ def generate_launch_description():
                 "mapping_output_root": LaunchConfiguration("output_root"),
                 "mapping_map_id": LaunchConfiguration("map_id"),
                 "mapping_revision": LaunchConfiguration("revision"),
+                "mapping_record_ray_observations": LaunchConfiguration(
+                    "record_ray_observations"
+                ),
+                "mapping_ray_sample_period_sec": LaunchConfiguration(
+                    "ray_sample_period_sec"
+                ),
+                "mapping_ray_min_range": LaunchConfiguration("ray_min_range"),
+                "mapping_ray_max_range": LaunchConfiguration("ray_max_range"),
+                "mapping_ray_voxel_size": LaunchConfiguration("ray_voxel_size"),
+                "mapping_ray_max_frames": LaunchConfiguration("ray_max_frames"),
+                "mapping_ray_max_rays_per_frame": LaunchConfiguration(
+                    "ray_max_rays_per_frame"
+                ),
+                "mapping_ray_max_total_rays": LaunchConfiguration(
+                    "ray_max_total_rays"
+                ),
+                "mapping_ray_max_bytes": LaunchConfiguration("ray_max_bytes"),
             }.items(),
         ),
     ])

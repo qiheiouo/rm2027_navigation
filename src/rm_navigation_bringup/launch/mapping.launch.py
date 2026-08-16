@@ -27,6 +27,7 @@ def _mapping_setup(context, *args, **kwargs):
     pointcloud_topic = LaunchConfiguration("pointcloud_topic")
     sampled_pointcloud_topic = LaunchConfiguration("sampled_pointcloud_topic")
     registered_cloud_topic = LaunchConfiguration("registered_cloud_topic")
+    ray_source_frame = LaunchConfiguration("ray_source_frame")
     occupancy_topic = LaunchConfiguration("occupancy_topic")
     map_frame = LaunchConfiguration("map_frame")
     base_frame = LaunchConfiguration("base_frame")
@@ -85,6 +86,36 @@ def _mapping_setup(context, *args, **kwargs):
             output="screen",
             parameters=[{
                 "registered_cloud_topic": registered_cloud_topic,
+                "record_ray_observations": ParameterValue(
+                    LaunchConfiguration("record_ray_observations"),
+                    value_type=bool,
+                ),
+                "ray_cloud_topic": sampled_pointcloud_topic,
+                "ray_source_frame": ray_source_frame,
+                "ray_sample_period_sec": ParameterValue(
+                    LaunchConfiguration("ray_sample_period_sec"), value_type=float
+                ),
+                "ray_min_range": ParameterValue(
+                    LaunchConfiguration("ray_min_range"), value_type=float
+                ),
+                "ray_max_range": ParameterValue(
+                    LaunchConfiguration("ray_max_range"), value_type=float
+                ),
+                "ray_voxel_size": ParameterValue(
+                    LaunchConfiguration("ray_voxel_size"), value_type=float
+                ),
+                "ray_max_frames": ParameterValue(
+                    LaunchConfiguration("ray_max_frames"), value_type=int
+                ),
+                "ray_max_rays_per_frame": ParameterValue(
+                    LaunchConfiguration("ray_max_rays_per_frame"), value_type=int
+                ),
+                "ray_max_total_rays": ParameterValue(
+                    LaunchConfiguration("ray_max_total_rays"), value_type=int
+                ),
+                "ray_max_bytes": ParameterValue(
+                    LaunchConfiguration("ray_max_bytes"), value_type=int
+                ),
                 "occupancy_topic": occupancy_topic,
                 "map_frame": map_frame,
                 "output_root": LaunchConfiguration("output_root"),
@@ -137,6 +168,29 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "sampled_pointcloud_topic", default_value="/mapping/sensor_cloud"
         ),
+        DeclareLaunchArgument(
+            "record_ray_observations",
+            default_value="false",
+            description=(
+                "Explicitly record bounded timestamped sensor-ray evidence. "
+                "False creates no sidecar spool or ray subscription."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "ray_source_frame",
+            default_value="",
+            description=(
+                "Required physical lidar frame when record_ray_observations=true."
+            ),
+        ),
+        DeclareLaunchArgument("ray_sample_period_sec", default_value="0.20"),
+        DeclareLaunchArgument("ray_min_range", default_value="0.30"),
+        DeclareLaunchArgument("ray_max_range", default_value="12.0"),
+        DeclareLaunchArgument("ray_voxel_size", default_value="0.10"),
+        DeclareLaunchArgument("ray_max_frames", default_value="10000"),
+        DeclareLaunchArgument("ray_max_rays_per_frame", default_value="10000"),
+        DeclareLaunchArgument("ray_max_total_rays", default_value="10000000"),
+        DeclareLaunchArgument("ray_max_bytes", default_value="536870912"),
         DeclareLaunchArgument("octomap_input_rate", default_value="5.0"),
         DeclareLaunchArgument(
             "occupancy_topic", default_value="/mapping/projected_map"
