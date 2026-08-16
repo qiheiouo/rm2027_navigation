@@ -354,6 +354,15 @@ class MultiObjectTracker:
         )
         self._last_stamp = stamp
 
+        active_tracks: list[_Track] = []
+        for track in self._tracks:
+            if stamp - track.last_update > self.max_coast_time_sec:
+                track.state = TrackState.LOST
+                deleted += 1
+            else:
+                active_tracks.append(track)
+        self._tracks = active_tracks
+
         for track in self._tracks:
             track.x_filter.predict(dt, self.process_noise)
             track.y_filter.predict(dt, self.process_noise)

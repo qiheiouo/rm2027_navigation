@@ -147,6 +147,20 @@ def test_brief_occlusion_preserves_confirmed_track_id() -> None:
     assert reacquired.misses == 0
 
 
+def test_long_input_gap_expires_track_before_association() -> None:
+    tracker = MultiObjectTracker(
+        min_hits_to_confirm=1,
+        max_coast_time_sec=0.6,
+    )
+    initial = tracker.update([_detection(0.0)], 1.0)
+
+    resumed = tracker.update([_detection(0.0)], 10.0)
+
+    assert resumed.deleted == 1
+    assert resumed.created == 1
+    assert resumed.tracks[0].track_id != initial.tracks[0].track_id
+
+
 def test_two_separated_targets_keep_distinct_ids() -> None:
     tracker = MultiObjectTracker(
         association_gate=0.5,
