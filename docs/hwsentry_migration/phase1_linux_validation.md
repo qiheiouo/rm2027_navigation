@@ -1,8 +1,22 @@
 # Phase 1 Linux 与旧车验证流程
 
+## 0. 已完成基线
+
+2026-08-16 已在代码提交 `65fa728` 上使用无网络、只读源码挂载的 Docker/Humble
+环境完成隔离回归：20 个首方包构建和 test 命令通过；去除 CTest wrapper 重复后，
+底层 pytest/gtest/xunit 共 152 项、0 failure/error。与本阶段直接相关的结果为：
+
+- `rm_dynamic_obstacle_tracking`：11 项通过；
+- `rm_map_tools`：53 项通过，其中 ray evidence CLI 14 项；
+- 外部 `fast_lio_multi`、`livox_ros_driver2` 未计入本轮通过范围。
+
+尚未完成的是 ROS runtime/default-off/topic 污染 smoke、旧车 D01-D07 和真实 ray
+sidecar 地图验证。只有在 `65fa728` 之后相关源码、依赖或工具链变化时才需要重复
+Linux build/test；纯文档变化不触发重跑。
+
 ## 1. 获取与构建
 
-该分支在推送或通过 bundle 传入 Linux 后执行：
+在上述基线之后有相关代码变化时执行：
 
 ```bash
 cd /home/wpie/rm2027_navigation
@@ -15,11 +29,14 @@ colcon build --symlink-install --packages-select \
   rm_dynamic_obstacle_tracking rm_map_tools
 source install/setup.bash
 
-colcon test --packages-select rm_dynamic_obstacle_tracking rm_map_tools
-colcon test-result --verbose
+RM27_PHASE1_RESULTS=$(mktemp -d /tmp/rm27_phase1_results.XXXXXX)
+colcon test --test-result-base "$RM27_PHASE1_RESULTS" --packages-select \
+  rm_dynamic_obstacle_tracking rm_map_tools
+colcon test-result --test-result-base "$RM27_PHASE1_RESULTS" --verbose
 ```
 
-要求 build 成功，新增测试 0 failure/error。Windows 纯算法测试不能替代该步骤。
+要求 build 成功，新增测试 0 failure/error。独立 result base 用于隔离工作区中其他
+分支或外部包留下的历史结果。Windows 纯算法测试不能替代该步骤。
 
 ## 2. 无运动 smoke
 
@@ -95,7 +112,7 @@ RViz Fixed Frame 使用 `map`，一次只增加 shadow MarkerArray 和必要的 
 
 ## 5. 离线清图原型
 
-先只运行包测试。真实 CLI 还需要
+包测试已在上述代码基线完成，不要重复执行没有新输入的真实清图试验。真实 CLI 还需要
 `rm_map_ray_observations/v1` sidecar；当前 Phase 2I 不生成该数据。没有 sidecar
 时必须报告：
 

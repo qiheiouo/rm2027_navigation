@@ -6,6 +6,8 @@
 - 基线：`feature/navigation-integrity @ 64870dc`。
 - 参考仓库：<https://github.com/Polyacetone/HWSentryNav26>。
 - 审计提交：`20ef3d14ac0dc10e331691407b07663887cd0a73`。
+- 最新复核提交：`f5f9412`。`20ef3d1..f5f9412` 没有 tracker、planner、
+  LIO 或地图核心源码变化，无需重复迁移。
 - 上游许可证：MIT。
 - 本轮没有 vendoring、submodule 或逐文件复制。实现是依据算法边界重新编写的独立代码。
 
@@ -74,9 +76,9 @@
 - 关联：带距离门的一对一贪心匹配。目标数量少时更简单、可审计且无 SciPy 依赖。
   若 D05 交叉工况出现不可接受的 ID switch，再切换 Hungarian，而不是提前增加复杂度。
 - 滤波：x/y 两个独立 1D 常速度 Kalman，整体状态等价于 `[x,y,vx,vy]`。
-- 生命周期：连续命中确认；短暂丢失进入 coasting；confirmed track 按源时间戳的
-  `max_coast_time_sec` 删除，避免 10 Hz/50 Hz 输入产生不同寿命。时间回退清空全部
-  track，防止 bag loop 或时钟重置后继承旧状态。
+- 生命周期：连续命中确认；短暂丢失进入 coasting；每次关联前先按源时间戳清理超过
+  `max_coast_time_sec` 的旧 track，避免长断流后错误复用 ID，也避免 10 Hz/50 Hz
+  输入产生不同寿命。时间回退清空全部 track，防止 bag loop 或时钟重置后继承旧状态。
 - 预测：常速度加可选指数速度衰减，预测步长、周期、最大速度均参数化。
 
 ## 输出与权限
@@ -110,7 +112,9 @@ callback latency 与输入 drop。
 
 ## 状态
 
-- 纯算法与 ROS wrapper：已实现，等待 Linux build/test。
+- 纯算法与 ROS wrapper：已实现。2026-08-16 在代码提交 `65fa728` 上完成隔离的
+  Docker/Humble 构建与测试；tracker 11 项、map tools 53 项均通过。
 - MPPI/costmap 接入：未实现，明确禁用。
+- ROS runtime/default-off/topic 污染 smoke：未执行。
 - old-car D01-D07：未执行。
 - 新车单雷达/动态云台：接口可复用，时间与外参必须实车重验。

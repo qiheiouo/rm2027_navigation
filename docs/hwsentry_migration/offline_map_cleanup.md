@@ -46,8 +46,11 @@ ros2 run rm_map_tools ray_evidence_cleanup \
   --write-candidate
 ```
 
-输入、报告和输出已存在时均拒绝覆盖。工具不会生成 PGM、bundle、approved
-状态，也不会修改部署 manifest。
+输入 PCD 和 sidecar 始终只读；input、sidecar、report、candidate 的解析后路径必须
+互异。report 和 candidate 先在目标目录写入完整临时文件并同步，再用原子
+no-replace 发布；目标在运行期间被其他进程创建时也会拒绝覆盖。既存或 dangling
+输出 symlink 同样拒绝。工具不会生成 PGM、bundle、approved 状态，也不会修改部署
+manifest。
 
 ## 尚未实现
 
@@ -58,6 +61,7 @@ origin/endpoints，并设置 session 大小上限、哈希和中断行为。
 当前能力只能用合成数据验证算法边界，状态为：
 
 ```text
+SYNTHETIC ALGORITHM AND OUTPUT CONTRACT TESTS PASSED AT 65fa728
 REAL MAP VALIDATION REQUIRED
 MAPPING SIDECAR RECORDER NOT IMPLEMENTED
 ```
