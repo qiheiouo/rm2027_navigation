@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable
 from dataclasses import dataclass
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
+import tempfile
 from typing import Iterable
 
 import numpy as np
@@ -17,6 +20,7 @@ from .map_quality import read_ascii_xyz_pcd
 
 
 SCHEMA = "rm_map_ray_observations/v1"
+OUTPUT_FILE_MODE = 0o644
 
 
 @dataclass(frozen=True)
@@ -222,12 +226,77 @@ def clean_with_ray_evidence(
     return CleanupResult(kept, report)
 
 
+def _resolved_output_path(value: str, label: str) -> Path:
+    requested_path = Path(value).expanduser()
+    if requested_path.is_symlink():
+        raise ValueError(
+            f"{label} is a symlink; refusing indirect output: {requested_path}"
+        )
+    return requested_path.resolve()
+
+
 def _new_output_path(value: str, label: str) -> Path:
-    path = Path(value).expanduser().resolve()
+    path = _resolved_output_path(value, label)
     if path.exists():
         raise ValueError(f"{label} already exists; refusing overwrite: {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
     return path
+
+
+def _require_distinct_paths(paths: dict[str, Path]) -> None:
+    labels = tuple(paths)
+    for index, left_label in enumerate(labels):
+        for right_label in labels[index + 1 :]:
+            if paths[left_label] == paths[right_label]:
+                raise ValueError(
+                    f"{left_label} and {right_label} paths must be distinct: "
+                    f"{paths[left_label]}"
+                )
+
+
+def _publish_new_file(
+    destination: Path,
+    label: str,
+    writer: Callable[[Path], object],
+) -> None:
+    """Atomically publish a complete file without replacing an existing path."""
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{destination.name}.",
+        suffix=".tmp",
+        dir=destination.parent,
+    )
+    os.close(descriptor)
+    temporary_path = Path(temporary_name)
+    try:
+        writer(temporary_path)
+        os.chmod(temporary_path, OUTPUT_FILE_MODE)
+        with temporary_path.open("rb") as stream:
+            os.fsync(stream.fileno())
+        try:
+            # A hard link is an atomic no-replace publication on the same
+            # filesystem. The sibling staging file guarantees that condition.
+            os.link(temporary_path, destination)
+        except FileExistsError as exc:
+            raise ValueError(
+                f"{label} appeared while writing; refusing overwrite: {destination}"
+            ) from exc
+        directory_descriptor = os.open(
+            destination.parent,
+            os.O_RDONLY | os.O_DIRECTORY,
+        )
+        try:
+            os.fsync(directory_descriptor)
+        finally:
+            os.close(directory_descriptor)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+
+
+def _write_new_text(destination: Path, label: str, content: str) -> None:
+    def write_staged(path: Path) -> None:
+        path.write_text(content, encoding="utf-8", newline="\n")
+
+    _publish_new_file(destination, label, write_staged)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -255,8 +324,25 @@ def main(args: list[str] | None = None) -> int:
     if not parsed.write_candidate and parsed.output_pcd:
         raise SystemExit("--output-pcd requires explicit --write-candidate")
 
-    points, pcd_metadata = read_ascii_xyz_pcd(parsed.input_pcd)
-    sidecar_header, observations = load_ray_observations(parsed.observations)
+    input_path = Path(parsed.input_pcd).expanduser().resolve()
+    observations_path = Path(parsed.observations).expanduser().resolve()
+    report_path = _resolved_output_path(parsed.report, "report")
+    candidate_path = (
+        _resolved_output_path(parsed.output_pcd, "candidate PCD")
+        if parsed.write_candidate
+        else None
+    )
+    role_paths = {
+        "input PCD": input_path,
+        "observations": observations_path,
+        "report": report_path,
+    }
+    if candidate_path is not None:
+        role_paths["candidate PCD"] = candidate_path
+    _require_distinct_paths(role_paths)
+
+    points, pcd_metadata = read_ascii_xyz_pcd(input_path)
+    sidecar_header, observations = load_ray_observations(observations_path)
     result = clean_with_ray_evidence(
         points,
         observations,
@@ -268,26 +354,31 @@ def main(args: list[str] | None = None) -> int:
     report = dict(result.report)
     report.update(
         {
-            "input_pcd": str(Path(parsed.input_pcd).resolve()),
-            "input_pcd_sha256": _sha256(parsed.input_pcd),
+            "input_pcd": str(input_path),
+            "input_pcd_sha256": _sha256(input_path),
             "input_pcd_metadata": pcd_metadata,
-            "observations": str(Path(parsed.observations).resolve()),
-            "observations_sha256": _sha256(parsed.observations),
+            "observations": str(observations_path),
+            "observations_sha256": _sha256(observations_path),
             "observations_header": sidecar_header,
             "candidate_written": bool(parsed.write_candidate),
         }
     )
     if parsed.write_candidate:
+        assert candidate_path is not None
         output_path = _new_output_path(parsed.output_pcd, "candidate PCD")
-        if output_path == Path(parsed.input_pcd).resolve():
-            raise ValueError("candidate output must not equal input PCD")
         if result.kept_points.shape[0] == 0:
             raise ValueError("cleanup would produce an empty candidate PCD")
-        write_ascii_pcd(output_path, result.kept_points)
+        _publish_new_file(
+            output_path,
+            "candidate PCD",
+            lambda path: write_ascii_pcd(path, result.kept_points),
+        )
         report["output_pcd"] = str(output_path)
         report["output_pcd_sha256"] = _sha256(output_path)
-    report_path.write_text(
-        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    _write_new_text(
+        report_path,
+        "report",
+        json.dumps(report, indent=2, sort_keys=True) + "\n",
     )
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
