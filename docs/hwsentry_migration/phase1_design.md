@@ -115,6 +115,8 @@ callback latency 与输入 drop。
 - 纯算法与 ROS wrapper：已实现。2026-08-16 在代码提交 `65fa728` 上完成隔离的
   Docker/Humble 构建与测试；tracker 11 项、map tools 53 项均通过。
 - MPPI/costmap 接入：未实现，明确禁用。
-- ROS runtime/default-off/topic 污染 smoke：未执行。
+- 隔离 ROS runtime/default-off/topic authority smoke：已通过。默认 launch 不创建
+  tracker；显式启用后不发布 TF 或 `/cmd_vel`。带真实 `/map + /local_scan` 的旧车
+  无运动 smoke 仍未执行。
 - old-car D01-D07：未执行。
 - 新车单雷达/动态云台：接口可复用，时间与外参必须实车重验。

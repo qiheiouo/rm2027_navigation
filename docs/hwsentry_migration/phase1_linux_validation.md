@@ -10,7 +10,11 @@
 - `rm_map_tools`：53 项通过，其中 ray evidence CLI 14 项；
 - 外部 `fast_lio_multi`、`livox_ros_driver2` 未计入本轮通过范围。
 
-尚未完成的是 ROS runtime/default-off/topic 污染 smoke、旧车 D01-D07 和真实 ray
+同一代码基线的隔离 ROS runtime smoke 也已通过：默认 launch 不创建 tracker；
+`enabled:=true` 时节点只发布 shadow markers、diagnostics 以及标准 ROS 参数/日志，
+不发布 TF、`/cmd_vel`、costmap、plan 或 goal。
+
+尚未完成的是带真实 `/map + /local_scan` 的旧车无运动 smoke、D01-D07 和真实 ray
 sidecar 地图验证。只有在 `65fa728` 之后相关源码、依赖或工具链变化时才需要重复
 Linux build/test；纯文档变化不触发重跑。
 
