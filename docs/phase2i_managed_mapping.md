@@ -10,12 +10,16 @@ sensor-frame PointCloud2 + canonical TF
   -> octomap_server ray insertion
   -> /mapping/projected_map
 
+optional sampled sensor-frame PointCloud2 + same-stamp TF
+  -> bounded records-only spool
+  -> immutable ray-observation sidecar
+
 LIO world-registered PointCloud2
   -> mapping_session voxel accumulator
   -> 3D PCD
 
 /mapping/save
-  -> candidate PCD + occupancy YAML/PGM + bundle manifest
+  -> candidate PCD + occupancy YAML/PGM + optional ray sidecar + bundle manifest
 ```
 
 The mapping tools are platform-independent. Old-car and future 2027 bringup
@@ -32,6 +36,15 @@ input topics.
   grid used by the exporter.
 - `mapping_session_node` consumes the LIO world-registered cloud, transforms it
   into canonical `map`, performs bounded voxel accumulation, and writes the PCD.
+- The optional ray recorder consumes `/mapping/sensor_cloud`, locks its source
+  frame to a physical lidar frame, and transforms each frame only with the TF at
+  that frame's timestamp. A registered/world-frame cloud cannot recover the
+  per-frame sensor origin, and latest-TF fallback would pair endpoints with the
+  wrong pose, so both are prohibited for ray evidence.
+- A per-process capture UUID is bound across the sidecar header, source details
+  and manifest artifact. Offline validation rejects substitution from a
+  different recorder instance; runtime map resolution skips the offline
+  artifact entirely.
 - The old-car profile uses `/lio/cloud_registered_transformed` only while
   managed mapping is enabled. This corrects the initial sensor/body basis of
   the zero-start FAST-LIO cloud before accumulation without changing LIO
@@ -51,7 +64,9 @@ Inputs:
 
 - sensor cloud, default `/points/obstacles`;
 - registered cloud, default `/lio/cloud_registered`;
-- TF from `map` to both cloud frames.
+- TF from `map` to both cloud frames;
+- optional ray cloud `/mapping/sensor_cloud` and a required physical
+  `ray_source_frame` when `record_ray_observations:=true`.
 
 Outputs and services:
 
@@ -60,7 +75,9 @@ Outputs and services:
   cloud sampler;
 - `/mapping/octomap_binary` and diagnostic OctoMap topics;
 - `/mapping/start`, `/mapping/stop`, `/mapping/reset`, `/mapping/save`
-  (`std_srvs/srv/Trigger`).
+  (`std_srvs/srv/Trigger`);
+- an optional bundle-local `<map_id>.rays.jsonl` artifact. It is offline
+  evidence only and is not a runtime navigation input.
 
 `/mapping/save` returns the absolute candidate manifest path in the service
 response message.
@@ -79,7 +96,11 @@ ros2 launch rm_navigation_bringup mapping.launch.py \
   map_id:=competition_field
 ```
 
-The default `enable_mapping:=false` starts no nodes.
+The default `enable_mapping:=false` starts no nodes. When mapping is enabled,
+`record_ray_observations:=false` remains the independent default: it creates no
+ray subscription and no sidecar spool. To opt in on a generic platform, pass
+both `record_ray_observations:=true` and the measured physical lidar frame, for
+example `ray_source_frame:=lidar_frame`.
 
 The Docker Compose profile mounts `${RM_MAP_OUTPUT_DIR}` at
 `/data/rm27_maps`. Without an override it uses the ignored host directory
@@ -103,7 +124,8 @@ ros2 launch rm_navigation_bringup old_car_2026_validation.launch.py \
   use_rviz:=true \
   selected_side:=left \
   mapping_output_root:=/data/rm27_maps \
-  mapping_map_id:=old_car_test_field
+  mapping_map_id:=old_car_test_field \
+  mapping_record_ray_observations:=false
 ```
 
 This mode rejects Nav2 and both serial modes. Move the car with the remote
@@ -122,6 +144,92 @@ instead of `/lio/cloud_registered`. The transform parameters are the measured
 not generic 2027 vehicle extrinsics and must not be copied to a future chassis
 without measurement and validation.
 
+The simpler operator entry is `rm_navigation_launch/old_car_mapping.launch.py`.
+Its user setting `RECORD_RAY_OBSERVATIONS` and launch argument
+`record_ray_observations` both default to false. When explicitly enabled, this
+old-car profile fixes `ray_source_frame` to `mid360_left_frame`; it does not
+derive that value from the world-registered PCD topic. The old-car wrapper uses
+a conservative `ray_sample_period_sec=0.50` and exposes the period, range,
+voxel and all recorder limits as launch arguments. The generic mapping launch
+keeps its `0.20` second default.
+
+## Ray Sidecar Two-Minute Preflight
+
+The clean Linux build/tests and default-off/explicit-enable node-construction
+smokes passed on 2026-08-16. They did not publish real PointCloud2 or exercise
+the old-car TF chain. Do this remaining gate before asking the operator to remap
+the field. Use a disposable map ID; the two-minute run is a sensor, TF and
+resource smoke, not a map-quality result:
+
+```bash
+df -h /data/rm27_maps
+
+ros2 launch rm_navigation_launch old_car_mapping.launch.py \
+  record_ray_observations:=true \
+  output_root:=/data/rm27_maps \
+  map_id:=ray_sidecar_smoke
+```
+
+Keep the lidar, LIO and TF chain online for at least 120 seconds. The car may
+remain stationary for this gate. In other terminals, verify the sampled cloud,
+shared recording state and spool growth:
+
+```bash
+timeout 10 ros2 topic hz /mapping/sensor_cloud
+ros2 topic echo --once --qos-durability transient_local /mapping/recording
+du -sh /data/rm27_maps/.ray_sidecar_sessions
+```
+
+The progress log must remain `ray_status=recording`; `ray_frames`, `ray_count`
+and `ray_bytes` must increase without a frame/time/resource halt. Record their
+start/end values over the 120 second interval and compute the observed frame,
+ray and byte rates. The minimum of the following three projections must exceed
+the planned field-mapping time by at least 50%:
+
+```text
+(ray_max_frames - ray_frames) / observed_frame_rate
+(ray_max_total_rays - ray_count) / observed_ray_rate
+(ray_max_bytes - ray_bytes) / observed_byte_rate
+```
+
+If it does not, increase `ray_sample_period_sec` or `ray_voxel_size` and repeat
+the smoke; do not raise any limit above the consumer hard caps. Then stop
+before saving, validate the returned bundle, and require a present
+`ray_observations` artifact whose status is `complete`:
+
+```bash
+ros2 service call /mapping/stop std_srvs/srv/Trigger {}
+ros2 topic echo --once --qos-durability transient_local /mapping/recording
+sleep 1
+! timeout 1 ros2 topic echo --once /mapping/sensor_cloud
+ros2 service call /mapping/save std_srvs/srv/Trigger {}
+ros2 run rm_map_tools validate_map_bundle /absolute/path/to/map.bundle.yaml
+```
+
+The default sidecar limit is 512 MiB. At save time the records-only spool, an
+immutable snapshot and the bundle staging copy can coexist, so reserve at least
+2 GiB beyond the expected PCD/PGM size. A rosbag needs a separate budget; do not
+count free space reserved for the map bundle as bag capacity. If the two-minute
+run halts, has no attached sidecar, fails validation, or exceeds the resource
+budget, do not start the field remap. Diagnose and repeat this gate first.
+
+For both the preflight and the later remap, capture the evidence topics on a
+disk sized for PointCloud2 traffic:
+
+```bash
+ros2 bag record -o /data/rm27_bags/phase2i_ray_sidecar \
+  /mapping/sensor_cloud \
+  /lio/cloud_registered_transformed \
+  /mapping/projected_map \
+  /mapping/recording \
+  /tf \
+  /tf_static \
+  /odometry/lio
+```
+
+Use the actual selected registered-cloud topic on a non-old-car platform. Add
+`/clock` when recording a simulated-time or replay experiment.
+
 ## Operator Flow
 
 1. Confirm `/odometry/lio`, the selected registered-cloud topic, the selected
@@ -130,21 +238,31 @@ without measurement and validation.
 2. Confirm `/mapping/projected_map` grows while the robot moves.
 3. Use RViz to check that the registered cloud is level and repeated structures
    align instead of forming double walls.
-4. Before any person enters the mapped area, an object is carried, or the
-   static scene is intentionally rearranged, pause both PCD accumulation and
-   new OctoMap sensor insertion:
+4. Complete one loop with the chosen scene configuration static. Keep people
+   and moving objects out of the recorded area; do not treat a moving return as
+   cleanup evidence. For a controlled ray-cleanup experiment, place the
+   temporary object before recording and leave it fixed for this entire pass.
+
+5. Before any person enters the mapped area, an object is carried, or the
+   static scene is intentionally rearranged, pause the PCD accumulator,
+   OctoMap input and optional ray recorder together:
 
    ```bash
    ros2 service call /mapping/stop std_srvs/srv/Trigger {}
-   ros2 topic echo --once /mapping/recording
+   ros2 topic echo --once --qos-durability transient_local /mapping/recording
+   sleep 1
+   ! timeout 1 ros2 topic echo --once /mapping/sensor_cloud
    ```
 
-   Require `data: false` before changing the scene. After all people leave and
-   the scene is static, resume and require `data: true`:
+   Require `data: false`, then require a full quiet second with no sampled cloud
+   before changing the scene. This closes the cross-process sampler delivery
+   window; the latched boolean alone is not an acknowledgement from the
+   sampler. After all people leave and the scene is static, resume and require
+   `data: true`:
 
    ```bash
    ros2 service call /mapping/start std_srvs/srv/Trigger {}
-   ros2 topic echo --once /mapping/recording
+   ros2 topic echo --once --qos-durability transient_local /mapping/recording
    ```
 
    The sampler deliberately skips the last cloud received while paused. Revisit
@@ -152,29 +270,49 @@ without measurement and validation.
    inserted. This pause rule is for static-map acquisition; it is separate from
    Nav2 costmap dynamic-obstacle clearing during navigation.
 
-5. Repeat important structures from a second viewing position or a second loop.
-   Keep people outside the recorded scene for both passes.
+6. After resuming, revisit every view affected by the paused scene change so
+   fresh static endpoints and free rays cover the changed volume. Then complete
+   a second loop with the final scene static, or cover important structures from
+   a second viewing position. Keep people outside the recorded scene for both
+   passes.
 
-6. Save one immutable candidate revision:
+7. Stop and require `data: false` before saving. This is mandatory when ray
+   recording is enabled and is the recommended coherent snapshot boundary for
+   every mapping session:
 
    ```bash
+   ros2 service call /mapping/stop std_srvs/srv/Trigger {}
+   ros2 topic echo --once --qos-durability transient_local /mapping/recording
+   sleep 1
+   ! timeout 1 ros2 topic echo --once /mapping/sensor_cloud
    ros2 service call /mapping/save std_srvs/srv/Trigger {}
    ```
 
-7. Validate the returned manifest:
+8. Validate the returned manifest. For a ray-enabled run, require a present
+   `ray_observations` artifact with `status: complete`; a base candidate without
+   the optional artifact is not sufficient for ray cleanup:
 
    ```bash
    ros2 run rm_map_tools validate_map_bundle /absolute/path/to/map.bundle.yaml
    ```
 
-8. Review PCD and occupancy alignment against at least three measured field
+9. Review PCD and occupancy alignment against at least three measured field
    landmarks. Only after human review may a copied revision be promoted to
    `approved` with updated hashes.
 
 Use `/mapping/reset` only when intentionally discarding the in-memory session.
-It pauses recording, clears the PCD accumulator, and requests the matching
-OctoMap reset; call `/mapping/start` to resume. Saving never overwrites an
+It first pauses recording and requests the matching OctoMap reset. The local
+PCD, occupancy and ray session are cleared only after that asynchronous request
+succeeds; `/mapping/start`, `/mapping/save` and another reset are rejected while
+the reset is pending. A transport failure retains the local data while paused.
+Call `/mapping/start` only after the completion log. Saving never overwrites an
 existing map revision.
+
+If the available occupancy map was built for a different environment, do not
+use it for conclusive dynamic-tracker D01--D07 validation. First acquire a
+matching candidate with the flow above, validate the bundle, and complete the
+manual landmark/occupancy review. The recorder and cleanup tools never deploy
+that candidate and never change it to `approved`.
 
 ## Initial Parameters
 
@@ -200,11 +338,34 @@ growth. A voxel must be observed in at least two sampled frames before it is
 exported, reducing one-frame people and point noise in the prior PCD. A stopped
 session can still be saved.
 
+The independent ray recorder defaults off. When enabled, the generic launch
+uses `ray_sample_period_sec=0.20` while the old-car wrapper uses `0.50`; both use
+`ray_min_range=0.30`,
+`ray_max_range=12.0`, `ray_voxel_size=0.10`, `ray_max_frames=10000`,
+`ray_max_rays_per_frame=10000`, `ray_max_total_rays=10000000`, and
+`ray_max_bytes=536870912`. Range filtering happens in the physical sensor frame;
+voxel deduplication happens after the same-stamp rigid transform into `map`.
+Crossing a hard limit stops the shared recording state before accepting a
+partial frame and requires an explicit session reset.
+
+When ray recording is enabled, `/mapping/save` is fail-closed unless it can
+attach a `complete` sidecar. The node-only dynamic parameter
+`ray_allow_degraded_save` defaults false and is intentionally absent from all
+launch wrappers. It may be toggled temporarily with `ros2 param set` only to
+salvage a base candidate or diagnostic `incomplete` sidecar after an operator
+has reviewed the failure; the manifest records the override, and the parameter
+must be returned to false immediately afterward. Degraded output is never
+eligible for ray cleanup.
+
 ## Acceptance Criteria
 
 - Safe default starts no mapping process.
+- Enabling mapping with the default ray setting creates no ray subscription or
+  spool; ray capture requires an explicit opt-in and physical source frame.
 - Mapping mode starts no Nav2, serial, referee, or mission node.
 - Both input topics have finite data and timestamped transforms.
+- A ray-enabled field run passes the two-minute preflight, saves while paused,
+  and validates a bundle-bound `complete` sidecar.
 - `/mapping/projected_map` contains free, occupied and unknown cells.
 - `/mapping/save` creates exactly one new `candidate` bundle and never
   overwrites an existing revision.
@@ -212,6 +373,8 @@ session can still be saved.
   the candidate.
 - PCD and occupancy map agree at three or more measured landmarks.
 - Repeated structures are not visibly doubled after a closed field traversal.
+- Every output remains `candidate`; neither recorder nor cleanup deploys or
+  approves it.
 
 ## Known Limits
 
@@ -219,6 +382,11 @@ session can still be saved.
   accumulate drift; the first field map must be reviewed for loop error.
 - OctoMap projection quality depends on valid sensor TF and enough free rays.
   It is not a substitute for manual map cleanup.
+- A `complete` ray sidecar proves structural/resource completion only. TF drops,
+  occlusion and incomplete viewpoint coverage still require bag and field review.
+- Unsaved or interrupted records-only partials remain below
+  `<output_root>/.ray_sidecar_sessions` for diagnosis. They are not valid v1
+  inputs and must not be renamed into a bundle by hand.
 - The exporter writes ASCII PCD for transparent validation. If map size becomes
   a deployment problem, add a separately tested binary writer without changing
   the bundle contract.
@@ -235,7 +403,9 @@ Two separate faults were identified and corrected:
 1. Registered clouds could lead timestamped `map <- odom` TF by roughly 20 ms
    to 1.2 s. Optional latest-TF fallback reduced dropped clouds from more than
    one thousand per run to zero in the accepted motion run. The manifest
-   records how many samples used the fallback.
+   records how many samples used the fallback. This exception applies only to
+   the registered-cloud PCD accumulator under the documented time-invariant
+   old-car transform; the ray recorder never uses latest-TF fallback.
 2. With `zero_start_pose: true`, the registered cloud was expressed in the
    initial sensor/body basis while its header used `odom`. Accumulating it
    directly produced a visibly tilted PCD. The mapping-only transformed cloud

@@ -44,6 +44,12 @@ Never use `--allow-test-map` on a robot.
 world-registered PointCloud2 and an OccupancyGrid, then saves one immutable
 `candidate` bundle through `/mapping/save`.
 
+Its optional `record_ray_observations` path defaults false. The false path
+creates no ray subscription and no spool. When explicitly enabled it records
+bounded, timestamped sensor origins/endpoints from `/mapping/sensor_cloud` and
+requires a configured physical `ray_source_frame`; stop the session before
+saving a ray-enabled bundle.
+
 ```bash
 ros2 service call /mapping/save std_srvs/srv/Trigger {}
 ```
@@ -117,21 +123,49 @@ approval readiness.
 ## Experimental Ray-Evidence Cleanup
 
 `ray_evidence_cleanup` is an optional offline prototype inspired by the
-HWSentryNav26 3D-DDA cleanup. It requires per-frame sensor origins and
-endpoints in a strict map-frame JSONL sidecar; a final merged PCD alone is not
-enough to reconstruct free-space rays.
+HWSentryNav26 3D-DDA cleanup. A final merged PCD cannot reconstruct free-space
+rays, so the Phase 2I mapping session can now opt in to a bounded
+`rm_map_ray_observations/v1` sidecar. It uses the physical sensor-frame
+`/mapping/sensor_cloud` and only the TF at each cloud timestamp. A
+`/lio/cloud_registered*` input or latest-TF fallback is forbidden because either
+would break the per-frame origin/endpoint relationship.
+
+The generic recorder profile samples at 0.20 s; the old-car wrapper defaults to
+0.50 s and exposes all bounded capture settings for preflight-based tuning.
+Both deduplicate endpoints at 0.10 m and default to hard limits of 10,000
+frames, 10,000 rays per frame, 10,000,000 total rays and 512 MiB. They write a
+hidden records-only partial spool. Saving while paused
+creates an immutable `complete` or `incomplete` sidecar and binds its hash and
+statistics to the same candidate bundle manifest as the PCD. A common capture
+ID is required in the sidecar header, source details and artifact declaration.
+Runtime bundle resolution does not stat, hash or parse this offline-only file.
+A fatal contract,
+time, frame, size or I/O error halts the recorder and requires `/mapping/reset`;
+an `incomplete` sidecar is diagnostic evidence, not a field cleanup input.
+Ray-enabled save is fail-closed unless a `complete` sidecar can be attached.
+The node-only dynamic `ray_allow_degraded_save` parameter defaults false; a
+temporary explicit true value can salvage a base/diagnostic candidate, is
+recorded in the manifest, and must never be treated as cleanup acceptance.
+
+Use manifest mode for real data so bundle validation selects the matching PCD
+and sidecar:
 
 ```bash
 ros2 run rm_map_tools ray_evidence_cleanup \
-  --input-pcd /maps/source.pcd \
-  --observations /evidence/rays.jsonl \
+  --input-manifest /maps/field/revision/field.bundle.yaml \
   --report /tmp/ray_cleanup/report.json \
   --output-pcd /tmp/ray_cleanup/cleaned_candidate.pcd \
   --write-candidate
 ```
 
-The command refuses existing outputs and never changes a bundle, PGM,
-deployment manifest, or approval state. Phase 2I does not currently record the
-required sidecar, so real-map use remains blocked until an explicitly enabled,
-bounded recorder is designed and validated. See
-`docs/hwsentry_migration/offline_map_cleanup.md`.
+Direct `--input-pcd` plus `--observations` is retained only for synthetic or
+legacy tests. Candidate output rejects an incomplete recorder sidecar unless an
+explicit unsafe override is supplied and recorded in the report. The command
+refuses existing outputs and never changes a bundle, PGM, deployment manifest,
+deployment target, or approval state.
+
+Complete the documented two-minute software/resource smoke before asking for a
+new field map. An old occupancy map that does not match the current environment
+must not be used for conclusive dynamic-tracker D01--D07 validation. See
+`docs/hwsentry_migration/offline_map_cleanup.md` and
+`docs/phase2i_managed_mapping.md`.
