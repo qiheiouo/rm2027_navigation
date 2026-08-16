@@ -8,12 +8,21 @@ from typing import Any
 
 import yaml
 
+from .ray_observations import (
+    SOURCE_STAMP_SEMANTICS,
+    RayObservationError,
+    SCHEMA as RAY_OBSERVATION_SCHEMA,
+    physical_source_frame,
+    stream_ray_observations,
+)
+
 
 class MapBundleError(ValueError):
     pass
 
 
 _MAP_ID_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
+_CAPTURE_ID_PATTERN = re.compile(r"^[0-9a-f]{32}$")
 _DEPLOYMENT_STATES = {"test_only", "candidate", "approved"}
 _MAP_TYPES = {"occupancy_only", "occupancy_with_pcd"}
 _RUNTIME_ACCEPTANCE_POLICIES = {
@@ -84,6 +93,96 @@ def _verify_hash(path: Path, expected: str, label: str) -> str:
             f"{label} sha256 mismatch: expected {expected.lower()}, got {actual}"
         )
     return actual
+
+
+def _required_positive_integer(parent: dict[str, Any], key: str) -> int:
+    value = parent.get(key)
+    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+        raise MapBundleError(f"'{key}' must be a positive integer")
+    return value
+
+
+def _required_capture_id(
+    parent: dict[str, Any], key: str, label: str
+) -> str:
+    value = parent.get(key)
+    if not isinstance(value, str) or not _CAPTURE_ID_PATTERN.fullmatch(value):
+        raise MapBundleError(
+            f"{label} must be 32 lowercase hexadecimal characters"
+        )
+    return value
+
+
+def _parse_ray_observations(path: Path) -> dict[str, Any]:
+    try:
+        with stream_ray_observations(path) as (header, observations):
+            try:
+                source_frame = physical_source_frame(
+                    header.get("source_frame"),
+                    label="ray observations header source_frame",
+                )
+            except RayObservationError as exc:
+                raise MapBundleError(str(exc)) from exc
+            stamp_semantics = header.get("stamp_semantics")
+            if stamp_semantics != SOURCE_STAMP_SEMANTICS:
+                raise MapBundleError(
+                    "ray observations header stamp_semantics must be "
+                    + repr(SOURCE_STAMP_SEMANTICS)
+                )
+            status = header.get("status")
+            if status not in {"complete", "incomplete"}:
+                raise MapBundleError(
+                    "ray observations status must be 'complete' or 'incomplete'"
+                )
+            statistics = header.get("statistics")
+            if not isinstance(statistics, dict):
+                raise MapBundleError(
+                    "ray observations header statistics must be a mapping"
+                )
+            expected_frames = _required_positive_integer(
+                statistics, "accepted_frames"
+            )
+            expected_rays = _required_positive_integer(statistics, "total_rays")
+            metadata = header.get("metadata")
+            if not isinstance(metadata, dict):
+                raise MapBundleError(
+                    "ray observations header metadata must be a mapping"
+                )
+            capture_id = _required_capture_id(
+                metadata,
+                "capture_id",
+                "ray observations metadata.capture_id",
+            )
+
+            observation_frames = 0
+            rays = 0
+            for observation in observations:
+                if observation.source_stamp_ns is None:
+                    raise MapBundleError(
+                        "ray observations payload is missing source_stamp_ns"
+                    )
+                observation_frames += 1
+                rays += len(observation.endpoints)
+    except MapBundleError:
+        raise
+    except (OSError, RayObservationError) as exc:
+        raise MapBundleError(f"invalid ray observations sidecar: {exc}") from exc
+
+    if observation_frames != expected_frames or rays != expected_rays:
+        raise MapBundleError(
+            "ray observations payload does not match header statistics"
+        )
+    return {
+        "schema": RAY_OBSERVATION_SCHEMA,
+        "frame_id": "map",
+        "source_frame": source_frame,
+        "stamp_semantics": stamp_semantics,
+        "status": status,
+        "capture_id": capture_id,
+        "observation_frames": observation_frames,
+        "rays": rays,
+        "bytes": path.stat().st_size,
+    }
 
 
 def _parse_pcd(path: Path) -> dict[str, Any]:
@@ -255,7 +354,11 @@ def _validate_occupancy_yaml(path: Path, bundle_root: Path) -> tuple[dict[str, A
     occupied_threshold = data.get("occupied_thresh")
     negate = data.get("negate")
     mode = data.get("mode", "trinary")
-    if not isinstance(resolution, (int, float)) or not math.isfinite(resolution) or resolution <= 0:
+    if (
+        not isinstance(resolution, (int, float))
+        or not math.isfinite(resolution)
+        or resolution <= 0
+    ):
         raise MapBundleError("occupancy resolution must be a positive finite number")
     if (
         not isinstance(origin, list)
@@ -277,7 +380,14 @@ def _validate_occupancy_yaml(path: Path, bundle_root: Path) -> tuple[dict[str, A
 def validate_map_bundle(
     manifest_path: str | Path,
     require_approved: bool = False,
+    *,
+    validate_offline_artifacts: bool = True,
 ) -> dict[str, Any]:
+    """Validate map artifacts and, by default, offline evidence artifacts.
+
+    ``validate_offline_artifacts=False`` is reserved for runtime resolution,
+    where offline-only evidence is neither authoritative nor consumed.
+    """
     manifest = Path(manifest_path).resolve()
     if not manifest.is_file():
         raise MapBundleError(f"manifest does not exist: {manifest}")
@@ -330,6 +440,136 @@ def validate_map_bundle(
     elif "pcd" in artifacts:
         raise MapBundleError("occupancy_only bundle must not contain a PCD artifact")
 
+    ray_observations_metadata = None
+    if validate_offline_artifacts and "ray_observations" in artifacts:
+        ray_observations = _required_mapping(artifacts, "ray_observations")
+        declared_capture_id = _required_capture_id(
+            ray_observations,
+            "capture_id",
+            "ray observations artifact.capture_id",
+        )
+        source_details = source.get("details")
+        if not isinstance(source_details, dict):
+            raise MapBundleError(
+                "source.details.ray_observations must be a mapping when "
+                "ray observations are present"
+            )
+        source_ray_observations = source_details.get("ray_observations")
+        if not isinstance(source_ray_observations, dict):
+            raise MapBundleError(
+                "source.details.ray_observations must be a mapping when "
+                "ray observations are present"
+            )
+        source_capture_id = _required_capture_id(
+            source_ray_observations,
+            "capture_id",
+            "source.details.ray_observations.capture_id",
+        )
+        try:
+            declared_source_frame = physical_source_frame(
+                ray_observations.get("source_frame"),
+                label="ray observations artifact.source_frame",
+            )
+            source_source_frame = physical_source_frame(
+                source_ray_observations.get("source_frame"),
+                label="source.details.ray_observations.source_frame",
+            )
+        except RayObservationError as exc:
+            raise MapBundleError(str(exc)) from exc
+        if _required_string(ray_observations, "schema") != RAY_OBSERVATION_SCHEMA:
+            raise MapBundleError(
+                "ray observations schema must be " + repr(RAY_OBSERVATION_SCHEMA)
+            )
+        if _required_string(ray_observations, "frame_id") != frame_id:
+            raise MapBundleError(
+                "ray observations frame_id must match bundle frame_id"
+            )
+        if (
+            _required_string(ray_observations, "stamp_semantics")
+            != SOURCE_STAMP_SEMANTICS
+        ):
+            raise MapBundleError(
+                "ray observations stamp_semantics must be "
+                + repr(SOURCE_STAMP_SEMANTICS)
+            )
+        declared_status = _required_string(ray_observations, "status")
+        if declared_status not in {"complete", "incomplete"}:
+            raise MapBundleError(
+                "ray observations status must be 'complete' or 'incomplete'"
+            )
+        if _required_string(ray_observations, "authority") != "offline_evidence_only":
+            raise MapBundleError(
+                "ray observations authority must be 'offline_evidence_only'"
+            )
+        ray_observations_path = _resolve_artifact(
+            root,
+            _required_string(ray_observations, "path"),
+            "ray observations",
+        )
+        ray_observations_hash = _verify_hash(
+            ray_observations_path,
+            ray_observations.get("sha256"),
+            "ray observations",
+        )
+        declared_bytes = _required_positive_integer(ray_observations, "bytes")
+        declared_frames = _required_positive_integer(
+            ray_observations, "observation_frames"
+        )
+        declared_rays = _required_positive_integer(ray_observations, "rays")
+        ray_observations_metadata = _parse_ray_observations(
+            ray_observations_path
+        )
+        capture_ids = {
+            ray_observations_metadata["capture_id"],
+            declared_capture_id,
+            source_capture_id,
+        }
+        if len(capture_ids) != 1:
+            raise MapBundleError(
+                "ray observations capture_id mismatch across sidecar metadata, "
+                "manifest artifact and source.details"
+            )
+        source_frames = {
+            ray_observations_metadata["source_frame"],
+            declared_source_frame,
+            source_source_frame,
+        }
+        if len(source_frames) != 1:
+            raise MapBundleError(
+                "ray observations source_frame mismatch across sidecar header, "
+                "manifest artifact and source.details"
+            )
+        if (
+            ray_observations_metadata["stamp_semantics"]
+            != ray_observations["stamp_semantics"]
+        ):
+            raise MapBundleError(
+                "ray observations stamp_semantics does not match sidecar header"
+            )
+        if ray_observations_metadata["status"] != declared_status:
+            raise MapBundleError(
+                "ray observations status does not match manifest"
+            )
+        if ray_observations_metadata["bytes"] != declared_bytes:
+            raise MapBundleError(
+                "ray observations byte count does not match manifest"
+            )
+        if ray_observations_metadata["observation_frames"] != declared_frames:
+            raise MapBundleError(
+                "ray observations frame count does not match manifest"
+            )
+        if ray_observations_metadata["rays"] != declared_rays:
+            raise MapBundleError(
+                "ray observations ray count does not match manifest"
+            )
+        ray_observations_metadata.update(
+            {
+                "path": str(ray_observations_path),
+                "sha256": ray_observations_hash,
+                "authority": "offline_evidence_only",
+            }
+        )
+
     occupancy_yaml_path = _resolve_artifact(
         root, _required_string(occupancy, "yaml_path"), "occupancy YAML"
     )
@@ -369,7 +609,7 @@ def validate_map_bundle(
         ) and not occupancy_origin_reviewed:
             raise MapBundleError("approved occupancy map must confirm origin review")
 
-    return {
+    result = {
         "manifest": str(manifest),
         "map_id": map_id,
         "revision": revision,
@@ -390,6 +630,9 @@ def validate_map_bundle(
             **pgm_metadata,
         },
     }
+    if ray_observations_metadata is not None:
+        result["ray_observations"] = ray_observations_metadata
+    return result
 
 
 def resolve_map_bundle_for_runtime(
@@ -414,6 +657,9 @@ def resolve_map_bundle_for_runtime(
     result = validate_map_bundle(
         manifest_path,
         require_approved=policy == "approved_only",
+        # Offline evidence has no runtime authority. Avoid even resolving its
+        # path so a large or damaged sidecar cannot delay map startup.
+        validate_offline_artifacts=False,
     )
     if result["deployment_status"] not in _RUNTIME_ACCEPTANCE_POLICIES[policy]:
         raise MapBundleError(

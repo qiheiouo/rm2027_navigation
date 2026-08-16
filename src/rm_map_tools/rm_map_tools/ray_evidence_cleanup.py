@@ -3,31 +3,45 @@
 from __future__ import annotations
 
 import argparse
-from collections.abc import Callable
 from dataclasses import dataclass
 import hashlib
 import json
 import math
-import os
 from pathlib import Path
-import tempfile
 from typing import Iterable
 
 import numpy as np
 
+from .map_bundle import MapBundleError, validate_map_bundle
 from .map_export import write_ascii_pcd
 from .map_quality import read_ascii_xyz_pcd
+from .immutable_output import (
+    OUTPUT_FILE_MODE,
+    new_output_path as _new_output_path,
+    publish_new_file as _publish_new_file,
+    require_distinct_paths as _require_distinct_paths,
+    resolved_output_path as _resolved_output_path,
+    write_new_text as _write_new_text,
+)
+from .ray_observations import (
+    SCHEMA,
+    RayObservation,
+    load_ray_observations,
+    stream_ray_observations,
+)
 
 
-SCHEMA = "rm_map_ray_observations/v1"
-OUTPUT_FILE_MODE = 0o644
-
-
-@dataclass(frozen=True)
-class RayObservation:
-    stamp: float
-    origin: tuple[float, float, float]
-    endpoints: tuple[tuple[float, float, float], ...]
+__all__ = [
+    "SCHEMA",
+    "OUTPUT_FILE_MODE",
+    "RayObservation",
+    "CleanupResult",
+    "clean_with_ray_evidence",
+    "load_ray_observations",
+    "stream_ray_observations",
+    "traverse_voxels",
+    "voxel_key",
+]
 
 
 @dataclass(frozen=True)
@@ -44,7 +58,9 @@ def _sha256(path: str | Path) -> str:
     return digest.hexdigest()
 
 
-def voxel_key(point: Iterable[float], resolution: float) -> tuple[int, int, int]:
+def voxel_key(
+    point: Iterable[float], resolution: float
+) -> tuple[int, int, int]:
     if resolution <= 0.0 or not math.isfinite(resolution):
         raise ValueError("voxel resolution must be finite and positive")
     values = tuple(float(value) for value in point)
@@ -59,7 +75,11 @@ def traverse_voxels(
     """Amanatides-Woo traversal excluding origin and endpoint voxels."""
     start = np.asarray(tuple(origin), dtype=np.float64)
     end = np.asarray(tuple(endpoint), dtype=np.float64)
-    if start.shape != (3,) or end.shape != (3,) or not np.isfinite([start, end]).all():
+    if (
+        start.shape != (3,)
+        or end.shape != (3,)
+        or not np.isfinite([start, end]).all()
+    ):
         raise ValueError("ray origin and endpoint must be finite XYZ values")
     delta = end - start
     distance = float(np.linalg.norm(delta))
@@ -70,7 +90,10 @@ def traverse_voxels(
     if tuple(current) == target:
         return ()
     direction = delta / distance
-    step = [1 if value > 0.0 else -1 if value < 0.0 else 0 for value in direction]
+    step = [
+        1 if value > 0.0 else -1 if value < 0.0 else 0
+        for value in direction
+    ]
     infinity = math.inf
     t_max: list[float] = [infinity, infinity, infinity]
     t_delta: list[float] = [infinity, infinity, infinity]
@@ -98,51 +121,6 @@ def traverse_voxels(
     return tuple(traversed)
 
 
-def load_ray_observations(
-    path: str | Path,
-) -> tuple[dict[str, object], list[RayObservation]]:
-    source = Path(path)
-    observations: list[RayObservation] = []
-    with source.open("r", encoding="utf-8") as stream:
-        lines = [line for line in stream if line.strip()]
-    if not lines:
-        raise ValueError("ray observation sidecar is empty")
-    header = json.loads(lines[0])
-    if header.get("schema") != SCHEMA or header.get("frame_id") != "map":
-        raise ValueError(f"expected {SCHEMA!r} sidecar in canonical map frame")
-    previous_stamp: float | None = None
-    for line_number, line in enumerate(lines[1:], start=2):
-        record = json.loads(line)
-        if record.get("type") != "observation":
-            raise ValueError(f"line {line_number}: expected observation record")
-        stamp = float(record["stamp"])
-        origin = tuple(float(value) for value in record["origin"])
-        endpoints = tuple(
-            tuple(float(value) for value in point) for point in record["endpoints"]
-        )
-        if (
-            not math.isfinite(stamp)
-            or stamp <= 0.0
-            or len(origin) != 3
-            or not all(math.isfinite(value) for value in origin)
-            or not endpoints
-            or any(
-                len(point) != 3 or not all(math.isfinite(value) for value in point)
-                for point in endpoints
-            )
-        ):
-            raise ValueError(f"line {line_number}: invalid timestamp or XYZ data")
-        if previous_stamp is not None and stamp <= previous_stamp:
-            raise ValueError(
-                f"line {line_number}: timestamps must be strictly increasing"
-            )
-        previous_stamp = stamp
-        observations.append(RayObservation(stamp, origin, endpoints))
-    if not observations:
-        raise ValueError("ray observation sidecar contains no observations")
-    return header, observations
-
-
 def clean_with_ray_evidence(
     points: np.ndarray,
     observations: Iterable[RayObservation],
@@ -150,7 +128,7 @@ def clean_with_ray_evidence(
     min_pass_observations: int,
     pass_to_hit_ratio: float,
 ) -> CleanupResult:
-    """Remove candidate voxels repeatedly traversed after their endpoint hits."""
+    """Remove voxels repeatedly traversed after their endpoint hits."""
     xyz = np.asarray(points, dtype=np.float64)
     if xyz.ndim != 2 or xyz.shape[1] != 3 or xyz.shape[0] == 0:
         raise ValueError("cleanup requires a non-empty Nx3 point array")
@@ -191,7 +169,9 @@ def clean_with_ray_evidence(
         if pass_frames[key] >= min_pass_observations
         and pass_frames[key] > pass_to_hit_ratio * max(hit_frames[key], 1)
     }
-    keep_mask = np.asarray([key not in removed_keys for key in point_keys], dtype=bool)
+    keep_mask = np.asarray(
+        [key not in removed_keys for key in point_keys], dtype=bool
+    )
     kept = xyz[keep_mask].astype(np.float32)
     covered_keys = sum(
         hit_frames[key] > 0 or pass_frames[key] > 0 for key in candidate_keys
@@ -226,79 +206,6 @@ def clean_with_ray_evidence(
     return CleanupResult(kept, report)
 
 
-def _resolved_output_path(value: str, label: str) -> Path:
-    requested_path = Path(value).expanduser()
-    if requested_path.is_symlink():
-        raise ValueError(
-            f"{label} is a symlink; refusing indirect output: {requested_path}"
-        )
-    return requested_path.resolve()
-
-
-def _new_output_path(value: str, label: str) -> Path:
-    path = _resolved_output_path(value, label)
-    if path.exists():
-        raise ValueError(f"{label} already exists; refusing overwrite: {path}")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    return path
-
-
-def _require_distinct_paths(paths: dict[str, Path]) -> None:
-    labels = tuple(paths)
-    for index, left_label in enumerate(labels):
-        for right_label in labels[index + 1 :]:
-            if paths[left_label] == paths[right_label]:
-                raise ValueError(
-                    f"{left_label} and {right_label} paths must be distinct: "
-                    f"{paths[left_label]}"
-                )
-
-
-def _publish_new_file(
-    destination: Path,
-    label: str,
-    writer: Callable[[Path], object],
-) -> None:
-    """Atomically publish a complete file without replacing an existing path."""
-    descriptor, temporary_name = tempfile.mkstemp(
-        prefix=f".{destination.name}.",
-        suffix=".tmp",
-        dir=destination.parent,
-    )
-    os.close(descriptor)
-    temporary_path = Path(temporary_name)
-    try:
-        writer(temporary_path)
-        os.chmod(temporary_path, OUTPUT_FILE_MODE)
-        with temporary_path.open("rb") as stream:
-            os.fsync(stream.fileno())
-        try:
-            # A hard link is an atomic no-replace publication on the same
-            # filesystem. The sibling staging file guarantees that condition.
-            os.link(temporary_path, destination)
-        except FileExistsError as exc:
-            raise ValueError(
-                f"{label} appeared while writing; refusing overwrite: {destination}"
-            ) from exc
-        directory_descriptor = os.open(
-            destination.parent,
-            os.O_RDONLY | os.O_DIRECTORY,
-        )
-        try:
-            os.fsync(directory_descriptor)
-        finally:
-            os.close(directory_descriptor)
-    finally:
-        temporary_path.unlink(missing_ok=True)
-
-
-def _write_new_text(destination: Path, label: str, content: str) -> None:
-    def write_staged(path: Path) -> None:
-        path.write_text(content, encoding="utf-8", newline="\n")
-
-    _publish_new_file(destination, label, write_staged)
-
-
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
@@ -306,15 +213,105 @@ def build_parser() -> argparse.ArgumentParser:
             "A final merged PCD alone is intentionally insufficient."
         )
     )
-    parser.add_argument("--input-pcd", required=True)
-    parser.add_argument("--observations", required=True)
+    parser.add_argument(
+        "--input-manifest",
+        help=(
+            "Validated occupancy_with_pcd map bundle containing both the PCD "
+            "and ray_observations artifact. This is the safe field-data mode."
+        ),
+    )
+    parser.add_argument(
+        "--input-pcd",
+        help="Direct PCD input for synthetic or legacy use only",
+    )
+    parser.add_argument(
+        "--observations",
+        help="Direct ray sidecar input for synthetic or legacy use only",
+    )
     parser.add_argument("--report", required=True)
     parser.add_argument("--output-pcd")
     parser.add_argument("--write-candidate", action="store_true")
+    parser.add_argument(
+        "--allow-incomplete-observations",
+        action="store_true",
+        help=(
+            "Explicitly permit candidate generation from a recorder sidecar "
+            "whose header status is not complete. The unsafe override is "
+            "recorded in the report."
+        ),
+    )
     parser.add_argument("--voxel-resolution", type=float, default=0.10)
     parser.add_argument("--min-pass-observations", type=int, default=4)
     parser.add_argument("--pass-to-hit-ratio", type=float, default=2.0)
     return parser
+
+
+def _resolve_inputs(
+    parsed: argparse.Namespace,
+) -> tuple[
+    Path,
+    Path,
+    Path | None,
+    dict[str, object],
+    dict[str, str] | None,
+]:
+    has_manifest = parsed.input_manifest is not None
+    has_pcd = parsed.input_pcd is not None
+    has_observations = parsed.observations is not None
+
+    if has_manifest and (has_pcd or has_observations):
+        raise SystemExit(
+            "--input-manifest cannot be combined with --input-pcd or "
+            "--observations"
+        )
+    if has_manifest:
+        manifest_path = Path(parsed.input_manifest).expanduser().resolve()
+        bundle = validate_map_bundle(manifest_path)
+        if bundle["map_type"] != "occupancy_with_pcd":
+            raise MapBundleError(
+                "ray cleanup requires an occupancy_with_pcd map bundle"
+            )
+        pcd = bundle.get("pcd")
+        if not isinstance(pcd, dict):
+            raise MapBundleError(
+                "ray cleanup requires a validated PCD artifact"
+            )
+        ray_observations = bundle.get("ray_observations")
+        if not isinstance(ray_observations, dict):
+            raise MapBundleError(
+                "map bundle has no ray_observations artifact"
+            )
+        validated_manifest = Path(str(bundle["manifest"]))
+        return (
+            Path(str(pcd["path"])),
+            Path(str(ray_observations["path"])),
+            validated_manifest,
+            {
+                "input_manifest": str(validated_manifest),
+                "input_manifest_sha256": _sha256(validated_manifest),
+            },
+            {
+                "input_pcd": str(pcd["sha256"]),
+                "observations": str(ray_observations["sha256"]),
+            },
+        )
+
+    if has_pcd != has_observations:
+        raise SystemExit(
+            "--input-pcd and --observations must be provided together"
+        )
+    if not has_pcd:
+        raise SystemExit(
+            "provide --input-manifest, or provide both --input-pcd and "
+            "--observations"
+        )
+    return (
+        Path(parsed.input_pcd).expanduser().resolve(),
+        Path(parsed.observations).expanduser().resolve(),
+        None,
+        {},
+        None,
+    )
 
 
 def main(args: list[str] | None = None) -> int:
@@ -324,8 +321,13 @@ def main(args: list[str] | None = None) -> int:
     if not parsed.write_candidate and parsed.output_pcd:
         raise SystemExit("--output-pcd requires explicit --write-candidate")
 
-    input_path = Path(parsed.input_pcd).expanduser().resolve()
-    observations_path = Path(parsed.observations).expanduser().resolve()
+    (
+        input_path,
+        observations_path,
+        manifest_path,
+        input_report,
+        expected_input_hashes,
+    ) = _resolve_inputs(parsed)
     report_path = _resolved_output_path(parsed.report, "report")
     candidate_path = (
         _resolved_output_path(parsed.output_pcd, "candidate PCD")
@@ -337,29 +339,70 @@ def main(args: list[str] | None = None) -> int:
         "observations": observations_path,
         "report": report_path,
     }
+    if manifest_path is not None:
+        role_paths["input manifest"] = manifest_path
     if candidate_path is not None:
         role_paths["candidate PCD"] = candidate_path
     _require_distinct_paths(role_paths)
 
     points, pcd_metadata = read_ascii_xyz_pcd(input_path)
-    sidecar_header, observations = load_ray_observations(observations_path)
-    result = clean_with_ray_evidence(
-        points,
+    with stream_ray_observations(observations_path) as (
+        sidecar_header,
         observations,
-        parsed.voxel_resolution,
-        parsed.min_pass_observations,
-        parsed.pass_to_hit_ratio,
-    )
+    ):
+        observations_status = sidecar_header.get("status")
+        if (
+            parsed.write_candidate
+            and observations_status is not None
+            and observations_status != "complete"
+            and not parsed.allow_incomplete_observations
+        ):
+            raise ValueError(
+                "recorder observation sidecar status must be 'complete' for "
+                "candidate output; use --allow-incomplete-observations only "
+                "for an explicitly reviewed experiment"
+            )
+        result = clean_with_ray_evidence(
+            points,
+            observations,
+            parsed.voxel_resolution,
+            parsed.min_pass_observations,
+            parsed.pass_to_hit_ratio,
+        )
+
+    input_pcd_hash = _sha256(input_path)
+    observations_hash = _sha256(observations_path)
+    if expected_input_hashes is not None:
+        actual_hashes = {
+            "input_pcd": input_pcd_hash,
+            "observations": observations_hash,
+        }
+        changed_inputs = [
+            label
+            for label, expected_hash in expected_input_hashes.items()
+            if actual_hashes[label] != expected_hash
+        ]
+        if changed_inputs:
+            raise MapBundleError(
+                "map bundle input changed after validation: "
+                + ", ".join(changed_inputs)
+            )
+
     report_path = _new_output_path(parsed.report, "report")
     report = dict(result.report)
     report.update(
         {
+            **input_report,
             "input_pcd": str(input_path),
-            "input_pcd_sha256": _sha256(input_path),
+            "input_pcd_sha256": input_pcd_hash,
             "input_pcd_metadata": pcd_metadata,
             "observations": str(observations_path),
-            "observations_sha256": _sha256(observations_path),
+            "observations_sha256": observations_hash,
             "observations_header": sidecar_header,
+            "observations_status": observations_status or "legacy_unspecified",
+            "allow_incomplete_observations": bool(
+                parsed.allow_incomplete_observations
+            ),
             "candidate_written": bool(parsed.write_candidate),
         }
     )
