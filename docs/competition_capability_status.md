@@ -12,7 +12,7 @@ validated for competition.
 | Dynamic obstacles | Old-car filtered PointCloud2 + explicit STVL profile | Voxel baseline remains available | Match-duration observation and optional dual-stream CPU test |
 | Managed mapping | PCD accumulation + OctoMap occupancy + bundle export plus read-only quality/replay tools | Guarded | Automatic cleanup backend rejected; use pause/resume SOP or reviewed manual revision |
 | 2D relocalization | AMCL without TF ownership -> global-pose bridge | Explicit `amcl_2d` | fresh03 alignment and short navigation passed; old-car high-spin candidate field A/B reported successful, but remains explicit |
-| 3D relocalization | Seeded PCL GICP -> global-pose bridge | Explicit `gicp_3d` | Real PCD, fitness thresholds and coarse prior |
+| 3D relocalization | Seeded PCL GICP with overlap/information degeneracy gate -> global-pose bridge | Explicit `gicp_3d` | Real PCD, field quality thresholds and coarse prior |
 | Map deployment | Approved/candidate/test policies with hash validation | `approved_only` | fresh03 is a validated occupancy-only candidate, not approved and not a GICP asset |
 | Dual lidar | Single left LIO plus dual filtered obstacle PointCloud2 fusion | Disabled | Right extrinsic, time sync, alignment and resources |
 | Referee state | Confirmed HPM feedback parser -> normalized message -> freshness/range gate | Disabled | Real serial observation intentionally not run |

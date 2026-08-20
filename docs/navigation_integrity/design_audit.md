@@ -90,7 +90,8 @@ correction 指标，但不接入 bridge 输入和输出。
 ## 可复用 diagnostics
 
 - scan deskew candidate 已发布 `diagnostic_msgs/DiagnosticArray`；
-- GICP 已发布 registration valid、fitness 和 map id；
+- GICP 已发布 registration valid、fitness、overlap、归一化信息矩阵最小特征值、
+  condition number 和 map id；其退化门在 raw pose 发布前 fail-closed；
 - readiness monitor 汇总依赖是否在线，但不判断几何正确性；
 - LIO 保留计算时间和 localizability 等 backend-private diagnostics。
 

@@ -10,6 +10,8 @@
   LIO 或地图核心源码变化，无需重复迁移。
 - 上游许可证：MIT。
 - 本轮没有 vendoring、submodule 或逐文件复制。实现是依据算法边界重新编写的独立代码。
+- Phase 1 之后的冻结范围、已落地增量和条件触发项统一记录在
+  `docs/hwsentry_migration/selective_migration_status.md`。
 
 选择性迁移遵守现有 canonical TF、Nav2 action authority 和安全默认。外部系统的
 `latest TF`、自定义未来代价图、自研整套 planner/executor 不进入当前主线。

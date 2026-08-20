@@ -34,7 +34,8 @@ A PCD is required, but successful registration also depends on:
 3. a seed within the GICP convergence basin;
 4. suitable downsampling and correspondence thresholds;
 5. bounded motion distortion and timestamped `odom -> base_link`;
-6. fitness/jump rejection and CPU latency on the target minipc.
+6. fitness, overlap, information-spectrum and jump rejection;
+7. CPU latency on the target minipc.
 
 The first implementation deliberately requires `/initialpose`. It does not
 claim full-field place recognition or brute-force global search. A descriptor,
@@ -84,6 +85,9 @@ Inspect:
 
 ```bash
 ros2 topic echo --once /localization/gicp_fitness_score
+ros2 topic echo --once /localization/gicp_overlap_ratio
+ros2 topic echo --once /localization/gicp_min_information_eigenvalue
+ros2 topic echo --once /localization/gicp_information_condition_number
 ros2 topic echo --once /localization/gicp_pose_raw
 ros2 topic echo --once /localization/global_pose
 ros2 topic echo --once /localization/global_localization_valid
@@ -97,6 +101,13 @@ pose gate, and the Phase 2C bridge. Registration was accepted,
 `/localization/global_pose` was produced, GICP published no TF, the stub was
 absent, and `map_odom_from_global_pose` remained the only canonical
 `map -> odom` owner. This does not establish convergence on a real field PCD.
+
+The post-registration quality gate is also covered by a no-hardware smoke. On
+the synthetic asset it reported overlap `1.0`, normalized minimum information
+eigenvalue about `1.08e-2`, and condition number about `181`; the default gate
+accepted and published a raw pose. Raising the minimum-eigenvalue threshold to
+`0.1` rejected every registration and no raw pose was published. These values
+verify gate wiring only and are not field thresholds.
 
 Real acceptance additionally requires multiple initial-pose errors, repeated
 field structures, partial overlap, occlusion, collision-induced displacement,
@@ -114,7 +125,12 @@ test is a no-motion old-car run against the candidate Phase 2I PCD:
 - start driver, LIO, GICP, and `map_odom_from_global_pose`;
 - keep Nav2 and real serial disabled;
 - provide several measured `/initialpose` seeds with controlled error;
-- verify accepted fitness, stable `/localization/global_pose`, and one
+- first use a copied validation YAML with `quality_gate_enabled: false` to
+  record the three quality metrics without bypassing the existing convergence,
+  fitness, jump or TF checks;
+- derive reviewed quality thresholds from accepted and deliberately degraded
+  trials, restore `quality_gate_enabled: true`, and repeat the matrix;
+- verify accepted fitness/quality, stable `/localization/global_pose`, and one
   canonical `map -> odom` owner;
 - test partial overlap and repeated geometry before considering deployment.
 
