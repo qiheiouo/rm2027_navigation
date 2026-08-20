@@ -1,23 +1,22 @@
 <?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd"?>
 <package format="3">
-  <name>rm_dynamic_obstacle_tracking</name>
+  <name>rm_dynamic_clearance</name>
   <version>0.1.0</version>
-  <description>Shadow-only 2D dynamic obstacle tracking and prediction.</description>
+  <description>Revision-bound shadow dynamic-clearance admission evaluator.</description>
   <maintainer email="todo@example.com">RM Navigation</maintainer>
   <license>Apache-2.0</license>
 
-  <exec_depend>diagnostic_msgs</exec_depend>
-  <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
   <exec_depend>nav_msgs</exec_depend>
   <exec_depend>rclpy</exec_depend>
   <exec_depend>rm_competition_interfaces</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>rm_path_annotations</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
-  <exec_depend>visualization_msgs</exec_depend>
 
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
 
   <export>

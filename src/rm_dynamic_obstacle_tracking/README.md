@@ -6,15 +6,18 @@ cells, clusters unexplained endpoints, tracks them with a constant-velocity
 Kalman model, and visualizes current velocity and short-horizon predictions.
 
 It intentionally does **not** publish TF, costmaps, plans, goals, or velocity
-commands. Its output is not a stable controller API yet:
+commands. Its outputs are:
 
+- `/perception/dynamic_obstacles_shadow/predictions`
 - `/perception/dynamic_obstacles_shadow/markers`
 - `/perception/dynamic_obstacles_shadow/diagnostics`
 
-The diagnostics array contains one machine-readable status per visible track
-with ID, state, source timestamp, age, position, velocity, footprint size,
-observation count, miss count, and prediction length. MarkerArray carries the
-corresponding RViz geometry and predicted line strip.
+The versioned prediction array is the only machine-readable consumer boundary.
+It carries the scan source stamp, prediction step, state, footprint and centers.
+Consumers must reject stale or wrong-frame data and must not parse markers or
+diagnostic strings. Output is deterministically bounded by `prediction.max_tracks`;
+if that bound truncates a frame, `complete=false` and consumers must not infer
+clearance. The diagnostics and MarkerArray remain operator aids.
 
 The launch defaults to disabled:
 

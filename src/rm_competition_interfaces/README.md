@@ -14,5 +14,8 @@ protocol.
 - `AnnotatedPath` and `PathIntentSegment` are revision-bound sidecar metadata
   for a standard `nav_msgs/Path`; they do not replace the Nav2 path message or
   grant controller/action authority.
+- `DynamicObstaclePredictionArray` is the versioned, map-frame shadow output of
+  the dynamic tracker; `DynamicClearanceReport` binds a read-only special-region
+  admission result to both the path revision and prediction source stamp.
 - `SetMissionMode` is the explicit enable/mode gate for competition mission
   execution.

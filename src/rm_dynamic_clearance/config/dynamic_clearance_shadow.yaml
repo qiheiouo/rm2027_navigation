@@ -1,0 +1,25 @@
+dynamic_clearance_shadow:
+  ros__parameters:
+    use_sim_time: false
+    path_topic: /plan
+    annotated_path_topic: /navigation/annotated_path
+    prediction_topic: /perception/dynamic_obstacles_shadow/predictions
+    report_topic: /navigation/dynamic_clearance_shadow
+    base_frame: base_link
+    tf_timeout_sec: 0.05
+
+    # Provisional shadow-only values. Field acceptance is required before use by
+    # any mission or special-channel executor.
+    nominal_speed_mps: 1.0
+    sample_resolution_m: 0.10
+    lookahead_distance_m: 6.0
+    robot_radius_m: 0.35
+    minimum_obstacle_radius_m: 0.15
+    safety_margin_m: 0.15
+    include_coasting: true
+    coasting_extra_margin_m: 0.15
+    max_prediction_age_sec: 0.40
+    max_future_prediction_sec: 0.05
+    max_path_projection_distance_m: 1.0
+    projection_ambiguity_distance_m: 0.03
+    projection_ambiguity_progress_m: 0.50

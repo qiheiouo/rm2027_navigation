@@ -6,6 +6,7 @@ dynamic_obstacle_tracker_shadow:
     map_frame: map
     markers_topic: /perception/dynamic_obstacles_shadow/markers
     diagnostics_topic: /perception/dynamic_obstacles_shadow/diagnostics
+    predictions_topic: /perception/dynamic_obstacles_shadow/predictions
 
     # Endpoints close to static occupied cells are explained by the map.
     static_distance_threshold: 0.25
@@ -35,3 +36,4 @@ dynamic_obstacle_tracker_shadow:
       dt: 0.10
       velocity_decay_tau: 1.50
       max_speed: 3.0
+      max_tracks: 64

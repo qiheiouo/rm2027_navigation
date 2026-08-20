@@ -18,6 +18,10 @@ from rclpy.qos import (
     qos_profile_sensor_data,
 )
 from rclpy.time import Time
+from rm_competition_interfaces.msg import (
+    DynamicObstaclePrediction,
+    DynamicObstaclePredictionArray,
+)
 from sensor_msgs.msg import LaserScan
 from tf2_ros import Buffer, TransformException, TransformListener
 from visualization_msgs.msg import Marker, MarkerArray
@@ -49,6 +53,9 @@ class DynamicObstacleTrackerNode(Node):
         ).value
         self._diagnostics_topic = self.declare_parameter(
             "diagnostics_topic", "/perception/dynamic_obstacles_shadow/diagnostics"
+        ).value
+        self._predictions_topic = self.declare_parameter(
+            "predictions_topic", "/perception/dynamic_obstacles_shadow/predictions"
         ).value
         self._static_distance_threshold = float(
             self.declare_parameter("static_distance_threshold", 0.25).value
@@ -83,6 +90,19 @@ class DynamicObstacleTrackerNode(Node):
         )
         self._validate_parameters()
 
+        self._prediction_dt = float(
+            self.declare_parameter("prediction.dt", 0.1).value
+        )
+        self._prediction_steps = int(
+            self.declare_parameter("prediction.steps", 15).value
+        )
+        self._prediction_max_tracks = int(
+            self.declare_parameter("prediction.max_tracks", 64).value
+        )
+        if not 1 <= self._prediction_steps <= 1000:
+            raise ValueError("prediction.steps must be in [1, 1000]")
+        if not 1 <= self._prediction_max_tracks <= 256:
+            raise ValueError("prediction.max_tracks must be in [1, 256]")
         self._tracker = MultiObjectTracker(
             association_gate=float(
                 self.declare_parameter("tracker.association_gate", 0.60).value
@@ -105,12 +125,8 @@ class DynamicObstacleTrackerNode(Node):
             max_coast_time_sec=float(
                 self.declare_parameter("tracker.max_coast_time_sec", 0.6).value
             ),
-            prediction_steps=int(
-                self.declare_parameter("prediction.steps", 15).value
-            ),
-            prediction_dt=float(
-                self.declare_parameter("prediction.dt", 0.1).value
-            ),
+            prediction_steps=self._prediction_steps,
+            prediction_dt=self._prediction_dt,
             velocity_decay_tau=float(
                 self.declare_parameter("prediction.velocity_decay_tau", 1.5).value
             ),
@@ -136,10 +152,13 @@ class DynamicObstacleTrackerNode(Node):
         self._diagnostics_pub = self.create_publisher(
             DiagnosticArray, self._diagnostics_topic, 10
         )
+        self._predictions_pub = self.create_publisher(
+            DynamicObstaclePredictionArray, self._predictions_topic, 10
+        )
         self.get_logger().info(
             "SHADOW ONLY dynamic tracker ready: %s + %s -> %s; "
             "it does not modify costmaps, plans, goals, TF, or cmd_vel"
-            % (self._map_topic, self._scan_topic, self._markers_topic)
+            % (self._map_topic, self._scan_topic, self._predictions_topic)
         )
 
     def _validate_parameters(self) -> None:
@@ -147,6 +166,7 @@ class DynamicObstacleTrackerNode(Node):
             not self._map_topic
             or not self._scan_topic
             or not self._map_frame
+            or not self._predictions_topic
             or self._static_distance_threshold < 0.0
         ):
             raise ValueError("map frame and static subtraction threshold are invalid")
@@ -275,6 +295,7 @@ class DynamicObstacleTrackerNode(Node):
             for track in update.tracks
             if self._show_tentative or track.state != TrackState.TENTATIVE
         ]
+        self._publish_predictions(message, list(update.tracks))
         self._publish_markers(message, visible_tracks)
         self._publish_diagnostics(
             message,
@@ -287,6 +308,56 @@ class DynamicObstacleTrackerNode(Node):
             update.created,
             update.deleted,
         )
+
+    def _publish_predictions(
+        self, message: LaserScan, tracks: list[TrackSnapshot]
+    ) -> None:
+        output = DynamicObstaclePredictionArray()
+        output.header.frame_id = self._map_frame
+        output.header.stamp = message.header.stamp
+        output.schema = DynamicObstaclePredictionArray.SCHEMA
+        output.authority = DynamicObstaclePredictionArray.AUTHORITY_SHADOW_ONLY
+        output.processing_stamp = self.get_clock().now().to_msg()
+        output.prediction_dt = self._prediction_dt
+        output.prediction_steps = self._prediction_steps
+        output.total_track_count = len(tracks)
+        output.complete = len(tracks) <= self._prediction_max_tracks
+        state_values = {
+            TrackState.TENTATIVE: DynamicObstaclePrediction.STATE_TENTATIVE,
+            TrackState.CONFIRMED: DynamicObstaclePrediction.STATE_CONFIRMED,
+            TrackState.COASTING: DynamicObstaclePrediction.STATE_COASTING,
+        }
+        ordered_tracks = sorted(
+            tracks,
+            key=lambda track: (
+                {
+                    TrackState.CONFIRMED: 0,
+                    TrackState.COASTING: 1,
+                    TrackState.TENTATIVE: 2,
+                }[track.state],
+                track.track_id,
+            ),
+        )
+        for track in ordered_tracks[: self._prediction_max_tracks]:
+            prediction = DynamicObstaclePrediction()
+            prediction.track_id = track.track_id
+            prediction.state = state_values[track.state]
+            prediction.position.x = track.position.x
+            prediction.position.y = track.position.y
+            prediction.velocity.x = track.velocity.x
+            prediction.velocity.y = track.velocity.y
+            prediction.size.x = track.size_x
+            prediction.size.y = track.size_y
+            prediction.last_observation_stamp = Time(
+                nanoseconds=round(track.last_observation_timestamp * 1.0e9)
+            ).to_msg()
+            prediction.observation_count = track.observations
+            prediction.miss_count = track.misses
+            prediction.prediction = [
+                Point(x=point.x, y=point.y, z=0.0) for point in track.prediction
+            ]
+            output.tracks.append(prediction)
+        self._predictions_pub.publish(output)
 
     def _publish_markers(
         self, message: LaserScan, tracks: list[TrackSnapshot]

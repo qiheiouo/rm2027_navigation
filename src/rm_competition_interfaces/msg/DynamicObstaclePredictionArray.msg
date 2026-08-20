@@ -1,0 +1,13 @@
+std_msgs/Header header
+
+string SCHEMA=rm_dynamic_obstacle_predictions/v1
+string AUTHORITY_SHADOW_ONLY=shadow_only
+
+string schema
+string authority
+builtin_interfaces/Time processing_stamp
+float64 prediction_dt
+uint32 prediction_steps
+bool complete
+uint32 total_track_count
+rm_competition_interfaces/DynamicObstaclePrediction[] tracks
