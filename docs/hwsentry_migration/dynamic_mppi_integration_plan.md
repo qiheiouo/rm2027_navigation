@@ -8,7 +8,8 @@ pluginlib 加载 `mppi::critics::CriticFunction`，critic 可读取批量轨迹�
 时间步长和 costmap 数据。
 
 本阶段不实现、不加载该 critic。`rm_dynamic_obstacle_tracking` 仍为
-shadow-only，MarkerArray 仅用于观察，不是控制器稳定接口。
+shadow-only；现已发布版本化 `DynamicObstaclePredictionArray` 作为只读输入边界，
+MarkerArray 仍仅用于观察。该消息尚未被 MPPI 消费，也不代表 tracker 已通过实车门。
 
 参考源码：
 
@@ -16,9 +17,9 @@ shadow-only，MarkerArray 仅用于观察，不是控制器稳定接口。
 - [CriticManager plugin loading](https://github.com/ros-navigation/navigation2/blob/humble/nav2_mppi_controller/src/critic_manager.cpp)
 - [CriticData](https://github.com/ros-navigation/navigation2/blob/humble/nav2_mppi_controller/include/nav2_mppi_controller/critic_data.hpp)
 
-## 未来稳定输入
+## 已落地的稳定输入边界
 
-进入控制器前应定义小型、只读的预测消息，至少包含：
+`rm_dynamic_obstacle_predictions/v1` 已包含：
 
 ```text
 header(frame_id=map, source timestamp)
@@ -28,10 +29,13 @@ current pose and footprint
 velocity
 prediction dt
 predicted poses or footprints
-confidence/freshness
+observation stamp/count/misses
+declared prediction steps/horizon
+bounded track count and completeness flag
 ```
 
-MarkerArray 不提供稳定的语义、协方差或版本合同，不应被 critic 解析。
+MarkerArray 不提供稳定的语义或版本合同，不应被 critic 解析。预测消息的存在只消除
+接口缺口；协方差/置信度、tracker D01-D07 和控制周期资源证据仍是 critic 的前置门。
 
 ## Critic 计算
 

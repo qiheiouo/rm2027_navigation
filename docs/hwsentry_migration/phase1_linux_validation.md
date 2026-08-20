@@ -76,6 +76,7 @@ ros2 launch rm_dynamic_obstacle_tracking \
 ros2 node info /dynamic_obstacle_tracker_shadow
 ros2 topic info /perception/dynamic_obstacles_shadow/markers -v
 ros2 topic info /perception/dynamic_obstacles_shadow/diagnostics -v
+ros2 topic info /perception/dynamic_obstacles_shadow/predictions -v
 ros2 topic info /tf -v
 ros2 topic info /cmd_vel -v
 ```
@@ -88,7 +89,8 @@ ros2 bag record -o /tmp/rm27_dynamic_tracker_shadow/d01_d07 \
   /map /local_scan /odometry/lio \
   /tf /tf_static \
   /perception/dynamic_obstacles_shadow/markers \
-  /perception/dynamic_obstacles_shadow/diagnostics
+  /perception/dynamic_obstacles_shadow/diagnostics \
+  /perception/dynamic_obstacles_shadow/predictions
 ```
 
 RViz Fixed Frame 使用 `map`，一次只增加 shadow MarkerArray 和必要的 map/scan

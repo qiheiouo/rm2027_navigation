@@ -87,12 +87,14 @@
 
 当前只发布：
 
+- `/perception/dynamic_obstacles_shadow/predictions`；
 - `/perception/dynamic_obstacles_shadow/markers`；
 - `/perception/dynamic_obstacles_shadow/diagnostics`。
 
-MarkerArray 用于 RViz 显示 ID、状态、包围盒、速度箭头和未来轨迹。它不是稳定控制 API。
-在 shadow 数据通过现场门之前，不新增 controller 消费消息，不修改 local/global costmap、
-planner、MPPI、goal、TF 或 `/cmd_vel`。
+版本化 prediction array 是唯一机器可读的旁车边界；MarkerArray 只用于 RViz 显示
+ID、状态、包围盒、速度箭头和未来轨迹。prediction 仍不是控制授权。在 shadow 数据
+通过现场门之前，不新增 controller 消费，不修改 local/global costmap、planner、MPPI、
+goal、TF 或 `/cmd_vel`。
 
 ## Old-car D01-D07 验证
 
@@ -105,7 +107,7 @@ planner、MPPI、goal、TF 或 `/cmd_vel`。
 7. D07 机器人平移/自转：验证 timestamped TF、输入丢帧和假速度。旧车高速自转只在安全
    条件下进行，新车动态云台需另行验收。
 
-每轮保存 scan、map、TF、markers、diagnostics 和人工标注。至少报告 false tracks/min、
+每轮保存 scan、map、TF、predictions、markers、diagnostics 和人工标注。至少报告 false tracks/min、
 确认延迟、ID switches、轨迹寿命、速度方差、0.5/1.0/1.5 秒预测误差、CPU、RSS、P95
 callback latency 与输入 drop。
 

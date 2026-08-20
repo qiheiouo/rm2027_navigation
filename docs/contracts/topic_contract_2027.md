@@ -34,6 +34,7 @@
 | `/localization/map_to_odom` | `geometry_msgs/msg/TransformStamped` | `map_odom_from_global_pose` | diagnostics, validation | Inspectable copy of the accepted canonical correction; the same node owns dynamic `map -> odom` |
 | `/localization/global_localization_valid` | `std_msgs/msg/Bool` | `map_odom_from_global_pose` | diagnostics, future safety/mission layer | Latched validity of the current correction; false before the first valid match and after reset/time reset |
 | `/navigation/annotated_path` | `rm_competition_interfaces/msg/AnnotatedPath` | default-off `semantic_path_annotator` | future BT/controller/special-region executor | Revision-bound sidecar for an unchanged standard Path; stale/mismatched revisions must be ignored and the topic grants no control authority |
+| `/navigation/dynamic_clearance_shadow` | `rm_competition_interfaces/msg/DynamicClearanceReport` | default-off `dynamic_clearance_shadow` | diagnostics, rosbag, future special-region executor | `CLEAR/BLOCKED/UNKNOWN` result bound to path revision, region-set hash, timestamped robot path progress and prediction source stamp; it grants no motion or commit authority |
 | `/cmd_vel` | `geometry_msgs/msg/Twist` | Nav2 | `rm_chassis_interface` | Commanded chassis velocity in `base_link` |
 | `/chassis/twist_raw` | `geometry_msgs/msg/TwistWithCovarianceStamped` | `rm_chassis_interface` | diagnostics, slip detection, future low-weight fusion | Chassis feedback velocity, not the main localization source |
 | `/chassis/wheel_states_raw` | `sensor_msgs/msg/JointState` | future `rm_chassis_interface` feedback path | chassis kinematics, diagnostics | Proposed four-wheel raw feedback topic; serial wire layout is not yet confirmed |
@@ -44,6 +45,7 @@
 | `/referee/state` | `rm_competition_interfaces/msg/RefereeState` | `referee_state_gate` | mission/BT, diagnostics | Fresh, range-checked competition state; not a navigation command |
 | `/referee/state_valid` | `std_msgs/msg/Bool` | `referee_state_gate` | mission/BT, diagnostics | Latched referee freshness and validation result |
 | `/perception/target_track` | `rm_competition_interfaces/msg/TargetTrack` | armor/target perception adapter | pursuit boundary | Timestamped target estimate with frame, covariance, velocity, confidence and validity |
+| `/perception/dynamic_obstacles_shadow/predictions` | `rm_competition_interfaces/msg/DynamicObstaclePredictionArray` | optional dynamic-obstacle shadow tracker | shadow clearance evaluator, offline scoring, future reviewed critic | Versioned map-frame tracks and declared prediction horizon; stale, wrong-frame or malformed data must not be treated as clear |
 | `/perception/dynamic_obstacles_shadow/markers` | `visualization_msgs/msg/MarkerArray` | optional dynamic-obstacle shadow tracker | RViz, rosbag | Unstable visualization-only tracks and predictions; never a controller or costmap API |
 | `/perception/dynamic_obstacles_shadow/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | optional dynamic-obstacle shadow tracker | diagnostics, rosbag | Input, extraction, lifecycle and latency evidence; shadow status grants no motion authority |
 | `/mission/pursuit_goal` | `geometry_msgs/msg/PoseStamped` | `pursuit_goal_planner` | competition mission/BT | Validated standoff candidate in `map`; it is not sent to Nav2 without mission authority |
@@ -183,10 +185,14 @@ Pursuit, referee, serial and perception nodes provide candidates or state and
 must not call Nav2 independently. Mission disable or any required safety-input
 invalidation must cancel the active mission goal.
 
-The dynamic-obstacle shadow tracker has no navigation authority. Its MarkerArray
-is not a stable prediction interface and must not be consumed by MPPI. A future
-controller integration requires a separately reviewed, timestamped prediction
-message and must preserve the single Nav2 command path.
+The dynamic-obstacle shadow tracker has no navigation authority. Consumers may
+use only its versioned prediction array, never MarkerArray or diagnostic text.
+The default-off clearance evaluator remains a read-only sidecar: `UNKNOWN`
+includes stale/future input, insufficient horizon and revision/contract failure,
+timestamped `map -> base_link` failure and ambiguous/off-path projection. It
+must never use latest-TF or promote `UNKNOWN` to permission to enter. A future
+MPPI or dog-hole integration requires separate acceptance and must preserve the
+single Nav2 command path.
 
 ## Forbidden Topic Glue
 

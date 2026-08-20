@@ -10,7 +10,10 @@
   condition number；
 - 默认关闭的语义区域与 annotated path sidecar：地图/区域语义哈希绑定、确定性
   path revision、弧长分段、限速/航向/no-spin/准入/COMMITTED 数据合同；
-- dynamic MPPI、factor-graph LIO、特殊通道准入与 COMMITTED 执行接线的隔离设计。
+- 版本化动态目标预测消息，以及默认关闭的特殊通道 shadow 准入器：按 ETA 采样未来
+  占用，严格用预测时间戳的 robot TF 投影当前 Path 进度，输出与 path revision、区域哈希、
+  预测时间戳绑定的 CLEAR/BLOCKED/UNKNOWN；
+- dynamic MPPI、factor-graph LIO 与 COMMITTED 执行接线的隔离设计。
 
 以上实现都不改变 Nav2、MPPI、costmap、底盘或 canonical TF 的默认所有权。
 
@@ -22,10 +25,10 @@
 
 ## 后续明确项
 
-1. 特殊通道在进入前做预测占用准入，进入后遵守已落地 sidecar 的 COMMITTED
-   traversal policy；接入已有狗洞执行器，
-   不新增第二套 FSM/action owner；
-2. tracker D01-D07 使用匹配场地的地图通过后，动态障碍 MPPI 才按 shadow score、
+1. tracker D01-D07 使用匹配场地的地图通过后，将已落地的 shadow 准入报告和
+   COMMITTED traversal policy 接入 `main-new-car` 已有狗洞执行器与单一 mission
+   action owner，不新增第二套 FSM；
+2. tracker D01-D07 通过后，动态障碍 MPPI 才按 shadow score、
    零权重、仿真、低速实车顺序推进。
 
 ## 条件触发项

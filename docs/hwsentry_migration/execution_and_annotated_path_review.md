@@ -66,6 +66,10 @@ revision 和 manifest SHA256；多边形、类型、限速、航向、准入和 
 均 fail-closed 校验，并用 `region_set_sha256` 绑定解析后的完整语义。路径与区域相交后
 输出不重叠的弧长段，重叠限速取最小值，冲突航向拒绝整条注释。
 
-本阶段没有任何消费者，因此它仍是旁路数据合同，不改变 Nav2、mission、TF 或底盘。
-下一步不是复制 HWSentry planner，而是把动态障碍预测准入和已有狗洞执行器按独立
-验收门接到该合同。
+默认关闭的 `rm_dynamic_clearance` 已成为第一个旁路消费者：它只对最近的
+`ADMISSION_DYNAMIC_CLEARANCE` 区间输出 revision-bound `CLEAR/BLOCKED/UNKNOWN`，
+预测过期、时域不足、tentative overlap 或合同错误均不会伪装成 `CLEAR`。它不发布
+Path、TF、costmap、action 或速度命令，也没有执行授权。
+
+下一步不是复制 HWSentry planner/FSM，而是在 tracker 实车门通过后，把该报告和
+COMMITTED 仲裁接入 `main-new-car` 已有的狗洞执行器与单一 mission action owner。

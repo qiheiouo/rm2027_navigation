@@ -14,7 +14,8 @@ validated for competition.
 | 2D relocalization | AMCL without TF ownership -> global-pose bridge | Explicit `amcl_2d` | fresh03 alignment and short navigation passed; old-car high-spin candidate field A/B reported successful, but remains explicit |
 | 3D relocalization | Seeded PCL GICP with overlap/information degeneracy gate -> global-pose bridge | Explicit `gicp_3d` | Real PCD, field quality thresholds and coarse prior |
 | Map deployment | Approved/candidate/test policies with hash validation | `approved_only` | fresh03 is a validated occupancy-only candidate, not approved and not a GICP asset |
-| Semantic route intent | Map-bound polygons -> revision-bound annotated-path sidecar | Disabled | Author field regions, validate path overlays and add an explicitly accepted consumer |
+| Semantic route intent | Map-bound polygons -> revision-bound annotated-path sidecar | Disabled | Author field regions, validate path overlays and explicitly accept the shadow/production consumers |
+| Special-channel clearance | Path/region revision + ETA-aligned dynamic predictions -> shadow CLEAR/BLOCKED/UNKNOWN | Disabled | Matched-map tracker D01-D07, field timing/radius thresholds and new-car executor acceptance |
 | Dual lidar | Single left LIO plus dual filtered obstacle PointCloud2 fusion | Disabled | Right extrinsic, time sync, alignment and resources |
 | Referee state | Confirmed HPM feedback parser -> normalized message -> freshness/range gate | Disabled | Real serial observation intentionally not run |
 | Chassis authority | Manual/auto/estop consistency and freshness gate | Disabled | Deferred for current old-car scope; remote control remains external physical authority |
