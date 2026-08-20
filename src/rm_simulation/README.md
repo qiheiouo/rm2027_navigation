@@ -36,20 +36,29 @@ boundary only; it is not a MID360 physics or timing simulation.
 The new-car dog-hole candidate uses `dog_hole_sim.launch.py`. It generates a
 parameterized `0.80 m` tunnel model from the single configuration in
 `rm_dog_hole/config/dog_hole_sim.yaml`, derives a narrow-passage MPPI profile,
-and runs the approach/align/centerline-cross/exit sequence. A simulation-only
-gimbal source publishes the same angle to ROS joint state and Gazebo joint
-control. The default `0.65 rad` yaw demonstrates that lidar direction is not
-the chassis heading used by the tunnel controller.
+and runs the approach/align/centerline-cross/exit sequence. Its default
+localization path explicitly exercises the optional `chassis_heading_fusion`
+mode. `sim_chassis_heading_lio_source` converts Gazebo base truth and the
+configured gimbal motion into a synthetic FAST-LIO sensor trajectory plus
+`/chassis/heading`. `lio_adapter` alone recovers `/odometry/lio`,
+`odom -> base_link`, and `/gimbal/state_derived`; the derived state is the only
+input allowed to drive `gimbal_yaw_joint`. The separate
+`/simulation/gimbal/state_truth` topic is evaluation-only and has no TF
+consumer. Fixed, sinusoidal, and continuous gimbal modes remain available.
 
 The generated scene is spawned with the configured world `x/y/yaw` explicitly;
 `ros_gz_sim create` otherwise replaces the SDF model pose with its zero-valued
 CLI defaults. Optional deck and ramp geometry produces real 3D chassis motion,
 and the `0.25 m` roof is a collision rather than a visual marker. The temporary
-simulation body and gimbal envelope is `0.22 m` high. Final CAD and mechanical
-parameters are still required before real-vehicle acceptance.
+plan footprint is an octagon with alternating `0.382 m` and `0.126 m` edges.
+The launch-time `deformed` / `undeformed` upper-envelope profiles are `0.22 m`
+and `0.32 m`; they do not simulate the lower-controller transformation action.
+Final CAD and mechanical parameters are still required before acceptance.
 
-It does not simulate MID360 point clouds, FAST-LIO, serial, referee, or the
-competition mission tree. Those concerns remain separate milestones.
+It does not simulate MID360 point clouds or run the real FAST-LIO backend. The
+synthetic raw odometry exercises the localization boundary math and timing
+contract, not scan matching, deskew, LIO drift, serial transport, referee data,
+or the competition mission tree. Those concerns remain separate milestones.
 
 The wheel radius, wheelbase, track width, mass, inertia, and directional
 friction in `worlds/phase1_omni.sdf` are placeholders. They are not accepted
@@ -67,3 +76,11 @@ robot description only by the simulation launch and is fixed below the dynamic
 
 `fake_pointcloud_obstacle_publisher` publishes only PointCloud2 test data. It
 does not publish TF, odometry, velocity commands, or navigation goals.
+
+`sim_chassis_heading_lio_source` also compares fused base pose and derived
+gimbal yaw against timestamped Gazebo truth on
+`simulation/chassis_heading_lio_fusion` diagnostics. A nonzero lower-controller
+world-yaw offset verifies delta-only alignment. `heading_timestamp_offset_sec`
+and `heading_publish_divider` inject asynchronous or sparse heading samples;
+coverage below 95 percent is an ERROR even when the surviving samples are
+mathematically exact.

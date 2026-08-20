@@ -9,9 +9,11 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
+find_package(diagnostic_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rm_competition_interfaces REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(tf2 REQUIRED)
@@ -39,8 +41,20 @@ ament_target_dependencies(moving_obstacle_controller
 add_executable(sim_gimbal_state_publisher src/sim_gimbal_state_publisher.cpp)
 ament_target_dependencies(sim_gimbal_state_publisher
   rclcpp
-  sensor_msgs
+  rm_competition_interfaces
   std_msgs
+)
+
+add_executable(sim_chassis_heading_lio_source
+  src/sim_chassis_heading_lio_source.cpp
+)
+ament_target_dependencies(sim_chassis_heading_lio_source
+  diagnostic_msgs
+  nav_msgs
+  rclcpp
+  rm_competition_interfaces
+  std_msgs
+  tf2
 )
 
 add_executable(localization_disturbance src/localization_disturbance.cpp)
@@ -63,6 +77,7 @@ install(TARGETS
   scan_frame_adapter
   moving_obstacle_controller
   sim_gimbal_state_publisher
+  sim_chassis_heading_lio_source
   localization_disturbance
   chassis_command_disturbance
   DESTINATION lib/${PROJECT_NAME}

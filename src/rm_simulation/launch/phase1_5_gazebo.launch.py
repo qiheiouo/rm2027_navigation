@@ -2,7 +2,11 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import (
+    LaunchConfiguration,
+    PathJoinSubstitution,
+    PythonExpression,
+)
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
@@ -13,9 +17,27 @@ def generate_launch_description():
     use_nav2 = LaunchConfiguration("use_nav2")
     use_rviz = LaunchConfiguration("use_rviz")
     use_scan_adapter = LaunchConfiguration("use_scan_adapter")
+    use_chassis_heading_fusion = LaunchConfiguration(
+        "use_chassis_heading_fusion"
+    )
     gimbal_use_input = LaunchConfiguration("gimbal_use_input")
     gimbal_input_topic = LaunchConfiguration("gimbal_input_topic")
     gimbal_yaw = LaunchConfiguration("gimbal_yaw")
+    gimbal_motion_mode = LaunchConfiguration("gimbal_motion_mode")
+    gimbal_amplitude = LaunchConfiguration("gimbal_amplitude")
+    gimbal_frequency = LaunchConfiguration("gimbal_frequency")
+    gimbal_angular_velocity = LaunchConfiguration("gimbal_angular_velocity")
+    gimbal_joint_height = LaunchConfiguration("gimbal_joint_height")
+    sim_lidar_x = LaunchConfiguration("sim_lidar_x")
+    sim_lidar_y = LaunchConfiguration("sim_lidar_y")
+    sim_lidar_z = LaunchConfiguration("sim_lidar_z")
+    heading_world_offset_rad = LaunchConfiguration(
+        "heading_world_offset_rad"
+    )
+    heading_timestamp_offset_sec = LaunchConfiguration(
+        "heading_timestamp_offset_sec"
+    )
+    heading_publish_divider = LaunchConfiguration("heading_publish_divider")
     use_localization_disturbance = LaunchConfiguration(
         "use_localization_disturbance"
     )
@@ -61,11 +83,12 @@ def generate_launch_description():
     nav2_params = LaunchConfiguration("nav2_params")
     rviz_config = LaunchConfiguration("rviz_config")
 
-    world = PathJoinSubstitution([
+    default_world = PathJoinSubstitution([
         FindPackageShare("rm_simulation"),
         "worlds",
         "phase1_omni.sdf",
     ])
+    world = LaunchConfiguration("world")
     bridge_config = PathJoinSubstitution([
         FindPackageShare("rm_simulation"),
         "config",
@@ -81,6 +104,20 @@ def generate_launch_description():
         "launch",
         "localization_adapters.launch.py",
     ])
+    default_lio_adapter_config = PathJoinSubstitution([
+        FindPackageShare("rm_localization_adapters"),
+        "config",
+        "lio_adapter.yaml",
+    ])
+    lio_adapter_config = LaunchConfiguration("lio_adapter_config")
+    default_gimbal_state_adapter_config = PathJoinSubstitution([
+        FindPackageShare("rm_localization_adapters"),
+        "config",
+        "gimbal_state_adapter.yaml",
+    ])
+    gimbal_state_adapter_config = LaunchConfiguration(
+        "gimbal_state_adapter_config"
+    )
     nav2_launch = PathJoinSubstitution([
         FindPackageShare("nav2_bringup"),
         "launch",
@@ -107,9 +144,33 @@ def generate_launch_description():
         DeclareLaunchArgument("use_nav2", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_scan_adapter", default_value="true"),
+        DeclareLaunchArgument(
+            "use_chassis_heading_fusion", default_value="false"
+        ),
         DeclareLaunchArgument("gimbal_use_input", default_value="true"),
         DeclareLaunchArgument("gimbal_input_topic", default_value="/gimbal/state"),
         DeclareLaunchArgument("gimbal_yaw", default_value="0.0"),
+        DeclareLaunchArgument("gimbal_motion_mode", default_value="fixed"),
+        DeclareLaunchArgument("gimbal_amplitude", default_value="0.0"),
+        DeclareLaunchArgument("gimbal_frequency", default_value="0.0"),
+        DeclareLaunchArgument("gimbal_angular_velocity", default_value="0.0"),
+        DeclareLaunchArgument("gimbal_joint_height", default_value="0.115"),
+        DeclareLaunchArgument("sim_lidar_x", default_value="0.12"),
+        DeclareLaunchArgument("sim_lidar_y", default_value="0.0"),
+        DeclareLaunchArgument("sim_lidar_z", default_value="0.065"),
+        DeclareLaunchArgument("heading_world_offset_rad", default_value="0.0"),
+        DeclareLaunchArgument(
+            "heading_timestamp_offset_sec", default_value="0.0"
+        ),
+        DeclareLaunchArgument("heading_publish_divider", default_value="1"),
+        DeclareLaunchArgument(
+            "lio_adapter_config", default_value=default_lio_adapter_config
+        ),
+        DeclareLaunchArgument(
+            "gimbal_state_adapter_config",
+            default_value=default_gimbal_state_adapter_config,
+        ),
+        DeclareLaunchArgument("world", default_value=default_world),
         DeclareLaunchArgument(
             "use_localization_disturbance", default_value="false"
         ),
@@ -224,13 +285,75 @@ def generate_launch_description():
             executable="sim_gimbal_state_publisher",
             name="sim_gimbal_state_publisher",
             output="screen",
-            condition=IfCondition(gimbal_use_input),
+            condition=IfCondition(
+                PythonExpression([
+                    "'", gimbal_use_input, "' == 'true' and '",
+                    use_chassis_heading_fusion, "' != 'true'",
+                ])
+            ),
             parameters=[{
                 "use_sim_time": True,
                 "state_topic": gimbal_input_topic,
+                "motion_mode": gimbal_motion_mode,
                 "offset_rad": ParameterValue(gimbal_yaw, value_type=float),
-                "amplitude_rad": 0.0,
-                "frequency_hz": 0.0,
+                "amplitude_rad": ParameterValue(
+                    gimbal_amplitude, value_type=float
+                ),
+                "frequency_hz": ParameterValue(
+                    gimbal_frequency, value_type=float
+                ),
+                "angular_velocity_rad_s": ParameterValue(
+                    gimbal_angular_velocity, value_type=float
+                ),
+            }],
+        ),
+        Node(
+            package="rm_simulation",
+            executable="sim_chassis_heading_lio_source",
+            name="sim_chassis_heading_lio_source",
+            output="screen",
+            condition=IfCondition(use_chassis_heading_fusion),
+            parameters=[{
+                "use_sim_time": True,
+                "ground_truth_topic": "/simulation/ground_truth/odom",
+                "raw_lio_topic": "/odometry/fast_lio_raw",
+                "chassis_heading_topic": "/chassis/heading",
+                "fused_odom_topic": "/odometry/lio",
+                "derived_gimbal_topic": "/gimbal/state_derived",
+                "motion_mode": gimbal_motion_mode,
+                "gimbal_offset_rad": ParameterValue(
+                    gimbal_yaw, value_type=float
+                ),
+                "gimbal_amplitude_rad": ParameterValue(
+                    gimbal_amplitude, value_type=float
+                ),
+                "gimbal_frequency_hz": ParameterValue(
+                    gimbal_frequency, value_type=float
+                ),
+                "gimbal_angular_velocity_rad_s": ParameterValue(
+                    gimbal_angular_velocity, value_type=float
+                ),
+                "gimbal_center_in_base.z": ParameterValue(
+                    gimbal_joint_height, value_type=float
+                ),
+                "sensor_offset_from_gimbal.x": ParameterValue(
+                    sim_lidar_x, value_type=float
+                ),
+                "sensor_offset_from_gimbal.y": ParameterValue(
+                    sim_lidar_y, value_type=float
+                ),
+                "sensor_offset_from_gimbal.z": ParameterValue(
+                    sim_lidar_z, value_type=float
+                ),
+                "heading_world_offset_rad": ParameterValue(
+                    heading_world_offset_rad, value_type=float
+                ),
+                "heading_timestamp_offset_sec": ParameterValue(
+                    heading_timestamp_offset_sec, value_type=float
+                ),
+                "heading_publish_divider": ParameterValue(
+                    heading_publish_divider, value_type=int
+                ),
             }],
         ),
         Node(
@@ -251,6 +374,10 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": "true",
                 "use_sim_lidar": "true",
+                "gimbal_joint_height": gimbal_joint_height,
+                "sim_lidar_x": sim_lidar_x,
+                "sim_lidar_y": sim_lidar_y,
+                "sim_lidar_z": sim_lidar_z,
             }.items(),
         ),
         Node(
@@ -258,7 +385,12 @@ def generate_launch_description():
             executable="localization_disturbance",
             name="localization_disturbance",
             output="screen",
-            condition=IfCondition(use_localization_disturbance),
+            condition=IfCondition(
+                PythonExpression([
+                    "'", use_chassis_heading_fusion, "' != 'true' and '",
+                    use_localization_disturbance, "' == 'true'",
+                ])
+            ),
             parameters=[{
                 "use_sim_time": True,
                 "input_topic": "/simulation/ground_truth/odom",
@@ -293,22 +425,48 @@ def generate_launch_description():
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(localization_launch),
-            condition=UnlessCondition(use_localization_disturbance),
+            condition=IfCondition(
+                PythonExpression([
+                    "'", use_chassis_heading_fusion, "' != 'true' and '",
+                    use_localization_disturbance, "' != 'true'",
+                ])
+            ),
             launch_arguments={
                 "use_sim_time": "true",
                 "raw_odom_topic": "/simulation/ground_truth/odom",
                 "gimbal_use_input": gimbal_use_input,
                 "gimbal_input_topic": gimbal_input_topic,
+                "lio_adapter_config": lio_adapter_config,
+                "gimbal_state_adapter_config": gimbal_state_adapter_config,
             }.items(),
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(localization_launch),
-            condition=IfCondition(use_localization_disturbance),
+            condition=IfCondition(
+                PythonExpression([
+                    "'", use_chassis_heading_fusion, "' != 'true' and '",
+                    use_localization_disturbance, "' == 'true'",
+                ])
+            ),
             launch_arguments={
                 "use_sim_time": "true",
                 "raw_odom_topic": "/simulation/localization/odom",
                 "gimbal_use_input": gimbal_use_input,
                 "gimbal_input_topic": gimbal_input_topic,
+                "lio_adapter_config": lio_adapter_config,
+                "gimbal_state_adapter_config": gimbal_state_adapter_config,
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(localization_launch),
+            condition=IfCondition(use_chassis_heading_fusion),
+            launch_arguments={
+                "use_sim_time": "true",
+                "raw_odom_topic": "/odometry/fast_lio_raw",
+                "gimbal_use_input": "true",
+                "gimbal_input_topic": "/gimbal/state_derived",
+                "lio_adapter_config": lio_adapter_config,
+                "gimbal_state_adapter_config": gimbal_state_adapter_config,
             }.items(),
         ),
         Node(

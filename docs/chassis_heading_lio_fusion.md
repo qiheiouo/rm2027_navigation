@@ -96,6 +96,26 @@ The `competition_v2` transport should require capability mask `33` when only
 chassis command and chassis heading are mandatory, or include other required
 bits for the selected competition profile.
 
+## Simulation Coverage
+
+As of 2026-08-20, `rm_simulation/dog_hole_sim.launch.py` explicitly selects
+this mode. The simulation converts Gazebo base truth and a rotating-gimbal
+truth profile into a synthetic FAST-LIO sensor trajectory and
+`/chassis/heading`. The direct truth gimbal topic is evaluation-only;
+`/gimbal/state_derived` remains the sole input to the ROS gimbal joint.
+
+The truth A/B monitor checks recovered planar base pose, derived gimbal yaw,
+sample matching and fusion coverage. Nominal continuous rotation, a nonzero
+lower-controller world-heading zero, and a correctly timestamped 20 ms
+asynchronous-heading run pass. Reducing heading to one sample per five raw
+odometry samples crosses the 30 ms matching boundary, causes raw-odometry
+drops, and raises an ERROR for insufficient fusion coverage.
+
+This exercises the adapter mathematics, timestamp matching, topic ownership,
+dynamic TF and Nav2 consumption. It does not run MID360 scan matching, deskew,
+the real FAST-LIO backend, competition serial time synchronization, or measured
+new-car geometry. Hardware acceptance below remains mandatory.
+
 ## New-Car Acceptance
 
 1. Measure `base_link -> lio_imu_link` at the documented gimbal home pose.

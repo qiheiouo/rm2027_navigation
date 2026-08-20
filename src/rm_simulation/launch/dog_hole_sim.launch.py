@@ -41,6 +41,111 @@ def _marker_visual(name, longitudinal, color):
       </visual>"""
 
 
+def _footprint_points(params):
+    values = params.get("robot.footprint", [])
+    if not values:
+        half_length = 0.5 * float(params["robot.length"])
+        half_width = 0.5 * float(params["robot.width"])
+        return [
+            [-half_length, -half_width],
+            [-half_length, half_width],
+            [half_length, half_width],
+            [half_length, -half_width],
+        ]
+    if len(values) < 6 or len(values) % 2:
+        raise RuntimeError(
+            "robot.footprint must contain at least three x/y pairs"
+        )
+    return [
+        [float(values[index]), float(values[index + 1])]
+        for index in range(0, len(values), 2)
+    ]
+
+
+def _robot_geometry(params):
+    profile = str(params["robot.geometry_profile"])
+    if profile not in ("deformed", "undeformed"):
+        raise RuntimeError(
+            "robot.geometry_profile must be 'deformed' or 'undeformed'"
+        )
+    height = float(params[f"robot.{profile}_height"])
+    lidar_z = float(params[f"robot.{profile}_lidar_offset_z"])
+    geometry = {
+        "profile": profile,
+        "height": height,
+        "gimbal_joint_height": float(params["robot.gimbal_joint_height"]),
+        "gimbal_radius": float(params["robot.gimbal_radius"]),
+        "gimbal_thickness": float(params["robot.gimbal_thickness"]),
+        "lidar_x": float(params["robot.sim_lidar_offset_x"]),
+        "lidar_y": float(params["robot.sim_lidar_offset_y"]),
+        "lidar_z": lidar_z,
+        "lidar_size_x": float(params["robot.sim_lidar_size_x"]),
+        "lidar_size_y": float(params["robot.sim_lidar_size_y"]),
+        "lidar_size_z": float(params["robot.sim_lidar_size_z"]),
+    }
+    physical_top = (
+        geometry["gimbal_joint_height"]
+        + geometry["lidar_z"]
+        + 0.5 * geometry["lidar_size_z"]
+    )
+    positive_dimensions = (
+        "height",
+        "gimbal_joint_height",
+        "gimbal_radius",
+        "gimbal_thickness",
+        "lidar_z",
+        "lidar_size_x",
+        "lidar_size_y",
+        "lidar_size_z",
+    )
+    if any(geometry[key] <= 0.0 for key in positive_dimensions):
+        raise RuntimeError("robot geometry dimensions must be positive")
+    if physical_top > height + 1e-9:
+        raise RuntimeError(
+            f"{profile} lidar top {physical_top:.3f} m exceeds "
+            f"robot.{profile}_height {height:.3f} m"
+        )
+    geometry["physical_top"] = physical_top
+    return geometry
+
+
+def _make_robot_world(params):
+    geometry = _robot_geometry(params)
+    source = (
+        Path(get_package_share_directory("rm_simulation"))
+        / "worlds"
+        / "phase1_omni.sdf"
+    )
+    text = source.read_text(encoding="utf-8")
+    replacements = {
+        '<pose relative_to="base_link">0 0 0.115 0 0 0</pose>': (
+            '<pose relative_to="base_link">0 0 '
+            f'{geometry["gimbal_joint_height"]} 0 0 0</pose>'
+        ),
+        "<radius>0.20</radius><length>0.04</length>": (
+            f'<radius>{geometry["gimbal_radius"]}</radius>'
+            f'<length>{geometry["gimbal_thickness"]}</length>'
+        ),
+        '<pose relative_to="gimbal_yaw_link">0.12 0 0.065 0 0 0</pose>': (
+            '<pose relative_to="gimbal_yaw_link">'
+            f'{geometry["lidar_x"]} {geometry["lidar_y"]} '
+            f'{geometry["lidar_z"]} 0 0 0</pose>'
+        ),
+        "<size>0.08 0.08 0.06</size>": (
+            f'<size>{geometry["lidar_size_x"]} '
+            f'{geometry["lidar_size_y"]} '
+            f'{geometry["lidar_size_z"]}</size>'
+        ),
+    }
+    for old, new in replacements.items():
+        if old not in text:
+            raise RuntimeError(
+                f"new-car world template token is missing: {old}"
+            )
+        text = text.replace(old, new)
+    return text, geometry
+
+
 def _make_scene(params):
     width = float(params["dog_hole.width"])
     length = float(params["dog_hole.length"])
@@ -52,13 +157,6 @@ def _make_scene(params):
     deck_height = float(params["dog_hole.deck_height"])
     entry_slope_deg = float(params["dog_hole.entry_slope_deg"])
     exit_slope_deg = float(params["dog_hole.exit_slope_deg"])
-    robot_height = float(params["robot.height"])
-
-    if robot_height >= roof_clearance:
-        raise RuntimeError(
-            "robot.height must be lower than dog_hole.roof_clearance"
-        )
-
     side_offset = 0.5 * (width + wall_thickness)
     wall_z = deck_height + 0.5 * wall_height
     roof_thickness = 0.04
@@ -183,16 +281,7 @@ def _make_nav2_profile(params):
         / "nav2_phase1_5_mppi.yaml"
     )
     data = yaml.safe_load(source.read_text(encoding="utf-8"))
-    robot_length = float(params["robot.length"])
-    robot_width = float(params["robot.width"])
-    half_length = 0.5 * robot_length
-    half_width = 0.5 * robot_width
-    footprint = (
-        f"[[{-half_length:.3f}, {-half_width:.3f}], "
-        f"[{-half_length:.3f}, {half_width:.3f}], "
-        f"[{half_length:.3f}, {half_width:.3f}], "
-        f"[{half_length:.3f}, {-half_width:.3f}]]"
-    )
+    footprint = str(_footprint_points(params))
 
     follow_path = data["controller_server"]["ros__parameters"]["FollowPath"]
     follow_path.update(
@@ -231,21 +320,139 @@ def _make_nav2_profile(params):
     return output
 
 
+def _make_heading_fusion_profile(geometry, initial_gimbal_yaw):
+    cosine = math.cos(initial_gimbal_yaw)
+    sine = math.sin(initial_gimbal_yaw)
+    sensor_x = geometry["lidar_x"]
+    sensor_y = geometry["lidar_y"]
+    initial_sensor_x = cosine * sensor_x - sine * sensor_y
+    initial_sensor_y = sine * sensor_x + cosine * sensor_y
+    initial_sensor_z = (
+        geometry["gimbal_joint_height"] + geometry["lidar_z"]
+    )
+    data = {
+        "lio_adapter": {
+            "ros__parameters": {
+                "raw_odom_topic": "/odometry/fast_lio_raw",
+                "output_odom_topic": "/odometry/lio",
+                "expected_input_odom_frame": "odom",
+                "odom_frame": "odom",
+                "base_frame": "base_link",
+                "input_sensor_frame": "sim_lidar_link",
+                "gimbal_frame": "gimbal_yaw_link",
+                "publish_tf": True,
+                "pose_conversion_mode": "chassis_heading_fusion",
+                "raw_odom_parent_frame_mode": "sensor_initial",
+                "use_tf_sensor_to_base": False,
+                "use_latest_transform": False,
+                "allow_placeholder_fallback": False,
+                "tf_lookup_timeout_sec": 0.0,
+                "tf_queue": {
+                    "max_size": 100,
+                    "max_wait_sec": 0.2,
+                    "retry_rate_hz": 200.0,
+                },
+                "backend_child_frame_alias_enabled": False,
+                "backend_child_frame_alias_source": "body",
+                "backend_child_frame_alias_target": "sim_lidar_link",
+                "twist_mode": "finite_difference",
+                "twist_estimator": {
+                    "min_dt_sec": 0.001,
+                    "max_dt_sec": 0.5,
+                    "smoothing_alpha": 1.0,
+                    "max_linear_speed": 5.0,
+                    "max_angular_speed": 20.0,
+                },
+                "twist_variance_diagonal": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                ],
+                "heading_fusion": {
+                    "heading_topic": "/chassis/heading",
+                    "derived_gimbal_topic": "/gimbal/state_derived",
+                    "cache_size": 500,
+                    "max_heading_match_dt_sec": 0.03,
+                    "yaw_variance": 0.01,
+                    "initial_gimbal_yaw_rad": initial_gimbal_yaw,
+                    "gimbal_center_in_base": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": geometry["gimbal_joint_height"],
+                    },
+                    "initial_alignment_confirmed": True,
+                    "initial_base_to_sensor": {
+                        "x": initial_sensor_x,
+                        "y": initial_sensor_y,
+                        "z": initial_sensor_z,
+                        "roll": 0.0,
+                        "pitch": 0.0,
+                        "yaw": initial_gimbal_yaw,
+                    },
+                },
+                "input_to_base_placeholder": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "roll": 0.0,
+                    "pitch": 0.0,
+                    "yaw": 0.0,
+                },
+            }
+        }
+    }
+    output = Path(
+        "/tmp/rm2027_dog_hole_sim/"
+        "lio_adapter_chassis_heading_fusion_sim.yaml"
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
+        yaml.safe_dump(data, sort_keys=False),
+        encoding="utf-8",
+    )
+    return output
+
+
 def _launch_setup(context):
     config_path = Path(LaunchConfiguration("dog_hole_config").perform(context))
+    robot_geometry_profile = LaunchConfiguration(
+        "robot_geometry_profile"
+    ).perform(context)
     auto_start = LaunchConfiguration("auto_start")
     gimbal_yaw = LaunchConfiguration("gimbal_yaw")
+    gimbal_motion_mode = LaunchConfiguration("gimbal_motion_mode")
+    gimbal_amplitude = LaunchConfiguration("gimbal_amplitude")
+    gimbal_frequency = LaunchConfiguration("gimbal_frequency")
+    gimbal_angular_velocity = LaunchConfiguration("gimbal_angular_velocity")
+    initial_gimbal_yaw = float(gimbal_yaw.perform(context))
     headless = LaunchConfiguration("headless")
     use_rviz = LaunchConfiguration("use_rviz")
 
     config_data = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     params = config_data["dog_hole_manager"]["ros__parameters"]
+    params["robot.geometry_profile"] = robot_geometry_profile
 
     output_dir = Path("/tmp/rm2027_dog_hole_sim")
     output_dir.mkdir(parents=True, exist_ok=True)
     scene_path = output_dir / "dog_hole_scene.sdf"
     scene_path.write_text(_make_scene(params), encoding="utf-8")
+    world_text, geometry = _make_robot_world(params)
+    world_path = output_dir / f'new_car_{geometry["profile"]}.sdf'
+    world_path.write_text(world_text, encoding="utf-8")
     nav2_path = _make_nav2_profile(params)
+    lio_adapter_path = _make_heading_fusion_profile(
+        geometry, initial_gimbal_yaw
+    )
+    derived_gimbal_adapter_path = (
+        Path(get_package_share_directory("rm_localization_adapters"))
+        / "config"
+        / "gimbal_state_adapter_derived.yaml"
+    )
+    roof_clearance = float(params["dog_hole.roof_clearance"])
+    clearance = roof_clearance - geometry["height"]
 
     gazebo_launch = (
         Path(get_package_share_directory("rm_simulation"))
@@ -254,6 +461,14 @@ def _launch_setup(context):
     )
 
     return [
+        LogInfo(
+            msg=(
+                f'[dog_hole_sim] geometry_profile={geometry["profile"]}, '
+                f'configured_height={geometry["height"]:.3f} m, '
+                f'roof_clearance={roof_clearance:.3f} m, '
+                f'vertical_margin={clearance:.3f} m'
+            )
+        ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(str(gazebo_launch)),
             launch_arguments={
@@ -261,9 +476,33 @@ def _launch_setup(context):
                 "use_nav2": "true",
                 "use_rviz": use_rviz,
                 "nav2_params": str(nav2_path),
+                "world": str(world_path),
                 "gimbal_use_input": "true",
                 "gimbal_input_topic": "/gimbal/state",
                 "gimbal_yaw": gimbal_yaw,
+                "gimbal_motion_mode": gimbal_motion_mode,
+                "gimbal_amplitude": gimbal_amplitude,
+                "gimbal_frequency": gimbal_frequency,
+                "gimbal_angular_velocity": gimbal_angular_velocity,
+                "use_chassis_heading_fusion": "true",
+                "lio_adapter_config": str(lio_adapter_path),
+                "gimbal_state_adapter_config": str(
+                    derived_gimbal_adapter_path
+                ),
+                "gimbal_joint_height": str(geometry["gimbal_joint_height"]),
+                "sim_lidar_x": str(geometry["lidar_x"]),
+                "sim_lidar_y": str(geometry["lidar_y"]),
+                "sim_lidar_z": str(geometry["lidar_z"]),
+                "heading_world_offset_rad": str(
+                    params[
+                        "simulation.localization.heading_world_offset_rad"
+                    ]
+                ),
+                "heading_timestamp_offset_sec": str(
+                    params[
+                        "simulation.localization.heading_timestamp_offset_sec"
+                    ]
+                ),
                 "use_localization_disturbance": "true",
                 "localization_reference_yaw": str(
                     params["dog_hole.yaw"]
@@ -363,7 +602,18 @@ def generate_launch_description():
             DeclareLaunchArgument("headless", default_value="true"),
             DeclareLaunchArgument("use_rviz", default_value="false"),
             DeclareLaunchArgument("auto_start", default_value="true"),
+            DeclareLaunchArgument(
+                "robot_geometry_profile", default_value="deformed"
+            ),
             DeclareLaunchArgument("gimbal_yaw", default_value="0.65"),
+            DeclareLaunchArgument(
+                "gimbal_motion_mode", default_value="continuous"
+            ),
+            DeclareLaunchArgument("gimbal_amplitude", default_value="0.8"),
+            DeclareLaunchArgument("gimbal_frequency", default_value="0.10"),
+            DeclareLaunchArgument(
+                "gimbal_angular_velocity", default_value="0.60"
+            ),
             DeclareLaunchArgument(
                 "dog_hole_config",
                 default_value=str(default_config),
