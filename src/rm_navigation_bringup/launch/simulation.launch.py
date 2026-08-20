@@ -2,7 +2,11 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
+from launch.substitutions import (
+    LaunchConfiguration,
+    PathJoinSubstitution,
+    PythonExpression,
+)
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -10,6 +14,13 @@ def generate_launch_description():
     scenario = LaunchConfiguration("scenario")
     headless = LaunchConfiguration("headless")
     use_rviz = LaunchConfiguration("use_rviz")
+    auto_start = LaunchConfiguration("auto_start")
+    robot_geometry_profile = LaunchConfiguration("robot_geometry_profile")
+    gimbal_yaw = LaunchConfiguration("gimbal_yaw")
+    gimbal_motion_mode = LaunchConfiguration("gimbal_motion_mode")
+    gimbal_amplitude = LaunchConfiguration("gimbal_amplitude")
+    gimbal_frequency = LaunchConfiguration("gimbal_frequency")
+    gimbal_angular_velocity = LaunchConfiguration("gimbal_angular_velocity")
 
     basic_launch = PathJoinSubstitution([
         FindPackageShare("rm_simulation"),
@@ -60,6 +71,23 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument("headless", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
+        DeclareLaunchArgument("auto_start", default_value="true"),
+        DeclareLaunchArgument(
+            "robot_geometry_profile",
+            default_value="deformed",
+            choices=["deformed", "undeformed"],
+        ),
+        DeclareLaunchArgument("gimbal_yaw", default_value="0.65"),
+        DeclareLaunchArgument(
+            "gimbal_motion_mode",
+            default_value="continuous",
+            choices=["fixed", "sine", "continuous"],
+        ),
+        DeclareLaunchArgument("gimbal_amplitude", default_value="0.8"),
+        DeclareLaunchArgument("gimbal_frequency", default_value="0.10"),
+        DeclareLaunchArgument(
+            "gimbal_angular_velocity", default_value="0.60"
+        ),
         LogInfo(msg=[
             "[simulation] scenario=",
             scenario,
@@ -105,6 +133,13 @@ def generate_launch_description():
             launch_arguments={
                 "headless": headless,
                 "use_rviz": use_rviz,
+                "auto_start": auto_start,
+                "robot_geometry_profile": robot_geometry_profile,
+                "gimbal_yaw": gimbal_yaw,
+                "gimbal_motion_mode": gimbal_motion_mode,
+                "gimbal_amplitude": gimbal_amplitude,
+                "gimbal_frequency": gimbal_frequency,
+                "gimbal_angular_velocity": gimbal_angular_velocity,
             }.items(),
         ),
     ])

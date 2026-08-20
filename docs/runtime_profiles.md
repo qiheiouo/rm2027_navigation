@@ -139,8 +139,10 @@ ros2 launch rm_navigation_bringup simulation.launch.py \
   scenario:=basic headless:=true
 ```
 
-Available scenarios are `basic`, `course_static`, `course_dynamic`, and
-`pointcloud`.
+Available scenarios are `basic`, `course_static`, `course_dynamic`,
+`pointcloud`, and `dog_hole`. The `dog_hole` scenario starts the new-car
+placeholder, rotating-gimbal chassis-heading LIO fusion, Nav2, and the dedicated
+tunnel controller; it never starts real serial or MID360 IO.
 Simulation never starts the real MID360 driver, serial, or referee interface.
 The dynamic course is a regression tool, not proof of real competition dynamic
 obstacle safety.
