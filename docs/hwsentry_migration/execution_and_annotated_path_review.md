@@ -43,9 +43,10 @@ AVAILABLE -> PREPARING -> ARMED -> COMMITTED -> RELEASE
 - speed profile：对狗洞入口、急弯和风险区有价值，可作为路径旁车数据研究。
 - terrain annotation：对当前平面旧车收益低，对未来特殊区域有设计价值。
 
-## Annotated Path 最小接口方向
+## Annotated Path 最小接口
 
-不要修改 `nav_msgs/Path` 语义。未来可用同一 path revision 的旁车消息描述：
+不要修改 `nav_msgs/Path` 语义。默认关闭的 `rm_path_annotations` 已用同一 path
+revision 的旁车消息描述：
 
 ```text
 path_revision
@@ -59,3 +60,12 @@ behavior constraint
 
 普通 Nav2 继续消费标准 Path；只有明确支持这些注释的 BT/controller/特殊区域
 执行器才订阅旁车数据。注释过期或 revision 不匹配时必须忽略，不能套到新路径。
+
+当前实现还增加了严格的 `rm_semantic_regions/v1` YAML：区域文件绑定 map id、
+revision 和 manifest SHA256；多边形、类型、限速、航向、准入和 traversal policy
+均 fail-closed 校验，并用 `region_set_sha256` 绑定解析后的完整语义。路径与区域相交后
+输出不重叠的弧长段，重叠限速取最小值，冲突航向拒绝整条注释。
+
+本阶段没有任何消费者，因此它仍是旁路数据合同，不改变 Nav2、mission、TF 或底盘。
+下一步不是复制 HWSentry planner，而是把动态障碍预测准入和已有狗洞执行器按独立
+验收门接到该合同。

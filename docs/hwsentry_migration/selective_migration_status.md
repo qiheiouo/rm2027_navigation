@@ -8,7 +8,9 @@
 - 离线 3D-DDA 射线清图与默认关闭的有界 sidecar 采集链；
 - GICP 后验质量门：重叠率、中心化 point-to-plane SE(3) 信息矩阵最小特征值和
   condition number；
-- dynamic MPPI、factor-graph LIO、特殊通道 COMMITTED 和 annotated path 的隔离设计。
+- 默认关闭的语义区域与 annotated path sidecar：地图/区域语义哈希绑定、确定性
+  path revision、弧长分段、限速/航向/no-spin/准入/COMMITTED 数据合同；
+- dynamic MPPI、factor-graph LIO、特殊通道准入与 COMMITTED 执行接线的隔离设计。
 
 以上实现都不改变 Nav2、MPPI、costmap、底盘或 canonical TF 的默认所有权。
 
@@ -20,11 +22,10 @@
 
 ## 后续明确项
 
-1. 语义区域、annotated path 和 speed profile 采用本仓库强类型、版本化合同；不迁移
-   HWSentry planner；
-2. 特殊通道在进入前做预测占用准入，进入后遵守 COMMITTED；接入已有狗洞执行器，
+1. 特殊通道在进入前做预测占用准入，进入后遵守已落地 sidecar 的 COMMITTED
+   traversal policy；接入已有狗洞执行器，
    不新增第二套 FSM/action owner；
-3. tracker D01-D07 使用匹配场地的地图通过后，动态障碍 MPPI 才按 shadow score、
+2. tracker D01-D07 使用匹配场地的地图通过后，动态障碍 MPPI 才按 shadow score、
    零权重、仿真、低速实车顺序推进。
 
 ## 条件触发项
