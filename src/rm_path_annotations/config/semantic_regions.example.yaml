@@ -1,0 +1,17 @@
+schema: rm_semantic_regions/v1
+region_set_id: example_field
+revision: rev1
+map_binding:
+  frame_id: map
+  map_id: replace_me
+  map_revision: replace_me
+  manifest_sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+regions:
+  - id: example_slow_zone
+    type: slow_zone
+    polygon:
+      - [0.0, 0.0]
+      - [2.0, 0.0]
+      - [2.0, 1.0]
+      - [0.0, 1.0]
+    max_linear_speed: 0.6

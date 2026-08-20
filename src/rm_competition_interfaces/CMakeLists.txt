@@ -7,8 +7,10 @@ find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/AnnotatedPath.msg"
   "msg/ChassisMode.msg"
   "msg/MissionState.msg"
+  "msg/PathIntentSegment.msg"
   "msg/RefereeState.msg"
   "msg/SystemReadiness.msg"
   "msg/TargetTrack.msg"

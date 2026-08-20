@@ -11,5 +11,8 @@ protocol.
 - `MissionState` reports decision execution without becoming a control topic.
 - `SystemReadiness` reports missing runtime requirements without granting
   motion authority.
+- `AnnotatedPath` and `PathIntentSegment` are revision-bound sidecar metadata
+  for a standard `nav_msgs/Path`; they do not replace the Nav2 path message or
+  grant controller/action authority.
 - `SetMissionMode` is the explicit enable/mode gate for competition mission
   execution.
