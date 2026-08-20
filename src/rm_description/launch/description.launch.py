@@ -9,6 +9,10 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     use_sim_lidar = LaunchConfiguration("use_sim_lidar")
+    gimbal_joint_height = LaunchConfiguration("gimbal_joint_height")
+    sim_lidar_x = LaunchConfiguration("sim_lidar_x")
+    sim_lidar_y = LaunchConfiguration("sim_lidar_y")
+    sim_lidar_z = LaunchConfiguration("sim_lidar_z")
     dynamic_tf_publish_frequency = LaunchConfiguration("dynamic_tf_publish_frequency")
     model = PathJoinSubstitution([
         FindPackageShare("rm_description"),
@@ -19,6 +23,10 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument("use_sim_lidar", default_value="false"),
+        DeclareLaunchArgument("gimbal_joint_height", default_value="0.115"),
+        DeclareLaunchArgument("sim_lidar_x", default_value="0.12"),
+        DeclareLaunchArgument("sim_lidar_y", default_value="0.0"),
+        DeclareLaunchArgument("sim_lidar_z", default_value="0.065"),
         DeclareLaunchArgument("dynamic_tf_publish_frequency", default_value="100.0"),
         Node(
             package="robot_state_publisher",
@@ -40,6 +48,14 @@ def generate_launch_description():
                         model,
                         " use_sim_lidar:=",
                         use_sim_lidar,
+                        " gimbal_joint_height:=",
+                        gimbal_joint_height,
+                        " sim_lidar_x:=",
+                        sim_lidar_x,
+                        " sim_lidar_y:=",
+                        sim_lidar_y,
+                        " sim_lidar_z:=",
+                        sim_lidar_z,
                     ]),
                     value_type=str,
                 ),

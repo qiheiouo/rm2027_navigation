@@ -1,5 +1,6 @@
 #include "rm_dog_hole/geometry.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 namespace rm_dog_hole
@@ -18,6 +19,54 @@ CorridorPose evaluatePose(
   double robot_length,
   double robot_width)
 {
+  const Footprint footprint{
+    {0.5 * robot_length, 0.5 * robot_width},
+    {0.5 * robot_length, -0.5 * robot_width},
+    {-0.5 * robot_length, -0.5 * robot_width},
+    {-0.5 * robot_length, 0.5 * robot_width},
+  };
+  return evaluatePose(x, y, yaw, corridor, footprint);
+}
+
+double projectedHalfWidth(
+  const Footprint & footprint,
+  double base_yaw,
+  double corridor_yaw)
+{
+  const double relative_yaw = base_yaw - corridor_yaw;
+  double half_width = 0.0;
+  for (const auto & point : footprint) {
+    const double lateral =
+      point.first * std::sin(relative_yaw) +
+      point.second * std::cos(relative_yaw);
+    half_width = std::max(half_width, std::abs(lateral));
+  }
+  return half_width;
+}
+
+double projectedHalfLength(
+  const Footprint & footprint,
+  double base_yaw,
+  double corridor_yaw)
+{
+  const double relative_yaw = base_yaw - corridor_yaw;
+  double half_length = 0.0;
+  for (const auto & point : footprint) {
+    const double longitudinal =
+      point.first * std::cos(relative_yaw) -
+      point.second * std::sin(relative_yaw);
+    half_length = std::max(half_length, std::abs(longitudinal));
+  }
+  return half_length;
+}
+
+CorridorPose evaluatePose(
+  double x,
+  double y,
+  double yaw,
+  const Corridor & corridor,
+  const Footprint & footprint)
+{
   const double axis_x = std::cos(corridor.yaw);
   const double axis_y = std::sin(corridor.yaw);
   const double normal_x = -axis_y;
@@ -28,10 +77,10 @@ CorridorPose evaluatePose(
   CorridorPose pose;
   pose.longitudinal = delta_x * axis_x + delta_y * axis_y;
   pose.lateral = delta_x * normal_x + delta_y * normal_y;
-  pose.heading_error = normalizeAngle(corridor.yaw - yaw);
-  const double projected_half_width =
-    0.5 * robot_width * std::abs(std::cos(pose.heading_error)) +
-    0.5 * robot_length * std::abs(std::sin(pose.heading_error));
+  pose.heading_error = normalizeAngle(
+    corridor.yaw + corridor.traversal_yaw_offset - yaw);
+  const double projected_half_width = projectedHalfWidth(
+    footprint, yaw, corridor.yaw);
   pose.minimum_wall_clearance =
     0.5 * corridor.width - projected_half_width - std::abs(pose.lateral);
   return pose;

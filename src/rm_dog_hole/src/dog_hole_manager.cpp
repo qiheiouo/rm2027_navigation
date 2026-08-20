@@ -122,8 +122,10 @@ public:
     RCLCPP_WARN(
       get_logger(),
       "New-car simulation candidate only: corridor %.2f m x %.2f m, "
-      "robot %.2f m x %.2f m, command=%s. Real serial is not used.",
+      "robot bounding box %.2f m x %.2f m (%zu footprint vertices), "
+      "traversal yaw offset %.3f rad, command=%s. Real serial is not used.",
       corridor_.length, corridor_.width, robot_length_, robot_width_,
+      robot_footprint_.size(), corridor_.traversal_yaw_offset,
       command_topic_.c_str());
   }
 
@@ -174,6 +176,28 @@ private:
 
     robot_length_ = declare_parameter<double>("robot.length", 0.6);
     robot_width_ = declare_parameter<double>("robot.width", 0.5);
+    const auto footprint_values = declare_parameter<std::vector<double>>(
+      "robot.footprint", std::vector<double>{});
+    if (footprint_values.empty()) {
+      robot_footprint_ = {
+        {0.5 * robot_length_, 0.5 * robot_width_},
+        {0.5 * robot_length_, -0.5 * robot_width_},
+        {-0.5 * robot_length_, -0.5 * robot_width_},
+        {-0.5 * robot_length_, 0.5 * robot_width_},
+      };
+    } else {
+      if (footprint_values.size() < 6 || footprint_values.size() % 2 != 0) {
+        throw std::invalid_argument(
+                "robot.footprint must contain at least three [x, y] points");
+      }
+      robot_footprint_.reserve(footprint_values.size() / 2);
+      for (std::size_t index = 0; index < footprint_values.size(); index += 2) {
+        robot_footprint_.emplace_back(
+          footprint_values[index], footprint_values[index + 1]);
+      }
+    }
+    corridor_.traversal_yaw_offset = declare_parameter<double>(
+      "control.traversal_yaw_offset", 0.0);
     approach_offset_ = declare_parameter<double>("approach_offset", 0.15);
     alignment_margin_ =
       declare_parameter<double>("control.alignment_margin", 0.05);
@@ -247,15 +271,24 @@ private:
     {
       throw std::invalid_argument("dog-hole timing, control, or clearance parameter is invalid");
     }
-    const double nominal_clearance = 0.5 * (corridor_.width - robot_width_);
+    const double target_yaw = corridor_.yaw + corridor_.traversal_yaw_offset;
+    const double nominal_clearance = 0.5 * corridor_.width -
+      rm_dog_hole::projectedHalfWidth(
+      robot_footprint_, target_yaw, corridor_.yaw);
+    if (nominal_clearance <= 0.0) {
+      throw std::invalid_argument(
+              "robot footprint cannot fit at the configured traversal yaw");
+    }
     if (minimum_clearance_ >= nominal_clearance) {
       throw std::invalid_argument("minimum clearance leaves no feasible centerline");
     }
     if (alignment_lateral_tolerance_ >= nominal_clearance) {
       throw std::invalid_argument("alignment lateral tolerance exceeds nominal clearance");
     }
+    const double alignment_length = 2.0 * rm_dog_hole::projectedHalfLength(
+      robot_footprint_, target_yaw, corridor_.yaw);
     const double required_offset = rm_dog_hole::requiredAlignmentOffset(
-      robot_length_, deck_height_, entry_slope_deg_ * M_PI / 180.0,
+      alignment_length, deck_height_, entry_slope_deg_ * M_PI / 180.0,
       alignment_margin_);
     if (required_offset > entry_clearance_) {
       throw std::invalid_argument(
@@ -265,9 +298,12 @@ private:
 
   void configureAlignmentOffset()
   {
+    const double target_yaw = corridor_.yaw + corridor_.traversal_yaw_offset;
+    const double alignment_length = 2.0 * rm_dog_hole::projectedHalfLength(
+      robot_footprint_, target_yaw, corridor_.yaw);
     alignment_offset_ = std::max(
       approach_offset_, rm_dog_hole::requiredAlignmentOffset(
-        robot_length_, deck_height_, entry_slope_deg_ * M_PI / 180.0,
+        alignment_length, deck_height_, entry_slope_deg_ * M_PI / 180.0,
         alignment_margin_));
     if (alignment_offset_ > approach_offset_ + 1e-6) {
       RCLCPP_WARN(
@@ -532,8 +568,7 @@ private:
       transform.transform.translation.y,
       base_yaw,
       corridor_,
-      robot_length_,
-      robot_width_);
+      robot_footprint_);
     latest_pose_ = pose;
 
     const double target_longitudinal =
@@ -553,7 +588,7 @@ private:
       return;
     }
 
-    // Rotate in the open entry area before moving the rectangular footprint
+    // Rotate in the open entry area before moving the complete footprint
     // towards the walls. Once aligned, approach the tunnel on its centerline.
     const double forward = heading_aligned ?
       std::clamp(
@@ -586,8 +621,7 @@ private:
       transform.transform.translation.y,
       base_yaw,
       corridor_,
-      robot_length_,
-      robot_width_);
+      robot_footprint_);
     latest_pose_ = pose;
 
     if (pose.minimum_wall_clearance < minimum_clearance_) {
@@ -742,6 +776,7 @@ private:
   double entry_slope_deg_;
   double robot_length_;
   double robot_width_;
+  rm_dog_hole::Footprint robot_footprint_;
   double approach_offset_;
   double alignment_margin_;
   double alignment_offset_ = 0.0;

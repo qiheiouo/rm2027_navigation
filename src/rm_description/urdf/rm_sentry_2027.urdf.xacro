@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rm_sentry_2027">
   <xacro:arg name="use_sim_lidar" default="false"/>
+  <xacro:arg name="gimbal_joint_height" default="0.115"/>
+  <xacro:arg name="sim_lidar_x" default="0.12"/>
+  <xacro:arg name="sim_lidar_y" default="0.0"/>
+  <xacro:arg name="sim_lidar_z" default="0.065"/>
   <!--
     Phase 1 placeholder robot description.
 
@@ -17,17 +21,17 @@
     Real hardware must replace the placeholder with timestamped gimbal yaw
     data before validating rotating-gimbal localization.
 
-    Phase 1.5 simulation treats base_link as the ground-projected chassis
-    rotation center. This is a placeholder convention, not the final 2027
-    physical origin decision.
+    The August 2026 simulation uses the measured-design placeholders supplied
+    before CAD freeze: alternating 0.382 m / 0.126 m octagon edges and a
+    0.115 m ground-to-gimbal interface. Upper-assembly dimensions and lidar
+    placement remain explicit simulation placeholders.
   -->
 
   <link name="base_link">
     <visual>
-      <!-- Placeholder body sits above the Phase 1.5 base_link ground origin. -->
-      <origin xyz="0 0 0.11" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.5 0.22"/>
+        <mesh filename="package://rm_description/meshes/new_car_octagonal_chassis.obj"/>
       </geometry>
       <material name="phase1_gray">
         <color rgba="0.5 0.5 0.5 0.4"/>
@@ -42,19 +46,28 @@
       bringup. It follows the simulated gimbal so scan geometry and ROS TF
       remain consistent when the gimbal is not aligned with the chassis.
     -->
-    <link name="sim_lidar_link"/>
+    <link name="sim_lidar_link">
+      <visual>
+        <geometry><box size="0.08 0.08 0.06"/></geometry>
+        <material name="phase1_lidar">
+          <color rgba="0.15 0.15 0.15 0.7"/>
+        </material>
+      </visual>
+    </link>
     <joint name="gimbal_yaw_link_to_sim_lidar_link" type="fixed">
       <parent link="gimbal_yaw_link"/>
       <child link="sim_lidar_link"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin
+        xyz="$(arg sim_lidar_x) $(arg sim_lidar_y) $(arg sim_lidar_z)"
+        rpy="0 0 0"/>
     </joint>
   </xacro:if>
 
   <link name="gimbal_yaw_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.08" length="0.04"/>
+        <cylinder radius="0.20" length="0.04"/>
       </geometry>
       <material name="phase1_blue">
         <color rgba="0.1 0.3 0.8 0.4"/>
@@ -66,7 +79,7 @@
     <parent link="base_link"/>
     <child link="gimbal_yaw_link"/>
     <!-- Phase 1 zero-yaw joint state is a placeholder. Real robot requires dynamic yaw. -->
-    <origin xyz="0 0 0.20" rpy="0 0 0"/>
+    <origin xyz="0 0 $(arg gimbal_joint_height)" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
   </joint>
 

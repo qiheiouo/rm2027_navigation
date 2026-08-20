@@ -30,8 +30,9 @@ IDLE -> PLANNING -> APPROACHING -> ALIGNING
 ```
 
 仿真尺寸、机器人尺寸、控制参数和最终目标统一位于
-`config/dog_hole_sim.yaml`。当前 `0.80 m x 0.25 m` 来自 2026 规则手册
-V2.1.0 图 4-35；`1.0 m` 深度和 `0.60 m x 0.50 m` 机器人外形均为临时值。
+`config/dog_hole_sim.yaml`。当前洞口采用 `0.80 m x 0.25 m x 约 0.30 m`；
+机器人采用 `0.382 m / 0.126 m` 边长交替的对称八边形占位足迹。变形后
+`0.22 m`、未变形 `0.32 m` 高度以及云台/雷达尺寸仍是 CAD 冻结前临时值。
 
 诊断话题：
 
@@ -66,13 +67,12 @@ ros2 run rm_dog_hole dog_hole_capture_matrix --mode full
 实验中断后，可对同一个 `--output-dir` 增加 `--resume`，只补跑 CSV 中
 尚未出现的 case。
 
-最小墙体间隙按旋转矩形 footprint 计算：
+最小墙体间隙按完整多边形 footprint 逐顶点投影计算：
 
 ```text
 width / 2
 - abs(lateral_error)
-- robot_width / 2 * abs(cos(yaw_error))
-- robot_length / 2 * abs(sin(yaw_error))
+- max(abs(each footprint vertex projected onto corridor normal))
 ```
 
 实验成功必须实际进入 `CROSSING`；普通 Nav2 绕洞后到达终点不再计为成功。

@@ -13,14 +13,13 @@ dog_hole_manager:
     # tunnel through the open simulation world.
     task.require_traversal: true
 
-    # Rules V2.1.0 figure 4-35 confirms 0.80 m width and 0.25 m height.
-    # The complete tunnel depth is not stated clearly, so 1.0 m is a
-    # conservative temporary value until the final field drawing is supplied.
+    # User-supplied August 2026 placeholders: 0.80 m width, 0.25 m height,
+    # and approximately 0.30 m depth. Replace the depth after field/CAD freeze.
     dog_hole.center_x: -3.0
     dog_hole.center_y: 0.0
     dog_hole.yaw: 3.141592653589793
     dog_hole.width: 0.80
-    dog_hole.length: 1.00
+    dog_hole.length: 0.30
     dog_hole.wall_height: 0.45
     dog_hole.wall_thickness: 0.10
     dog_hole.roof_clearance: 0.25
@@ -33,10 +32,39 @@ dog_hole_manager:
     dog_hole.entry_slope_deg: 0.0
     dog_hole.exit_slope_deg: 0.0
 
-    # Temporary Phase 1.5 robot dimensions, not final new-car CAD values.
-    robot.length: 0.60
-    robot.width: 0.50
+    # The plan view is interpreted as a symmetric 45-degree chamfered octagon:
+    # four 0.382 m straight edges alternating with four 0.126 m chamfers.
+    # This derives a 0.5601909 m axis-aligned bounding box. These parameters
+    # remain placeholders until final CAD is available.
+    robot.length: 0.5601909089
+    robot.width: 0.5601909089
+    robot.footprint: [
+      0.2800954544, 0.191,
+      0.191, 0.2800954544,
+      -0.191, 0.2800954544,
+      -0.2800954544, 0.191,
+      -0.2800954544, -0.191,
+      -0.191, -0.2800954544,
+      0.191, -0.2800954544,
+      0.2800954544, -0.191
+    ]
+
+    # Transformation is a launch-time collision profile for now. It does not
+    # send a lower-controller flag or pretend that the mechanism is finalized.
+    robot.geometry_profile: deformed
     robot.height: 0.22
+    robot.deformed_height: 0.22
+    robot.undeformed_height: 0.32
+    robot.gimbal_joint_height: 0.115
+    robot.gimbal_radius: 0.20
+    robot.gimbal_thickness: 0.04
+    robot.sim_lidar_offset_x: 0.12
+    robot.sim_lidar_offset_y: 0.0
+    robot.deformed_lidar_offset_z: 0.065
+    robot.undeformed_lidar_offset_z: 0.175
+    robot.sim_lidar_size_x: 0.08
+    robot.sim_lidar_size_y: 0.08
+    robot.sim_lidar_size_z: 0.06
 
     # Simulation-only localization disturbance. These remain zero in the
     # nominal profile and never affect real localization launches.
@@ -47,6 +75,12 @@ dog_hole_manager:
     simulation.localization.yaw_drift_amplitude_rad: 0.0
     simulation.localization.drift_frequency_hz: 0.0
     simulation.localization.random_seed: 20270728
+    # Deliberately nonzero: heading fusion must use lower-controller yaw
+    # deltas and must not assume its world zero is aligned with ROS odom.
+    simulation.localization.heading_world_offset_rad: 1.10
+    # Nominal run is exactly synchronized. Override this in explicit timing
+    # robustness tests; the adapter accepts at most 30 ms.
+    simulation.localization.heading_timestamp_offset_sec: 0.0
 
     # Simulation-only execution response. Unit scales and zero time constants
     # preserve the nominal Gazebo command path.
@@ -68,6 +102,9 @@ dog_hole_manager:
     control.heading_gain: 2.5
     control.max_lateral_speed: 0.20
     control.max_angular_speed: 0.80
+    # Required base-forward direction is not yet known. Zero means the chassis
+    # x-axis follows the corridor; tune this offset once the mechanism is fixed.
+    control.traversal_yaw_offset: 0.0
     control.minimum_clearance: 0.03
     control.maximum_heading_error: 0.40
     # Nav2 stops at the open preparation point. The dedicated controller then
