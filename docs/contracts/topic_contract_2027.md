@@ -23,8 +23,11 @@
 | `/localization/amcl_pose_raw` | `geometry_msgs/msg/PoseWithCovarianceStamped` | AMCL with TF broadcasting disabled | `amcl_pose_gate` | Backend-private AMCL estimate; never a canonical TF source |
 | `/localization/amcl_backend_valid` | `std_msgs/msg/Bool` | `amcl_pose_gate` | diagnostics, future safety/mission layer | Latched backend-specific pose-gate validity |
 | `/localization/gicp_pose_raw` | `geometry_msgs/msg/PoseWithCovarianceStamped` | `gicp_relocalization` | `global_pose_gate` | Backend-private 3D registration estimate; never a canonical TF source |
-| `/localization/gicp_registration_valid` | `std_msgs/msg/Bool` | `gicp_relocalization` | diagnostics | Convergence, fitness and correction-jump acceptance for the latest registration |
+| `/localization/gicp_registration_valid` | `std_msgs/msg/Bool` | `gicp_relocalization` | diagnostics | Convergence, fitness, overlap, information-spectrum and correction-jump acceptance for the latest registration |
 | `/localization/gicp_fitness_score` | `std_msgs/msg/Float64` | `gicp_relocalization` | diagnostics | Latest PCL GICP fitness score; lower is better but threshold requires field validation |
+| `/localization/gicp_overlap_ratio` | `std_msgs/msg/Float64` | `gicp_relocalization` | diagnostics | Fraction of downsampled source points with a bounded target correspondence |
+| `/localization/gicp_min_information_eigenvalue` | `std_msgs/msg/Float64` | `gicp_relocalization` | diagnostics | Weakest eigenvalue of the normalized centered point-to-plane SE(3) information matrix |
+| `/localization/gicp_information_condition_number` | `std_msgs/msg/Float64` | `gicp_relocalization` | diagnostics | Condition number of the normalized centered point-to-plane SE(3) information matrix |
 | `/localization/gicp_map_id` | `std_msgs/msg/String` | `gicp_relocalization` | diagnostics, deployment audit | Latched map identity resolved from the validated bundle |
 | `/localization/gicp_backend_valid` | `std_msgs/msg/Bool` | `global_pose_gate` | diagnostics, future safety/mission layer | Latched validity after the common frame/time/pose/covariance gate |
 | `/localization/global_pose` | `geometry_msgs/msg/PoseWithCovarianceStamped` | selected global localization backend | `map_odom_from_global_pose` | Timestamped global robot pose with `frame_id=map`; backends must not publish canonical TF directly |

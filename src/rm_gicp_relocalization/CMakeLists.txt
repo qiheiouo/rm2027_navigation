@@ -11,7 +11,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(PCL REQUIRED COMPONENTS common filters io registration)
+find_package(PCL REQUIRED COMPONENTS common features filters io registration search)
 # Compatibility shim for PCL/Qhull target naming on Ubuntu 22.04.
 # PCL may reference QHULL::QHULL, while libqhull-dev exports Qhull::*.
 find_package(Qhull CONFIG QUIET)
@@ -51,7 +51,10 @@ find_package(std_srvs REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(tf2_ros REQUIRED)
 
-add_library(gicp_relocalization_math src/relocalization_math.cpp)
+add_library(gicp_relocalization_math
+  src/registration_quality.cpp
+  src/relocalization_math.cpp
+)
 target_include_directories(gicp_relocalization_math PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>

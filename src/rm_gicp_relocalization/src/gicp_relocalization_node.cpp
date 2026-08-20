@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <memory>
 #include <mutex>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -15,12 +16,14 @@
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <pcl/common/transforms.h>
+#include <pcl/features/normal_3d.h>
 #include <pcl/filters/filter.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/registration/gicp.h>
+#include <pcl/search/kdtree.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
@@ -33,6 +36,7 @@
 #include <tf2_ros/transform_listener.h>
 
 #include "rm_gicp_relocalization/relocalization_math.hpp"
+#include "rm_gicp_relocalization/registration_quality.hpp"
 
 namespace
 {
@@ -91,6 +95,14 @@ public:
       "valid_topic", "/localization/gicp_registration_valid");
     score_topic_ = declare_parameter<std::string>(
       "score_topic", "/localization/gicp_fitness_score");
+    overlap_topic_ = declare_parameter<std::string>(
+      "overlap_topic", "/localization/gicp_overlap_ratio");
+    min_information_eigenvalue_topic_ = declare_parameter<std::string>(
+      "min_information_eigenvalue_topic",
+      "/localization/gicp_min_information_eigenvalue");
+    information_condition_number_topic_ = declare_parameter<std::string>(
+      "information_condition_number_topic",
+      "/localization/gicp_information_condition_number");
     map_frame_ = declare_parameter<std::string>("map_frame", "map");
     odom_frame_ = declare_parameter<std::string>("odom_frame", "odom");
     base_frame_ = declare_parameter<std::string>("base_frame", "base_link");
@@ -110,6 +122,16 @@ public:
     max_translation_jump_ = declare_parameter<double>("max_translation_jump", 2.0);
     max_yaw_jump_ = declare_parameter<double>("max_yaw_jump", 1.0);
     transform_timeout_sec_ = declare_parameter<double>("transform_timeout_sec", 0.10);
+    quality_gate_enabled_ = declare_parameter<bool>("quality_gate_enabled", true);
+    quality_normal_k_ = declare_parameter<int>("quality_normal_k", 12);
+    quality_max_correspondence_distance_ = declare_parameter<double>(
+      "quality_max_correspondence_distance", max_correspondence_distance_);
+    quality_thresholds_.min_overlap_ratio = declare_parameter<double>(
+      "min_overlap_ratio", 0.30);
+    quality_thresholds_.min_information_eigenvalue = declare_parameter<double>(
+      "min_information_eigenvalue", 1.0e-3);
+    quality_thresholds_.max_information_condition_number = declare_parameter<double>(
+      "max_information_condition_number", 1.0e5);
 
     validateParameters();
     loadMap();
@@ -119,6 +141,11 @@ public:
     valid_pub_ = create_publisher<std_msgs::msg::Bool>(
       valid_topic_, rclcpp::QoS(1).reliable().transient_local());
     score_pub_ = create_publisher<std_msgs::msg::Float64>(score_topic_, 10);
+    overlap_pub_ = create_publisher<std_msgs::msg::Float64>(overlap_topic_, 10);
+    min_information_eigenvalue_pub_ = create_publisher<std_msgs::msg::Float64>(
+      min_information_eigenvalue_topic_, 10);
+    information_condition_number_pub_ = create_publisher<std_msgs::msg::Float64>(
+      information_condition_number_topic_, 10);
     map_id_pub_ = create_publisher<std_msgs::msg::String>(
       "/localization/gicp_map_id", rclcpp::QoS(1).reliable().transient_local());
     cloud_sub_ = create_subscription<sensor_msgs::msg::PointCloud2>(
@@ -157,8 +184,13 @@ public:
     RCLCPP_INFO(
       get_logger(),
       "GICP 3D backend ready: map=%s cloud=%s raw_pose=%s. It publishes no TF and "
-      "will not register until /initialpose provides a seed.",
-      prior_pcd_file_.c_str(), input_cloud_topic_.c_str(), raw_pose_topic_.c_str());
+      "will not register until /initialpose provides a seed. quality_gate=%s "
+      "overlap>=%.3f min_eig>=%.3e condition<=%.3e",
+      prior_pcd_file_.c_str(), input_cloud_topic_.c_str(), raw_pose_topic_.c_str(),
+      quality_gate_enabled_ ? "enabled" : "disabled",
+      quality_thresholds_.min_overlap_ratio,
+      quality_thresholds_.min_information_eigenvalue,
+      quality_thresholds_.max_information_condition_number);
   }
 
 private:
@@ -176,12 +208,22 @@ private:
       !std::isfinite(euclidean_fitness_epsilon_) ||
       !std::isfinite(max_fitness_score_) || !std::isfinite(max_translation_jump_) ||
       !std::isfinite(max_yaw_jump_) || !std::isfinite(transform_timeout_sec_) ||
+      !std::isfinite(quality_max_correspondence_distance_) ||
+      !std::isfinite(quality_thresholds_.min_overlap_ratio) ||
+      !std::isfinite(quality_thresholds_.min_information_eigenvalue) ||
+      !std::isfinite(quality_thresholds_.max_information_condition_number) ||
       map_leaf_size_ <= 0.0 || source_leaf_size_ <= 0.0 ||
       registration_rate_hz_ <= 0.0 || max_correspondence_distance_ <= 0.0 ||
       transformation_epsilon_ <= 0.0 || euclidean_fitness_epsilon_ <= 0.0 ||
       max_iterations_ <= 0 || min_source_points_ < 4 || min_target_points_ < 4 ||
       max_fitness_score_ < 0.0 || max_translation_jump_ <= 0.0 ||
-      max_yaw_jump_ <= 0.0 || transform_timeout_sec_ < 0.0)
+      max_yaw_jump_ <= 0.0 || transform_timeout_sec_ < 0.0 ||
+      quality_normal_k_ < 3 || quality_max_correspondence_distance_ <= 0.0 ||
+      quality_max_correspondence_distance_ > max_correspondence_distance_ ||
+      quality_thresholds_.min_overlap_ratio < 0.0 ||
+      quality_thresholds_.min_overlap_ratio > 1.0 ||
+      quality_thresholds_.min_information_eigenvalue < 0.0 ||
+      quality_thresholds_.max_information_condition_number < 0.0)
     {
       throw std::invalid_argument("invalid GICP relocalization parameters");
     }
@@ -208,9 +250,74 @@ private:
     if (target_map_->size() < static_cast<std::size_t>(min_target_points_)) {
       throw std::runtime_error("prior PCD has too few points after downsampling");
     }
+    if (target_map_->size() < static_cast<std::size_t>(quality_normal_k_)) {
+      throw std::runtime_error("prior PCD has too few points for quality normal estimation");
+    }
+
+    target_search_ = std::make_shared<pcl::search::KdTree<Point>>();
+    target_search_->setInputCloud(target_map_);
+    pcl::NormalEstimation<Point, pcl::Normal> normal_estimation;
+    normal_estimation.setInputCloud(target_map_);
+    normal_estimation.setSearchMethod(target_search_);
+    normal_estimation.setKSearch(quality_normal_k_);
+    target_normals_ = std::make_shared<pcl::PointCloud<pcl::Normal>>();
+    normal_estimation.compute(*target_normals_);
+    std::size_t finite_normal_count = 0;
+    for (const auto & normal : *target_normals_) {
+      const double normal_norm = std::hypot(
+        std::hypot(normal.normal_x, normal.normal_y), normal.normal_z);
+      if (
+        std::isfinite(normal.normal_x) && std::isfinite(normal.normal_y) &&
+        std::isfinite(normal.normal_z) && std::isfinite(normal_norm) &&
+        normal_norm > 1.0e-12)
+      {
+        ++finite_normal_count;
+      }
+    }
+    if (finite_normal_count < static_cast<std::size_t>(min_target_points_)) {
+      throw std::runtime_error("prior PCD has too few valid normals for quality assessment");
+    }
     RCLCPP_INFO(
-      get_logger(), "Loaded prior PCD: raw=%zu filtered=%zu",
-      raw_map->size(), target_map_->size());
+      get_logger(), "Loaded prior PCD: raw=%zu filtered=%zu normals=%zu",
+      raw_map->size(), target_map_->size(), finite_normal_count);
+  }
+
+  rm_gicp_relocalization::RegistrationQualityMetrics assessRegistrationQuality(
+    const Cloud & aligned_source) const
+  {
+    std::vector<rm_gicp_relocalization::RegistrationQualitySample> samples;
+    samples.reserve(aligned_source.size());
+    const float max_distance_squared = static_cast<float>(
+      quality_max_correspondence_distance_ * quality_max_correspondence_distance_);
+    std::vector<int> indices(1);
+    std::vector<float> squared_distances(1);
+    for (const auto & point : aligned_source) {
+      if (
+        target_search_->nearestKSearch(point, 1, indices, squared_distances) != 1 ||
+        !std::isfinite(squared_distances.front()) ||
+        squared_distances.front() > max_distance_squared || indices.front() < 0 ||
+        static_cast<std::size_t>(indices.front()) >= target_normals_->size())
+      {
+        continue;
+      }
+      const auto & normal = target_normals_->at(static_cast<std::size_t>(indices.front()));
+      const double normal_norm = std::hypot(
+        std::hypot(normal.normal_x, normal.normal_y), normal.normal_z);
+      if (
+        !std::isfinite(normal.normal_x) || !std::isfinite(normal.normal_y) ||
+        !std::isfinite(normal.normal_z) || !std::isfinite(normal_norm) ||
+        normal_norm <= 1.0e-12)
+      {
+        continue;
+      }
+      rm_gicp_relocalization::RegistrationQualitySample sample;
+      sample.aligned_point = Eigen::Vector3d(point.x, point.y, point.z);
+      sample.target_normal = Eigen::Vector3d(
+        normal.normal_x, normal.normal_y, normal.normal_z);
+      samples.push_back(std::move(sample));
+    }
+    return rm_gicp_relocalization::calculateRegistrationQuality(
+      samples, aligned_source.size());
   }
 
   bool lookupOdomToBase(
@@ -333,7 +440,9 @@ private:
     std::uint64_t generation = 0;
     {
       std::lock_guard<std::mutex> lock(mutex_);
-      if (!has_initial_guess_ || !latest_cloud_ || cloud_generation_ == last_registered_generation_) {
+      if (!has_initial_guess_ || !latest_cloud_ ||
+        cloud_generation_ == last_registered_generation_)
+      {
         return;
       }
       source = latest_cloud_;
@@ -377,6 +486,22 @@ private:
       rejectRegistration("GICP returned a non-finite transform", generation);
       return;
     }
+    const auto quality = assessRegistrationQuality(aligned);
+    publishQuality(quality);
+    std::string quality_reason;
+    if (
+      quality_gate_enabled_ &&
+      !rm_gicp_relocalization::passesRegistrationQuality(
+        quality, quality_thresholds_, quality_reason))
+    {
+      std::ostringstream rejection;
+      rejection << "GICP quality gate rejected: " << quality_reason <<
+        " [overlap=" << quality.overlap_ratio <<
+        " min_eig=" << quality.min_information_eigenvalue <<
+        " condition=" << quality.information_condition_number << "]";
+      rejectRegistration(rejection.str(), generation);
+      return;
+    }
     const double translation_jump = (result.translation() - guess.translation()).norm();
     const double yaw_jump = std::abs(
       rm_gicp_relocalization::planarYawDifference(result, guess));
@@ -413,8 +538,11 @@ private:
     publishValid(true);
     RCLCPP_INFO_THROTTLE(
       get_logger(), *get_clock(), 2000,
-      "GICP accepted: source=%zu score=%.4f correction_jump=%.3f m/%.3f rad",
-      filtered_source->size(), score, translation_jump, yaw_jump);
+      "GICP accepted: source=%zu score=%.4f overlap=%.3f min_eig=%.3e cond=%.3e "
+      "correction_jump=%.3f m/%.3f rad",
+      filtered_source->size(), score, quality.overlap_ratio,
+      quality.min_information_eigenvalue, quality.information_condition_number,
+      translation_jump, yaw_jump);
   }
 
   void rejectRegistration(const std::string & reason, const std::uint64_t generation)
@@ -441,12 +569,27 @@ private:
     score_pub_->publish(message);
   }
 
+  void publishQuality(
+    const rm_gicp_relocalization::RegistrationQualityMetrics & quality)
+  {
+    std_msgs::msg::Float64 message;
+    message.data = quality.overlap_ratio;
+    overlap_pub_->publish(message);
+    message.data = quality.min_information_eigenvalue;
+    min_information_eigenvalue_pub_->publish(message);
+    message.data = quality.information_condition_number;
+    information_condition_number_pub_->publish(message);
+  }
+
   std::string prior_pcd_file_;
   std::string map_id_;
   std::string input_cloud_topic_;
   std::string raw_pose_topic_;
   std::string valid_topic_;
   std::string score_topic_;
+  std::string overlap_topic_;
+  std::string min_information_eigenvalue_topic_;
+  std::string information_condition_number_topic_;
   std::string map_frame_;
   std::string odom_frame_;
   std::string base_frame_;
@@ -464,8 +607,14 @@ private:
   double max_translation_jump_{2.0};
   double max_yaw_jump_{1.0};
   double transform_timeout_sec_{0.10};
+  bool quality_gate_enabled_{true};
+  int quality_normal_k_{12};
+  double quality_max_correspondence_distance_{1.0};
+  rm_gicp_relocalization::RegistrationQualityThresholds quality_thresholds_;
 
   Cloud::Ptr target_map_;
+  pcl::PointCloud<pcl::Normal>::Ptr target_normals_;
+  pcl::search::KdTree<Point>::Ptr target_search_;
   Cloud::Ptr latest_cloud_;
   builtin_interfaces::msg::Time latest_cloud_stamp_;
   Eigen::Isometry3d map_to_odom_guess_{Eigen::Isometry3d::Identity()};
@@ -479,6 +628,11 @@ private:
   rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr raw_pose_pub_;
   rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr valid_pub_;
   rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr score_pub_;
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr overlap_pub_;
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr
+    min_information_eigenvalue_pub_;
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr
+    information_condition_number_pub_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr map_id_pub_;
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_sub_;
   rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr

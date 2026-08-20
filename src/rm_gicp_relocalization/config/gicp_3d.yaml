@@ -7,6 +7,9 @@ gicp_relocalization:
     raw_pose_topic: /localization/gicp_pose_raw
     valid_topic: /localization/gicp_registration_valid
     score_topic: /localization/gicp_fitness_score
+    overlap_topic: /localization/gicp_overlap_ratio
+    min_information_eigenvalue_topic: /localization/gicp_min_information_eigenvalue
+    information_condition_number_topic: /localization/gicp_information_condition_number
     initial_pose_topic: /initialpose
     map_frame: map
     odom_frame: odom
@@ -24,6 +27,12 @@ gicp_relocalization:
     max_translation_jump: 2.0
     max_yaw_jump: 1.0
     transform_timeout_sec: 0.10
+    quality_gate_enabled: true
+    quality_normal_k: 12
+    quality_max_correspondence_distance: 1.0
+    min_overlap_ratio: 0.30
+    min_information_eigenvalue: 0.001
+    max_information_condition_number: 100000.0
 
 gicp_pose_gate:
   ros__parameters:
