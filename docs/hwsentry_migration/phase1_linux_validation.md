@@ -1,5 +1,10 @@
 # Phase 1 Linux 与旧车验证流程
 
+> 本文保留 Phase 1 tracker 的历史基线和专项细节。2026-08-20 冻结后的组合验证统一从
+> `feature/dynamic-clearance-shadow` 执行，入口为
+> [`frozen_validation_handoff.md`](frozen_validation_handoff.md)；不要按下方历史命令切回
+> Phase 1 分支后重复验证后续已经修复或扩展的代码。
+
 ## 0. 已完成基线
 
 2026-08-16 已在代码提交 `65fa728` 上使用无网络、只读源码挂载的 Docker/Humble
@@ -15,8 +20,9 @@
 不发布 TF、`/cmd_vel`、costmap、plan 或 goal。
 
 尚未完成的是带真实 `/map + /local_scan` 的旧车无运动 smoke、D01-D07 和真实 ray
-sidecar 地图验证。只有在 `65fa728` 之后相关源码、依赖或工具链变化时才需要重复
-Linux build/test；纯文档变化不触发重跑。
+sidecar 地图验证。sidecar 采集链已在后续分支实现并保持默认关闭；本轮地图工具开发
+已冻结，普通日常建图不要求启用或验证它。只有在 `65fa728` 之后相关源码、依赖或
+工具链变化时才需要重复 Linux build/test；纯文档变化不触发重跑。
 
 ## 1. 获取与构建
 
@@ -70,7 +76,7 @@ ros2 launch rm_dynamic_obstacle_tracking \
   dynamic_obstacle_tracking_shadow.launch.py enabled:=true
 ```
 
-确认只有两个输出 topic，且没有新的 TF、costmap、plan、goal 或 cmd_vel 发布者：
+确认只有三个输出 topic，且没有新的 TF、costmap、plan、goal 或 cmd_vel 发布者：
 
 ```bash
 ros2 node info /dynamic_obstacle_tracker_shadow
@@ -118,17 +124,20 @@ RViz Fixed Frame 使用 `map`，一次只增加 shadow MarkerArray 和必要的 
 
 ## 5. 离线清图原型
 
-包测试已在上述代码基线完成，不要重复执行没有新输入的真实清图试验。真实 CLI 还需要
-`rm_map_ray_observations/v1` sidecar；当前 Phase 2I 不生成该数据。没有 sidecar
-时必须报告：
+包测试已在上述代码基线完成，不要重复执行没有新输入的真实清图试验。后续 Phase 2I
+分支已经提供默认关闭的 `rm_map_ray_observations/v1` sidecar 采集链，但当前地图清理
+开发处于冻结状态，普通建图继续保持关闭。只有明确解冻真实 DDA 效果验证时，才按
+`docs/phase2i_managed_mapping.md` 先做 120 秒采集 preflight，再决定是否重新采图。没有
+与目标地图同一会话的 sidecar 时必须报告：
 
 ```text
-MAPPING SIDECAR RECORDER NOT IMPLEMENTED
-REAL MAP VALIDATION REQUIRED
+MATCHED RAY SIDECAR NOT AVAILABLE
+REAL MAP VALIDATION DEFERRED
 ```
 
 禁止用最终 PCD 伪造 rays，禁止覆盖已有 PCD/PGM/bundle，也不应为了验证本阶段
-临时改正式 mapping session。
+临时改正式 mapping session。冻结后的统一恢复顺序见
+`docs/hwsentry_migration/frozen_validation_handoff.md`。
 
 ## 6. 收尾报告
 

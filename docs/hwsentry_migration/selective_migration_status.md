@@ -2,6 +2,10 @@
 
 本文记录已经确认的迁移边界，避免后续因重新发现上游模块而重复实现或扩大范围。
 
+本轮迁移自 2026-08-20 起冻结，等待匹配地图和实车窗口。恢复时按
+[`frozen_validation_handoff.md`](frozen_validation_handoff.md) 执行，不重复迁移或在
+没有录包证据时继续扩展代码。
+
 ## 已落地
 
 - 默认关闭的动态障碍 shadow tracker：静态剔除、聚类、Kalman 跟踪和短时预测；
