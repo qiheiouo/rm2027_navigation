@@ -3,7 +3,16 @@
 这个包只保存面向日常使用的启动入口，不实现驱动、定位、规划、串口或行为树逻辑。
 实际节点仍由各自原包拥有，避免在用户 launch 中复制实现。
 
-## 入口
+## 日常入口（只使用这三个）
+
+| 用途 | launch |
+| --- | --- |
+| 能过洞的实车全功能导航 | `old_car_dog_hole_navigation.launch.py` |
+| 实车建图 | `old_car_mapping.launch.py` |
+| 有顶狗洞与 11°/15°斜坡的新车仿真 | `field_geometry_simulation.launch.py` |
+
+仓库中的其他 launch 是上述入口复用的底层组件或回归测试入口，不需要在日常调试时
+直接选择，也不代表会同时启动实车和仿真硬件。
 
 ### 旧车建图
 
@@ -55,6 +64,24 @@ ros2 launch rm_navigation_launch old_car_full_navigation.launch.py \
 mock；同一 `serial_transport_node` 使用已确认的 `hpm_crc_v1` 接收当前下位机 45 字节
 状态帧并发布 `/referee/state_raw`。
 
+### 有顶狗洞与斜坡仿真
+
+```bash
+ros2 launch rm_navigation_launch field_geometry_simulation.launch.py
+```
+
+默认打开 Gazebo GUI 与 RViz，并生成带碰撞顶板的 `0.80 x 0.25 m` 狗洞、蓝色 11°
+斜坡和橙色 15°斜坡。默认 `auto_start:=false`，机器人保持静止便于检查几何；需要执行
+狗洞接近、对齐和穿越流程时使用：
+
+```bash
+ros2 launch rm_navigation_launch field_geometry_simulation.launch.py \
+  auto_start:=true
+```
+
+该入口只启动仿真，不打开真实 MID360 或串口。狗洞参数仍来自
+`rm_dog_hole/config/dog_hole_sim.yaml`，也可以用 `dog_hole_config:=/absolute/path.yaml`
+覆盖；斜坡实体模型用于候选几何验证，不是最终比赛场地尺寸。
 修改源码中的 launch 文件后需要重新构建并 source：
 
 ```bash

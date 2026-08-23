@@ -26,6 +26,9 @@ def generate_launch_description():
         "ramp_active_map_revision"
     )
     ramp_include_obstacle = LaunchConfiguration("ramp_include_obstacle")
+    ramp_spawn_physical_geometry = LaunchConfiguration(
+        "ramp_spawn_physical_geometry"
+    )
 
     basic_launch = PathJoinSubstitution([
         FindPackageShare("rm_simulation"),
@@ -112,6 +115,9 @@ def generate_launch_description():
             default_value="candidate_11_15_v1",
         ),
         DeclareLaunchArgument("ramp_include_obstacle", default_value="true"),
+        DeclareLaunchArgument(
+            "ramp_spawn_physical_geometry", default_value="true"
+        ),
         LogInfo(msg=[
             "[simulation] scenario=",
             scenario,
@@ -180,6 +186,7 @@ def generate_launch_description():
                 "gimbal_angular_velocity": gimbal_angular_velocity,
                 "active_map_revision": ramp_active_map_revision,
                 "include_obstacle": ramp_include_obstacle,
+                "spawn_physical_geometry": ramp_spawn_physical_geometry,
             }.items(),
         ),
     ])

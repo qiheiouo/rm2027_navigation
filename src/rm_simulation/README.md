@@ -40,15 +40,19 @@ map-fixed synthetic surface is transformed into the rotating
 removes only points close to the configured expected planes. A 12 cm object
 on the 15-degree surface remains in the filtered cloud. Neither the synthetic
 input nor `/simulation/ramp/points_filtered_shadow` is connected to a Nav2
-costmap.
+costmap. Gazebo also spawns blue 11-degree and orange 15-degree static ramp
+fixtures at the same candidate positions so the geometry is visible in the
+GUI; the points remain synthetic and do not come from the Gazebo GPU lidar.
 
 ```bash
 ros2 launch rm_navigation_bringup simulation.launch.py \
-  scenario:=ramp_perception headless:=true use_rviz:=false
+  scenario:=ramp_perception headless:=false use_rviz:=true
 ```
 
-Use `use_rviz:=true headless:=false` to compare the red raw cloud with the
-green filtered cloud. The two regions are candidate geometry only: the four
+RViz compares the red raw cloud with the green filtered cloud. Gazebo shows
+the physical fixtures. This scenario does not create a dog hole; use
+`scenario:=dog_hole` for the parameterized tunnel. The two ramp regions are
+candidate geometry only: the four
 competition ramp polygons, elevations, directions, and final map revision
 must be entered from the accepted field map before active costmap evaluation.
 Setting `ramp_active_map_revision` to any nonmatching value verifies that the

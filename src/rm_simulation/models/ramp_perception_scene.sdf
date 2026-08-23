@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+  <!--
+    Visual/collision counterparts of the candidate planes emitted by
+    synthetic_ramp_pointcloud_publisher. The top faces begin at z=0 and rise
+    along +x. These are simulation fixtures, not accepted field geometry.
+  -->
+  <model name="ramp_perception_scene">
+    <static>true</static>
+
+    <link name="ramp_11_link">
+      <!-- 1.00 m horizontal run, 0.80 m width, 11 degree ascent. -->
+      <pose>1.503816 -1.0 0.077561 0 -0.191986218 0</pose>
+      <collision name="ramp_11_collision">
+        <geometry>
+          <box><size>1.0187167 0.80 0.04</size></box>
+        </geometry>
+      </collision>
+      <visual name="ramp_11_visual">
+        <geometry>
+          <box><size>1.0187167 0.80 0.04</size></box>
+        </geometry>
+        <material>
+          <ambient>0.10 0.35 0.90 1</ambient>
+          <diffuse>0.10 0.35 0.90 1</diffuse>
+        </material>
+      </visual>
+    </link>
+
+    <link name="ramp_15_link">
+      <!-- 0.93 m horizontal run, 0.80 m width, 15 degree ascent. -->
+      <pose>1.470176 1.0 0.105278 0 -0.261799388 0</pose>
+      <collision name="ramp_15_collision">
+        <geometry>
+          <box><size>0.9628070 0.80 0.04</size></box>
+        </geometry>
+      </collision>
+      <visual name="ramp_15_visual">
+        <geometry>
+          <box><size>0.9628070 0.80 0.04</size></box>
+        </geometry>
+        <material>
+          <ambient>0.95 0.42 0.08 1</ambient>
+          <diffuse>0.95 0.42 0.08 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
