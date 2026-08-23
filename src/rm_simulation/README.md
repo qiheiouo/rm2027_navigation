@@ -33,6 +33,27 @@ LaserScan adapter and publishes a synthetic `PointCloud2` obstacle on
 `/points/obstacles` in `sim_lidar_link`. It validates the Nav2 VoxelLayer
 boundary only; it is not a MID360 physics or timing simulation.
 
+The `ramp_perception` scenario adds a shadow-only 3D return test for one
+representative 11-degree ramp and one representative 15-degree ramp. A
+map-fixed synthetic surface is transformed into the rotating
+`sim_lidar_link`; the filter transforms it back at the cloud timestamp and
+removes only points close to the configured expected planes. A 12 cm object
+on the 15-degree surface remains in the filtered cloud. Neither the synthetic
+input nor `/simulation/ramp/points_filtered_shadow` is connected to a Nav2
+costmap.
+
+```bash
+ros2 launch rm_navigation_bringup simulation.launch.py \
+  scenario:=ramp_perception headless:=true use_rviz:=false
+```
+
+Use `use_rviz:=true headless:=false` to compare the red raw cloud with the
+green filtered cloud. The two regions are candidate geometry only: the four
+competition ramp polygons, elevations, directions, and final map revision
+must be entered from the accepted field map before active costmap evaluation.
+Setting `ramp_active_map_revision` to any nonmatching value verifies that the
+filter passes every point through unchanged.
+
 The new-car dog-hole candidate uses `dog_hole_sim.launch.py`. It generates a
 parameterized `0.80 m` tunnel model from the single configuration in
 `rm_dog_hole/config/dog_hole_sim.yaml`, derives a narrow-passage MPPI profile,
@@ -68,6 +89,10 @@ must be aligned with the mechanical and lower-controller teams.
 
 Gazebo TF is deliberately not bridged into ROS. The canonical ROS TF owners
 remain `map_odom_stub`, `lio_adapter`, and `robot_state_publisher`.
+
+Gazebo is started as a process directly owned by ROS launch. This avoids the
+Humble `ros_gz_sim` shell wrapper leaving an orphaned simulator and a competing
+`/clock` publisher after Ctrl+C.
 
 `scan_frame_adapter` rewrites only the simulation scan message frame to
 `sim_lidar_link`. It does not publish TF. `sim_lidar_link` is enabled in the

@@ -22,6 +22,10 @@ def generate_launch_description():
     gimbal_frequency = LaunchConfiguration("gimbal_frequency")
     gimbal_angular_velocity = LaunchConfiguration("gimbal_angular_velocity")
     heading_policy = LaunchConfiguration("heading_policy")
+    ramp_active_map_revision = LaunchConfiguration(
+        "ramp_active_map_revision"
+    )
+    ramp_include_obstacle = LaunchConfiguration("ramp_include_obstacle")
 
     basic_launch = PathJoinSubstitution([
         FindPackageShare("rm_simulation"),
@@ -43,6 +47,11 @@ def generate_launch_description():
         "launch",
         "dog_hole_sim.launch.py",
     ])
+    ramp_perception_launch = PathJoinSubstitution([
+        FindPackageShare("rm_simulation"),
+        "launch",
+        "ramp_perception_sim.launch.py",
+    ])
 
     basic_mode = IfCondition(PythonExpression(["'", scenario, "' == 'basic'"]))
     static_course_mode = IfCondition(
@@ -57,6 +66,9 @@ def generate_launch_description():
     dog_hole_mode = IfCondition(
         PythonExpression(["'", scenario, "' == 'dog_hole'"])
     )
+    ramp_perception_mode = IfCondition(
+        PythonExpression(["'", scenario, "' == 'ramp_perception'"])
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -68,6 +80,7 @@ def generate_launch_description():
                 "course_dynamic",
                 "pointcloud",
                 "dog_hole",
+                "ramp_perception",
             ],
         ),
         DeclareLaunchArgument("headless", default_value="true"),
@@ -94,6 +107,11 @@ def generate_launch_description():
             default_value="baseline",
             choices=["baseline", "path_aligned"],
         ),
+        DeclareLaunchArgument(
+            "ramp_active_map_revision",
+            default_value="candidate_11_15_v1",
+        ),
+        DeclareLaunchArgument("ramp_include_obstacle", default_value="true"),
         LogInfo(msg=[
             "[simulation] scenario=",
             scenario,
@@ -150,6 +168,18 @@ def generate_launch_description():
                 "gimbal_frequency": gimbal_frequency,
                 "gimbal_angular_velocity": gimbal_angular_velocity,
                 "heading_policy": heading_policy,
+            }.items(),
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(ramp_perception_launch),
+            condition=ramp_perception_mode,
+            launch_arguments={
+                "headless": headless,
+                "use_rviz": use_rviz,
+                "gimbal_motion_mode": gimbal_motion_mode,
+                "gimbal_angular_velocity": gimbal_angular_velocity,
+                "active_map_revision": ramp_active_map_revision,
+                "include_obstacle": ramp_include_obstacle,
             }.items(),
         ),
     ])
