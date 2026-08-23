@@ -35,9 +35,11 @@ frames and permissions are confirmed. The explicit Nav2 profile
 `nav2_old_car_2026_dual_stvl.yaml` consumes `/points/obstacles_fused`; the
 default profile remains the verified single-left input.
 
-The competition bringup does not switch profiles implicitly. Select the dual
-profile together with `use_dual_obstacle_fusion:=true`, and enable the right
-driver only after its extrinsic has been measured:
+The lower-level competition bringup does not switch profiles implicitly. Select
+the dual profile together with `use_dual_obstacle_fusion:=true`, and enable the
+right driver only after its extrinsic has been measured. The
+`feature/old-car-dual-dog-hole-field` user entry performs these selections after
+the operator's 2026-08-23 old-car calibration confirmation:
 
 ```bash
 nav2_params:=$(ros2 pkg prefix rm_nav_config)/share/rm_nav_config/config/nav2_old_car_2026_dual_stvl.yaml
@@ -50,6 +52,10 @@ the documented assumption that L2 is L1 rotated 180 degrees around the chassis
 Z axis. This is enough for offline TF and fusion plumbing tests, but it is not
 calibration evidence. Before real dual-lidar navigation, measure the right
 translation and orientation and compare walls/floor from each cloud separately.
+The old-car dual field branch currently crosses this historical gate based on
+the operator's explicit confirmation; the raw calibration report and resulting
+6DoF values still need to be archived in the repository. This override is not
+valid for the 2027 chassis.
 
 ## Acceptance
 
