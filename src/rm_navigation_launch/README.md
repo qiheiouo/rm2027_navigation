@@ -55,6 +55,26 @@ ros2 launch rm_navigation_launch old_car_full_navigation.launch.py \
 mock；同一 `serial_transport_node` 使用已确认的 `hpm_crc_v1` 接收当前下位机 45 字节
 状态帧并发布 `/referee/state_raw`。
 
+### 旧车狗洞全功能验证
+
+狗洞入口完整复用上述驱动、LIO、AMCL、串口、裁判、mission 和安全门，只覆盖狗洞
+候选地图、`0.55 m` 点云高度门以及前向穿越控制参数：
+
+```bash
+ros2 launch rm_navigation_launch old_car_dog_hole_navigation.launch.py
+```
+
+默认导航前进上限为 `0.80 m/s`、角速度上限为 `0.80 rad/s`。可在保持其余全功能配置
+不变的前提下临时调整：
+
+```bash
+ros2 launch rm_navigation_launch old_car_dog_hole_navigation.launch.py \
+  max_forward_speed:=1.0 max_yaw_rate:=0.8
+```
+
+该入口只用于现有假狗洞和旧车验证。`obstacle_ceiling_height:=0.55` 会有意忽略更高的
+悬空回波；真实狗洞、新车几何和最终雷达安装确定后必须重新测量，不能直接作为比赛值。
+
 修改源码中的 launch 文件后需要重新构建并 source：
 
 ```bash
