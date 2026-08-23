@@ -69,6 +69,7 @@ ament_target_dependencies(sim_chassis_heading_lio_source
   rm_competition_interfaces
   std_msgs
   tf2
+  tf2_ros
 )
 
 add_executable(localization_disturbance src/localization_disturbance.cpp)

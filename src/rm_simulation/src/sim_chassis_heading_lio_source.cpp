@@ -15,6 +15,7 @@
 #include "diagnostic_msgs/msg/diagnostic_array.hpp"
 #include "diagnostic_msgs/msg/diagnostic_status.hpp"
 #include "diagnostic_msgs/msg/key_value.hpp"
+#include "geometry_msgs/msg/transform_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rm_competition_interfaces/msg/chassis_heading_state.hpp"
@@ -24,6 +25,7 @@
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2/LinearMath/Transform.h"
 #include "tf2/LinearMath/Vector3.h"
+#include "tf2_ros/transform_broadcaster.h"
 
 namespace
 {
@@ -111,6 +113,12 @@ public:
       "diagnostics_topic", "/diagnostics");
     raw_parent_frame_ = declare_parameter<std::string>("raw_parent_frame", "odom");
     sensor_frame_ = declare_parameter<std::string>("sensor_frame", "sim_lidar_link");
+    publish_sensor_truth_tf_ = declare_parameter<bool>(
+      "publish_sensor_truth_tf", false);
+    sensor_truth_parent_frame_ = declare_parameter<std::string>(
+      "sensor_truth_parent_frame", "map");
+    sensor_truth_frame_ = declare_parameter<std::string>(
+      "sensor_truth_frame", "sim_lidar_physics_frame");
 
     motion_mode_ = declare_parameter<std::string>("motion_mode", "fixed");
     gimbal_offset_rad_ = declare_parameter<double>("gimbal_offset_rad", 0.0);
@@ -145,6 +153,11 @@ public:
 
     validateParameters();
 
+    if (publish_sensor_truth_tf_) {
+      sensor_truth_tf_broadcaster_ =
+        std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+    }
+
     raw_lio_pub_ = create_publisher<nav_msgs::msg::Odometry>(raw_lio_topic_, 20);
     heading_pub_ = create_publisher<rm_competition_interfaces::msg::ChassisHeadingState>(
       chassis_heading_topic_, 20);
@@ -173,9 +186,16 @@ public:
       get_logger(),
       "Simulation-only chassis-heading LIO source: ground truth -> %s[%s] + %s. "
       "heading world offset=%.3f rad, timestamp offset=%.3f s, yaw sign=%.1f. "
-      "No TF is published by this node.",
+      "No canonical localization TF is published by this node.",
       raw_lio_topic_.c_str(), sensor_frame_.c_str(), chassis_heading_topic_.c_str(),
       heading_world_offset_rad_, heading_timestamp_offset_sec_, heading_yaw_sign_);
+    if (publish_sensor_truth_tf_) {
+      RCLCPP_WARN(
+        get_logger(),
+        "Simulation-only scan attitude feed is ACTIVE: %s -> %s uses Gazebo sensor truth. "
+        "It must not be enabled by real-hardware launches.",
+        sensor_truth_parent_frame_.c_str(), sensor_truth_frame_.c_str());
+    }
   }
 
   ~SimChassisHeadingLioSource() override
@@ -208,13 +228,18 @@ private:
       std::isfinite(heading_timestamp_offset_sec_) &&
       std::isfinite(position_tolerance_m_) && std::isfinite(yaw_tolerance_rad_) &&
       std::isfinite(gimbal_tolerance_rad_);
+    const bool invalid_sensor_truth_frames =
+      publish_sensor_truth_tf_ &&
+      (sensor_truth_parent_frame_.empty() || sensor_truth_frame_.empty() ||
+      sensor_truth_parent_frame_ == sensor_truth_frame_);
     if (!valid_mode || !finite || gimbal_frequency_hz_ < 0.0 ||
       std::abs(std::abs(heading_yaw_sign_) - 1.0) > 1.0e-9 ||
       std::abs(heading_timestamp_offset_sec_) > 1.0 ||
       heading_publish_divider_ < 1 || heading_publish_divider_ > 100 ||
       position_tolerance_m_ <= 0.0 || yaw_tolerance_rad_ <= 0.0 ||
       gimbal_tolerance_rad_ <= 0.0 || truth_cache_size_ < 10 ||
-      raw_parent_frame_.empty() || sensor_frame_.empty())
+      raw_parent_frame_.empty() || sensor_frame_.empty() ||
+      invalid_sensor_truth_frames)
     {
       throw std::invalid_argument("invalid simulated chassis-heading LIO parameters");
     }
@@ -381,6 +406,21 @@ private:
     output.pose.covariance = input.pose.covariance;
     transformToPose(world_to_sensor, output.pose.pose);
     raw_lio_pub_->publish(output);
+
+    if (sensor_truth_tf_broadcaster_) {
+      geometry_msgs::msg::TransformStamped transform;
+      transform.header.stamp = input.header.stamp;
+      transform.header.frame_id = sensor_truth_parent_frame_;
+      transform.child_frame_id = sensor_truth_frame_;
+      transform.transform.translation.x = world_to_sensor.getOrigin().x();
+      transform.transform.translation.y = world_to_sensor.getOrigin().y();
+      transform.transform.translation.z = world_to_sensor.getOrigin().z();
+      transform.transform.rotation.x = world_to_sensor.getRotation().x();
+      transform.transform.rotation.y = world_to_sensor.getRotation().y();
+      transform.transform.rotation.z = world_to_sensor.getRotation().z();
+      transform.transform.rotation.w = world_to_sensor.getRotation().w();
+      sensor_truth_tf_broadcaster_->sendTransform(transform);
+    }
   }
 
   const TruthSample * findTruth(std::int64_t stamp_nanoseconds) const
@@ -528,6 +568,9 @@ private:
   std::string diagnostics_topic_;
   std::string raw_parent_frame_;
   std::string sensor_frame_;
+  bool publish_sensor_truth_tf_{false};
+  std::string sensor_truth_parent_frame_;
+  std::string sensor_truth_frame_;
   std::string motion_mode_;
   double gimbal_offset_rad_{0.0};
   double gimbal_amplitude_rad_{0.0};
@@ -578,6 +621,7 @@ private:
   rclcpp::Subscription<rm_competition_interfaces::msg::GimbalState>::SharedPtr
     derived_gimbal_sub_;
   rclcpp::TimerBase::SharedPtr diagnostics_timer_;
+  std::unique_ptr<tf2_ros::TransformBroadcaster> sensor_truth_tf_broadcaster_;
 };
 
 int main(int argc, char ** argv)

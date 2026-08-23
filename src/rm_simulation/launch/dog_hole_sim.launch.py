@@ -110,7 +110,15 @@ def _robot_geometry(params):
     return geometry
 
 
-def _make_robot_world(params):
+def _make_robot_world(
+    params,
+    spawn_x,
+    spawn_y,
+    spawn_yaw,
+    physics_max_step_size,
+    lidar_update_rate,
+    lidar_samples,
+):
     geometry = _robot_geometry(params)
     source = (
         Path(get_package_share_directory("rm_simulation"))
@@ -126,6 +134,22 @@ def _make_robot_world(params):
     _, suffix = remainder.split(remove_end, maxsplit=1)
     text = prefix + suffix
     replacements = {
+        "<max_step_size>0.001</max_step_size>": (
+            f"<max_step_size>{physics_max_step_size}</max_step_size>"
+        ),
+        "<update_rate>15</update_rate>": (
+            f"<update_rate>{lidar_update_rate}</update_rate>"
+        ),
+        "<samples>720</samples>": f"<samples>{lidar_samples}</samples>",
+        (
+            '<model name="rm_sentry_2027" '
+            'xmlns:ignition="http://ignitionrobotics.org/schema">\n'
+            "      <pose>0 0 0 0 0 0</pose>"
+        ): (
+            '<model name="rm_sentry_2027" '
+            'xmlns:ignition="http://ignitionrobotics.org/schema">\n'
+            f"      <pose>{spawn_x} {spawn_y} 0 0 0 {spawn_yaw}</pose>"
+        ),
         '<pose relative_to="base_link">0 0 0.115 0 0 0</pose>': (
             '<pose relative_to="base_link">0 0 '
             f'{geometry["gimbal_joint_height"]} 0 0 0</pose>'
@@ -290,7 +314,19 @@ def _make_scene(params):
 """
 
 
-def _make_nav2_profile(params, heading_policy):
+def _make_nav2_profile(
+    params,
+    heading_policy,
+    global_costmap_width,
+    global_costmap_height,
+    global_costmap_update_frequency,
+    global_costmap_resolution,
+    global_costmap_rolling_window,
+    global_costmap_origin_x,
+    global_costmap_origin_y,
+    mppi_batch_size,
+    bt_loop_duration,
+):
     source = (
         Path(get_package_share_directory("rm_nav_config"))
         / "config"
@@ -305,7 +341,7 @@ def _make_nav2_profile(params, heading_policy):
             # The narrow-entry profile needs enough samples to avoid the
             # repeated soft-reset/abort cycle seen with the 300-sample base
             # profile before the dedicated alignment controller takes over.
-            "batch_size": 1000,
+            "batch_size": mppi_batch_size,
             "retry_attempt_limit": 3,
             "vx_max": 0.65,
             "vx_min": -0.30,
@@ -347,6 +383,20 @@ def _make_nav2_profile(params, heading_policy):
         costmap["footprint_padding"] = 0.01
         costmap["inflation_layer"]["inflation_radius"] = 0.32
         costmap["inflation_layer"]["cost_scaling_factor"] = 10.0
+
+    global_costmap = data["global_costmap"]["global_costmap"][
+        "ros__parameters"
+    ]
+    global_costmap["width"] = global_costmap_width
+    global_costmap["height"] = global_costmap_height
+    global_costmap["update_frequency"] = global_costmap_update_frequency
+    global_costmap["resolution"] = global_costmap_resolution
+    global_costmap["rolling_window"] = global_costmap_rolling_window
+    global_costmap["origin_x"] = global_costmap_origin_x
+    global_costmap["origin_y"] = global_costmap_origin_y
+    data["bt_navigator"]["ros__parameters"][
+        "bt_loop_duration"
+    ] = bt_loop_duration
 
     output = Path("/tmp/rm2027_dog_hole_sim/nav2_dog_hole_sim.yaml")
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -468,21 +518,130 @@ def _launch_setup(context):
     initial_gimbal_yaw = float(gimbal_yaw.perform(context))
     headless = LaunchConfiguration("headless")
     use_rviz = LaunchConfiguration("use_rviz")
+    spawn_dog_hole_scene = LaunchConfiguration("spawn_dog_hole_scene")
     spawn_ramp_scene = LaunchConfiguration("spawn_ramp_scene")
     active_ramp_filter = LaunchConfiguration("active_ramp_filter")
+    scan_output_frame = LaunchConfiguration("scan_output_frame")
+    publish_sensor_truth_tf = LaunchConfiguration(
+        "publish_sensor_truth_tf"
+    )
+    ramp_filter_config = Path(
+        LaunchConfiguration("ramp_filter_config").perform(context)
+    )
+    robot_spawn_x = float(
+        LaunchConfiguration("robot_spawn_x").perform(context)
+    )
+    robot_spawn_y = float(
+        LaunchConfiguration("robot_spawn_y").perform(context)
+    )
+    robot_spawn_yaw = float(
+        LaunchConfiguration("robot_spawn_yaw").perform(context)
+    )
+    global_costmap_width = int(
+        float(LaunchConfiguration("global_costmap_width").perform(context))
+    )
+    global_costmap_height = int(
+        float(LaunchConfiguration("global_costmap_height").perform(context))
+    )
+    global_costmap_update_frequency = float(
+        LaunchConfiguration(
+            "global_costmap_update_frequency"
+        ).perform(context)
+    )
+    global_costmap_resolution = float(
+        LaunchConfiguration("global_costmap_resolution").perform(context)
+    )
+    global_costmap_rolling_window = (
+        LaunchConfiguration("global_costmap_rolling_window")
+        .perform(context)
+        .strip()
+        .lower()
+        == "true"
+    )
+    global_costmap_origin_x = float(
+        LaunchConfiguration("global_costmap_origin_x").perform(context)
+    )
+    global_costmap_origin_y = float(
+        LaunchConfiguration("global_costmap_origin_y").perform(context)
+    )
+    mppi_batch_size = int(
+        float(LaunchConfiguration("mppi_batch_size").perform(context))
+    )
+    bt_loop_duration = int(
+        float(LaunchConfiguration("bt_loop_duration").perform(context))
+    )
+    physics_max_step_size = float(
+        LaunchConfiguration("physics_max_step_size").perform(context)
+    )
+    lidar_update_rate = float(
+        LaunchConfiguration("lidar_update_rate").perform(context)
+    )
+    lidar_samples = int(
+        float(LaunchConfiguration("lidar_samples").perform(context))
+    )
 
     config_data = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     params = config_data["dog_hole_manager"]["ros__parameters"]
     params["robot.geometry_profile"] = robot_geometry_profile
 
+    manager_overrides = {}
+    for launch_name, parameter_name in (
+        ("dog_hole_center_x", "dog_hole.center_x"),
+        ("dog_hole_center_y", "dog_hole.center_y"),
+        ("dog_hole_yaw", "dog_hole.yaw"),
+        ("dog_hole_width", "dog_hole.width"),
+        ("dog_hole_length", "dog_hole.length"),
+    ):
+        value = LaunchConfiguration(launch_name).perform(context).strip()
+        if value:
+            params[parameter_name] = float(value)
+            manager_overrides[parameter_name] = float(value)
+
+    final_goal_values = [
+        LaunchConfiguration(name).perform(context).strip()
+        for name in (
+            "dog_hole_final_goal_x",
+            "dog_hole_final_goal_y",
+            "dog_hole_final_goal_yaw",
+        )
+    ]
+    if any(final_goal_values):
+        if not all(final_goal_values):
+            raise RuntimeError(
+                "all dog_hole_final_goal_* values must be supplied together"
+            )
+        final_goal = [float(value) for value in final_goal_values]
+        params["final_goal"] = final_goal
+        manager_overrides["final_goal"] = final_goal
+
     output_dir = Path("/tmp/rm2027_dog_hole_sim")
     output_dir.mkdir(parents=True, exist_ok=True)
     scene_path = output_dir / "dog_hole_scene.sdf"
     scene_path.write_text(_make_scene(params), encoding="utf-8")
-    world_text, geometry = _make_robot_world(params)
+    world_text, geometry = _make_robot_world(
+        params,
+        robot_spawn_x,
+        robot_spawn_y,
+        robot_spawn_yaw,
+        physics_max_step_size,
+        lidar_update_rate,
+        lidar_samples,
+    )
     world_path = output_dir / f'new_car_{geometry["profile"]}.sdf'
     world_path.write_text(world_text, encoding="utf-8")
-    nav2_path = _make_nav2_profile(params, heading_policy)
+    nav2_path = _make_nav2_profile(
+        params,
+        heading_policy,
+        global_costmap_width,
+        global_costmap_height,
+        global_costmap_update_frequency,
+        global_costmap_resolution,
+        global_costmap_rolling_window,
+        global_costmap_origin_x,
+        global_costmap_origin_y,
+        mppi_batch_size,
+        bt_loop_duration,
+    )
     lio_adapter_path = _make_heading_fusion_profile(
         geometry, initial_gimbal_yaw
     )
@@ -504,12 +663,6 @@ def _launch_setup(context):
         / "models"
         / "ramp_perception_scene.sdf"
     )
-    ramp_filter_config = (
-        Path(get_package_share_directory("rm_mid360_driver_bridge"))
-        / "config"
-        / "ramp_laserscan_filter_sim.yaml"
-    )
-
     return [
         LogInfo(
             msg=(
@@ -527,6 +680,7 @@ def _launch_setup(context):
                 "use_nav2": "true",
                 "use_rviz": use_rviz,
                 "scan_output_topic": "/simulation/scan_ramp_unfiltered",
+                "scan_output_frame": scan_output_frame,
                 "nav2_params": str(nav2_path),
                 "world": str(world_path),
                 "gimbal_use_input": "true",
@@ -555,6 +709,16 @@ def _launch_setup(context):
                         "simulation.localization.heading_timestamp_offset_sec"
                     ]
                 ),
+                "publish_sensor_truth_tf": publish_sensor_truth_tf,
+                "sensor_truth_parent_frame": "map",
+                "sensor_truth_frame": "sim_lidar_physics_frame",
+                # Synthetic FAST-LIO is intentionally zeroed at its initial
+                # pose. Offset map->odom by the Gazebo spawn pose so map-bound
+                # field geometry and localization share one coordinate system.
+                "use_identity_map_odom_stub": "false",
+                "map_to_odom_x": str(robot_spawn_x),
+                "map_to_odom_y": str(robot_spawn_y),
+                "map_to_odom_yaw": str(robot_spawn_yaw),
                 "use_localization_disturbance": "true",
                 "localization_reference_yaw": str(
                     params["dog_hole.yaw"]
@@ -626,6 +790,7 @@ def _launch_setup(context):
             output="screen",
             parameters=[
                 str(config_path),
+                manager_overrides,
                 {"auto_start": ParameterValue(auto_start, value_type=bool)},
             ],
         ),
@@ -637,6 +802,7 @@ def _launch_setup(context):
                     executable="create",
                     name="spawn_dog_hole_scene",
                     output="screen",
+                    condition=IfCondition(spawn_dog_hole_scene),
                     arguments=[
                         "-world",
                         "phase1_omni",
@@ -683,12 +849,71 @@ def generate_launch_description():
         / "config"
         / "dog_hole_sim.yaml"
     )
+    default_ramp_filter_config = (
+        Path(get_package_share_directory("rm_mid360_driver_bridge"))
+        / "config"
+        / "ramp_laserscan_filter_sim.yaml"
+    )
     return LaunchDescription(
         [
             DeclareLaunchArgument("headless", default_value="true"),
             DeclareLaunchArgument("use_rviz", default_value="false"),
+            DeclareLaunchArgument(
+                "spawn_dog_hole_scene", default_value="true"
+            ),
             DeclareLaunchArgument("spawn_ramp_scene", default_value="true"),
             DeclareLaunchArgument("active_ramp_filter", default_value="true"),
+            DeclareLaunchArgument(
+                "scan_output_frame", default_value="sim_lidar_link"
+            ),
+            DeclareLaunchArgument(
+                "publish_sensor_truth_tf", default_value="false"
+            ),
+            DeclareLaunchArgument(
+                "ramp_filter_config",
+                default_value=str(default_ramp_filter_config),
+            ),
+            DeclareLaunchArgument("robot_spawn_x", default_value="0.0"),
+            DeclareLaunchArgument("robot_spawn_y", default_value="0.0"),
+            DeclareLaunchArgument("robot_spawn_yaw", default_value="0.0"),
+            DeclareLaunchArgument("global_costmap_width", default_value="12.0"),
+            DeclareLaunchArgument("global_costmap_height", default_value="12.0"),
+            DeclareLaunchArgument(
+                "global_costmap_update_frequency", default_value="5.0"
+            ),
+            DeclareLaunchArgument(
+                "global_costmap_resolution", default_value="0.05"
+            ),
+            DeclareLaunchArgument(
+                "global_costmap_rolling_window", default_value="true"
+            ),
+            DeclareLaunchArgument(
+                "global_costmap_origin_x", default_value="0.0"
+            ),
+            DeclareLaunchArgument(
+                "global_costmap_origin_y", default_value="0.0"
+            ),
+            DeclareLaunchArgument("mppi_batch_size", default_value="1000"),
+            DeclareLaunchArgument("bt_loop_duration", default_value="10"),
+            DeclareLaunchArgument(
+                "physics_max_step_size", default_value="0.001"
+            ),
+            DeclareLaunchArgument("lidar_update_rate", default_value="15.0"),
+            DeclareLaunchArgument("lidar_samples", default_value="720"),
+            DeclareLaunchArgument("dog_hole_center_x", default_value=""),
+            DeclareLaunchArgument("dog_hole_center_y", default_value=""),
+            DeclareLaunchArgument("dog_hole_yaw", default_value=""),
+            DeclareLaunchArgument("dog_hole_width", default_value=""),
+            DeclareLaunchArgument("dog_hole_length", default_value=""),
+            DeclareLaunchArgument(
+                "dog_hole_final_goal_x", default_value=""
+            ),
+            DeclareLaunchArgument(
+                "dog_hole_final_goal_y", default_value=""
+            ),
+            DeclareLaunchArgument(
+                "dog_hole_final_goal_yaw", default_value=""
+            ),
             DeclareLaunchArgument("auto_start", default_value="true"),
             DeclareLaunchArgument(
                 "robot_geometry_profile", default_value="deformed"

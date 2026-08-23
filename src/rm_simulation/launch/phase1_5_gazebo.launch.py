@@ -24,6 +24,7 @@ def generate_launch_description():
     use_rviz = LaunchConfiguration("use_rviz")
     use_scan_adapter = LaunchConfiguration("use_scan_adapter")
     scan_output_topic = LaunchConfiguration("scan_output_topic")
+    scan_output_frame = LaunchConfiguration("scan_output_frame")
     use_chassis_heading_fusion = LaunchConfiguration(
         "use_chassis_heading_fusion"
     )
@@ -45,6 +46,11 @@ def generate_launch_description():
         "heading_timestamp_offset_sec"
     )
     heading_publish_divider = LaunchConfiguration("heading_publish_divider")
+    publish_sensor_truth_tf = LaunchConfiguration("publish_sensor_truth_tf")
+    sensor_truth_parent_frame = LaunchConfiguration(
+        "sensor_truth_parent_frame"
+    )
+    sensor_truth_frame = LaunchConfiguration("sensor_truth_frame")
     use_localization_disturbance = LaunchConfiguration(
         "use_localization_disturbance"
     )
@@ -89,6 +95,12 @@ def generate_launch_description():
     )
     nav2_params = LaunchConfiguration("nav2_params")
     rviz_config = LaunchConfiguration("rviz_config")
+    use_identity_map_odom_stub = LaunchConfiguration(
+        "use_identity_map_odom_stub"
+    )
+    map_to_odom_x = LaunchConfiguration("map_to_odom_x")
+    map_to_odom_y = LaunchConfiguration("map_to_odom_y")
+    map_to_odom_yaw = LaunchConfiguration("map_to_odom_yaw")
 
     default_world = PathJoinSubstitution([
         FindPackageShare("rm_simulation"),
@@ -148,6 +160,9 @@ def generate_launch_description():
         DeclareLaunchArgument("use_scan_adapter", default_value="true"),
         DeclareLaunchArgument("scan_output_topic", default_value="/scan"),
         DeclareLaunchArgument(
+            "scan_output_frame", default_value="sim_lidar_link"
+        ),
+        DeclareLaunchArgument(
             "use_chassis_heading_fusion", default_value="false"
         ),
         DeclareLaunchArgument("gimbal_use_input", default_value="true"),
@@ -166,6 +181,15 @@ def generate_launch_description():
             "heading_timestamp_offset_sec", default_value="0.0"
         ),
         DeclareLaunchArgument("heading_publish_divider", default_value="1"),
+        DeclareLaunchArgument(
+            "publish_sensor_truth_tf", default_value="false"
+        ),
+        DeclareLaunchArgument(
+            "sensor_truth_parent_frame", default_value="map"
+        ),
+        DeclareLaunchArgument(
+            "sensor_truth_frame", default_value="sim_lidar_physics_frame"
+        ),
         DeclareLaunchArgument(
             "lio_adapter_config", default_value=default_lio_adapter_config
         ),
@@ -216,6 +240,12 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2_params),
         DeclareLaunchArgument("rviz_config", default_value=default_rviz_config),
+        DeclareLaunchArgument(
+            "use_identity_map_odom_stub", default_value="true"
+        ),
+        DeclareLaunchArgument("map_to_odom_x", default_value="0.0"),
+        DeclareLaunchArgument("map_to_odom_y", default_value="0.0"),
+        DeclareLaunchArgument("map_to_odom_yaw", default_value="0.0"),
         LogInfo(msg=[
             "[phase1_5_gazebo] Gazebo scan + ground truth -> Nav2 -> ",
             "/cmd_vel -> chassis_interface_stub -> Gazebo. No Gazebo TF is bridged.",
@@ -375,6 +405,11 @@ def generate_launch_description():
                 "heading_publish_divider": ParameterValue(
                     heading_publish_divider, value_type=int
                 ),
+                "publish_sensor_truth_tf": ParameterValue(
+                    publish_sensor_truth_tf, value_type=bool
+                ),
+                "sensor_truth_parent_frame": sensor_truth_parent_frame,
+                "sensor_truth_frame": sensor_truth_frame,
             }],
         ),
         Node(
@@ -387,7 +422,7 @@ def generate_launch_description():
                 "use_sim_time": True,
                 "input_topic": "/simulation/scan_raw",
                 "output_topic": scan_output_topic,
-                "output_frame": "sim_lidar_link",
+                "output_frame": scan_output_frame,
             }],
         ),
         IncludeLaunchDescription(
@@ -455,6 +490,7 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": "true",
                 "raw_odom_topic": "/simulation/ground_truth/odom",
+                "use_map_odom_stub": use_identity_map_odom_stub,
                 "gimbal_use_input": gimbal_use_input,
                 "gimbal_input_topic": gimbal_input_topic,
                 "lio_adapter_config": lio_adapter_config,
@@ -472,6 +508,7 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": "true",
                 "raw_odom_topic": "/simulation/localization/odom",
+                "use_map_odom_stub": use_identity_map_odom_stub,
                 "gimbal_use_input": gimbal_use_input,
                 "gimbal_input_topic": gimbal_input_topic,
                 "lio_adapter_config": lio_adapter_config,
@@ -484,11 +521,29 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": "true",
                 "raw_odom_topic": "/odometry/fast_lio_raw",
+                "use_map_odom_stub": use_identity_map_odom_stub,
                 "gimbal_use_input": "true",
                 "gimbal_input_topic": "/gimbal/state_derived",
                 "lio_adapter_config": lio_adapter_config,
                 "gimbal_state_adapter_config": gimbal_state_adapter_config,
             }.items(),
+        ),
+        Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="simulation_map_odom_offset",
+            output="screen",
+            condition=UnlessCondition(use_identity_map_odom_stub),
+            arguments=[
+                "--x", map_to_odom_x,
+                "--y", map_to_odom_y,
+                "--z", "0.0",
+                "--roll", "0.0",
+                "--pitch", "0.0",
+                "--yaw", map_to_odom_yaw,
+                "--frame-id", "map",
+                "--child-frame-id", "odom",
+            ],
         ),
         Node(
             package="rm_chassis_interface",

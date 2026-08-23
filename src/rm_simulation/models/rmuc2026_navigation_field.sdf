@@ -1,0 +1,265 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+  <!--
+    Navigation-grade RMUC 2026 field approximation.
+
+    Sources:
+      - RMUC 2026 rules V2.2.0, figures 4-4 through 4-6, 4-28,
+        and 4-35 through 4-38.
+      - The official 00_RMUC2026_FINALS_ASM STEP is retained as a future
+        geometry audit source, but is intentionally not loaded at runtime.
+
+    Scope:
+      - 28 m x 15 m boundary;
+      - symmetric road decks with 11/15 degree approaches and 0.80 m x
+        0.25 m tunnel openings;
+      - 10.5 degree central-highland approaches;
+      - representative bases, trapezoid highlands and 17 degree fly ramps.
+
+    Small hardware, artwork, electronics, fans, mechanisms and exact wall
+    contours are deliberately omitted. This model is not a manufacturing
+    drawing and must be re-audited against accepted field CAD before release.
+  -->
+  <model name="rmuc2026_navigation_field">
+    <static>true</static>
+    <link name="field_link">
+      <!-- 28 m x 15 m outer boundary. The 2.4 m height follows rule 4.1. -->
+      <collision name="north_wall_collision">
+        <pose>0 7.55 1.20 0 0 0</pose>
+        <geometry><box><size>28.20 0.10 2.40</size></box></geometry>
+      </collision>
+      <visual name="north_wall_visual">
+        <pose>0 7.55 1.20 0 0 0</pose>
+        <geometry><box><size>28.20 0.10 2.40</size></box></geometry>
+        <material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material>
+      </visual>
+      <collision name="south_wall_collision">
+        <pose>0 -7.55 1.20 0 0 0</pose>
+        <geometry><box><size>28.20 0.10 2.40</size></box></geometry>
+      </collision>
+      <visual name="south_wall_visual">
+        <pose>0 -7.55 1.20 0 0 0</pose>
+        <geometry><box><size>28.20 0.10 2.40</size></box></geometry>
+        <material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material>
+      </visual>
+      <collision name="west_wall_collision">
+        <pose>-14.05 0 1.20 0 0 0</pose>
+        <geometry><box><size>0.10 15.00 2.40</size></box></geometry>
+      </collision>
+      <visual name="west_wall_visual">
+        <pose>-14.05 0 1.20 0 0 0</pose>
+        <geometry><box><size>0.10 15.00 2.40</size></box></geometry>
+        <material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material>
+      </visual>
+      <collision name="east_wall_collision">
+        <pose>14.05 0 1.20 0 0 0</pose>
+        <geometry><box><size>0.10 15.00 2.40</size></box></geometry>
+      </collision>
+      <visual name="east_wall_visual">
+        <pose>14.05 0 1.20 0 0 0</pose>
+        <geometry><box><size>0.10 15.00 2.40</size></box></geometry>
+        <material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material>
+      </visual>
+
+      <!-- Central highland: 0.35 m deck and two continuous 10.5 degree ramps. -->
+      <collision name="central_deck_collision">
+        <pose>0 0 0.175 0 0 0</pose>
+        <geometry><box><size>4.00 6.00 0.35</size></box></geometry>
+      </collision>
+      <visual name="central_deck_visual">
+        <pose>0 0 0.175 0 0 0</pose>
+        <geometry><box><size>4.00 6.00 0.35</size></box></geometry>
+        <material><ambient>0.28 0.28 0.30 1</ambient><diffuse>0.28 0.28 0.30 1</diffuse></material>
+      </visual>
+      <collision name="central_west_ramp_collision">
+        <pose>-2.946 0 0.150 0 -0.183260 0</pose>
+        <geometry><box><size>1.924 6.00 0.05</size></box></geometry>
+      </collision>
+      <visual name="central_west_ramp_visual">
+        <pose>-2.946 0 0.150 0 -0.183260 0</pose>
+        <geometry><box><size>1.924 6.00 0.05</size></box></geometry>
+        <material><ambient>0.34 0.34 0.36 1</ambient><diffuse>0.34 0.34 0.36 1</diffuse></material>
+      </visual>
+      <collision name="central_east_ramp_collision">
+        <pose>2.946 0 0.150 0 0.183260 0</pose>
+        <geometry><box><size>1.924 6.00 0.05</size></box></geometry>
+      </collision>
+      <visual name="central_east_ramp_visual">
+        <pose>2.946 0 0.150 0 0.183260 0</pose>
+        <geometry><box><size>1.924 6.00 0.05</size></box></geometry>
+        <material><ambient>0.34 0.34 0.36 1</ambient><diffuse>0.34 0.34 0.36 1</diffuse></material>
+      </visual>
+
+      <!-- Red road: 0.25 m tunnel clearance, 0.30 m driving surface. -->
+      <collision name="red_road_roof_collision">
+        <pose>-3.0 -5.5 0.275 0 0 0</pose>
+        <geometry><box><size>5.00 1.80 0.05</size></box></geometry>
+      </collision>
+      <visual name="red_road_roof_visual">
+        <pose>-3.0 -5.5 0.275 0 0 0</pose>
+        <geometry><box><size>5.00 1.80 0.05</size></box></geometry>
+        <material><ambient>0.36 0.12 0.12 1</ambient><diffuse>0.36 0.12 0.12 1</diffuse></material>
+      </visual>
+      <collision name="red_tunnel_west_wall_collision">
+        <pose>-3.45 -5.5 0.125 0 0 0</pose>
+        <geometry><box><size>0.10 1.80 0.25</size></box></geometry>
+      </collision>
+      <visual name="red_tunnel_west_wall_visual">
+        <pose>-3.45 -5.5 0.125 0 0 0</pose>
+        <geometry><box><size>0.10 1.80 0.25</size></box></geometry>
+        <material><ambient>0.30 0.10 0.10 1</ambient><diffuse>0.30 0.10 0.10 1</diffuse></material>
+      </visual>
+      <collision name="red_tunnel_east_wall_collision">
+        <pose>-2.55 -5.5 0.125 0 0 0</pose>
+        <geometry><box><size>0.10 1.80 0.25</size></box></geometry>
+      </collision>
+      <visual name="red_tunnel_east_wall_visual">
+        <pose>-2.55 -5.5 0.125 0 0 0</pose>
+        <geometry><box><size>0.10 1.80 0.25</size></box></geometry>
+        <material><ambient>0.30 0.10 0.10 1</ambient><diffuse>0.30 0.10 0.10 1</diffuse></material>
+      </visual>
+      <collision name="red_road_15_ramp_collision">
+        <pose>-6.060 -5.5 0.126 0 -0.261799 0</pose>
+        <geometry><box><size>1.159 1.80 0.05</size></box></geometry>
+      </collision>
+      <visual name="red_road_15_ramp_visual">
+        <pose>-6.060 -5.5 0.126 0 -0.261799 0</pose>
+        <geometry><box><size>1.159 1.80 0.05</size></box></geometry>
+        <material><ambient>0.55 0.16 0.12 1</ambient><diffuse>0.55 0.16 0.12 1</diffuse></material>
+      </visual>
+      <collision name="red_road_11_ramp_collision">
+        <pose>0.272 -5.5 0.125 0 0.191986 0</pose>
+        <geometry><box><size>1.572 1.80 0.05</size></box></geometry>
+      </collision>
+      <visual name="red_road_11_ramp_visual">
+        <pose>0.272 -5.5 0.125 0 0.191986 0</pose>
+        <geometry><box><size>1.572 1.80 0.05</size></box></geometry>
+        <material><ambient>0.62 0.22 0.16 1</ambient><diffuse>0.62 0.22 0.16 1</diffuse></material>
+      </visual>
+
+      <!-- Blue road, center-symmetric counterpart. -->
+      <collision name="blue_road_roof_collision">
+        <pose>3.0 5.5 0.275 0 0 0</pose>
+        <geometry><box><size>5.00 1.80 0.05</size></box></geometry>
+      </collision>
+      <visual name="blue_road_roof_visual">
+        <pose>3.0 5.5 0.275 0 0 0</pose>
+        <geometry><box><size>5.00 1.80 0.05</size></box></geometry>
+        <material><ambient>0.10 0.18 0.44 1</ambient><diffuse>0.10 0.18 0.44 1</diffuse></material>
+      </visual>
+      <collision name="blue_tunnel_west_wall_collision">
+        <pose>2.55 5.5 0.125 0 0 0</pose>
+        <geometry><box><size>0.10 1.80 0.25</size></box></geometry>
+      </collision>
+      <visual name="blue_tunnel_west_wall_visual">
+        <pose>2.55 5.5 0.125 0 0 0</pose>
+        <geometry><box><size>0.10 1.80 0.25</size></box></geometry>
+        <material><ambient>0.08 0.14 0.36 1</ambient><diffuse>0.08 0.14 0.36 1</diffuse></material>
+      </visual>
+      <collision name="blue_tunnel_east_wall_collision">
+        <pose>3.45 5.5 0.125 0 0 0</pose>
+        <geometry><box><size>0.10 1.80 0.25</size></box></geometry>
+      </collision>
+      <visual name="blue_tunnel_east_wall_visual">
+        <pose>3.45 5.5 0.125 0 0 0</pose>
+        <geometry><box><size>0.10 1.80 0.25</size></box></geometry>
+        <material><ambient>0.08 0.14 0.36 1</ambient><diffuse>0.08 0.14 0.36 1</diffuse></material>
+      </visual>
+      <collision name="blue_road_11_ramp_collision">
+        <pose>-0.272 5.5 0.125 0 -0.191986 0</pose>
+        <geometry><box><size>1.572 1.80 0.05</size></box></geometry>
+      </collision>
+      <visual name="blue_road_11_ramp_visual">
+        <pose>-0.272 5.5 0.125 0 -0.191986 0</pose>
+        <geometry><box><size>1.572 1.80 0.05</size></box></geometry>
+        <material><ambient>0.14 0.30 0.68 1</ambient><diffuse>0.14 0.30 0.68 1</diffuse></material>
+      </visual>
+      <collision name="blue_road_15_ramp_collision">
+        <pose>6.060 5.5 0.126 0 0.261799 0</pose>
+        <geometry><box><size>1.159 1.80 0.05</size></box></geometry>
+      </collision>
+      <visual name="blue_road_15_ramp_visual">
+        <pose>6.060 5.5 0.126 0 0.261799 0</pose>
+        <geometry><box><size>1.159 1.80 0.05</size></box></geometry>
+        <material><ambient>0.12 0.38 0.76 1</ambient><diffuse>0.12 0.38 0.76 1</diffuse></material>
+      </visual>
+
+      <!-- Representative non-traversable major field modules. -->
+      <collision name="red_base_collision">
+        <pose>-10.5 0 0.30 0 0 0</pose>
+        <geometry><cylinder><radius>1.05</radius><length>0.60</length></cylinder></geometry>
+      </collision>
+      <visual name="red_base_visual">
+        <pose>-10.5 0 0.30 0 0 0</pose>
+        <geometry><cylinder><radius>1.05</radius><length>0.60</length></cylinder></geometry>
+        <material><ambient>0.45 0.08 0.08 1</ambient><diffuse>0.45 0.08 0.08 1</diffuse></material>
+      </visual>
+      <collision name="blue_base_collision">
+        <pose>10.5 0 0.30 0 0 0</pose>
+        <geometry><cylinder><radius>1.05</radius><length>0.60</length></cylinder></geometry>
+      </collision>
+      <visual name="blue_base_visual">
+        <pose>10.5 0 0.30 0 0 0</pose>
+        <geometry><cylinder><radius>1.05</radius><length>0.60</length></cylinder></geometry>
+        <material><ambient>0.06 0.15 0.48 1</ambient><diffuse>0.06 0.15 0.48 1</diffuse></material>
+      </visual>
+      <collision name="red_trapezoid_highland_collision">
+        <pose>-8.0 4.2 0.20 0 0 -0.20</pose>
+        <geometry><box><size>3.6 2.5 0.40</size></box></geometry>
+      </collision>
+      <visual name="red_trapezoid_highland_visual">
+        <pose>-8.0 4.2 0.20 0 0 -0.20</pose>
+        <geometry><box><size>3.6 2.5 0.40</size></box></geometry>
+        <material><ambient>0.32 0.10 0.10 1</ambient><diffuse>0.32 0.10 0.10 1</diffuse></material>
+      </visual>
+      <collision name="blue_trapezoid_highland_collision">
+        <pose>8.0 -4.2 0.20 0 0 -0.20</pose>
+        <geometry><box><size>3.6 2.5 0.40</size></box></geometry>
+      </collision>
+      <visual name="blue_trapezoid_highland_visual">
+        <pose>8.0 -4.2 0.20 0 0 -0.20</pose>
+        <geometry><box><size>3.6 2.5 0.40</size></box></geometry>
+        <material><ambient>0.08 0.14 0.34 1</ambient><diffuse>0.08 0.14 0.34 1</diffuse></material>
+      </visual>
+
+      <!-- 17 degree fly ramps are visible/collidable but not costmap-filtered. -->
+      <collision name="red_fly_ramp_collision">
+        <pose>-6.0 -2.7 0.076 0 -0.296706 0</pose>
+        <geometry><box><size>0.680 1.145 0.05</size></box></geometry>
+      </collision>
+      <visual name="red_fly_ramp_visual">
+        <pose>-6.0 -2.7 0.076 0 -0.296706 0</pose>
+        <geometry><box><size>0.680 1.145 0.05</size></box></geometry>
+        <material><ambient>0.72 0.18 0.08 1</ambient><diffuse>0.72 0.18 0.08 1</diffuse></material>
+      </visual>
+      <collision name="blue_fly_ramp_collision">
+        <pose>6.0 2.7 0.076 0 0.296706 0</pose>
+        <geometry><box><size>0.680 1.145 0.05</size></box></geometry>
+      </collision>
+      <visual name="blue_fly_ramp_visual">
+        <pose>6.0 2.7 0.076 0 0.296706 0</pose>
+        <geometry><box><size>0.680 1.145 0.05</size></box></geometry>
+        <material><ambient>0.08 0.30 0.72 1</ambient><diffuse>0.08 0.30 0.72 1</diffuse></material>
+      </visual>
+
+      <collision name="red_resource_station_collision">
+        <pose>-11.5 5.6 0.45 0 0 0</pose>
+        <geometry><box><size>2.0 1.6 0.90</size></box></geometry>
+      </collision>
+      <visual name="red_resource_station_visual">
+        <pose>-11.5 5.6 0.45 0 0 0</pose>
+        <geometry><box><size>2.0 1.6 0.90</size></box></geometry>
+        <material><ambient>0.26 0.12 0.12 1</ambient><diffuse>0.26 0.12 0.12 1</diffuse></material>
+      </visual>
+      <collision name="blue_resource_station_collision">
+        <pose>11.5 -5.6 0.45 0 0 0</pose>
+        <geometry><box><size>2.0 1.6 0.90</size></box></geometry>
+      </collision>
+      <visual name="blue_resource_station_visual">
+        <pose>11.5 -5.6 0.45 0 0 0</pose>
+        <geometry><box><size>2.0 1.6 0.90</size></box></geometry>
+        <material><ambient>0.08 0.14 0.28 1</ambient><diffuse>0.08 0.14 0.28 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>
