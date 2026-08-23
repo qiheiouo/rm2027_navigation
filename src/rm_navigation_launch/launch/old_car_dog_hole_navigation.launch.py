@@ -34,7 +34,7 @@ def generate_launch_description():
     base_nav2 = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "config",
-        "nav2_old_car_2026_left_stvl_three_point_spin_test.yaml",
+        "nav2_old_car_2026_dual_stvl.yaml",
     ])
     base_scan_projection = PathJoinSubstitution([
         FindPackageShare("rm_relocalization_bridge"),
@@ -65,7 +65,7 @@ def generate_launch_description():
             "local_costmap.local_costmap.ros__parameters.stvl_layer."
             "max_obstacle_height": obstacle_ceiling_height,
             "local_costmap.local_costmap.ros__parameters.stvl_layer."
-            "left_mid360_mark.max_obstacle_height": obstacle_ceiling_height,
+            "fused_mid360_mark.max_obstacle_height": obstacle_ceiling_height,
         },
         convert_types=True,
     )
@@ -88,12 +88,17 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "max_forward_speed",
             default_value="0.80",
-            description="Dog-hole MPPI forward speed limit in m/s.",
+            description=(
+                "Dog-hole MPPI forward speed limit; smoother headroom is 3.0 m/s."
+            ),
         ),
         DeclareLaunchArgument(
             "max_yaw_rate",
             default_value="0.80",
-            description="Dog-hole MPPI and recovery yaw-rate limit in rad/s.",
+            description=(
+                "Dog-hole MPPI and recovery yaw limit; smoother headroom is "
+                "1.2 rad/s."
+            ),
         ),
         DeclareLaunchArgument(
             "obstacle_ceiling_height",

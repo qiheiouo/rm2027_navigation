@@ -1,6 +1,6 @@
 # 2026 old-car dual MID360 obstacle-fusion STVL experiment profile.
 #
-# This file is intentionally not the default old-car profile. It keeps the
+# This file is the default on the old-car dual field branch. It keeps the
 # controller, planner, serial, behavior-tree, footprint, inflation, and global
 # costmap policy from nav2_old_car_2026_left.yaml, but replaces the local
 # VoxelLayer with SpatioTemporalVoxelLayer to test short-lived dynamic obstacle
@@ -8,8 +8,8 @@
 # explicitly fused left/right PointCloud2 stream.
 #
 # Runtime requirement: the project Docker image installs the pinned Humble apt
-# package ros-humble-spatio-temporal-voxel-layer. Enable only by explicitly
-# passing this file through nav2_params:=...nav2_old_car_2026_dual_stvl.yaml.
+# package ros-humble-spatio-temporal-voxel-layer. Other branches may still need
+# to pass this file explicitly through nav2_params.
 
 bt_navigator:
   ros__parameters:
@@ -198,7 +198,10 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: false
     feedback: OPEN_LOOP
-    max_velocity: [0.50, 0.50, 1.20]
+    # Keep forward headroom up to the serial safety clamp for explicit wrappers.
+    # Ordinary full navigation remains capped at 0.50 m/s by MPPI vx_max; the
+    # dog-hole wrapper defaults to 0.80 m/s and may be explicitly raised.
+    max_velocity: [3.00, 0.50, 1.20]
     min_velocity: [-0.30, -0.50, -1.20]
     max_accel: [0.80, 0.80, 2.00]
     max_decel: [-0.80, -0.80, -2.00]

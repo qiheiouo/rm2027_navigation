@@ -49,9 +49,10 @@ matching `ros-humble-openvdb-vendor` dependency. Do not replace this with a
 floating source checkout from the upstream `ros2` branch; that branch currently
 depends on newer packages such as `nav2_ros_common` and `point_cloud_transport`
 that are not part of this old-car Humble baseline.
-`config/nav2_old_car_2026_dual_stvl.yaml` is the explicit counterpart for the
-optional `/points/obstacles_fused` stream. It keeps localization on the left
-MID360 and is never selected automatically.
+`config/nav2_old_car_2026_dual_stvl.yaml` is the counterpart for the
+`/points/obstacles_fused` stream. It keeps localization on the left MID360 and
+is selected by default only by the old-car dual field branch; the lower-level
+competition bringup still does not switch Nav2 profiles implicitly.
 
 The old-car STVL profiles use the complete static occupancy map in the global
 costmap and add a `nav2_costmap_2d::ObstacleLayer` fed by

@@ -45,11 +45,16 @@ FEATURES.add("serial")          # 真实底盘串口
 FEATURES.add("referee")         # /referee/state_raw 的校验门
 FEATURES.add("mission")         # 指定 XML 的比赛行为树；启动后仍保持 disabled
 # FEATURES.add("pursuit")       # 等视觉目标协议完成后再取消注释
-# FEATURES.add("dual_fusion")   # 等右雷达外参和实车验收后再取消注释
-# FEATURES.add("right_lidar")   # 必须与 dual_fusion 同时启用
+FEATURES.add("dual_fusion")     # 双雷达仅用于障碍感知；FAST-LIO 仍使用左 MID360
+FEATURES.add("right_lidar")     # 必须与 dual_fusion 同时启用
 
-# 右雷达外参当前仍是 provisional。即使取消上面两行，也必须再次显式改为 True。
-ALLOW_PROVISIONAL_DUAL_EXTRINSIC = False
+# Optional raw operator target boundary. Keep disabled until units, origin,
+# alliance mirroring and command edge semantics are confirmed with firmware.
+# FEATURES.add("operator_goal_rx")
+
+# 2026-08-23 操作员确认旧车右雷达外参已完成实车标定，允许旧车现场分支
+# 显式跨过历史 provisional 门。仓库尚未存放原始标定产物；这不是 2027 新车外参。
+ALLOW_PROVISIONAL_DUAL_EXTRINSIC = True
 # ==================================================================
 
 
@@ -107,7 +112,7 @@ def generate_launch_description():
     default_nav2_config = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "config",
-        "nav2_old_car_2026_left_stvl_three_point_spin_test.yaml",
+        "nav2_old_car_2026_dual_stvl.yaml",
     ])
     default_relocalization_config = PathJoinSubstitution([
         FindPackageShare("rm_relocalization_bridge"),

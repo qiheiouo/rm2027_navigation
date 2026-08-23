@@ -25,7 +25,12 @@
 
 ## 右雷达与避障边界
 
-当前 `old_car_full_navigation.launch.py` 默认没有启用 `dual_fusion` 和 `right_lidar`，并默认加载左雷达 STVL 配置。因此默认全功能导航运行时，右雷达没有启动、没有融合，也没有参与局部或全局避障。
+> 2026-08-23 状态更新：操作员确认旧车右雷达外参已完成实车标定。
+> `feature/old-car-dual-dog-hole-field` 因此默认启用 `dual_fusion` 和
+> `right_lidar`，并选择 `nav2_old_car_2026_dual_stvl.yaml`。仓库仍缺原始标定产物，
+> 因此这是旧车现场分支的显式操作员覆盖，不是 2027 新车外参验收。
+
+截至本文原始验证日期（2026-08-06），`old_car_full_navigation.launch.py` 默认没有启用 `dual_fusion` 和 `right_lidar`，并默认加载左雷达 STVL 配置。因此当时的默认全功能导航运行时，右雷达没有启动、没有融合，也没有参与局部或全局避障。
 
 仓库已具备双雷达软件链路。显式启用后，双雷达配置的局部 STVL 使用：
 

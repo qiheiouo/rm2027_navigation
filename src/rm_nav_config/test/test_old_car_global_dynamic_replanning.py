@@ -182,7 +182,7 @@ def test_amcl_projection_supplies_full_horizontal_clearing_scan():
     )
 
 
-def test_full_old_car_entry_keeps_amcl_scan_provider_as_default():
+def test_full_old_car_entry_uses_dual_local_avoidance_and_amcl_global_scan():
     launch = (
         WORKSPACE_SOURCE
         / "rm_navigation_launch"
@@ -191,4 +191,23 @@ def test_full_old_car_entry_keeps_amcl_scan_provider_as_default():
     ).read_text(encoding="utf-8")
     assert 'RELOCALIZATION_BACKEND = "amcl_2d"' in launch
     assert '"pointcloud_to_scan_2d_spin_robust_candidate.yaml"' in launch
-    assert '"nav2_old_car_2026_left_stvl_three_point_spin_test.yaml"' in launch
+    assert '"nav2_old_car_2026_dual_stvl.yaml"' in launch
+    assert 'FEATURES.add("dual_fusion")' in launch
+    assert 'FEATURES.add("right_lidar")' in launch
+    assert "ALLOW_PROVISIONAL_DUAL_EXTRINSIC = True" in launch
+
+    dog_hole_launch = (
+        WORKSPACE_SOURCE
+        / "rm_navigation_launch"
+        / "launch"
+        / "old_car_dog_hole_navigation.launch.py"
+    ).read_text(encoding="utf-8")
+    assert '"nav2_old_car_2026_dual_stvl.yaml"' in dog_hole_launch
+    assert '"fused_mid360_mark.max_obstacle_height"' in dog_hole_launch
+
+    dual = _document("nav2_old_car_2026_dual_stvl.yaml")
+    controller = dual["controller_server"]["ros__parameters"]["FollowPath"]
+    smoother = dual["velocity_smoother"]["ros__parameters"]
+    assert controller["vx_max"] == 0.50
+    assert smoother["max_velocity"][0] == 3.00
+    assert smoother["max_velocity"][2] >= 0.80
