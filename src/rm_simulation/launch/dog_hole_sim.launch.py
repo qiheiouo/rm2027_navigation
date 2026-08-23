@@ -118,6 +118,13 @@ def _make_robot_world(params):
         / "phase1_omni.sdf"
     )
     text = source.read_text(encoding="utf-8")
+    remove_begin = "    <!-- FIELD_GEOMETRY_REMOVE_BEGIN -->"
+    remove_end = "    <!-- FIELD_GEOMETRY_REMOVE_END -->"
+    if remove_begin not in text or remove_end not in text:
+        raise RuntimeError("field-geometry removal markers are missing")
+    prefix, remainder = text.split(remove_begin, maxsplit=1)
+    _, suffix = remainder.split(remove_end, maxsplit=1)
+    text = prefix + suffix
     replacements = {
         '<pose relative_to="base_link">0 0 0.115 0 0 0</pose>': (
             '<pose relative_to="base_link">0 0 '
@@ -136,6 +143,14 @@ def _make_robot_world(params):
             f'<size>{geometry["lidar_size_x"]} '
             f'{geometry["lidar_size_y"]} '
             f'{geometry["lidar_size_z"]}</size>'
+        ),
+        # The generic planar regression world deliberately models ideal
+        # rollers with zero secondary friction. On an incline that makes the
+        # placeholder chassis slide sideways even when commanded vy is zero.
+        # Keep this finite coefficient local to the generated field-geometry
+        # world until the real wheel/contact parameters are measured.
+        "<mu>1.0</mu><mu2>0.0</mu2>": (
+            "<mu>1.0</mu><mu2>0.35</mu2>"
         ),
     }
     for old, new in replacements.items():
@@ -299,19 +314,30 @@ def _make_nav2_profile(params, heading_policy):
         }
     )
     if heading_policy == "path_aligned":
+        # The Omni model can still satisfy the critics while strafing into a
+        # ramp edge. DiffDrive makes base-forward alignment a hard kinematic
+        # constraint for this simulation profile; it does not change any
+        # real-robot Nav2 configuration.
+        follow_path["motion_model"] = "DiffDrive"
+        follow_path["wz_max"] = 0.45
         follow_path["PathAngleCritic"]["forward_preference"] = True
         follow_path["PathAngleCritic"]["cost_weight"] = 6.0
         follow_path["PathAngleCritic"]["max_angle_to_furthest"] = 0.20
         follow_path["TwirlingCritic"]["enabled"] = True
         follow_path["PreferForwardCritic"]["enabled"] = True
+        goal_checker = data["controller_server"]["ros__parameters"][
+            "general_goal_checker"
+        ]
+        goal_checker["yaw_goal_tolerance"] = 0.05
     elif heading_policy != "baseline":
         raise RuntimeError(
             "heading_policy must be 'baseline' or 'path_aligned'"
         )
     follow_path["PathAlignCritic"]["cost_weight"] = 14.0
     smoother = data["velocity_smoother"]["ros__parameters"]
-    smoother["max_velocity"] = [0.65, 0.35, 1.0]
-    smoother["min_velocity"] = [-0.30, -0.35, -1.0]
+    angular_velocity_limit = 0.45 if heading_policy == "path_aligned" else 1.0
+    smoother["max_velocity"] = [0.65, 0.35, angular_velocity_limit]
+    smoother["min_velocity"] = [-0.30, -0.35, -angular_velocity_limit]
     smoother["max_accel"] = [1.2, 1.0, 2.0]
     smoother["max_decel"] = [-1.2, -1.0, -2.0]
 
@@ -443,6 +469,7 @@ def _launch_setup(context):
     headless = LaunchConfiguration("headless")
     use_rviz = LaunchConfiguration("use_rviz")
     spawn_ramp_scene = LaunchConfiguration("spawn_ramp_scene")
+    active_ramp_filter = LaunchConfiguration("active_ramp_filter")
 
     config_data = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     params = config_data["dog_hole_manager"]["ros__parameters"]
@@ -477,6 +504,11 @@ def _launch_setup(context):
         / "models"
         / "ramp_perception_scene.sdf"
     )
+    ramp_filter_config = (
+        Path(get_package_share_directory("rm_mid360_driver_bridge"))
+        / "config"
+        / "ramp_laserscan_filter_sim.yaml"
+    )
 
     return [
         LogInfo(
@@ -494,6 +526,7 @@ def _launch_setup(context):
                 "headless": headless,
                 "use_nav2": "true",
                 "use_rviz": use_rviz,
+                "scan_output_topic": "/simulation/scan_ramp_unfiltered",
                 "nav2_params": str(nav2_path),
                 "world": str(world_path),
                 "gimbal_use_input": "true",
@@ -573,6 +606,20 @@ def _launch_setup(context):
             }.items(),
         ),
         Node(
+            package="rm_mid360_driver_bridge",
+            executable="ramp_laserscan_filter_node",
+            name="ramp_laserscan_filter_node",
+            output="screen",
+            parameters=[
+                str(ramp_filter_config),
+                {
+                    "filter_enabled": ParameterValue(
+                        active_ramp_filter, value_type=bool
+                    ),
+                },
+            ],
+        ),
+        Node(
             package="rm_dog_hole",
             executable="dog_hole_manager",
             name="dog_hole_manager",
@@ -641,6 +688,7 @@ def generate_launch_description():
             DeclareLaunchArgument("headless", default_value="true"),
             DeclareLaunchArgument("use_rviz", default_value="false"),
             DeclareLaunchArgument("spawn_ramp_scene", default_value="true"),
+            DeclareLaunchArgument("active_ramp_filter", default_value="true"),
             DeclareLaunchArgument("auto_start", default_value="true"),
             DeclareLaunchArgument(
                 "robot_geometry_profile", default_value="deformed"

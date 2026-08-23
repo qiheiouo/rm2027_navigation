@@ -58,6 +58,16 @@ must be entered from the accepted field map before active costmap evaluation.
 Setting `ramp_active_map_revision` to any nonmatching value verifies that the
 filter passes every point through unchanged.
 
+The unified user entry `rm_navigation_launch/field_geometry_simulation.launch.py`
+is a separate simulation integration test. Unlike the standalone shadow
+scenario above, it routes the Gazebo planar scan through the map-bound
+`ramp_laserscan_filter_node` before Nav2. The active contract names only the
+synthetic candidate scene; it does not authorize activation on the field map.
+The 1.60 m ramp width and finite secondary wheel friction are provisional
+simulation values chosen to leave a footprint-safe center corridor and prevent
+the ideal zero-friction roller model from sliding sideways on the 15-degree
+surface.
+
 The new-car dog-hole candidate uses `dog_hole_sim.launch.py`. It generates a
 parameterized `0.80 m` tunnel model from the single configuration in
 `rm_dog_hole/config/dog_hole_sim.yaml`, derives a narrow-passage MPPI profile,

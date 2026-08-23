@@ -89,6 +89,21 @@ ament_target_dependencies(ramp_plane_filter_node
   tf2_ros
 )
 
+add_executable(ramp_laserscan_filter_node
+  src/ramp_laserscan_filter_node.cpp
+)
+target_compile_features(ramp_laserscan_filter_node PUBLIC cxx_std_17)
+target_link_libraries(ramp_laserscan_filter_node ramp_plane_filter)
+ament_target_dependencies(ramp_laserscan_filter_node
+  diagnostic_msgs
+  geometry_msgs
+  rclcpp
+  sensor_msgs
+  tf2
+  tf2_geometry_msgs
+  tf2_ros
+)
+
 add_executable(livox_pointcloud_adapter_node src/livox_pointcloud_adapter_node.cpp)
 target_compile_features(livox_pointcloud_adapter_node PUBLIC cxx_std_17)
 ament_target_dependencies(livox_pointcloud_adapter_node
@@ -104,6 +119,7 @@ install(TARGETS
   pointcloud_to_laserscan_node
   pointcloud_fusion_node
   ramp_plane_filter_node
+  ramp_laserscan_filter_node
   livox_pointcloud_adapter_node
   DESTINATION lib/${PROJECT_NAME}
 )

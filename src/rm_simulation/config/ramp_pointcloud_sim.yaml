@@ -16,13 +16,14 @@ synthetic_ramp_pointcloud_publisher:
     regions.ramp_11.ascent_yaw_deg: 0.0
     regions.ramp_11.slope_deg: 11.0
     regions.ramp_11.length: 1.00
-    regions.ramp_11.width: 0.80
+    # Candidate width only. It is not derived from the dog-hole width.
+    regions.ramp_11.width: 1.60
 
     regions.ramp_15.origin_xyz: [1.00, 1.00, 0.00]
     regions.ramp_15.ascent_yaw_deg: 0.0
     regions.ramp_15.slope_deg: 15.0
     regions.ramp_15.length: 0.93
-    regions.ramp_15.width: 0.80
+    regions.ramp_15.width: 1.60
 
     # A 12 cm object sits on the 15 degree ramp. Its returns must survive the
     # expected-plane filter while the ramp surface itself is removed.
