@@ -38,8 +38,9 @@ filter, or empty region set causes the original cloud to be republished.
 
 For the unified simulation, `ramp_laserscan_filter_node` applies the same gates
 to Gazebo LaserScan endpoints and publishes the result on `/scan`. This is an
-active Nav2 input only inside `field_geometry_simulation.launch.py`; it is not
-an approval to connect either filter to the real robot.
+active Nav2 input only inside `field_geometry_simulation.launch.py` and
+`field_geometry_simulation_full.launch.py`; it is not an approval to connect
+either filter to the real robot.
 
 ## Run
 
