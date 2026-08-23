@@ -25,13 +25,11 @@ ros2 launch rm_navigation_launch old_car_mapping.launch.py
 默认启动左 MID360、FAST-LIO、OctoMap/地图保存节点和 RViz；不会启动 Nav2、串口或
 mission。`FEATURES.add(...)` 每行都是一个模块，注释对应行即可关闭。
 
-### 旧车全功能导航
+### 内部基线：旧车全功能导航
 
-编辑 `launch/old_car_full_navigation.launch.py` 顶部的用户配置区，然后运行：
-
-```bash
-ros2 launch rm_navigation_launch old_car_full_navigation.launch.py
-```
+`old_car_full_navigation.launch.py` 是过洞实车导航入口复用的内部基线，不再作为第四个
+日常入口直接启动。它集中保存旧车硬件、定位、Nav2、mission 和安全门的共有配置；
+`old_car_dog_hole_navigation.launch.py` 在此基础上只覆盖狗洞相关参数。
 
 主要路径为：
 
@@ -41,16 +39,6 @@ ros2 launch rm_navigation_launch old_car_full_navigation.launch.py
 - `NAV2_CONFIG_YAML`：Nav2 参数；
 - `RELOCALIZATION_CONFIG_YAML`：AMCL/GICP 参数；
 - `SCAN_PROJECTION_CONFIG_YAML`：点云转扫描及 deskew 参数。
-
-这些路径也可以在命令行临时覆盖：
-
-```bash
-ros2 launch rm_navigation_launch old_car_full_navigation.launch.py \
-  map_bundle_yaml:=/absolute/path/field.bundle.yaml \
-  mission_tree_xml:=/absolute/path/tree.xml \
-  mission_config_yaml:=/absolute/path/mission.yaml \
-  nav2_config_yaml:=/absolute/path/nav2.yaml
-```
 
 为保留现有地图 hash/path/schema 门，入口不直接接受裸 `map.yaml`。应把该文件放入
 `rm_map_tools` bundle，再将 `*.bundle.yaml` 填入 `MAP_BUNDLE_YAML`。
