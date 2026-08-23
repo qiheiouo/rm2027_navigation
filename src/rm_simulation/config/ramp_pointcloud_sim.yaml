@@ -1,0 +1,37 @@
+synthetic_ramp_pointcloud_publisher:
+  ros__parameters:
+    use_sim_time: true
+    output_topic: /simulation/ramp/points_raw
+    map_frame: map
+    sensor_frame: sim_lidar_link
+    publish_rate_hz: 10.0
+    transform_timeout_sec: 0.10
+    max_range: 8.0
+    longitudinal_samples: 41
+    lateral_samples: 25
+
+    region_names: [ramp_11, ramp_15]
+
+    regions.ramp_11.origin_xyz: [1.00, -1.00, 0.00]
+    regions.ramp_11.ascent_yaw_deg: 0.0
+    regions.ramp_11.slope_deg: 11.0
+    regions.ramp_11.length: 1.00
+    regions.ramp_11.width: 0.80
+
+    regions.ramp_15.origin_xyz: [1.00, 1.00, 0.00]
+    regions.ramp_15.ascent_yaw_deg: 0.0
+    regions.ramp_15.slope_deg: 15.0
+    regions.ramp_15.length: 0.93
+    regions.ramp_15.width: 0.80
+
+    # A 12 cm object sits on the 15 degree ramp. Its returns must survive the
+    # expected-plane filter while the ramp surface itself is removed.
+    obstacle.enabled: true
+    obstacle.region_name: ramp_15
+    obstacle.longitudinal: 0.55
+    obstacle.lateral: 0.0
+    obstacle.length: 0.20
+    obstacle.width: 0.20
+    obstacle.height: 0.12
+    obstacle.samples_xy: 9
+    obstacle.samples_z: 7

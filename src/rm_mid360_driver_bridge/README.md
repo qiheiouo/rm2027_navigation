@@ -106,6 +106,26 @@ The runtime regression covers left-only, right-only, dual-stream and stale-input
 degradation. It also checks the launch-time string-array parameter boundary so
 the fusion process cannot silently exit while the two filter nodes remain up.
 
+## Map-Bound Ramp Plane Filter
+
+`ramp_plane_filter_node` is an inactive, shadow-output prototype for testing a
+field-map-aware way to keep known traversable ramp surfaces out of obstacle
+point clouds. It preserves the full PointCloud2 record for retained points and
+publishes diagnostics with input, removed, and retained counts.
+
+Removal requires all of the following:
+
+- a timestamped transform from the cloud frame to `map`;
+- an exact expected/active map ID and revision match;
+- a point inside a configured ramp polygon;
+- a point height within the region's expected plane tolerance.
+
+Missing TF, malformed clouds, disabled filtering, missing regions, or a map
+contract mismatch all pass the original cloud through. Returns above the
+plane tolerance remain as obstacles. The supplied configuration is synthetic
+and publishes only `/simulation/ramp/points_filtered_shadow`; it is not a
+Nav2 input and is not approved for the real field.
+
 ## Driver Policy
 
 Phase 1 keeps `use_driver:=false` as the safe default so that the workspace builds and launch files can be inspected without real hardware or `livox_ros_driver2`.

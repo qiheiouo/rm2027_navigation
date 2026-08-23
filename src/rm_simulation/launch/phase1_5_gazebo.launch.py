@@ -1,9 +1,15 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo
+from launch.actions import (
+    DeclareLaunchArgument,
+    ExecuteProcess,
+    IncludeLaunchDescription,
+    LogInfo,
+)
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     LaunchConfiguration,
+    FindExecutable,
     PathJoinSubstitution,
     PythonExpression,
 )
@@ -123,11 +129,6 @@ def generate_launch_description():
         "launch",
         "navigation_launch.py",
     ])
-    gazebo_launch = PathJoinSubstitution([
-        FindPackageShare("ros_gz_sim"),
-        "launch",
-        "gz_sim.launch.py",
-    ])
     default_nav2_params = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
         "config",
@@ -217,17 +218,35 @@ def generate_launch_description():
             "[phase1_5_gazebo] Gazebo scan + ground truth -> Nav2 -> ",
             "/cmd_vel -> chassis_interface_stub -> Gazebo. No Gazebo TF is bridged.",
         ]),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(gazebo_launch),
+        # ros_gz_sim's Humble launcher uses shell=True.  In this environment
+        # the tracked shell exits while the actual Ignition process remains
+        # orphaned, so a second launch creates competing /clock publishers.
+        # Start the executable directly so launch owns the simulator process.
+        ExecuteProcess(
+            cmd=[
+                FindExecutable(name="ign"),
+                "gazebo",
+                "-r",
+                "-s",
+                "--headless-rendering",
+                world,
+                "--force-version",
+                "6",
+            ],
             condition=IfCondition(headless),
-            launch_arguments={
-                "gz_args": ["-r -s --headless-rendering ", world],
-            }.items(),
+            output="screen",
         ),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(gazebo_launch),
+        ExecuteProcess(
+            cmd=[
+                FindExecutable(name="ign"),
+                "gazebo",
+                "-r",
+                world,
+                "--force-version",
+                "6",
+            ],
             condition=UnlessCondition(headless),
-            launch_arguments={"gz_args": ["-r ", world]}.items(),
+            output="screen",
         ),
         Node(
             package="ros_gz_bridge",
