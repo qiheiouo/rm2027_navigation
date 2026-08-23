@@ -58,15 +58,26 @@ must be entered from the accepted field map before active costmap evaluation.
 Setting `ramp_active_map_revision` to any nonmatching value verifies that the
 filter passes every point through unchanged.
 
-The unified user entry `rm_navigation_launch/field_geometry_simulation.launch.py`
-is a separate simulation integration test. Unlike the standalone shadow
+The unified user entries
+`rm_navigation_launch/field_geometry_simulation.launch.py` (lightweight) and
+`rm_navigation_launch/field_geometry_simulation_full.launch.py`
+(high-performance) share one navigation-grade RMUC 2026 field model and are a
+separate simulation integration test. Unlike the standalone shadow
 scenario above, it routes the Gazebo planar scan through the map-bound
 `ramp_laserscan_filter_node` before Nav2. The active contract names only the
-synthetic candidate scene; it does not authorize activation on the field map.
-The 1.60 m ramp width and finite secondary wheel friction are provisional
-simulation values chosen to leave a footprint-safe center corridor and prevent
-the ideal zero-friction roller model from sliding sideways on the 15-degree
-surface.
+synthetic SDF scene; it does not authorize activation on the field map. Both
+profiles contain the same field geometry and navigation functions. The
+lightweight profile lowers physics, lidar, costmap, behavior-tree, and MPPI
+rates for the NUC; the full profile restores higher numerical and sensor
+fidelity for a stronger computer.
+
+The runtime model is an intentionally simple SDF assembled from primitive
+collisions. It includes the 28 x 15 m boundary, continuous 10.5/11/15 degree
+traversable ramps, road decks with roofed 0.80 x 0.25 m tunnel openings, and
+representative major obstacles. It never imports the 1.25 GB official STEP at
+runtime. Small hardware, artwork, electronics, internal mechanisms, exact wall
+contours, and rough-terrain microgeometry remain omitted pending an offline CAD
+audit.
 
 The new-car dog-hole candidate uses `dog_hole_sim.launch.py`. It generates a
 parameterized `0.80 m` tunnel model from the single configuration in
