@@ -25,6 +25,8 @@ def generate_launch_description():
     max_forward_speed = LaunchConfiguration("max_forward_speed")
     max_yaw_rate = LaunchConfiguration("max_yaw_rate")
     obstacle_ceiling_height = LaunchConfiguration("obstacle_ceiling_height")
+    local_inflation_radius = LaunchConfiguration("local_inflation_radius")
+    global_inflation_radius = LaunchConfiguration("global_inflation_radius")
 
     full_navigation_launch = PathJoinSubstitution([
         FindPackageShare("rm_navigation_launch"),
@@ -66,6 +68,10 @@ def generate_launch_description():
             "max_obstacle_height": obstacle_ceiling_height,
             "local_costmap.local_costmap.ros__parameters.stvl_layer."
             "fused_mid360_mark.max_obstacle_height": obstacle_ceiling_height,
+            "local_costmap.local_costmap.ros__parameters.inflation_layer."
+            "inflation_radius": local_inflation_radius,
+            "global_costmap.global_costmap.ros__parameters.inflation_layer."
+            "inflation_radius": global_inflation_radius,
         },
         convert_types=True,
     )
@@ -108,6 +114,22 @@ def generate_launch_description():
                 "local costmap marking during this temporary traversal test."
             ),
         ),
+        DeclareLaunchArgument(
+            "local_inflation_radius",
+            default_value="0.10",
+            description=(
+                "Temporary dog-hole local inflation radius. The configured "
+                "robot footprint remains unchanged."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "global_inflation_radius",
+            default_value="0.10",
+            description=(
+                "Temporary dog-hole global inflation radius. The configured "
+                "robot footprint remains unchanged."
+            ),
+        ),
         LogInfo(msg=[
             "[old_car_dog_hole_navigation] Full-navigation baseline with ",
             "dog-hole-only overrides: map=",
@@ -118,6 +140,10 @@ def generate_launch_description():
             max_yaw_rate,
             " rad/s, point_height_max=",
             obstacle_ceiling_height,
+            " m, local/global inflation=",
+            local_inflation_radius,
+            "/",
+            global_inflation_radius,
             " m.",
         ]),
         IncludeLaunchDescription(
