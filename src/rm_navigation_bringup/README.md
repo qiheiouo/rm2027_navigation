@@ -38,9 +38,10 @@ also publishes only a gated global pose. It is mutually exclusive with AMCL.
   course, and dog-hole MPPI simulations accept
   `heading_policy:=baseline|path_aligned` for a reversible chassis-heading A/B.
   `scenario:=ramp_perception` generates representative 11/15-degree returns
-  in a continuously rotating LiDAR frame and compares raw versus shadow-only
-  expected-plane filtering. Its filtered topic is deliberately not connected
-  to Nav2.
+  in a continuously rotating LiDAR frame, spawns matching visible Gazebo ramp
+  fixtures, and compares raw versus shadow-only expected-plane filtering. Its
+  filtered topic is deliberately not connected to Nav2. Use
+  `scenario:=dog_hole` for the separate physical tunnel scene.
 - `bag_replay.launch.py`: replays either raw sensors or backend-private raw
   odometry while preserving canonical TF ownership.
 - `mapping.launch.py`: an explicit opt-in managed mapping backend. It starts

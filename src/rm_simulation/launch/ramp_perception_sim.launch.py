@@ -1,5 +1,11 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo
+from launch.actions import (
+    DeclareLaunchArgument,
+    GroupAction,
+    IncludeLaunchDescription,
+    LogInfo,
+    TimerAction,
+)
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -15,6 +21,7 @@ def generate_launch_description():
     gimbal_angular_velocity = LaunchConfiguration("gimbal_angular_velocity")
     active_map_revision = LaunchConfiguration("active_map_revision")
     include_obstacle = LaunchConfiguration("include_obstacle")
+    spawn_physical_geometry = LaunchConfiguration("spawn_physical_geometry")
 
     gazebo_launch = PathJoinSubstitution([
         FindPackageShare("rm_simulation"),
@@ -36,6 +43,11 @@ def generate_launch_description():
         "config",
         "ramp_perception.rviz",
     ])
+    ramp_scene = PathJoinSubstitution([
+        FindPackageShare("rm_simulation"),
+        "models",
+        "ramp_perception_scene.sdf",
+    ])
 
     return LaunchDescription([
         DeclareLaunchArgument("headless", default_value="true"),
@@ -52,6 +64,7 @@ def generate_launch_description():
             "active_map_revision", default_value="candidate_11_15_v1"
         ),
         DeclareLaunchArgument("include_obstacle", default_value="true"),
+        DeclareLaunchArgument("spawn_physical_geometry", default_value="true"),
         LogInfo(msg=[
             "[ramp_perception_sim] Shadow-only 11/15 degree ramp filtering; ",
             "raw=/simulation/ramp/points_raw, filtered=",
@@ -59,20 +72,47 @@ def generate_launch_description():
             active_map_revision,
             ". No costmap input is remapped.",
         ]),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(gazebo_launch),
-            launch_arguments={
-                "headless": headless,
-                "use_nav2": "false",
-                "use_rviz": "false",
-                "use_scan_adapter": "false",
-                # Keep this perception scenario independent from the
-                # chassis-heading fusion experiment.  The standard adapter
-                # still publishes the timestamped rotating-gimbal TF chain.
-                "use_chassis_heading_fusion": "false",
-                "gimbal_motion_mode": gimbal_motion_mode,
-                "gimbal_angular_velocity": gimbal_angular_velocity,
-            }.items(),
+        GroupAction(
+            # Scope the nested use_rviz:=false override. Without this group it
+            # leaks into the sibling RViz condition below on ROS 2 Humble.
+            actions=[
+                IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource(gazebo_launch),
+                    launch_arguments={
+                        "headless": headless,
+                        "use_nav2": "false",
+                        "use_rviz": "false",
+                        "use_scan_adapter": "false",
+                        # Keep this perception scenario independent from the
+                        # chassis-heading fusion experiment. The standard
+                        # adapter still publishes the timestamped rotating-
+                        # gimbal TF chain.
+                        "use_chassis_heading_fusion": "false",
+                        "gimbal_motion_mode": gimbal_motion_mode,
+                        "gimbal_angular_velocity": gimbal_angular_velocity,
+                    }.items(),
+                ),
+            ],
+        ),
+        TimerAction(
+            period=2.0,
+            actions=[
+                Node(
+                    package="ros_gz_sim",
+                    executable="create",
+                    name="spawn_ramp_perception_scene",
+                    output="screen",
+                    condition=IfCondition(spawn_physical_geometry),
+                    arguments=[
+                        "-world",
+                        "phase1_omni",
+                        "-file",
+                        ramp_scene,
+                        "-name",
+                        "ramp_perception_scene",
+                    ],
+                ),
+            ],
         ),
         Node(
             package="rm_simulation",

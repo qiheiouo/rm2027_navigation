@@ -11,6 +11,7 @@ from launch.actions import (
     OpaqueFunction,
     TimerAction,
 )
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -441,6 +442,7 @@ def _launch_setup(context):
     initial_gimbal_yaw = float(gimbal_yaw.perform(context))
     headless = LaunchConfiguration("headless")
     use_rviz = LaunchConfiguration("use_rviz")
+    spawn_ramp_scene = LaunchConfiguration("spawn_ramp_scene")
 
     config_data = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     params = config_data["dog_hole_manager"]["ros__parameters"]
@@ -469,6 +471,11 @@ def _launch_setup(context):
         Path(get_package_share_directory("rm_simulation"))
         / "launch"
         / "phase1_5_gazebo.launch.py"
+    )
+    ramp_scene_path = (
+        Path(get_package_share_directory("rm_simulation"))
+        / "models"
+        / "ramp_perception_scene.sdf"
     )
 
     return [
@@ -600,6 +607,26 @@ def _launch_setup(context):
                 )
             ],
         ),
+        TimerAction(
+            period=3.0,
+            actions=[
+                Node(
+                    package="ros_gz_sim",
+                    executable="create",
+                    name="spawn_ramp_perception_scene",
+                    output="screen",
+                    condition=IfCondition(spawn_ramp_scene),
+                    arguments=[
+                        "-world",
+                        "phase1_omni",
+                        "-file",
+                        str(ramp_scene_path),
+                        "-name",
+                        "ramp_perception_scene",
+                    ],
+                )
+            ],
+        ),
     ]
 
 
@@ -613,6 +640,7 @@ def generate_launch_description():
         [
             DeclareLaunchArgument("headless", default_value="true"),
             DeclareLaunchArgument("use_rviz", default_value="false"),
+            DeclareLaunchArgument("spawn_ramp_scene", default_value="true"),
             DeclareLaunchArgument("auto_start", default_value="true"),
             DeclareLaunchArgument(
                 "robot_geometry_profile", default_value="deformed"

@@ -18,6 +18,11 @@ angle in `map`, adds a 12 cm obstacle to the 15-degree surface, and transforms
 the returns into `sim_lidar_link` at the cloud timestamp. The simulated gimbal
 rotates continuously at 0.60 rad/s by default.
 
+Gazebo separately spawns visible, static 11-degree and 15-degree ramp fixtures
+whose top faces match the synthetic planes. They make the geometry inspectable
+and collidable, but the shadow cloud is still generated analytically rather
+than sampled from the Gazebo GPU lidar.
+
 `ramp_plane_filter_node` transforms each return back to `map`. A return is
 removed only when it is inside the configured polygon and within 0.04 m of
 the expected plane. Points above that tolerance remain. The output topic is
@@ -39,7 +44,10 @@ ros2 launch rm_navigation_bringup simulation.launch.py \
 
 RViz uses red for `/simulation/ramp/points_raw` and green for
 `/simulation/ramp/points_filtered_shadow`. The green result should retain the
-raised object while removing both expected surfaces.
+raised object while removing both expected surfaces. Gazebo should show a blue
+11-degree ramp and an orange 15-degree ramp beside the original center block.
+The dog-hole model belongs to `scenario:=dog_hole` and is intentionally not
+spawned in this scenario.
 
 Headless diagnostics:
 
