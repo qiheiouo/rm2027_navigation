@@ -23,6 +23,7 @@ def generate_launch_description():
     use_nav2 = LaunchConfiguration("use_nav2")
     use_rviz = LaunchConfiguration("use_rviz")
     use_scan_adapter = LaunchConfiguration("use_scan_adapter")
+    scan_output_topic = LaunchConfiguration("scan_output_topic")
     use_chassis_heading_fusion = LaunchConfiguration(
         "use_chassis_heading_fusion"
     )
@@ -145,6 +146,7 @@ def generate_launch_description():
         DeclareLaunchArgument("use_nav2", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_scan_adapter", default_value="true"),
+        DeclareLaunchArgument("scan_output_topic", default_value="/scan"),
         DeclareLaunchArgument(
             "use_chassis_heading_fusion", default_value="false"
         ),
@@ -384,7 +386,7 @@ def generate_launch_description():
             parameters=[{
                 "use_sim_time": True,
                 "input_topic": "/simulation/scan_raw",
-                "output_topic": "/scan",
+                "output_topic": scan_output_topic,
                 "output_frame": "sim_lidar_link",
             }],
         ),

@@ -45,9 +45,10 @@ def generate_launch_description():
             choices=["fixed", "sine", "continuous"],
         ),
         DeclareLaunchArgument("gimbal_angular_velocity", default_value="0.60"),
+        DeclareLaunchArgument("active_ramp_filter", default_value="true"),
         DeclareLaunchArgument(
             "heading_policy",
-            default_value="baseline",
+            default_value="path_aligned",
             choices=["baseline", "path_aligned"],
         ),
         DeclareLaunchArgument(
@@ -73,6 +74,9 @@ def generate_launch_description():
                     "gimbal_angular_velocity"
                 ),
                 "heading_policy": LaunchConfiguration("heading_policy"),
+                "active_ramp_filter": LaunchConfiguration(
+                    "active_ramp_filter"
+                ),
                 "dog_hole_config": LaunchConfiguration("dog_hole_config"),
                 "spawn_ramp_scene": "true",
             }.items(),

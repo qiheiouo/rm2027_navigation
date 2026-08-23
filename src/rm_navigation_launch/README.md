@@ -59,7 +59,8 @@ ros2 launch rm_navigation_launch field_geometry_simulation.launch.py
 ```
 
 默认打开 Gazebo GUI 与 RViz，并生成带碰撞顶板的 `0.80 x 0.25 m` 狗洞、蓝色 11°
-斜坡和橙色 15°斜坡。默认 `auto_start:=false`，机器人保持静止便于检查几何；需要执行
+斜坡和橙色 15°斜坡。两个候选斜坡暂宽 `1.60 m`，这个值与狗洞宽度无关，也不是最终
+比赛场地尺寸。默认 `auto_start:=false`，机器人保持静止便于检查几何；需要执行
 狗洞接近、对齐和穿越流程时使用：
 
 ```bash
@@ -67,12 +68,23 @@ ros2 launch rm_navigation_launch field_geometry_simulation.launch.py \
   auto_start:=true
 ```
 
-该入口只启动仿真，不打开真实 MID360 或串口。狗洞参数仍来自
+该入口只启动仿真，不打开真实 MID360 或串口。默认使用 `path_aligned` 控制配置，并在
+精确匹配合成地图 ID/revision 时把已知斜坡表面的二维扫描回波从 Nav2 `/scan` 中剔除。
+在 RViz 中，斜坡中心线应是空闲区；实体边缘附近仍可能保留黑色膨胀安全带。如果中心线
+也是黑色，则不应认为斜坡功能已经通过。可用 `active_ramp_filter:=false` 复现未过滤基线。
+
+手动验证时先把车停到坡前并把底盘正方向对准坡向，再给坡面目标。例如先给
+`(0.50, -1.00)`、再给 `(1.75, -0.90)` 验证 11° 坡；先给 `(0.50, 1.00)`、再给
+`(1.70, 0.90)` 验证 15° 坡。候选物理模型使用有限的轮组次摩擦以避免零摩擦模型在
+15° 坡横滑；该系数仍需用新车实测替换。
+
+狗洞参数仍来自
 `rm_dog_hole/config/dog_hole_sim.yaml`，也可以用 `dog_hole_config:=/absolute/path.yaml`
 覆盖；斜坡实体模型用于候选几何验证，不是最终比赛场地尺寸。
 修改源码中的 launch 文件后需要重新构建并 source：
 
 ```bash
-colcon build --symlink-install --packages-select rm_navigation_launch
+colcon build --symlink-install --packages-select \
+  rm_mid360_driver_bridge rm_simulation rm_navigation_launch
 source install/setup.bash
 ```

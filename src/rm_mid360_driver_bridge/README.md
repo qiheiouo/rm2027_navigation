@@ -126,6 +126,14 @@ plane tolerance remain as obstacles. The supplied configuration is synthetic
 and publishes only `/simulation/ramp/points_filtered_shadow`; it is not a
 Nav2 input and is not approved for the real field.
 
+`ramp_laserscan_filter_node` is the simulation-only active counterpart used by
+`field_geometry_simulation.launch.py`. It evaluates finite LaserScan endpoints
+with the same timestamped TF, map-contract, polygon, and expected-plane gates;
+matching ranges become infinity before the scan is published on `/scan`.
+Contract mismatch or invalid input is fail-closed passthrough. Its supplied
+configuration is bound to `synthetic_competition_ramps/candidate_11_15_v1` and
+must not be reused on a real map.
+
 ## Driver Policy
 
 Phase 1 keeps `use_driver:=false` as the safe default so that the workspace builds and launch files can be inspected without real hardware or `livox_ros_driver2`.

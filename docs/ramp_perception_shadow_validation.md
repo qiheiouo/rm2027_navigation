@@ -8,8 +8,11 @@ laboratory foam-board observation is sufficient to reproduce the failure mode
 but not to accept an active perception rule. Exact field-map coordinates,
 ascent directions, base elevations, and real MID360 returns are still absent.
 
-This stage therefore validates the geometry and failure boundaries in
-simulation only. It does not change the old-car or new-car Nav2 costmap input.
+The standalone shadow scenario therefore validates the geometry and failure
+boundaries without changing the old-car or real new-car Nav2 costmap input.
+The unified field-geometry simulation has a separate active LaserScan path,
+bound exclusively to the synthetic map contract, for end-to-end planning and
+physical slope traversal tests.
 
 ## Method
 
@@ -32,6 +35,11 @@ to a VoxelLayer, STVL source, or any other Nav2 input.
 The filter also binds the plane regions to an exact map identity and revision.
 Any mismatch, missing timestamped TF, malformed PointCloud2 record, disabled
 filter, or empty region set causes the original cloud to be republished.
+
+For the unified simulation, `ramp_laserscan_filter_node` applies the same gates
+to Gazebo LaserScan endpoints and publishes the result on `/scan`. This is an
+active Nav2 input only inside `field_geometry_simulation.launch.py`; it is not
+an approval to connect either filter to the real robot.
 
 ## Run
 
