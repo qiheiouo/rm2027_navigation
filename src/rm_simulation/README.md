@@ -84,3 +84,10 @@ world-yaw offset verifies delta-only alignment. `heading_timestamp_offset_sec`
 and `heading_publish_divider` inject asynchronous or sparse heading samples;
 coverage below 95 percent is an ERROR even when the surviving samples are
 mathematically exact.
+
+The MPPI simulation launch also accepts
+`heading_policy:=baseline|path_aligned`. The candidate keeps the holonomic
+motion model but enables the built-in PathAngle, Twirling, and PreferForward
+objectives so the base tends to face the local path while moving. The baseline
+remains the default for reproducible A/B runs. See
+`docs/chassis_heading_motion_policy.md` for the validation gate.

@@ -21,6 +21,7 @@ def generate_launch_description():
     gimbal_amplitude = LaunchConfiguration("gimbal_amplitude")
     gimbal_frequency = LaunchConfiguration("gimbal_frequency")
     gimbal_angular_velocity = LaunchConfiguration("gimbal_angular_velocity")
+    heading_policy = LaunchConfiguration("heading_policy")
 
     basic_launch = PathJoinSubstitution([
         FindPackageShare("rm_simulation"),
@@ -88,6 +89,11 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "gimbal_angular_velocity", default_value="0.60"
         ),
+        DeclareLaunchArgument(
+            "heading_policy",
+            default_value="baseline",
+            choices=["baseline", "path_aligned"],
+        ),
         LogInfo(msg=[
             "[simulation] scenario=",
             scenario,
@@ -99,6 +105,7 @@ def generate_launch_description():
             launch_arguments={
                 "headless": headless,
                 "use_rviz": use_rviz,
+                "heading_policy": heading_policy,
             }.items(),
         ),
         IncludeLaunchDescription(
@@ -108,6 +115,7 @@ def generate_launch_description():
                 "headless": headless,
                 "use_rviz": use_rviz,
                 "moving_obstacle": "false",
+                "heading_policy": heading_policy,
             }.items(),
         ),
         IncludeLaunchDescription(
@@ -117,6 +125,7 @@ def generate_launch_description():
                 "headless": headless,
                 "use_rviz": use_rviz,
                 "moving_obstacle": "true",
+                "heading_policy": heading_policy,
             }.items(),
         ),
         IncludeLaunchDescription(
@@ -140,6 +149,7 @@ def generate_launch_description():
                 "gimbal_amplitude": gimbal_amplitude,
                 "gimbal_frequency": gimbal_frequency,
                 "gimbal_angular_velocity": gimbal_angular_velocity,
+                "heading_policy": heading_policy,
             }.items(),
         ),
     ])

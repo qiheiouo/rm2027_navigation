@@ -33,7 +33,9 @@ also publishes only a gated global pose. It is mutually exclusive with AMCL.
 - `simulation.launch.py`: selects the basic, static-course, dynamic-course,
   point-cloud, or new-car dog-hole Gazebo scenario without starting hardware.
   The `dog_hole` scenario passes through geometry, automatic-start, and gimbal
-  motion arguments and defaults to the chassis-heading LIO fusion path.
+  motion arguments and defaults to the chassis-heading LIO fusion path. Basic,
+  course, and dog-hole MPPI simulations accept
+  `heading_policy:=baseline|path_aligned` for a reversible chassis-heading A/B.
 - `bag_replay.launch.py`: replays either raw sensors or backend-private raw
   odometry while preserving canonical TF ownership.
 - `mapping.launch.py`: an explicit opt-in managed mapping backend. It starts

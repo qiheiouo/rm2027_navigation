@@ -11,6 +11,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     headless = LaunchConfiguration("headless")
     use_rviz = LaunchConfiguration("use_rviz")
+    heading_policy = LaunchConfiguration("heading_policy")
     moving_obstacle = LaunchConfiguration("moving_obstacle")
     moving_amplitude = LaunchConfiguration("moving_amplitude")
     moving_period = LaunchConfiguration("moving_period")
@@ -97,6 +98,11 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument("headless", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="false"),
+        DeclareLaunchArgument(
+            "heading_policy",
+            default_value="baseline",
+            choices=["baseline", "path_aligned"],
+        ),
         DeclareLaunchArgument("moving_obstacle", default_value="true"),
         DeclareLaunchArgument("moving_amplitude", default_value="0.9"),
         DeclareLaunchArgument("moving_period", default_value="8.0"),
@@ -109,6 +115,7 @@ def generate_launch_description():
             launch_arguments={
                 "headless": headless,
                 "use_rviz": use_rviz,
+                "heading_policy": heading_policy,
             }.items(),
         ),
         TimerAction(period=2.0, actions=[north_wall, south_wall]),

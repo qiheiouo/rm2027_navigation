@@ -274,7 +274,7 @@ def _make_scene(params):
 """
 
 
-def _make_nav2_profile(params):
+def _make_nav2_profile(params, heading_policy):
     source = (
         Path(get_package_share_directory("rm_nav_config"))
         / "config"
@@ -297,6 +297,16 @@ def _make_nav2_profile(params):
             "wz_max": 1.0,
         }
     )
+    if heading_policy == "path_aligned":
+        follow_path["PathAngleCritic"]["forward_preference"] = True
+        follow_path["PathAngleCritic"]["cost_weight"] = 6.0
+        follow_path["PathAngleCritic"]["max_angle_to_furthest"] = 0.20
+        follow_path["TwirlingCritic"]["enabled"] = True
+        follow_path["PreferForwardCritic"]["enabled"] = True
+    elif heading_policy != "baseline":
+        raise RuntimeError(
+            "heading_policy must be 'baseline' or 'path_aligned'"
+        )
     follow_path["PathAlignCritic"]["cost_weight"] = 14.0
     smoother = data["velocity_smoother"]["ros__parameters"]
     smoother["max_velocity"] = [0.65, 0.35, 1.0]
@@ -427,6 +437,7 @@ def _launch_setup(context):
     gimbal_amplitude = LaunchConfiguration("gimbal_amplitude")
     gimbal_frequency = LaunchConfiguration("gimbal_frequency")
     gimbal_angular_velocity = LaunchConfiguration("gimbal_angular_velocity")
+    heading_policy = LaunchConfiguration("heading_policy").perform(context)
     initial_gimbal_yaw = float(gimbal_yaw.perform(context))
     headless = LaunchConfiguration("headless")
     use_rviz = LaunchConfiguration("use_rviz")
@@ -442,7 +453,7 @@ def _launch_setup(context):
     world_text, geometry = _make_robot_world(params)
     world_path = output_dir / f'new_car_{geometry["profile"]}.sdf'
     world_path.write_text(world_text, encoding="utf-8")
-    nav2_path = _make_nav2_profile(params)
+    nav2_path = _make_nav2_profile(params, heading_policy)
     lio_adapter_path = _make_heading_fusion_profile(
         geometry, initial_gimbal_yaw
     )
@@ -466,7 +477,8 @@ def _launch_setup(context):
                 f'[dog_hole_sim] geometry_profile={geometry["profile"]}, '
                 f'configured_height={geometry["height"]:.3f} m, '
                 f'roof_clearance={roof_clearance:.3f} m, '
-                f'vertical_margin={clearance:.3f} m'
+                f'vertical_margin={clearance:.3f} m, '
+                f'heading_policy={heading_policy}'
             )
         ),
         IncludeLaunchDescription(
@@ -613,6 +625,11 @@ def generate_launch_description():
             DeclareLaunchArgument("gimbal_frequency", default_value="0.10"),
             DeclareLaunchArgument(
                 "gimbal_angular_velocity", default_value="0.60"
+            ),
+            DeclareLaunchArgument(
+                "heading_policy",
+                default_value="baseline",
+                choices=["baseline", "path_aligned"],
             ),
             DeclareLaunchArgument(
                 "dog_hole_config",
