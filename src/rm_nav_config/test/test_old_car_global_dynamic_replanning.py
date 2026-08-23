@@ -204,6 +204,10 @@ def test_full_old_car_entry_uses_dual_local_avoidance_and_amcl_global_scan():
     ).read_text(encoding="utf-8")
     assert '"nav2_old_car_2026_dual_stvl.yaml"' in dog_hole_launch
     assert '"fused_mid360_mark.max_obstacle_height"' in dog_hole_launch
+    assert '"local_inflation_radius"' in dog_hole_launch
+    assert '"global_inflation_radius"' in dog_hole_launch
+    assert '"inflation_radius": local_inflation_radius' in dog_hole_launch
+    assert '"inflation_radius": global_inflation_radius' in dog_hole_launch
 
     dual = _document("nav2_old_car_2026_dual_stvl.yaml")
     controller = dual["controller_server"]["ros__parameters"]["FollowPath"]
