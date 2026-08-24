@@ -55,7 +55,7 @@ git status --short --branch
 git submodule status --recursive
 
 source /opt/ros/humble/setup.bash
-colcon build --symlink-install --packages-select \
+colcon build --symlink-install --packages-up-to \
   rm_competition_interfaces \
   rm_map_tools \
   rm_dynamic_obstacle_tracking \
@@ -65,6 +65,10 @@ colcon build --symlink-install --packages-select \
   rm_relocalization_bridge \
   rm_navigation_integrity
 source install/setup.bash
+
+# --packages-up-to intentionally builds declared dependencies such as
+# rm_mid360_driver_bridge and the locked livox_ros_driver2 submodule. Keep
+# external-package lint outside the first-party acceptance result below.
 
 RUN_DIR=$(mktemp -d /tmp/rm27_open_source_validation.XXXXXX)
 mkdir -p "$RUN_DIR/bags"
