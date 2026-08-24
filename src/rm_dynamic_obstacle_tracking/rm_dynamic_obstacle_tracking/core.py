@@ -104,14 +104,40 @@ class OccupancyMap:
         self.origin_yaw = origin_yaw
         self.data = tuple(int(value) for value in data)
         self.occupied_threshold = int(occupied_threshold)
+        self._origin_cosine = math.cos(self.origin_yaw)
+        self._origin_sine = math.sin(self.origin_yaw)
+        occupied_x_by_row: dict[int, list[int]] = {}
+        for index, value in enumerate(self.data):
+            if value >= self.occupied_threshold:
+                occupied_x_by_row.setdefault(index // self.width, []).append(
+                    index % self.width
+                )
+        self._occupied_x_by_row = {
+            cell_y: tuple(cell_xs)
+            for cell_y, cell_xs in occupied_x_by_row.items()
+        }
+        self._occupied_centers = tuple(
+            (
+                (cell_x + 0.5) * self.resolution,
+                (cell_y + 0.5) * self.resolution,
+            )
+            for cell_y, cell_xs in self._occupied_x_by_row.items()
+            for cell_x in cell_xs
+        )
+        self._occupied_bucket_cache: dict[
+            float, dict[tuple[int, int], tuple[tuple[float, float], ...]]
+        ] = {}
 
-    def world_to_cell(self, point: Point2D) -> tuple[int, int] | None:
+    def _world_to_local(self, point: Point2D) -> tuple[float, float]:
         dx = point.x - self.origin_x
         dy = point.y - self.origin_y
-        cosine = math.cos(self.origin_yaw)
-        sine = math.sin(self.origin_yaw)
-        local_x = cosine * dx + sine * dy
-        local_y = -sine * dx + cosine * dy
+        return (
+            self._origin_cosine * dx + self._origin_sine * dy,
+            -self._origin_sine * dx + self._origin_cosine * dy,
+        )
+
+    def world_to_cell(self, point: Point2D) -> tuple[int, int] | None:
+        local_x, local_y = self._world_to_local(point)
         cell_x = math.floor(local_x / self.resolution)
         cell_y = math.floor(local_y / self.resolution)
         if cell_x < 0 or cell_y < 0 or cell_x >= self.width or cell_y >= self.height:
@@ -128,26 +154,42 @@ class OccupancyMap:
         cell = self.world_to_cell(point)
         if cell is None:
             return None
-        radius_cells = max(0, math.ceil(search_radius / self.resolution))
+        local_x, local_y = self._world_to_local(point)
+        if search_radius <= 0.0:
+            occupied_xs = self._occupied_x_by_row.get(cell[1], ())
+            if cell[0] not in occupied_xs:
+                return None
+            center_x = (cell[0] + 0.5) * self.resolution
+            center_y = (cell[1] + 0.5) * self.resolution
+            return math.hypot(local_x - center_x, local_y - center_y)
+
+        buckets = self._occupied_bucket_cache.get(search_radius)
+        if buckets is None:
+            mutable_buckets: dict[
+                tuple[int, int], list[tuple[float, float]]
+            ] = {}
+            for center_x, center_y in self._occupied_centers:
+                key = (
+                    math.floor(center_x / search_radius),
+                    math.floor(center_y / search_radius),
+                )
+                mutable_buckets.setdefault(key, []).append((center_x, center_y))
+            buckets = {
+                key: tuple(centers) for key, centers in mutable_buckets.items()
+            }
+            self._occupied_bucket_cache[search_radius] = buckets
+
+        bucket_x = math.floor(local_x / search_radius)
+        bucket_y = math.floor(local_y / search_radius)
         best = math.inf
-        for cell_y in range(
-            max(0, cell[1] - radius_cells),
-            min(self.height, cell[1] + radius_cells + 1),
-        ):
-            for cell_x in range(
-                max(0, cell[0] - radius_cells),
-                min(self.width, cell[0] + radius_cells + 1),
-            ):
-                value = self.data[cell_y * self.width + cell_x]
-                if value < self.occupied_threshold:
-                    continue
-                center_x = (cell_x + 0.5) * self.resolution
-                center_y = (cell_y + 0.5) * self.resolution
-                cosine = math.cos(self.origin_yaw)
-                sine = math.sin(self.origin_yaw)
-                world_x = self.origin_x + cosine * center_x - sine * center_y
-                world_y = self.origin_y + sine * center_x + cosine * center_y
-                best = min(best, math.hypot(point.x - world_x, point.y - world_y))
+        for offset_y in (-1, 0, 1):
+            for offset_x in (-1, 0, 1):
+                for center_x, center_y in buckets.get(
+                    (bucket_x + offset_x, bucket_y + offset_y), ()
+                ):
+                    best = min(
+                        best, math.hypot(local_x - center_x, local_y - center_y)
+                    )
         return None if math.isinf(best) else best
 
 
@@ -235,6 +277,121 @@ def cluster_points(
     return detections
 
 
+def filter_detections_near_static(
+    detections: Sequence[Detection],
+    occupancy_map: OccupancyMap,
+    static_distance_threshold: float,
+) -> list[Detection]:
+    """Reject residual clusters whose centroid is still close to mapped structure."""
+    if static_distance_threshold < 0.0:
+        raise ValueError("detection static distance threshold must not be negative")
+    if static_distance_threshold == 0.0:
+        return list(detections)
+    result = []
+    for detection in detections:
+        distance = occupancy_map.distance_to_occupied(
+            detection.centroid, static_distance_threshold
+        )
+        if distance is None or distance > static_distance_threshold:
+            result.append(detection)
+    return result
+
+
+def _hungarian_min_cost(costs: Sequence[Sequence[float]]) -> list[int]:
+    """Return the minimum-cost column for every row of a square matrix."""
+    size = len(costs)
+    if size == 0:
+        return []
+    if any(len(row) != size for row in costs):
+        raise ValueError("Hungarian cost matrix must be square")
+    row_potential = [0.0] * (size + 1)
+    column_potential = [0.0] * (size + 1)
+    matched_row = [0] * (size + 1)
+    previous_column = [0] * (size + 1)
+    for row in range(1, size + 1):
+        matched_row[0] = row
+        minimum = [math.inf] * (size + 1)
+        used = [False] * (size + 1)
+        column = 0
+        while True:
+            used[column] = True
+            active_row = matched_row[column]
+            delta = math.inf
+            next_column = 0
+            for candidate_column in range(1, size + 1):
+                if used[candidate_column]:
+                    continue
+                reduced_cost = (
+                    costs[active_row - 1][candidate_column - 1]
+                    - row_potential[active_row]
+                    - column_potential[candidate_column]
+                )
+                if reduced_cost < minimum[candidate_column]:
+                    minimum[candidate_column] = reduced_cost
+                    previous_column[candidate_column] = column
+                if minimum[candidate_column] < delta:
+                    delta = minimum[candidate_column]
+                    next_column = candidate_column
+            for candidate_column in range(size + 1):
+                if used[candidate_column]:
+                    row_potential[matched_row[candidate_column]] += delta
+                    column_potential[candidate_column] -= delta
+                else:
+                    minimum[candidate_column] -= delta
+            column = next_column
+            if matched_row[column] == 0:
+                break
+        while True:
+            previous = previous_column[column]
+            matched_row[column] = matched_row[previous]
+            column = previous
+            if column == 0:
+                break
+    assignment = [-1] * size
+    for column in range(1, size + 1):
+        if matched_row[column] > 0:
+            assignment[matched_row[column] - 1] = column - 1
+    return assignment
+
+
+def optimal_gated_assignment(
+    track_positions: Sequence[Point2D],
+    detection_positions: Sequence[Point2D],
+    association_gate: float,
+) -> dict[int, int]:
+    """Globally minimize gated distances while allowing either side unmatched."""
+    if association_gate <= 0.0:
+        raise ValueError("association gate must be positive")
+    track_count = len(track_positions)
+    detection_count = len(detection_positions)
+    if track_count == 0 or detection_count == 0:
+        return {}
+    size = track_count + detection_count
+    unmatched_cost = association_gate + 1.0e-6
+    forbidden_cost = unmatched_cost * (2.0 * size + 1.0)
+    costs = [[0.0] * size for _ in range(size)]
+    for track_index, track in enumerate(track_positions):
+        for detection_index, detection in enumerate(detection_positions):
+            distance = math.hypot(track.x - detection.x, track.y - detection.y)
+            costs[track_index][detection_index] = (
+                distance if distance <= association_gate else forbidden_cost
+            )
+        for dummy_column in range(detection_count, size):
+            costs[track_index][dummy_column] = unmatched_cost
+    for dummy_row in range(track_count, size):
+        for detection_index in range(detection_count):
+            costs[dummy_row][detection_index] = unmatched_cost
+    assignment = _hungarian_min_cost(costs)
+    result = {}
+    for track_index in range(track_count):
+        detection_index = assignment[track_index]
+        if detection_index < 0 or detection_index >= detection_count:
+            continue
+        if costs[track_index][detection_index] <= association_gate:
+            result[track_index] = detection_index
+    return result
+
+
 class _Kalman1D:
     def __init__(self, position: float, initial_variance: float) -> None:
         self.position = position
@@ -289,6 +446,8 @@ class _Track:
     last_update: float
     size_x: float
     size_y: float
+    initial_x: float
+    initial_y: float
     observations: int = 1
     consecutive_hits: int = 1
     misses: int = 0
@@ -303,6 +462,8 @@ class MultiObjectTracker:
         measurement_noise: float = 0.08,
         initial_variance: float = 1.0,
         min_hits_to_confirm: int = 3,
+        min_displacement_to_confirm: float = 0.0,
+        use_global_assignment: bool = False,
         tentative_max_misses: int = 1,
         max_coast_time_sec: float = 0.6,
         prediction_steps: int = 15,
@@ -317,6 +478,8 @@ class MultiObjectTracker:
             raise ValueError("tracker variances must be positive")
         if (
             min_hits_to_confirm <= 0
+            or not math.isfinite(min_displacement_to_confirm)
+            or min_displacement_to_confirm < 0.0
             or tentative_max_misses < 0
             or max_coast_time_sec < 0.0
         ):
@@ -328,6 +491,8 @@ class MultiObjectTracker:
         self.measurement_noise = measurement_noise
         self.initial_variance = initial_variance
         self.min_hits_to_confirm = min_hits_to_confirm
+        self.min_displacement_to_confirm = min_displacement_to_confirm
+        self.use_global_assignment = use_global_assignment
         self.tentative_max_misses = tentative_max_misses
         self.max_coast_time_sec = max_coast_time_sec
         self.prediction_steps = prediction_steps
@@ -367,25 +532,39 @@ class MultiObjectTracker:
             track.x_filter.predict(dt, self.process_noise)
             track.y_filter.predict(dt, self.process_noise)
 
-        pairs: list[tuple[float, int, int]] = []
-        for track_index, track in enumerate(self._tracks):
-            for detection_index, detection in enumerate(detections):
-                distance = math.hypot(
-                    track.x_filter.position - detection.centroid.x,
-                    track.y_filter.position - detection.centroid.y,
-                )
-                if distance <= self.association_gate:
-                    pairs.append((distance, track_index, detection_index))
-        pairs.sort()
-        matched_tracks: set[int] = set()
-        matched_detections: set[int] = set()
-        assignments: dict[int, int] = {}
-        for _, track_index, detection_index in pairs:
-            if track_index in matched_tracks or detection_index in matched_detections:
-                continue
-            matched_tracks.add(track_index)
-            matched_detections.add(detection_index)
-            assignments[track_index] = detection_index
+        if self.use_global_assignment:
+            assignments = optimal_gated_assignment(
+                [
+                    Point2D(track.x_filter.position, track.y_filter.position)
+                    for track in self._tracks
+                ],
+                [detection.centroid for detection in detections],
+                self.association_gate,
+            )
+        else:
+            pairs: list[tuple[float, int, int]] = []
+            for track_index, track in enumerate(self._tracks):
+                for detection_index, detection in enumerate(detections):
+                    distance = math.hypot(
+                        track.x_filter.position - detection.centroid.x,
+                        track.y_filter.position - detection.centroid.y,
+                    )
+                    if distance <= self.association_gate:
+                        pairs.append((distance, track_index, detection_index))
+            pairs.sort()
+            matched_tracks: set[int] = set()
+            matched_detections: set[int] = set()
+            assignments = {}
+            for _, track_index, detection_index in pairs:
+                if (
+                    track_index in matched_tracks
+                    or detection_index in matched_detections
+                ):
+                    continue
+                matched_tracks.add(track_index)
+                matched_detections.add(detection_index)
+                assignments[track_index] = detection_index
+        matched_detections = set(assignments.values())
 
         for track_index, track in enumerate(self._tracks):
             if track_index in assignments:
@@ -395,11 +574,18 @@ class MultiObjectTracker:
                 track.y_filter.update(detection.centroid.y, self.measurement_noise)
                 track.size_x = 0.7 * track.size_x + 0.3 * detection.size_x
                 track.size_y = 0.7 * track.size_y + 0.3 * detection.size_y
+                observed_displacement = math.hypot(
+                    detection.centroid.x - track.initial_x,
+                    detection.centroid.y - track.initial_y,
+                )
                 track.last_update = stamp
                 track.observations += 1
                 track.consecutive_hits += 1
                 track.misses = 0
-                if track.consecutive_hits >= self.min_hits_to_confirm:
+                if (
+                    track.consecutive_hits >= self.min_hits_to_confirm
+                    and observed_displacement >= self.min_displacement_to_confirm
+                ):
                     track.state = TrackState.CONFIRMED
             else:
                 track.misses += 1
@@ -433,8 +619,13 @@ class MultiObjectTracker:
                 last_update=stamp,
                 size_x=detection.size_x,
                 size_y=detection.size_y,
+                initial_x=detection.centroid.x,
+                initial_y=detection.centroid.y,
             )
-            if self.min_hits_to_confirm <= 1:
+            if (
+                self.min_hits_to_confirm <= 1
+                and self.min_displacement_to_confirm <= 0.0
+            ):
                 track.state = TrackState.CONFIRMED
             self._tracks.append(track)
             self._next_id += 1

@@ -10,6 +10,7 @@ from geometry_msgs.msg import Point
 from nav_msgs.msg import OccupancyGrid
 import rclpy
 from rclpy.duration import Duration
+from rclpy.executors import ExternalShutdownException, MultiThreadedExecutor
 from rclpy.node import Node
 from rclpy.qos import (
     DurabilityPolicy,
@@ -34,6 +35,7 @@ from .core import (
     TrackState,
     cluster_points,
     dynamic_candidates,
+    filter_detections_near_static,
     planar_rotation_matrix,
 )
 
@@ -71,6 +73,11 @@ class DynamicObstacleTrackerNode(Node):
         )
         self._cluster_max_extent = float(
             self.declare_parameter("cluster_max_extent", 1.5).value
+        )
+        self._detection_static_distance_threshold = float(
+            self.declare_parameter(
+                "detection_static_distance_threshold", 0.0
+            ).value
         )
         self._tf_timeout = float(self.declare_parameter("tf_timeout_sec", 0.08).value)
         self._max_scan_age = float(
@@ -118,6 +125,14 @@ class DynamicObstacleTrackerNode(Node):
             ),
             min_hits_to_confirm=int(
                 self.declare_parameter("tracker.min_hits_to_confirm", 3).value
+            ),
+            min_displacement_to_confirm=float(
+                self.declare_parameter(
+                    "tracker.min_displacement_to_confirm", 0.0
+                ).value
+            ),
+            use_global_assignment=bool(
+                self.declare_parameter("tracker.use_global_assignment", False).value
             ),
             tentative_max_misses=int(
                 self.declare_parameter("tracker.tentative_max_misses", 1).value
@@ -174,8 +189,9 @@ class DynamicObstacleTrackerNode(Node):
             self._cluster_tolerance <= 0.0
             or self._cluster_min_points <= 0
             or self._cluster_max_extent <= 0.0
+            or self._detection_static_distance_threshold < 0.0
         ):
-            raise ValueError("cluster parameters must be positive")
+            raise ValueError("cluster and detection filter parameters are invalid")
         if (
             self._tf_timeout < 0.0
             or self._max_scan_age < 0.0
@@ -288,6 +304,11 @@ class DynamicObstacleTrackerNode(Node):
             self._cluster_tolerance,
             self._cluster_min_points,
             self._cluster_max_extent,
+        )
+        detections = filter_detections_near_static(
+            detections,
+            self._map,
+            self._detection_static_distance_threshold,
         )
         update = self._tracker.update(detections, stamp.nanoseconds / 1.0e9)
         visible_tracks = [
@@ -537,8 +558,15 @@ class DynamicObstacleTrackerNode(Node):
 def main(args: list[str] | None = None) -> None:
     rclpy.init(args=args)
     node = DynamicObstacleTrackerNode()
+    executor = MultiThreadedExecutor(num_threads=2)
+    executor.add_node(node)
     try:
-        rclpy.spin(node)
+        executor.spin()
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
     finally:
+        executor.remove_node(node)
+        executor.shutdown()
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()

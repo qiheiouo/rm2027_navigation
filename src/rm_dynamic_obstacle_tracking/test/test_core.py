@@ -8,6 +8,8 @@ from rm_dynamic_obstacle_tracking.core import (
     TrackState,
     cluster_points,
     dynamic_candidates,
+    filter_detections_near_static,
+    optimal_gated_assignment,
     planar_rotation_matrix,
 )
 
@@ -46,6 +48,29 @@ def test_map_origin_yaw_is_respected() -> None:
     assert occupancy.value_at_world(Point2D(9.5, 21.5)) == 0
 
 
+def test_occupied_distance_index_preserves_rotated_metric_distance() -> None:
+    occupancy = OccupancyMap(
+        width=4,
+        height=3,
+        resolution=0.5,
+        origin_x=2.0,
+        origin_y=-1.0,
+        origin_yaw=math.pi / 3.0,
+        data=[0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0],
+    )
+    occupied_center = Point2D(
+        2.0 + math.cos(math.pi / 3.0) * 1.25 - math.sin(math.pi / 3.0) * 0.75,
+        -1.0 + math.sin(math.pi / 3.0) * 1.25 + math.cos(math.pi / 3.0) * 0.75,
+    )
+    query = Point2D(occupied_center.x + 0.12, occupied_center.y - 0.05)
+
+    assert math.isclose(
+        occupancy.distance_to_occupied(query, 0.5),
+        math.hypot(0.12, 0.05),
+        abs_tol=1.0e-9,
+    )
+
+
 def test_planar_point_transform_uses_full_quaternion() -> None:
     half_angle = math.pi / 4.0
     rotation_xx, rotation_xy, rotation_yx, rotation_yy = planar_rotation_matrix(
@@ -76,6 +101,29 @@ def test_euclidean_clustering_rejects_noise_and_large_components() -> None:
     assert math.isclose(detections[0].centroid.x, 0.08)
 
 
+def test_detection_centroid_static_filter_rejects_wall_residual_only() -> None:
+    data = [0] * 49
+    data[3 * 7 + 3] = 100
+    occupancy = OccupancyMap(7, 7, 0.1, 0.0, 0.0, 0.0, data)
+    near_wall = _detection(0.58, 0.35)
+    open_space = _detection(0.05, 0.05)
+
+    kept = filter_detections_near_static(
+        [near_wall, open_space], occupancy, static_distance_threshold=0.25
+    )
+
+    assert kept == [open_space]
+
+
+def test_optimal_assignment_avoids_greedy_unmatched_track() -> None:
+    assignments = optimal_gated_assignment(
+        [Point2D(0.0, 0.0), Point2D(0.5, 0.0)],
+        [Point2D(0.4, 0.0), Point2D(1.0, 0.0)],
+        association_gate=0.6,
+    )
+    assert assignments == {0: 0, 1: 1}
+
+
 def test_tracker_confirms_coasts_and_deletes() -> None:
     tracker = MultiObjectTracker(
         min_hits_to_confirm=2,
@@ -95,6 +143,42 @@ def test_tracker_confirms_coasts_and_deletes() -> None:
     deleted = tracker.update([], 1.4)
     assert deleted.tracks == ()
     assert deleted.deleted == 1
+
+
+def test_tracker_requires_observed_motion_before_confirmation() -> None:
+    tracker = MultiObjectTracker(
+        min_hits_to_confirm=3,
+        min_displacement_to_confirm=0.12,
+        association_gate=0.5,
+    )
+    for index in range(5):
+        stationary = tracker.update([_detection(0.01 * (index % 2))], 1.0 + index * 0.1)
+        assert stationary.tracks[0].state == TrackState.TENTATIVE
+
+    moving = tracker.update([_detection(0.16)], 1.5)
+    assert moving.tracks[0].state == TrackState.CONFIRMED
+
+
+def test_tracker_does_not_confirm_after_transient_centroid_jump() -> None:
+    tracker = MultiObjectTracker(
+        min_hits_to_confirm=3,
+        min_displacement_to_confirm=0.12,
+        association_gate=0.5,
+    )
+    tracker.update([_detection(0.0)], 1.0)
+    tracker.update([_detection(0.16)], 1.1)
+    returned = tracker.update([_detection(0.01)], 1.2)
+
+    assert returned.tracks[0].state == TrackState.TENTATIVE
+
+
+def test_tracker_rejects_negative_confirmation_displacement() -> None:
+    try:
+        MultiObjectTracker(min_displacement_to_confirm=-0.01)
+    except ValueError as error:
+        assert "lifecycle" in str(error)
+    else:
+        raise AssertionError("negative confirmation displacement must be rejected")
 
 
 def test_tracker_estimates_constant_velocity_and_keeps_id() -> None:
@@ -175,6 +259,23 @@ def test_two_separated_targets_keep_distinct_ids() -> None:
 
     assert [track.track_id for track in updated.tracks] == initial_ids
     assert all(track.state == TrackState.CONFIRMED for track in updated.tracks)
+
+
+def test_global_assignment_keeps_both_tracks_in_greedy_failure_geometry() -> None:
+    tracker = MultiObjectTracker(
+        association_gate=0.6,
+        min_hits_to_confirm=1,
+        process_noise=0.0,
+        measurement_noise=0.01,
+        use_global_assignment=True,
+    )
+    initial = tracker.update([_detection(0.0), _detection(0.5)], 1.0)
+    initial_ids = [track.track_id for track in initial.tracks]
+
+    updated = tracker.update([_detection(0.4), _detection(1.0)], 1.1)
+
+    assert updated.created == 0
+    assert [track.track_id for track in updated.tracks] == initial_ids
 
 
 def test_confirmed_coasting_timeout_is_time_based() -> None:

@@ -16,6 +16,9 @@ dynamic_obstacle_tracker_shadow:
     cluster_tolerance: 0.20
     cluster_min_points: 3
     cluster_max_extent: 1.50
+    # Preserve useful cluster points, then reject compact residuals whose
+    # centroid still hugs mapped structure.
+    detection_static_distance_threshold: 0.35
     tf_timeout_sec: 0.08
     max_scan_age_sec: 0.40
     max_future_scan_sec: 0.05
@@ -28,6 +31,10 @@ dynamic_obstacle_tracker_shadow:
       measurement_noise: 0.08
       initial_variance: 1.0
       min_hits_to_confirm: 3
+      # D01 field evidence: confirmed static residuals stayed within 0.104 m.
+      min_displacement_to_confirm: 0.15
+      # D05 bag A/B showed no fragmentation improvement over greedy assignment.
+      use_global_assignment: false
       tentative_max_misses: 1
       max_coast_time_sec: 0.60
 
