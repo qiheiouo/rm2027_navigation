@@ -76,14 +76,18 @@ The current field evidence is split deliberately:
   occupancy-only candidate remains review-controlled.
 - `docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md` records
   the later `alpha4=0.02 + strict SE(3) deskew` candidate. Its offline and
-  no-hardware evidence is strong; subsequent old-car field A/B was reported
-  successful while the profile remains explicit.
+  no-hardware evidence is strong, but later field failures prove it reduces
+  risk rather than eliminating every AMCL wrong mode.
 - `docs/validation/old_car_three_point_spin_field_test_20260722.md` records the
   first isolated three-point patrol/spin field smoke and its evidence limits.
+- `docs/validation/old_car_high_spin_localization_engineering_report_20260825.md`
+  consolidates the root-cause experiments, correction containment, autonomous
+  recovery, stationary-twist debounce, and the final four field recoveries.
 
 These reports do not promote the fresh03 map to `approved`, do not enable the
-high-spin candidate in the competition launch, and do not prove real referee
-receive support.
+high-spin candidate in generic/new-car defaults, and do not prove real referee
+receive support. The old-car full-navigation field wrapper selects the profile
+explicitly and remains subject to its documented acceptance limits.
 
 ## Features That Require Explicit Opt-In
 

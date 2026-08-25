@@ -4,8 +4,8 @@
 
 分支：`fix/old-car-amcl-correction-gate`
 
-状态：修正门现场拦截真实错误峰；自主恢复 Linux 编译和 ROS topic 注入测试通过；
-自主恢复实车复验待执行。
+状态：修正门现场拦截真实错误峰；自主恢复 Linux/ROS 测试通过；最终实车运行记录
+4 次 recovery completed，操作员确认位姿正确恢复。完整 10 次独立验收仍待执行。
 
 ## 1. 本次现场结论
 
@@ -80,6 +80,24 @@ cov_x=1.59e-4, cov_y=1.85e-4, cov_yaw=1.72e-4
 ```text
 /tmp/rm2027_old_car_recovery_spike_20260825
 ```
+
+用户重新 `colcon build` 并启动最终代码后进行第四次受控复验。该轮 bridge 日志记录
+4 次 fault latch 后均完成自主恢复；最大被拒绝 correction 创新为 1.928 m / 2.873 rad。
+其中 3 次从首次重播种到恢复为 1.052--1.095 秒，另 1 次困难场景需要 11 次重播种、
+21.803 秒才进入连续 5 帧可信模式。操作员确认等待后位姿正确，恢复后 8 秒探针中
+recovery state 全为 `healthy`、global-valid 全为 true，AMCL/global pose/scan 均持续
+约 8--9 Hz。
+
+最终实车日志临时保存于：
+
+```text
+/tmp/rm2027_old_car_recovery_success_20260825
+```
+
+跨阶段的根因、消融、修复和最终实车数据汇总见
+`old_car_high_spin_localization_engineering_report_20260825.md`。本轮通过的是实车恢复
+smoke；因存在 11 次重播种长尾且没有精确物理停车 timestamp，仍不能关闭 10 次独立
+重复、底盘停权和恢复延迟验收门。
 
 ## 2. 本次修改
 
