@@ -86,7 +86,7 @@ class RecoveryProbe(Node):
         message.data = True
         self.upstream_pub.publish(message)
 
-    def publish_odom(self, x=0.0, angular_speed=0.0):
+    def publish_odom(self, x=0.0, linear_speed=0.0, angular_speed=0.0):
         stamp = self.get_clock().now().to_msg()
         message = Odometry()
         message.header.stamp = stamp
@@ -94,12 +94,13 @@ class RecoveryProbe(Node):
         message.child_frame_id = "base_link"
         message.pose.pose.position.x = x
         message.pose.pose.orientation.w = 1.0
+        message.twist.twist.linear.x = linear_speed
         message.twist.twist.angular.z = angular_speed
         self.odom_pub.publish(message)
         return stamp
 
     def publish_candidate(self, correction_x, odom_x=0.0, angular_speed=0.0):
-        stamp = self.publish_odom(odom_x, angular_speed)
+        stamp = self.publish_odom(odom_x, angular_speed=angular_speed)
         self.spin_for(0.03)
         message = PoseWithCovarianceStamped()
         message.header.stamp = stamp
@@ -111,8 +112,21 @@ class RecoveryProbe(Node):
     def publish_odom_for(self, duration, x=0.0, angular_speed=0.0):
         deadline = time.monotonic() + duration
         while time.monotonic() < deadline:
-            self.publish_odom(x, angular_speed)
+            self.publish_odom(x, angular_speed=angular_speed)
             self.spin_for(0.03)
+
+    def publish_noisy_stationary_odom_for(self, duration, x=0.0):
+        deadline = time.monotonic() + duration
+        sample = 0
+        while time.monotonic() < deadline:
+            spike = sample % 4 == 0
+            self.publish_odom(
+                x,
+                linear_speed=0.12 if spike else 0.03,
+                angular_speed=0.25 if spike else 0.03,
+            )
+            self.spin_for(0.03)
+            sample += 1
 
     def publish_manual_initial_pose(self):
         message = PoseWithCovarianceStamped()
@@ -177,10 +191,11 @@ def test_latched_fault_reseeds_from_trusted_pose_and_recovers_without_tf_flicker
         assert not latest_transform_is(probe, 1.0)
 
         probe.publish_candidate(0.12, angular_speed=1.0)
-        probe.spin_for(0.2)
+        probe.publish_odom_for(0.25, angular_speed=1.0)
         assert not probe.valid_messages[-1], "fault recovered while moving"
+        assert not probe.observed_initial_poses, "reseeded during confirmed motion"
 
-        probe.publish_odom_for(0.8, x=0.5)
+        probe.publish_noisy_stationary_odom_for(0.8, x=0.5)
         probe.wait_for(
             lambda: bool(probe.observed_initial_poses),
             "autonomous initial pose",

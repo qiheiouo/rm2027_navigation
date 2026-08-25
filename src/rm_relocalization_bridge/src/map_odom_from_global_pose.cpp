@@ -93,6 +93,8 @@ public:
       declare_parameter<double>("recovery_linear_speed_threshold_mps", 0.08);
     recovery_angular_speed_threshold_radps_ =
       declare_parameter<double>("recovery_angular_speed_threshold_radps", 0.15);
+    recovery_motion_confirmation_sec_ =
+      declare_parameter<double>("recovery_motion_confirmation_sec", 0.12);
     recovery_stationary_hold_sec_ =
       declare_parameter<double>("recovery_stationary_hold_sec", 0.6);
     recovery_reseed_cooldown_sec_ =
@@ -125,6 +127,8 @@ public:
       recovery_linear_speed_threshold_mps_ < 0.0 ||
       !std::isfinite(recovery_angular_speed_threshold_radps_) ||
       recovery_angular_speed_threshold_radps_ < 0.0 ||
+      !std::isfinite(recovery_motion_confirmation_sec_) ||
+      recovery_motion_confirmation_sec_ < 0.0 ||
       !std::isfinite(recovery_stationary_hold_sec_) || recovery_stationary_hold_sec_ < 0.0 ||
       !std::isfinite(recovery_reseed_cooldown_sec_) || recovery_reseed_cooldown_sec_ <= 0.0 ||
       !std::isfinite(recovery_settle_sec_) || recovery_settle_sec_ < 0.0 ||
@@ -216,9 +220,11 @@ public:
         RCLCPP_INFO(
           get_logger(),
           "Autonomous correction recovery enabled: stationary <= %.3f m/s and %.3f rad/s "
-          "for %.2f s; reseed cooldown %.2f s; settle %.2f s; require %zu poses.",
+          "for %.2f s; motion confirmation %.2f s; reseed cooldown %.2f s; "
+          "settle %.2f s; require %zu poses.",
           recovery_linear_speed_threshold_mps_, recovery_angular_speed_threshold_radps_,
-          recovery_stationary_hold_sec_, recovery_reseed_cooldown_sec_, recovery_settle_sec_,
+          recovery_stationary_hold_sec_, recovery_motion_confirmation_sec_,
+          recovery_reseed_cooldown_sec_, recovery_settle_sec_,
           recovery_required_consistent_poses_);
       }
     } else {
@@ -231,6 +237,7 @@ private:
   {
     correction_fault_latched_ = false;
     recovery_stationary_since_valid_ = false;
+    recovery_motion_candidate_valid_ = false;
     recovery_has_reseeded_ = false;
     recovery_consistent_pose_count_ = 0;
     recovery_reseed_attempts_ = 0;
@@ -376,6 +383,17 @@ private:
       angular_speed <= recovery_angular_speed_threshold_radps_;
 
     if (!stationary) {
+      if (!recovery_motion_candidate_valid_) {
+        recovery_motion_candidate_since_ = now_steady;
+        recovery_motion_candidate_valid_ = true;
+        return;
+      }
+      const bool motion_confirmed = std::chrono::duration<double>(
+        now_steady - recovery_motion_candidate_since_).count() >=
+        recovery_motion_confirmation_sec_;
+      if (!motion_confirmed) {
+        return;
+      }
       if (recovery_stationary_since_valid_) {
         publishRecoveryState("latched_waiting_for_stop");
       }
@@ -384,6 +402,7 @@ private:
       return;
     }
 
+    recovery_motion_candidate_valid_ = false;
     if (!recovery_stationary_since_valid_) {
       recovery_stationary_since_ = now_steady;
       recovery_stationary_since_valid_ = true;
@@ -525,6 +544,7 @@ private:
     }
     correction_fault_latched_ = true;
     recovery_stationary_since_valid_ = false;
+    recovery_motion_candidate_valid_ = false;
     recovery_has_reseeded_ = false;
     recovery_consistent_pose_count_ = 0;
     recovery_reseed_attempts_ = 0;
@@ -539,6 +559,7 @@ private:
     valid_ = true;
     correction_fault_latched_ = false;
     recovery_stationary_since_valid_ = false;
+    recovery_motion_candidate_valid_ = false;
     recovery_has_reseeded_ = false;
     recovery_consistent_pose_count_ = 0;
     pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
@@ -670,6 +691,7 @@ private:
   double max_correction_yaw_step_rad_;
   double recovery_linear_speed_threshold_mps_;
   double recovery_angular_speed_threshold_radps_;
+  double recovery_motion_confirmation_sec_;
   double recovery_stationary_hold_sec_;
   double recovery_reseed_cooldown_sec_;
   double recovery_settle_sec_;
@@ -685,11 +707,13 @@ private:
   bool has_accepted_correction_ = false;
   bool correction_fault_latched_ = false;
   bool recovery_stationary_since_valid_ = false;
+  bool recovery_motion_candidate_valid_ = false;
   bool recovery_has_reseeded_ = false;
   std::size_t recovery_consistent_pose_count_ = 0;
   std::size_t recovery_reseed_attempts_ = 0;
   std::int64_t pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
   std::chrono::steady_clock::time_point recovery_stationary_since_;
+  std::chrono::steady_clock::time_point recovery_motion_candidate_since_;
   std::chrono::steady_clock::time_point recovery_last_reseed_at_;
   std::chrono::steady_clock::time_point recovery_settle_until_;
   bool valid_ = false;

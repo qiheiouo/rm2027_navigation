@@ -57,6 +57,30 @@ cov_x=1.59e-4, cov_y=1.85e-4, cov_yaw=1.72e-4
 /tmp/rm2027_old_car_auto_recovery_20260825
 ```
 
+同日第三次实车触发验证了自主重播种已运行，但暴露了第一版停车判定不适配老车有限
+差分 twist：
+
+- bridge 在停车后成功向 AMCL 自主发送多次 `/initialpose`，AMCL 日志确认逐次接收；
+- AMCL raw、通过 covariance gate 的 global pose 和 scan 均持续约 8--9 Hz，backend-valid
+  保持 true，不是后端或点云停发；
+- 8 秒订阅中 recovery state 在 `latched_waiting_for_stationary_hold` 与
+  `latched_waiting_for_stop` 间反复切换，global-valid 始终 false；
+- 10 秒、482 帧 `/odometry/lio` 静止采样中，瞬时线速度最大 0.154 m/s、角速度最大
+  0.235 rad/s；只有 79.0% 样本同时低于 0.08/0.15 阈值，最长连续低阈值区间仅
+  0.396 秒，无法满足 0.6 秒保持；
+- 同一批 odom 位姿在任意 0.6 秒窗口的最大平移范围仅 0.034 m、最大 yaw 范围仅
+  0.022 rad，证明主要是有限差分 twist 尖峰，而不是底盘仍在持续运动。
+
+因此停车门增加 `recovery_motion_confirmation_sec=0.12`：孤立超阈值样本禁止当帧
+重播种，但不会清零静止保持和一致位姿计数；只有超阈值连续维持 0.12 秒才确认为
+真实运动并清零。原 0.08 m/s、0.15 rad/s 安全阈值不放宽。
+
+第三次现场日志和两次订阅探针摘要临时保存于：
+
+```text
+/tmp/rm2027_old_car_recovery_spike_20260825
+```
+
 ## 2. 本次修改
 
 在 `map_odom_from_global_pose` 中增加可选修正创新门。它对时间匹配后的
@@ -83,7 +107,7 @@ max_correction_yaw_step_rad: 0.35
 3. 保留最后一次已接受修正用于比较，但停止续发 `map→odom` TF；
 4. 锁存故障，单帧返回正确模式也不恢复 TF，避免可见性闪烁；
 5. 等 `/odometry/lio` 线速度不大于 0.08 m/s、角速度不大于 0.15 rad/s 并持续
-   0.6 秒；
+   0.6 秒；孤立尖峰不清零，超阈值连续 0.12 秒才确认运动；
 6. 用 `last_trusted(T_map_odom) × current(T_odom_base)` 计算预测全局位姿，以
    0.09 m² XY 方差和 0.0685 rad² yaw 方差自动向 AMCL 发布 `/initialpose`；
 7. 等待 0.5 秒，再要求连续 5 个候选都落在可信修正门内才恢复 canonical TF；
@@ -150,6 +174,8 @@ FAIL：异常候选仍更新 TF、valid 未拉低、普通新车入口被意外�
   拒绝，valid=false，且 output 未出现 1.00 m 修正；
 - 第二版自主恢复注入 15 个检查点全部 PASS：运动中不闪烁、0.6 秒静止保持触发一次
   可信预测重播种、4/5 一致时仍 invalid、5/5 时恢复 valid/TF，人工初值兜底仍有效。
+- 第三版增加静止 twist 尖峰回归：每 4 帧注入一次 0.12 m/s、0.25 rad/s 短尖峰仍能
+  自动重播种并恢复；连续 1.0 rad/s 运动仍禁止重播种；21 tests 全部通过。
 
 因此“不需要匹配地图的验证”已关闭；剩余工作只有下一节实车复验。
 

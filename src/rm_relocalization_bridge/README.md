@@ -42,6 +42,10 @@ consecutive corrections agree with the trusted baseline. Failed recovery is
 rate-limited and retried; state is published on
 `/localization/correction_recovery_state`. An operator `/initialpose` or
 `/localization/reset_map_to_odom` still deliberately clears the baseline.
+Because the old-car LIO adapter derives twist by finite difference, isolated
+over-threshold speed samples do not reset the stationary hold. Motion must stay
+over threshold for `recovery_motion_confirmation_sec` before it is confirmed;
+reseed publication itself is still prohibited on every over-threshold sample.
 
 This is a downstream containment and recovery boundary, not a replacement for
 AMCL/LIO root-cause correction. In particular, it assumes canonical LIO remains
