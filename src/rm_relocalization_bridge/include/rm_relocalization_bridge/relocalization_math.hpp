@@ -16,6 +16,12 @@ struct TimedTransform
   tf2::Transform transform;
 };
 
+struct CorrectionInnovation
+{
+  double translation_xy_m;
+  double yaw_rad;
+};
+
 class TimedTransformCache
 {
 public:
@@ -39,5 +45,9 @@ tf2::Transform computeMapToOdom(
   const tf2::Transform & odom_to_base);
 
 bool isFiniteTransform(const tf2::Transform & transform);
+
+CorrectionInnovation measureCorrectionInnovation(
+  const tf2::Transform & previous_map_to_odom,
+  const tf2::Transform & candidate_map_to_odom);
 
 }  // namespace rm_relocalization_bridge

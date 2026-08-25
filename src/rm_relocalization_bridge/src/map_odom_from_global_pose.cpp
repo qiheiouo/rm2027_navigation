@@ -77,6 +77,13 @@ public:
     max_pose_odom_dt_sec_ = declare_parameter<double>("max_pose_odom_dt_sec", 0.05);
     max_global_pose_age_sec_ = declare_parameter<double>("max_global_pose_age_sec", 0.5);
     pending_pose_max_wait_sec_ = declare_parameter<double>("pending_pose_max_wait_sec", 0.2);
+    correction_innovation_gate_enabled_ =
+      declare_parameter<bool>("correction_innovation_gate_enabled", false);
+    max_correction_translation_step_m_ =
+      declare_parameter<double>("max_correction_translation_step_m", 0.35);
+    max_correction_yaw_step_rad_ =
+      declare_parameter<double>("max_correction_yaw_step_rad", 0.35);
+    initial_pose_topic_ = declare_parameter<std::string>("initial_pose_topic", "/initialpose");
     pending_pose_max_size_ = static_cast<std::size_t>(
       std::max<std::int64_t>(
         1, declare_parameter<std::int64_t>("pending_pose_max_size", 20)));
@@ -86,9 +93,13 @@ public:
     }
     if (
       max_pose_odom_dt_sec_ < 0.0 || max_global_pose_age_sec_ < 0.0 ||
-      pending_pose_max_wait_sec_ < 0.0)
+      pending_pose_max_wait_sec_ < 0.0 ||
+      !std::isfinite(max_correction_translation_step_m_) ||
+      max_correction_translation_step_m_ <= 0.0 ||
+      !std::isfinite(max_correction_yaw_step_rad_) ||
+      max_correction_yaw_step_rad_ <= 0.0)
     {
-      throw std::invalid_argument("time tolerances must not be negative");
+      throw std::invalid_argument("time tolerances and correction limits must be valid");
     }
 
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
@@ -106,6 +117,13 @@ public:
       [this](const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg) {
         handleGlobalPose(*msg);
       });
+    if (correction_innovation_gate_enabled_) {
+      initial_pose_sub_ = create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
+        initial_pose_topic_, rclcpp::QoS(10).reliable(),
+        [this](const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr) {
+          resetCorrectionBaseline("explicit initial pose request");
+        });
+    }
     if (!upstream_valid_topic_.empty()) {
       upstream_valid_required_ = true;
       upstream_valid_sub_ = create_subscription<std_msgs::msg::Bool>(
@@ -121,6 +139,7 @@ public:
       {
         std::lock_guard<std::mutex> lock(mutex_);
         valid_ = false;
+        has_accepted_correction_ = false;
         pending_global_poses_.clear();
         publishValid(false);
         response->success = true;
@@ -143,9 +162,30 @@ public:
         get_logger(), "map->odom validity follows upstream gate %s.",
         upstream_valid_topic_.c_str());
     }
+    if (correction_innovation_gate_enabled_) {
+      RCLCPP_INFO(
+        get_logger(),
+        "Correction innovation gate enabled: max translation step %.3f m, "
+        "max yaw step %.3f rad; baseline resets on %s.",
+        max_correction_translation_step_m_, max_correction_yaw_step_rad_,
+        initial_pose_topic_.c_str());
+    } else {
+      RCLCPP_INFO(get_logger(), "Correction innovation gate disabled.");
+    }
   }
 
 private:
+  void resetCorrectionBaseline(const char * reason)
+  {
+    std::lock_guard<std::mutex> lock(mutex_);
+    valid_ = false;
+    has_accepted_correction_ = false;
+    pending_global_poses_.clear();
+    publishValid(false);
+    RCLCPP_WARN(
+      get_logger(), "Invalidated map->odom and reset correction baseline: %s.", reason);
+  }
+
   bool validatePose(const geometry_msgs::msg::Pose & pose) const
   {
     const double quaternion_norm_squared =
@@ -200,6 +240,7 @@ private:
     const bool monotonic = odom_cache_.add({stamp.nanoseconds(), transform});
     if (!monotonic) {
       valid_ = false;
+      has_accepted_correction_ = false;
       pending_global_poses_.clear();
       publishValid(false);
       RCLCPP_WARN(
@@ -292,15 +333,37 @@ private:
     std::int64_t source_stamp_nanoseconds)
   {
 
-    map_to_odom_ = rm_relocalization_bridge::computeMapToOdom(
+    const auto candidate_map_to_odom = rm_relocalization_bridge::computeMapToOdom(
       map_to_base, odom_sample.transform);
-    if (!rm_relocalization_bridge::isFiniteTransform(map_to_odom_)) {
+    if (!rm_relocalization_bridge::isFiniteTransform(candidate_map_to_odom)) {
       RCLCPP_ERROR(get_logger(), "Computed non-finite map->odom; correction rejected.");
       valid_ = false;
       publishValid(false);
       return;
     }
 
+    if (correction_innovation_gate_enabled_ && has_accepted_correction_) {
+      const auto innovation = rm_relocalization_bridge::measureCorrectionInnovation(
+        map_to_odom_, candidate_map_to_odom);
+      if (
+        innovation.translation_xy_m > max_correction_translation_step_m_ ||
+        innovation.yaw_rad > max_correction_yaw_step_rad_)
+      {
+        valid_ = false;
+        publishValid(false);
+        RCLCPP_ERROR_THROTTLE(
+          get_logger(), *get_clock(), 1000,
+          "Rejected map->odom correction innovation: translation %.3f m (limit %.3f), "
+          "yaw %.3f rad (limit %.3f). Keeping the last accepted correction but "
+          "withholding TF until a consistent pose returns or %s resets the baseline.",
+          innovation.translation_xy_m, max_correction_translation_step_m_,
+          innovation.yaw_rad, max_correction_yaw_step_rad_, initial_pose_topic_.c_str());
+        return;
+      }
+    }
+
+    map_to_odom_ = candidate_map_to_odom;
+    has_accepted_correction_ = true;
     valid_ = true;
     publishValid(valid_ && (!upstream_valid_required_ || upstream_valid_));
     RCLCPP_INFO_THROTTLE(
@@ -345,17 +408,22 @@ private:
   std::string upstream_valid_topic_;
   std::string odom_topic_;
   std::string output_topic_;
+  std::string initial_pose_topic_;
   bool publish_tf_;
+  bool correction_innovation_gate_enabled_;
   double publish_rate_hz_;
   double max_pose_odom_dt_sec_;
   double max_global_pose_age_sec_;
   double pending_pose_max_wait_sec_;
+  double max_correction_translation_step_m_;
+  double max_correction_yaw_step_rad_;
   std::size_t pending_pose_max_size_;
 
   std::mutex mutex_;
   rm_relocalization_bridge::TimedTransformCache odom_cache_;
   std::deque<PendingGlobalPose> pending_global_poses_;
   tf2::Transform map_to_odom_;
+  bool has_accepted_correction_ = false;
   bool valid_ = false;
   bool upstream_valid_required_ = false;
   bool upstream_valid_ = false;
@@ -366,6 +434,8 @@ private:
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
   rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr
   global_pose_sub_;
+  rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr
+  initial_pose_sub_;
   rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr upstream_valid_sub_;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr reset_service_;
   rclcpp::TimerBase::SharedPtr publish_timer_;

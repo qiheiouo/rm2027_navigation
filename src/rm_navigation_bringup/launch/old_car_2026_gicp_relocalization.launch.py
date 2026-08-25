@@ -68,6 +68,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     map_bundle_manifest = LaunchConfiguration("map_bundle_manifest")
     map_acceptance_policy = LaunchConfiguration("map_acceptance_policy")
+    global_pose_bridge_config = LaunchConfiguration("global_pose_bridge_config")
 
     old_car_launch = PathJoinSubstitution([
         FindPackageShare("rm_navigation_bringup"),
@@ -113,6 +114,14 @@ def generate_launch_description():
             "input_cloud_topic",
             default_value="/lio/cloud_registered_transformed",
         ),
+        DeclareLaunchArgument(
+            "global_pose_bridge_config",
+            default_value=PathJoinSubstitution([
+                FindPackageShare("rm_relocalization_bridge"),
+                "config",
+                "map_odom_from_global_pose_old_car_2026.yaml",
+            ]),
+        ),
         OpaqueFunction(function=_validate_runtime),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(old_car_launch),
@@ -146,6 +155,7 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": use_sim_time,
                 "upstream_valid_topic": "/localization/gicp_backend_valid",
+                "config_file": global_pose_bridge_config,
             }.items(),
         ),
         IncludeLaunchDescription(

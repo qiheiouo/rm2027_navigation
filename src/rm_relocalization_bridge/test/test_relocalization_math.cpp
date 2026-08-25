@@ -86,3 +86,28 @@ TEST(RelocalizationMath, RejectsNonFiniteTransform)
   transform.setOrigin(tf2::Vector3(NAN, 0.0, 0.0));
   EXPECT_FALSE(rm_relocalization_bridge::isFiniteTransform(transform));
 }
+
+TEST(RelocalizationMath, MeasuresPlanarCorrectionInnovation)
+{
+  const auto previous = makeTransform(1.0, -2.0, 0.5, 0.2);
+  const auto candidate = makeTransform(1.3, -1.6, -0.4, 0.5);
+
+  const auto innovation =
+    rm_relocalization_bridge::measureCorrectionInnovation(previous, candidate);
+
+  EXPECT_NEAR(innovation.translation_xy_m, 0.5, 1.0e-9);
+  EXPECT_NEAR(innovation.yaw_rad, 0.3, 1.0e-9);
+}
+
+TEST(RelocalizationMath, MeasuresShortestYawCorrectionAcrossPi)
+{
+  constexpr double pi = 3.14159265358979323846;
+  const auto previous = makeTransform(0.0, 0.0, 0.0, pi - 0.1);
+  const auto candidate = makeTransform(0.0, 0.0, 0.0, -pi + 0.1);
+
+  const auto innovation =
+    rm_relocalization_bridge::measureCorrectionInnovation(previous, candidate);
+
+  EXPECT_NEAR(innovation.translation_xy_m, 0.0, 1.0e-9);
+  EXPECT_NEAR(innovation.yaw_rad, 0.2, 1.0e-9);
+}

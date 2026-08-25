@@ -69,3 +69,30 @@ def test_normal_launch_defaults_to_baseline_and_candidate_has_own_entry_point():
     assert '"amcl_2d_spin_robust_candidate.yaml"' in candidate_launch
     assert '"pointcloud_to_scan_2d_spin_robust_candidate.yaml"' in candidate_launch
     assert "Serial, controller, mission and Nav2 motion remain disabled" in candidate_launch
+
+
+def test_correction_gate_is_compatibility_off_and_old_car_on():
+    generic = (CONFIG / "map_odom_from_global_pose.yaml").read_text(
+        encoding="utf-8"
+    )
+    old_car = (
+        CONFIG / "map_odom_from_global_pose_old_car_2026.yaml"
+    ).read_text(encoding="utf-8")
+
+    assert _value(generic, "correction_innovation_gate_enabled") == "false"
+    assert _value(old_car, "correction_innovation_gate_enabled") == "true"
+    assert _value(old_car, "max_correction_translation_step_m") == "0.35"
+    assert _value(old_car, "max_correction_yaw_step_rad") == "0.35"
+    assert _value(old_car, "initial_pose_topic") == "/initialpose"
+
+
+def test_only_old_car_entry_points_select_the_correction_gate_profile():
+    expected_profile = "map_odom_from_global_pose_old_car_2026.yaml"
+    for launch_name in (
+        "old_car_2026_competition.launch.py",
+        "old_car_2026_amcl_relocalization.launch.py",
+        "old_car_2026_gicp_relocalization.launch.py",
+    ):
+        launch_text = (BRINGUP / launch_name).read_text(encoding="utf-8")
+        assert expected_profile in launch_text
+        assert '"config_file": global_pose_bridge_config' in launch_text

@@ -166,6 +166,7 @@ def generate_launch_description():
     map_policy = LaunchConfiguration("map_acceptance_policy")
     nav2_params = LaunchConfiguration("nav2_params")
     relocalization_params = LaunchConfiguration("relocalization_params")
+    global_pose_bridge_config = LaunchConfiguration("global_pose_bridge_config")
     scan_projection_params = LaunchConfiguration("scan_projection_params")
     mission_config = LaunchConfiguration("mission_config")
     mission_tree_xml = LaunchConfiguration("mission_tree_xml")
@@ -214,6 +215,11 @@ def generate_launch_description():
         FindPackageShare("rm_relocalization_bridge"),
         "config",
         "amcl_2d.yaml",
+    ])
+    default_global_pose_bridge_config = PathJoinSubstitution([
+        FindPackageShare("rm_relocalization_bridge"),
+        "config",
+        "map_odom_from_global_pose_old_car_2026.yaml",
     ])
     default_scan_projection_params = PathJoinSubstitution([
         FindPackageShare("rm_relocalization_bridge"),
@@ -275,6 +281,10 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "relocalization_params",
             default_value=default_relocalization_params,
+        ),
+        DeclareLaunchArgument(
+            "global_pose_bridge_config",
+            default_value=default_global_pose_bridge_config,
         ),
         DeclareLaunchArgument(
             "scan_projection_params",
@@ -376,6 +386,7 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": use_sim_time,
                 "upstream_valid_topic": backend_valid_topic,
+                "config_file": global_pose_bridge_config,
             }.items(),
         ),
         IncludeLaunchDescription(

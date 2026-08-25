@@ -70,6 +70,7 @@ def generate_launch_description():
     pointcloud_topic = LaunchConfiguration("pointcloud_topic")
     amcl_params_file = LaunchConfiguration("amcl_params_file")
     scan_projection_params = LaunchConfiguration("scan_projection_params")
+    global_pose_bridge_config = LaunchConfiguration("global_pose_bridge_config")
 
     old_car_launch = PathJoinSubstitution([
         FindPackageShare("rm_navigation_bringup"),
@@ -131,6 +132,14 @@ def generate_launch_description():
                 "pointcloud_to_scan_2d.yaml",
             ]),
         ),
+        DeclareLaunchArgument(
+            "global_pose_bridge_config",
+            default_value=PathJoinSubstitution([
+                FindPackageShare("rm_relocalization_bridge"),
+                "config",
+                "map_odom_from_global_pose_old_car_2026.yaml",
+            ]),
+        ),
         DeclareLaunchArgument("set_initial_pose", default_value="false"),
         DeclareLaunchArgument("initial_pose_x", default_value="0.0"),
         DeclareLaunchArgument("initial_pose_y", default_value="0.0"),
@@ -168,6 +177,7 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": use_sim_time,
                 "upstream_valid_topic": "/localization/amcl_backend_valid",
+                "config_file": global_pose_bridge_config,
             }.items(),
         ),
         IncludeLaunchDescription(

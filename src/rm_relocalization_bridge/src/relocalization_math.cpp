@@ -6,6 +6,8 @@
 #include <limits>
 #include <stdexcept>
 
+#include "tf2/LinearMath/Matrix3x3.h"
+
 namespace rm_relocalization_bridge
 {
 
@@ -86,6 +88,39 @@ bool isFiniteTransform(const tf2::Transform & transform)
     std::isfinite(rotation.z()) &&
     std::isfinite(rotation.w()) &&
     rotation.length2() > 1.0e-12;
+}
+
+CorrectionInnovation measureCorrectionInnovation(
+  const tf2::Transform & previous_map_to_odom,
+  const tf2::Transform & candidate_map_to_odom)
+{
+  const auto translation_delta =
+    candidate_map_to_odom.getOrigin() - previous_map_to_odom.getOrigin();
+
+  double previous_roll = 0.0;
+  double previous_pitch = 0.0;
+  double previous_yaw = 0.0;
+  tf2::Matrix3x3(previous_map_to_odom.getRotation()).getRPY(
+    previous_roll, previous_pitch, previous_yaw);
+
+  double candidate_roll = 0.0;
+  double candidate_pitch = 0.0;
+  double candidate_yaw = 0.0;
+  tf2::Matrix3x3(candidate_map_to_odom.getRotation()).getRPY(
+    candidate_roll, candidate_pitch, candidate_yaw);
+
+  (void)previous_roll;
+  (void)previous_pitch;
+  (void)candidate_roll;
+  (void)candidate_pitch;
+  const double yaw_delta = std::atan2(
+    std::sin(candidate_yaw - previous_yaw),
+    std::cos(candidate_yaw - previous_yaw));
+
+  return {
+    std::hypot(translation_delta.x(), translation_delta.y()),
+    std::abs(yaw_delta),
+  };
 }
 
 }  // namespace rm_relocalization_bridge
