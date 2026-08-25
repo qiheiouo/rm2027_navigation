@@ -80,10 +80,15 @@ def test_correction_gate_is_compatibility_off_and_old_car_on():
     ).read_text(encoding="utf-8")
 
     assert _value(generic, "correction_innovation_gate_enabled") == "false"
+    assert _value(generic, "autonomous_recovery_enabled") == "false"
     assert _value(old_car, "correction_innovation_gate_enabled") == "true"
+    assert _value(old_car, "autonomous_recovery_enabled") == "true"
     assert _value(old_car, "max_correction_translation_step_m") == "0.35"
     assert _value(old_car, "max_correction_yaw_step_rad") == "0.35"
     assert _value(old_car, "initial_pose_topic") == "/initialpose"
+    assert _value(old_car, "recovery_stationary_hold_sec") == "0.6"
+    assert _value(old_car, "recovery_reseed_cooldown_sec") == "2.0"
+    assert _value(old_car, "recovery_required_consistent_poses") == "5"
 
 
 def test_only_old_car_entry_points_select_the_correction_gate_profile():

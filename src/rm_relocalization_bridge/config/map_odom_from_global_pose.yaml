@@ -19,3 +19,13 @@ map_odom_from_global_pose:
     max_correction_translation_step_m: 0.35
     max_correction_yaw_step_rad: 0.35
     initial_pose_topic: /initialpose
+    autonomous_recovery_enabled: false
+    recovery_linear_speed_threshold_mps: 0.08
+    recovery_angular_speed_threshold_radps: 0.15
+    recovery_stationary_hold_sec: 0.6
+    recovery_reseed_cooldown_sec: 2.0
+    recovery_settle_sec: 0.5
+    recovery_required_consistent_poses: 5
+    recovery_initial_pose_xy_variance: 0.09
+    recovery_initial_pose_yaw_variance: 0.0685
+    recovery_state_topic: /localization/correction_recovery_state

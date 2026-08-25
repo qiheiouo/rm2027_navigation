@@ -9,6 +9,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
+find_package(builtin_interfaces REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -28,6 +29,7 @@ ament_target_dependencies(relocalization_math tf2)
 add_executable(map_odom_from_global_pose src/map_odom_from_global_pose.cpp)
 target_link_libraries(map_odom_from_global_pose relocalization_math)
 ament_target_dependencies(map_odom_from_global_pose
+  builtin_interfaces
   rclcpp
   nav_msgs
   geometry_msgs
@@ -102,6 +104,15 @@ if(BUILD_TESTING)
     test_spin_candidate_profiles
     test/test_spin_candidate_profiles.py
     APPEND_ENV "RM_RELOCALIZATION_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+  )
+
+  ament_add_pytest_test(
+    test_map_odom_autonomous_recovery
+    test/test_map_odom_autonomous_recovery.py
+    TIMEOUT 30
+    APPEND_ENV
+      "RM_RELOCALIZATION_BRIDGE_BINARY=${CMAKE_CURRENT_BINARY_DIR}/map_odom_from_global_pose"
+      "RM_RELOCALIZATION_BRIDGE_OLD_CAR_CONFIG=${CMAKE_CURRENT_SOURCE_DIR}/config/map_odom_from_global_pose_old_car_2026.yaml"
   )
 endif()
 

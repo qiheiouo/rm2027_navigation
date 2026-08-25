@@ -4,8 +4,8 @@
 
 分支：`fix/old-car-amcl-correction-gate`
 
-状态：Linux 隔离构建、单元测试与 ROS topic 注入测试通过；实车复验必须在匹配地图下
-进行。
+状态：修正门现场拦截真实错误峰；自主恢复 Linux 编译和 ROS topic 注入测试通过；
+自主恢复实车复验待执行。
 
 ## 1. 本次现场结论
 
@@ -39,6 +39,24 @@ cov_x=1.59e-4, cov_y=1.85e-4, cov_yaw=1.72e-4
 
 该目录不是仓库资产，重启或清理 `/tmp` 前应按需另行归档。
 
+同日启用第一版 0.35 m / 0.35 rad 修正门后再次受控自转，得到更直接的现场证据：
+
+- 自转初期 bridge 在 0.414 m / 0.437 rad、0.925 m / 1.866 rad 等候选之间交替
+  接受和拒绝，导致 canonical TF 可见性闪烁；
+- 随后 AMCL 锁定在相对最后可信修正约 2.06 m / 2.75 rad 的错误峰；
+- bridge 持续拒绝，错误修正没有进入 canonical `map→odom`；
+- 左雷达点云仍约 52 Hz，`odom→base_link` 持续更新，deskew 没有持续丢帧；
+- 因 RViz 固定 frame 为 `map`，canonical TF 被安全撤下后 RobotModel、点云和 costmap
+  看似同时消失，实际底层 LIO 链仍在线。
+
+这证明第一版门控隔离有效，但“下一帧回到限制内便自动恢复”会让 TF 闪烁，而且错误
+峰稳定后比赛无法依赖人工 `/initialpose`。第二版因此增加锁存和自主局部重播种。现场
+日志临时保存于：
+
+```text
+/tmp/rm2027_old_car_auto_recovery_20260825
+```
+
 ## 2. 本次修改
 
 在 `map_odom_from_global_pose` 中增加可选修正创新门。它对时间匹配后的
@@ -63,9 +81,25 @@ max_correction_yaw_step_rad: 0.35
 1. 不写入候选修正；
 2. `/localization/global_localization_valid` 立即变为 false；
 3. 保留最后一次已接受修正用于比较，但停止续发 `map→odom` TF；
-4. 后端若返回到原正确模式，可自动恢复；
-5. 发布 `/initialpose` 或调用 `/localization/reset_map_to_odom` 会明确清除基准，允许
+4. 锁存故障，单帧返回正确模式也不恢复 TF，避免可见性闪烁；
+5. 等 `/odometry/lio` 线速度不大于 0.08 m/s、角速度不大于 0.15 rad/s 并持续
+   0.6 秒；
+6. 用 `last_trusted(T_map_odom) × current(T_odom_base)` 计算预测全局位姿，以
+   0.09 m² XY 方差和 0.0685 rad² yaw 方差自动向 AMCL 发布 `/initialpose`；
+7. 等待 0.5 秒，再要求连续 5 个候选都落在可信修正门内才恢复 canonical TF；
+8. 未恢复时每 2 秒最多重播种一次，不做无限频率重置；
+9. 人工发布 `/initialpose` 或调用 `/localization/reset_map_to_odom` 仍会明确清除基准，允许
    下一次有效结果建立新基准。
+
+恢复状态使用 transient-local topic：
+
+```text
+/localization/correction_recovery_state  std_msgs/String
+```
+
+主要值为 `healthy`、`latched_waiting_for_stop`、
+`latched_waiting_for_stationary_hold`、`reseeded_waiting_for_consistency` 和
+`waiting_for_baseline`。
 
 通用配置的开关默认为 false。只有老车 competition、AMCL 和 GICP 入口默认选择老车
 profile；新车与通用 launch 不改变行为。
@@ -78,6 +112,7 @@ profile；新车与通用 launch 不改变行为。
 - 不修改 `/odometry/lio`，不能修复 LIO 发散；
 - 不保证发现每次小步累积漂移；
 - 第一次基准本身仍需正确初值或人工确认；
+- 自主恢复建立在 LIO 仍可靠的前提下，不能从 LIO 发散中恢复；
 - 被拒绝后 Nav2 应因 TF/有效性丢失而停车，不能继续执行旧目标；
 - 0.35 m / 0.35 rad 是基于既有故障幅度选择的保守初值，仍需实车数据确认误拒绝率。
 
@@ -91,7 +126,9 @@ profile；新车与通用 launch 不改变行为。
    - 第一帧建立基准，valid=true；
    - 小于限制的修正被接受；
    - 大于限制的修正被拒绝，valid=false，且不发布新 TF；
-   - 回到最后基准附近后恢复；
+   - 运动中偶尔回到可信范围不能恢复，canonical TF 不闪烁；
+   - 静止保持后自动发布的初值等于最后可信修正乘当前 LIO；
+   - 前 4 个一致候选仍保持 invalid，第 5 个才恢复 TF；
    - 发布 `/initialpose` 后，远处新位姿可以建立新基准；
 4. 展开老车 launch，确认加载的是
    `map_odom_from_global_pose_old_car_2026.yaml`；展开通用/新车 launch，确认仍使用兼容
@@ -106,10 +143,13 @@ FAIL：异常候选仍更新 TF、valid 未拉低、普通新车入口被意外�
 
 - 隔离构建 `rm_relocalization_bridge`、`rm_navigation_bringup` 成功；
 - `colcon test-result`：23 tests，0 errors，0 failures，0 skipped；
-- ROS 注入 10 个检查点全部 PASS；
+- 增加自主恢复回归后再次单独构建 `rm_relocalization_bridge`：21 tests，0 errors，
+  0 failures，0 skipped（包含 1 个完整节点状态机 ROS 测试）；
+- 第一版 ROS 注入 10 个检查点全部 PASS；
 - 注入从已接受 0.10 m 到 1.00 m 的候选，即 0.90 m 创新，节点按 0.35 m 限制
   拒绝，valid=false，且 output 未出现 1.00 m 修正；
-- 随后 0.12 m 候选恢复 valid/TF；发布 `/initialpose` 后 1.00 m 成功成为新基准。
+- 第二版自主恢复注入 15 个检查点全部 PASS：运动中不闪烁、0.6 秒静止保持触发一次
+  可信预测重播种、4/5 一致时仍 invalid、5/5 时恢复 valid/TF，人工初值兜底仍有效。
 
 因此“不需要匹配地图的验证”已关闭；剩余工作只有下一节实车复验。
 
@@ -138,13 +178,18 @@ FAIL：异常候选仍更新 TF、valid 未拉低、普通新车入口被意外�
 3. 每档记录上述全部 topic，禁止只看 RViz；
 4. 若 AMCL 再次跳入错误峰，要求门先拒绝，valid=false，TF 停止续发，底盘不得继续
    接受导航运动；
-5. 只有人工确认新位姿正确后才重新发布 `/initialpose`。
+5. 停止后观察 recovery state 依次进入 stationary hold、reseeded、healthy；正常情况下
+   不做人工操作；
+6. 要求自动恢复后 RobotModel、点云和 costmap 回到 `map`，且恢复位置与实际位置
+   一致；
+7. 连续至少 10 次触发，记录恢复耗时、重播种次数、误恢复和无法恢复次数；只有自动
+   恢复失败时才使用人工 `/initialpose` 兜底。
 
 实车 PASS：正常运动不误拒绝；灾难候选没有进入 canonical `map→odom`；失效后导航
-安全停止；人工重定位能恢复。
+安全停止；无需人工干预即可恢复，人工兜底仍有效。
 
 实车 FAIL：大跳仍被接受、valid=false 时底盘仍执行导航、正常工况频繁误拒绝，或
-AMCL/LIO 本身持续发散。
+AMCL/LIO 本身持续发散、自动恢复到错误位置，或频繁循环重播种。
 
 完成 A/B/C 前，本修复只能称为“代码与合成验证完成”，不能称为高速自转问题已实车
 关闭。

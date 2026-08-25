@@ -30,11 +30,22 @@ shortest yaw step exceeds its configured limit. The generic profile keeps this
 gate disabled for compatibility. Old-car launch profiles select
 `config/map_odom_from_global_pose_old_car_2026.yaml`, which enables 0.35 m and
 0.35 rad limits after a field-observed high-spin AMCL failure produced a
-low-covariance wrong pose. Publishing `/initialpose` or calling
-`/localization/reset_map_to_odom` deliberately resets the accepted baseline;
-the next timestamp-matched correction is then allowed to establish a new one.
-This is a downstream containment boundary, not a replacement for AMCL/LIO root
-cause correction.
+low-covariance wrong pose.
+
+The old-car profile also enables autonomous recovery. The first rejected jump
+latches global localization invalid so canonical TF cannot flicker between
+AMCL modes. After canonical LIO reports that the chassis has remained
+stationary, the bridge computes a trusted predicted pose from the last accepted
+`map -> odom` correction and the current `odom -> base_link`, then publishes it
+to `/initialpose` to locally reseed AMCL. Canonical TF resumes only after five
+consecutive corrections agree with the trusted baseline. Failed recovery is
+rate-limited and retried; state is published on
+`/localization/correction_recovery_state`. An operator `/initialpose` or
+`/localization/reset_map_to_odom` still deliberately clears the baseline.
+
+This is a downstream containment and recovery boundary, not a replacement for
+AMCL/LIO root-cause correction. In particular, it assumes canonical LIO remains
+reliable while AMCL is rejected.
 
 `fake_global_pose_publisher` is test-only. It derives synchronized fake global
 poses from `/odometry/lio` and a configured correction, and publishes no TF.
@@ -48,10 +59,10 @@ and publishes backend-private `/localization/amcl_pose_raw`. The
 and covariance before publishing `/localization/global_pose`. The optional
 PointCloud2 projection and AMCL itself remain replaceable upstream components.
 
-The normal 2D profile remains `config/amcl_2d.yaml`. The separate
+The generic 2D profile remains `config/amcl_2d.yaml`. The separate
 `config/amcl_2d_spin_robust_candidate.yaml` changes only the documented
 high-speed-spin motion term (`alpha4=0.02`) and is paired with
-`config/pointcloud_to_scan_2d_spin_robust_candidate.yaml`. It is experimental,
-not a competition default, and must be launched through the no-motion
-`old_car_2026_amcl_spin_candidate.launch.py` wrapper until field acceptance is
-complete.
+`config/pointcloud_to_scan_2d_spin_robust_candidate.yaml`. Old-car full
+navigation currently selects this field profile explicitly; generic and
+new-car defaults do not. Its residual high-spin failure mode and correction
+recovery still require the documented old-car field acceptance.
