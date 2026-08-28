@@ -134,6 +134,15 @@ Contract mismatch or invalid input is fail-closed passthrough. Its supplied
 configuration is bound to `synthetic_competition_ramps/candidate_11_15_v1` and
 must not be reused on a real map.
 
+`automatic_ramp_filter_node` is the unlabelled counterpart. It downsamples the
+lowest return in robot-relative XY cells, fits only gravity-frame planes within
+the configured traversable slope range, checks minimum width/length/height,
+and requires the same odom-frame plane for consecutive clouds. Until confirmed,
+or after its short missed-frame TTL expires, it publishes the original cloud.
+Only returns close to the confirmed plane are removed, so protruding obstacles
+remain. Its default launch integration is shadow-only; active use still needs a
+clear-ramp A/B test and a PGM whose corresponding corridor is navigable.
+
 ## Driver Policy
 
 Phase 1 keeps `use_driver:=false` as the safe default so that the workspace builds and launch files can be inspected without real hardware or `livox_ros_driver2`.

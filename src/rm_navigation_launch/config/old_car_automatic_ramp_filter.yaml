@@ -1,0 +1,36 @@
+/**:
+  ros__parameters:
+    base_frame: base_link
+    detection_frame: odom
+    diagnostic_topic: /diagnostics
+    filter_enabled: true
+    transform_timeout_sec: 0.05
+
+    # Robot-relative search volume. These are platform/sensor limits, not map
+    # annotations, so the same file can be used at a new venue.
+    roi.min_forward: -0.40
+    roi.max_forward: 3.00
+    roi.half_width: 1.20
+    roi.min_z_from_base: -0.80
+    roi.max_z_from_base: 0.80
+    voxel_size: 0.08
+
+    # A candidate must be a broad, long and consistently sloped surface.
+    detection.min_slope_deg: 5.0
+    detection.max_slope_deg: 25.0
+    detection.inlier_tolerance: 0.025
+    detection.surface_tolerance: 0.05
+    detection.min_inliers: 30
+    detection.min_inlier_ratio: 0.12
+    detection.min_length: 0.60
+    detection.min_width: 0.55
+    detection.min_height_span: 0.08
+    detection.ransac_iterations: 256
+
+    # Filtering remains fail-closed until the same odom-frame plane is seen in
+    # consecutive clouds; a stale model expires after missed frames.
+    tracking.confirmation_frames: 5
+    tracking.max_missed_frames: 8
+    tracking.max_center_shift: 0.60
+    tracking.max_slope_change_deg: 3.0
+    tracking.max_yaw_change_deg: 15.0

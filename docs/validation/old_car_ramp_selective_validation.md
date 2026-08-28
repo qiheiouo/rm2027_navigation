@@ -1,65 +1,58 @@
-# 旧车坡道选择性验证
+# 旧车无标注坡道选择性验证
 
 ## 结论与来源
 
-旧车不重新实现坡面算法。本分支选择性复用 `main-new-car` 上已经完成 Linux smoke 的
-斜坡链路：
+旧车不重新实现整套地形导航。本分支复用 `main-new-car` 已有的坡面几何和仿真资产：
 
-- `eda100c`：地图绑定的 PointCloud2 坡面过滤和 11°/15° 合成点云验证；
+- `eda100c`：地图绑定 PointCloud2 坡面过滤和 11°/15° 合成点云；
 - `070b5f2`：狗洞/斜坡统一仿真入口和可碰撞三维坡道；
-- `1e8f44a`：仿真 LaserScan 主动过滤，使 Nav2 能规划并物理穿越坡道。
+- `1e8f44a`：仿真 LaserScan 主动过滤和 Nav2 物理穿越。
 
-旧车分支只吸收其中通用的平面几何库、PointCloud2/LaserScan 过滤节点和单元测试，
-再增加隔离的旧车接入。没有迁移 HWSentry 的空间/Kino A*、MINCO、速度剖面、轮腿
-FDDP 或 terrain FSM。
+在此基础上增加无标注自动检测。它没有迁移 HWSentry 的空间/Kino A*、MINCO、轮腿
+FDDP、terrain planner 或 terrain FSM。
 
-## 当前能力边界
+## 默认工作方式
 
 ```text
-已测量的坡道多边形、坡脚高度、上坡方向、坡度
+带时间戳的 odom <- cloud_frame / base_link TF
                     +
-带时间戳的 map <- cloud_frame TF
+机器人附近未经语义标注的三维点云
                     ↓
-       只删除预期坡面容差内的回波
+体素内保留最低回波，RANSAC 拟合重力系斜面
                     ↓
-       坡上凸起障碍和区域外点保持不变
+坡度、宽度、长度、高差、残差和点数门控
+                    ↓
+同一 odom 平面连续 5 帧确认，短时丢失后自动过期
+                    ↓
+只删除坡面容差内的点；坡上凸起继续作为障碍
 ```
 
-默认 shadow 模式发布：
+不需要填写坡道坐标、多边形、坡脚高度、方向或坡度。默认输出：
 
 - `/perception/ramp/localization_filtered_shadow`
 - `/perception/ramp/obstacles_filtered_shadow`
 
-它们不被 AMCL、costmap、Nav2、串口或底盘消费。显式 active A/B 模式才会将：
+shadow 点云不被 AMCL、costmap、Nav2、串口或底盘消费。缺少精确时间 TF、点云格式
+异常、候选尚未确认或候选超时，节点都原样直通。显式 active A/B 才会把左雷达过滤
+点云送给 AMCL/global scan，把融合过滤点云送给 local STVL，并使用低速、前向优先的
+DiffDrive MPPI 候选。
 
-- 左雷达过滤点云送入 AMCL 的点云转 LaserScan，因此也成为 global costmap 的动态扫描；
-- 双雷达融合过滤点云送入 local STVL；
-- MPPI 限制为低速、前向优先的 DiffDrive 候选，避免坡面上横移和大角速度。
+自动检测只改变实时点云，不能越过 Nav2 静态层：PGM 中坡道对应通道必须本来就是可
+规划区域。否则 global planner 仍会拒绝路径，这是正确的 fail-closed 行为。
 
-地图 ID/revision 不一致、缺少精确时间 TF、无区域或点云格式异常时，过滤器原样直通。
-因此错误合同不会把未知结构从障碍物输入中删除，但也意味着 Nav2 会继续把坡面视为
-障碍并拒绝通行。
+## 通用阈值而非场地标注
 
-## 准备区域文件
+默认参数在 `old_car_automatic_ramp_filter.yaml`。这些参数描述机器人和传感器能力，可以
+跨场地使用：
 
-复制：
+- 搜索范围：车前约 3 m、左右各 1.2 m；
+- 可接受坡度：5°–25°；
+- 最小坡面：长 0.60 m、宽 0.55 m、高差 0.08 m；
+- 平面拟合容差 0.025 m，实际滤除容差 0.05 m；
+- 连续确认 5 帧，丢失超过 8 帧后撤销模型。
 
-```bash
-cp install/rm_navigation_launch/share/rm_navigation_launch/config/old_car_ramp_regions.example.yaml \
-  /data/rm27_maps/old_car_ramp_regions.yaml
-```
-
-对每个测试坡道测量并填写：
-
-1. 当前 bundle 的 `map_id` 和 `revision`；
-2. `map` 坐标系内覆盖完整坡面的多边形；
-3. 坡脚中心或坡面参考点 `origin_xyz`；
-4. 从低处指向高处的 `ascent_yaw_deg`；
-5. 实测 `slope_deg`；
-6. 初始保留 `surface_tolerance=0.04 m`，不得为了“滤干净”盲目扩大。
-
-当前合同只绑定 map ID/revision，尚未绑定 manifest SHA256。区域文件和 bundle 必须作为
-同一份验收资产归档；在补齐 hash 绑定前不能称为比赛正式语义地图。
+先改机器人能力阈值，不要为某一张地图填坐标。人工 `map_regions` 仅保留为重复实验或
+比赛场地已知坡道的确定性回退，不是默认前置条件。
 
 ## 构建与静态测试
 
@@ -72,24 +65,28 @@ colcon test --packages-select rm_mid360_driver_bridge rm_nav_config
 colcon test-result --verbose
 ```
 
-必须确认 `test_ramp_plane_filter` 和旧车 ramp launch 合同测试通过。
+必须确认自动检测的未标注 11°/15° 坡面、纯平地拒绝、窄斜面拒绝和坡上障碍保留测试
+通过，并确认 launch 默认是 `automatic + SHADOW`。
 
-## R00：默认不接管
+## R00：平地零误触发
+
+不需要准备区域文件：
 
 ```bash
-ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
-  regions_file:=/data/rm27_maps/old_car_ramp_regions.yaml \
-  active_map_id:=MAP_ID active_map_revision:=REVISION
+ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py
 ```
 
-PASS：
+在平地执行静止、直线、转弯和原地旋转，每项至少 30 秒。PASS：
 
-- 日志明确显示 `SHADOW`；
-- `/localization/scan` 和 `/points/obstacles_fused` 的原消费关系不变；
-- 两个 shadow 输出存在；
+- 日志显示 `SHADOW/automatic`；
+- 原导航继续消费原始话题；
+- 诊断可以短时出现 candidate，但 `confirmed` 不得持续变成 true；
+- shadow 输出与原点云点数基本一致；
 - 节点不发布 `/cmd_vel`、TF、Path 或 Nav2 action。
 
-## R01：静止坡面 shadow
+平地、矮台阶、墙脚或机器人自身点云被连续确认为坡道是硬 FAIL，必须先收紧检测条件。
+
+## R01：静止坡面自动识别
 
 将车停在坡前，不启动 mission。RViz 同时显示原始和 shadow 点云，并记录：
 
@@ -103,55 +100,71 @@ ros2 bag record \
   /localization/global_localization_valid /tf /tf_static /diagnostics
 ```
 
-PASS：坡面主体显著减少，坡外固定结构没有消失，诊断显示地图合同有效且没有 TF
-passthrough。若原点、方向或坡度不准，修正测量值，不放宽容差。
+PASS：五帧左右后 `confirmed=true`，诊断坡度接近实物、宽度/长度超过下限；坡面主体
+显著减少，坡外固定结构不消失。确认前的原样直通是预期行为。
 
 ## R02：坡上障碍保留
 
-在坡面放置至少 0.12 m 高的固定障碍，重复 R01。PASS：障碍点保留，且过滤后的 local
-costmap 候选仍能形成致命障碍。任何“坡面和障碍一起消失”均为硬 FAIL。
+在坡面放置至少 0.12 m 高的固定障碍，重复 R01。PASS：坡面回波减少，但凸起点保留，
+过滤后的 local costmap 候选仍形成致命障碍。坡面和障碍一起消失是硬 FAIL。
 
-## R03：低速主动 A/B
+## R03：接近、上坡和候选连续性
 
-前置条件：测试路线清场、PGM 中坡道通道可通行、遥控/急停可立即夺权、mission 保持
-disabled，先用 RViz 单目标测试。
+保持 shadow，人工遥控以 0.10–0.20 m/s 接近、驶上、停在坡中，再退出。PASS：
+
+- 候选在 `odom` 中保持相近中心、方向和坡度；
+- 进入坡面后不会因为 `base_link` 俯仰立即丢失；
+- 短时遮挡允许保留，超过 missed-frame TTL 后恢复原样直通；
+- 定位完整性和 TF 不受影响。
+
+## R04：低速主动 A/B
+
+前置条件：R00–R03 通过、路线清场、PGM 通道可规划、遥控/急停能立即夺权、mission
+保持 disabled，先用 RViz 单目标测试。
 
 ```bash
 ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
   activate_filter:=true \
-  regions_file:=/data/rm27_maps/old_car_ramp_regions.yaml \
-  active_map_id:=MAP_ID active_map_revision:=REVISION \
   max_forward_speed:=0.20 max_yaw_rate:=0.40
 ```
 
-按以下顺序执行，每次只改变速度：
+按顺序执行平地回归、坡前停车、0.20 m/s 上坡、0.20 m/s 下坡；全部通过后才尝试
+0.35 m/s。PASS：
 
-1. 平地同路线往返，确认没有定位/避障回归；
-2. 坡前 0.5 m 目标，确认对正且可停车；
-3. 0.20 m/s 上坡一次；
-4. 0.20 m/s 下坡一次；
-5. 通过后才尝试 0.35 m/s。
-
-PASS：
-
-- global/local costmap 不再把坡面主体标为不可通行；
+- global/local costmap 不再把已确认坡面主体标为不可通行；
 - 坡上障碍仍能令控制器停车或绕行；
 - `/localization/global_localization_valid` 全程为 true；
 - 没有 correction gate 锁存、TF 消失或 AMCL 重定位；
-- 车体没有明显横移、坡面自转、触底或轮胎持续打滑；
-- 停车后位姿与地图仍对齐。
+- 没有明显横移、坡面自转、触底或持续打滑；
+- 停车后位姿仍与地图对齐。
 
-## R04：失配保护
+## R05：失效保护
 
-使用错误的 `active_map_revision` 启动 active 模式。PASS：诊断报告合同不匹配、删除点数
-为 0、原始点云直通，Nav2 仍把坡面当作障碍而不是错误放行。
+分别断开 `odom <- cloud_frame` TF、回放零时间戳/缺字段点云，并让坡面离开视野超过 8
+帧。PASS：诊断说明原因、删除点数为 0、原始点云直通，Nav2 把未确认结构继续当作
+障碍，而不是错误放行。
+
+## 可选：人工地图合同回退
+
+只有自动检测无法稳定区分某个固定场地结构时，才复制并测量
+`old_car_ramp_regions.example.yaml`，然后运行：
+
+```bash
+ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
+  detection_mode:=map_regions \
+  regions_file:=/data/rm27_maps/old_car_ramp_regions.yaml \
+  active_map_id:=MAP_ID active_map_revision:=REVISION
+```
+
+地图 ID/revision 或时间戳 TF 失配时同样原样直通。当前合同未绑定 manifest SHA256，
+因此该回退文件仍不能自动称为比赛正式语义地图。
 
 ## 尚未完成
 
-- 当前场地没有坡道，因此没有旧车真实 R01-R04 数据；
+- 当前场地没有坡道，因此没有旧车真实 R00–R05 数据；
+- 自动几何只能判断“像可通行坡面”，不能证明机械离地间隙、抓地力或承载能力；
 - 没有自动地形方向规划、弧长速度剖面或坡道 COMMITTED 状态；
-- 没有下位机专用爬坡/悬挂模式合同；
-- 没有证明普通四轮旧车的机械离地间隙、抓地力或允许坡度。
+- 没有下位机专用爬坡/悬挂模式合同。
 
-因此本分支的“完成”含义是：复用算法和旧车隔离接入完成，等待有坡道时验证；不是宣布
-旧车或新车已经具备比赛级跨地形能力。
+因此本分支完成的是无标注感知、隔离接入和可复现实验合同，不是宣布旧车或新车已经
+具备比赛级跨地形能力。

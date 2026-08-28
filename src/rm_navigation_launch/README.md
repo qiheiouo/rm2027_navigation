@@ -96,17 +96,16 @@ source install/setup.bash
 
 ### 旧车坡道选择性验证
 
-坡面识别与滤除算法不在旧车分支重新实现。本入口复用 `main-new-car` 已有的
-`ramp_plane_filter_node`：只有同时满足地图 ID/revision、坡道多边形和预期三维平面
-高度时才滤除坡面回波，高于平面容差的障碍仍保留；地图合同或时间戳 TF 失配时原样
-直通。
+坡面过滤不依赖人工语义标注。默认的 `automatic_ramp_filter_node` 在重力对齐的 `odom`
+坐标系中，从机器人附近点云自动寻找 5°–25°、宽度/长度足够的连续斜面；同一平面连续
+确认五帧后才滤除坡面容差内的回波，高于坡面的障碍仍保留。候选消失、时间戳 TF
+失配或点云异常时原样直通。
 
 默认只生成左右链路之外的 shadow 对比点云，不改变 AMCL、STVL 或底盘：
 
 ```bash
 ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
-  regions_file:=/absolute/path/old_car_ramp_regions.yaml \
-  active_map_id:=MAP_ID active_map_revision:=REVISION
+  activate_filter:=false
 ```
 
 完成 shadow 录包和坡上障碍保留验证后，才允许在清场、低速、有人持急停的条件下显式
@@ -115,12 +114,17 @@ ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
 ```bash
 ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
   activate_filter:=true \
-  regions_file:=/absolute/path/old_car_ramp_regions.yaml \
-  active_map_id:=MAP_ID active_map_revision:=REVISION \
   max_forward_speed:=0.20 max_yaw_rate:=0.40
 ```
 
 active 模式仅把经过同一地图合同过滤的左雷达点云送入 AMCL/全局动态障碍扫描，并把
 双雷达融合过滤结果送入 local STVL，同时选择低速、前向优先的 DiffDrive MPPI 候选。
-它不复制 HWSentry 的 FDDP、terrain planner 或轮腿 FSM。示例区域文件只描述格式，
-不得不经测量直接用于实车。
+它不复制 HWSentry 的 FDDP、terrain planner 或轮腿 FSM。自动检测不能覆盖静态地图：
+PGM 中相应通道仍须可规划。若某场地需要确定性复现，仍可显式使用人工地图合同回退：
+
+```bash
+ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
+  detection_mode:=map_regions \
+  regions_file:=/absolute/path/old_car_ramp_regions.yaml \
+  active_map_id:=MAP_ID active_map_revision:=REVISION
+```

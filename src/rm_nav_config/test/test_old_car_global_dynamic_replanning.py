@@ -217,7 +217,7 @@ def test_full_old_car_entry_uses_dual_local_avoidance_and_amcl_global_scan():
     assert smoother["max_velocity"][2] >= 0.80
 
 
-def test_old_car_ramp_entry_reuses_map_bound_filter_and_defaults_to_shadow():
+def test_old_car_ramp_entry_defaults_to_unlabelled_shadow_and_keeps_map_fallback():
     launch = (
         WORKSPACE_SOURCE
         / "rm_navigation_launch"
@@ -225,7 +225,9 @@ def test_old_car_ramp_entry_reuses_map_bound_filter_and_defaults_to_shadow():
         / "old_car_ramp_validation.launch.py"
     ).read_text(encoding="utf-8")
     assert 'DeclareLaunchArgument("activate_filter", default_value="false")' in launch
-    assert 'executable="ramp_plane_filter_node"' in launch
+    assert 'DeclareLaunchArgument("detection_mode", default_value="automatic")' in launch
+    assert 'executable = "automatic_ramp_filter_node"' in launch
+    assert 'executable = "ramp_plane_filter_node"' in launch
     assert '"/perception/ramp/localization_filtered_shadow"' in launch
     assert '"/perception/ramp/obstacles_filtered_shadow"' in launch
     assert '"/livox/left/pointcloud_ramp_filtered"' in launch
@@ -233,6 +235,19 @@ def test_old_car_ramp_entry_reuses_map_bound_filter_and_defaults_to_shadow():
     assert '"controller_server.ros__parameters.FollowPath.motion_model": "DiffDrive"' in launch
     assert "fused_mid360_mark.topic" in launch
     assert "/cmd_vel" not in launch
+
+    automatic = yaml.safe_load(
+        (
+            WORKSPACE_SOURCE
+            / "rm_navigation_launch"
+            / "config"
+            / "old_car_automatic_ramp_filter.yaml"
+        ).read_text(encoding="utf-8")
+    )["/**"]["ros__parameters"]
+    assert 0.0 < automatic["detection.min_slope_deg"]
+    assert automatic["detection.max_slope_deg"] < 45.0
+    assert automatic["detection.min_width"] >= 0.55
+    assert automatic["tracking.confirmation_frames"] >= 3
 
     full_launch = (
         WORKSPACE_SOURCE
