@@ -1,0 +1,41 @@
+ramp_plane_filter_node:
+  ros__parameters:
+    use_sim_time: true
+    input_topic: /simulation/ramp/points_raw
+    output_topic: /simulation/ramp/points_filtered_shadow
+    diagnostic_topic: /diagnostics
+    map_frame: map
+    filter_enabled: true
+    shadow_only: true
+    transform_timeout_sec: 0.10
+
+    # Filtering remains fail-closed unless the active map identity exactly
+    # matches the region set. These values describe synthetic simulation only.
+    expected_map_id: synthetic_competition_ramps
+    expected_map_revision: candidate_11_15_v1
+    active_map_id: synthetic_competition_ramps
+    active_map_revision: candidate_11_15_v1
+
+    region_names: [ramp_11, ramp_15]
+
+    regions.ramp_11.polygon_xy: [
+      1.00, -1.80,
+      2.00, -1.80,
+      2.00, -0.20,
+      1.00, -0.20
+    ]
+    regions.ramp_11.origin_xyz: [1.00, -1.00, 0.00]
+    regions.ramp_11.ascent_yaw_deg: 0.0
+    regions.ramp_11.slope_deg: 11.0
+    regions.ramp_11.surface_tolerance: 0.04
+
+    regions.ramp_15.polygon_xy: [
+      1.00, 0.20,
+      1.93, 0.20,
+      1.93, 1.80,
+      1.00, 1.80
+    ]
+    regions.ramp_15.origin_xyz: [1.00, 1.00, 0.00]
+    regions.ramp_15.ascent_yaw_deg: 0.0
+    regions.ramp_15.slope_deg: 15.0
+    regions.ramp_15.surface_tolerance: 0.04

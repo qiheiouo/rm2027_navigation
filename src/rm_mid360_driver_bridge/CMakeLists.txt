@@ -31,6 +31,12 @@ ament_target_dependencies(pointcloud_deskew
   tf2
 )
 
+add_library(ramp_plane_filter src/ramp_plane_filter.cpp)
+target_include_directories(ramp_plane_filter PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
 add_executable(pointcloud_self_filter_node src/pointcloud_self_filter_node.cpp)
 target_compile_features(pointcloud_self_filter_node PUBLIC cxx_std_17)
 target_link_libraries(pointcloud_self_filter_node pointcloud_deskew)
@@ -67,6 +73,37 @@ ament_target_dependencies(pointcloud_fusion_node
   tf2_ros
 )
 
+add_executable(ramp_plane_filter_node src/ramp_plane_filter_node.cpp)
+target_compile_features(ramp_plane_filter_node PUBLIC cxx_std_17)
+target_link_libraries(ramp_plane_filter_node
+  pointcloud_deskew
+  ramp_plane_filter
+)
+ament_target_dependencies(ramp_plane_filter_node
+  diagnostic_msgs
+  geometry_msgs
+  rclcpp
+  sensor_msgs
+  tf2
+  tf2_geometry_msgs
+  tf2_ros
+)
+
+add_executable(ramp_laserscan_filter_node
+  src/ramp_laserscan_filter_node.cpp
+)
+target_compile_features(ramp_laserscan_filter_node PUBLIC cxx_std_17)
+target_link_libraries(ramp_laserscan_filter_node ramp_plane_filter)
+ament_target_dependencies(ramp_laserscan_filter_node
+  diagnostic_msgs
+  geometry_msgs
+  rclcpp
+  sensor_msgs
+  tf2
+  tf2_geometry_msgs
+  tf2_ros
+)
+
 add_executable(livox_pointcloud_adapter_node src/livox_pointcloud_adapter_node.cpp)
 target_compile_features(livox_pointcloud_adapter_node PUBLIC cxx_std_17)
 ament_target_dependencies(livox_pointcloud_adapter_node
@@ -77,9 +114,12 @@ ament_target_dependencies(livox_pointcloud_adapter_node
 
 install(TARGETS
   pointcloud_deskew
+  ramp_plane_filter
   pointcloud_self_filter_node
   pointcloud_to_laserscan_node
   pointcloud_fusion_node
+  ramp_plane_filter_node
+  ramp_laserscan_filter_node
   livox_pointcloud_adapter_node
   DESTINATION lib/${PROJECT_NAME}
 )
@@ -100,6 +140,9 @@ if(BUILD_TESTING)
   ament_add_gtest(test_pointcloud_deskew test/test_pointcloud_deskew.cpp)
   target_link_libraries(test_pointcloud_deskew pointcloud_deskew)
   ament_target_dependencies(test_pointcloud_deskew sensor_msgs std_msgs tf2)
+
+  ament_add_gtest(test_ramp_plane_filter test/test_ramp_plane_filter.cpp)
+  target_link_libraries(test_ramp_plane_filter ramp_plane_filter)
 
   ament_add_pytest_test(
     test_pointcloud_fusion_runtime
