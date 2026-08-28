@@ -151,6 +151,10 @@ def generate_launch_description():
                 SCAN_PROJECTION_CONFIG_YAML, default_scan_projection_config
             ),
         ),
+        DeclareLaunchArgument(
+            "localization_pointcloud_topic",
+            default_value="/livox/left/pointcloud_filtered",
+        ),
         LogInfo(msg=(
             "[rm_navigation_launch] 全功能入口已加载。mission 启动状态固定为 disabled；"
             "发布初始位姿并完成安全检查后，再通过服务启用。"
@@ -172,6 +176,9 @@ def generate_launch_description():
                 ),
                 "scan_projection_params": LaunchConfiguration(
                     "scan_projection_config_yaml"
+                ),
+                "amcl_pointcloud_topic": LaunchConfiguration(
+                    "localization_pointcloud_topic"
                 ),
                 "nav2_params": LaunchConfiguration("nav2_config_yaml"),
                 "use_nav2": _bool_text(nav2_enabled),

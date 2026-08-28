@@ -215,3 +215,51 @@ def test_full_old_car_entry_uses_dual_local_avoidance_and_amcl_global_scan():
     assert controller["vx_max"] == 0.50
     assert smoother["max_velocity"][0] == 3.00
     assert smoother["max_velocity"][2] >= 0.80
+
+
+def test_old_car_ramp_entry_reuses_map_bound_filter_and_defaults_to_shadow():
+    launch = (
+        WORKSPACE_SOURCE
+        / "rm_navigation_launch"
+        / "launch"
+        / "old_car_ramp_validation.launch.py"
+    ).read_text(encoding="utf-8")
+    assert 'DeclareLaunchArgument("activate_filter", default_value="false")' in launch
+    assert 'executable="ramp_plane_filter_node"' in launch
+    assert '"/perception/ramp/localization_filtered_shadow"' in launch
+    assert '"/perception/ramp/obstacles_filtered_shadow"' in launch
+    assert '"/livox/left/pointcloud_ramp_filtered"' in launch
+    assert '"/points/obstacles_ramp_filtered"' in launch
+    assert '"controller_server.ros__parameters.FollowPath.motion_model": "DiffDrive"' in launch
+    assert "fused_mid360_mark.topic" in launch
+    assert "/cmd_vel" not in launch
+
+    full_launch = (
+        WORKSPACE_SOURCE
+        / "rm_navigation_launch"
+        / "launch"
+        / "old_car_full_navigation.launch.py"
+    ).read_text(encoding="utf-8")
+    competition_launch = (
+        WORKSPACE_SOURCE
+        / "rm_navigation_bringup"
+        / "launch"
+        / "old_car_2026_competition.launch.py"
+    ).read_text(encoding="utf-8")
+    assert '"localization_pointcloud_topic"' in full_launch
+    assert '"amcl_pointcloud_topic"' in full_launch
+    assert '"amcl_pointcloud_topic"' in competition_launch
+    assert 'pointcloud_topic": amcl_pointcloud_topic' in competition_launch
+
+    regions = yaml.safe_load(
+        (
+            WORKSPACE_SOURCE
+            / "rm_navigation_launch"
+            / "config"
+            / "old_car_ramp_regions.example.yaml"
+        ).read_text(encoding="utf-8")
+    )["/**"]["ros__parameters"]
+    assert regions["expected_map_id"].startswith("replace_with")
+    assert regions["expected_map_revision"].startswith("replace_with")
+    assert regions["region_names"] == ["portable_ramp"]
+    assert 0.0 < regions["regions.portable_ramp.surface_tolerance"] <= 0.20

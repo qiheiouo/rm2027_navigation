@@ -1,0 +1,26 @@
+/**:
+  ros__parameters:
+    use_sim_time: false
+    diagnostic_topic: /diagnostics
+    map_frame: map
+    filter_enabled: true
+    transform_timeout_sec: 0.05
+
+    # Replace these values with the immutable test-map identity. The launch
+    # also requires matching active_map_id/active_map_revision arguments.
+    expected_map_id: replace_with_test_map_id
+    expected_map_revision: replace_with_test_map_revision
+
+    # Example geometry only. Measure the polygon, base elevation, ascent
+    # direction and slope in the same map frame before active testing.
+    region_names: [portable_ramp]
+    regions.portable_ramp.polygon_xy: [
+      0.00, -0.60,
+      1.50, -0.60,
+      1.50, 0.60,
+      0.00, 0.60
+    ]
+    regions.portable_ramp.origin_xyz: [0.00, 0.00, 0.00]
+    regions.portable_ramp.ascent_yaw_deg: 0.0
+    regions.portable_ramp.slope_deg: 11.0
+    regions.portable_ramp.surface_tolerance: 0.04

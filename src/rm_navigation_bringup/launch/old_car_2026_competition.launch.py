@@ -168,6 +168,7 @@ def generate_launch_description():
     relocalization_params = LaunchConfiguration("relocalization_params")
     global_pose_bridge_config = LaunchConfiguration("global_pose_bridge_config")
     scan_projection_params = LaunchConfiguration("scan_projection_params")
+    amcl_pointcloud_topic = LaunchConfiguration("amcl_pointcloud_topic")
     mission_config = LaunchConfiguration("mission_config")
     mission_tree_xml = LaunchConfiguration("mission_tree_xml")
     serial_device = LaunchConfiguration("serial_device")
@@ -290,6 +291,10 @@ def generate_launch_description():
             "scan_projection_params",
             default_value=default_scan_projection_params,
         ),
+        DeclareLaunchArgument(
+            "amcl_pointcloud_topic",
+            default_value="/livox/left/pointcloud_filtered",
+        ),
         DeclareLaunchArgument("serial_device", default_value="/dev/ttyACM0"),
         DeclareLaunchArgument("serial_baudrate", default_value="115200"),
         DeclareLaunchArgument("serial_max_vx", default_value="0.50"),
@@ -398,7 +403,7 @@ def generate_launch_description():
                 "enable_backend": "true",
                 "params_file": relocalization_params,
                 "use_pointcloud_to_scan": "true",
-                "pointcloud_topic": "/livox/left/pointcloud_filtered",
+                "pointcloud_topic": amcl_pointcloud_topic,
                 "scan_topic": "/localization/scan",
                 "map_topic": "/map",
                 "scan_projection_params": scan_projection_params,
