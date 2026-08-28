@@ -76,6 +76,14 @@ colcon test-result --verbose
 ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py
 ```
 
+该入口现在使用独立的 `map_bundle_override` 参数；留空时继承全功能入口用户配置区中的
+地图，不会再把空字符串传成 `map_bundle_manifest`。临时换图时使用：
+
+```bash
+ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
+  map_bundle_override:=/absolute/path/field.bundle.yaml
+```
+
 在平地执行静止、直线、转弯和原地旋转，每项至少 30 秒。PASS：
 
 - 日志显示 `SHADOW/automatic`；

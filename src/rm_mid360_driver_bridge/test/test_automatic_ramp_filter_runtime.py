@@ -97,6 +97,18 @@ def publish_once(probe, points):
     return probe.outputs[-1]
 
 
+def publish_until_connected(probe, points, timeout=3.0):
+    probe.outputs.clear()
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        probe.publisher.publish(make_cloud(probe, points))
+        rclpy.spin_once(probe, timeout_sec=0.10)
+        if probe.outputs:
+            return probe.outputs[-1]
+        time.sleep(0.05)
+    raise AssertionError("filter output publisher did not match the test subscription")
+
+
 @pytest.fixture(scope="module")
 def automatic_filter_process():
     process = subprocess.Popen(
@@ -143,7 +155,11 @@ def test_flat_passthrough_then_multiframe_ramp_filter(automatic_filter_process):
             pytest.fail(f"automatic ramp filter did not subscribe:\n{output}")
 
         flat = make_points()
-        flat_output = publish_once(probe, flat)
+        # The input subscription can be visible slightly before the filter's
+        # output publisher matches this process after a fresh DDS/container
+        # startup. Repeating flat input is safe because it cannot advance a
+        # ramp candidate; later ramp frames remain exactly one publish each.
+        flat_output = publish_until_connected(probe, flat)
         assert flat_output.width == len(flat)
 
         ramp = make_points(11.0, obstacle=True)

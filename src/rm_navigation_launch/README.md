@@ -65,7 +65,7 @@ mock；同一 `serial_transport_node` 使用已确认的 `hpm_crc_v1` 接收当�
 ### 旧车狗洞全功能验证
 
 狗洞入口完整复用上述双雷达驱动/融合、LIO、AMCL、串口、裁判、mission 和安全门，只覆盖狗洞
-候选地图、`0.55 m` 点云高度门、狭通道 inflation 以及前向穿越控制参数：
+候选地图、local STVL 的 `0.55 m` 障碍高度门、狭通道 inflation 以及前向穿越控制参数：
 
 ```bash
 ros2 launch rm_navigation_launch old_car_dog_hole_navigation.launch.py
@@ -82,8 +82,9 @@ ros2 launch rm_navigation_launch old_car_dog_hole_navigation.launch.py \
   local_inflation_radius:=0.10 global_inflation_radius:=0.10
 ```
 
-该入口只用于现有假狗洞和旧车验证。`obstacle_ceiling_height:=0.55` 会有意忽略更高的
-悬空回波。局部/全局 inflation 默认都为 `0.10 m`，但真实的 `0.64 x 0.54 m`
+该入口只用于现有假狗洞和旧车验证。`obstacle_ceiling_height:=0.55` 只会让 local
+STVL 忽略更高的悬空回波，不再修改 AMCL 的 `0.20–1.50 m` 定位扫描高度。局部/全局
+inflation 默认都为 `0.10 m`，但真实的 `0.64 x 0.54 m`
 footprint 和 padding 不会被缩小；如果地图开口小于 footprint，控制器仍应拒绝通过。
 真实狗洞、新车几何和最终雷达安装确定后必须重新测量，不能直接作为比赛值。
 
@@ -128,3 +129,35 @@ ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
   regions_file:=/absolute/path/old_car_ramp_regions.yaml \
   active_map_id:=MAP_ID active_map_revision:=REVISION
 ```
+
+坡道的二维地图可以直接按普通通道处理：坡面主体画成 free，两侧护栏、场地边界或禁止
+驶入区域画成 occupied。自动检测负责避免三维点云把坡面重新标成动态障碍；它不会修改
+PGM，也不会越过两侧静态占用边界。
+
+### 旧车全功能地形统一入口
+
+统一入口只包含一次全功能 bringup，同时启动自动坡道 shadow；地图留空时继承
+`old_car_full_navigation.launch.py` 用户配置区，不会再用空参数覆盖地图：
+
+```bash
+ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py
+```
+
+完成坡道 R00–R03 后，可以显式接入自动坡面过滤：
+
+```bash
+ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
+  activate_ramp_filter:=true
+```
+
+需要在同一次旧车测试中叠加现有狗洞 MPPI/costmap profile 时：
+
+```bash
+ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
+  activate_ramp_filter:=true enable_dog_hole_profile:=true
+```
+
+狗洞 `0.55 m` 高度门只作用于 local STVL，AMCL 始终保留正常定位扫描高度。但该高度
+门仍是本次 launch 全程生效，而不是语义区域内动态切换，因此只允许清场的狗洞测试路线。
+这个入口复用的是旧车现有 MPPI 候选，不会加载 `main-new-car` 的狗洞中心线控制器，也
+不会假装已经具备下位机变形动作合同。

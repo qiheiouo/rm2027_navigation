@@ -64,11 +64,7 @@ def _launch_validation(context, *args, **kwargs):
         "launch",
         "old_car_full_navigation.launch.py",
     ])
-    base_nav2 = PathJoinSubstitution([
-        FindPackageShare("rm_nav_config"),
-        "config",
-        "nav2_old_car_2026_dual_stvl.yaml",
-    ])
+    base_nav2 = LaunchConfiguration("nav2_base_config_yaml")
     ramp_nav2 = RewrittenYaml(
         source_file=base_nav2,
         param_rewrites={
@@ -147,10 +143,12 @@ def _launch_validation(context, *args, **kwargs):
         }],
     )
 
-    include_arguments = {}
-    map_bundle_yaml = LaunchConfiguration("map_bundle_yaml").perform(context).strip()
-    if map_bundle_yaml:
-        include_arguments["map_bundle_yaml"] = map_bundle_yaml
+    include_arguments = {"nav2_config_yaml": base_nav2}
+    map_bundle_override = (
+        LaunchConfiguration("map_bundle_override").perform(context).strip()
+    )
+    if map_bundle_override:
+        include_arguments["map_bundle_yaml"] = map_bundle_override
     if active:
         include_arguments.update({
             "nav2_config_yaml": ramp_nav2,
@@ -180,6 +178,11 @@ def generate_launch_description():
         "config",
         "old_car_automatic_ramp_filter.yaml",
     ])
+    default_nav2_config = PathJoinSubstitution([
+        FindPackageShare("rm_nav_config"),
+        "config",
+        "nav2_old_car_2026_dual_stvl.yaml",
+    ])
     return LaunchDescription([
         DeclareLaunchArgument("activate_filter", default_value="false"),
         DeclareLaunchArgument("detection_mode", default_value="automatic"),
@@ -192,9 +195,12 @@ def generate_launch_description():
         DeclareLaunchArgument("automatic_detection_frame", default_value="odom"),
         DeclareLaunchArgument("automatic_confirmation_frames", default_value="5"),
         DeclareLaunchArgument(
-            "map_bundle_yaml",
+            "map_bundle_override",
             default_value="",
             description="Empty inherits the map configured by old_car_full_navigation.",
+        ),
+        DeclareLaunchArgument(
+            "nav2_base_config_yaml", default_value=default_nav2_config
         ),
         DeclareLaunchArgument("max_forward_speed", default_value="0.35"),
         DeclareLaunchArgument("max_yaw_rate", default_value="0.50"),
