@@ -1,9 +1,10 @@
 """Isolated old-car integration for automatic or map-bound ramp filtering.
 
 The default is unlabelled automatic detection in shadow-only mode: normal full
-navigation keeps its original point-cloud topics while two instances publish
-comparison clouds. A manually measured map contract remains an optional
-deterministic fallback. Explicit active mode routes filtered clouds to Nav2.
+navigation keeps its original point-cloud topics while one fused-cloud tracker
+publishes obstacle and localization comparison clouds from the same confirmed
+ramp model. A manually measured map contract remains an optional deterministic
+fallback. Explicit active mode routes filtered clouds to Nav2.
 """
 
 from pathlib import Path
@@ -104,6 +105,29 @@ def _launch_validation(context, *args, **kwargs):
                 ),
             },
         ]
+        filter_nodes = [Node(
+            package="rm_mid360_driver_bridge",
+            executable=executable,
+            name="old_car_shared_ramp_filter",
+            output="screen",
+            parameters=common_parameters + [{
+                # The denser fused stream is the only detection/tracking source.
+                # Its confirmed odom-frame model is reused to filter the left
+                # localization cloud, avoiding two trackers that disagree.
+                "input_topic": "/points/obstacles_fused",
+                "output_topic": (
+                    "/points/obstacles_ramp_filtered"
+                    if active
+                    else "/perception/ramp/obstacles_filtered_shadow"
+                ),
+                "secondary_input_topic": "/livox/left/pointcloud_filtered",
+                "secondary_output_topic": (
+                    "/livox/left/pointcloud_ramp_filtered"
+                    if active
+                    else "/perception/ramp/localization_filtered_shadow"
+                ),
+            }],
+        )]
     else:
         executable = "ramp_plane_filter_node"
         common_parameters = [
@@ -114,34 +138,36 @@ def _launch_validation(context, *args, **kwargs):
                 "shadow_only": not active,
             },
         ]
-    localization_filter = Node(
-        package="rm_mid360_driver_bridge",
-        executable=executable,
-        name="old_car_localization_ramp_filter",
-        output="screen",
-        parameters=common_parameters + [{
-            "input_topic": "/livox/left/pointcloud_filtered",
-            "output_topic": (
-                "/livox/left/pointcloud_ramp_filtered"
-                if active
-                else "/perception/ramp/localization_filtered_shadow"
+        filter_nodes = [
+            Node(
+                package="rm_mid360_driver_bridge",
+                executable=executable,
+                name="old_car_localization_ramp_filter",
+                output="screen",
+                parameters=common_parameters + [{
+                    "input_topic": "/livox/left/pointcloud_filtered",
+                    "output_topic": (
+                        "/livox/left/pointcloud_ramp_filtered"
+                        if active
+                        else "/perception/ramp/localization_filtered_shadow"
+                    ),
+                }],
             ),
-        }],
-    )
-    obstacle_filter = Node(
-        package="rm_mid360_driver_bridge",
-        executable=executable,
-        name="old_car_obstacle_ramp_filter",
-        output="screen",
-        parameters=common_parameters + [{
-            "input_topic": "/points/obstacles_fused",
-            "output_topic": (
-                "/points/obstacles_ramp_filtered"
-                if active
-                else "/perception/ramp/obstacles_filtered_shadow"
+            Node(
+                package="rm_mid360_driver_bridge",
+                executable=executable,
+                name="old_car_obstacle_ramp_filter",
+                output="screen",
+                parameters=common_parameters + [{
+                    "input_topic": "/points/obstacles_fused",
+                    "output_topic": (
+                        "/points/obstacles_ramp_filtered"
+                        if active
+                        else "/perception/ramp/obstacles_filtered_shadow"
+                    ),
+                }],
             ),
-        }],
-    )
+        ]
 
     include_arguments = {"nav2_config_yaml": base_nav2}
     map_bundle_override = (
@@ -163,8 +189,7 @@ def _launch_validation(context, *args, **kwargs):
             "Active mode is permitted only on a clear test ramp with physical "
             "stop authority."
         )),
-        localization_filter,
-        obstacle_filter,
+        *filter_nodes,
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(full_navigation_launch),
             launch_arguments=include_arguments.items(),

@@ -167,6 +167,7 @@ See:
 - `docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`
 - `docs/validation/old_car_three_point_spin_field_test_20260722.md`
 - `docs/validation/old_car_high_spin_localization_engineering_report_20260825.md`
+- `docs/validation/old_car_ramp_live_tracking_report_20260830.md`
 - `docs/navigation_integrity/design_audit.md`
 - `docs/navigation_integrity/localization_verifier_design.md`
 - `docs/navigation_integrity/regression_test_design.md`

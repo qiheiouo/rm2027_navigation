@@ -15,6 +15,14 @@
     roi.max_z_from_base: 0.80
     voxel_size: 0.08
 
+    # Detect at a bounded rate from a short odom-frame history. The live old-car
+    # bag showed that single 10 ms fused clouds alternate between valid and
+    # incomplete ramp fits; 300 ms aggregation makes confirmation time-based
+    # and also cuts the former per-cloud RANSAC CPU load.
+    detection.update_period_sec: 0.10
+    detection.accumulation_window_sec: 0.30
+    diagnostics.publish_period_sec: 0.20
+
     # A candidate must be a broad, long and consistently sloped surface.
     detection.min_slope_deg: 5.0
     detection.max_slope_deg: 25.0
@@ -28,8 +36,10 @@
     detection.ransac_iterations: 256
 
     # Filtering remains fail-closed until the same odom-frame plane is seen in
-    # consecutive clouds; a stale model expires after missed frames.
+    # repeated detection cycles. A pending fit may bridge two missed cycles;
+    # a confirmed model expires after eight cycles (about 0.8 s by default).
     tracking.confirmation_frames: 5
+    tracking.pending_max_missed_frames: 2
     tracking.max_missed_frames: 8
     tracking.max_center_shift: 0.60
     tracking.max_slope_change_deg: 3.0
