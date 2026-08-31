@@ -83,6 +83,17 @@ def test_region_schema_is_strict_and_map_bound() -> None:
         )
 
 
+def test_map_binding_accepts_map_tools_timestamp_revision() -> None:
+    document = _document()
+    document["map_binding"]["map_revision"] = "20260830T092655Z"
+    region_set = parse_region_set(document)
+    assert region_set.map_binding.map_revision == "20260830T092655Z"
+
+    document["map_binding"]["map_revision"] = "../escaped"
+    with pytest.raises(RegionContractError, match="map_revision"):
+        parse_region_set(document)
+
+
 def test_region_contract_hash_binds_semantics_not_yaml_order() -> None:
     slow = _square("slow", "slow_zone", 0.0, 2.0, max_linear_speed=0.6)
     narrow = _square("narrow", "no_spin", 1.0, 2.0)

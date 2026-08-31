@@ -25,6 +25,7 @@ MAX_ANNOTATION_OPERATIONS = 2_000_000
 MAX_OUTPUT_SEGMENTS = 10_000
 GEOMETRY_EPSILON = 1.0e-9
 _ID_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_.-]{0,63}$")
+_MAP_BINDING_ID_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$")
 _SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -184,6 +185,15 @@ def _mapping(
 def _identifier(value: Any, location: str) -> str:
     if not isinstance(value, str) or not _ID_PATTERN.fullmatch(value):
         raise RegionContractError(f"{location} must match {_ID_PATTERN.pattern}")
+    return value
+
+
+def _map_binding_identifier(value: Any, location: str) -> str:
+    """Accept identifiers emitted by rm_map_tools without weakening region IDs."""
+    if not isinstance(value, str) or not _MAP_BINDING_ID_PATTERN.fullmatch(value):
+        raise RegionContractError(
+            f"{location} must match {_MAP_BINDING_ID_PATTERN.pattern}"
+        )
     return value
 
 
@@ -513,8 +523,10 @@ def parse_region_set(data: Any) -> RegionSet:
         )
     map_binding = MapBinding(
         frame_id=frame_id,
-        map_id=_identifier(binding_data["map_id"], "map_binding.map_id"),
-        map_revision=_identifier(
+        map_id=_map_binding_identifier(
+            binding_data["map_id"], "map_binding.map_id"
+        ),
+        map_revision=_map_binding_identifier(
             binding_data["map_revision"], "map_binding.map_revision"
         ),
         manifest_sha256=manifest_sha256,
