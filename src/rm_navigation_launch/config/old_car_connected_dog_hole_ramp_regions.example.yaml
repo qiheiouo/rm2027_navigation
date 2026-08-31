@@ -1,0 +1,34 @@
+# Structural template only. Replace every map binding and polygon coordinate
+# after the dog hole and ramp are fixed in their final connected positions.
+schema: rm_semantic_regions/v1
+region_set_id: replace_connected_field
+revision: replace_rev1
+map_binding:
+  frame_id: map
+  map_id: replace_me
+  map_revision: replace_me
+  manifest_sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+regions:
+  # Put the upstream boundary far enough before the opening for braking.
+  - id: dog_hole_entry_a
+    type: dog_hole_approach
+    polygon:
+      - [0.0, -0.6]
+      - [1.0, -0.6]
+      - [1.0, 0.6]
+      - [0.0, 0.6]
+  - id: dog_hole_tunnel
+    type: committed_corridor
+    polygon:
+      - [1.0, -0.6]
+      - [3.0, -0.6]
+      - [3.0, 0.6]
+      - [1.0, 0.6]
+  # Keep a second approach so traversal in the reverse direction also pauses.
+  - id: dog_hole_entry_b
+    type: dog_hole_approach
+    polygon:
+      - [3.0, -0.6]
+      - [4.0, -0.6]
+      - [4.0, 0.6]
+      - [3.0, 0.6]

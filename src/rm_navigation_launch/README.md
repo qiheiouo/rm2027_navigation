@@ -161,3 +161,19 @@ ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
 门仍是本次 launch 全程生效，而不是语义区域内动态切换，因此只允许清场的狗洞测试路线。
 这个入口复用的是旧车现有 MPPI 候选，不会加载 `main-new-car` 的狗洞中心线控制器，也
 不会假装已经具备下位机变形动作合同。
+
+当狗洞与坡道相连、需要用旧车“原地保持 5 s”模拟洞前变形时，必须使用精确绑定到
+当前 map bundle 的语义区域文件：
+
+```bash
+ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
+  map_bundle_override:=/absolute/path/connected.bundle.yaml \
+  activate_ramp_filter:=true \
+  enable_dog_hole_entry_pause:=true \
+  dog_hole_regions_file:=/absolute/path/connected.regions.yaml
+```
+
+该开关会把真实串口的速度输入从 `/cmd_vel` 改为
+`/cmd_vel_dog_hole_gated`，并自动启用旧车狗洞 profile。默认关闭时速度链和此前完全一致。
+完整地图制作、语义标注、安全门状态和 C00--C06 实车门见
+`docs/validation/old_car_connected_dog_hole_ramp_validation.md`。

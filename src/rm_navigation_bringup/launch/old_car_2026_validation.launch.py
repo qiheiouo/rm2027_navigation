@@ -122,6 +122,7 @@ def generate_launch_description():
     serial_max_vx = LaunchConfiguration("serial_max_vx")
     serial_max_vy = LaunchConfiguration("serial_max_vy")
     serial_max_wz = LaunchConfiguration("serial_max_wz")
+    serial_cmd_vel_topic = LaunchConfiguration("serial_cmd_vel_topic")
     serial_referee_rx_enabled = LaunchConfiguration("serial_referee_rx_enabled")
     serial_referee_raw_topic = LaunchConfiguration("serial_referee_raw_topic")
     use_rviz = LaunchConfiguration("use_rviz")
@@ -271,6 +272,14 @@ def generate_launch_description():
         DeclareLaunchArgument("serial_max_vx", default_value="0.50"),
         DeclareLaunchArgument("serial_max_vy", default_value="0.50"),
         DeclareLaunchArgument("serial_max_wz", default_value="1.20"),
+        DeclareLaunchArgument(
+            "serial_cmd_vel_topic",
+            default_value="/cmd_vel",
+            description=(
+                "Final velocity topic consumed by dry-run or real serial. "
+                "Override only when an explicit single-owner safety gate is active."
+            ),
+        ),
         DeclareLaunchArgument("serial_referee_rx_enabled", default_value="false"),
         DeclareLaunchArgument(
             "serial_referee_raw_topic", default_value="/referee/state_raw"
@@ -488,7 +497,7 @@ def generate_launch_description():
             condition=IfCondition(use_serial_dry_run),
             launch_arguments={
                 "protocol_profile": serial_protocol_profile,
-                "cmd_vel_topic": "/cmd_vel",
+                "cmd_vel_topic": serial_cmd_vel_topic,
                 "mock_tx_topic": "/serial/mock_tx",
             }.items(),
         ),
@@ -499,7 +508,7 @@ def generate_launch_description():
                 "protocol_profile": serial_protocol_profile,
                 "device": serial_device,
                 "baudrate": serial_baudrate,
-                "cmd_vel_topic": "/cmd_vel",
+                "cmd_vel_topic": serial_cmd_vel_topic,
                 "max_vx": serial_max_vx,
                 "max_vy": serial_max_vy,
                 "max_wz": serial_max_wz,

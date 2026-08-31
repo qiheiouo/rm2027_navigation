@@ -169,7 +169,10 @@ def _launch_validation(context, *args, **kwargs):
             ),
         ]
 
-    include_arguments = {"nav2_config_yaml": base_nav2}
+    include_arguments = {
+        "nav2_config_yaml": base_nav2,
+        "serial_cmd_vel_topic": LaunchConfiguration("serial_cmd_vel_topic"),
+    }
     map_bundle_override = (
         LaunchConfiguration("map_bundle_override").perform(context).strip()
     )
@@ -229,5 +232,6 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument("max_forward_speed", default_value="0.35"),
         DeclareLaunchArgument("max_yaw_rate", default_value="0.50"),
+        DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel"),
         OpaqueFunction(function=_launch_validation),
     ])

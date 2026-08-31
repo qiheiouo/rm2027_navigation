@@ -155,6 +155,7 @@ def generate_launch_description():
             "localization_pointcloud_topic",
             default_value="/livox/left/pointcloud_filtered",
         ),
+        DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel"),
         LogInfo(msg=(
             "[rm_navigation_launch] 全功能入口已加载。mission 启动状态固定为 disabled；"
             "发布初始位姿并完成安全检查后，再通过服务启用。"
@@ -193,6 +194,9 @@ def generate_launch_description():
                 "serial_max_vx": SERIAL_MAX_VX,
                 "serial_max_vy": SERIAL_MAX_VY,
                 "serial_max_wz": SERIAL_MAX_WZ,
+                "serial_cmd_vel_topic": LaunchConfiguration(
+                    "serial_cmd_vel_topic"
+                ),
                 "use_referee_interface": _bool_text(referee_enabled),
                 "use_referee_mock": "false",
                 "use_mission": _bool_text(mission_enabled),

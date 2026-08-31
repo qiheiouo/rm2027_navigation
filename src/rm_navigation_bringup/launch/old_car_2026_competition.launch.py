@@ -176,6 +176,7 @@ def generate_launch_description():
     serial_max_vx = LaunchConfiguration("serial_max_vx")
     serial_max_vy = LaunchConfiguration("serial_max_vy")
     serial_max_wz = LaunchConfiguration("serial_max_wz")
+    serial_cmd_vel_topic = LaunchConfiguration("serial_cmd_vel_topic")
     serial_protocol_profile = LaunchConfiguration("serial_protocol_profile")
     serial_referee_rx_enabled = LaunchConfiguration("serial_referee_rx_enabled")
 
@@ -300,6 +301,7 @@ def generate_launch_description():
         DeclareLaunchArgument("serial_max_vx", default_value="0.50"),
         DeclareLaunchArgument("serial_max_vy", default_value="0.50"),
         DeclareLaunchArgument("serial_max_wz", default_value="1.20"),
+        DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel"),
         DeclareLaunchArgument(
             "serial_protocol_profile",
             default_value="hpm_crc_v1",
@@ -365,6 +367,7 @@ def generate_launch_description():
                 "serial_max_vx": serial_max_vx,
                 "serial_max_vy": serial_max_vy,
                 "serial_max_wz": serial_max_wz,
+                "serial_cmd_vel_topic": serial_cmd_vel_topic,
                 "serial_referee_rx_enabled": serial_referee_rx_enabled,
                 "serial_referee_raw_topic": "/referee/state_raw",
             }.items(),

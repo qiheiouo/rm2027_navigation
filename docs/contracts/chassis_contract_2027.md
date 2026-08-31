@@ -4,13 +4,17 @@
 
 `rm_chassis_interface` is the single upper-level interface between Nav2 and the four-omni-wheel chassis.
 
-It consumes `/cmd_vel`, outputs chassis commands, and publishes chassis feedback. It does not perform localization and does not publish localization TF.
+It normally consumes `/cmd_vel`, outputs chassis commands, and publishes chassis feedback. It does not perform localization and does not publish localization TF. An explicitly enabled final safety gate may replace this one subscription with a separately named gated topic; raw and gated inputs must never be connected simultaneously.
 
 ## Input
 
 | Topic | Type | Frame |
 | --- | --- | --- |
 | `/cmd_vel` | `geometry_msgs/msg/Twist` | `base_link` |
+| `/cmd_vel_dog_hole_gated` | `geometry_msgs/msg/Twist` | `base_link`; old-car semantic pause experiment only |
+
+Only one row is active in a process. The dog-hole gate is default-off and owns
+no serial transport, Nav2 action, TF, or localization correction.
 
 Velocity semantics:
 

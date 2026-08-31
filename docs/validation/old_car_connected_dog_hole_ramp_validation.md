@@ -1,0 +1,216 @@
+# 旧车“狗洞后连续爬坡”组合验证
+
+## 1. 本轮要证明什么
+
+本轮不是分别证明“能过狗洞”和“能上坡”，而是验证一条不中断的任务链：
+
+```text
+任意上游起点
+  -> Nav2 全局路径确实穿过狗洞
+  -> 机器人进入洞前 approach 区
+  -> 最终底盘速度被置零，先留 0.5 s 制动，再完整保持 5.0 s
+  -> 老车以这 5 s 模拟下位机变形完成
+  -> 原 Nav2 控制流恢复
+  -> 进入 committed corridor 后不被本安全门二次打断
+  -> 离洞后直接进入相连坡道
+  -> 自动坡面过滤保持跟踪，Nav2 到达坡顶目标
+```
+
+实现没有增加第二个 Nav2 action owner，也没有复制仿真狗洞控制器。Nav2 仍独占
+路径跟踪，`rm_dog_hole_entry_gate` 只位于 `/cmd_vel` 和串口之间；坡道继续使用已经
+过录包 A/B 的共享自动 tracker。5 s 定时器只是旧车模拟，不能替代新车未来的“变形
+请求/完成确认/失败”下位机合同。
+
+## 2. 场地和地图怎么准备
+
+狗洞与坡道必须按最终验证位置固定，顺序为“狗洞在前、坡道紧接其后”。验证期间不得
+移动其中任一结构。不要为了隔离狗洞而移走坡道，这会破坏本轮组合结论。
+
+推荐为该布局生成一个新的 candidate map revision。并非因为算法必须在 PCD 中看到两种
+结构，而是为了让 PGM、定位 PCD、语义坐标和现场布局能被同一个 bundle 复现。若只做
+当天功能冒烟，并且当前背景地图定位稳定，也可以复用原 PCD、只生成新的 PGM/bundle
+revision；不能修改旧 bundle 中的文件后仍沿用旧 hash。
+
+洞顶的处理原则：
+
+- 最终定位 PCD 最好在狗洞、坡道都按实车形态安装后采集，洞顶/立柱是有效静态特征；
+- PGM 中必须手工清出洞内中心通道，不能让洞顶的二维投影封住通道；
+- 如果建图器因洞顶根本无法生成可用二维图，可以拆顶生成 PGM，但装回洞顶后应以同一
+  `map` 原点采集或导出最终 PCD；两次操作之间不能移动狗洞、坡道或地图基准；
+- 仅把 PGM 涂白不够。实车 local costmap 仍会看到洞顶，所以组合入口启用现有狗洞
+  obstacle-height profile；坡面则由自动坡面过滤器处理。
+
+PGM 应满足：
+
+- 狗洞中心线、狗洞至坡道的连接段、坡面中心线全部为 free；
+- 狗洞两侧、坡道两侧、场地边界为 occupied；
+- 如果本轮不允许绕行，在 PGM 中直接把绕行口封为 occupied，不用行为树猜测；
+- 坡面不要画成黑色障碍，自动坡面过滤只处理实时点云，不能越过静态层；
+- 不要用语义多边形掩盖真实墙体或坡上障碍。
+
+PS 完成后创建新 revision，更新 bundle 内 occupancy YAML/PGM 的 SHA256；PCD 若字节未变
+可沿用其原 hash。然后先执行：
+
+```bash
+ros2 run rm_map_tools validate_map_bundle \
+  /data/rm27_maps/connected_test/REV/connected_test.bundle.yaml
+```
+
+必须 PASS。当前旧车入口允许 `candidate`，但验证报告要记录 bundle 的绝对路径和：
+
+```bash
+sha256sum /data/rm27_maps/connected_test/REV/connected_test.bundle.yaml
+```
+
+## 3. 标注狗洞语义区域
+
+坡道不需要语义标注。只给狗洞画 `map` 坐标多边形，复制模板：
+
+```bash
+cp src/rm_navigation_launch/config/\
+old_car_connected_dog_hole_ramp_regions.example.yaml \
+/data/rm27_maps/connected_test/REV/connected_test.regions.yaml
+```
+
+在 RViz 选择 `Publish Point`，依次点击矩形四角，并读取：
+
+```bash
+ros2 topic echo /clicked_point
+```
+
+填写三类区域：
+
+- `dog_hole_entry_a`：主测试方向的洞前停车区。上游边界要给实际制动留余量，建议先按
+  当前 `0.20 m/s` 验证；5 s 从 0.5 s 制动等待结束后才开始计时。
+- `dog_hole_tunnel`：只覆盖狗洞窄通道，类型必须是 `committed_corridor`；不要把后续整段
+  坡道包含进去。
+- `dog_hole_entry_b`：仅当允许“坡道侧反向进洞”且该侧有安全停车/变形空间时保留。
+  若物理布局只允许狗洞到坡道的单向链路，应删除 B，并在 PGM/任务点设计中禁止反向
+  穿越，而不是在坡中强行停车。
+
+`map_binding.map_id`、`map_revision` 必须等于 bundle 字段，
+`manifest_sha256` 必须等于上一步 `sha256sum`。验证语义文件：
+
+```bash
+ros2 run rm_path_annotations validate_semantic_regions \
+  --regions /data/rm27_maps/connected_test/REV/connected_test.regions.yaml \
+  --expected-map-id MAP_ID \
+  --expected-map-revision REVISION \
+  --expected-manifest-sha256 MANIFEST_SHA256
+```
+
+任何不匹配都必须拒绝启动；换图后不能继续使用旧多边形。
+
+## 4. 构建和启动
+
+```bash
+colcon build --symlink-install --packages-up-to \
+  rm_dog_hole_entry_gate rm_navigation_launch rm_navigation_bringup
+source install/setup.bash
+```
+
+首次只检查参数合同，保持轮子离地或底盘急停。完整组合入口为：
+
+```bash
+ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
+  map_bundle_override:=/data/rm27_maps/connected_test/REV/connected_test.bundle.yaml \
+  activate_ramp_filter:=true \
+  enable_dog_hole_entry_pause:=true \
+  dog_hole_regions_file:=/data/rm27_maps/connected_test/REV/connected_test.regions.yaml
+```
+
+`enable_dog_hole_entry_pause:=true` 会自动启用旧车狗洞 Nav2/costmap profile，但不会自动
+替用户打开坡面 active A/B，所以命令中仍明确写出 `activate_ramp_filter:=true`。安全门
+默认关闭；未显式提供 map bundle 和 regions 时会拒绝启动，不会继承一个看不见的默认
+地图。
+
+启动后确认单一速度所有权：
+
+```bash
+ros2 topic info /cmd_vel --verbose
+ros2 topic info /cmd_vel_dog_hole_gated --verbose
+ros2 topic echo /dog_hole/pause_state
+ros2 topic echo /dog_hole/path_crosses
+ros2 topic echo /dog_hole/pause_active
+```
+
+预期：Nav2 发布 `/cmd_vel`，安全门是
+`/cmd_vel_dog_hole_gated` 的唯一 publisher，真实串口只订阅 gated topic。不得出现串口同时
+订阅原始 `/cmd_vel`，也不得有第二个节点发布 gated topic。
+
+## 5. 推荐的分阶段实车门
+
+### C00：错误绑定必须失败
+
+把 regions 中的 revision 临时改成错误值。入口必须报 map binding mismatch，串口 gated
+topic 没有可运动输出。恢复正确文件后再继续。
+
+### C01：路径不经过狗洞
+
+初始化定位，mission 保持 disabled，给一个不会穿过狗洞的 RViz 目标。PASS：
+
+- `/dog_hole/path_crosses == false`；
+- 状态为 `armed`；
+- 不出现 5 s 暂停；
+- 车按普通 Nav2 行驶，坡道和狗洞配置不会干扰普通区域。
+
+### C02：经过狗洞但尚未到 approach
+
+从至少三个不同的上游起点分别规划至坡顶后的同一个目标。PASS：每条实际 `/plan` 都有
+`path_crosses == true`，洞外行驶时 gated 速度与 `/cmd_vel` 一致。若某条路径绕开狗洞，
+这是 PGM/规划约束问题，不能算安全门失败，也不能继续宣称“所有路径经过狗洞”。
+
+### C03：洞前停车 5 s
+
+车进入 A 区后状态必须按顺序出现：
+
+```text
+armed -> braking -> holding -> released
+```
+
+PASS：
+
+- `braking` 开始后 gated 速度立即为零；
+- 0.5 s 制动等待结束后，`holding` 连续不少于 5.0 s；
+- 用 `/odometry/lio` 复核机器人在 holding 内确实静止；
+- 同一方向一次穿越只触发一次；
+- 发布新规划但仍穿洞，不能绕过正在执行的 hold。
+
+### C04：狗洞 COMMITTED
+
+放行后状态进入 `committed`。此阶段不要人为杀定位做危险实验；只观察正常短时消息抖动。
+PASS：安全门不在洞内二次停车，出洞后依次 `passed -> armed`，对侧 approach 不误触发。
+
+### C05：连续上坡
+
+目标必须位于坡顶之后，使同一 Nav2 goal 在出洞后继续执行。PASS：
+
+- 不重新发目标、不重新发初始位姿、不重启 launch；
+- `/diagnostics` 中 `old_car_shared_ramp_filter/automatic_ramp_filter` 在坡前确认坡面；
+- local costmap 不再用整片致命障碍封死坡面，坡上额外障碍仍保留；
+- 车辆不从坡侧绕行，不在坡上持续左右振荡，不发生定位保护锁存；
+- 最终到达坡顶后目标，定位和 TF 仍存在。
+
+### C06：失效与回归
+
+至少验证：路径取消、路径改为不穿洞、未初始化定位、错误 frame、重启后车已位于 corridor
+内。最后一种必须进入 `invalid_entry` 并保持零速，需要人工把车移回安全区重新启动，不能
+假装已经做过洞前变形。
+
+## 6. 录包与结论门
+
+```bash
+ros2 bag record \
+  /plan /localization/global_pose /odometry/lio \
+  /cmd_vel /cmd_vel_dog_hole_gated \
+  /dog_hole/pause_state /dog_hole/pause_active /dog_hole/path_crosses \
+  /points/obstacles_fused /points/obstacles_ramp_filtered \
+  /livox/left/pointcloud_filtered /livox/left/pointcloud_ramp_filtered \
+  /local_costmap/costmap /global_costmap/costmap \
+  /localization/global_localization_valid /diagnostics /tf /tf_static
+```
+
+每个起点单独记录试次，文件名包含 map revision、起点编号和方向。只有 C00--C06 全部
+通过，才可以写“旧车在该组合场地完成了语义触发的 5 s 变形模拟，并在同一导航任务中
+连续通过狗洞和坡道”。不能据此写“真实变形执行器合同已完成”“任意未知狗洞均可自动
+识别”或“比赛级坡道能力已完成”。
