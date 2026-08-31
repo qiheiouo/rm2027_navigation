@@ -128,6 +128,14 @@ def _launch_full_terrain(context, *args, **kwargs):
                     LaunchConfiguration("dog_hole_pose_timeout_sec"),
                     value_type=float,
                 ),
+                "localization_stable_sec": ParameterValue(
+                    LaunchConfiguration("dog_hole_localization_stable_sec"),
+                    value_type=float,
+                ),
+                "invalid_entry_clear_sec": ParameterValue(
+                    LaunchConfiguration("dog_hole_invalid_entry_clear_sec"),
+                    value_type=float,
+                ),
                 "input_cmd_vel_topic": "/cmd_vel",
                 "output_cmd_vel_topic": serial_cmd_vel_topic,
             }],
@@ -331,6 +339,12 @@ def generate_launch_description():
         DeclareLaunchArgument("dog_hole_hold_sec", default_value="5.0"),
         DeclareLaunchArgument("dog_hole_brake_settle_sec", default_value="0.5"),
         DeclareLaunchArgument("dog_hole_pose_timeout_sec", default_value="2.0"),
+        DeclareLaunchArgument(
+            "dog_hole_localization_stable_sec", default_value="1.0"
+        ),
+        DeclareLaunchArgument(
+            "dog_hole_invalid_entry_clear_sec", default_value="1.0"
+        ),
         DeclareLaunchArgument(
             "dog_hole_max_forward_speed", default_value="0.80"
         ),

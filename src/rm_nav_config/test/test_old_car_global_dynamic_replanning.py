@@ -312,6 +312,8 @@ def test_old_car_full_terrain_entry_combines_profiles_without_duplicate_stack():
     assert '"serial_cmd_vel_topic": serial_cmd_vel_topic' in launch
     assert 'DeclareLaunchArgument(\n            "enable_dog_hole_route"' in launch
     assert 'executable="dog_hole_route_orchestrator"' in launch
+    assert '"localization_stable_sec": ParameterValue(' in launch
+    assert '"invalid_entry_clear_sec": ParameterValue(' in launch
     assert '"/navigate_to_pose_direct"' in launch
     assert "OLD_CAR_STAGED_ROUTE_MAX_SPEED = 0.50" in launch
 

@@ -19,9 +19,14 @@ For the old-car simulation contract it:
 6. rearms after the robot has passed the corridor and both approach polygons.
 
 The node is fail-closed before commitment: a crossing plan without a fresh
-global pose, an invalid path, or startup inside the committed corridor keeps
-the gated output at zero. Once released, loss of semantic input does not stop
-the robot inside the narrow corridor.
+global pose, an invalid path, or a confirmed start inside the committed
+corridor keeps the gated output at zero. Map poses are ignored until
+`/localization/global_localization_valid` has remained true for the configured
+stabilization interval, so provisional startup TF cannot falsely latch an
+invalid entry. An invalid-entry latch clears only after valid localization
+continuously confirms that the robot is outside every approach and corridor
+region. Once released, loss of semantic input does not stop the robot inside
+the narrow corridor.
 
 The normal pose source is the timestamped `map -> base_link` TF, refreshed at
 the gate timer rate. `/localization/global_pose` remains a direct fallback and

@@ -38,6 +38,34 @@ class GateSnapshot:
     path_progress: float | None
 
 
+class LocalizationReadinessGate:
+    """Require a continuously valid localization signal before using map poses."""
+
+    def __init__(self, stable_sec: float = 1.0) -> None:
+        if not math.isfinite(stable_sec) or stable_sec < 0.0:
+            raise RegionContractError(
+                "localization stable_sec must be finite and non-negative"
+            )
+        self._stable_sec = stable_sec
+        self._valid_since: float | None = None
+
+    def update(self, valid: bool, now: float) -> None:
+        if not math.isfinite(now):
+            raise RegionContractError("time must be finite")
+        if not valid:
+            self._valid_since = None
+        elif self._valid_since is None:
+            self._valid_since = now
+
+    def ready(self, now: float) -> bool:
+        if not math.isfinite(now):
+            raise RegionContractError("time must be finite")
+        return (
+            self._valid_since is not None
+            and now - self._valid_since >= self._stable_sec
+        )
+
+
 def _point_on_segment(
     point: tuple[float, float],
     start: tuple[float, float],
@@ -128,12 +156,14 @@ class DogHoleEntryPauseGate:
         brake_settle_sec: float = 0.5,
         hold_sec: float = 5.0,
         rearm_clear_sec: float = 1.0,
+        invalid_entry_clear_sec: float = 1.0,
         progress_margin: float = 0.05,
     ) -> None:
         for name, value in (
             ("brake_settle_sec", brake_settle_sec),
             ("hold_sec", hold_sec),
             ("rearm_clear_sec", rearm_clear_sec),
+            ("invalid_entry_clear_sec", invalid_entry_clear_sec),
             ("progress_margin", progress_margin),
         ):
             if not math.isfinite(value) or value < 0.0:
@@ -161,6 +191,7 @@ class DogHoleEntryPauseGate:
         self._brake_settle_sec = brake_settle_sec
         self._hold_sec = hold_sec
         self._rearm_clear_sec = rearm_clear_sec
+        self._invalid_entry_clear_sec = invalid_entry_clear_sec
         self._progress_margin = progress_margin
         self._poses: tuple[PathPose, ...] = ()
         self._committed_spans: tuple[tuple[float, float], ...] = ()
@@ -170,6 +201,7 @@ class DogHoleEntryPauseGate:
         self._inside_corridor = False
         self._path_progress: float | None = None
         self._committed_ahead = False
+        self._invalid_entry_clear_since: float | None = None
 
     @property
     def state(self) -> GateState:
@@ -245,11 +277,16 @@ class DogHoleEntryPauseGate:
             and not self._committed_ahead
         ):
             self._transition(GateState.PASSED, now)
+        elif self._state == GateState.INVALID_ENTRY:
+            if self._inside_corridor or self._inside_approach:
+                self._invalid_entry_clear_since = None
+            elif self._invalid_entry_clear_since is None:
+                self._invalid_entry_clear_since = now
 
         self.tick(now)
         return self.snapshot()
 
-    def tick(self, now: float) -> GateSnapshot:
+    def tick(self, now: float, *, pose_fresh: bool = True) -> GateSnapshot:
         if not math.isfinite(now):
             raise RegionContractError("time must be finite")
         if self._state == GateState.BRAKING:
@@ -260,6 +297,18 @@ class DogHoleEntryPauseGate:
                 self._transition(GateState.RELEASED, now)
         elif self._state == GateState.PASSED:
             if now - self._state_since >= self._rearm_clear_sec:
+                self._transition(
+                    GateState.ARMED if self._poses else GateState.WAITING_FOR_PATH,
+                    now,
+                )
+        elif self._state == GateState.INVALID_ENTRY:
+            if not pose_fresh:
+                self._invalid_entry_clear_since = None
+            elif (
+                self._invalid_entry_clear_since is not None
+                and now - self._invalid_entry_clear_since
+                >= self._invalid_entry_clear_sec
+            ):
                 self._transition(
                     GateState.ARMED if self._poses else GateState.WAITING_FOR_PATH,
                     now,
@@ -294,3 +343,5 @@ class DogHoleEntryPauseGate:
     def _transition(self, state: GateState, now: float) -> None:
         self._state = state
         self._state_since = now
+        if state != GateState.INVALID_ENTRY:
+            self._invalid_entry_clear_since = None

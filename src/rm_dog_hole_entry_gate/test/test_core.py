@@ -3,6 +3,7 @@ import pytest
 from rm_dog_hole_entry_gate.core import (
     DogHoleEntryPauseGate,
     GateState,
+    LocalizationReadinessGate,
     project_path_distance,
 )
 from rm_path_annotations.core import PathPose, RegionContractError, parse_region_set
@@ -114,6 +115,52 @@ def test_starting_inside_committed_corridor_is_rejected() -> None:
     gate.update_pose(1.0, 0.0, now=0.1)
     assert gate.state == GateState.INVALID_ENTRY
     assert gate.must_stop(pose_fresh=True)
+
+
+def test_invalid_entry_clears_only_after_continuous_time_outside_regions() -> None:
+    gate = _gate()
+    gate.set_path((_pose(1.0), _pose(4.0)), now=0.0)
+    gate.update_pose(1.0, 0.0, now=0.1)
+    assert gate.state == GateState.INVALID_ENTRY
+
+    gate.update_pose(3.5, 0.0, now=0.2)
+    gate.tick(1.19)
+    assert gate.state == GateState.INVALID_ENTRY
+    gate.update_pose(2.5, 0.0, now=1.19)
+    gate.update_pose(3.5, 0.0, now=1.20)
+    gate.tick(2.19)
+    assert gate.state == GateState.INVALID_ENTRY
+    gate.tick(2.20)
+    assert gate.state == GateState.ARMED
+
+
+def test_stale_pose_resets_invalid_entry_clear_confirmation() -> None:
+    gate = _gate()
+    gate.set_path((_pose(1.0), _pose(4.0)), now=0.0)
+    gate.update_pose(1.0, 0.0, now=0.1)
+    gate.update_pose(3.5, 0.0, now=0.2)
+    gate.tick(0.7, pose_fresh=False)
+    gate.update_pose(3.5, 0.0, now=0.8)
+    gate.tick(1.79)
+    assert gate.state == GateState.INVALID_ENTRY
+    gate.tick(1.80)
+    assert gate.state == GateState.ARMED
+
+
+def test_localization_readiness_requires_continuously_valid_signal() -> None:
+    readiness = LocalizationReadinessGate(stable_sec=1.0)
+    assert not readiness.ready(0.0)
+    readiness.update(True, 0.1)
+    assert not readiness.ready(1.09)
+    readiness.update(False, 1.09)
+    readiness.update(True, 1.10)
+    assert not readiness.ready(2.09)
+    assert readiness.ready(2.10)
+
+
+def test_localization_readiness_rejects_invalid_duration() -> None:
+    with pytest.raises(RegionContractError, match="stable_sec"):
+        LocalizationReadinessGate(stable_sec=-0.1)
 
 
 def test_contract_requires_both_region_roles() -> None:

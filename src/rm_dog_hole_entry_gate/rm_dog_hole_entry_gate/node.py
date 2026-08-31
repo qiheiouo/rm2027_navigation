@@ -6,11 +6,16 @@ from geometry_msgs.msg import PoseWithCovarianceStamped, Twist
 from nav_msgs.msg import Path
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rclpy.time import Time
 from std_msgs.msg import Bool, String
 from tf2_ros import Buffer, TransformException, TransformListener
 
-from rm_dog_hole_entry_gate.core import DogHoleEntryPauseGate, GateState
+from rm_dog_hole_entry_gate.core import (
+    DogHoleEntryPauseGate,
+    GateState,
+    LocalizationReadinessGate,
+)
 from rm_path_annotations.core import (
     PathPose,
     RegionContractError,
@@ -37,6 +42,17 @@ class DogHoleEntryPauseGateNode(Node):
         map_frame = self.declare_parameter("map_frame", "map").value
         base_frame = self.declare_parameter("base_frame", "base_link").value
         use_tf_pose = self.declare_parameter("use_tf_pose", True).value
+        localization_valid_topic = self.declare_parameter(
+            "localization_valid_topic",
+            "/localization/global_localization_valid",
+        ).value
+        if (
+            not isinstance(localization_valid_topic, str)
+            or not localization_valid_topic.strip()
+        ):
+            raise RegionContractError(
+                "localization_valid_topic must be a non-empty string"
+            )
         input_cmd_vel_topic = self.declare_parameter(
             "input_cmd_vel_topic", "/cmd_vel"
         ).value
@@ -46,6 +62,12 @@ class DogHoleEntryPauseGateNode(Node):
         hold_sec = self._finite_nonnegative("hold_sec", 5.0)
         brake_settle_sec = self._finite_nonnegative("brake_settle_sec", 0.5)
         rearm_clear_sec = self._finite_nonnegative("rearm_clear_sec", 1.0)
+        invalid_entry_clear_sec = self._finite_nonnegative(
+            "invalid_entry_clear_sec", 1.0
+        )
+        localization_stable_sec = self._finite_nonnegative(
+            "localization_stable_sec", 1.0
+        )
         pose_timeout_sec = self._finite_positive("pose_timeout_sec", 2.0)
         zero_publish_hz = self._finite_positive("zero_publish_hz", 20.0)
         if input_cmd_vel_topic == output_cmd_vel_topic:
@@ -65,7 +87,12 @@ class DogHoleEntryPauseGateNode(Node):
             brake_settle_sec=brake_settle_sec,
             hold_sec=hold_sec,
             rearm_clear_sec=rearm_clear_sec,
+            invalid_entry_clear_sec=invalid_entry_clear_sec,
         )
+        self._localization_readiness = LocalizationReadinessGate(
+            localization_stable_sec
+        )
+        self._localization_ready = False
         self._pose_timeout_sec = pose_timeout_sec
         self._last_pose_monotonic: float | None = None
         self._last_state = self._gate.state
@@ -93,6 +120,17 @@ class DogHoleEntryPauseGateNode(Node):
         self._pose_subscription = self.create_subscription(
             PoseWithCovarianceStamped, pose_topic, self._handle_pose, 10
         )
+        localization_qos = QoSProfile(
+            depth=1,
+            reliability=ReliabilityPolicy.RELIABLE,
+            durability=DurabilityPolicy.TRANSIENT_LOCAL,
+        )
+        self._localization_valid_subscription = self.create_subscription(
+            Bool,
+            localization_valid_topic.strip(),
+            self._handle_localization_valid,
+            localization_qos,
+        )
         self._cmd_subscription = self.create_subscription(
             Twist, input_cmd_vel_topic, self._handle_cmd, 10
         )
@@ -101,7 +139,9 @@ class DogHoleEntryPauseGateNode(Node):
             "DOG-HOLE ENTRY PAUSE GATE ACTIVE: map="
             f"{expected_map_id}@{expected_map_revision}, hold={hold_sec:.3f}s, "
             f"input={input_cmd_vel_topic}, output={output_cmd_vel_topic}. "
-            "Velocity is fail-closed until a valid path is available."
+            "Map poses are ignored until localization is continuously valid for "
+            f"{localization_stable_sec:.3f}s. Velocity is fail-closed until a "
+            "valid path is available."
         )
 
     def _required_string(self, name: str) -> str:
@@ -153,6 +193,8 @@ class DogHoleEntryPauseGateNode(Node):
 
     def _handle_pose(self, message: PoseWithCovarianceStamped) -> None:
         now = self._now()
+        if not self._localization_readiness.ready(now):
+            return
         if message.header.frame_id != "map":
             self.get_logger().error(
                 "Ignoring global pose whose frame is not canonical 'map'"
@@ -170,9 +212,21 @@ class DogHoleEntryPauseGateNode(Node):
         self._observe_transition()
         self._publish_status()
 
+    def _handle_localization_valid(self, message: Bool) -> None:
+        now = self._now()
+        was_ready = self._localization_readiness.ready(now)
+        self._localization_readiness.update(message.data, now)
+        if not message.data:
+            self._last_pose_monotonic = None
+            if was_ready:
+                self.get_logger().warning(
+                    "Global localization became invalid; semantic pose updates "
+                    "are suspended"
+                )
+
     def _handle_cmd(self, message: Twist) -> None:
         now = self._now()
-        self._gate.tick(now)
+        self._gate.tick(now, pose_fresh=self._pose_is_fresh(now))
         if self._must_stop(now):
             self._cmd_publisher.publish(Twist())
         else:
@@ -181,15 +235,25 @@ class DogHoleEntryPauseGateNode(Node):
 
     def _tick(self) -> None:
         now = self._now()
+        ready = self._localization_readiness.ready(now)
+        if ready != self._localization_ready:
+            if ready:
+                self.get_logger().info(
+                    "Global localization is stable; dog-hole pose evaluation enabled"
+                )
+            self._localization_ready = ready
         self._refresh_tf_pose(now)
-        self._gate.tick(now)
+        self._gate.tick(now, pose_fresh=self._pose_is_fresh(now))
         if self._must_stop(now):
             self._cmd_publisher.publish(Twist())
         self._observe_transition()
         self._publish_status()
 
     def _refresh_tf_pose(self, now: float) -> None:
-        if self._tf_buffer is None:
+        if (
+            self._tf_buffer is None
+            or not self._localization_readiness.ready(now)
+        ):
             return
         try:
             transform = self._tf_buffer.lookup_transform(
@@ -209,11 +273,14 @@ class DogHoleEntryPauseGateNode(Node):
             self.get_logger().error(f"Rejecting dog-hole TF pose: {error}")
 
     def _must_stop(self, now: float) -> bool:
-        pose_fresh = (
-            self._last_pose_monotonic is not None
+        return self._gate.must_stop(pose_fresh=self._pose_is_fresh(now))
+
+    def _pose_is_fresh(self, now: float) -> bool:
+        return (
+            self._localization_readiness.ready(now)
+            and self._last_pose_monotonic is not None
             and now - self._last_pose_monotonic <= self._pose_timeout_sec
         )
-        return self._gate.must_stop(pose_fresh=pose_fresh)
 
     def _observe_transition(self) -> None:
         state = self._gate.state
