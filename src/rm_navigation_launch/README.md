@@ -172,13 +172,18 @@ ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
   enable_dog_hole_route:=true \
   dog_hole_regions_file:=/absolute/path/connected.regions.yaml \
   dog_hole_route_file:=/absolute/path/connected.route.yaml \
-  ramp_max_forward_speed:=0.20 \
-  dog_hole_max_forward_speed:=0.20
+  ramp_max_forward_speed:=0.80 \
+  dog_hole_max_forward_speed:=0.80 \
+  dog_hole_local_inflation_radius:=0.20 \
+  dog_hole_global_inflation_radius:=0.10
 ```
 
 该开关将公共 `/navigate_to_pose` 交给只做分段的 action 代理，真实 Nav2 action 改为
 `/navigate_to_pose_direct`；同时把真实串口的速度输入从 `/cmd_vel` 改为
 `/cmd_vel_dog_hole_gated`，并自动启用旧车狗洞 profile。代理不发布速度，Nav2 仍是唯一
-控制器。旧车入口拒绝分段速度大于 `0.50 m/s`。默认关闭时 action 和速度链均与此前
-一致。完整地图制作、语义标注、安全门状态和 C00--C06 实车门见
+控制器。分段代理不再增加额外的 `0.50 m/s` 硬上限；实际速度仍由
+`ramp_max_forward_speed`（坡道过滤启用时）、`dog_hole_max_forward_speed`、Nav2
+velocity smoother 和底盘能力共同约束。狗洞 profile 的局部/全局 inflation 默认分别为
+`0.20 m` 和 `0.10 m`：局部值可适当增大以远离墙面，全局值过大会让窄通道在规划层
+闭合。默认关闭时 action 和速度链均与此前一致。完整地图制作、语义标注、安全门状态和 C00--C06 实车门见
 `docs/validation/old_car_connected_dog_hole_ramp_validation.md`。

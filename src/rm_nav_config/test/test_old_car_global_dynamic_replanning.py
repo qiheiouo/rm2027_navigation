@@ -315,7 +315,15 @@ def test_old_car_full_terrain_entry_combines_profiles_without_duplicate_stack():
     assert '"localization_stable_sec": ParameterValue(' in launch
     assert '"invalid_entry_clear_sec": ParameterValue(' in launch
     assert '"/navigate_to_pose_direct"' in launch
-    assert "OLD_CAR_STAGED_ROUTE_MAX_SPEED = 0.50" in launch
+    assert "OLD_CAR_STAGED_ROUTE_MAX_SPEED" not in launch
+    assert re.search(
+        r'"dog_hole_local_inflation_radius"\s*,\s*default_value="0\.20"',
+        launch,
+    )
+    assert re.search(
+        r'"dog_hole_global_inflation_radius"\s*,\s*default_value="0\.10"',
+        launch,
+    )
 
     validation_launch = (
         WORKSPACE_SOURCE

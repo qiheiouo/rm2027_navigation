@@ -28,22 +28,10 @@ from nav2_common.launch import RewrittenYaml
 
 
 TRUE_VALUES = {"1", "true", "yes", "on"}
-OLD_CAR_STAGED_ROUTE_MAX_SPEED = 0.50
 
 
 def _enabled(context, name):
     return LaunchConfiguration(name).perform(context).strip().lower() in TRUE_VALUES
-
-
-def _positive_float(context, name):
-    text = LaunchConfiguration(name).perform(context).strip()
-    try:
-        value = float(text)
-    except ValueError as error:
-        raise RuntimeError(f"{name} must be numeric, got: {text!r}") from error
-    if not 0.0 < value < float("inf"):
-        raise RuntimeError(f"{name} must be finite and positive, got: {text!r}")
-    return value
 
 
 def _map_binding(bundle_path_text):
@@ -151,18 +139,6 @@ def _launch_full_terrain(context, *args, **kwargs):
                 raise RuntimeError(
                     "enable_dog_hole_route:=true requires a regular "
                     f"dog_hole_route_file, got: {route_file!r}"
-                )
-            effective_speed_name = (
-                "ramp_max_forward_speed"
-                if ramp_active
-                else "dog_hole_max_forward_speed"
-            )
-            effective_speed = _positive_float(context, effective_speed_name)
-            if effective_speed > OLD_CAR_STAGED_ROUTE_MAX_SPEED:
-                raise RuntimeError(
-                    f"{effective_speed_name}={effective_speed:.3f} exceeds the "
-                    "old-car staged dog-hole safety limit of "
-                    f"{OLD_CAR_STAGED_ROUTE_MAX_SPEED:.2f} m/s"
                 )
             semantic_nodes.append(Node(
                 package="rm_dog_hole_entry_gate",
@@ -311,7 +287,14 @@ def generate_launch_description():
             description="Empty inherits old_car_full_navigation configured map.",
         ),
         DeclareLaunchArgument("activate_ramp_filter", default_value="false"),
-        DeclareLaunchArgument("ramp_max_forward_speed", default_value="0.20"),
+        DeclareLaunchArgument(
+            "ramp_max_forward_speed",
+            default_value="0.20",
+            description=(
+                "MPPI vx_max in m/s when the ramp filter is active. This "
+                "overrides dog_hole_max_forward_speed for the combined run."
+            ),
+        ),
         DeclareLaunchArgument("ramp_max_yaw_rate", default_value="0.40"),
         DeclareLaunchArgument("enable_dog_hole_profile", default_value="false"),
         DeclareLaunchArgument(
@@ -346,17 +329,32 @@ def generate_launch_description():
             "dog_hole_invalid_entry_clear_sec", default_value="1.0"
         ),
         DeclareLaunchArgument(
-            "dog_hole_max_forward_speed", default_value="0.80"
+            "dog_hole_max_forward_speed",
+            default_value="0.80",
+            description=(
+                "Dog-hole MPPI vx_max in m/s. The staged route adds no extra "
+                "speed ceiling; velocity smoother and chassis limits still apply."
+            ),
         ),
         DeclareLaunchArgument("dog_hole_max_yaw_rate", default_value="0.80"),
         DeclareLaunchArgument(
             "dog_hole_obstacle_ceiling_height", default_value="0.55"
         ),
         DeclareLaunchArgument(
-            "dog_hole_local_inflation_radius", default_value="0.10"
+            "dog_hole_local_inflation_radius",
+            default_value="0.20",
+            description=(
+                "Local costmap inflation radius in metres while the dog-hole "
+                "profile is enabled. Increase to keep more wall clearance."
+            ),
         ),
         DeclareLaunchArgument(
-            "dog_hole_global_inflation_radius", default_value="0.10"
+            "dog_hole_global_inflation_radius",
+            default_value="0.10",
+            description=(
+                "Global costmap inflation radius in metres while the dog-hole "
+                "profile is enabled. Excessive values can close the corridor."
+            ),
         ),
         OpaqueFunction(function=_launch_full_terrain),
     ])
