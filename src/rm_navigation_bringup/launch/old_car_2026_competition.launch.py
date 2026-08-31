@@ -165,6 +165,8 @@ def generate_launch_description():
     map_manifest = LaunchConfiguration("map_bundle_manifest")
     map_policy = LaunchConfiguration("map_acceptance_policy")
     nav2_params = LaunchConfiguration("nav2_params")
+    navigate_to_pose_action = LaunchConfiguration("navigate_to_pose_action")
+    goal_pose_topic = LaunchConfiguration("goal_pose_topic")
     relocalization_params = LaunchConfiguration("relocalization_params")
     global_pose_bridge_config = LaunchConfiguration("global_pose_bridge_config")
     scan_projection_params = LaunchConfiguration("scan_projection_params")
@@ -281,6 +283,10 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2),
         DeclareLaunchArgument(
+            "navigate_to_pose_action", default_value="/navigate_to_pose"
+        ),
+        DeclareLaunchArgument("goal_pose_topic", default_value="/goal_pose"),
+        DeclareLaunchArgument(
             "relocalization_params",
             default_value=default_relocalization_params,
         ),
@@ -359,6 +365,8 @@ def generate_launch_description():
                 "use_rviz": use_rviz,
                 "use_sim_time": use_sim_time,
                 "nav2_params": nav2_params,
+                "navigate_to_pose_action": navigate_to_pose_action,
+                "goal_pose_topic": goal_pose_topic,
                 "pointcloud_filter_enabled": "true",
                 "publish_transformed_registered_cloud": gicp_enabled,
                 "serial_protocol_profile": serial_protocol_profile,

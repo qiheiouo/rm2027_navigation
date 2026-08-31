@@ -6,8 +6,10 @@
 
 ```text
 任意上游起点
-  -> Nav2 全局路径确实穿过狗洞
-  -> 机器人进入洞前 approach 区
+  -> 坡后目标落入 map-bound goal trigger 区
+  -> 公共 NavigateToPose 被改写为固定停止点
+  -> Nav2 到达固定停止点
+  -> 提交“狗洞出口点 + 原目标”的 NavigateThroughPoses
   -> 最终底盘速度被置零，先留 0.5 s 制动，再完整保持 5.0 s
   -> 老车以这 5 s 模拟下位机变形完成
   -> 原 Nav2 控制流恢复
@@ -16,10 +18,11 @@
   -> 自动坡面过滤保持跟踪，Nav2 到达坡顶目标
 ```
 
-实现没有增加第二个 Nav2 action owner，也没有复制仿真狗洞控制器。Nav2 仍独占
-路径跟踪，`rm_dog_hole_entry_gate` 只位于 `/cmd_vel` 和串口之间；坡道继续使用已经
-过录包 A/B 的共享自动 tracker。5 s 定时器只是旧车模拟，不能替代新车未来的“变形
-请求/完成确认/失败”下位机合同。
+实现没有增加第二个控制器，也没有复制仿真狗洞控制器。`dog_hole_route_orchestrator`
+拥有公共 `/navigate_to_pose` action，但只做目标分段；真实 Nav2 action 被重映射为
+`/navigate_to_pose_direct`，Nav2 仍独占规划和路径跟踪。`dog_hole_entry_pause_gate` 只位于
+最终 `/cmd_vel` 和串口之间。5 s 定时器是旧车模拟；新车复用时用“变形请求/完成确认/
+超时失败”替换该门的定时放行，路由层和 Nav2 不需要重写。
 
 ## 2. 场地和地图怎么准备
 
@@ -101,6 +104,35 @@ ros2 run rm_path_annotations validate_semantic_regions \
 
 任何不匹配都必须拒绝启动；换图后不能继续使用旧多边形。
 
+还需要单独创建目标路由 sidecar：
+
+```bash
+cp src/rm_navigation_launch/config/\
+old_car_connected_dog_hole_route.example.yaml \
+/data/rm27_maps/connected_test/REV/connected_test.route.yaml
+```
+
+其中：
+
+- `goal_trigger_polygon` 覆盖“目标点在这里就必须先过狗洞”的坡道及坡后目标区；它不是
+  costmap 障碍，也不会改变普通目标；其上游边界应在 `exit_pose` 下游；
+- `stop_pose` 是洞前固定停车/变形位，必须在 trigger 外、approach 内；
+- `exit_pose` 位于 committed corridor 下游且必须在 trigger 外，机器人会用 Nav2 的连续
+  through-poses 路径穿过它，然后继续到用户原目标；
+- 三者都使用 `map` 坐标，route 的 map binding 必须和 regions、bundle 完全一致；
+- 本方案按“目标区触发”实现。若机器人可能从狗洞下游一侧开始，应另做方向判定，当前
+  旧车 smoke 配置只允许从上游进入，不能把“任意摆放方向”写进结论。
+
+启动实车前单独验证 route（参数与 regions 验证使用同一组 bundle 字段/hash）：
+
+```bash
+ros2 run rm_dog_hole_entry_gate validate_dog_hole_route \
+  /data/rm27_maps/connected_test/REV/connected_test.route.yaml \
+  --expected-map-id MAP_ID \
+  --expected-map-revision REVISION \
+  --expected-manifest-sha256 MANIFEST_SHA256
+```
+
 ## 4. 构建和启动
 
 ```bash
@@ -115,14 +147,31 @@ source install/setup.bash
 ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
   map_bundle_override:=/data/rm27_maps/connected_test/REV/connected_test.bundle.yaml \
   activate_ramp_filter:=true \
-  enable_dog_hole_entry_pause:=true \
-  dog_hole_regions_file:=/data/rm27_maps/connected_test/REV/connected_test.regions.yaml
+  enable_dog_hole_route:=true \
+  dog_hole_regions_file:=/data/rm27_maps/connected_test/REV/connected_test.regions.yaml \
+  dog_hole_route_file:=/data/rm27_maps/connected_test/REV/connected_test.route.yaml \
+  dog_hole_hold_sec:=5.0 \
+  ramp_max_forward_speed:=0.20 \
+  dog_hole_max_forward_speed:=0.20 \
+  ramp_max_yaw_rate:=0.35 \
+  dog_hole_max_yaw_rate:=0.35
 ```
 
-`enable_dog_hole_entry_pause:=true` 会自动启用旧车狗洞 Nav2/costmap profile，但不会自动
-替用户打开坡面 active A/B，所以命令中仍明确写出 `activate_ramp_filter:=true`。安全门
-默认关闭；未显式提供 map bundle 和 regions 时会拒绝启动，不会继承一个看不见的默认
-地图。
+`enable_dog_hole_route:=true` 会自动启用 entry pause 和旧车狗洞 Nav2/costmap profile，
+但不会自动打开坡面 active A/B，所以命令中仍明确写出 `activate_ramp_filter:=true`。
+速度由 `ramp_max_forward_speed`（坡面过滤 active 时）或 `dog_hole_max_forward_speed`
+（坡面过滤未 active 时）决定；旧车分段过洞入口硬性拒绝大于 `0.50 m/s`，首轮只用
+`0.20 m/s`。未显式提供 bundle、regions 或 route 任一文件都会拒绝启动。
+
+当前 2026-08-31 实验文件已经生成在：
+
+```text
+/data/rm27_maps/old_car_field/20260831T073929Z_ps_corridor/old_car_field.bundle.yaml
+/data/rm27_maps/old_car_field/20260831T073929Z_ps_corridor/old_car_connected_dog_hole_ramp.regions.yaml
+/data/rm27_maps/old_car_field/20260831T073929Z_ps_corridor/old_car_connected_dog_hole.route.yaml
+```
+
+它们的几何来自目测和一次静止定位，只能用于当前 smoke test。
 
 启动后确认单一速度所有权：
 
@@ -132,11 +181,15 @@ ros2 topic info /cmd_vel_dog_hole_gated --verbose
 ros2 topic echo /dog_hole/pause_state
 ros2 topic echo /dog_hole/path_crosses
 ros2 topic echo /dog_hole/pause_active
+ros2 topic echo /dog_hole/route_state
+ros2 topic echo /dog_hole/route_active
+ros2 action list -t | grep -E 'navigate_to_pose|navigate_through_poses'
 ```
 
 预期：Nav2 发布 `/cmd_vel`，安全门是
-`/cmd_vel_dog_hole_gated` 的唯一 publisher，真实串口只订阅 gated topic。不得出现串口同时
-订阅原始 `/cmd_vel`，也不得有第二个节点发布 gated topic。
+`/cmd_vel_dog_hole_gated` 的唯一 publisher，真实串口只订阅 gated topic；action 列表应
+同时存在公共 `/navigate_to_pose` 和内部 `/navigate_to_pose_direct`。不得出现串口同时订阅
+原始 `/cmd_vel`，也不得有第二个节点发布 gated topic。
 
 ## 5. 推荐的分阶段实车门
 
@@ -147,22 +200,23 @@ topic 没有可运动输出。恢复正确文件后再继续。
 
 ### C01：路径不经过狗洞
 
-初始化定位，mission 保持 disabled，给一个不会穿过狗洞的 RViz 目标。PASS：
+初始化定位，mission 保持 disabled，给一个不在 goal trigger 内的 RViz 目标。PASS：
 
 - `/dog_hole/path_crosses == false`；
-- 状态为 `armed`；
+- route 状态短时为 `direct_navigation`；
 - 不出现 5 s 暂停；
-- 车按普通 Nav2 行驶，坡道和狗洞配置不会干扰普通区域。
+- `/navigate_to_pose_direct` 只收到原目标，车按普通 Nav2 行驶。
 
 ### C02：经过狗洞但尚未到 approach
 
-从至少三个不同的上游起点分别规划至坡顶后的同一个目标。PASS：每条实际 `/plan` 都有
-`path_crosses == true`，洞外行驶时 gated 速度与 `/cmd_vel` 一致。若某条路径绕开狗洞，
-这是 PGM/规划约束问题，不能算安全门失败，也不能继续宣称“所有路径经过狗洞”。
+从至少三个不同的上游起点分别发布坡后的同一个目标。PASS：route 先进入
+`navigating_to_stop`，三个试次都先到同一 `stop_pose`，而不是直接规划至原目标。此阶段
+`/plan` 不应穿越 committed corridor，gated 速度与 `/cmd_vel` 一致。
 
 ### C03：洞前停车 5 s
 
-车进入 A 区后状态必须按顺序出现：
+Nav2 报告 stop stage 成功后，route 进入 `transition_then_traverse` 并提交出口点；pause
+状态必须按顺序出现：
 
 ```text
 armed -> braking -> holding -> released
@@ -171,6 +225,7 @@ armed -> braking -> holding -> released
 PASS：
 
 - `braking` 开始后 gated 速度立即为零；
+- 实际停车位置在 Nav2 goal checker 容差内接近 route `stop_pose`；
 - 0.5 s 制动等待结束后，`holding` 连续不少于 5.0 s；
 - 用 `/odometry/lio` 复核机器人在 holding 内确实静止；
 - 同一方向一次穿越只触发一次；
@@ -183,7 +238,8 @@ PASS：安全门不在洞内二次停车，出洞后依次 `passed -> armed`，�
 
 ### C05：连续上坡
 
-目标必须位于坡顶之后，使同一 Nav2 goal 在出洞后继续执行。PASS：
+目标必须位于 route 的 goal trigger 内且在坡顶之后。对用户仍是同一个公共 Nav2 goal，
+内部通过 stop 和 exit 两个阶段继续执行。PASS：
 
 - 不重新发目标、不重新发初始位姿、不重启 launch；
 - `/diagnostics` 中 `old_car_shared_ramp_filter/automatic_ramp_filter` 在坡前确认坡面；
@@ -204,6 +260,7 @@ ros2 bag record \
   /plan /localization/global_pose /odometry/lio \
   /cmd_vel /cmd_vel_dog_hole_gated \
   /dog_hole/pause_state /dog_hole/pause_active /dog_hole/path_crosses \
+  /dog_hole/route_state /dog_hole/route_active \
   /points/obstacles_fused /points/obstacles_ramp_filtered \
   /livox/left/pointcloud_filtered /livox/left/pointcloud_ramp_filtered \
   /local_costmap/costmap /global_costmap/costmap \

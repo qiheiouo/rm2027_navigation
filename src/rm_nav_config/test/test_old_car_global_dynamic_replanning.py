@@ -310,3 +310,37 @@ def test_old_car_full_terrain_entry_combines_profiles_without_duplicate_stack():
     assert 'serial_cmd_vel_topic = "/cmd_vel"' in launch
     assert 'serial_cmd_vel_topic = "/cmd_vel_dog_hole_gated"' in launch
     assert '"serial_cmd_vel_topic": serial_cmd_vel_topic' in launch
+    assert 'DeclareLaunchArgument(\n            "enable_dog_hole_route"' in launch
+    assert 'executable="dog_hole_route_orchestrator"' in launch
+    assert '"/navigate_to_pose_direct"' in launch
+    assert "OLD_CAR_STAGED_ROUTE_MAX_SPEED = 0.50" in launch
+
+    validation_launch = (
+        WORKSPACE_SOURCE
+        / "rm_navigation_bringup"
+        / "launch"
+        / "old_car_2026_validation.launch.py"
+    ).read_text(encoding="utf-8")
+    competition_launch = (
+        WORKSPACE_SOURCE
+        / "rm_navigation_bringup"
+        / "launch"
+        / "old_car_2026_competition.launch.py"
+    ).read_text(encoding="utf-8")
+    assert 'src="/navigate_to_pose"' in validation_launch
+    assert "dst=navigate_to_pose_action" in validation_launch
+    assert 'src="/navigate_to_pose/_action/send_goal"' in validation_launch
+    assert 'SetRemap(src="/goal_pose", dst=goal_pose_topic)' in validation_launch
+    assert '"navigate_to_pose_action": navigate_to_pose_action' in competition_launch
+
+    route = yaml.safe_load(
+        (
+            WORKSPACE_SOURCE
+            / "rm_navigation_launch"
+            / "config"
+            / "old_car_connected_dog_hole_route.example.yaml"
+        ).read_text(encoding="utf-8")
+    )
+    assert route["schema"] == "rm_dog_hole_route/v1"
+    assert set(route["stop_pose"]) == {"x", "y", "yaw"}
+    assert set(route["exit_pose"]) == {"x", "y", "yaw"}

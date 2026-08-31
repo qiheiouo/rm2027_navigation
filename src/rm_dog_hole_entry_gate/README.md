@@ -1,9 +1,11 @@
 # rm_dog_hole_entry_gate
 
-This package is the opt-in velocity consumer for the revision-bound dog-hole
-regions produced by `rm_path_annotations`. It does not own a Nav2 action. It
-subscribes to the final Nav2 `/cmd_vel`, publishes a separate gated velocity
-topic for the serial transport, and owns only the stop/hold boundary.
+This package contains two opt-in, revision-bound layers. The route orchestrator
+owns the public `/navigate_to_pose` boundary and forwards ordinary goals to a
+remapped Nav2 action unchanged. A goal inside its map-bound trigger polygon is
+expanded to `fixed stop pose -> through exit pose -> original goal`. The entry
+gate subscribes to the final Nav2 `/cmd_vel`, publishes a separate gated
+velocity topic for the serial transport, and owns only the stop/hold boundary.
 
 For the old-car simulation contract it:
 
@@ -30,3 +32,9 @@ as if it were current.
 This timer is only an old-car stand-in for the future lower-controller
 deformation acknowledgement. It is not evidence that a real actuator contract
 has been implemented.
+
+The route orchestrator never publishes velocity and does not implement a second
+controller. Nav2 remains the sole planner/controller action implementation at
+`/navigate_to_pose_direct`; RViz, mission code and other clients keep using the
+public `/navigate_to_pose` action. Only one public goal is admitted at a time,
+and cancellation is forwarded to the active Nav2 stage.

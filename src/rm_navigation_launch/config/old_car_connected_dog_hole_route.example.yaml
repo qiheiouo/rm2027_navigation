@@ -1,0 +1,25 @@
+# Copy beside the immutable map bundle and replace every placeholder from RViz
+# measurements. This sidecar selects goals; it does not mark obstacles.
+schema: rm_dog_hole_route/v1
+route_id: replace_with_route_id
+revision: replace_with_route_revision
+map_binding:
+  frame_id: map
+  map_id: ReplaceWithMapId
+  map_revision: ReplaceWithMapRevision
+  manifest_sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+
+# A public NavigateToPose goal inside (or on the boundary of) this polygon is
+# expanded to stop_pose -> exit_pose -> the original goal. Keep the stop pose
+# outside this polygon so clicking the stop itself remains ordinary navigation.
+goal_trigger_polygon:
+  - [3.20, -1.00]
+  - [6.00, -1.00]
+  - [6.00, 1.00]
+  - [3.20, 1.00]
+
+# map-frame radians. The pose must be upstream of the dog-hole approach region.
+stop_pose: {x: 1.00, y: 0.00, yaw: 0.00}
+
+# Must be safely beyond the committed corridor and before the final goal.
+exit_pose: {x: 3.00, y: 0.00, yaw: 0.00}

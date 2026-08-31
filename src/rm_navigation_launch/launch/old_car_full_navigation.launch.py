@@ -156,6 +156,10 @@ def generate_launch_description():
             default_value="/livox/left/pointcloud_filtered",
         ),
         DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel"),
+        DeclareLaunchArgument(
+            "navigate_to_pose_action", default_value="/navigate_to_pose"
+        ),
+        DeclareLaunchArgument("goal_pose_topic", default_value="/goal_pose"),
         LogInfo(msg=(
             "[rm_navigation_launch] 全功能入口已加载。mission 启动状态固定为 disabled；"
             "发布初始位姿并完成安全检查后，再通过服务启用。"
@@ -182,6 +186,10 @@ def generate_launch_description():
                     "localization_pointcloud_topic"
                 ),
                 "nav2_params": LaunchConfiguration("nav2_config_yaml"),
+                "navigate_to_pose_action": LaunchConfiguration(
+                    "navigate_to_pose_action"
+                ),
+                "goal_pose_topic": LaunchConfiguration("goal_pose_topic"),
                 "use_nav2": _bool_text(nav2_enabled),
                 "use_rviz": _bool_text(_enabled("rviz")),
                 "use_real_serial": _bool_text(serial_enabled),

@@ -129,6 +129,8 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     update_method = LaunchConfiguration("update_method")
     nav2_params = LaunchConfiguration("nav2_params")
+    navigate_to_pose_action = LaunchConfiguration("navigate_to_pose_action")
+    goal_pose_topic = LaunchConfiguration("goal_pose_topic")
     pointcloud_filter_enabled = LaunchConfiguration("pointcloud_filter_enabled")
     pointcloud_filter_input_topic = LaunchConfiguration("pointcloud_filter_input_topic")
     pointcloud_filter_output_topic = LaunchConfiguration("pointcloud_filter_output_topic")
@@ -288,6 +290,15 @@ def generate_launch_description():
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument("nav2_params", default_value=default_nav2_params),
+        DeclareLaunchArgument(
+            "navigate_to_pose_action",
+            default_value="/navigate_to_pose",
+            description=(
+                "Action name implemented by Nav2 bt_navigator. Override only "
+                "when a public semantic-route proxy owns /navigate_to_pose."
+            ),
+        ),
+        DeclareLaunchArgument("goal_pose_topic", default_value="/goal_pose"),
         DeclareLaunchArgument(
             "pointcloud_filter_enabled",
             default_value="true",
@@ -455,6 +466,48 @@ def generate_launch_description():
                 # directly on /cmd_vel. Keep every Nav2 motion producer behind
                 # the same smoothed old-car serial command path.
                 SetRemap(src="cmd_vel", dst="cmd_vel_nav"),
+                SetRemap(
+                    src="/navigate_to_pose",
+                    dst=navigate_to_pose_action,
+                ),
+                # Humble's BtActionServer constructs the action subchannels
+                # after node argument parsing, so remap all five explicitly.
+                SetRemap(
+                    src="/navigate_to_pose/_action/send_goal",
+                    dst=[
+                        navigate_to_pose_action,
+                        "/_action/send_goal",
+                    ],
+                ),
+                SetRemap(
+                    src="/navigate_to_pose/_action/get_result",
+                    dst=[
+                        navigate_to_pose_action,
+                        "/_action/get_result",
+                    ],
+                ),
+                SetRemap(
+                    src="/navigate_to_pose/_action/cancel_goal",
+                    dst=[
+                        navigate_to_pose_action,
+                        "/_action/cancel_goal",
+                    ],
+                ),
+                SetRemap(
+                    src="/navigate_to_pose/_action/feedback",
+                    dst=[
+                        navigate_to_pose_action,
+                        "/_action/feedback",
+                    ],
+                ),
+                SetRemap(
+                    src="/navigate_to_pose/_action/status",
+                    dst=[
+                        navigate_to_pose_action,
+                        "/_action/status",
+                    ],
+                ),
+                SetRemap(src="/goal_pose", dst=goal_pose_topic),
                 IncludeLaunchDescription(
                     PythonLaunchDescriptionSource(nav2_launch),
                     launch_arguments={

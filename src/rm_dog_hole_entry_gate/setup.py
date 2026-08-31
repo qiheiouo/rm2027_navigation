@@ -21,6 +21,10 @@ setup(
     entry_points={
         "console_scripts": [
             "dog_hole_entry_pause_gate = rm_dog_hole_entry_gate.node:main",
+            "dog_hole_route_orchestrator = "
+            "rm_dog_hole_entry_gate.route_orchestrator_node:main",
+            "validate_dog_hole_route = "
+            "rm_dog_hole_entry_gate.validate_route:main",
         ],
     },
 )

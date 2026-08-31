@@ -28,10 +28,22 @@ from nav2_common.launch import RewrittenYaml
 
 
 TRUE_VALUES = {"1", "true", "yes", "on"}
+OLD_CAR_STAGED_ROUTE_MAX_SPEED = 0.50
 
 
 def _enabled(context, name):
     return LaunchConfiguration(name).perform(context).strip().lower() in TRUE_VALUES
+
+
+def _positive_float(context, name):
+    text = LaunchConfiguration(name).perform(context).strip()
+    try:
+        value = float(text)
+    except ValueError as error:
+        raise RuntimeError(f"{name} must be numeric, got: {text!r}") from error
+    if not 0.0 < value < float("inf"):
+        raise RuntimeError(f"{name} must be finite and positive, got: {text!r}")
+    return value
 
 
 def _map_binding(bundle_path_text):
@@ -67,14 +79,17 @@ def _map_binding(bundle_path_text):
 
 def _launch_full_terrain(context, *args, **kwargs):
     del args, kwargs
-    pause_enabled = _enabled(context, "enable_dog_hole_entry_pause")
+    route_enabled = _enabled(context, "enable_dog_hole_route")
+    pause_enabled = (
+        _enabled(context, "enable_dog_hole_entry_pause") or route_enabled
+    )
     dog_hole_enabled = _enabled(context, "enable_dog_hole_profile") or pause_enabled
     ramp_active = _enabled(context, "activate_ramp_filter")
     map_override_text = (
         LaunchConfiguration("map_bundle_override").perform(context).strip()
     )
 
-    gate_nodes = []
+    semantic_nodes = []
     serial_cmd_vel_topic = "/cmd_vel"
     if pause_enabled:
         if not map_override_text:
@@ -92,7 +107,7 @@ def _launch_full_terrain(context, *args, **kwargs):
             )
         map_id, map_revision, manifest_sha256 = _map_binding(map_override_text)
         serial_cmd_vel_topic = "/cmd_vel_dog_hole_gated"
-        gate_nodes = [Node(
+        semantic_nodes.append(Node(
             package="rm_dog_hole_entry_gate",
             executable="dog_hole_entry_pause_gate",
             name="old_car_dog_hole_entry_pause_gate",
@@ -116,7 +131,55 @@ def _launch_full_terrain(context, *args, **kwargs):
                 "input_cmd_vel_topic": "/cmd_vel",
                 "output_cmd_vel_topic": serial_cmd_vel_topic,
             }],
-        )]
+        ))
+
+        if route_enabled:
+            route_file = (
+                LaunchConfiguration("dog_hole_route_file")
+                .perform(context)
+                .strip()
+            )
+            if not route_file or not Path(route_file).is_file():
+                raise RuntimeError(
+                    "enable_dog_hole_route:=true requires a regular "
+                    f"dog_hole_route_file, got: {route_file!r}"
+                )
+            effective_speed_name = (
+                "ramp_max_forward_speed"
+                if ramp_active
+                else "dog_hole_max_forward_speed"
+            )
+            effective_speed = _positive_float(context, effective_speed_name)
+            if effective_speed > OLD_CAR_STAGED_ROUTE_MAX_SPEED:
+                raise RuntimeError(
+                    f"{effective_speed_name}={effective_speed:.3f} exceeds the "
+                    "old-car staged dog-hole safety limit of "
+                    f"{OLD_CAR_STAGED_ROUTE_MAX_SPEED:.2f} m/s"
+                )
+            semantic_nodes.append(Node(
+                package="rm_dog_hole_entry_gate",
+                executable="dog_hole_route_orchestrator",
+                name="old_car_dog_hole_route_orchestrator",
+                output="screen",
+                parameters=[{
+                    "route_file": route_file,
+                    "expected_map_id": map_id,
+                    "expected_map_revision": map_revision,
+                    "expected_manifest_sha256": manifest_sha256,
+                    "public_navigate_to_pose_action": "/navigate_to_pose",
+                    "public_goal_pose_topic": "/goal_pose",
+                    "direct_navigate_to_pose_action": (
+                        "/navigate_to_pose_direct"
+                    ),
+                    "navigate_through_poses_action": (
+                        "/navigate_through_poses"
+                    ),
+                    "server_wait_sec": ParameterValue(
+                        LaunchConfiguration("dog_hole_route_server_wait_sec"),
+                        value_type=float,
+                    ),
+                }],
+            ))
 
     base_nav2 = PathJoinSubstitution([
         FindPackageShare("rm_nav_config"),
@@ -189,7 +252,8 @@ def _launch_full_terrain(context, *args, **kwargs):
             "[old_car_full_terrain_navigation] full stack + automatic ramp "
             f"{'ACTIVE' if ramp_active else 'SHADOW'}; legacy dog-hole profile "
             f"{'ENABLED' if dog_hole_enabled else 'disabled'}; entry pause "
-            f"{'ACTIVE' if pause_enabled else 'disabled'}."
+            f"{'ACTIVE' if pause_enabled else 'disabled'}; staged route "
+            f"{'ACTIVE' if route_enabled else 'disabled'}."
         )),
         LogInfo(
             msg=(
@@ -205,7 +269,7 @@ def _launch_full_terrain(context, *args, **kwargs):
                 "normal obstacle height limits remain active."
             ),
         ),
-        *gate_nodes,
+        *semantic_nodes,
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(ramp_launch),
             launch_arguments={
@@ -214,6 +278,14 @@ def _launch_full_terrain(context, *args, **kwargs):
                 "map_bundle_override": map_override,
                 "nav2_base_config_yaml": selected_nav2,
                 "serial_cmd_vel_topic": serial_cmd_vel_topic,
+                "navigate_to_pose_action": (
+                    "/navigate_to_pose_direct"
+                    if route_enabled
+                    else "/navigate_to_pose"
+                ),
+                "goal_pose_topic": (
+                    "/goal_pose_direct" if route_enabled else "/goal_pose"
+                ),
                 "max_forward_speed": LaunchConfiguration(
                     "ramp_max_forward_speed"
                 ),
@@ -242,7 +314,20 @@ def generate_launch_description():
                 "Enabling this also enables the legacy dog-hole Nav2 profile."
             ),
         ),
+        DeclareLaunchArgument(
+            "enable_dog_hole_route",
+            default_value="false",
+            description=(
+                "Own public NavigateToPose and stage goals in the trigger "
+                "polygon through a fixed stop and exit pose. This implies "
+                "the entry pause gate and dog-hole profile."
+            ),
+        ),
         DeclareLaunchArgument("dog_hole_regions_file", default_value=""),
+        DeclareLaunchArgument("dog_hole_route_file", default_value=""),
+        DeclareLaunchArgument(
+            "dog_hole_route_server_wait_sec", default_value="10.0"
+        ),
         DeclareLaunchArgument("dog_hole_hold_sec", default_value="5.0"),
         DeclareLaunchArgument("dog_hole_brake_settle_sec", default_value="0.5"),
         DeclareLaunchArgument("dog_hole_pose_timeout_sec", default_value="2.0"),

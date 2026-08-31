@@ -162,18 +162,23 @@ ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
 这个入口复用的是旧车现有 MPPI 候选，不会加载 `main-new-car` 的狗洞中心线控制器，也
 不会假装已经具备下位机变形动作合同。
 
-当狗洞与坡道相连、需要用旧车“原地保持 5 s”模拟洞前变形时，必须使用精确绑定到
-当前 map bundle 的语义区域文件：
+当狗洞与坡道相连、需要强制“固定停止点 -> 原地保持 5 s -> 出口点 -> 原目标”时，
+必须同时使用精确绑定到当前 map bundle 的区域和路由 sidecar：
 
 ```bash
 ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
   map_bundle_override:=/absolute/path/connected.bundle.yaml \
   activate_ramp_filter:=true \
-  enable_dog_hole_entry_pause:=true \
-  dog_hole_regions_file:=/absolute/path/connected.regions.yaml
+  enable_dog_hole_route:=true \
+  dog_hole_regions_file:=/absolute/path/connected.regions.yaml \
+  dog_hole_route_file:=/absolute/path/connected.route.yaml \
+  ramp_max_forward_speed:=0.20 \
+  dog_hole_max_forward_speed:=0.20
 ```
 
-该开关会把真实串口的速度输入从 `/cmd_vel` 改为
-`/cmd_vel_dog_hole_gated`，并自动启用旧车狗洞 profile。默认关闭时速度链和此前完全一致。
-完整地图制作、语义标注、安全门状态和 C00--C06 实车门见
+该开关将公共 `/navigate_to_pose` 交给只做分段的 action 代理，真实 Nav2 action 改为
+`/navigate_to_pose_direct`；同时把真实串口的速度输入从 `/cmd_vel` 改为
+`/cmd_vel_dog_hole_gated`，并自动启用旧车狗洞 profile。代理不发布速度，Nav2 仍是唯一
+控制器。旧车入口拒绝分段速度大于 `0.50 m/s`。默认关闭时 action 和速度链均与此前
+一致。完整地图制作、语义标注、安全门状态和 C00--C06 实车门见
 `docs/validation/old_car_connected_dog_hole_ramp_validation.md`。
