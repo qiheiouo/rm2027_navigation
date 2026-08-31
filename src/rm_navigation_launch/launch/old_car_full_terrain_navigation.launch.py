@@ -3,7 +3,8 @@
 The wrapper includes the full hardware/navigation stack exactly once. Ramp
 perception starts in shadow unless explicitly activated. The legacy old-car
 dog-hole MPPI/costmap profile is also opt-in because its local height ceiling
-is a whole-run setting, not a semantic runtime switch.
+and global scan-marking suppression are whole-run settings, not semantic
+runtime switches.
 """
 
 import hashlib
@@ -167,6 +168,10 @@ def _launch_full_terrain(context, *args, **kwargs):
                 ): local_inflation,
                 (
                     "global_costmap.global_costmap.ros__parameters."
+                    "obstacle_layer.localization_scan.marking"
+                ): "false",
+                (
+                    "global_costmap.global_costmap.ros__parameters."
                     "inflation_layer.inflation_radius"
                 ): global_inflation,
             },
@@ -189,8 +194,10 @@ def _launch_full_terrain(context, *args, **kwargs):
         LogInfo(
             msg=(
                 "[old_car_full_terrain_navigation] WARNING: dog-hole height "
-                "ceiling is global for this run. Use it only on a cleared "
-                "dog-hole test route; AMCL scan height remains unchanged."
+                "ceiling and global scan-marking suppression are active for "
+                "this whole run. The static global map and local STVL remain "
+                "active. Use only on a cleared dog-hole test route; AMCL scan "
+                "height remains unchanged."
             ),
         ) if dog_hole_enabled else LogInfo(
             msg=(

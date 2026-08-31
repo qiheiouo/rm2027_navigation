@@ -1,6 +1,7 @@
 import math
 import os
 from pathlib import Path
+import re
 import xml.etree.ElementTree as ET
 
 import yaml
@@ -239,7 +240,8 @@ def test_old_car_ramp_entry_defaults_to_unlabelled_shadow_and_keeps_map_fallback
     assert '"/points/obstacles_ramp_filtered"' in launch
     assert '"controller_server.ros__parameters.FollowPath.motion_model": "DiffDrive"' in launch
     assert "fused_mid360_mark.topic" in launch
-    assert "/cmd_vel" not in launch
+    assert 'DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel")' in launch
+    assert '"serial_cmd_vel_topic": LaunchConfiguration("serial_cmd_vel_topic")' in launch
 
     automatic = yaml.safe_load(
         (
@@ -298,6 +300,13 @@ def test_old_car_full_terrain_entry_combines_profiles_without_duplicate_stack():
     assert '"nav2_base_config_yaml": selected_nav2' in launch
     assert '"map_bundle_override": map_override' in launch
     assert "fused_mid360_mark.max_obstacle_height" in launch
+    assert "obstacle_layer.localization_scan.marking" in launch
+    assert re.search(
+        r'"obstacle_layer\.localization_scan\.marking"\s*\): "false"',
+        launch,
+    )
     assert "pointcloud_to_laserscan_node" not in launch
     assert launch.count("IncludeLaunchDescription(") == 1
-    assert "/cmd_vel" not in launch
+    assert 'serial_cmd_vel_topic = "/cmd_vel"' in launch
+    assert 'serial_cmd_vel_topic = "/cmd_vel_dog_hole_gated"' in launch
+    assert '"serial_cmd_vel_topic": serial_cmd_vel_topic' in launch
