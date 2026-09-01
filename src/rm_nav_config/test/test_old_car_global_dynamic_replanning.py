@@ -2,6 +2,7 @@ import math
 import os
 from pathlib import Path
 import re
+import runpy
 import xml.etree.ElementTree as ET
 
 import yaml
@@ -196,6 +197,8 @@ def test_full_old_car_entry_uses_dual_local_avoidance_and_amcl_global_scan():
     assert 'FEATURES.add("dual_fusion")' in launch
     assert 'FEATURES.add("right_lidar")' in launch
     assert "ALLOW_PROVISIONAL_DUAL_EXTRINSIC = True" in launch
+    assert 'DeclareLaunchArgument("serial_max_vx"' in launch
+    assert '"serial_max_vx": LaunchConfiguration("serial_max_vx")' in launch
 
     dog_hole_launch = (
         WORKSPACE_SOURCE
@@ -218,6 +221,30 @@ def test_full_old_car_entry_uses_dual_local_avoidance_and_amcl_global_scan():
     assert controller["vx_max"] == 0.50
     assert smoother["max_velocity"][0] == 3.00
     assert smoother["max_velocity"][2] >= 0.80
+
+
+def test_full_terrain_global_speed_rewrites_smoother_x_limit():
+    launch = runpy.run_path(
+        str(
+            WORKSPACE_SOURCE
+            / "rm_navigation_launch"
+            / "launch"
+            / "old_car_full_terrain_navigation.launch.py"
+        )
+    )
+    rewritten_path = Path(
+        launch["_rewrite_global_speed_yaml"](
+            CONFIG / "nav2_old_car_2026_dual_stvl.yaml", 4.0
+        )
+    )
+    try:
+        document = yaml.safe_load(rewritten_path.read_text(encoding="utf-8"))
+    finally:
+        rewritten_path.unlink()
+    assert (
+        document["velocity_smoother"]["ros__parameters"]["max_velocity"][0]
+        == 4.0
+    )
 
 
 def test_old_car_ramp_entry_defaults_to_unlabelled_shadow_and_keeps_map_fallback():
@@ -310,6 +337,12 @@ def test_old_car_full_terrain_entry_combines_profiles_without_duplicate_stack():
     assert 'serial_cmd_vel_topic = "/cmd_vel"' in launch
     assert 'serial_cmd_vel_topic = "/cmd_vel_dog_hole_gated"' in launch
     assert '"serial_cmd_vel_topic": serial_cmd_vel_topic' in launch
+    assert '"serial_max_vx": global_vx' in launch
+    assert (
+        "_rewrite_global_speed_yaml("
+        in launch
+    )
+    assert '"global_max_forward_speed"' in launch
     assert 'DeclareLaunchArgument(\n            "enable_dog_hole_route"' in launch
     assert 'executable="dog_hole_route_orchestrator"' in launch
     assert '"localization_stable_sec": ParameterValue(' in launch

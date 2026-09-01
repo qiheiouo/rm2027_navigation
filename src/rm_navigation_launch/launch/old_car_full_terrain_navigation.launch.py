@@ -9,6 +9,7 @@ runtime switches.
 
 import hashlib
 from pathlib import Path
+import tempfile
 
 import yaml
 
@@ -32,6 +33,47 @@ TRUE_VALUES = {"1", "true", "yes", "on"}
 
 def _enabled(context, name):
     return LaunchConfiguration(name).perform(context).strip().lower() in TRUE_VALUES
+
+
+def _positive_float(context, name):
+    text = LaunchConfiguration(name).perform(context).strip()
+    try:
+        value = float(text)
+    except ValueError as error:
+        raise RuntimeError(f"{name} must be numeric, got: {text!r}") from error
+    if not 0.0 < value < float("inf"):
+        raise RuntimeError(f"{name} must be finite and positive, got: {text!r}")
+    return value
+
+
+def _rewrite_global_speed_yaml(source_file, global_speed):
+    source_path = Path(source_file)
+    try:
+        document = yaml.safe_load(source_path.read_text(encoding="utf-8"))
+        max_velocity = document["velocity_smoother"]["ros__parameters"][
+            "max_velocity"
+        ]
+    except (OSError, TypeError, KeyError, yaml.YAMLError) as error:
+        raise RuntimeError(
+            f"cannot load velocity smoother configuration from {source_path}: {error}"
+        ) from error
+    if not isinstance(max_velocity, list) or len(max_velocity) != 3:
+        raise RuntimeError(
+            "velocity_smoother max_velocity must contain exactly [vx, vy, wz]"
+        )
+    max_velocity[0] = global_speed
+    rewritten = tempfile.NamedTemporaryFile(
+        mode="w",
+        prefix="rm27_full_terrain_nav2_",
+        suffix=".yaml",
+        encoding="utf-8",
+        delete=False,
+    )
+    try:
+        yaml.safe_dump(document, rewritten, sort_keys=False)
+    finally:
+        rewritten.close()
+    return rewritten.name
 
 
 def _map_binding(bundle_path_text):
@@ -170,7 +212,11 @@ def _launch_full_terrain(context, *args, **kwargs):
         "config",
         "nav2_old_car_2026_dual_stvl.yaml",
     ])
-    selected_nav2 = base_nav2
+    global_vx_value = _positive_float(context, "global_max_forward_speed")
+    global_vx = LaunchConfiguration("global_max_forward_speed")
+    selected_nav2 = _rewrite_global_speed_yaml(
+        base_nav2.perform(context), global_vx_value
+    )
     if dog_hole_enabled:
         dog_vx = LaunchConfiguration("dog_hole_max_forward_speed")
         dog_wz = LaunchConfiguration("dog_hole_max_yaw_rate")
@@ -262,6 +308,7 @@ def _launch_full_terrain(context, *args, **kwargs):
                 "map_bundle_override": map_override,
                 "nav2_base_config_yaml": selected_nav2,
                 "serial_cmd_vel_topic": serial_cmd_vel_topic,
+                "serial_max_vx": global_vx,
                 "navigate_to_pose_action": (
                     "/navigate_to_pose_direct"
                     if route_enabled
@@ -287,6 +334,14 @@ def generate_launch_description():
             description="Empty inherits old_car_full_navigation configured map.",
         ),
         DeclareLaunchArgument("activate_ramp_filter", default_value="false"),
+        DeclareLaunchArgument(
+            "global_max_forward_speed",
+            default_value="3.00",
+            description=(
+                "Whole-run forward speed ceiling in m/s, applied to both the "
+                "Nav2 velocity smoother and the real serial transport."
+            ),
+        ),
         DeclareLaunchArgument(
             "ramp_max_forward_speed",
             default_value="0.20",

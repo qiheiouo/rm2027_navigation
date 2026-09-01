@@ -172,6 +172,7 @@ def _launch_validation(context, *args, **kwargs):
     include_arguments = {
         "nav2_config_yaml": base_nav2,
         "serial_cmd_vel_topic": LaunchConfiguration("serial_cmd_vel_topic"),
+        "serial_max_vx": LaunchConfiguration("serial_max_vx"),
         "navigate_to_pose_action": LaunchConfiguration(
             "navigate_to_pose_action"
         ),
@@ -237,6 +238,7 @@ def generate_launch_description():
         DeclareLaunchArgument("max_forward_speed", default_value="0.35"),
         DeclareLaunchArgument("max_yaw_rate", default_value="0.50"),
         DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel"),
+        DeclareLaunchArgument("serial_max_vx", default_value="3.0"),
         DeclareLaunchArgument(
             "navigate_to_pose_action", default_value="/navigate_to_pose"
         ),

@@ -156,6 +156,7 @@ def generate_launch_description():
             default_value="/livox/left/pointcloud_filtered",
         ),
         DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel"),
+        DeclareLaunchArgument("serial_max_vx", default_value=SERIAL_MAX_VX),
         DeclareLaunchArgument(
             "navigate_to_pose_action", default_value="/navigate_to_pose"
         ),
@@ -199,7 +200,7 @@ def generate_launch_description():
                 ),
                 "serial_device": SERIAL_DEVICE,
                 "serial_baudrate": SERIAL_BAUDRATE,
-                "serial_max_vx": SERIAL_MAX_VX,
+                "serial_max_vx": LaunchConfiguration("serial_max_vx"),
                 "serial_max_vy": SERIAL_MAX_VY,
                 "serial_max_wz": SERIAL_MAX_WZ,
                 "serial_cmd_vel_topic": LaunchConfiguration(
