@@ -23,8 +23,9 @@
 costmap 启动顺序目前有明确但尚未构成失败的证据：Nav2 激活 global costmap 时，人工初始
 位姿尚未建立 `map -> odom`，所以 planner 会循环等待 `base_link -> map`。现存四次日志均
 在约 8--12 秒后出现 `global_costmap: start`，且 lifecycle manager 随后报告
-`Managed nodes are active`。这说明这些会话是正常等待后恢复，不能据此宣称已复现
-“costmap 永久加载失败”。是否会在 Nav2 的初始 TF 等待上限后失效，需要 R02 专门验证。
+`Managed nodes are active`。2026-09-01 的 R02 又验证了延迟约 115 秒才发布初始位姿仍可
+恢复，因此当前不能把“costmap 永久加载失败”归因于固定 60/70 秒超时，也不需要新增
+定位有效后再启动 Nav2 的生命周期协调节点。真正的偶发永久故障仍需要按第 5 节冻结现场。
 
 ## 2. 显示消失不等于后端全部崩溃
 
@@ -138,6 +139,32 @@ ros2 run tf2_ros tf2_echo odom base_link
 后再启动 Nav2 lifecycle，而不是继续加大 costmap 参数。若 70 秒后仍能自动 active，则
 保留现有启动方式，不增加额外生命周期协调节点。
 
+2026-09-01 实车结果：**PASS**。车辆全程静止，只发布一次初始位姿：
+
+```text
+planner process started                     1788226088.371
+planner lifecycle activation began         1788226093.443
+manual /initialpose received by bridge      1788226203.511
+first corrected global pose accepted        1788226203.613
+global costmap reported start               1788226203.948
+all Nav2 managed nodes active               1788226205.361
+```
+
+初始位姿比 planner 进程晚约 115.14 秒，比 planner activation 晚约 110.07 秒；桥在
+0.10 秒内建立修正，global costmap 在 0.44 秒内开始，Nav2 在 1.85 秒内全部 active。
+稳定后 controller/planner/BT lifecycle 均为 active，定位恢复状态为 `healthy`，readiness
+为 navigation true；local/global costmap 实测约 4.0/1.66 Hz。运行参数核对为：
+
+```text
+MPPI FollowPath.vx_max                      4.0
+velocity_smoother.max_velocity              [4.0, 0.5, 1.2]
+serial_transport.max_vx                     4.0
+local/global inflation_radius               0.20 / 0.10
+```
+
+结论：保留现有 Nav2 启动方式。启动阶段 planner 暂时 inactive、global costmap 未发布属于
+等待首次全局 TF；只有发布正确初始位姿后仍不能在数秒内 active 才按永久故障处理。
+
 ### R03：直线与自转恢复
 
 R01 全部通过后再做。先低速直线，再逐级提高角速度，不直接从最高速开始。触发保护后
@@ -166,7 +193,7 @@ timeout 15 ros2 service call /mapping/save std_srvs/srv/Trigger '{}'
 
 ## 7. 通过门
 
-只有 R01 五次全过、R02 结论明确、R03 至少三次自动恢复且无误停车，才能把本轮描述为
+只有 R01 五次全过、R02 已通过、R03 至少三次自动恢复且无误停车，才能把本轮描述为
 “旧车导航启动与定位保护具备可重复恢复能力”。在此之前，更准确的状态是：核心导航和
 自主定位恢复已实现，组合狗洞/坡道已能运行；已修复若干确定的软件边界，但偶发启动故障
 仍缺一次冻结现场的根因证据。
