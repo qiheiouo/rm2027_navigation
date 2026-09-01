@@ -135,6 +135,21 @@ ros2 run tf2_ros tf2_echo odom base_link
 - readiness 最终只保留与未启用比赛接口对应的预期缺失项；
 - 不需要重启或第二次发布初始位姿。
 
+2026-09-01 实车结果：**5/5 PASS**。五轮均为冷启动后只发布一次正确初始位姿，不发送
+导航目标；最终 readiness 均为 navigation true，仅保留未接入的 `referee_state`。从桥接器
+接收初始位姿到 global costmap 开始、全部 Nav2 节点 active 的耗时分别为：
+
+```text
+轮次    global costmap    Nav2 全部 active
+1       0.41 s            1.98 s
+2       0.36 s            1.39 s
+3       0.18 s            1.34 s
+4       0.19 s            1.43 s
+5       0.21 s            1.22 s
+```
+
+五轮都不需要第二次发布初始位姿或重启 launch，因此启动顺序基线已经满足本轮通过门。
+
 ### R02：延迟初始化边界
 
 车辆必须静止且保持人工停车权限。冷启动后故意 70 秒不发布初始位姿，再发布一次正确
@@ -174,6 +189,46 @@ local/global inflation_radius               0.20 / 0.10
 R01 全部通过后再做。先低速直线，再逐级提高角速度，不直接从最高速开始。触发保护后
 停车，记录 `correction_recovery_state` 从锁存到 `healthy` 的耗时和自主 `/initialpose`
 次数。禁止人工重发位姿，除非超过测试预设停止时间并已终止试次。
+
+2026-09-01 实车基线使用地图 revision `20260828T070722Z`，车辆由遥控器执行动作，mission
+保持 disabled。低速直线、低速自转和中速自转均未触发保护；期间 correction recovery
+保持 `healthy`，全局位姿连续接受，local/global costmap 持续更新。点云 SE(3) 去畸变在
+约 4.1 万包时仅累计 2 次插值失败、4 个 drop，没有时间戳、TF、队列溢出或 odom 拒绝。
+
+高速自转产生了三类结果：
+
+1. 第一次约 2--3 秒/圈的一圈自转触发 0.416 m 平移创新拒绝。停车后第 1 次自主 AMCL
+   重播种即恢复；从首次拒绝 `1788273571.627` 到 canonical `map -> odom` 恢复
+   `1788273574.768` 共 3.14 秒，恢复后人工确认点云、地图和实车对齐。结果：**PASS**。
+2. 同方向持续时间更长的自转触发 0.557 m 创新拒绝。系统保持 fail-closed，但在 0.350 m
+   门附近反复失败，共执行 16 次重播种；从 `1788273801.348` 到 `1788273835.228` 共
+   33.88 秒才恢复，恢复后人工确认对齐。结果：**PASS with WARN**。现有 2 秒 cooldown
+   可能在 AMCL 充分收敛前重复重置，需要离线复核后再调，不能直接放宽创新门。
+3. 反方向连续三圈使 `/odometry/lio` 从实车原地附近跳到约
+   `(-0.73, 10.86, -0.14)`；首次 correction innovation 达 4.433 m，后续最高约 9.86 m。
+   恢复器继续以 `map->odom * 当前 LIO odom` 形成所谓 trusted prediction，播种点因此落到
+   约 `(1.2, 10.2)`，已经不是实车位置。到安全结束 launch 前已重播种 24 次，状态仍为
+   `latched_waiting_for_stationary_hold`、global localization false。结果：**FAIL**。
+
+第三种情况不是普通 AMCL 漂移，而是底层里程计发生大尺度不连续；它验证了现有算法说明中
+“底层里程计本身需基本可靠”的边界。保护层正确禁止导航并拒绝了错误 TF，但当前自动恢复
+不能处理 LIO 原点/位置突跳。下一步不能继续无限重播种，也不能把 10 m correction 直接
+放行；应先离线区分“AMCL 假匹配”和“odom 不连续”，再为后者设计独立的 fail-closed
+重基准流程：以锁存前最后可信全局位姿为候选种子，检测静止及 LIO 已稳定，要求多帧绝对
+定位一致后，才允许重新计算新的 `map -> odom`。若 LIO 姿态仍发散或持续移动，必须保持
+导航禁用，不能伪装成恢复成功。
+
+本轮证据已保存在宿主机：
+
+```text
+artifacts/bags/20260901_r03_spin_recovery_02/
+artifacts/logs/20260901_r03_spin_recovery_02_ros/
+```
+
+rosbag 已正常关闭并生成 metadata：406.4 MiB、885.116 秒、225085 条消息。它包含
+`/odometry/lio`、raw/canonical localization、恢复状态、TF、双 costmap 和去畸变诊断。
+此前的 `20260901_r03_spin_recovery_01` 因容器被外部中断且没有 metadata，只能作为中断
+残留，不能用于验收。
 
 ### R04：建图入口 fail-fast
 
