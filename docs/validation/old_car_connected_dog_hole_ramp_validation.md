@@ -152,6 +152,7 @@ ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
   dog_hole_route_file:=/data/rm27_maps/connected_test/REV/connected_test.route.yaml \
   dog_hole_hold_sec:=5.0 \
   global_max_forward_speed:=4.00 \
+  mppi_forward_velocity_std:=0.60 \
   ramp_max_forward_speed:=4.00 \
   dog_hole_max_forward_speed:=4.00 \
   ramp_max_yaw_rate:=0.35 \
@@ -166,7 +167,10 @@ ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
 （坡面过滤未 active 时）决定，并受 `global_max_forward_speed` 的 velocity-smoother 与
 串口全局上限约束；分段路由本身不再增加额外速度上限。`4.00 m/s` 只表示软件允许的
 上界，不保证底盘能达到，也不绕过加速度、MPPI、障碍物和下位机限制。初次搭建新场地
-仍应从低速开始。未显式提供 bundle、regions 或 route 任一文件都会拒绝启动。
+仍应从低速开始。`mppi_forward_velocity_std` 控制 MPPI 对更高前向速度的探索范围，不是
+速度上限；旧值 `0.20` 的实车短路径峰值约为 `0.59 m/s`，首轮提高只建议用 `0.60`，
+不得直接随 `vx_max` 一起设成 `4.0`。未显式提供 bundle、regions 或 route 任一文件都会
+拒绝启动。
 
 当前 2026-08-31 实验文件已经生成在：
 

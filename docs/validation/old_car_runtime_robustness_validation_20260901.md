@@ -57,6 +57,7 @@ ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
   dog_hole_route_file:=/data/rm27_maps/old_car_field/20260831T073929Z_ps_corridor/old_car_connected_dog_hole.route.yaml \
   dog_hole_hold_sec:=5.0 \
   global_max_forward_speed:=4.00 \
+  mppi_forward_velocity_std:=0.60 \
   ramp_max_forward_speed:=4.00 \
   dog_hole_max_forward_speed:=4.00 \
   ramp_max_yaw_rate:=0.35 \
@@ -68,6 +69,9 @@ ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
 `global_max_forward_speed` 是全程下游硬上限。坡面 active 时 MPPI 使用
 `ramp_max_forward_speed`，否则使用狗洞 profile 的 `dog_hole_max_forward_speed`；最终有效
 速度不会超过三者相应的最小约束，也不会绕过加速度、障碍和下位机物理限制。
+`mppi_forward_velocity_std` 是采样探索强度，不是硬上限。旧值 `0.20` 即使配合
+`vx_max=4.0`，一次迭代也主要探索低速；先用 `0.60` 做清空长直线验证，不能直接设为
+`4.0`。当前平滑器前向加速度仍为 `0.8 m/s^2`，短路径达不到 4 m/s 是正常结果。
 
 ## 4. 每次启动后的 30 秒检查
 
@@ -190,6 +194,38 @@ timeout 15 ros2 service call /mapping/save std_srvs/srv/Trigger '{}'
 
 任一关键进程异常退出时，整套建图 launch 必须退出并打印原因；不得继续驾驶后再尝试
 保存。正常保存仍只生成新 candidate revision，不覆盖任何旧地图资产。
+
+### R05：目标不动与速度偏低现场
+
+2026-09-01 第一次普通导航目标已经进入 Nav2：controller 在收到路径后运行约 18 秒，随后
+报 `Failed to make progress`，完成多轮恢复后 action 以 `ABORTED` 结束。该次故障发生前
+尚未开始录包，无法确认最终速度命令是否到达狗洞门控和串口，因此只记录为一次未定根因
+的“有路径、无有效运动”事件，不能据此宣称已经修复。下次复现时应立即停车、保留现场且
+不要重发目标，再同时采集 action、三段速度、里程计、代价地图和门控状态。
+
+随后从同一运行实例发送的普通非狗洞目标成功完成，证据包保存在宿主机：
+
+```text
+artifacts/bags/20260901_no_motion_live
+```
+
+该成功试次的量化结果为：
+
+```text
+全局路径                         71 poses / 1.786 m
+目标后首个非零 /cmd_vel_nav      1.128 s
+/cmd_vel_nav 峰值                vx=0.590 m/s, |wz|=0.310 rad/s
+/cmd_vel 峰值                    vx=0.590 m/s, |wz|=0.310 rad/s
+/cmd_vel_dog_hole_gated 峰值     vx=0.590 m/s, |wz|=0.310 rad/s
+目标后的里程计位移               1.674 m
+门控状态                         armed，未进入 pause，未判定路径穿洞
+```
+
+三段速度的峰值和波形一致，证明本次成功试次没有被 velocity smoother、狗洞门控或串口前级
+再次限速。`vx_max=4.0` 仅是允许上限；旧 `vx_std=0.20`、MPPI 单轮采样、平滑器前向加速度
+`0.8 m/s^2` 和不足 1.8 m 的短路径共同限制了实际峰值。组合入口现已开放
+`mppi_forward_velocity_std`，默认仍为 `0.20`，首次只建议在清空长直线上显式试到 `0.60`。
+它不能设成与 `vx_max` 相同的 `4.0`，且提高后必须重新检查贴墙、振荡和制动距离。
 
 ## 7. 通过门
 

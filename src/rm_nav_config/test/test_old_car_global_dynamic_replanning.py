@@ -345,6 +345,8 @@ def test_old_car_full_terrain_entry_combines_profiles_without_duplicate_stack():
     assert "source_file=selected_nav2" in launch
     assert "source_file=base_nav2," not in launch
     assert '"global_max_forward_speed"' in launch
+    assert '"mppi_forward_velocity_std"' in launch
+    assert '"controller_server.ros__parameters.FollowPath.vx_std"' in launch
     assert 'DeclareLaunchArgument(\n            "enable_dog_hole_route"' in launch
     assert 'executable="dog_hole_route_orchestrator"' in launch
     assert '"localization_stable_sec": ParameterValue(' in launch

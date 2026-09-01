@@ -220,6 +220,8 @@ def _launch_full_terrain(context, *args, **kwargs):
     if dog_hole_enabled:
         dog_vx = LaunchConfiguration("dog_hole_max_forward_speed")
         dog_wz = LaunchConfiguration("dog_hole_max_yaw_rate")
+        _positive_float(context, "mppi_forward_velocity_std")
+        forward_vx_std = LaunchConfiguration("mppi_forward_velocity_std")
         obstacle_height = LaunchConfiguration("dog_hole_obstacle_ceiling_height")
         local_inflation = LaunchConfiguration("dog_hole_local_inflation_radius")
         global_inflation = LaunchConfiguration("dog_hole_global_inflation_radius")
@@ -231,6 +233,9 @@ def _launch_full_terrain(context, *args, **kwargs):
                 ),
                 "controller_server.ros__parameters.FollowPath.vx_max": dog_vx,
                 "controller_server.ros__parameters.FollowPath.vx_min": "-0.30",
+                "controller_server.ros__parameters.FollowPath.vx_std": (
+                    forward_vx_std
+                ),
                 "controller_server.ros__parameters.FollowPath.wz_max": dog_wz,
                 (
                     "controller_server.ros__parameters.FollowPath."
@@ -348,6 +353,15 @@ def generate_launch_description():
             description=(
                 "MPPI vx_max in m/s when the ramp filter is active. This "
                 "overrides dog_hole_max_forward_speed for the combined run."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "mppi_forward_velocity_std",
+            default_value="0.20",
+            description=(
+                "MPPI forward velocity sampling standard deviation in m/s. "
+                "This controls speed exploration, not a hard speed limit. "
+                "Increase explicitly and gradually on a clear straight route."
             ),
         ),
         DeclareLaunchArgument("ramp_max_yaw_rate", default_value="0.40"),
