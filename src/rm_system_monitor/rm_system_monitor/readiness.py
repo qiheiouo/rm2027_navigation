@@ -21,6 +21,8 @@ def evaluate_readiness(
         (policy.require_obstacle_input, "obstacle_input"),
         (policy.require_localization, "global_localization"),
         (policy.require_nav2, "nav2_action"),
+        (policy.require_nav2, "local_costmap"),
+        (policy.require_nav2, "global_costmap"),
     )
     mission_requirements = (
         (policy.require_referee, "referee_state"),

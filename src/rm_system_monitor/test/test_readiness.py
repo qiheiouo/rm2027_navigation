@@ -5,7 +5,14 @@ def test_navigation_and_mission_requirements_are_separate():
     policy = RequirementPolicy(require_referee=True, require_chassis_mode=True)
     navigation_ready, mission_ready, missing = evaluate_readiness(
         policy,
-        {"lio", "obstacle_input", "global_localization", "nav2_action"},
+        {
+            "lio",
+            "obstacle_input",
+            "global_localization",
+            "nav2_action",
+            "local_costmap",
+            "global_costmap",
+        },
     )
     assert navigation_ready is True
     assert mission_ready is False
@@ -23,8 +30,25 @@ def test_all_required_inputs_pass():
         "obstacle_input",
         "global_localization",
         "nav2_action",
+        "local_costmap",
+        "global_costmap",
         "referee_state",
         "chassis_authority",
         "serial_transport",
     }
     assert evaluate_readiness(policy, available) == (True, True, [])
+
+
+def test_nav2_requires_both_costmaps_to_be_publishing():
+    policy = RequirementPolicy(
+        require_lio=False,
+        require_obstacle_input=False,
+        require_localization=False,
+    )
+    available = {"nav2_action", "local_costmap"}
+
+    assert evaluate_readiness(policy, available) == (
+        False,
+        False,
+        ["global_costmap"],
+    )
