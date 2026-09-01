@@ -107,6 +107,33 @@ def test_generic_mapping_binds_ray_input_to_the_sampled_sensor_cloud():
     )
 
 
+def test_generic_mapping_fails_fast_if_any_critical_process_exits():
+    critical_executables = {
+        "pointcloud_sampler_node",
+        "octomap_server_node",
+        "mapping_session_node",
+    }
+    protected_executables = set()
+    for node in ast.walk(_tree(GENERIC_MAPPING)):
+        if not isinstance(node, ast.Call):
+            continue
+        if not isinstance(node.func, ast.Name) or node.func.id != "Node":
+            continue
+        keywords = {keyword.arg: keyword.value for keyword in node.keywords}
+        executable = keywords.get("executable")
+        on_exit = keywords.get("on_exit")
+        if (
+            isinstance(executable, ast.Constant)
+            and executable.value in critical_executables
+            and isinstance(on_exit, ast.Call)
+            and isinstance(on_exit.func, ast.Name)
+            and on_exit.func.id == "Shutdown"
+        ):
+            protected_executables.add(executable.value)
+
+    assert protected_executables == critical_executables
+
+
 def test_old_car_layers_pass_only_the_verified_left_lidar_frame():
     assert "mid360_left_frame" in _dict_string_values(
         OLD_CAR_VALIDATION, "ray_source_frame"
