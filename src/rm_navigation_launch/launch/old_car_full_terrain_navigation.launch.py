@@ -224,7 +224,7 @@ def _launch_full_terrain(context, *args, **kwargs):
         local_inflation = LaunchConfiguration("dog_hole_local_inflation_radius")
         global_inflation = LaunchConfiguration("dog_hole_global_inflation_radius")
         selected_nav2 = RewrittenYaml(
-            source_file=base_nav2,
+            source_file=selected_nav2,
             param_rewrites={
                 "controller_server.ros__parameters.FollowPath.motion_model": (
                     "DiffDrive"

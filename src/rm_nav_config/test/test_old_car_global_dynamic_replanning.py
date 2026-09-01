@@ -342,6 +342,8 @@ def test_old_car_full_terrain_entry_combines_profiles_without_duplicate_stack():
         "_rewrite_global_speed_yaml("
         in launch
     )
+    assert "source_file=selected_nav2" in launch
+    assert "source_file=base_nav2," not in launch
     assert '"global_max_forward_speed"' in launch
     assert 'DeclareLaunchArgument(\n            "enable_dog_hole_route"' in launch
     assert 'executable="dog_hole_route_orchestrator"' in launch
