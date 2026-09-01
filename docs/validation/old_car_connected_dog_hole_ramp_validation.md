@@ -151,17 +151,22 @@ ros2 launch rm_navigation_launch old_car_full_terrain_navigation.launch.py \
   dog_hole_regions_file:=/data/rm27_maps/connected_test/REV/connected_test.regions.yaml \
   dog_hole_route_file:=/data/rm27_maps/connected_test/REV/connected_test.route.yaml \
   dog_hole_hold_sec:=5.0 \
-  ramp_max_forward_speed:=0.20 \
-  dog_hole_max_forward_speed:=0.20 \
+  global_max_forward_speed:=4.00 \
+  ramp_max_forward_speed:=4.00 \
+  dog_hole_max_forward_speed:=4.00 \
   ramp_max_yaw_rate:=0.35 \
-  dog_hole_max_yaw_rate:=0.35
+  dog_hole_max_yaw_rate:=0.35 \
+  dog_hole_local_inflation_radius:=0.20 \
+  dog_hole_global_inflation_radius:=0.10
 ```
 
 `enable_dog_hole_route:=true` 会自动启用 entry pause 和旧车狗洞 Nav2/costmap profile，
 但不会自动打开坡面 active A/B，所以命令中仍明确写出 `activate_ramp_filter:=true`。
 速度由 `ramp_max_forward_speed`（坡面过滤 active 时）或 `dog_hole_max_forward_speed`
-（坡面过滤未 active 时）决定；旧车分段过洞入口硬性拒绝大于 `0.50 m/s`，首轮只用
-`0.20 m/s`。未显式提供 bundle、regions 或 route 任一文件都会拒绝启动。
+（坡面过滤未 active 时）决定，并受 `global_max_forward_speed` 的 velocity-smoother 与
+串口全局上限约束；分段路由本身不再增加额外速度上限。`4.00 m/s` 只表示软件允许的
+上界，不保证底盘能达到，也不绕过加速度、MPPI、障碍物和下位机限制。初次搭建新场地
+仍应从低速开始。未显式提供 bundle、regions 或 route 任一文件都会拒绝启动。
 
 当前 2026-08-31 实验文件已经生成在：
 
@@ -250,8 +255,10 @@ PASS：安全门不在洞内二次停车，出洞后依次 `passed -> armed`，�
 ### C06：失效与回归
 
 至少验证：路径取消、路径改为不穿洞、未初始化定位、错误 frame、重启后车已位于 corridor
-内。最后一种必须进入 `invalid_entry` 并保持零速，需要人工把车移回安全区重新启动，不能
-假装已经做过洞前变形。
+内。最后一种必须进入 `invalid_entry` 并保持零速，不能假装已经做过洞前变形。人工把车
+移回所有狗洞区域之外后，只有定位连续有效、新鲜且稳定，且安全区状态连续保持
+`dog_hole_invalid_entry_clear_sec`，锁存才可自动清除；不再要求重启 launch。清除前不得
+发送穿洞目标。
 
 ## 6. 录包与结论门
 
