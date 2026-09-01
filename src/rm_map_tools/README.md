@@ -58,6 +58,11 @@ The response contains the generated manifest path. The node also provides
 `/mapping/start`, `/mapping/stop`, and `/mapping/reset`. It does not start a
 sensor, publish TF, control the chassis, or approve a map.
 
+The standard `mapping.launch.py` treats its sampler, OctoMap server and mapping
+session as one fail-fast unit. If any one exits, launch shuts down instead of
+leaving an unusable partial graph where `/mapping/save` can no longer work.
+Before saving, verify that all three nodes and `/mapping/sensor_cloud` are live.
+
 See `docs/phase2i_managed_mapping.md` for the OctoMap projection and full
 operator flow.
 

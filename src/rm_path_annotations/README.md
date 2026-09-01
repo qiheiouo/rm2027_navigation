@@ -15,6 +15,11 @@ bound. `region_set_sha256` binds the validated semantics, including the exact
 map binding, polygons and constraints; region order and YAML formatting do not
 change that digest.
 
+Map IDs and revisions accept the upper-case UTC timestamp revisions emitted by
+`rm_map_tools`, for example `20260830T092655Z`. Region-set and region IDs keep
+their stricter lower-case contract; path separators and traversal tokens remain
+invalid in every identifier.
+
 Supported types:
 
 - `slow_zone`: requires `max_linear_speed`;
