@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, LogInfo, OpaqueFunction
+from launch.actions import DeclareLaunchArgument, LogInfo, OpaqueFunction, Shutdown
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
@@ -46,6 +46,9 @@ def _mapping_setup(context, *args, **kwargs):
             executable="pointcloud_sampler_node",
             name="mapping_pointcloud_sampler",
             output="screen",
+            on_exit=Shutdown(
+                reason="mapping pointcloud sampler exited; refusing degraded mapping"
+            ),
             parameters=[{
                 "input_topic": pointcloud_topic,
                 "output_topic": sampled_pointcloud_topic,
@@ -61,6 +64,9 @@ def _mapping_setup(context, *args, **kwargs):
             executable="octomap_server_node",
             name="octomap_server",
             output="screen",
+            on_exit=Shutdown(
+                reason="OctoMap server exited; refusing degraded mapping"
+            ),
             parameters=[
                 octomap_params,
                 {
@@ -84,6 +90,9 @@ def _mapping_setup(context, *args, **kwargs):
             executable="mapping_session_node",
             name="mapping_session",
             output="screen",
+            on_exit=Shutdown(
+                reason="mapping session exited; save service is unavailable"
+            ),
             parameters=[{
                 "registered_cloud_topic": registered_cloud_topic,
                 "record_ray_observations": ParameterValue(
