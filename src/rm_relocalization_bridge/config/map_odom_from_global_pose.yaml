@@ -29,4 +29,18 @@ map_odom_from_global_pose:
     recovery_required_consistent_poses: 5
     recovery_initial_pose_xy_variance: 0.09
     recovery_initial_pose_yaw_variance: 0.0685
+    # Compatibility defaults: robot-specific profiles may opt into bounded
+    # pose-window stationarity and odometry-divergence rebasing.
+    recovery_pose_stationarity_enabled: false
+    recovery_pose_stationarity_window_sec: 1.0
+    recovery_pose_stationarity_max_translation_m: 0.20
+    recovery_pose_stationarity_max_yaw_rad: 0.25
+    recovery_max_reseed_attempts: 0
+    recovery_odom_divergence_rebase_enabled: false
+    recovery_odom_divergence_translation_m: 1.0
+    recovery_rebase_initial_pose_xy_variance: 0.36
+    recovery_rebase_initial_pose_yaw_variance: 0.2742
+    recovery_rebase_pose_translation_tolerance_m: 0.75
+    recovery_rebase_pose_yaw_tolerance_rad: 0.75
+    recovery_rebase_required_consistent_poses: 10
     recovery_state_topic: /localization/correction_recovery_state

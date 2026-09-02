@@ -88,8 +88,18 @@ def test_correction_gate_is_compatibility_off_and_old_car_on():
     assert _value(old_car, "initial_pose_topic") == "/initialpose"
     assert _value(old_car, "recovery_motion_confirmation_sec") == "0.12"
     assert _value(old_car, "recovery_stationary_hold_sec") == "0.6"
-    assert _value(old_car, "recovery_reseed_cooldown_sec") == "2.0"
+    assert _value(generic, "recovery_pose_stationarity_enabled") == "false"
+    assert _value(generic, "recovery_odom_divergence_rebase_enabled") == "false"
+    assert _value(old_car, "recovery_reseed_cooldown_sec") == "5.0"
     assert _value(old_car, "recovery_required_consistent_poses") == "5"
+    assert _value(old_car, "recovery_pose_stationarity_enabled") == "true"
+    assert _value(old_car, "recovery_pose_stationarity_window_sec") == "1.0"
+    assert _value(old_car, "recovery_pose_stationarity_max_translation_m") == "0.20"
+    assert _value(old_car, "recovery_pose_stationarity_max_yaw_rad") == "0.25"
+    assert _value(old_car, "recovery_max_reseed_attempts") == "6"
+    assert _value(old_car, "recovery_odom_divergence_rebase_enabled") == "true"
+    assert _value(old_car, "recovery_odom_divergence_translation_m") == "1.0"
+    assert _value(old_car, "recovery_rebase_required_consistent_poses") == "10"
 
 
 def test_only_old_car_entry_points_select_the_correction_gate_profile():

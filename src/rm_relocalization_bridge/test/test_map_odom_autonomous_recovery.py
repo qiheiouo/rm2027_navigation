@@ -195,7 +195,7 @@ def test_latched_fault_reseeds_from_trusted_pose_and_recovers_without_tf_flicker
         assert not probe.valid_messages[-1], "fault recovered while moving"
         assert not probe.observed_initial_poses, "reseeded during confirmed motion"
 
-        probe.publish_noisy_stationary_odom_for(0.8, x=0.5)
+        probe.publish_noisy_stationary_odom_for(1.8, x=0.5)
         probe.wait_for(
             lambda: bool(probe.observed_initial_poses),
             "autonomous initial pose",
@@ -234,6 +234,166 @@ def test_latched_fault_reseeds_from_trusted_pose_and_recovers_without_tf_flicker
             lambda: latest_transform_is(probe, 1.0),
             "manual replacement transform",
         )
+    finally:
+        probe.destroy_node()
+        rclpy.shutdown()
+        process.terminate()
+        try:
+            output, _ = process.communicate(timeout=3.0)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            output, _ = process.communicate(timeout=3.0)
+        if process.returncode not in (0, -15):
+            raise AssertionError(
+                f"map->odom bridge exited with {process.returncode}:\n{output}"
+            )
+
+
+def test_large_odom_displacement_reseeds_at_bounded_global_anchor_and_rebases():
+    os.environ["ROS_DOMAIN_ID"] = "95"
+    command = [
+        str(BINARY),
+        "--ros-args",
+        "--params-file",
+        str(CONFIG),
+        "-p",
+        "upstream_valid_topic:=/localization/amcl_backend_valid",
+        "-p",
+        "recovery_pose_stationarity_window_sec:=0.3",
+        "-p",
+        "recovery_stationary_hold_sec:=0.1",
+        "-p",
+        "recovery_reseed_cooldown_sec:=1.0",
+        "-p",
+        "recovery_settle_sec:=0.1",
+        "-p",
+        "recovery_rebase_required_consistent_poses:=4",
+    ]
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        env=os.environ.copy(),
+    )
+    rclpy.init()
+    probe = RecoveryProbe()
+    try:
+        probe.spin_for(1.0)
+        assert process.poll() is None, "map->odom bridge exited during startup"
+        probe.publish_upstream_valid()
+        probe.spin_for(0.2)
+
+        probe.publish_candidate(0.0)
+        probe.wait_for(
+            lambda: probe.valid_messages and probe.valid_messages[-1],
+            "baseline correction",
+        )
+        probe.publish_candidate(1.0)
+        probe.wait_for(
+            lambda: probe.valid_messages and not probe.valid_messages[-1],
+            "large correction latch",
+        )
+
+        # Canonical odometry is now stable but displaced by 5 m. The old
+        # algorithm would seed AMCL at x=5; bounded rebase must retain x=0.
+        probe.publish_odom_for(0.7, x=5.0)
+        probe.wait_for(
+            lambda: bool(probe.observed_initial_poses),
+            "bounded rebase initial pose",
+        )
+        automatic_pose = probe.observed_initial_poses[-1]
+        assert abs(automatic_pose.pose.pose.position.x) <= 1.0e-3
+        assert "rebase_reseeded_waiting_for_consistency" in probe.recovery_states
+
+        probe.spin_for(0.15)
+        # A self-consistent correction at the wrong absolute map pose is not
+        # sufficient for rebase acceptance.
+        probe.publish_candidate(-2.0, odom_x=5.0)
+        probe.spin_for(0.10)
+        assert not probe.valid_messages[-1]
+
+        for _ in range(3):
+            probe.publish_candidate(-5.0, odom_x=5.0)
+            probe.spin_for(0.10)
+        assert not probe.valid_messages[-1], "rebased before four-pose streak"
+
+        probe.publish_candidate(-5.0, odom_x=5.0)
+        probe.wait_for(
+            lambda: probe.valid_messages and probe.valid_messages[-1],
+            "bounded odometry rebase",
+        )
+        probe.wait_for(
+            lambda: latest_transform_is(probe, -5.0),
+            "rebased transform",
+        )
+        assert probe.recovery_states[-1] == "healthy"
+    finally:
+        probe.destroy_node()
+        rclpy.shutdown()
+        process.terminate()
+        try:
+            output, _ = process.communicate(timeout=3.0)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            output, _ = process.communicate(timeout=3.0)
+        if process.returncode not in (0, -15):
+            raise AssertionError(
+                f"map->odom bridge exited with {process.returncode}:\n{output}"
+            )
+
+
+def test_reseed_attempts_are_bounded_when_no_consistent_global_pose_arrives():
+    os.environ["ROS_DOMAIN_ID"] = "96"
+    command = [
+        str(BINARY),
+        "--ros-args",
+        "--params-file",
+        str(CONFIG),
+        "-p",
+        "upstream_valid_topic:=/localization/amcl_backend_valid",
+        "-p",
+        "recovery_pose_stationarity_window_sec:=0.2",
+        "-p",
+        "recovery_stationary_hold_sec:=0.1",
+        "-p",
+        "recovery_reseed_cooldown_sec:=0.3",
+        "-p",
+        "recovery_max_reseed_attempts:=2",
+    ]
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        env=os.environ.copy(),
+    )
+    rclpy.init()
+    probe = RecoveryProbe()
+    try:
+        probe.spin_for(1.0)
+        assert process.poll() is None, "map->odom bridge exited during startup"
+        probe.publish_upstream_valid()
+        probe.spin_for(0.2)
+        probe.publish_candidate(0.0)
+        probe.wait_for(
+            lambda: probe.valid_messages and probe.valid_messages[-1],
+            "baseline correction",
+        )
+        probe.publish_candidate(1.0)
+        probe.wait_for(
+            lambda: probe.valid_messages and not probe.valid_messages[-1],
+            "large correction latch",
+        )
+
+        probe.publish_odom_for(1.4, x=5.0)
+        probe.wait_for(
+            lambda: probe.recovery_states
+            and probe.recovery_states[-1] == "latched_reseed_attempts_exhausted",
+            "bounded reseed exhaustion",
+        )
+        assert len(probe.observed_initial_poses) == 2
+        assert not probe.valid_messages[-1]
     finally:
         probe.destroy_node()
         rclpy.shutdown()

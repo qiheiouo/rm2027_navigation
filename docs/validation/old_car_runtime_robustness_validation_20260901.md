@@ -212,11 +212,27 @@ R01 全部通过后再做。先低速直线，再逐级提高角速度，不直�
 
 第三种情况不是普通 AMCL 漂移，而是底层里程计发生大尺度不连续；它验证了现有算法说明中
 “底层里程计本身需基本可靠”的边界。保护层正确禁止导航并拒绝了错误 TF，但当前自动恢复
-不能处理 LIO 原点/位置突跳。下一步不能继续无限重播种，也不能把 10 m correction 直接
-放行；应先离线区分“AMCL 假匹配”和“odom 不连续”，再为后者设计独立的 fail-closed
-重基准流程：以锁存前最后可信全局位姿为候选种子，检测静止及 LIO 已稳定，要求多帧绝对
-定位一致后，才允许重新计算新的 `map -> odom`。若 LIO 姿态仍发散或持续移动，必须保持
-导航禁用，不能伪装成恢复成功。
+不能处理 LIO 原点/位置突跳。不能继续无限重播种，也不能把 10 m correction 直接放行；
+若 LIO 姿态仍发散或持续移动，必须保持导航禁用，不能伪装成恢复成功。
+
+#### 2026-09-02 候选修复（尚待实车验收）
+
+分支 `fix/old-car-lio-jump-recovery` 已实现旧车 profile 独享的 fail-closed 重基准候选，通用
+profile 和新车默认保持关闭：
+
+- 以一秒 odom 位姿窗口确认车辆与 LIO 都已稳定，避免有限差分 twist 的静止尖峰反复重置；
+- 当“旧 `map->odom` + 当前 LIO”相对最后可信全局位姿偏离至少 1 m 时，不再向错误 LIO
+  区域播种，而是保留最后可信全局 XY，并采用当前稳定 yaw；
+- 新基准必须连续 10 帧同时通过绝对锚点 `0.75 m / 0.75 rad` 门和 correction 一致性门；
+- 有效一致性序列形成期间不重复重置 AMCL；重播种间隔由 2 s 改为 5 s，最多 6 次；
+- 六次失败后状态为 `latched_reseed_attempts_exhausted`，继续撤下 canonical TF，等待人工
+  位姿或显式 reset，不会错误恢复导航权限。
+
+自动化验证结果为 **27/27 PASS**。另用本轮真实 bag 的第三次自转片段做隔离回放：首次
+候选种子为最后可信全局位置 `(1.562, -3.370)`，没有沿漂移 LIO 播种到约 10 m 外；录包内
+旧 AMCL 后续结果距离锚点约 12.6--13.0 m，均被绝对位置门拒绝，canonical TF 未恢复。
+由于离线回放中的 AMCL 不会响应新 `/initialpose`，该结果只证明“不会接受录包里的错误
+恢复”，不证明实车 AMCL 能从锚点重新收敛。
 
 本轮证据已保存在宿主机：
 
@@ -229,6 +245,22 @@ rosbag 已正常关闭并生成 metadata：406.4 MiB、885.116 秒、225085 条�
 `/odometry/lio`、raw/canonical localization、恢复状态、TF、双 costmap 和去畸变诊断。
 此前的 `20260901_r03_spin_recovery_01` 因容器被外部中断且没有 metadata，只能作为中断
 残留，不能用于验收。
+
+候选修复的实车验收必须在空旷、有人掌握手动停车权限的场地进行。重新编译并启动旧车
+全导航后，先确认正确初始位姿和 `healthy`，再依次做一圈、两圈、三圈高速自转；每次停车
+后不人工重发位姿，并观察：
+
+```bash
+ros2 topic echo /localization/correction_recovery_state
+ros2 topic echo /localization/global_localization_valid
+ros2 topic echo /initialpose
+ros2 run tf2_ros tf2_echo map base_link
+```
+
+验收门为：锁存期间车辆不接受自动导航；任何 rebase seed 的 XY 位于锁存前最后可信位置
+附近；连续三次故障都能在六次播种内回到 `healthy`；恢复后点云、地图、机器人模型目视
+对齐，并能完成一次低速直线往返。任一次在错误位置恢复、车辆未停仍播种、或第六次后继续
+播种都判 FAIL。若停稳后进入 `latched_reseed_attempts_exhausted`，属于安全失败，不是通过。
 
 ### R04：建图入口 fail-fast
 

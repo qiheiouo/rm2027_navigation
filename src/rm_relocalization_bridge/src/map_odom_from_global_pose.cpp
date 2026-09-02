@@ -107,6 +107,32 @@ public:
       declare_parameter<double>("recovery_initial_pose_xy_variance", 0.09);
     recovery_initial_pose_yaw_variance_ =
       declare_parameter<double>("recovery_initial_pose_yaw_variance", 0.0685);
+    recovery_pose_stationarity_enabled_ =
+      declare_parameter<bool>("recovery_pose_stationarity_enabled", false);
+    recovery_pose_stationarity_window_sec_ =
+      declare_parameter<double>("recovery_pose_stationarity_window_sec", 1.0);
+    recovery_pose_stationarity_max_translation_m_ =
+      declare_parameter<double>("recovery_pose_stationarity_max_translation_m", 0.20);
+    recovery_pose_stationarity_max_yaw_rad_ =
+      declare_parameter<double>("recovery_pose_stationarity_max_yaw_rad", 0.25);
+    recovery_max_reseed_attempts_ = static_cast<std::size_t>(
+      std::max<std::int64_t>(
+        0, declare_parameter<std::int64_t>("recovery_max_reseed_attempts", 0)));
+    recovery_odom_divergence_rebase_enabled_ =
+      declare_parameter<bool>("recovery_odom_divergence_rebase_enabled", false);
+    recovery_odom_divergence_translation_m_ =
+      declare_parameter<double>("recovery_odom_divergence_translation_m", 1.0);
+    recovery_rebase_initial_pose_xy_variance_ =
+      declare_parameter<double>("recovery_rebase_initial_pose_xy_variance", 0.36);
+    recovery_rebase_initial_pose_yaw_variance_ =
+      declare_parameter<double>("recovery_rebase_initial_pose_yaw_variance", 0.2742);
+    recovery_rebase_pose_translation_tolerance_m_ =
+      declare_parameter<double>("recovery_rebase_pose_translation_tolerance_m", 0.75);
+    recovery_rebase_pose_yaw_tolerance_rad_ =
+      declare_parameter<double>("recovery_rebase_pose_yaw_tolerance_rad", 0.75);
+    recovery_rebase_required_consistent_poses_ = static_cast<std::size_t>(
+      std::max<std::int64_t>(
+        1, declare_parameter<std::int64_t>("recovery_rebase_required_consistent_poses", 10)));
     recovery_state_topic_ = declare_parameter<std::string>(
       "recovery_state_topic", "/localization/correction_recovery_state");
     pending_pose_max_size_ = static_cast<std::size_t>(
@@ -135,7 +161,23 @@ public:
       !std::isfinite(recovery_initial_pose_xy_variance_) ||
       recovery_initial_pose_xy_variance_ < 0.0 ||
       !std::isfinite(recovery_initial_pose_yaw_variance_) ||
-      recovery_initial_pose_yaw_variance_ < 0.0)
+      recovery_initial_pose_yaw_variance_ < 0.0 ||
+      !std::isfinite(recovery_pose_stationarity_window_sec_) ||
+      recovery_pose_stationarity_window_sec_ <= 0.0 ||
+      !std::isfinite(recovery_pose_stationarity_max_translation_m_) ||
+      recovery_pose_stationarity_max_translation_m_ <= 0.0 ||
+      !std::isfinite(recovery_pose_stationarity_max_yaw_rad_) ||
+      recovery_pose_stationarity_max_yaw_rad_ <= 0.0 ||
+      !std::isfinite(recovery_odom_divergence_translation_m_) ||
+      recovery_odom_divergence_translation_m_ <= 0.0 ||
+      !std::isfinite(recovery_rebase_initial_pose_xy_variance_) ||
+      recovery_rebase_initial_pose_xy_variance_ < 0.0 ||
+      !std::isfinite(recovery_rebase_initial_pose_yaw_variance_) ||
+      recovery_rebase_initial_pose_yaw_variance_ < 0.0 ||
+      !std::isfinite(recovery_rebase_pose_translation_tolerance_m_) ||
+      recovery_rebase_pose_translation_tolerance_m_ <= 0.0 ||
+      !std::isfinite(recovery_rebase_pose_yaw_tolerance_rad_) ||
+      recovery_rebase_pose_yaw_tolerance_rad_ <= 0.0)
     {
       throw std::invalid_argument("time tolerances and correction limits must be valid");
     }
@@ -184,6 +226,7 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         valid_ = false;
         has_accepted_correction_ = false;
+        has_last_accepted_map_to_base_ = false;
         resetRecoveryLocked();
         pending_global_poses_.clear();
         publishValid(false);
@@ -226,6 +269,22 @@ public:
           recovery_stationary_hold_sec_, recovery_motion_confirmation_sec_,
           recovery_reseed_cooldown_sec_, recovery_settle_sec_,
           recovery_required_consistent_poses_);
+        if (recovery_pose_stationarity_enabled_) {
+          RCLCPP_INFO(
+            get_logger(),
+            "Recovery pose-stationarity gate enabled: %.2f s window, %.3f m / %.3f rad span.",
+            recovery_pose_stationarity_window_sec_,
+            recovery_pose_stationarity_max_translation_m_,
+            recovery_pose_stationarity_max_yaw_rad_);
+        }
+        if (recovery_odom_divergence_rebase_enabled_) {
+          RCLCPP_WARN(
+            get_logger(),
+            "Bounded odometry-divergence rebase enabled: trigger %.3f m; require %zu absolute "
+            "pose-consistent samples; max reseed attempts %zu (0 means unlimited).",
+            recovery_odom_divergence_translation_m_,
+            recovery_rebase_required_consistent_poses_, recovery_max_reseed_attempts_);
+        }
       }
     } else {
       RCLCPP_INFO(get_logger(), "Correction innovation gate disabled.");
@@ -233,6 +292,12 @@ public:
   }
 
 private:
+  struct RecoveryOdomSample
+  {
+    std::chrono::steady_clock::time_point received_at;
+    tf2::Transform odom_to_base;
+  };
+
   void resetRecoveryLocked()
   {
     correction_fault_latched_ = false;
@@ -241,6 +306,10 @@ private:
     recovery_has_reseeded_ = false;
     recovery_consistent_pose_count_ = 0;
     recovery_reseed_attempts_ = 0;
+    recovery_attempt_limit_reported_ = false;
+    recovery_rebase_mode_ = false;
+    recovery_rebase_reference_valid_ = false;
+    recovery_odom_samples_.clear();
     pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
   }
 
@@ -271,6 +340,7 @@ private:
   {
     valid_ = false;
     has_accepted_correction_ = false;
+    has_last_accepted_map_to_base_ = false;
     resetRecoveryLocked();
     pending_global_poses_.clear();
     publishValid(false);
@@ -319,12 +389,61 @@ private:
       now_steady - recovery_stationary_since_).count() >= recovery_stationary_hold_sec_;
   }
 
+  void updateRecoveryPoseWindow(
+    const tf2::Transform & odom_to_base,
+    const std::chrono::steady_clock::time_point & now_steady)
+  {
+    recovery_odom_samples_.push_back({now_steady, odom_to_base});
+    while (
+      !recovery_odom_samples_.empty() &&
+      std::chrono::duration<double>(
+        now_steady - recovery_odom_samples_.front().received_at).count() >
+      recovery_pose_stationarity_window_sec_)
+    {
+      recovery_odom_samples_.pop_front();
+    }
+  }
+
+  bool recoveryPoseWindowStationary(
+    const std::chrono::steady_clock::time_point & now_steady) const
+  {
+    if (recovery_odom_samples_.size() < 2U) {
+      return false;
+    }
+    const double coverage_sec = std::chrono::duration<double>(
+      now_steady - recovery_odom_samples_.front().received_at).count();
+    // The oldest retained sample is one input period newer than the nominal
+    // window boundary. Leave bounded headroom for 30--50 Hz odometry instead
+    // of making stationarity impossible at discrete sample rates.
+    if (coverage_sec < recovery_pose_stationarity_window_sec_ * 0.80) {
+      return false;
+    }
+
+    const auto & reference = recovery_odom_samples_.front().odom_to_base;
+    for (const auto & sample : recovery_odom_samples_) {
+      const auto span = rm_relocalization_bridge::measureCorrectionInnovation(
+        reference, sample.odom_to_base);
+      if (
+        span.translation_xy_m > recovery_pose_stationarity_max_translation_m_ ||
+        span.yaw_rad > recovery_pose_stationarity_max_yaw_rad_)
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
   void publishAutonomousRecoveryPose(
     const tf2::Transform & odom_to_base,
     const builtin_interfaces::msg::Time & stamp,
     const std::chrono::steady_clock::time_point & now_steady)
   {
     const auto predicted_map_to_base = map_to_odom_ * odom_to_base;
+    const bool use_rebase =
+      recovery_odom_divergence_rebase_enabled_ && has_last_accepted_map_to_base_ &&
+      rm_relocalization_bridge::measureCorrectionInnovation(
+        last_accepted_map_to_base_, predicted_map_to_base).translation_xy_m >=
+      recovery_odom_divergence_translation_m_;
     double roll = 0.0;
     double pitch = 0.0;
     double yaw = 0.0;
@@ -336,33 +455,60 @@ private:
     planar_rotation.setRPY(0.0, 0.0, yaw);
     planar_rotation.normalize();
 
+    tf2::Transform recovery_seed = predicted_map_to_base;
+    recovery_seed.setRotation(planar_rotation);
+    if (use_rebase) {
+      recovery_seed.setOrigin(tf2::Vector3(
+          last_accepted_map_to_base_.getOrigin().x(),
+          last_accepted_map_to_base_.getOrigin().y(),
+          0.0));
+    }
+
     geometry_msgs::msg::PoseWithCovarianceStamped message;
     message.header.stamp = stamp;
     message.header.frame_id = map_frame_;
-    message.pose.pose.position.x = predicted_map_to_base.getOrigin().x();
-    message.pose.pose.position.y = predicted_map_to_base.getOrigin().y();
+    message.pose.pose.position.x = recovery_seed.getOrigin().x();
+    message.pose.pose.position.y = recovery_seed.getOrigin().y();
     message.pose.pose.position.z = 0.0;
     message.pose.pose.orientation.x = planar_rotation.x();
     message.pose.pose.orientation.y = planar_rotation.y();
     message.pose.pose.orientation.z = planar_rotation.z();
     message.pose.pose.orientation.w = planar_rotation.w();
-    message.pose.covariance[0] = recovery_initial_pose_xy_variance_;
-    message.pose.covariance[7] = recovery_initial_pose_xy_variance_;
-    message.pose.covariance[35] = recovery_initial_pose_yaw_variance_;
+    message.pose.covariance[0] = use_rebase ?
+      recovery_rebase_initial_pose_xy_variance_ : recovery_initial_pose_xy_variance_;
+    message.pose.covariance[7] = message.pose.covariance[0];
+    message.pose.covariance[35] = use_rebase ?
+      recovery_rebase_initial_pose_yaw_variance_ : recovery_initial_pose_yaw_variance_;
 
     pending_automatic_initial_pose_stamp_nanoseconds_ = rclcpp::Time(stamp).nanoseconds();
     recovery_has_reseeded_ = true;
     ++recovery_reseed_attempts_;
     recovery_consistent_pose_count_ = 0;
+    recovery_rebase_mode_ = use_rebase;
+    recovery_rebase_seed_map_to_base_ = recovery_seed;
+    recovery_rebase_reference_valid_ = false;
     recovery_last_reseed_at_ = now_steady;
     recovery_settle_until_ = now_steady + std::chrono::duration_cast<
       std::chrono::steady_clock::duration>(std::chrono::duration<double>(recovery_settle_sec_));
-    publishRecoveryState("reseeded_waiting_for_consistency");
+    publishRecoveryState(
+      use_rebase ? "rebase_reseeded_waiting_for_consistency" :
+      "reseeded_waiting_for_consistency");
     initial_pose_pub_->publish(message);
-    RCLCPP_WARN(
-      get_logger(),
-      "Autonomous AMCL reseed attempt %zu at trusted prediction (%.3f, %.3f, %.3f).",
-      recovery_reseed_attempts_, message.pose.pose.position.x, message.pose.pose.position.y, yaw);
+    if (use_rebase) {
+      const auto divergence = rm_relocalization_bridge::measureCorrectionInnovation(
+        last_accepted_map_to_base_, predicted_map_to_base);
+      RCLCPP_ERROR(
+        get_logger(),
+        "Autonomous AMCL rebase attempt %zu: LIO prediction diverged %.3f m from the last "
+        "trusted global pose; reseeding bounded anchor (%.3f, %.3f, %.3f).",
+        recovery_reseed_attempts_, divergence.translation_xy_m,
+        message.pose.pose.position.x, message.pose.pose.position.y, yaw);
+    } else {
+      RCLCPP_WARN(
+        get_logger(),
+        "Autonomous AMCL reseed attempt %zu at trusted prediction (%.3f, %.3f, %.3f).",
+        recovery_reseed_attempts_, message.pose.pose.position.x, message.pose.pose.position.y, yaw);
+    }
   }
 
   void updateAutonomousRecovery(
@@ -374,13 +520,16 @@ private:
     }
 
     const auto now_steady = std::chrono::steady_clock::now();
+    updateRecoveryPoseWindow(odom_to_base, now_steady);
     const double linear_speed = std::hypot(
       msg.twist.twist.linear.x, msg.twist.twist.linear.y);
     const double angular_speed = std::abs(msg.twist.twist.angular.z);
-    const bool stationary =
+    const bool twist_stationary =
       std::isfinite(linear_speed) && std::isfinite(angular_speed) &&
       linear_speed <= recovery_linear_speed_threshold_mps_ &&
       angular_speed <= recovery_angular_speed_threshold_radps_;
+    const bool stationary = recovery_pose_stationarity_enabled_ ?
+      recoveryPoseWindowStationary(now_steady) : twist_stationary;
 
     if (!stationary) {
       if (!recovery_motion_candidate_valid_) {
@@ -417,7 +566,25 @@ private:
       !recovery_has_reseeded_ ||
       std::chrono::duration<double>(now_steady - recovery_last_reseed_at_).count() >=
       recovery_reseed_cooldown_sec_;
-    if (cooldown_elapsed) {
+    // Do not reset AMCL while a valid consistency streak is making progress.
+    // Any later out-of-gate pose clears the streak in acceptCorrection(), at
+    // which point a cooldown-expired retry becomes eligible again.
+    if (cooldown_elapsed && recovery_consistent_pose_count_ == 0U) {
+      if (
+        recovery_max_reseed_attempts_ > 0U &&
+        recovery_reseed_attempts_ >= recovery_max_reseed_attempts_)
+      {
+        if (!recovery_attempt_limit_reported_) {
+          recovery_attempt_limit_reported_ = true;
+          publishRecoveryState("latched_reseed_attempts_exhausted");
+          RCLCPP_ERROR(
+            get_logger(),
+            "Autonomous recovery exhausted %zu reseed attempts; canonical TF remains "
+            "withheld until an explicit reset or a fresh initial pose.",
+            recovery_reseed_attempts_);
+        }
+        return;
+      }
       publishAutonomousRecoveryPose(odom_to_base, msg.header.stamp, now_steady);
     }
   }
@@ -446,6 +613,7 @@ private:
     if (!monotonic) {
       valid_ = false;
       has_accepted_correction_ = false;
+      has_last_accepted_map_to_base_ = false;
       resetRecoveryLocked();
       pending_global_poses_.clear();
       publishValid(false);
@@ -548,28 +716,107 @@ private:
     recovery_has_reseeded_ = false;
     recovery_consistent_pose_count_ = 0;
     recovery_reseed_attempts_ = 0;
+    recovery_attempt_limit_reported_ = false;
+    recovery_rebase_mode_ = false;
+    recovery_rebase_reference_valid_ = false;
+    recovery_odom_samples_.clear();
     pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
     publishRecoveryState(
       autonomous_recovery_enabled_ ? "latched_waiting_for_stop" : "latched_manual_reset_required");
   }
 
-  void completeAutonomousRecovery(const tf2::Transform & candidate_map_to_odom)
+  void completeAutonomousRecovery(
+    const tf2::Transform & candidate_map_to_odom,
+    const tf2::Transform & map_to_base,
+    bool rebased)
   {
     map_to_odom_ = candidate_map_to_odom;
+    last_accepted_map_to_base_ = map_to_base;
+    has_last_accepted_map_to_base_ = true;
     valid_ = true;
     correction_fault_latched_ = false;
     recovery_stationary_since_valid_ = false;
     recovery_motion_candidate_valid_ = false;
     recovery_has_reseeded_ = false;
     recovery_consistent_pose_count_ = 0;
+    recovery_rebase_mode_ = false;
+    recovery_rebase_reference_valid_ = false;
+    recovery_odom_samples_.clear();
     pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
     publishValid(valid_ && (!upstream_valid_required_ || upstream_valid_));
     publishRecoveryState("healthy");
     RCLCPP_WARN(
       get_logger(),
-      "Autonomous correction recovery completed after %zu reseed attempt(s); "
+      "Autonomous correction recovery%s completed after %zu reseed attempt(s); "
       "canonical map->odom resumed.",
-      recovery_reseed_attempts_);
+      rebased ? " with bounded odometry rebase" : "", recovery_reseed_attempts_);
+  }
+
+  void evaluateAutonomousRebase(
+    const tf2::Transform & map_to_base,
+    const tf2::Transform & candidate_map_to_odom)
+  {
+    valid_ = false;
+    publishValid(false);
+    const auto now_steady = std::chrono::steady_clock::now();
+    const bool ready_to_evaluate =
+      autonomous_recovery_enabled_ && recovery_has_reseeded_ &&
+      recoveryStationaryHeld(now_steady) && now_steady >= recovery_settle_until_;
+    if (!ready_to_evaluate) {
+      recovery_consistent_pose_count_ = 0;
+      recovery_rebase_reference_valid_ = false;
+      return;
+    }
+
+    const auto anchor_error = rm_relocalization_bridge::measureCorrectionInnovation(
+      recovery_rebase_seed_map_to_base_, map_to_base);
+    if (
+      anchor_error.translation_xy_m > recovery_rebase_pose_translation_tolerance_m_ ||
+      anchor_error.yaw_rad > recovery_rebase_pose_yaw_tolerance_rad_)
+    {
+      recovery_consistent_pose_count_ = 0;
+      recovery_rebase_reference_valid_ = false;
+      RCLCPP_ERROR_THROTTLE(
+        get_logger(), *get_clock(), 1000,
+        "Rejected odometry-rebase pose: absolute anchor error %.3f m / %.3f rad exceeds "
+        "%.3f m / %.3f rad; canonical TF remains withheld.",
+        anchor_error.translation_xy_m, anchor_error.yaw_rad,
+        recovery_rebase_pose_translation_tolerance_m_,
+        recovery_rebase_pose_yaw_tolerance_rad_);
+      return;
+    }
+
+    if (!recovery_rebase_reference_valid_) {
+      recovery_rebase_reference_map_to_odom_ = candidate_map_to_odom;
+      recovery_rebase_reference_valid_ = true;
+      recovery_consistent_pose_count_ = 1U;
+    } else {
+      const auto correction_spread = rm_relocalization_bridge::measureCorrectionInnovation(
+        recovery_rebase_reference_map_to_odom_, candidate_map_to_odom);
+      if (
+        correction_spread.translation_xy_m > max_correction_translation_step_m_ ||
+        correction_spread.yaw_rad > max_correction_yaw_step_rad_)
+      {
+        recovery_rebase_reference_map_to_odom_ = candidate_map_to_odom;
+        recovery_consistent_pose_count_ = 1U;
+        RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 1000,
+          "Restarted odometry-rebase consistency streak: candidate spread %.3f m / "
+          "%.3f rad exceeds steady limits.",
+          correction_spread.translation_xy_m, correction_spread.yaw_rad);
+        return;
+      }
+      ++recovery_consistent_pose_count_;
+    }
+
+    if (recovery_consistent_pose_count_ < recovery_rebase_required_consistent_poses_) {
+      RCLCPP_INFO_THROTTLE(
+        get_logger(), *get_clock(), 1000,
+        "Odometry-rebase absolute consistency %zu/%zu; canonical TF remains withheld.",
+        recovery_consistent_pose_count_, recovery_rebase_required_consistent_poses_);
+      return;
+    }
+    completeAutonomousRecovery(candidate_map_to_odom, map_to_base, true);
   }
 
   void acceptCorrection(
@@ -587,6 +834,11 @@ private:
     }
 
     if (correction_innovation_gate_enabled_ && has_accepted_correction_) {
+      if (correction_fault_latched_ && recovery_rebase_mode_) {
+        evaluateAutonomousRebase(map_to_base, candidate_map_to_odom);
+        return;
+      }
+
       const auto innovation = rm_relocalization_bridge::measureCorrectionInnovation(
         map_to_odom_, candidate_map_to_odom);
       const bool innovation_within_limits =
@@ -625,13 +877,15 @@ private:
             recovery_consistent_pose_count_, recovery_required_consistent_poses_);
           return;
         }
-        completeAutonomousRecovery(candidate_map_to_odom);
+        completeAutonomousRecovery(candidate_map_to_odom, map_to_base, false);
         return;
       }
 
     }
 
     map_to_odom_ = candidate_map_to_odom;
+    last_accepted_map_to_base_ = map_to_base;
+    has_last_accepted_map_to_base_ = true;
     has_accepted_correction_ = true;
     valid_ = true;
     publishValid(valid_ && (!upstream_valid_required_ || upstream_valid_));
@@ -697,20 +951,40 @@ private:
   double recovery_settle_sec_;
   double recovery_initial_pose_xy_variance_;
   double recovery_initial_pose_yaw_variance_;
+  bool recovery_pose_stationarity_enabled_;
+  double recovery_pose_stationarity_window_sec_;
+  double recovery_pose_stationarity_max_translation_m_;
+  double recovery_pose_stationarity_max_yaw_rad_;
+  std::size_t recovery_max_reseed_attempts_;
+  bool recovery_odom_divergence_rebase_enabled_;
+  double recovery_odom_divergence_translation_m_;
+  double recovery_rebase_initial_pose_xy_variance_;
+  double recovery_rebase_initial_pose_yaw_variance_;
+  double recovery_rebase_pose_translation_tolerance_m_;
+  double recovery_rebase_pose_yaw_tolerance_rad_;
   std::size_t recovery_required_consistent_poses_;
+  std::size_t recovery_rebase_required_consistent_poses_;
   std::size_t pending_pose_max_size_;
 
   std::mutex mutex_;
   rm_relocalization_bridge::TimedTransformCache odom_cache_;
   std::deque<PendingGlobalPose> pending_global_poses_;
+  std::deque<RecoveryOdomSample> recovery_odom_samples_;
   tf2::Transform map_to_odom_;
+  tf2::Transform last_accepted_map_to_base_;
+  tf2::Transform recovery_rebase_seed_map_to_base_;
+  tf2::Transform recovery_rebase_reference_map_to_odom_;
   bool has_accepted_correction_ = false;
+  bool has_last_accepted_map_to_base_ = false;
   bool correction_fault_latched_ = false;
   bool recovery_stationary_since_valid_ = false;
   bool recovery_motion_candidate_valid_ = false;
   bool recovery_has_reseeded_ = false;
   std::size_t recovery_consistent_pose_count_ = 0;
   std::size_t recovery_reseed_attempts_ = 0;
+  bool recovery_attempt_limit_reported_ = false;
+  bool recovery_rebase_mode_ = false;
+  bool recovery_rebase_reference_valid_ = false;
   std::int64_t pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
   std::chrono::steady_clock::time_point recovery_stationary_since_;
   std::chrono::steady_clock::time_point recovery_motion_candidate_since_;

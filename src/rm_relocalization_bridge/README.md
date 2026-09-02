@@ -45,11 +45,33 @@ rate-limited and retried; state is published on
 Because the old-car LIO adapter derives twist by finite difference, isolated
 over-threshold speed samples do not reset the stationary hold. Motion must stay
 over threshold for `recovery_motion_confirmation_sec` before it is confirmed;
-reseed publication itself is still prohibited on every over-threshold sample.
+the old-car profile additionally requires a bounded one-second odometry pose
+window before reseeding.
 
 This is a downstream containment and recovery boundary, not a replacement for
-AMCL/LIO root-cause correction. In particular, it assumes canonical LIO remains
-reliable while AMCL is rejected.
+AMCL/LIO root-cause correction. The generic profile still assumes canonical LIO
+remains reliable and keeps odometry rebasing disabled. The old-car profile has
+an additional fail-closed fallback for a settled LIO position jump: when the
+trusted correction would put the robot at least 1 m from its last accepted
+global pose, the bridge seeds AMCL at the last accepted global XY instead of in
+the displaced LIO region. It retains the current settled yaw, uses wider seed
+covariance, and accepts the new `map -> odom` baseline only after ten global
+poses remain within both the absolute anchor gate and the correction-consistency
+gate. A wrong but internally stable AMCL result therefore remains rejected.
+
+The old-car retry period is 5 s and the sequence stops after six unsuccessful
+seeds. During a valid consistency streak the timer cannot reset AMCL. Exhaustion
+publishes `latched_reseed_attempts_exhausted` and continues withholding canonical
+TF until an explicit initial pose or reset. A rebase attempt publishes
+`rebase_reseeded_waiting_for_consistency`; normal recovery retains
+`reseeded_waiting_for_consistency`. These states are diagnostics, not movement
+authority.
+
+This fallback intentionally does not guess vehicle displacement after a fault.
+If the chassis actually moves more than the absolute anchor tolerance, if LIO
+keeps changing, or if global localization cannot converge near the anchor, it
+stays invalid. Real-car acceptance is required before this old-car-only profile
+can be called a completed fix.
 
 `fake_global_pose_publisher` is test-only. It derives synchronized fake global
 poses from `/odometry/lio` and a configured correction, and publishes no TF.

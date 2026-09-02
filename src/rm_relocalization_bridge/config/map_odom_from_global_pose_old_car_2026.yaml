@@ -32,9 +32,32 @@ map_odom_from_global_pose:
     # spikes, but treat an over-threshold run lasting 0.12 s as real motion.
     recovery_motion_confirmation_sec: 0.12
     recovery_stationary_hold_sec: 0.6
-    recovery_reseed_cooldown_sec: 2.0
+    # Give AMCL time to converge before another reset. The 2 s field setting
+    # produced a 16-reseed / 33.88 s recovery tail.
+    recovery_reseed_cooldown_sec: 5.0
     recovery_settle_sec: 0.5
     recovery_required_consistent_poses: 5
     recovery_initial_pose_xy_variance: 0.09
     recovery_initial_pose_yaw_variance: 0.0685
+
+    # The finite-difference twist contains repeated rest spikes. Use a bounded
+    # pose window to confirm that odometry has actually settled before reseed.
+    recovery_pose_stationarity_enabled: true
+    recovery_pose_stationarity_window_sec: 1.0
+    recovery_pose_stationarity_max_translation_m: 0.20
+    recovery_pose_stationarity_max_yaw_rad: 0.25
+    recovery_max_reseed_attempts: 6
+
+    # Old-car-only fail-closed fallback for the 2026-09-01 high-spin bag. If
+    # the trusted correction applied to current LIO is over 1 m from the last
+    # trusted global robot pose, do not seed AMCL in that displaced region.
+    # Preserve trusted XY, use the settled LIO-predicted yaw, then accept a new
+    # map->odom baseline only after absolute-pose and correction consistency.
+    recovery_odom_divergence_rebase_enabled: true
+    recovery_odom_divergence_translation_m: 1.0
+    recovery_rebase_initial_pose_xy_variance: 0.36
+    recovery_rebase_initial_pose_yaw_variance: 0.2742
+    recovery_rebase_pose_translation_tolerance_m: 0.75
+    recovery_rebase_pose_yaw_tolerance_rad: 0.75
+    recovery_rebase_required_consistent_poses: 10
     recovery_state_topic: /localization/correction_recovery_state
