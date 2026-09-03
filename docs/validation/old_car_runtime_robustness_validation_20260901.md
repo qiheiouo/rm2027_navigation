@@ -221,6 +221,11 @@ R01 全部通过后再做。先低速直线，再逐级提高角速度，不直�
 A/B 与 PASS/FAIL 门见
 `docs/validation/old_car_fast_lio_high_spin_validation_20260903.md`。
 
+首轮 `native_custom + bundle + 50 Hz` 实车仍复现短时消失；现场诊断捕获到 raw odom
+年龄 `0.322 s`、FAST-LIO 单帧计算 `152.648 ms`，确认 bundle 在该运动强度下产生计算
+积压。底层 LIO 无效标志随后已接入全局 TF 有效性和 `/system/readiness`，避免健康状态
+互相矛盾；下一轮应降至 20 Hz 做同动作 A/B，而不是放宽定位创新门。
+
 #### 2026-09-02 候选修复（尚待实车验收）
 
 分支 `fix/old-car-lio-jump-recovery` 已实现旧车 profile 独享的 fail-closed 重基准候选，通用

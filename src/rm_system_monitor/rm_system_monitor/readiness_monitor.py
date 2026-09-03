@@ -28,6 +28,9 @@ class ReadinessMonitor(Node):
             raise ValueError("costmap_timeout_sec must be positive")
         self._policy = RequirementPolicy(
             require_lio=bool(self.declare_parameter("require_lio", True).value),
+            require_lio_health=bool(
+                self.declare_parameter("require_lio_health", False).value
+            ),
             require_obstacle_input=bool(
                 self.declare_parameter("require_obstacle_input", True).value
             ),
@@ -48,6 +51,9 @@ class ReadinessMonitor(Node):
         self._odom_topic = self.declare_parameter(
             "odom_topic", "/odometry/lio"
         ).value
+        self._lio_valid_topic = self.declare_parameter(
+            "lio_valid_topic", "/localization/lio_runtime_valid"
+        ).value
         self._obstacle_topic = self.declare_parameter(
             "obstacle_topic", "/livox/left/pointcloud_filtered"
         ).value
@@ -67,6 +73,7 @@ class ReadinessMonitor(Node):
         self._last_local_costmap = None
         self._last_global_costmap = None
         self._localization_valid = False
+        self._lio_valid = False
         self._referee_valid = False
         self._chassis_ready = False
 
@@ -102,6 +109,12 @@ class ReadinessMonitor(Node):
             Bool,
             "/localization/global_localization_valid",
             lambda message: setattr(self, "_localization_valid", message.data),
+            latched,
+        )
+        self.create_subscription(
+            Bool,
+            self._lio_valid_topic,
+            lambda message: setattr(self, "_lio_valid", message.data),
             latched,
         )
         self.create_subscription(
@@ -164,6 +177,8 @@ class ReadinessMonitor(Node):
         available = set()
         if self._fresh(self._last_odom):
             available.add("lio")
+        if self._lio_valid:
+            available.add("lio_health")
         if self._fresh(self._last_obstacle):
             available.add("obstacle_input")
         if self._localization_valid:

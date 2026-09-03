@@ -5,6 +5,7 @@ from typing import List, Set, Tuple
 @dataclass(frozen=True)
 class RequirementPolicy:
     require_lio: bool = True
+    require_lio_health: bool = False
     require_obstacle_input: bool = True
     require_localization: bool = True
     require_nav2: bool = True
@@ -18,6 +19,7 @@ def evaluate_readiness(
 ) -> Tuple[bool, bool, List[str]]:
     navigation_requirements = (
         (policy.require_lio, "lio"),
+        (policy.require_lio_health, "lio_health"),
         (policy.require_obstacle_input, "obstacle_input"),
         (policy.require_localization, "global_localization"),
         (policy.require_nav2, "nav2_action"),

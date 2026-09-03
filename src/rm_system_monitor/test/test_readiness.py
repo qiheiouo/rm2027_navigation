@@ -52,3 +52,22 @@ def test_nav2_requires_both_costmaps_to_be_publishing():
         False,
         ["global_costmap"],
     )
+
+
+def test_explicit_lio_health_gate_is_fail_closed():
+    policy = RequirementPolicy(
+        require_lio_health=True,
+        require_obstacle_input=False,
+        require_localization=False,
+        require_nav2=False,
+    )
+    assert evaluate_readiness(policy, {"lio"}) == (
+        False,
+        False,
+        ["lio_health"],
+    )
+    assert evaluate_readiness(policy, {"lio", "lio_health"}) == (
+        True,
+        True,
+        [],
+    )

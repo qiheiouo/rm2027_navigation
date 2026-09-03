@@ -271,3 +271,43 @@ lio_update_method:=bundle
   转入 async/adaptive A/B，不再继续调整 AMCL 门。
 - raw odom 健康但只有全局定位失效：回到 AMCL/地图修正层分析，与本轮 FAST-LIO 根因
   分开处理。
+
+## 9. H02 首轮实车结果：native 50 Hz + bundle
+
+2026-09-03 使用地图 `20260828T070722Z` 完成第一轮。现象为画面再次消失，曾较快恢复，
+但停车后的持续观测显示 LIO 健康门仍会重复开闭，因此结果为 **FAIL**，不能按“已经恢复”
+验收。
+
+现场证据：
+
+```text
+输入模式                         native_custom
+驱动频率                         50 Hz
+后端                             bundle
+首次运行中观测的消息年龄         0.322 s
+同期 FAST-LIO calc_time          152.648 ms
+同期下采样点数                   523
+后续停车时消息年龄               0.222 s
+后续停车时 calc_time             44.770 ms
+后端/雷达短窗平均输出            约 45--46 Hz
+短窗最大消息间隔                 约 0.34--0.36 s
+```
+
+50 Hz 每帧预算只有 20 ms，而本轮计算时间达到 152.648 ms；即使停车后降至 44.770 ms，
+仍高于一帧预算。`lio_adapter` 分别记录到 `stale_raw_odometry`，拒绝计数由 29 增至 45，
+并发生 2 次 silence latch。由此可以确认本轮直接触发原因是 FAST-LIO bundle 计算积压，
+不是 Livox 完全断流，也不是 AMCL 单独丢失。
+
+本轮还暴露出安全状态没有完全贯通：`lio_runtime_valid=false` 时，旧版
+`global_localization_valid` 和 `/system/readiness` 仍可能短暂报告 true。后续补丁已使旧车
+`map -> odom` 输出和 readiness 同时依赖 `/localization/lio_runtime_valid`；底层锁存时将明确
+报告 `lio_health` 缺失。相关构建及测试通过，下一轮重启后生效。
+
+本轮关键日志已封存在宿主机：
+
+```text
+artifacts/logs/20260903_native50_bundle_01/
+```
+
+下一步按 H03 执行 `native_custom + bundle + 20 Hz`。若 20 Hz 仍积压，不放宽 0.20 s
+安全门，转入 async 后端的静止/低速/高速分档 A/B。

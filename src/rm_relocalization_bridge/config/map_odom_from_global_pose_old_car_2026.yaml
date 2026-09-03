@@ -5,6 +5,10 @@ map_odom_from_global_pose:
     base_frame: base_link
     global_pose_topic: /localization/global_pose
     upstream_valid_topic: ""
+    # A fresh/valid global-pose backend is necessary but not sufficient. When
+    # the old-car LIO adapter rejects stale backlog, withhold map->odom until
+    # canonical odometry has reopened its own health gate.
+    odometry_valid_topic: /localization/lio_runtime_valid
     odom_topic: /odometry/lio
     map_to_odom_topic: /localization/map_to_odom
     publish_tf: true

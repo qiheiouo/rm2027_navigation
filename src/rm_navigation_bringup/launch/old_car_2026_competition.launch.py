@@ -524,6 +524,8 @@ def generate_launch_description():
             parameters=[{
                 "use_sim_time": ParameterValue(use_sim_time, value_type=bool),
                 "require_lio": ParameterValue(use_lio, value_type=bool),
+                "require_lio_health": ParameterValue(use_lio, value_type=bool),
+                "lio_valid_topic": "/localization/lio_runtime_valid",
                 "require_obstacle_input": ParameterValue(use_driver, value_type=bool),
                 "require_localization": ParameterValue(
                     external_localization, value_type=bool

@@ -72,6 +72,7 @@ public:
     global_pose_topic_ = declare_parameter<std::string>(
       "global_pose_topic", "/localization/global_pose");
     upstream_valid_topic_ = declare_parameter<std::string>("upstream_valid_topic", "");
+    odometry_valid_topic_ = declare_parameter<std::string>("odometry_valid_topic", "");
     odom_topic_ = declare_parameter<std::string>("odom_topic", "/odometry/lio");
     output_topic_ = declare_parameter<std::string>(
       "map_to_odom_topic", "/localization/map_to_odom");
@@ -216,6 +217,12 @@ public:
         upstream_valid_topic_, rclcpp::QoS(1).reliable().transient_local(),
         [this](const std_msgs::msg::Bool::SharedPtr msg) {handleUpstreamValid(msg->data);});
     }
+    if (!odometry_valid_topic_.empty()) {
+      odometry_valid_required_ = true;
+      odometry_valid_sub_ = create_subscription<std_msgs::msg::Bool>(
+        odometry_valid_topic_, rclcpp::QoS(1).reliable().transient_local(),
+        [this](const std_msgs::msg::Bool::SharedPtr msg) {handleOdometryValid(msg->data);});
+    }
 
     reset_service_ = create_service<std_srvs::srv::Trigger>(
       "/localization/reset_map_to_odom",
@@ -251,6 +258,11 @@ public:
       RCLCPP_INFO(
         get_logger(), "map->odom validity follows upstream gate %s.",
         upstream_valid_topic_.c_str());
+    }
+    if (odometry_valid_required_) {
+      RCLCPP_INFO(
+        get_logger(), "map->odom output also follows odometry health gate %s.",
+        odometry_valid_topic_.c_str());
     }
     if (correction_innovation_gate_enabled_) {
       RCLCPP_INFO(
@@ -377,7 +389,23 @@ private:
       valid_ = false;
       pending_global_poses_.clear();
     }
-    publishValid(valid_ && upstream_valid_);
+    publishValid(valid_ && validityInputsSatisfiedLocked());
+  }
+
+  void handleOdometryValid(bool value)
+  {
+    std::lock_guard<std::mutex> lock(mutex_);
+    odometry_valid_ = value;
+    if (!value) {
+      pending_global_poses_.clear();
+    }
+    publishValid(valid_ && validityInputsSatisfiedLocked());
+  }
+
+  bool validityInputsSatisfiedLocked() const
+  {
+    return (!upstream_valid_required_ || upstream_valid_) &&
+           (!odometry_valid_required_ || odometry_valid_);
   }
 
   bool recoveryStationaryHeld(const std::chrono::steady_clock::time_point & now_steady) const
@@ -743,7 +771,7 @@ private:
     recovery_rebase_reference_valid_ = false;
     recovery_odom_samples_.clear();
     pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
-    publishValid(valid_ && (!upstream_valid_required_ || upstream_valid_));
+    publishValid(valid_ && validityInputsSatisfiedLocked());
     publishRecoveryState("healthy");
     RCLCPP_WARN(
       get_logger(),
@@ -888,7 +916,7 @@ private:
     has_last_accepted_map_to_base_ = true;
     has_accepted_correction_ = true;
     valid_ = true;
-    publishValid(valid_ && (!upstream_valid_required_ || upstream_valid_));
+    publishValid(valid_ && validityInputsSatisfiedLocked());
     publishRecoveryState("healthy");
     RCLCPP_INFO_THROTTLE(
       get_logger(), *get_clock(), 2000,
@@ -908,7 +936,7 @@ private:
     tf2::Transform transform;
     {
       std::lock_guard<std::mutex> lock(mutex_);
-      if (!valid_ || (upstream_valid_required_ && !upstream_valid_)) {
+      if (!valid_ || !validityInputsSatisfiedLocked()) {
         return;
       }
       transform = map_to_odom_;
@@ -930,6 +958,7 @@ private:
   std::string base_frame_;
   std::string global_pose_topic_;
   std::string upstream_valid_topic_;
+  std::string odometry_valid_topic_;
   std::string odom_topic_;
   std::string output_topic_;
   std::string initial_pose_topic_;
@@ -993,6 +1022,8 @@ private:
   bool valid_ = false;
   bool upstream_valid_required_ = false;
   bool upstream_valid_ = false;
+  bool odometry_valid_required_ = false;
+  bool odometry_valid_ = false;
 
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   rclcpp::Publisher<geometry_msgs::msg::TransformStamped>::SharedPtr transform_pub_;
@@ -1006,6 +1037,7 @@ private:
   rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr
   initial_pose_sub_;
   rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr upstream_valid_sub_;
+  rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr odometry_valid_sub_;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr reset_service_;
   rclcpp::TimerBase::SharedPtr publish_timer_;
 };

@@ -39,6 +39,9 @@ class RecoveryProbe(Node):
         self.upstream_pub = self.create_publisher(
             Bool, "/localization/amcl_backend_valid", latched
         )
+        self.odom_valid_pub = self.create_publisher(
+            Bool, "/localization/lio_runtime_valid", latched
+        )
         self.valid_messages = []
         self.transforms = []
         self.recovery_states = []
@@ -85,6 +88,12 @@ class RecoveryProbe(Node):
         message = Bool()
         message.data = True
         self.upstream_pub.publish(message)
+        self.publish_odom_valid()
+
+    def publish_odom_valid(self, value=True):
+        message = Bool()
+        message.data = value
+        self.odom_valid_pub.publish(message)
 
     def publish_odom(self, x=0.0, linear_speed=0.0, angular_speed=0.0):
         stamp = self.get_clock().now().to_msg()
@@ -394,6 +403,81 @@ def test_reseed_attempts_are_bounded_when_no_consistent_global_pose_arrives():
         )
         assert len(probe.observed_initial_poses) == 2
         assert not probe.valid_messages[-1]
+    finally:
+        probe.destroy_node()
+        rclpy.shutdown()
+        process.terminate()
+        try:
+            output, _ = process.communicate(timeout=3.0)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            output, _ = process.communicate(timeout=3.0)
+        if process.returncode not in (0, -15):
+            raise AssertionError(
+                f"map->odom bridge exited with {process.returncode}:\n{output}"
+            )
+
+
+def test_odometry_health_withholds_global_validity_without_losing_correction():
+    os.environ["ROS_DOMAIN_ID"] = "97"
+    command = [
+        str(BINARY),
+        "--ros-args",
+        "--params-file",
+        str(CONFIG),
+        "-p",
+        "upstream_valid_topic:=/localization/amcl_backend_valid",
+        "-p",
+        "odometry_valid_topic:=/localization/lio_runtime_valid",
+    ]
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        env=os.environ.copy(),
+    )
+    rclpy.init()
+    probe = RecoveryProbe()
+    try:
+        probe.spin_for(1.0)
+        assert process.poll() is None, "map->odom bridge exited during startup"
+        probe.publish_upstream_valid()
+        probe.publish_odom_valid()
+        probe.spin_for(0.2)
+
+        probe.publish_candidate(0.2)
+        probe.wait_for(
+            lambda: probe.valid_messages and probe.valid_messages[-1],
+            "baseline with both validity inputs",
+        )
+        probe.wait_for(
+            lambda: latest_transform_is(probe, 0.2),
+            "baseline transform",
+        )
+
+        probe.publish_odom_valid(False)
+        probe.wait_for(
+            lambda: probe.valid_messages and not probe.valid_messages[-1],
+            "LIO health invalidates global output",
+        )
+        transform_count = len(probe.transforms)
+        probe.spin_for(0.2)
+        assert len(probe.transforms) == transform_count
+
+        # The health gate already requires a fresh, bounded LIO sequence.
+        # Reopening it may reuse the retained map->odom correction without an
+        # operator initial-pose action or an artificial identity reset.
+        probe.publish_odom_valid()
+        probe.wait_for(
+            lambda: probe.valid_messages and probe.valid_messages[-1],
+            "LIO health reopens retained correction",
+        )
+        probe.wait_for(
+            lambda: len(probe.transforms) > transform_count,
+            "map->odom resumes after LIO health recovery",
+        )
+        assert latest_transform_is(probe, 0.2)
     finally:
         probe.destroy_node()
         rclpy.shutdown()
