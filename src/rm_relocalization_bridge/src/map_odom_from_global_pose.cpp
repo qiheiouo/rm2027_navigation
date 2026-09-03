@@ -91,6 +91,10 @@ public:
       std::max<std::int64_t>(
         1, declare_parameter<std::int64_t>(
           "correction_innovation_rejection_confirmation_count", 1)));
+    correction_high_angular_rate_hold_enabled_ =
+      declare_parameter<bool>("correction_high_angular_rate_hold_enabled", false);
+    correction_high_angular_rate_threshold_radps_ =
+      declare_parameter<double>("correction_high_angular_rate_threshold_radps", 3.0);
     initial_pose_topic_ = declare_parameter<std::string>("initial_pose_topic", "/initialpose");
     autonomous_recovery_enabled_ =
       declare_parameter<bool>("autonomous_recovery_enabled", false);
@@ -154,6 +158,8 @@ public:
       max_correction_translation_step_m_ <= 0.0 ||
       !std::isfinite(max_correction_yaw_step_rad_) ||
       max_correction_yaw_step_rad_ <= 0.0 ||
+      !std::isfinite(correction_high_angular_rate_threshold_radps_) ||
+      correction_high_angular_rate_threshold_radps_ <= 0.0 ||
       !std::isfinite(recovery_linear_speed_threshold_mps_) ||
       recovery_linear_speed_threshold_mps_ < 0.0 ||
       !std::isfinite(recovery_angular_speed_threshold_radps_) ||
@@ -277,6 +283,13 @@ public:
         max_correction_translation_step_m_, max_correction_yaw_step_rad_,
         correction_innovation_rejection_confirmation_count_,
         initial_pose_topic_.c_str());
+      if (correction_high_angular_rate_hold_enabled_) {
+        RCLCPP_WARN(
+          get_logger(),
+          "High-angular-rate correction hold enabled at >= %.3f rad/s. "
+          "Trusted map->odom remains published while matched global corrections are ignored.",
+          correction_high_angular_rate_threshold_radps_);
+      }
       if (autonomous_recovery_enabled_) {
         RCLCPP_INFO(
           get_logger(),
@@ -644,7 +657,8 @@ private:
 
     const auto transform = poseToTransform(msg.pose.pose);
     std::lock_guard<std::mutex> lock(mutex_);
-    const bool monotonic = odom_cache_.add({stamp.nanoseconds(), transform});
+    const double angular_speed = std::abs(msg.twist.twist.angular.z);
+    const bool monotonic = odom_cache_.add({stamp.nanoseconds(), transform, angular_speed});
     if (!monotonic) {
       valid_ = false;
       has_accepted_correction_ = false;
@@ -870,6 +884,21 @@ private:
     }
 
     if (correction_innovation_gate_enabled_ && has_accepted_correction_) {
+      const bool high_angular_rate_hold =
+        correction_high_angular_rate_hold_enabled_ && !correction_fault_latched_ &&
+        std::isfinite(odom_sample.angular_speed_radps) &&
+        odom_sample.angular_speed_radps >= correction_high_angular_rate_threshold_radps_;
+      if (high_angular_rate_hold) {
+        correction_innovation_rejection_count_ = 0;
+        publishRecoveryState("high_angular_rate_hold");
+        RCLCPP_WARN_THROTTLE(
+          get_logger(), *get_clock(), 1000,
+          "Holding trusted map->odom during %.3f rad/s rotation; matched global "
+          "correction ignored and canonical TF retained.",
+          odom_sample.angular_speed_radps);
+        return;
+      }
+
       if (correction_fault_latched_ && recovery_rebase_mode_) {
         evaluateAutonomousRebase(map_to_base, candidate_map_to_odom);
         return;
@@ -1002,6 +1031,7 @@ private:
   std::string recovery_state_topic_;
   bool publish_tf_;
   bool correction_innovation_gate_enabled_;
+  bool correction_high_angular_rate_hold_enabled_;
   bool autonomous_recovery_enabled_;
   double publish_rate_hz_;
   double max_pose_odom_dt_sec_;
@@ -1009,6 +1039,7 @@ private:
   double pending_pose_max_wait_sec_;
   double max_correction_translation_step_m_;
   double max_correction_yaw_step_rad_;
+  double correction_high_angular_rate_threshold_radps_;
   double recovery_linear_speed_threshold_mps_;
   double recovery_angular_speed_threshold_radps_;
   double recovery_motion_confirmation_sec_;

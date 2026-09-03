@@ -28,6 +28,12 @@ map_odom_from_global_pose:
     # 0.15 s later by a healthy one. Reject isolated candidates without taking
     # map->odom offline; three consecutive outliers still fail closed quickly.
     correction_innovation_rejection_confirmation_count: 3
+    # AMCL produces repeated yaw outliers near the old car's 7 rad/s spin rate.
+    # Keep the last trusted correction online and let healthy LIO carry the
+    # short high-dynamic interval; resume timestamp-matched corrections below
+    # this threshold. The generic/new-car profile leaves this disabled.
+    correction_high_angular_rate_hold_enabled: true
+    correction_high_angular_rate_threshold_radps: 3.0
     initial_pose_topic: /initialpose
 
     # Competition recovery: once three consecutive jumps are rejected, keep

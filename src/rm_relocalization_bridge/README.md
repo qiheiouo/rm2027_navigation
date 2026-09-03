@@ -32,14 +32,20 @@ gate disabled for compatibility. Old-car launch profiles select
 0.35 rad limits after a field-observed high-spin AMCL failure produced a
 low-covariance wrong pose.
 
-The old-car profile also enables autonomous recovery. The first rejected jump
-latches global localization invalid so canonical TF cannot flicker between
-AMCL modes. After canonical LIO reports that the chassis has remained
-stationary, the bridge computes a trusted predicted pose from the last accepted
-`map -> odom` correction and the current `odom -> base_link`, then publishes it
-to `/initialpose` to locally reseed AMCL. Canonical TF resumes only after five
-consecutive corrections agree with the trusted baseline. Failed recovery is
-rate-limited and retried; state is published on
+The old-car profile requires three consecutive rejected jumps before it latches
+global localization invalid, so one- or two-frame AMCL outliers cannot flicker
+canonical TF. It also ignores timestamp-matched global corrections while LIO
+reports at least 3 rad/s angular speed, retaining and continuously publishing
+the last trusted `map -> odom`. The generic/new-car profile leaves this
+high-angular-rate hold disabled. LIO runtime health remains an independent
+fail-closed input in either state.
+
+After a persistent fault, canonical LIO must report that the chassis has
+remained stationary. The bridge then computes a trusted predicted pose from the
+last accepted `map -> odom` correction and the current `odom -> base_link`, and
+publishes it to `/initialpose` to locally reseed AMCL. Canonical TF resumes only
+after five consecutive corrections agree with the trusted baseline. Failed
+recovery is rate-limited and retried; state is published on
 `/localization/correction_recovery_state`. An operator `/initialpose` or
 `/localization/reset_map_to_odom` still deliberately clears the baseline.
 Because the old-car LIO adapter derives twist by finite difference, isolated

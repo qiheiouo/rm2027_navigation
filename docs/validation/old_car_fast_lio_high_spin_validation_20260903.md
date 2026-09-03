@@ -46,6 +46,27 @@ LIO/AMCL/TF/就绪状态。动作由 odom 航向变化离线对齐，而不是�
 异常只被丢弃，可信修正和 canonical TF 保持不变；连续第三帧才进入既有 fail-closed 与
 自主恢复流程。这样不会靠放宽 `0.35 m / 0.35 rad` 接受错误位姿。
 
+加载三帧确认后的复验包：
+
+```text
+artifacts/bags/20260903_high_spin_native20_confirmation_01/
+artifacts/bags/20260903_high_spin_native20_maxspeed_home_01/
+```
+
+第一包中约 `5.5 rad/s` 自转持续 `34.10 s`，出现多组一至两帧 AMCL 异常，最大约
+`0.625 m / 1.415 rad`；它们均被隔离，两个 validity topic 和 `map -> odom` 全程连续，
+实车复核没有持续地图错位。说明三帧确认解决了孤立/短簇异常。
+
+第二包中最高档约 `7.0 rad/s`、持续 `11.55 s`。LIO 全程有效，raw odom 延迟最大
+`137.1 ms`；但 AMCL 从动作开始约 `1.4 s` 后连续三帧产生 `0.87--1.25 rad` 航向创新，
+修正门按设计锁存。`map -> odom` 中断 `12.15 s`，停车后才自主恢复，因此随后能够 home
+不等于“自转结束立即 home”通过。
+
+离线按时间匹配的 LIO 角速度回放显示：若在 `>= 3.0 rad/s` 时冻结全局修正，所有最高档
+异常候选都会被隔离；降速后的候选立即重新落回原可信修正 `0.35 m / 0.35 rad` 范围。
+因此新增旧车专用高速修正冻结：高速期间不接收 AMCL 候选，但持续发布最后可信
+`map -> odom`；LIO 健康门仍可独立撤下错误 odom。通用/新车 profile 默认关闭该行为。
+
 ## 2. 证据链
 
 ### 2.1 已确认的现象
@@ -111,6 +132,7 @@ driver_publish_freq:=50.0             # 默认值，可做 50/20 Hz A/B
 恢复所需连续新鲜样本         5
 恢复样本距最后可信平移上限   0.75 m
 修正创新锁存所需连续异常     3 帧（通用默认仍为 1）
+高速修正冻结门限             3.0 rad/s（仅旧车启用）
 ```
 
 新增 topic：
@@ -126,6 +148,11 @@ driver_publish_freq:=50.0             # 默认值，可做 50/20 Hz A/B
 全局修正门另外把单帧异常与持续异常分开：旧车第一、二帧异常发布
 `innovation_rejection_pending`，保留最后可信 `map -> odom`；下一帧恢复正常则直接回到
 `healthy`。只有连续三帧异常才撤下全局 TF。该参数位于旧车 profile，不改变新车配置。
+
+当与 global pose 时间匹配的 canonical odom 角速度达到 `3.0 rad/s` 时，旧车发布
+`high_angular_rate_hold`，忽略该帧 AMCL 修正并保留可信 TF。角速度降回门限以下后，下一帧
+正常候选即可恢复更新。该策略不绕过 `/localization/lio_runtime_valid`：LIO 自身超龄、静默
+或跳变时仍然 fail-closed。
 
 ### 3.3 后端 A/B 入口
 
@@ -251,12 +278,12 @@ driver_publish_freq:=20.0
 
 重新执行 H01、H02。不能在同一个 launch 内动态改变频率后继续比较。
 
-2026-09-03 第一轮 20 Hz 已完成 3.1/5.5 rad/s 档并定位到单帧 AMCL 异常。加载连续异常
-确认修复后的复验，至少需要重新执行：
+2026-09-03 已完成 3.1/5.5/7.0 rad/s 取证，并分别定位到单帧和连续 AMCL 异常。加载
+高速修正冻结后的复验，至少需要重新执行：
 
 1. 静止 20 秒，确认两个 validity topic 均为 true；
-2. 约 5.5 rad/s 自转 10 秒，确认单帧异常不再令 RobotModel/点云/costmap 消失；
-3. 比赛最高角速度自转 30 秒，再直接下发安全 home 目标；
+2. 约 7.0 rad/s 自转 15 秒，确认状态进入 `high_angular_rate_hold`，但 validity 与 TF 连续；
+3. 比赛最高角速度自转 30 秒，结束后不额外停车等待，直接下发安全 home 目标；
 4. 离线确认没有连续三帧异常、TF 间断或 raw odom 非物理平移。
 
 ### H04：旧转换链对照

@@ -14,6 +14,7 @@ struct TimedTransform
 {
   std::int64_t stamp_nanoseconds;
   tf2::Transform transform;
+  double angular_speed_radps = 0.0;
 };
 
 struct CorrectionInnovation

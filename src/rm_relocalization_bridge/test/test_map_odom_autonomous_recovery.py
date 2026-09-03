@@ -574,3 +574,70 @@ def test_odometry_health_withholds_global_validity_without_losing_correction():
             raise AssertionError(
                 f"map->odom bridge exited with {process.returncode}:\n{output}"
             )
+
+
+def test_high_angular_rate_holds_trusted_correction_and_resumes_at_low_rate():
+    os.environ["ROS_DOMAIN_ID"] = "99"
+    command = [
+        str(BINARY),
+        "--ros-args",
+        "--params-file",
+        str(CONFIG),
+        "-p",
+        "upstream_valid_topic:=/localization/amcl_backend_valid",
+    ]
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        env=os.environ.copy(),
+    )
+    rclpy.init()
+    probe = RecoveryProbe()
+    try:
+        probe.spin_for(1.0)
+        assert process.poll() is None, "map->odom bridge exited during startup"
+        probe.publish_upstream_valid()
+        probe.spin_for(0.2)
+
+        probe.publish_candidate(0.0)
+        probe.wait_for(
+            lambda: probe.valid_messages and probe.valid_messages[-1],
+            "baseline correction",
+        )
+        probe.wait_for(lambda: latest_transform_is(probe, 0.0), "baseline transform")
+
+        for _ in range(5):
+            probe.publish_candidate(1.0, angular_speed=7.0)
+            probe.spin_for(0.1)
+            assert probe.valid_messages[-1], "high-rate correction withdrew validity"
+            assert latest_transform_is(probe, 0.0), "high-rate correction changed trusted TF"
+        probe.wait_for(
+            lambda: probe.recovery_states
+            and probe.recovery_states[-1] == "high_angular_rate_hold",
+            "high-rate hold state",
+        )
+
+        probe.publish_candidate(0.1, angular_speed=0.0)
+        probe.wait_for(lambda: latest_transform_is(probe, 0.1), "low-rate correction resumes")
+        probe.wait_for(
+            lambda: probe.recovery_states
+            and probe.recovery_states[-1] == "healthy",
+            "healthy state after high-rate hold",
+        )
+        assert probe.valid_messages[-1]
+        assert not probe.observed_initial_poses, "high-rate hold triggered an AMCL reseed"
+    finally:
+        probe.destroy_node()
+        rclpy.shutdown()
+        process.terminate()
+        try:
+            output, _ = process.communicate(timeout=3.0)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            output, _ = process.communicate(timeout=3.0)
+        if process.returncode not in (0, -15):
+            raise AssertionError(
+                f"map->odom bridge exited with {process.returncode}:\n{output}"
+            )
