@@ -215,6 +215,12 @@ R01 全部通过后再做。先低速直线，再逐级提高角速度，不直�
 不能处理 LIO 原点/位置突跳。不能继续无限重播种，也不能把 10 m correction 直接放行；
 若 LIO 姿态仍发散或持续移动，必须保持导航禁用，不能伪装成恢复成功。
 
+后续对录包的进一步时间对齐确认了 FAST-LIO 曾落后传感器时间约 3.495 秒，并发现完整
+双雷达入口曾把左雷达由原生 CustomMsg 改为 PointCloud2 后重建 CustomMsg。2026-09-03
+已建立原生时序修复候选和底层 odom 过期输入门。根因候选、启动命令、录包 topic、分档
+A/B 与 PASS/FAIL 门见
+`docs/validation/old_car_fast_lio_high_spin_validation_20260903.md`。
+
 #### 2026-09-02 候选修复（尚待实车验收）
 
 分支 `fix/old-car-lio-jump-recovery` 已实现旧车 profile 独享的 fail-closed 重基准候选，通用

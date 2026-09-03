@@ -37,6 +37,23 @@ lio_adapter:
 
     twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
 
+    # Old-car high-spin evidence showed the backend publishing odometry up to
+    # 3.50 s behind sensor time and then jumping about 10 m while catching up.
+    # Never expose that stale backlog as canonical odom -> base_link. After a
+    # stale/silent interval, require a short fresh sequence near the last
+    # accepted translation before reopening the canonical output.
+    input_health:
+      enabled: true
+      max_message_age_sec: 0.20
+      max_future_offset_sec: 0.05
+      max_silence_sec: 0.20
+      recovery_fresh_samples: 5
+      recovery_max_translation_m: 0.75
+      valid_topic: /localization/lio_runtime_valid
+      status_topic: /localization/lio_runtime_status
+      backend_calc_time_topic: /lio/diagnostics/calc_time
+      backend_point_count_topic: /lio/diagnostics/point_number
+
     # Inverse of the old-car measured base_link -> lio_imu_link transform.
     # Placeholder fallback remains disabled; this is retained only for explicit
     # emergency experiments.

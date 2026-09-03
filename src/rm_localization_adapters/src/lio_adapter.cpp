@@ -1,6 +1,7 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <cstdint>
 #include <deque>
 #include <functional>
 #include <memory>
@@ -8,10 +9,16 @@
 #include <string>
 #include <vector>
 
+#include "diagnostic_msgs/msg/diagnostic_array.hpp"
+#include "diagnostic_msgs/msg/diagnostic_status.hpp"
+#include "diagnostic_msgs/msg/key_value.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rm_localization_adapters/canonical_odometry.hpp"
+#include "rm_localization_adapters/odometry_input_health.hpp"
+#include "std_msgs/msg/bool.hpp"
+#include "std_msgs/msg/float32.hpp"
 #include "tf2/exceptions.h"
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2/LinearMath/Transform.h"
@@ -100,6 +107,42 @@ public:
         std::make_unique<rm_localization_adapters::PoseTwistEstimator>(estimator_config);
     }
 
+    rm_localization_adapters::OdometryInputHealthConfig input_health_config;
+    input_health_config.enabled = declare_parameter<bool>(
+      "input_health.enabled", false);
+    input_health_enabled_ = input_health_config.enabled;
+    input_health_config.max_message_age_sec = declare_parameter<double>(
+      "input_health.max_message_age_sec", 0.2);
+    input_health_config.max_future_offset_sec = declare_parameter<double>(
+      "input_health.max_future_offset_sec", 0.05);
+    const int recovery_fresh_samples = declare_parameter<int>(
+      "input_health.recovery_fresh_samples", 5);
+    if (recovery_fresh_samples <= 0) {
+      throw std::invalid_argument("input_health.recovery_fresh_samples must be positive");
+    }
+    input_health_config.recovery_fresh_samples =
+      static_cast<std::uint32_t>(recovery_fresh_samples);
+    input_health_config.recovery_max_translation_m = declare_parameter<double>(
+      "input_health.recovery_max_translation_m", 0.75);
+    input_health_max_silence_sec_ = declare_parameter<double>(
+      "input_health.max_silence_sec", 0.2);
+    if (!std::isfinite(input_health_max_silence_sec_) ||
+      input_health_max_silence_sec_ <= 0.0)
+    {
+      throw std::invalid_argument("input_health.max_silence_sec must be positive");
+    }
+    input_health_gate_ =
+      std::make_unique<rm_localization_adapters::OdometryInputHealthGate>(
+      input_health_config);
+    input_health_valid_topic_ = declare_parameter<std::string>(
+      "input_health.valid_topic", "/localization/lio_runtime_valid");
+    input_health_status_topic_ = declare_parameter<std::string>(
+      "input_health.status_topic", "/localization/lio_runtime_status");
+    backend_calc_time_topic_ = declare_parameter<std::string>(
+      "input_health.backend_calc_time_topic", "/lio/diagnostics/calc_time");
+    backend_point_count_topic_ = declare_parameter<std::string>(
+      "input_health.backend_point_count_topic", "/lio/diagnostics/point_number");
+
     const double input_to_base_x =
       declare_parameter<double>("input_to_base_placeholder.x", 0.0);
     const double input_to_base_y =
@@ -120,25 +163,49 @@ public:
     input_to_base_placeholder_.setRotation(input_to_base_q);
 
     odom_pub_ = create_publisher<nav_msgs::msg::Odometry>(output_odom_topic_, 10);
+    const auto latched_qos = rclcpp::QoS(rclcpp::KeepLast(1)).reliable().transient_local();
+    input_health_valid_pub_ = create_publisher<std_msgs::msg::Bool>(
+      input_health_valid_topic_, latched_qos);
+    input_health_status_pub_ = create_publisher<diagnostic_msgs::msg::DiagnosticArray>(
+      input_health_status_topic_, rclcpp::QoS(10));
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
     tf_buffer_ = std::make_unique<tf2_ros::Buffer>(get_clock());
     tf_listener_ = std::make_unique<tf2_ros::TransformListener>(*tf_buffer_);
     odom_sub_ = create_subscription<nav_msgs::msg::Odometry>(
       raw_odom_topic_, 10,
       std::bind(&LioAdapter::handleRawOdometry, this, std::placeholders::_1));
+    if (!backend_calc_time_topic_.empty()) {
+      backend_calc_time_sub_ = create_subscription<std_msgs::msg::Float32>(
+        backend_calc_time_topic_, 10,
+        [this](const std_msgs::msg::Float32::SharedPtr message) {
+          last_backend_calc_time_ms_ = message->data;
+          has_backend_calc_time_ = true;
+        });
+    }
+    if (!backend_point_count_topic_.empty()) {
+      backend_point_count_sub_ = create_subscription<std_msgs::msg::Float32>(
+        backend_point_count_topic_, 10,
+        [this](const std_msgs::msg::Float32::SharedPtr message) {
+          last_backend_point_count_ = message->data;
+          has_backend_point_count_ = true;
+        });
+    }
     const auto retry_period = std::chrono::duration<double>(1.0 / tf_queue_retry_rate_hz_);
     tf_retry_timer_ = create_wall_timer(
       std::chrono::duration_cast<std::chrono::nanoseconds>(retry_period),
       std::bind(&LioAdapter::retryPendingOdometry, this));
+    input_health_timer_ = create_wall_timer(
+      std::chrono::milliseconds(100),
+      std::bind(&LioAdapter::publishInputHealth, this));
 
     RCLCPP_WARN(
       get_logger(),
       "Canonical LIO adapter: adapting %s to %s through TF %s->sensor with gimbal frame %s. "
       "raw_odom_parent_frame_mode=%s. twist_mode=%s. Real hardware still requires calibrated "
-      "and timestamped gimbal yaw.",
+      "and timestamped gimbal yaw. input_health=%s.",
       raw_odom_topic_.c_str(), output_odom_topic_.c_str(),
       base_frame_.c_str(), gimbal_frame_.c_str(), raw_odom_parent_frame_mode_.c_str(),
-      twist_mode_.c_str());
+      twist_mode_.c_str(), input_health_enabled_ ? "enabled" : "disabled");
   }
 
 private:
@@ -197,6 +264,8 @@ private:
 
   void handleRawOdometry(const nav_msgs::msg::Odometry::SharedPtr msg)
   {
+    received_raw_odometry_ = true;
+    last_raw_receipt_ = std::chrono::steady_clock::now();
     if (!pending_odometry_.empty() || !tryProcessRawOdometry(msg)) {
       enqueuePendingOdometry(msg);
     }
@@ -359,6 +428,43 @@ private:
     output.child_frame_id = base_frame_;
     transformToPose(odom_to_base, output.pose.pose);
 
+    const auto health_decision = input_health_gate_->evaluate(
+      get_clock()->now().nanoseconds(),
+      rclcpp::Time(msg->header.stamp).nanoseconds(),
+      output.pose.pose.position.x,
+      output.pose.pose.position.y,
+      output.pose.pose.position.z);
+    if (health_decision != rm_localization_adapters::OdometryInputDecision::kAccept) {
+      canonical_output_valid_ = false;
+      if (twist_estimator_) {
+        twist_estimator_->reset();
+      }
+      if (health_decision ==
+        rm_localization_adapters::OdometryInputDecision::kRejectStale)
+      {
+        ++stale_rejections_;
+        input_health_reason_ = "stale_raw_odometry";
+      } else if (health_decision ==
+        rm_localization_adapters::OdometryInputDecision::kRejectFuture)
+      {
+        ++future_rejections_;
+        input_health_reason_ = "future_raw_odometry";
+      } else if (health_decision ==
+        rm_localization_adapters::OdometryInputDecision::kRejectAnchor)
+      {
+        ++anchor_rejections_;
+        input_health_reason_ = "post_backlog_translation_mismatch";
+      } else {
+        input_health_reason_ = "waiting_for_fresh_consensus";
+      }
+      RCLCPP_ERROR_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "Fail-closed raw LIO input: %s (age=%.3f s, recovery=%u).",
+        input_health_reason_.c_str(), input_health_gate_->last_age_sec(),
+        input_health_gate_->recovery_count());
+      return true;
+    }
+
     if (twist_mode_ == "finite_difference") {
       if (msg->header.stamp.sec == 0 && msg->header.stamp.nanosec == 0) {
         RCLCPP_WARN_THROTTLE(
@@ -391,6 +497,9 @@ private:
       }
     }
     odom_pub_->publish(output);
+    canonical_output_valid_ = true;
+    input_health_reason_ = "healthy";
+    ++canonical_outputs_;
 
     if (publish_tf_) {
       geometry_msgs::msg::TransformStamped tf_msg;
@@ -404,6 +513,74 @@ private:
       tf_broadcaster_->sendTransform(tf_msg);
     }
     return true;
+  }
+
+  void publishInputHealth()
+  {
+    double silence_sec = 0.0;
+    if (received_raw_odometry_) {
+      silence_sec = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - last_raw_receipt_).count();
+      if (input_health_enabled_ &&
+        silence_sec > input_health_max_silence_sec_ &&
+        !input_health_gate_->latched())
+      {
+        input_health_gate_->latch_silence();
+        canonical_output_valid_ = false;
+        input_health_reason_ = "raw_odometry_silence";
+        ++silence_events_;
+        if (twist_estimator_) {
+          twist_estimator_->reset();
+        }
+        RCLCPP_ERROR_THROTTLE(
+          get_logger(), *get_clock(), 2000,
+          "Fail-closed raw LIO input after %.3f s without odometry.", silence_sec);
+      }
+    }
+
+    std_msgs::msg::Bool valid;
+    valid.data = canonical_output_valid_ && !input_health_gate_->latched();
+    input_health_valid_pub_->publish(valid);
+
+    diagnostic_msgs::msg::DiagnosticArray array;
+    array.header.stamp = get_clock()->now();
+    diagnostic_msgs::msg::DiagnosticStatus status;
+    status.name = "lio_adapter/input_health";
+    status.hardware_id = "fast_lio_multi";
+    if (input_health_gate_->latched()) {
+      status.level = diagnostic_msgs::msg::DiagnosticStatus::ERROR;
+    } else if (!canonical_output_valid_) {
+      status.level = diagnostic_msgs::msg::DiagnosticStatus::WARN;
+    } else {
+      status.level = diagnostic_msgs::msg::DiagnosticStatus::OK;
+    }
+    status.message = input_health_reason_;
+    const auto add = [&status](const std::string & key, const std::string & value) {
+        diagnostic_msgs::msg::KeyValue item;
+        item.key = key;
+        item.value = value;
+        status.values.push_back(item);
+      };
+    add("enabled", input_health_enabled_ ? "true" : "false");
+    add("canonical_output_valid", valid.data ? "true" : "false");
+    add("latched", input_health_gate_->latched() ? "true" : "false");
+    add("raw_odometry_received", received_raw_odometry_ ? "true" : "false");
+    add("raw_silence_sec", std::to_string(silence_sec));
+    add("last_message_age_sec", std::to_string(input_health_gate_->last_age_sec()));
+    add("recovery_fresh_count", std::to_string(input_health_gate_->recovery_count()));
+    add("stale_rejections", std::to_string(stale_rejections_));
+    add("future_rejections", std::to_string(future_rejections_));
+    add("anchor_rejections", std::to_string(anchor_rejections_));
+    add("silence_events", std::to_string(silence_events_));
+    add("canonical_outputs", std::to_string(canonical_outputs_));
+    add(
+      "backend_calc_time_ms",
+      has_backend_calc_time_ ? std::to_string(last_backend_calc_time_ms_) : "unavailable");
+    add(
+      "backend_point_count",
+      has_backend_point_count_ ? std::to_string(last_backend_point_count_) : "unavailable");
+    array.status.push_back(status);
+    input_health_status_pub_->publish(array);
   }
 
   tf2::Transform computeCanonicalBaseTransform(
@@ -441,14 +618,40 @@ private:
   std::array<double, 6> twist_variance_diagonal_{};
   tf2::Transform input_to_base_placeholder_;
   std::unique_ptr<rm_localization_adapters::PoseTwistEstimator> twist_estimator_;
+  bool input_health_enabled_{false};
+  double input_health_max_silence_sec_{0.2};
+  std::string input_health_valid_topic_;
+  std::string input_health_status_topic_;
+  std::string backend_calc_time_topic_;
+  std::string backend_point_count_topic_;
+  std::unique_ptr<rm_localization_adapters::OdometryInputHealthGate> input_health_gate_;
+  bool received_raw_odometry_{false};
+  bool canonical_output_valid_{false};
+  std::chrono::steady_clock::time_point last_raw_receipt_{};
+  std::string input_health_reason_{"initializing"};
+  std::uint64_t stale_rejections_{0U};
+  std::uint64_t future_rejections_{0U};
+  std::uint64_t anchor_rejections_{0U};
+  std::uint64_t silence_events_{0U};
+  std::uint64_t canonical_outputs_{0U};
+  float last_backend_calc_time_ms_{0.0F};
+  float last_backend_point_count_{0.0F};
+  bool has_backend_calc_time_{false};
+  bool has_backend_point_count_{false};
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
+  rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr input_health_valid_pub_;
+  rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticArray>::SharedPtr
+    input_health_status_pub_;
+  rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr backend_calc_time_sub_;
+  rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr backend_point_count_sub_;
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
   std::unique_ptr<tf2_ros::TransformListener> tf_listener_;
   std::deque<PendingOdometry> pending_odometry_;
   rclcpp::TimerBase::SharedPtr tf_retry_timer_;
+  rclcpp::TimerBase::SharedPtr input_health_timer_;
 };
 
 int main(int argc, char ** argv)

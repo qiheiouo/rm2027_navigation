@@ -199,6 +199,11 @@ def test_full_old_car_entry_uses_dual_local_avoidance_and_amcl_global_scan():
     assert "ALLOW_PROVISIONAL_DUAL_EXTRINSIC = True" in launch
     assert 'DeclareLaunchArgument("serial_max_vx"' in launch
     assert '"serial_max_vx": LaunchConfiguration("serial_max_vx")' in launch
+    assert 'DeclareLaunchArgument(\n            "driver_publish_freq"' in launch
+    assert 'DeclareLaunchArgument(\n            "lio_input_mode"' in launch
+    assert 'DeclareLaunchArgument(\n            "lio_update_method"' in launch
+    assert '"lio_input_mode": LaunchConfiguration("lio_input_mode")' in launch
+    assert '"lio_update_method": LaunchConfiguration("lio_update_method")' in launch
 
     dog_hole_launch = (
         WORKSPACE_SOURCE
@@ -221,6 +226,21 @@ def test_full_old_car_entry_uses_dual_local_avoidance_and_amcl_global_scan():
     assert controller["vx_max"] == 0.50
     assert smoother["max_velocity"][0] == 3.00
     assert smoother["max_velocity"][2] >= 0.80
+
+
+def test_dual_mid360_defaults_to_native_lio_timing_with_legacy_ab_mode():
+    launch = (
+        WORKSPACE_SOURCE
+        / "rm_mid360_driver_bridge"
+        / "launch"
+        / "dual_mid360_driver.launch.py"
+    ).read_text(encoding="utf-8")
+    assert 'default_value="native_custom"' in launch
+    assert '"xfer_format": 1 if native_custom else 0' in launch
+    assert '"/livox/left/lidar_native"' in launch
+    assert '"/livox/right/lidar_native"' in launch
+    assert 'executable="livox_custom_adapter_node"' in launch
+    assert 'lio_input_mode not in {"native_custom", "reconstructed_custom"}' in launch
 
 
 def test_full_terrain_global_speed_rewrites_smoother_x_limit():
@@ -347,6 +367,11 @@ def test_old_car_full_terrain_entry_combines_profiles_without_duplicate_stack():
     assert '"global_max_forward_speed"' in launch
     assert '"mppi_forward_velocity_std"' in launch
     assert '"controller_server.ros__parameters.FollowPath.vx_std"' in launch
+    assert 'DeclareLaunchArgument(\n            "driver_publish_freq"' in launch
+    assert 'DeclareLaunchArgument(\n            "lio_input_mode"' in launch
+    assert 'DeclareLaunchArgument(\n            "lio_update_method"' in launch
+    assert '"lio_input_mode": LaunchConfiguration("lio_input_mode")' in launch
+    assert '"lio_update_method": LaunchConfiguration("lio_update_method")' in launch
     assert 'DeclareLaunchArgument(\n            "enable_dog_hole_route"' in launch
     assert 'executable="dog_hole_route_orchestrator"' in launch
     assert '"localization_stable_sec": ParameterValue(' in launch

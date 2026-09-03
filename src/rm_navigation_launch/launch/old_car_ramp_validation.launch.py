@@ -171,6 +171,9 @@ def _launch_validation(context, *args, **kwargs):
 
     include_arguments = {
         "nav2_config_yaml": base_nav2,
+        "driver_publish_freq": LaunchConfiguration("driver_publish_freq"),
+        "lio_input_mode": LaunchConfiguration("lio_input_mode"),
+        "lio_update_method": LaunchConfiguration("lio_update_method"),
         "serial_cmd_vel_topic": LaunchConfiguration("serial_cmd_vel_topic"),
         "serial_max_vx": LaunchConfiguration("serial_max_vx"),
         "navigate_to_pose_action": LaunchConfiguration(
@@ -239,6 +242,9 @@ def generate_launch_description():
         DeclareLaunchArgument("max_yaw_rate", default_value="0.50"),
         DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel"),
         DeclareLaunchArgument("serial_max_vx", default_value="3.0"),
+        DeclareLaunchArgument("driver_publish_freq", default_value="50.0"),
+        DeclareLaunchArgument("lio_input_mode", default_value="native_custom"),
+        DeclareLaunchArgument("lio_update_method", default_value="bundle"),
         DeclareLaunchArgument(
             "navigate_to_pose_action", default_value="/navigate_to_pose"
         ),

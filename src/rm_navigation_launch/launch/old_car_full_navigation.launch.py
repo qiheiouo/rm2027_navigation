@@ -158,6 +158,24 @@ def generate_launch_description():
         DeclareLaunchArgument("serial_cmd_vel_topic", default_value="/cmd_vel"),
         DeclareLaunchArgument("serial_max_vx", default_value=SERIAL_MAX_VX),
         DeclareLaunchArgument(
+            "driver_publish_freq",
+            default_value="50.0",
+            description="MID360 packet publication frequency in Hz.",
+        ),
+        DeclareLaunchArgument(
+            "lio_input_mode",
+            default_value="native_custom",
+            description=(
+                "native_custom preserves native per-point timing in dual mode; "
+                "reconstructed_custom selects the previous A/B path."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "lio_update_method",
+            default_value="bundle",
+            description="FAST-LIO update method: bundle, async or adaptive.",
+        ),
+        DeclareLaunchArgument(
             "navigate_to_pose_action", default_value="/navigate_to_pose"
         ),
         DeclareLaunchArgument("goal_pose_topic", default_value="/goal_pose"),
@@ -171,6 +189,11 @@ def generate_launch_description():
                 "enable_competition_stack": "true",
                 "use_driver": _bool_text(driver_enabled),
                 "use_lio_backend": _bool_text(lio_enabled),
+                "driver_publish_freq": LaunchConfiguration(
+                    "driver_publish_freq"
+                ),
+                "lio_input_mode": LaunchConfiguration("lio_input_mode"),
+                "lio_update_method": LaunchConfiguration("lio_update_method"),
                 "use_map_server": _bool_text(map_enabled),
                 "relocalization_backend": (
                     RELOCALIZATION_BACKEND if relocalization_enabled else "none"

@@ -9,10 +9,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
+find_package(diagnostic_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
@@ -28,6 +30,12 @@ ament_target_dependencies(canonical_odometry
   tf2
 )
 
+add_library(odometry_input_health src/odometry_input_health.cpp)
+target_include_directories(odometry_input_health PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
 add_executable(map_odom_stub src/map_odom_stub.cpp)
 ament_target_dependencies(map_odom_stub
   rclcpp
@@ -37,11 +45,13 @@ ament_target_dependencies(map_odom_stub
 )
 
 add_executable(lio_adapter src/lio_adapter.cpp)
-target_link_libraries(lio_adapter canonical_odometry)
+target_link_libraries(lio_adapter canonical_odometry odometry_input_health)
 ament_target_dependencies(lio_adapter
+  diagnostic_msgs
   rclcpp
   nav_msgs
   geometry_msgs
+  std_msgs
   tf2
   tf2_ros
   tf2_geometry_msgs
@@ -70,6 +80,7 @@ ament_target_dependencies(fake_lio_odom_publisher
 
 install(TARGETS
   canonical_odometry
+  odometry_input_health
   map_odom_stub
   lio_adapter
   gimbal_state_adapter
@@ -93,6 +104,12 @@ if(BUILD_TESTING)
   ament_add_gtest(test_canonical_odometry test/test_canonical_odometry.cpp)
   target_link_libraries(test_canonical_odometry canonical_odometry)
   ament_target_dependencies(test_canonical_odometry geometry_msgs tf2)
+
+  ament_add_gtest(
+    test_odometry_input_health
+    test/test_odometry_input_health.cpp
+  )
+  target_link_libraries(test_odometry_input_health odometry_input_health)
 endif()
 
 ament_package()

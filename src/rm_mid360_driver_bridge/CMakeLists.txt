@@ -20,6 +20,16 @@ find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 
+add_library(livox_message_conversion src/livox_message_conversion.cpp)
+target_include_directories(livox_message_conversion PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+ament_target_dependencies(livox_message_conversion
+  livox_ros_driver2
+  sensor_msgs
+)
+
 add_library(pointcloud_deskew src/pointcloud_deskew.cpp)
 target_include_directories(pointcloud_deskew PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -129,7 +139,17 @@ ament_target_dependencies(livox_pointcloud_adapter_node
   sensor_msgs
 )
 
+add_executable(livox_custom_adapter_node src/livox_custom_adapter_node.cpp)
+target_compile_features(livox_custom_adapter_node PUBLIC cxx_std_17)
+target_link_libraries(livox_custom_adapter_node livox_message_conversion)
+ament_target_dependencies(livox_custom_adapter_node
+  livox_ros_driver2
+  rclcpp
+  sensor_msgs
+)
+
 install(TARGETS
+  livox_message_conversion
   pointcloud_deskew
   ramp_plane_filter
   pointcloud_self_filter_node
@@ -139,6 +159,7 @@ install(TARGETS
   ramp_laserscan_filter_node
   automatic_ramp_filter_node
   livox_pointcloud_adapter_node
+  livox_custom_adapter_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -159,6 +180,17 @@ if(BUILD_TESTING)
   target_link_libraries(test_pointcloud_deskew pointcloud_deskew)
   ament_target_dependencies(test_pointcloud_deskew sensor_msgs std_msgs tf2)
 
+  ament_add_gtest(
+    test_livox_message_conversion
+    test/test_livox_message_conversion.cpp
+  )
+  target_link_libraries(test_livox_message_conversion livox_message_conversion)
+  ament_target_dependencies(
+    test_livox_message_conversion
+    livox_ros_driver2
+    sensor_msgs
+  )
+
   ament_add_gtest(test_ramp_plane_filter test/test_ramp_plane_filter.cpp)
   target_link_libraries(test_ramp_plane_filter ramp_plane_filter)
 
@@ -170,6 +202,11 @@ if(BUILD_TESTING)
   ament_add_pytest_test(
     test_livox_pointcloud_adapter_runtime
     test/test_livox_pointcloud_adapter_runtime.py
+    TIMEOUT 30
+  )
+  ament_add_pytest_test(
+    test_livox_custom_adapter_runtime
+    test/test_livox_custom_adapter_runtime.py
     TIMEOUT 30
   )
   ament_add_pytest_test(

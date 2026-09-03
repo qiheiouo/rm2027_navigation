@@ -110,6 +110,8 @@ def _validate_runtime_modes(context, *args, **kwargs):
 def generate_launch_description():
     selected_side = LaunchConfiguration("selected_side")
     driver_mode = LaunchConfiguration("driver_mode")
+    driver_publish_freq = LaunchConfiguration("driver_publish_freq")
+    lio_input_mode = LaunchConfiguration("lio_input_mode")
     use_driver = LaunchConfiguration("use_driver")
     use_lio_backend = LaunchConfiguration("use_lio_backend")
     use_map_odom_stub = LaunchConfiguration("use_map_odom_stub")
@@ -249,6 +251,20 @@ def generate_launch_description():
             "driver_mode",
             default_value="single",
             description="Use one left/right driver or one dual-device SDK instance.",
+        ),
+        DeclareLaunchArgument(
+            "driver_publish_freq",
+            default_value="50.0",
+            description="MID360 packet publication frequency in Hz.",
+        ),
+        DeclareLaunchArgument(
+            "lio_input_mode",
+            default_value="native_custom",
+            description=(
+                "Dual-driver LIO input timing source. native_custom preserves "
+                "the driver's uint32 per-point offsets; reconstructed_custom "
+                "is retained only for controlled A/B."
+            ),
         ),
         DeclareLaunchArgument("use_driver", default_value="false"),
         DeclareLaunchArgument("use_lio_backend", default_value="false"),
@@ -391,6 +407,7 @@ def generate_launch_description():
             launch_arguments={
                 "use_driver": use_driver,
                 "side": selected_side,
+                "publish_freq": driver_publish_freq,
             }.items(),
         ),
         IncludeLaunchDescription(
@@ -401,6 +418,8 @@ def generate_launch_description():
             launch_arguments={
                 "use_driver": use_driver,
                 "lio_imu_source": selected_side,
+                "publish_freq": driver_publish_freq,
+                "lio_input_mode": lio_input_mode,
             }.items(),
         ),
         IncludeLaunchDescription(

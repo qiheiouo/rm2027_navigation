@@ -157,6 +157,9 @@ def generate_launch_description():
     mission_startup_enabled = LaunchConfiguration("mission_startup_enabled")
     use_dual_fusion = LaunchConfiguration("use_dual_obstacle_fusion")
     use_right_driver = LaunchConfiguration("use_right_driver")
+    driver_publish_freq = LaunchConfiguration("driver_publish_freq")
+    lio_input_mode = LaunchConfiguration("lio_input_mode")
+    lio_update_method = LaunchConfiguration("lio_update_method")
     driver_mode = PythonExpression([
         "'dual' if '", use_right_driver,
         "'.lower() in ['1','true','yes','on'] else 'single'",
@@ -336,6 +339,20 @@ def generate_launch_description():
         DeclareLaunchArgument("mission_tree_xml", default_value=default_mission_tree),
         DeclareLaunchArgument("use_dual_obstacle_fusion", default_value="false"),
         DeclareLaunchArgument("use_right_driver", default_value="false"),
+        DeclareLaunchArgument("driver_publish_freq", default_value="50.0"),
+        DeclareLaunchArgument(
+            "lio_input_mode",
+            default_value="native_custom",
+            description=(
+                "native_custom is the high-spin candidate; "
+                "reconstructed_custom is the legacy dual-driver A/B path."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "lio_update_method",
+            default_value="bundle",
+            description="FAST-LIO backend update method: bundle, async or adaptive.",
+        ),
         DeclareLaunchArgument("allow_provisional_dual_extrinsic", default_value="false"),
         OpaqueFunction(function=_validate_competition_profile),
         LogInfo(msg=(
@@ -356,8 +373,11 @@ def generate_launch_description():
             launch_arguments={
                 "selected_side": "left",
                 "driver_mode": driver_mode,
+                "driver_publish_freq": driver_publish_freq,
+                "lio_input_mode": lio_input_mode,
                 "use_driver": use_driver,
                 "use_lio_backend": use_lio,
+                "update_method": lio_update_method,
                 "use_map_odom_stub": map_stub_enabled,
                 "use_nav2": use_nav2,
                 "use_real_serial": use_real_serial,

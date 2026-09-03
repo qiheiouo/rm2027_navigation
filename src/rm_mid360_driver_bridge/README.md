@@ -159,7 +159,18 @@ Single-device fallback:
 ros2 launch rm_mid360_driver_bridge single_mid360_driver.launch.py side:=left use_driver:=true
 ```
 
-The default `xfer_format` is `4`, matching the locally inspected Livox ROS driver behavior that publishes both Livox `CustomMsg` and `PointCloud2`. LIO backends usually need `CustomMsg` for per-point timing, while `PointCloud2` is useful for debugging, perception, and future costmap tools.
+The single-device fallback keeps `xfer_format=4`, which publishes the driver's
+native Livox `CustomMsg` and PointCloud2 together. The dual-device launch cannot
+use that mode safely with this driver: its per-device publisher bookkeeping
+does not create two differently typed publishers for the same device topic.
+
+The dual-device default is therefore `lio_input_mode:=native_custom`. The
+driver publishes its native CustomMsg (`xfer_format=1`) per device; the bridge
+passes `timebase` and every `offset_time` unchanged to FAST-LIO and derives a
+PointCloud2 copy for obstacle perception. This avoids reconstructing LIO timing
+from the PointCloud2 `FLOAT64` absolute timestamp. The previous conversion
+direction remains available as `lio_input_mode:=reconstructed_custom` only for
+controlled A/B tests.
 
 ## Placeholder Values
 
@@ -174,8 +185,8 @@ The locally inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livo
 The dual launch starts one multi-device `livox_ros_driver2` process. Two SDK
 instances are not safe on the old car: each instance discovers both MID360s and
 the later process redirects both devices to its own UDP ports. The single
-process loads `dual_mid360_config.json` and publishes IP-specific PointCloud2
-topics. `livox_pointcloud_adapter_node` restores the canonical left/right frame
-ids and topics, and reconstructs the per-side Livox `CustomMsg` while preserving
-the point timestamps required by FAST-LIO. The left MID360 remains the default
-LIO IMU source.
+process loads `dual_mid360_config.json`. By default,
+`livox_custom_adapter_node` preserves each IP-specific native CustomMsg for LIO
+and builds the corresponding canonical PointCloud2 stream for perception. The
+legacy `livox_pointcloud_adapter_node` path is opt-in. The left MID360 remains
+the default LIO and IMU source; the right MID360 is obstacle perception only.

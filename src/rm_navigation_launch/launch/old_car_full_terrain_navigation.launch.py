@@ -312,6 +312,11 @@ def _launch_full_terrain(context, *args, **kwargs):
                 "detection_mode": "automatic",
                 "map_bundle_override": map_override,
                 "nav2_base_config_yaml": selected_nav2,
+                "driver_publish_freq": LaunchConfiguration(
+                    "driver_publish_freq"
+                ),
+                "lio_input_mode": LaunchConfiguration("lio_input_mode"),
+                "lio_update_method": LaunchConfiguration("lio_update_method"),
                 "serial_cmd_vel_topic": serial_cmd_vel_topic,
                 "serial_max_vx": global_vx,
                 "navigate_to_pose_action": (
@@ -339,6 +344,24 @@ def generate_launch_description():
             description="Empty inherits old_car_full_navigation configured map.",
         ),
         DeclareLaunchArgument("activate_ramp_filter", default_value="false"),
+        DeclareLaunchArgument(
+            "driver_publish_freq",
+            default_value="50.0",
+            description="MID360 packet publication frequency in Hz.",
+        ),
+        DeclareLaunchArgument(
+            "lio_input_mode",
+            default_value="native_custom",
+            description=(
+                "Use exact native CustomMsg timing by default; select "
+                "reconstructed_custom only for controlled regression A/B."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "lio_update_method",
+            default_value="bundle",
+            description="FAST-LIO update method: bundle, async or adaptive.",
+        ),
         DeclareLaunchArgument(
             "global_max_forward_speed",
             default_value="3.00",
