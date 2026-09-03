@@ -67,6 +67,40 @@ artifacts/bags/20260903_high_spin_native20_maxspeed_home_01/
 因此新增旧车专用高速修正冻结：高速期间不接收 AMCL 候选，但持续发布最后可信
 `map -> odom`；LIO 健康门仍可独立撤下错误 odom。通用/新车 profile 默认关闭该行为。
 
+### 1.2 2026-09-03 高速修正冻结实车结果
+
+加载高速修正冻结后的实车包：
+
+```text
+artifacts/bags/20260903_high_spin_native20_hold_01/
+```
+
+该包时长 `130.29 s`，其中主高速段由 canonical odom 自动识别为
+`21.025--73.777 s`，`>= 3.0 rad/s` 连续 `52.751 s`，实测最大角速度
+`7.273 rad/s`。结果如下：
+
+- `/localization/lio_runtime_valid` 的 1,304 个样本全部为 true；
+- `/localization/global_localization_valid` 的 1,865 个样本全部为 true；
+- 高速段持续进入 `high_angular_rate_hold`，`map -> odom` 没有被撤下；
+- 全包 `map -> odom` 最大发布间隔 `61.8 ms`，主高速段最大间隔 `59.7 ms`；
+- raw odom 消息年龄 P50/P99/最大分别为 `14.6/38.6/86.7 ms`，未见积压；
+- `lio_adapter/input_health` 的 1,303 个诊断样本全部为 `healthy`；
+- 停车附近恢复全局修正时，`map -> odom` 最大单步为 `0.159 m / 0.205 rad`，
+  没有超过 `0.35 m / 0.35 rad` 安全门；最终高速片段结束后约 `0.7 s` 回到
+  `healthy`；
+- 点云到 LaserScan 的严格 SE(3) 去畸变在 990 个诊断样本中始终 active，历史
+  `interpolation/coverage` 计数没有在本包期间增加，`last_failure` 始终为空。
+
+操作员观察到高速期间 RViz 点云像多个不同角度的场景叠加，但停车后立即重新重合。
+本轮 RViz profile 同时显示原始/过滤 PointCloud2，且各自 `Decay Time=0.5 s`；在
+`7.273 rad/s` 下，0.5 秒内车体可转约 208°，再叠加原始 Livox 包内的单帧运动畸变，
+会产生明显旋转残影。结合 validity、TF、LIO 延迟和停车后对齐证据，该现象本轮判定为
+瞬态显示/原始感知点云现象，而不是持久定位漂移。需要肉眼检查单帧配准时，应把对应
+PointCloud2 display 的 `Decay Time` 临时设为 `0`，并避免同时开启 raw 与 filtered 显示。
+
+这轮已经通过“接近一分钟最高速自转中定位链不断开”。仍需单独完成最高速结束后立即
+下发安全 home 目标的闭环测试；不能用本次停车后经过离线分析再导航代替该时序门。
+
 ## 2. 证据链
 
 ### 2.1 已确认的现象
