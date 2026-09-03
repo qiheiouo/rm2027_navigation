@@ -136,6 +136,19 @@ def generate_launch_description():
             default_value=_configured_path(MISSION_CONFIG_YAML, default_mission_config),
         ),
         DeclareLaunchArgument(
+            "mission_strategy_profile",
+            default_value="",
+            description=(
+                "Offline paired mission profile: safe, offense, defense or patrol_spin. "
+                "Empty keeps the legacy explicit XML/YAML path."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "mission_strategy_file",
+            default_value="",
+            description="Map-bound editable strategy YAML for non-safe profiles.",
+        ),
+        DeclareLaunchArgument(
             "nav2_config_yaml",
             default_value=_configured_path(NAV2_CONFIG_YAML, default_nav2_config),
         ),
@@ -192,6 +205,12 @@ def generate_launch_description():
                 "mission_startup_enabled": "false",
                 "mission_config": LaunchConfiguration("mission_config_yaml"),
                 "mission_tree_xml": LaunchConfiguration("mission_tree_xml"),
+                "mission_strategy_profile": LaunchConfiguration(
+                    "mission_strategy_profile"
+                ),
+                "mission_strategy_file": LaunchConfiguration(
+                    "mission_strategy_file"
+                ),
                 "allow_field_debug_inputs": _bool_text(operator_authority_enabled),
                 "use_operator_chassis_authority": _bool_text(
                     operator_authority_enabled

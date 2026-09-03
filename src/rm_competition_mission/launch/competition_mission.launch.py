@@ -1,14 +1,17 @@
 from pathlib import Path
 
 import yaml
+from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument, LogInfo, OpaqueFunction
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
+
+from rm_competition_mission.strategy_profiles import StrategyError, resolve_strategy
 
 
 TRUE_VALUES = {"1", "true", "yes", "on"}
@@ -22,24 +25,47 @@ def _launch_mission(context, *args, **kwargs):
     ):
         return []
 
-    config_path = Path(
-        LaunchConfiguration("mission_config").perform(context).strip()
-    )
-    if not config_path.is_file():
-        raise RuntimeError(
-            f"mission_config must be a regular file, got: {str(config_path)!r}"
+    strategy_profile = LaunchConfiguration("strategy_profile").perform(context).strip()
+    log_actions = []
+    if strategy_profile:
+        try:
+            strategy = resolve_strategy(
+                get_package_share_directory("rm_competition_mission"),
+                strategy_profile,
+                LaunchConfiguration("strategy_file").perform(context).strip(),
+                LaunchConfiguration("map_bundle_manifest").perform(context).strip(),
+            )
+        except StrategyError as error:
+            raise RuntimeError(f"offline mission strategy rejected: {error}") from error
+        mission_parameters = dict(strategy.parameters)
+        tree_xml = str(strategy.tree_path)
+        log_actions.append(LogInfo(msg=(
+            "[competition_mission] offline strategy accepted: "
+            f"id={strategy.strategy_id} profile={strategy.profile} risk={strategy.risk} "
+            f"map={strategy.map_id}/{strategy.map_revision} "
+            f"home={strategy.home_pose_count} patrol={strategy.patrol_waypoint_count}. "
+            "Mission remains disabled until /mission/set_mode is called."
+        )))
+    else:
+        config_path = Path(
+            LaunchConfiguration("mission_config").perform(context).strip()
         )
-    with config_path.open("r", encoding="utf-8") as stream:
-        document = yaml.safe_load(stream)
-    try:
-        mission_parameters = dict(
-            document["competition_mission_node"]["ros__parameters"]
-        )
-    except (KeyError, TypeError, ValueError) as error:
-        raise RuntimeError(
-            "mission_config must contain "
-            "competition_mission_node.ros__parameters"
-        ) from error
+        if not config_path.is_file():
+            raise RuntimeError(
+                f"mission_config must be a regular file, got: {str(config_path)!r}"
+            )
+        with config_path.open("r", encoding="utf-8") as stream:
+            document = yaml.safe_load(stream)
+        try:
+            mission_parameters = dict(
+                document["competition_mission_node"]["ros__parameters"]
+            )
+        except (KeyError, TypeError, ValueError) as error:
+            raise RuntimeError(
+                "mission_config must contain "
+                "competition_mission_node.ros__parameters"
+            ) from error
+        tree_xml = LaunchConfiguration("tree_xml")
 
     # ROS 2 Humble loses the element type of an empty YAML sequence. These
     # arrays are optional, so omit only empty values and retain typed defaults.
@@ -47,7 +73,7 @@ def _launch_mission(context, *args, **kwargs):
         if mission_parameters.get(optional_array) == []:
             mission_parameters.pop(optional_array)
 
-    return [Node(
+    return log_actions + [Node(
         package="rm_competition_mission",
         executable="competition_mission_node",
         name="competition_mission_node",
@@ -55,7 +81,7 @@ def _launch_mission(context, *args, **kwargs):
         parameters=[
             mission_parameters,
             {
-                "tree_xml": LaunchConfiguration("tree_xml"),
+                "tree_xml": tree_xml,
                 "startup_enabled": ParameterValue(
                     LaunchConfiguration("startup_enabled"), value_type=bool
                 ),
@@ -94,6 +120,24 @@ def generate_launch_description():
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument("mission_config", default_value=default_config),
         DeclareLaunchArgument("tree_xml", default_value=default_tree),
+        DeclareLaunchArgument(
+            "strategy_profile",
+            default_value="",
+            description=(
+                "Optional catalog profile. When set, it owns both BT XML and base mission "
+                "parameters; legacy mission_config/tree_xml are ignored."
+            ),
+        ),
+        DeclareLaunchArgument(
+            "strategy_file",
+            default_value="",
+            description="Map-bound field coordinates for a non-safe strategy profile.",
+        ),
+        DeclareLaunchArgument(
+            "map_bundle_manifest",
+            default_value="",
+            description="Exact navigation map bundle used to validate strategy coordinates.",
+        ),
         OpaqueFunction(function=_launch_mission),
         Node(
             condition=IfCondition(PythonExpression([

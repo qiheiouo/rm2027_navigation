@@ -1,0 +1,15 @@
+# Copy outside the source tree, replace every PLACEHOLDER and validate before use.
+schema_version: 1
+strategy_id: field_defense_v1
+profile: defense
+map_binding:
+  map_id: PLACEHOLDER
+  map_revision: PLACEHOLDER
+  manifest_sha256: PLACEHOLDER
+minimum_goal_clearance_m: 0.35
+waypoints:
+  home: {x: 0.0, y: 0.0, yaw: 0.0}
+  patrol:
+    - {x: 0.8, y: 0.0, yaw: 0.0}
+    - {x: 0.8, y: 1.0, yaw: 3.14}
+notes: Keep defensive patrol points near the reviewed protected area.

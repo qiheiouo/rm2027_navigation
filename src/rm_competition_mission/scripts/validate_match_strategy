@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import sys
+
+import yaml
+
+from ament_index_python.packages import get_package_share_directory
+
+from rm_competition_mission.strategy_profiles import (
+    StrategyError,
+    list_profiles,
+    make_field_strategy_template,
+    resolve_strategy,
+)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Validate an offline RM competition strategy profile"
+    )
+    parser.add_argument("--profile", help="safe, offense, defense or patrol_spin")
+    parser.add_argument("--strategy-file", default="", help="Map-bound field strategy YAML")
+    parser.add_argument("--map-bundle", default="", help="Exact *.bundle.yaml used by navigation")
+    parser.add_argument("--list-profiles", action="store_true")
+    parser.add_argument(
+        "--write-template",
+        default="",
+        help="Create a map-bound editable strategy YAML; refuses to overwrite.",
+    )
+    parser.add_argument("--json", action="store_true")
+    arguments = parser.parse_args()
+    share = get_package_share_directory("rm_competition_mission")
+    try:
+        if arguments.list_profiles:
+            profiles = list_profiles(share)
+            for name in sorted(profiles):
+                profile = profiles[name]
+                print(f"{name}: risk={profile.get('risk')} - {profile.get('description')}")
+            return 0
+        if not arguments.profile:
+            parser.error("--profile is required unless --list-profiles is used")
+        if arguments.write_template:
+            if arguments.strategy_file:
+                parser.error("--write-template and --strategy-file are mutually exclusive")
+            if not arguments.map_bundle:
+                parser.error("--map-bundle is required with --write-template")
+            target = Path(arguments.write_template).resolve()
+            if target.exists():
+                raise StrategyError(f"template target already exists: {target}")
+            if not target.parent.is_dir():
+                raise StrategyError(f"template parent directory does not exist: {target.parent}")
+            template = make_field_strategy_template(
+                share, arguments.profile, arguments.map_bundle
+            )
+            try:
+                target.write_text(
+                    yaml.safe_dump(template, sort_keys=False), encoding="utf-8"
+                )
+            except OSError as exc:
+                raise StrategyError(f"cannot write template '{target}': {exc}") from exc
+            print(f"strategy template written: {target}")
+            print("edit every waypoint, then rerun without --write-template to validate")
+            return 0
+        result = resolve_strategy(
+            share,
+            arguments.profile,
+            arguments.strategy_file,
+            arguments.map_bundle,
+        )
+    except StrategyError as exc:
+        print(f"strategy invalid: {exc}", file=sys.stderr)
+        return 2
+    output = {
+        "description": result.description,
+        "home_pose_count": result.home_pose_count,
+        "map_id": result.map_id,
+        "map_manifest_sha256": result.map_manifest_sha256,
+        "map_revision": result.map_revision,
+        "patrol_waypoint_count": result.patrol_waypoint_count,
+        "profile": result.profile,
+        "risk": result.risk,
+        "strategy_id": result.strategy_id,
+        "tree": str(result.tree_path),
+    }
+    if arguments.json:
+        print(json.dumps(output, indent=2, sort_keys=True))
+    else:
+        print(
+            "strategy valid: "
+            f"id={result.strategy_id} profile={result.profile} risk={result.risk} "
+            f"map={result.map_id}/{result.map_revision} "
+            f"home={result.home_pose_count} patrol={result.patrol_waypoint_count} "
+            f"tree={result.tree_path.name}"
+        )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

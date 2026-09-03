@@ -109,7 +109,8 @@ def _validate_competition_profile(context, *args, **kwargs):
         )
     if use_real_serial and startup_enabled:
         raise RuntimeError(
-            "mission_startup_enabled must remain false with real serial; enable by service after checks"
+            "mission_startup_enabled must remain false with real serial; "
+            "enable by service after checks"
         )
     if use_right_driver and not use_dual:
         raise RuntimeError("use_right_driver requires use_dual_obstacle_fusion:=true")
@@ -117,7 +118,8 @@ def _validate_competition_profile(context, *args, **kwargs):
         raise RuntimeError("use_right_driver requires the primary hardware driver gate")
     if use_dual and use_real_serial and not allow_provisional_dual:
         raise RuntimeError(
-            "old-car right-lidar extrinsic is provisional; real motion requires an explicit override"
+            "old-car right-lidar extrinsic is provisional; real motion requires "
+            "an explicit override"
         )
     return []
 
@@ -169,6 +171,8 @@ def generate_launch_description():
     scan_projection_params = LaunchConfiguration("scan_projection_params")
     mission_config = LaunchConfiguration("mission_config")
     mission_tree_xml = LaunchConfiguration("mission_tree_xml")
+    mission_strategy_profile = LaunchConfiguration("mission_strategy_profile")
+    mission_strategy_file = LaunchConfiguration("mission_strategy_file")
     serial_device = LaunchConfiguration("serial_device")
     serial_baudrate = LaunchConfiguration("serial_baudrate")
     serial_max_vx = LaunchConfiguration("serial_max_vx")
@@ -311,6 +315,8 @@ def generate_launch_description():
         DeclareLaunchArgument("mission_startup_enabled", default_value="false"),
         DeclareLaunchArgument("mission_config", default_value=default_mission),
         DeclareLaunchArgument("mission_tree_xml", default_value=default_mission_tree),
+        DeclareLaunchArgument("mission_strategy_profile", default_value=""),
+        DeclareLaunchArgument("mission_strategy_file", default_value=""),
         DeclareLaunchArgument("use_dual_obstacle_fusion", default_value="false"),
         DeclareLaunchArgument("use_right_driver", default_value="false"),
         DeclareLaunchArgument("allow_provisional_dual_extrinsic", default_value="false"),
@@ -444,6 +450,9 @@ def generate_launch_description():
                 "use_sim_time": use_sim_time,
                 "mission_config": mission_config,
                 "tree_xml": mission_tree_xml,
+                "strategy_profile": mission_strategy_profile,
+                "strategy_file": mission_strategy_file,
+                "map_bundle_manifest": map_manifest,
             }.items(),
         ),
         IncludeLaunchDescription(

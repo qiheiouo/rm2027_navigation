@@ -53,3 +53,19 @@ not implemented.
 The minimum field behavior, accepted candidate boundary and remaining work are
 specified in `docs/old_car_competition_minimum_behavior.md`. Do not describe
 the isolated test profile as the final match configuration.
+
+## Offline Match Strategy Profiles
+
+For network-free switching between matches, use the paired `safe`, `offense`,
+`defense` and `patrol_spin` profiles instead of manually combining an XML and
+parameter file. Non-safe profiles require a map-bound field strategy YAML and
+validate every goal against the exact map bundle and occupancy grid before the
+mission node starts.
+
+```bash
+ros2 run rm_competition_mission validate_match_strategy --list-profiles
+```
+
+See `docs/offline_match_strategy_switching.md` for template generation,
+validation, launch, rollback and the three-minute operator card. Runtime tree
+hot reload is intentionally unsupported.

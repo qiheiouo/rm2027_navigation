@@ -1,0 +1,40 @@
+schema_version: 1
+profiles:
+  safe:
+    description: Always hold; use for rollback, inspection and failed validation.
+    risk: safe
+    tree: trees/competition_hold.xml
+    base_config: config/mission_safe.yaml
+    field_strategy_required: false
+    require_home: false
+    minimum_patrol_waypoints: 0
+
+  offense:
+    description: Low-HP home, then pursuit when available, otherwise field patrol.
+    risk: field_candidate
+    tree: trees/competition_default.xml
+    base_config: config/mission_offense.yaml
+    field_strategy_required: true
+    require_home: true
+    minimum_patrol_waypoints: 1
+    minimum_goal_clearance_m: 0.35
+
+  defense:
+    description: High-HP-margin home and field patrol without pursuit.
+    risk: field_candidate
+    tree: trees/competition_defense.xml
+    base_config: config/mission_defense.yaml
+    field_strategy_required: true
+    require_home: true
+    minimum_patrol_waypoints: 1
+    minimum_goal_clearance_m: 0.35
+
+  patrol_spin:
+    description: Low-HP home, otherwise patrol and request Spin after each arrival.
+    risk: high_motion_candidate
+    tree: trees/competition_three_point_spin_test.xml
+    base_config: config/mission_patrol_spin.yaml
+    field_strategy_required: true
+    require_home: true
+    minimum_patrol_waypoints: 1
+    minimum_goal_clearance_m: 0.35
