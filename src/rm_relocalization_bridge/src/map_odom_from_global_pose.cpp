@@ -87,6 +87,10 @@ public:
       declare_parameter<double>("max_correction_translation_step_m", 0.35);
     max_correction_yaw_step_rad_ =
       declare_parameter<double>("max_correction_yaw_step_rad", 0.35);
+    correction_innovation_rejection_confirmation_count_ = static_cast<std::size_t>(
+      std::max<std::int64_t>(
+        1, declare_parameter<std::int64_t>(
+          "correction_innovation_rejection_confirmation_count", 1)));
     initial_pose_topic_ = declare_parameter<std::string>("initial_pose_topic", "/initialpose");
     autonomous_recovery_enabled_ =
       declare_parameter<bool>("autonomous_recovery_enabled", false);
@@ -268,8 +272,10 @@ public:
       RCLCPP_INFO(
         get_logger(),
         "Correction innovation gate enabled: max translation step %.3f m, "
-        "max yaw step %.3f rad; baseline resets on %s.",
+        "max yaw step %.3f rad, latch after %zu consecutive rejection(s); "
+        "baseline resets on %s.",
         max_correction_translation_step_m_, max_correction_yaw_step_rad_,
+        correction_innovation_rejection_confirmation_count_,
         initial_pose_topic_.c_str());
       if (autonomous_recovery_enabled_) {
         RCLCPP_INFO(
@@ -323,6 +329,7 @@ private:
     recovery_rebase_reference_valid_ = false;
     recovery_odom_samples_.clear();
     pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
+    correction_innovation_rejection_count_ = 0;
   }
 
   void publishRecoveryState(const std::string & value)
@@ -749,6 +756,7 @@ private:
     recovery_rebase_reference_valid_ = false;
     recovery_odom_samples_.clear();
     pending_automatic_initial_pose_stamp_nanoseconds_ = 0;
+    correction_innovation_rejection_count_ = 0;
     publishRecoveryState(
       autonomous_recovery_enabled_ ? "latched_waiting_for_stop" : "latched_manual_reset_required");
   }
@@ -875,6 +883,26 @@ private:
 
       if (!innovation_within_limits) {
         recovery_consistent_pose_count_ = 0;
+        if (!correction_fault_latched_) {
+          ++correction_innovation_rejection_count_;
+          if (
+            correction_innovation_rejection_count_ <
+            correction_innovation_rejection_confirmation_count_)
+          {
+            publishRecoveryState("innovation_rejection_pending");
+            RCLCPP_WARN(
+              get_logger(),
+              "Rejected transient map->odom correction innovation: translation %.3f m "
+              "(limit %.3f), yaw %.3f rad (limit %.3f); confirmation %zu/%zu. "
+              "Trusted correction and canonical TF retained.",
+              innovation.translation_xy_m, max_correction_translation_step_m_,
+              innovation.yaw_rad, max_correction_yaw_step_rad_,
+              correction_innovation_rejection_count_,
+              correction_innovation_rejection_confirmation_count_);
+            return;
+          }
+        }
+        correction_innovation_rejection_count_ = 0;
         latchCorrectionFault();
         RCLCPP_ERROR_THROTTLE(
           get_logger(), *get_clock(), 1000,
@@ -883,6 +911,15 @@ private:
           innovation.translation_xy_m, max_correction_translation_step_m_,
           innovation.yaw_rad, max_correction_yaw_step_rad_);
         return;
+      }
+
+      if (correction_innovation_rejection_count_ > 0U) {
+        RCLCPP_INFO(
+          get_logger(),
+          "Global correction returned within limits after %zu transient rejection(s); "
+          "canonical TF remained continuous.",
+          correction_innovation_rejection_count_);
+        correction_innovation_rejection_count_ = 0;
       }
 
       if (correction_fault_latched_) {
@@ -993,6 +1030,7 @@ private:
   double recovery_rebase_pose_yaw_tolerance_rad_;
   std::size_t recovery_required_consistent_poses_;
   std::size_t recovery_rebase_required_consistent_poses_;
+  std::size_t correction_innovation_rejection_confirmation_count_;
   std::size_t pending_pose_max_size_;
 
   std::mutex mutex_;
@@ -1011,6 +1049,7 @@ private:
   bool recovery_has_reseeded_ = false;
   std::size_t recovery_consistent_pose_count_ = 0;
   std::size_t recovery_reseed_attempts_ = 0;
+  std::size_t correction_innovation_rejection_count_ = 0;
   bool recovery_attempt_limit_reported_ = false;
   bool recovery_rebase_mode_ = false;
   bool recovery_rebase_reference_valid_ = false;

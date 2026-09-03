@@ -85,6 +85,14 @@ def test_correction_gate_is_compatibility_off_and_old_car_on():
     assert _value(old_car, "autonomous_recovery_enabled") == "true"
     assert _value(old_car, "max_correction_translation_step_m") == "0.35"
     assert _value(old_car, "max_correction_yaw_step_rad") == "0.35"
+    assert (
+        _value(generic, "correction_innovation_rejection_confirmation_count")
+        == "1"
+    )
+    assert (
+        _value(old_car, "correction_innovation_rejection_confirmation_count")
+        == "3"
+    )
     assert _value(old_car, "initial_pose_topic") == "/initialpose"
     assert _value(old_car, "recovery_motion_confirmation_sec") == "0.12"
     assert _value(old_car, "recovery_stationary_hold_sec") == "0.6"

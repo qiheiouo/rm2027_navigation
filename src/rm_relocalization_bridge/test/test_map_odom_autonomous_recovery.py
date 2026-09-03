@@ -160,6 +160,8 @@ def test_latched_fault_reseeds_from_trusted_pose_and_recovers_without_tf_flicker
         str(CONFIG),
         "-p",
         "upstream_valid_topic:=/localization/amcl_backend_valid",
+        "-p",
+        "correction_innovation_rejection_confirmation_count:=1",
     ]
     process = subprocess.Popen(
         command,
@@ -268,6 +270,8 @@ def test_large_odom_displacement_reseeds_at_bounded_global_anchor_and_rebases():
         "-p",
         "upstream_valid_topic:=/localization/amcl_backend_valid",
         "-p",
+        "correction_innovation_rejection_confirmation_count:=1",
+        "-p",
         "recovery_pose_stationarity_window_sec:=0.3",
         "-p",
         "recovery_stationary_hold_sec:=0.1",
@@ -362,6 +366,8 @@ def test_reseed_attempts_are_bounded_when_no_consistent_global_pose_arrives():
         "-p",
         "upstream_valid_topic:=/localization/amcl_backend_valid",
         "-p",
+        "correction_innovation_rejection_confirmation_count:=1",
+        "-p",
         "recovery_pose_stationarity_window_sec:=0.2",
         "-p",
         "recovery_stationary_hold_sec:=0.1",
@@ -403,6 +409,83 @@ def test_reseed_attempts_are_bounded_when_no_consistent_global_pose_arrives():
         )
         assert len(probe.observed_initial_poses) == 2
         assert not probe.valid_messages[-1]
+    finally:
+        probe.destroy_node()
+        rclpy.shutdown()
+        process.terminate()
+        try:
+            output, _ = process.communicate(timeout=3.0)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            output, _ = process.communicate(timeout=3.0)
+        if process.returncode not in (0, -15):
+            raise AssertionError(
+                f"map->odom bridge exited with {process.returncode}:\n{output}"
+            )
+
+
+def test_transient_correction_outlier_is_rejected_without_tf_flicker():
+    os.environ["ROS_DOMAIN_ID"] = "98"
+    command = [
+        str(BINARY),
+        "--ros-args",
+        "--params-file",
+        str(CONFIG),
+        "-p",
+        "upstream_valid_topic:=/localization/amcl_backend_valid",
+    ]
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        env=os.environ.copy(),
+    )
+    rclpy.init()
+    probe = RecoveryProbe()
+    try:
+        probe.spin_for(1.0)
+        assert process.poll() is None, "map->odom bridge exited during startup"
+        probe.publish_upstream_valid()
+        probe.spin_for(0.2)
+
+        probe.publish_candidate(0.0)
+        probe.wait_for(
+            lambda: probe.valid_messages and probe.valid_messages[-1],
+            "baseline correction",
+        )
+        probe.wait_for(lambda: latest_transform_is(probe, 0.0), "baseline transform")
+
+        probe.publish_candidate(1.0)
+        probe.wait_for(
+            lambda: probe.recovery_states
+            and probe.recovery_states[-1] == "innovation_rejection_pending",
+            "first rejection enters confirmation",
+        )
+        assert probe.valid_messages[-1], "single outlier withdrew global validity"
+        assert latest_transform_is(probe, 0.0), "single outlier changed trusted transform"
+
+        probe.publish_candidate(0.1)
+        probe.wait_for(
+            lambda: probe.recovery_states
+            and probe.recovery_states[-1] == "healthy",
+            "healthy correction clears pending rejection",
+        )
+        probe.wait_for(lambda: latest_transform_is(probe, 0.1), "healthy correction update")
+        assert probe.valid_messages[-1]
+
+        for _ in range(2):
+            probe.publish_candidate(1.0)
+            probe.spin_for(0.1)
+            assert probe.valid_messages[-1], "latched before three consecutive rejections"
+            assert latest_transform_is(probe, 0.1)
+
+        probe.publish_candidate(1.0)
+        probe.wait_for(
+            lambda: probe.valid_messages and not probe.valid_messages[-1],
+            "third consecutive rejection latches",
+        )
+        assert latest_transform_is(probe, 0.1), "latched candidate replaced trusted transform"
     finally:
         probe.destroy_node()
         rclpy.shutdown()
