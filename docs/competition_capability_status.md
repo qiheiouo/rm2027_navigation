@@ -25,6 +25,12 @@ validated for competition.
 
 ## Deliberately Not Claimed
 
+The T-DT planner intake under `experiments/tdt_planner` is an isolated software
+candidate, not an accepted competition capability. It does not change any
+default listed above. Offline algorithm/plugin results and the unimplemented
+timed-controller/localization follow-up gates are recorded separately in
+`docs/tdt_migration/assessment_and_plan.md`.
+
 1. Real lower-controller competition-state decoding is implemented from the
    confirmed currently flashed firmware, but no live serial acceptance was run
    in this implementation turn.

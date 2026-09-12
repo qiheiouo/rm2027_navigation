@@ -105,6 +105,16 @@ explicitly and remains subject to its documented acceptance limits.
 No launch argument or diagnostic validity topic grants physical motion
 authority by itself.
 
+## Isolated T-DT Planning Experiment
+
+`experiments/tdt_planner/rm_tdt_planner` contains the explicitly selected
+T-DT YAstar / minimum-jerk geometric planner candidate. Its parent
+`COLCON_IGNORE` excludes it from routine workspace builds, and no deployment
+launch selects it. See `docs/tdt_migration/assessment_and_plan.md` for the
+current-state assessment and phase gates, and `docs/external/tdt_nav_kit.md`
+for the pinned intake and local patches. It has no localization TF, goal or
+velocity ownership. Offline results do not grant hardware acceptance.
+
 ## Documentation Maintenance Rule
 
 When code changes a public topic, TF owner, launch profile, wire protocol,

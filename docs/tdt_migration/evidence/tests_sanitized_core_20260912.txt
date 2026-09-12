@@ -1,0 +1,70 @@
+Start testing: Sep 12 14:39 UTC
+----------------------------------------------------------
+1/1 Testing: planner_safety
+1/1 Test: planner_safety
+Command: "/work/sanitize-build/test_planner"
+Directory: /work/sanitize-build
+"planner_safety" start time: Sep 12 14:39 UTC
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 17 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 15 tests from Planner
+[ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+[       OK ] Planner.OpenMapActuallyRunsCorridorBackend (21 ms)
+[ RUN      ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints
+[       OK ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints (23 ms)
+[ RUN      ] Planner.CompletelySealedWallFailsEmpty
+[31mError: No path found! return empty path[0m
+[       OK ] Planner.CompletelySealedWallFailsEmpty (15 ms)
+[ RUN      ] Planner.UnknownAndInscribedCellsAreBlocked
+[31mError: No path found! return empty path[0m
+[31mError: No path found! return empty path[0m
+[       OK ] Planner.UnknownAndInscribedCellsAreBlocked (29 ms)
+[ RUN      ] Planner.SameCellAndSamePose
+[       OK ] Planner.SameCellAndSamePose (17 ms)
+[ RUN      ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty
+[       OK ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty (21 ms)
+[ RUN      ] Planner.NarrowPassageRejectedForCircumscribedFootprint
+[31mError: No path found! return empty path[0m
+[       OK ] Planner.NarrowPassageRejectedForCircumscribedFootprint (13 ms)
+[ RUN      ] Planner.LateOutputIsNotPublished
+[       OK ] Planner.LateOutputIsNotPublished (704 ms)
+[ RUN      ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty
+[       OK ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty (0 ms)
+[ RUN      ] Planner.FrontendOnlyIsSelectable
+[       OK ] Planner.FrontendOnlyIsSelectable (18 ms)
+[ RUN      ] Planner.WaypointBudgetFallsBackToValidatedAstar
+[       OK ] Planner.WaypointBudgetFallsBackToValidatedAstar (21 ms)
+[ RUN      ] Planner.UnresolvedOptimizerCollisionFallsBack
+[       OK ] Planner.UnresolvedOptimizerCollisionFallsBack (24 ms)
+[ RUN      ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples
+[       OK ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples (4 ms)
+[ RUN      ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace
+[31mError: No path found! return empty path[0m
+[       OK ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace (26 ms)
+[ RUN      ] Planner.DeterministicRandomObstacleSafety
+[       OK ] Planner.DeterministicRandomObstacleSafety (727 ms)
+[----------] 15 tests from Planner (1671 ms total)
+
+[----------] 2 tests from UpstreamFix
+[ RUN      ] UpstreamFix.BoundsAndDiagonalCorner
+[31mError: No path found! return empty path[0m
+[       OK ] UpstreamFix.BoundsAndDiagonalCorner (0 ms)
+[ RUN      ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost
+[       OK ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost (27 ms)
+[----------] 2 tests from UpstreamFix (27 ms total)
+
+[----------] Global test environment tear-down
+[==========] 17 tests from 2 test suites ran. (1699 ms total)
+[  PASSED  ] 17 tests.
+<end of output>
+Test time =   1.78 sec
+----------------------------------------------------------
+Test Passed.
+"planner_safety" end time: Sep 12 14:39 UTC
+"planner_safety" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: Sep 12 14:39 UTC

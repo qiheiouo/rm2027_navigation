@@ -1,0 +1,129 @@
+Start testing: Sep 12 14:39 UTC
+----------------------------------------------------------
+1/2 Testing: planner_safety
+1/2 Test: planner_safety
+Command: "/work/ros-build/rm_tdt_planner/test_planner"
+Directory: /work/ros-build/rm_tdt_planner
+"planner_safety" start time: Sep 12 14:39 UTC
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 17 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 15 tests from Planner
+[ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+[       OK ] Planner.OpenMapActuallyRunsCorridorBackend (1 ms)
+[ RUN      ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints
+[       OK ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints (2 ms)
+[ RUN      ] Planner.CompletelySealedWallFailsEmpty
+[31mError: No path found! return empty path[0m
+[       OK ] Planner.CompletelySealedWallFailsEmpty (1 ms)
+[ RUN      ] Planner.UnknownAndInscribedCellsAreBlocked
+[31mError: No path found! return empty path[0m
+[31mError: No path found! return empty path[0m
+[       OK ] Planner.UnknownAndInscribedCellsAreBlocked (2 ms)
+[ RUN      ] Planner.SameCellAndSamePose
+[       OK ] Planner.SameCellAndSamePose (1 ms)
+[ RUN      ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty
+[       OK ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty (2 ms)
+[ RUN      ] Planner.NarrowPassageRejectedForCircumscribedFootprint
+[31mError: No path found! return empty path[0m
+[       OK ] Planner.NarrowPassageRejectedForCircumscribedFootprint (1 ms)
+[ RUN      ] Planner.LateOutputIsNotPublished
+[       OK ] Planner.LateOutputIsNotPublished (130 ms)
+[ RUN      ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty
+[       OK ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty (0 ms)
+[ RUN      ] Planner.FrontendOnlyIsSelectable
+[       OK ] Planner.FrontendOnlyIsSelectable (2 ms)
+[ RUN      ] Planner.WaypointBudgetFallsBackToValidatedAstar
+[       OK ] Planner.WaypointBudgetFallsBackToValidatedAstar (2 ms)
+[ RUN      ] Planner.UnresolvedOptimizerCollisionFallsBack
+[       OK ] Planner.UnresolvedOptimizerCollisionFallsBack (3 ms)
+[ RUN      ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples
+[       OK ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples (0 ms)
+[ RUN      ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace
+[31mError: No path found! return empty path[0m
+[       OK ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace (2 ms)
+[ RUN      ] Planner.DeterministicRandomObstacleSafety
+[       OK ] Planner.DeterministicRandomObstacleSafety (133 ms)
+[----------] 15 tests from Planner (290 ms total)
+
+[----------] 2 tests from UpstreamFix
+[ RUN      ] UpstreamFix.BoundsAndDiagonalCorner
+[31mError: No path found! return empty path[0m
+[       OK ] UpstreamFix.BoundsAndDiagonalCorner (0 ms)
+[ RUN      ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost
+[       OK ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost (2 ms)
+[----------] 2 tests from UpstreamFix (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 17 tests from 2 test suites ran. (293 ms total)
+[  PASSED  ] 17 tests.
+<end of output>
+Test time =   0.30 sec
+----------------------------------------------------------
+Test Passed.
+"planner_safety" end time: Sep 12 14:39 UTC
+"planner_safety" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: nav2_plugin_contract
+2/2 Test: nav2_plugin_contract
+Command: "/work/ros-build/rm_tdt_planner/test_nav2_plugin"
+Directory: /work/ros-build/rm_tdt_planner
+"nav2_plugin_contract" start time: Sep 12 14:39 UTC
+Output:
+----------------------------------------------------------
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from PluginTest
+[ RUN      ] PluginTest.LoadLifecycleAndEndpointContract
+[INFO] [1789223988.890619370] [tdt_test_costmap.tdt_test_costmap]: 
+	tdt_test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1789223988.891575028] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+[INFO] [1789223988.891844849] [tdt_test_costmap.tdt_test_costmap]: Configuring
+[INFO] [1789223988.907489061] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+[INFO] [1789223988.910990351] [tdt_test_costmap.tdt_test_costmap]: Destroying
+[       OK ] PluginTest.LoadLifecycleAndEndpointContract (37 ms)
+[ RUN      ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher
+[INFO] [1789223988.922621034] [tdt_test_costmap.tdt_test_costmap]: 
+	tdt_test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1789223988.922996383] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+[INFO] [1789223988.923234662] [tdt_test_costmap.tdt_test_costmap]: Configuring
+[31mError: No path found! return empty path[0m
+[INFO] [1789223988.929922403] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+[INFO] [1789223988.932002380] [tdt_test_costmap.tdt_test_costmap]: Destroying
+[       OK ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher (22 ms)
+[ RUN      ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark
+[INFO] [1789223988.948908494] [tdt_test_costmap.tdt_test_costmap]: 
+	tdt_test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1789223988.949292225] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+[INFO] [1789223988.949466856] [tdt_test_costmap.tdt_test_costmap]: Configuring
+[INFO] [1789223988.952287640] [tdt_test]: Configuring plugin NavfnBaseline of type NavfnPlanner
+[INFO] [1789223988.952378845] [tdt_test]: Activating plugin NavfnBaseline of type NavfnPlanner
+[INFO] [1789223989.095924441] [tdt_test]: Deactivating plugin NavfnBaseline of type NavfnPlanner
+[INFO] [1789223989.095969065] [tdt_test]: Cleaning up plugin NavfnBaseline of type NavfnPlanner
+[INFO] [1789223989.096042533] [tdt_test]: Destroying plugin NavfnBaseline of type NavfnPlanner
+[INFO] [1789223989.096063185] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+[INFO] [1789223989.097798270] [tdt_test_costmap.tdt_test_costmap]: Destroying
+[       OK ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark (165 ms)
+[----------] 3 tests from PluginTest (225 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (225 ms total)
+[  PASSED  ] 3 tests.
+<end of output>
+Test time =   0.35 sec
+----------------------------------------------------------
+Test Passed.
+"nav2_plugin_contract" end time: Sep 12 14:39 UTC
+"nav2_plugin_contract" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Sep 12 14:39 UTC

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>rm_tdt_planner</name>
+  <version>0.1.0</version>
+  <description>Isolated T-DT geometric planning candidate for Nav2 Humble.</description>
+  <maintainer email="todo@example.com">RM Navigation</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>eigen</depend>
+  <depend>nav2_core</depend>
+  <depend>nav2_costmap_2d</depend>
+  <depend>nav2_util</depend>
+  <depend>nav_msgs</depend>
+  <depend>pluginlib</depend>
+  <depend>rclcpp</depend>
+  <!-- OsqpEigen 0.8.1 + OSQP 0.6.3: explicit external prefix, see dependency lock. -->
+  <test_depend>libgtest-dev</test_depend>
+  <test_depend>nav2_navfn_planner</test_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

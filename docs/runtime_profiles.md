@@ -1,5 +1,18 @@
 # Runtime Profiles
 
+## Isolated T-DT planning candidate (2026-09-12)
+
+The experimental package at `experiments/tdt_planner/rm_tdt_planner` is excluded
+from routine colcon discovery and every supported deployment launch. Its
+profile generator writes a new full Nav2 parameter file with the existing
+`GridBased` ID selecting `rm_tdt_planner/TdtGlobalPlanner`; it does not start
+Nav2. This is an offline/simulation candidate only. Unknown cells are blocked,
+the padded footprint is conservatively circumscribed, and optimizer output is
+a geometric polyline. The existing MPPI, BT/action and velocity ownership
+remain in effect when comparing profiles. See
+`tdt_migration/assessment_and_plan.md` and the package README for explicit
+build, validation, limitations and rollback instructions.
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not
