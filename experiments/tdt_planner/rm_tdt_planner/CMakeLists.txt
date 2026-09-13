@@ -25,6 +25,11 @@ target_compile_options(rm_tdt_core PRIVATE -Wall -Wextra -Wpedantic)
 include(CTest)
 if(BUILD_TESTING)
   find_package(GTest REQUIRED)
+  find_package(Python3 REQUIRED COMPONENTS Interpreter)
+  add_test(NAME simulation_evidence_tools
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_simulation_tools.py)
+  set_tests_properties(simulation_evidence_tools PROPERTIES TIMEOUT 30
+    ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
   add_executable(test_planner test/test_planner.cpp)
   target_include_directories(test_planner PRIVATE tools)
   target_link_libraries(test_planner rm_tdt_core GTest::gtest_main)

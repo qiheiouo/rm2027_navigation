@@ -116,7 +116,9 @@ for the pinned intake and local patches. It has no localization TF, goal or
 velocity ownership. Offline results do not grant hardware acceptance.
 The optional four-planner snapshot benchmark and its 2026-09-13 results are
 documented in `docs/tdt_migration/validation_20260913.md`; the package README
-contains explicit build and static-input comparison commands.
+contains explicit build and static-input comparison commands. The P2B static
+simulation tools are implemented but unvalidated; execution and return-report
+instructions are in `docs/tdt_migration/p2b_terra_handoff.md`.
 
 ## Documentation Maintenance Rule
 

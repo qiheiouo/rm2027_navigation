@@ -1,9 +1,9 @@
 # T-DT 规划迁移实验
 
 状态：独立实验候选。常规 workspace 扫描由上层 `COLCON_IGNORE` 排除；所有现有
-旧车/新车启动入口继续使用原有配置。常规构建提供插件，显式测试构建另可启用离线
-比较程序；均无传感器、TF、目标、串口或速度发布器。只有显式加载插件才能参与
-`ComputePathToPose`。
+旧车/新车启动入口继续使用原有配置。算法 core、插件和 P2A 离线比较程序无传感器、
+TF、目标、串口或速度发布器。P2B 的独立仿真记录器作为该隔离域的测试 action client，
+仅经完整仿真入口发送一次规划预检查与一次导航目标；不连接任务层或实车。
 
 使用固定 T-DT YAstar、地图相关 Douglas–Peucker 化简、方形约束与 OSQP 后端。
 五次多项式最小 jerk 输出经独立校验后转为标准 `nav_msgs/Path`。调用者仍由 Nav2
@@ -15,41 +15,39 @@
 插件还需要 ROS2 Humble Nav2 与 pluginlib。求解器使用本包锁定版本，不能按上游
 README 假定子模块已提供。不要在构建时下载依赖或运行上游 setup 脚本。
 
-以下示例在已 source ROS2 Humble 的隔离开发环境中执行，`candidate_ws` 指向本
-实验分支工作区。保持所有构建目录独立于日常导航的 `build/install/log`：
+当前开发与验证都使用 `/home` 下的持久工作区。P2B 按用户约定由 Terra 执行
+验证，设计者先交付代码与文档；**新工具尚待编译与运行验收**。
 
 ```bash
 candidate_ws=/home/wpie/worktrees/rm2027_tdt_phase2
 pkg="$candidate_ws/experiments/tdt_planner/rm_tdt_planner"
-bash "$pkg/tools/fetch_dependencies.sh" /tmp/tdt-deps-source
-bash "$pkg/tools/build_dependencies.sh" /tmp/tdt-deps-source /tmp/tdt-deps /tmp/tdt-deps-build
-export CMAKE_PREFIX_PATH="/tmp/tdt-deps:${CMAKE_PREFIX_PATH:-}"
-export LD_LIBRARY_PATH="/tmp/tdt-deps/lib:${LD_LIBRARY_PATH:-}"
-colcon --log-base /tmp/tdt-log build --base-paths "$pkg" \
-  --build-base /tmp/tdt-build --install-base /tmp/tdt-install \
-  --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
-source /tmp/tdt-install/setup.bash
-ROS_DOMAIN_ID=173 ROS_LOCALHOST_ONLY=1 TDT_BENCHMARK_CSV=/tmp/tdt-benchmark.csv \
-  ctest --test-dir /tmp/tdt-build/rm_tdt_planner --output-on-failure
+work="$candidate_ws/build/tdt_p2b"
+# 仅依赖缺失时执行 deps（含显式网络取回）。
+bash "$pkg/tools/p2b_validation.sh" deps
+bash "$pkg/tools/p2b_validation.sh" build
+bash "$pkg/tools/p2b_validation.sh" check
 ```
 
-只有算法测试时，可直接 CMake，并使用 `-DRM_TDT_BUILD_ROS2=OFF`。
-ROS 测试只配置空 costmap 和调用插件 API，不激活 costmap，不发布 TF 或速度。
-测试镜像应使用 `--network none`、无设备挂载与独立临时目录。
+包装脚本使用现有 `rm2027_navigation:humble`，代码只读、`--network none`、无设备
+挂载；所有依赖/构建/日志在本实验 worktree 的 `build/tdt_p2b/`，不写日常导航目录。
+只有算法测试时仍可直接 CMake，并使用 `-DRM_TDT_BUILD_ROS2=OFF`。
+完整的执行前提、预期结果与失败处置见
+[`p2b_terra_handoff.md`](../../../docs/tdt_migration/p2b_terra_handoff.md)。
 
 ## P2A：同一车体与地图快照比较
 
-在上述 colcon 命令追加 `-DBUILD_TESTING=ON -DRM_TDT_BUILD_BENCHMARK=ON`，
-会构建 `benchmark_planners`。除基础依赖外，需要 Humble 的
+显式 colcon 构建启用 `-DBUILD_TESTING=ON -DRM_TDT_BUILD_BENCHMARK=ON`
+（上述包装脚本已启用）会构建 `benchmark_planners`。除基础依赖外，需要 Humble 的
 `nav2_map_server`、`nav2_navfn_planner`、`nav2_smac_planner`；没有新增求解器依赖。
 默认 OFF；测试程序不激活 costmap、发送 action 或连接机器人。
 
+以下是已进入并 source 相应 install 的隔离容器内可用的命令（`/work` 映射至
+上述持久目录，地图文件需另行只读挂载）。P2B 无需重跑历史 P2A 基准：
+
 ```bash
-ROS_DOMAIN_ID=174 ROS_LOCALHOST_ONLY=1 \
-  /tmp/tdt-build/rm_tdt_planner/benchmark_planners /tmp/tdt-p2.csv 100 \
-  /path/to/frozen/map.yaml
-python3 "$pkg/tools/summarize_benchmark.py" /tmp/tdt-p2.csv \
-  --output /tmp/tdt-p2-summary.json
+/work/build/rm_tdt_planner/benchmark_planners /work/new-p2a.csv 100 /maps/frozen/map.yaml
+python3 /ws/experiments/tdt_planner/rm_tdt_planner/tools/summarize_benchmark.py \
+  /work/new-p2a.csv --output /work/new-p2a-summary.json
 ```
 
 省略最后一个 YAML 时运行 7 种合成快照；提供时增加现场地图。YAML 必须通过
@@ -80,6 +78,25 @@ Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行�
 不开展针对当前设备的性能优化；后续在更高性能设备上验证完整导航负载。
 运行时已有迟到拒收继续有效，不能把统计工具的性能项失败当成算法路线否决。
 
+## P2B：静态仿真交接
+
+`launch/simulation_comparison.launch.py` 复用现有 Gazebo base launch 和两条通道墙。
+仿真模型/MPPI/costmap 不变，`make_sim_profiles.py` 仅替换 `GridBased`；使用该仿真
+原有 0.60×0.50 m footprint、0.03 m padding，与 P2A 旧车模型不同。
+
+`p2b_validation.sh` 提供 `deps/build/check/profiles/run/summarize`，每次 `run`
+创建新隔离容器，自动结束自身 launch 进程组。原始轨迹、路径、命令、costmap、事件
+和 action 结果写在 `build/tdt_p2b/runs/`；目录已存在时拒绝覆盖。日志留在 `/home`。
+新增 13 个 Python 工具测试，交由 Terra 与既有 22 个 core/plugin 测试一同执行。
+
+几何记录器验证采样矩形及线性位姿插值下的间隙，无法独立证明采样间真实接触状态。
+汇总回读原始事件和数据，不把 SUCCEEDED、CPU 告警或缺少日志直接当作方案验收。
+没有观察到并发 snapshot 拒收时，该项保留未覆盖；移动障碍和实车仍是后续阶段。
+
+逐步执行、失败分类、结果回传见
+[`p2b_terra_handoff.md`](../../../docs/tdt_migration/p2b_terra_handoff.md)；当前状态见
+[`p2b_work_status.md`](../../../docs/tdt_migration/p2b_work_status.md)。
+
 ## 生成候选配置
 
 生成完整候选配置（不覆盖源配置，不自动启动）：
@@ -87,7 +104,7 @@ Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行�
 ```bash
 python3 "$pkg/tools/make_profile.py" \
   "$candidate_ws/src/rm_nav_config/config/nav2_old_car_2026_dual_stvl.yaml" \
-  /tmp/nav2_tdt_candidate.yaml
+  "$work/nav2_tdt_candidate.yaml"
 # 另一个新文件加 --frontend-only 可比较 A* 与 A*+QP。
 ```
 

@@ -19,6 +19,13 @@ an empty costmap without activation and sends no goals or velocity commands.
 It is not a launch profile or a replacement for continuous-costmap/MPPI tests.
 The 2026-09-13 offline evidence is in `tdt_migration/validation_20260913.md`.
 
+The P2B `simulation_comparison.launch.py` is a separate experiment-only entry
+point invoked by `p2b_validation.sh`. It reuses the existing Phase 1.5 world,
+static course, MPPI and chassis stub. The observer is the sole test action
+client inside the isolated simulation domain; it never publishes velocity or
+TF and never co-launches competition mission or real hardware. New tooling
+awaits Terra validation; see `tdt_migration/p2b_terra_handoff.md`.
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

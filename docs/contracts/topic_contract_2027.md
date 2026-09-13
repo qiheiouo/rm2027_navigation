@@ -60,6 +60,16 @@
 | `/tf` | `tf2_msgs/msg/TFMessage` | TF owners | all modules | Dynamic TF |
 | `/tf_static` | `tf2_msgs/msg/TFMessage` | static TF owners | all modules | Static TF |
 
+## T-DT P2B Simulation Test Client
+
+The experiment-only `observe_simulation.py` may call `ComputePathToPose` and
+`NavigateToPose` only in the isolated Phase 1.5 simulation composition. It is
+that domain's sole test action client; competition mission and hardware are
+absent. It reads existing simulation odometry, scan, clock, costmap, path and
+command topics into local evidence files. It publishes neither velocity nor
+localization TF and does not change deployment action ownership. See
+`docs/tdt_migration/p2b_terra_handoff.md`; implementation awaits validation.
+
 ## Simulation-Only Topics
 
 | Topic | Type | Producer | Consumer | Meaning |
