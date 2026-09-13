@@ -55,6 +55,12 @@ diff，并把 OSQP/NOTICE、OsqpEigen、QDLDL、AMD 许可证复制到依赖安�
 
 ## 不能由开源名称推出的能力
 
+2026-09-13 的 P2A 仅增加本地 core 的不可变预处理接口和比较工具，没有修改导入的
+六个算法文件或升级依赖。Smac2D/Navfn/map_server 使用镜像已有的 Humble 1.1.20
+二进制包（Apache-2.0）；没有复制其源码。核对的
+[Smac2D 1.1.20 源码](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_smac_planner/src/smac_planner_2d.cpp)
+始终调用自带 smoother，没有 `smooth_path` 开关；比较工具保留其原生行为。
+
 - 示例默认 `order=6, maxdx=3` 是五次多项式 minimum jerk，不是四阶 snap 目标。
 - `SolveOutput` 仅保留采样点等信息，无系数、每点时间或导数；当前求解使用
   `lineDecoder` 每段 11 点，`setDt()` 不控制该路径。

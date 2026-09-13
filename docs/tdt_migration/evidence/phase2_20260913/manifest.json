@@ -1,0 +1,96 @@
+{
+  "schema": "rm_tdt_planner/offline_comparison/v1",
+  "date": "2026-09-13",
+  "parent_commit": "359fd7115b0052e7196cc00fae464646f42977e0",
+  "branch": "experiment/tdt-planner-phase2",
+  "upstream_commit": "a4bddc467f84d2418a4de06c65c8c79403eb4a13",
+  "image": "rm2027_navigation:humble",
+  "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+  "cpu": "Intel Core i7-10710U, 12 logical CPUs, no affinity/frequency pinning",
+  "compiler": "GCC 11.4.0",
+  "binary_packages": {
+    "libeigen3-dev": "3.4.0-2ubuntu2",
+    "ros-humble-nav2-map-server": "1.1.20-1jammy.20260607.075953",
+    "ros-humble-nav2-navfn-planner": "1.1.20-1jammy.20260607.083247",
+    "ros-humble-nav2-smac-planner": "1.1.20-1jammy.20260607.083248"
+  },
+  "dependencies": {
+    "osqp": "0dd00a578cf1c2691c5c379965d504c75bf6cfad",
+    "osqp-eigen": "85c37623774c682db396505f0d4ea677040c2557",
+    "qdldl": "7d16b70a10a152682204d745d814b6eb63dc5cd2"
+  },
+  "seed": 20260913,
+  "trials_per_scenario": 100,
+  "scenario_count": 8,
+  "paired_requests": 800,
+  "planner_calls": 3200,
+  "raw_footprint_m": [
+    [
+      -0.32,
+      -0.27
+    ],
+    [
+      -0.32,
+      0.27
+    ],
+    [
+      0.32,
+      0.27
+    ],
+    [
+      0.32,
+      -0.27
+    ]
+  ],
+  "footprint_padding_m": 0.02,
+  "additional_clearance_m": 0.02,
+  "performance_policy": "Current-device timing/resources are observations, not a reason for performance patches or algorithm rejection. Revalidate full load on future higher-performance hardware.",
+  "motion_executed": false,
+  "deployment_profile_modified": false,
+  "map_input": {
+    "path_relative_to_field_workspace": "artifacts/maps/old_car_field/20260912T070820Z/old_car_field.yaml",
+    "approval": "candidate, not promoted by this experiment",
+    "sha256": {
+      "old_car_field.yaml": "188e3a1428cde41c9b6cb3ba85bf0d192f2cc176f6af774061f706245841c349",
+      "old_car_field.pgm": "94b32e1a0d4e0dd95a90991cd15fdd2d17b291795a4ff0ab1618f085098bfe48"
+    }
+  },
+  "implementation_sha256": {
+    "experiments/tdt_planner/COLCON_IGNORE": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "experiments/tdt_planner/rm_tdt_planner/CMakeLists.txt": "5ec120bae8f49df420adc6d43a9d4175e3a71175f1e67206157e27a5f57717d1",
+    "experiments/tdt_planner/rm_tdt_planner/LICENSE": "5bf99991aa11fd4aa72450d53ad7e1d2970d92f7ef4a4e8b1874b648de8bcc3f",
+    "experiments/tdt_planner/rm_tdt_planner/README.md": "b46c2122ef9824fa3913726006a913785a3da4c25b46bc90e6600ba6677f3d56",
+    "experiments/tdt_planner/rm_tdt_planner/config/planner_parameters.yaml": "8045405fdbc8f3d3addb725277c452ea98553a5b86b86b8fc3c21046f7338bd1",
+    "experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/planner.hpp": "a95d11602e144b4b0620f8d131f36b48d7ec32a3abab85abd50620648e4c669e",
+    "experiments/tdt_planner/rm_tdt_planner/package.xml": "7b69d60244b26e7f9d7ee303967302176ea9169efc367a225c2c832fcbe92a56",
+    "experiments/tdt_planner/rm_tdt_planner/plugins.xml": "aac5c1fe08538bcbf5d66f83ceef2b9a766eec5277e90edd3dd5616924877e08",
+    "experiments/tdt_planner/rm_tdt_planner/src/nav2_plugin.cpp": "000da1b98e9a92388d2c6a15862e5281ae7791feb597d4c4fa582ee91e59a1ca",
+    "experiments/tdt_planner/rm_tdt_planner/src/planner.cpp": "e8e8b931cfdff05f91e207b72d9ba97ca5991791b136dfe8b2397937a8a2f958",
+    "experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp": "710fdeed5b58d7dfb69b2b159212423ca5db3dc3e8331ba54219f3bf321352ce",
+    "experiments/tdt_planner/rm_tdt_planner/test/test_planner.cpp": "3186842a7149e72d47e3deba7406bbf5d3c7df09c68d91dc48cffb6188827b5c",
+    "experiments/tdt_planner/rm_tdt_planner/tools/benchmark_geometry.hpp": "8137f032450de344dbf2fe3bbeabccbafa57e5d5d0c519709859e26ce56599cc",
+    "experiments/tdt_planner/rm_tdt_planner/tools/benchmark_planners.cpp": "4a6881913416120b21e8d3e5cd9101960c19b3bf7a71268e86774c474c72391d",
+    "experiments/tdt_planner/rm_tdt_planner/tools/build_dependencies.sh": "22f123d45f89357d89bef20f74140f8611b94bf0c09c703fec009dcb1a9ec4df",
+    "experiments/tdt_planner/rm_tdt_planner/tools/fetch_dependencies.sh": "94dfe67a84071b625212f970a0dbf12aa62f215412be0be58f5a8c368b2d4a8d",
+    "experiments/tdt_planner/rm_tdt_planner/tools/make_profile.py": "05666c6cfed8c7cd14d389669ae20b09a0e472629c56b255ada43a4155032420",
+    "experiments/tdt_planner/rm_tdt_planner/tools/summarize_benchmark.py": "11aa220ec05a090ecb2309567489781ab41b0c159195f50cd69c63e5eca46286",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/LICENCE": "fab3c8fd7e83f54e1d8a45d08d3683eb8ba47a52a08bb7dbaac550d7160677a0",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/LOCAL_CHANGES.patch": "891845e3911c9d1acd1dec4b144cdc60a04554e7d4f06453aaadf5529fdc4995",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.cpp": "368e220c8cfc4928decd8668c3d09c7bebaf8492b59be134a8337b5f5a56d1c0",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.hpp": "1dff6839799fe7f8a6193eabbec2d9adce985d2c69bc5f0c423fb838b9439b3c",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp": "05f9d5c028af2d0a353abf2a85ff44ef7569877758cf3c374cc735e8050986dd",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.hpp": "58c9b489b9eb4e5db6754f5350a7882a270caa19b269f4307e6234b0f29c51e7",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/UPSTREAM.json": "befbd3185191f6b24244cd315e1ee44c7bfa7d9fa43d226c89ef782aeee25a2a",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/YAstar/yastar.cpp": "51a3dba93b01421b0c44460a5299f6b0f4fb67242bf70dd2dce9bb74ef7d0cae",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/YAstar/yastar.hpp": "59a8c8d5e48ce3dcffe69ab508c2593178559ccd78849c2257e835a8eefac7c3"
+  },
+  "evidence_sha256": {
+    "benchmark.csv": "f0eb8e2b4fceba2c86872bce9509b828699736ffa381af2b9fda77f1da3df689",
+    "benchmark.log": "003f8a933788a024f5dc624eba2ff856906cab2cc01e80899abe2fbc258a7482",
+    "build.txt": "f8f7e3a29f25c7fd974394122f6d8abeb883e831ff8e6d9bad231abe617b84c0",
+    "commands.md": "80deeb91cc04a8849a75cf2054f24f0c9df2409cd4521db3a97d73f12b1a3213",
+    "summary.json": "1e466c434bef04406f3c3b1ee8fcf282c59935fb5fc863cd4afe54ccfa5e1103",
+    "summary_validation.txt": "1c7ff215b118ed682479d9ace866b9f37a9645c0cf6acfcc00f574c68c561870",
+    "tests.txt": "8ce689b7139678859a15710a406d1e1b095a5fc2867a227f7bfeb52fd4b74e2f"
+  }
+}

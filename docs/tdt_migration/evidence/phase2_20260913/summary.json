@@ -1,0 +1,828 @@
+{
+  "paired_requests": 800,
+  "planner_calls": 3200,
+  "groups": [
+    {
+      "scenario": "blocker_present",
+      "planner": "navfn",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 1.69544,
+      "p95_ms": 2.177785,
+      "p99_ms": 2.349948,
+      "max_ms": 2.486987,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "empty": 100
+      }
+    },
+    {
+      "scenario": "blocker_present",
+      "planner": "smac2d",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 6.1703589999999995,
+      "p95_ms": 8.772736,
+      "p99_ms": 9.211212,
+      "max_ms": 9.577011,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "empty": 100
+      }
+    },
+    {
+      "scenario": "blocker_present",
+      "planner": "tdt_astar",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.591160500000001,
+      "p95_ms": 7.422968,
+      "p99_ms": 8.195082,
+      "max_ms": 8.457779,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "no A* path": 100
+      }
+    },
+    {
+      "scenario": "blocker_present",
+      "planner": "tdt_qp",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.573069,
+      "p95_ms": 7.587255,
+      "p99_ms": 7.720922,
+      "max_ms": 7.771303,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "no A* path": 100
+      }
+    },
+    {
+      "scenario": "blocker_removed",
+      "planner": "navfn",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 21,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 1.784915,
+      "p95_ms": 2.305273,
+      "p99_ms": 2.502752,
+      "max_ms": 2.848008,
+      "mean_accepted_length_m": 5.99859969812,
+      "mean_accepted_turning_rad": 7.022434354275,
+      "min_accepted_physical_clearance_m": 0.02556483066,
+      "reasons": {
+        "returned": 100
+      }
+    },
+    {
+      "scenario": "blocker_removed",
+      "planner": "smac2d",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 17,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 2.7011155000000002,
+      "p95_ms": 4.328567,
+      "p99_ms": 5.760686,
+      "max_ms": 5.830074,
+      "mean_accepted_length_m": 6.00351481524,
+      "mean_accepted_turning_rad": 1.527321556939,
+      "min_accepted_physical_clearance_m": 0.0454077453,
+      "reasons": {
+        "returned": 100
+      }
+    },
+    {
+      "scenario": "blocker_removed",
+      "planner": "tdt_astar",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.0300335,
+      "p95_ms": 7.958054,
+      "p99_ms": 8.64067,
+      "max_ms": 8.779148,
+      "mean_accepted_length_m": 6.1890537417300004,
+      "mean_accepted_turning_rad": 1.9761000543291218,
+      "min_accepted_physical_clearance_m": 0.1568724825,
+      "reasons": {
+        "validated A*": 100
+      }
+    },
+    {
+      "scenario": "blocker_removed",
+      "planner": "tdt_qp",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 98,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.6094095,
+      "p95_ms": 8.073324,
+      "p99_ms": 9.158989,
+      "max_ms": 10.4839,
+      "mean_accepted_length_m": 5.99656059129,
+      "mean_accepted_turning_rad": 0.6945463057720458,
+      "min_accepted_physical_clearance_m": 0.03867783677,
+      "reasons": {
+        "validated minimum-jerk polyline": 98,
+        "validated A* fallback: optimizer geometry rejected": 2
+      }
+    },
+    {
+      "scenario": "field_map",
+      "planner": "navfn",
+      "requests": 100,
+      "returned": 94,
+      "accepted": 94,
+      "optimized": 0,
+      "returned_geometry_rejected": 16,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 28.729302500000003,
+      "p95_ms": 30.262604,
+      "p99_ms": 31.477109,
+      "max_ms": 32.024028,
+      "mean_accepted_length_m": 3.2255557720957446,
+      "mean_accepted_turning_rad": 4.041871442484043,
+      "min_accepted_physical_clearance_m": 0.004821004202,
+      "reasons": {
+        "returned": 94,
+        "empty": 6
+      }
+    },
+    {
+      "scenario": "field_map",
+      "planner": "smac2d",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 27,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 28.5225755,
+      "p95_ms": 29.646981,
+      "p99_ms": 30.993313,
+      "max_ms": 31.754137,
+      "mean_accepted_length_m": 3.25840323287,
+      "mean_accepted_turning_rad": 1.394844105817,
+      "min_accepted_physical_clearance_m": 0.03895850077,
+      "reasons": {
+        "returned": 100
+      }
+    },
+    {
+      "scenario": "field_map",
+      "planner": "tdt_astar",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 41.109159000000005,
+      "p95_ms": 50.008851,
+      "p99_ms": 53.116492,
+      "max_ms": 53.979297,
+      "mean_accepted_length_m": 3.45935438518,
+      "mean_accepted_turning_rad": 1.719823729033112,
+      "min_accepted_physical_clearance_m": 0.03933297802,
+      "reasons": {
+        "validated A*": 100
+      }
+    },
+    {
+      "scenario": "field_map",
+      "planner": "tdt_qp",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 97,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 41.5944905,
+      "p95_ms": 49.202272,
+      "p99_ms": 54.795121,
+      "max_ms": 55.402631,
+      "mean_accepted_length_m": 3.28324145865,
+      "mean_accepted_turning_rad": 0.6792833301008138,
+      "min_accepted_physical_clearance_m": 0.03933297802,
+      "reasons": {
+        "validated minimum-jerk polyline": 97,
+        "validated A* fallback: optimizer geometry rejected": 2,
+        "validated A* fallback: waypoint or time budget": 1
+      }
+    },
+    {
+      "scenario": "open",
+      "planner": "navfn",
+      "requests": 100,
+      "returned": 98,
+      "accepted": 98,
+      "optimized": 0,
+      "returned_geometry_rejected": 2,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 1.9598785,
+      "p95_ms": 2.545049,
+      "p99_ms": 2.927283,
+      "max_ms": 2.945758,
+      "mean_accepted_length_m": 4.687818960204082,
+      "mean_accepted_turning_rad": 2.278115233427551,
+      "min_accepted_physical_clearance_m": 0.03312194057,
+      "reasons": {
+        "returned": 98,
+        "empty": 2
+      }
+    },
+    {
+      "scenario": "open",
+      "planner": "smac2d",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 2.6834575,
+      "p95_ms": 5.723678,
+      "p99_ms": 7.11752,
+      "max_ms": 7.133718,
+      "mean_accepted_length_m": 4.78459536665,
+      "mean_accepted_turning_rad": 1.005019141589,
+      "min_accepted_physical_clearance_m": 0.05812194057,
+      "reasons": {
+        "returned": 100
+      }
+    },
+    {
+      "scenario": "open",
+      "planner": "tdt_astar",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 3.8842885000000003,
+      "p95_ms": 6.212583,
+      "p99_ms": 8.293602,
+      "max_ms": 8.954089,
+      "mean_accepted_length_m": 4.93940004605,
+      "mean_accepted_turning_rad": 1.1945823888001594,
+      "min_accepted_physical_clearance_m": 0.05812194057,
+      "reasons": {
+        "validated A*": 100
+      }
+    },
+    {
+      "scenario": "open",
+      "planner": "tdt_qp",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 100,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 4.018561,
+      "p95_ms": 7.402288,
+      "p99_ms": 7.73451,
+      "max_ms": 7.795234,
+      "mean_accepted_length_m": 4.70736297214,
+      "mean_accepted_turning_rad": 0.2604322975399396,
+      "min_accepted_physical_clearance_m": 0.05812194057,
+      "reasons": {
+        "validated minimum-jerk polyline": 100
+      }
+    },
+    {
+      "scenario": "passage_080m",
+      "planner": "navfn",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 1.668413,
+      "p95_ms": 2.31711,
+      "p99_ms": 2.617658,
+      "max_ms": 3.107817,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "empty": 100
+      }
+    },
+    {
+      "scenario": "passage_080m",
+      "planner": "smac2d",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 6.1982415,
+      "p95_ms": 8.704765,
+      "p99_ms": 9.563872,
+      "max_ms": 9.87923,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "empty": 100
+      }
+    },
+    {
+      "scenario": "passage_080m",
+      "planner": "tdt_astar",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.4082335,
+      "p95_ms": 7.681689,
+      "p99_ms": 8.261883,
+      "max_ms": 8.594151,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "no A* path": 100
+      }
+    },
+    {
+      "scenario": "passage_080m",
+      "planner": "tdt_qp",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.4822765,
+      "p95_ms": 7.373925,
+      "p99_ms": 8.104499,
+      "max_ms": 8.911077,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "no A* path": 100
+      }
+    },
+    {
+      "scenario": "passage_140m",
+      "planner": "navfn",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 21,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 1.775558,
+      "p95_ms": 2.486726,
+      "p99_ms": 2.872532,
+      "max_ms": 3.277985,
+      "mean_accepted_length_m": 5.99859969812,
+      "mean_accepted_turning_rad": 7.022434354275,
+      "min_accepted_physical_clearance_m": 0.02556483066,
+      "reasons": {
+        "returned": 100
+      }
+    },
+    {
+      "scenario": "passage_140m",
+      "planner": "smac2d",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 17,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 2.7485965,
+      "p95_ms": 4.033933,
+      "p99_ms": 4.523457,
+      "max_ms": 5.791238,
+      "mean_accepted_length_m": 6.00351481524,
+      "mean_accepted_turning_rad": 1.527321556939,
+      "min_accepted_physical_clearance_m": 0.0454077453,
+      "reasons": {
+        "returned": 100
+      }
+    },
+    {
+      "scenario": "passage_140m",
+      "planner": "tdt_astar",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.238678,
+      "p95_ms": 7.120525,
+      "p99_ms": 7.750921,
+      "max_ms": 8.377861,
+      "mean_accepted_length_m": 6.1890537417300004,
+      "mean_accepted_turning_rad": 1.9761000543291218,
+      "min_accepted_physical_clearance_m": 0.1568724825,
+      "reasons": {
+        "validated A*": 100
+      }
+    },
+    {
+      "scenario": "passage_140m",
+      "planner": "tdt_qp",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 98,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.717004,
+      "p95_ms": 7.798032,
+      "p99_ms": 8.105059,
+      "max_ms": 8.320697,
+      "mean_accepted_length_m": 5.9965603478,
+      "mean_accepted_turning_rad": 0.6945433245210457,
+      "min_accepted_physical_clearance_m": 0.03867783677,
+      "reasons": {
+        "validated minimum-jerk polyline": 98,
+        "validated A* fallback: optimizer geometry rejected": 2
+      }
+    },
+    {
+      "scenario": "unknown_barrier",
+      "planner": "navfn",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 1.6114955000000002,
+      "p95_ms": 2.236636,
+      "p99_ms": 2.563906,
+      "max_ms": 2.727936,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "empty": 100
+      }
+    },
+    {
+      "scenario": "unknown_barrier",
+      "planner": "smac2d",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 6.4032275,
+      "p95_ms": 10.136363,
+      "p99_ms": 11.106848,
+      "max_ms": 11.367174,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "empty": 100
+      }
+    },
+    {
+      "scenario": "unknown_barrier",
+      "planner": "tdt_astar",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.753734,
+      "p95_ms": 8.149296,
+      "p99_ms": 8.58476,
+      "max_ms": 10.310728,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "no A* path": 100
+      }
+    },
+    {
+      "scenario": "unknown_barrier",
+      "planner": "tdt_qp",
+      "requests": 100,
+      "returned": 0,
+      "accepted": 0,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.687540500000001,
+      "p95_ms": 8.604482,
+      "p99_ms": 10.255731,
+      "max_ms": 11.318277,
+      "mean_accepted_length_m": null,
+      "mean_accepted_turning_rad": null,
+      "min_accepted_physical_clearance_m": null,
+      "reasons": {
+        "no A* path": 100
+      }
+    },
+    {
+      "scenario": "wall_detour",
+      "planner": "navfn",
+      "requests": 100,
+      "returned": 95,
+      "accepted": 95,
+      "optimized": 0,
+      "returned_geometry_rejected": 54,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 1.7248955,
+      "p95_ms": 2.323925,
+      "p99_ms": 2.376956,
+      "max_ms": 2.423037,
+      "mean_accepted_length_m": 6.134238474852632,
+      "mean_accepted_turning_rad": 6.4699257759115785,
+      "min_accepted_physical_clearance_m": 0.004820997173,
+      "reasons": {
+        "returned": 95,
+        "empty": 5
+      }
+    },
+    {
+      "scenario": "wall_detour",
+      "planner": "smac2d",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 55,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 3.229654,
+      "p95_ms": 7.242658,
+      "p99_ms": 9.103742,
+      "max_ms": 9.673146,
+      "mean_accepted_length_m": 6.27264351554,
+      "mean_accepted_turning_rad": 2.786129215578,
+      "min_accepted_physical_clearance_m": 0.04188898179,
+      "reasons": {
+        "returned": 100
+      }
+    },
+    {
+      "scenario": "wall_detour",
+      "planner": "tdt_astar",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 0,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.3202370000000005,
+      "p95_ms": 8.70393,
+      "p99_ms": 10.978312,
+      "max_ms": 11.619574,
+      "mean_accepted_length_m": 6.96098036373,
+      "mean_accepted_turning_rad": 2.449287290175065,
+      "min_accepted_physical_clearance_m": 0.05812194057,
+      "reasons": {
+        "validated A*": 100
+      }
+    },
+    {
+      "scenario": "wall_detour",
+      "planner": "tdt_qp",
+      "requests": 100,
+      "returned": 100,
+      "accepted": 100,
+      "optimized": 100,
+      "returned_geometry_rejected": 0,
+      "returned_physical_collision": 0,
+      "over_250ms": 0,
+      "p50_ms": 5.6358005,
+      "p95_ms": 9.183234,
+      "p99_ms": 11.745818,
+      "max_ms": 12.133833,
+      "mean_accepted_length_m": 6.48857965901,
+      "mean_accepted_turning_rad": 1.2686238885526508,
+      "min_accepted_physical_clearance_m": 0.05812194057,
+      "reasons": {
+        "validated minimum-jerk polyline": 100
+      }
+    }
+  ],
+  "paired_deltas_candidate_minus_baseline": [
+    {
+      "scenario": "blocker_removed",
+      "baseline": "navfn",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.002039106829999939,
+      "mean_turning_delta_rad": -6.327888048502954,
+      "mean_time_delta_ms": 4.10277406
+    },
+    {
+      "scenario": "blocker_removed",
+      "baseline": "smac2d",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.006954223949999969,
+      "mean_turning_delta_rad": -0.8327752511669543,
+      "mean_time_delta_ms": 3.09464587
+    },
+    {
+      "scenario": "blocker_removed",
+      "baseline": "tdt_astar",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.19249315043999998,
+      "mean_turning_delta_rad": -1.2815537485570763,
+      "mean_time_delta_ms": 0.47971033999999996
+    },
+    {
+      "scenario": "field_map",
+      "baseline": "navfn",
+      "candidate": "tdt_qp",
+      "both_accepted": 94,
+      "mean_length_delta_m": 0.024643021021276596,
+      "mean_turning_delta_rad": -3.4027987018815558,
+      "mean_time_delta_ms": 13.108128340425532
+    },
+    {
+      "scenario": "field_map",
+      "baseline": "smac2d",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": 0.02483822577999998,
+      "mean_turning_delta_rad": -0.7155607757161863,
+      "mean_time_delta_ms": 13.53108071
+    },
+    {
+      "scenario": "field_map",
+      "baseline": "tdt_astar",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.17611292653,
+      "mean_turning_delta_rad": -1.0405403989322983,
+      "mean_time_delta_ms": 0.24247450999999948
+    },
+    {
+      "scenario": "open",
+      "baseline": "navfn",
+      "candidate": "tdt_qp",
+      "both_accepted": 98,
+      "mean_length_delta_m": -0.013595173275510186,
+      "mean_turning_delta_rad": -2.0250917277337352,
+      "mean_time_delta_ms": 2.424290255102041
+    },
+    {
+      "scenario": "open",
+      "baseline": "smac2d",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.07723239451000002,
+      "mean_turning_delta_rad": -0.7445868440490604,
+      "mean_time_delta_ms": 1.37884604
+    },
+    {
+      "scenario": "open",
+      "baseline": "tdt_astar",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.23203707390999997,
+      "mean_turning_delta_rad": -0.93415009126022,
+      "mean_time_delta_ms": 0.26258412
+    },
+    {
+      "scenario": "passage_140m",
+      "baseline": "navfn",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.002039350319999942,
+      "mean_turning_delta_rad": -6.327891029753954,
+      "mean_time_delta_ms": 3.96258096
+    },
+    {
+      "scenario": "passage_140m",
+      "baseline": "smac2d",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.006954467439999972,
+      "mean_turning_delta_rad": -0.8327782324179542,
+      "mean_time_delta_ms": 3.0010786499999997
+    },
+    {
+      "scenario": "passage_140m",
+      "baseline": "tdt_astar",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.19249339392999998,
+      "mean_turning_delta_rad": -1.2815567298080761,
+      "mean_time_delta_ms": 0.48515037
+    },
+    {
+      "scenario": "wall_detour",
+      "baseline": "navfn",
+      "candidate": "tdt_qp",
+      "both_accepted": 95,
+      "mean_length_delta_m": 0.31645520495789464,
+      "mean_turning_delta_rad": -5.202481862042352,
+      "mean_time_delta_ms": 3.8989284736842107
+    },
+    {
+      "scenario": "wall_detour",
+      "baseline": "smac2d",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": 0.21593614346999998,
+      "mean_turning_delta_rad": -1.5175053270253491,
+      "mean_time_delta_ms": 1.9215637399999999
+    },
+    {
+      "scenario": "wall_detour",
+      "baseline": "tdt_astar",
+      "candidate": "tdt_qp",
+      "both_accepted": 100,
+      "mean_length_delta_m": -0.47240070472000006,
+      "mean_turning_delta_rad": -1.180663401622414,
+      "mean_time_delta_ms": 0.19223743999999993
+    }
+  ],
+  "offline_checks": {
+    "no_returned_disk_clearance_violations": true,
+    "infeasible_cases_return_no_path": true,
+    "tdt_feasible_cases_all_accepted": true,
+    "no_modeled_latency_over_250ms": true
+  }
+}

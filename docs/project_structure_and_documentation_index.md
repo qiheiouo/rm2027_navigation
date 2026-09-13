@@ -114,6 +114,9 @@ launch selects it. See `docs/tdt_migration/assessment_and_plan.md` for the
 current-state assessment and phase gates, and `docs/external/tdt_nav_kit.md`
 for the pinned intake and local patches. It has no localization TF, goal or
 velocity ownership. Offline results do not grant hardware acceptance.
+The optional four-planner snapshot benchmark and its 2026-09-13 results are
+documented in `docs/tdt_migration/validation_20260913.md`; the package README
+contains explicit build and static-input comparison commands.
 
 ## Documentation Maintenance Rule
 

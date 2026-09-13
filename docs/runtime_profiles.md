@@ -13,6 +13,12 @@ remain in effect when comparing profiles. See
 `tdt_migration/assessment_and_plan.md` and the package README for explicit
 build, validation, limitations and rollback instructions.
 
+The optional P2A benchmark (`BUILD_TESTING=ON`, `RM_TDT_BUILD_BENCHMARK=ON`)
+compares four planners on shared configuration-space snapshots. It configures
+an empty costmap without activation and sends no goals or velocity commands.
+It is not a launch profile or a replacement for continuous-costmap/MPPI tests.
+The 2026-09-13 offline evidence is in `tdt_migration/validation_20260913.md`.
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

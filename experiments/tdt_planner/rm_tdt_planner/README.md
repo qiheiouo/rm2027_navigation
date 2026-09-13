@@ -1,8 +1,9 @@
 # T-DT 规划迁移实验
 
 状态：独立实验候选。常规 workspace 扫描由上层 `COLCON_IGNORE` 排除；所有现有
-旧车/新车启动入口继续使用原有配置。此包无节点可执行文件，无传感器、TF、目标、
-串口或速度发布器。只有显式加载插件才能参与 `ComputePathToPose`。
+旧车/新车启动入口继续使用原有配置。常规构建提供插件，显式测试构建另可启用离线
+比较程序；均无传感器、TF、目标、串口或速度发布器。只有显式加载插件才能参与
+`ComputePathToPose`。
 
 使用固定 T-DT YAstar、地图相关 Douglas–Peucker 化简、方形约束与 OSQP 后端。
 五次多项式最小 jerk 输出经独立校验后转为标准 `nav_msgs/Path`。调用者仍由 Nav2
@@ -18,7 +19,7 @@ README 假定子模块已提供。不要在构建时下载依赖或运行上游 
 实验分支工作区。保持所有构建目录独立于日常导航的 `build/install/log`：
 
 ```bash
-candidate_ws=/tmp/rm2027_tdt_planner
+candidate_ws=/home/wpie/worktrees/rm2027_tdt_phase2
 pkg="$candidate_ws/experiments/tdt_planner/rm_tdt_planner"
 bash "$pkg/tools/fetch_dependencies.sh" /tmp/tdt-deps-source
 bash "$pkg/tools/build_dependencies.sh" /tmp/tdt-deps-source /tmp/tdt-deps /tmp/tdt-deps-build
@@ -35,6 +36,51 @@ ROS_DOMAIN_ID=173 ROS_LOCALHOST_ONLY=1 TDT_BENCHMARK_CSV=/tmp/tdt-benchmark.csv 
 只有算法测试时，可直接 CMake，并使用 `-DRM_TDT_BUILD_ROS2=OFF`。
 ROS 测试只配置空 costmap 和调用插件 API，不激活 costmap，不发布 TF 或速度。
 测试镜像应使用 `--network none`、无设备挂载与独立临时目录。
+
+## P2A：同一车体与地图快照比较
+
+在上述 colcon 命令追加 `-DBUILD_TESTING=ON -DRM_TDT_BUILD_BENCHMARK=ON`，
+会构建 `benchmark_planners`。除基础依赖外，需要 Humble 的
+`nav2_map_server`、`nav2_navfn_planner`、`nav2_smac_planner`；没有新增求解器依赖。
+默认 OFF；测试程序不激活 costmap、发送 action 或连接机器人。
+
+```bash
+ROS_DOMAIN_ID=174 ROS_LOCALHOST_ONLY=1 \
+  /tmp/tdt-build/rm_tdt_planner/benchmark_planners /tmp/tdt-p2.csv 100 \
+  /path/to/frozen/map.yaml
+python3 "$pkg/tools/summarize_benchmark.py" /tmp/tdt-p2.csv \
+  --output /tmp/tdt-p2-summary.json
+```
+
+省略最后一个 YAML 时运行 7 种合成快照；提供时增加现场地图。YAML 必须通过
+map_server 加载，支持其图像/阈值/翻转语义，不支持旋转 origin。输出路径须是新的
+普通文件路径。工具不会改变地图 bundle 的 candidate/approved 状态。
+
+每种场景默认示例为 100 组确定性请求，四种方案为 Navfn Dijkstra、Smac2D（含该
+Humble 版本自带平滑）、T-DT A*、T-DT A*+QP。共享旧车配置中的 0.64×0.54 m
+矩形、0.02 m padding、外接圆和 0.02 m clearance，输入为相同二值膨胀地图。
+`prepare_grid()` 产生不可变 snapshot；`plan_prepared()` 不重复膨胀，且拒绝与
+snapshot 不同的 radius/clearance。运行插件始终调用原 `plan()` 完成自身膨胀，
+没有可关闭 footprint 检查的 ROS 参数。
+
+独立的线段到障碍方格距离检查整个折线扫掠圆。`physical_clearance_m` 是扣除
+外接圆与 clearance 后的距离，上限截为 0.25 m；它不是实车测得间隙。
+`common_geometry_ok` 记录更严格的膨胀栅格 supercover 检查，失败不能直接算作
+物理碰撞。`accepted` 要求返回、扫掠圆无侵入、端点误差不超过一个栅格、建模耗时
+不超过 250 ms。无解场景返回空是预期正确行为。
+
+CSV 分列地图预处理与规划耗时，二者相加只用于比较模型；不是完整插件回调或
+Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行归给单个算法。
+汇总器检查四方案请求配对、堵路/撤障配对、完整场景与试次；仅在双方都接受的请求
+上比较长度、转折量和耗时，避免不同成功子集造成偏差。离线检查失败仍保存报告并
+非零退出。结果与进一步限制见
+[`validation_20260913.md`](../../../docs/tdt_migration/validation_20260913.md)。
+
+按用户 2026-09-13 补充约束：当前设备资源或耗时限制只记录，不据此淘汰方案，
+不开展针对当前设备的性能优化；后续在更高性能设备上验证完整导航负载。
+运行时已有迟到拒收继续有效，不能把统计工具的性能项失败当成算法路线否决。
+
+## 生成候选配置
 
 生成完整候选配置（不覆盖源配置，不自动启动）：
 

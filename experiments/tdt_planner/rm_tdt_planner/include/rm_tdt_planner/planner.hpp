@@ -46,6 +46,26 @@ struct Result
   double elapsed_seconds = 0.0;
 };
 
+// Immutable configuration-space snapshot produced only by prepare_grid().
+// Its cells already include the physical footprint and clearance. Exposed for
+// offline comparisons; deployment plugins cannot bypass preparation by parameter.
+class PreparedGrid
+{
+public:
+  const Grid & grid() const {return grid_;}
+private:
+  PreparedGrid(Grid grid, double radius, double clearance);
+  Grid grid_;
+  double radius_;
+  double clearance_;
+  friend PreparedGrid prepare_grid(const Grid &, const Options &);
+  friend Result plan_prepared(const PreparedGrid &, Point, Point, const Options &);
+};
+PreparedGrid prepare_grid(const Grid & grid, const Options & options);
+Result plan_prepared(const PreparedGrid & grid, Point start, Point goal,
+  const Options & options);
+bool collision_free_prepared(const PreparedGrid & grid, const std::vector<Point> & path);
+
 // No ROS, global state, cached map, hardware IO, or velocity output.
 // Returned samples are a geometric polyline, not a timed trajectory.
 Result plan(const Grid & grid, Point start, Point goal, const Options & options);

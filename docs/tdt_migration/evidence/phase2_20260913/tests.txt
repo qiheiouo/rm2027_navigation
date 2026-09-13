@@ -1,0 +1,132 @@
+Internal ctest changing into directory: /work/build/rm_tdt_planner
+UpdateCTestConfiguration  from :/work/build/rm_tdt_planner/CTestConfiguration.ini
+Parse Config file:/work/build/rm_tdt_planner/CTestConfiguration.ini
+ Add coverage exclude regular expressions.
+UpdateCTestConfiguration  from :/work/build/rm_tdt_planner/CTestConfiguration.ini
+Parse Config file:/work/build/rm_tdt_planner/CTestConfiguration.ini
+Test project /work/build/rm_tdt_planner
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: planner_safety
+
+1: Test command: /work/build/rm_tdt_planner/test_planner
+1: Test timeout computed to be: 60
+1: Running main() from ./googletest/src/gtest_main.cc
+1: [==========] Running 19 tests from 3 test suites.
+1: [----------] Global test environment set-up.
+1: [----------] 16 tests from Planner
+1: [ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+1: [       OK ] Planner.OpenMapActuallyRunsCorridorBackend (3 ms)
+1: [ RUN      ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation
+1: [       OK ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation (8 ms)
+1: [ RUN      ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints
+1: [       OK ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints (2 ms)
+1: [ RUN      ] Planner.CompletelySealedWallFailsEmpty
+1: [31mError: No path found! return empty path[0m
+1: [       OK ] Planner.CompletelySealedWallFailsEmpty (1 ms)
+1: [ RUN      ] Planner.UnknownAndInscribedCellsAreBlocked
+1: [31mError: No path found! return empty path[0m
+1: [31mError: No path found! return empty path[0m
+1: [       OK ] Planner.UnknownAndInscribedCellsAreBlocked (3 ms)
+1: [ RUN      ] Planner.SameCellAndSamePose
+1: [       OK ] Planner.SameCellAndSamePose (1 ms)
+1: [ RUN      ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty
+1: [       OK ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty (1 ms)
+1: [ RUN      ] Planner.NarrowPassageRejectedForCircumscribedFootprint
+1: [31mError: No path found! return empty path[0m
+1: [       OK ] Planner.NarrowPassageRejectedForCircumscribedFootprint (1 ms)
+1: [ RUN      ] Planner.LateOutputIsNotPublished
+1: [       OK ] Planner.LateOutputIsNotPublished (177 ms)
+1: [ RUN      ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty
+1: [       OK ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty (0 ms)
+1: [ RUN      ] Planner.FrontendOnlyIsSelectable
+1: [       OK ] Planner.FrontendOnlyIsSelectable (1 ms)
+1: [ RUN      ] Planner.WaypointBudgetFallsBackToValidatedAstar
+1: [       OK ] Planner.WaypointBudgetFallsBackToValidatedAstar (3 ms)
+1: [ RUN      ] Planner.UnresolvedOptimizerCollisionFallsBack
+1: [       OK ] Planner.UnresolvedOptimizerCollisionFallsBack (5 ms)
+1: [ RUN      ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples
+1: [       OK ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples (0 ms)
+1: [ RUN      ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace
+1: [31mError: No path found! return empty path[0m
+1: [       OK ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace (4 ms)
+1: [ RUN      ] Planner.DeterministicRandomObstacleSafety
+1: [       OK ] Planner.DeterministicRandomObstacleSafety (181 ms)
+1: [----------] 16 tests from Planner (398 ms total)
+1: 
+1: [----------] 1 test from BenchmarkGeometry
+1: [ RUN      ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk
+1: [       OK ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk (0 ms)
+1: [----------] 1 test from BenchmarkGeometry (0 ms total)
+1: 
+1: [----------] 2 tests from UpstreamFix
+1: [ RUN      ] UpstreamFix.BoundsAndDiagonalCorner
+1: [31mError: No path found! return empty path[0m
+1: [       OK ] UpstreamFix.BoundsAndDiagonalCorner (0 ms)
+1: [ RUN      ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost
+1: [       OK ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost (3 ms)
+1: [----------] 2 tests from UpstreamFix (3 ms total)
+1: 
+1: [----------] Global test environment tear-down
+1: [==========] 19 tests from 3 test suites ran. (402 ms total)
+1: [  PASSED  ] 19 tests.
+1/2 Test #1: planner_safety ...................   Passed    0.41 sec
+test 2
+    Start 2: nav2_plugin_contract
+
+2: Test command: /work/build/rm_tdt_planner/test_nav2_plugin
+2: Test timeout computed to be: 60
+2: [==========] Running 3 tests from 1 test suite.
+2: [----------] Global test environment set-up.
+2: [----------] 3 tests from PluginTest
+2: [ RUN      ] PluginTest.LoadLifecycleAndEndpointContract
+2: [INFO] [1789261307.820608104] [tdt_test_costmap.tdt_test_costmap]: 
+2: 	tdt_test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1789261307.821275896] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+2: [INFO] [1789261307.821469421] [tdt_test_costmap.tdt_test_costmap]: Configuring
+2: [INFO] [1789261307.838710195] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+2: [INFO] [1789261307.841237591] [tdt_test_costmap.tdt_test_costmap]: Destroying
+2: [       OK ] PluginTest.LoadLifecycleAndEndpointContract (34 ms)
+2: [ RUN      ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher
+2: [INFO] [1789261307.850092059] [tdt_test_costmap.tdt_test_costmap]: 
+2: 	tdt_test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1789261307.850434099] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+2: [INFO] [1789261307.850603878] [tdt_test_costmap.tdt_test_costmap]: Configuring
+2: [31mError: No path found! return empty path[0m
+2: [INFO] [1789261307.856393321] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+2: [INFO] [1789261307.859845812] [tdt_test_costmap.tdt_test_costmap]: Destroying
+2: [       OK ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher (22 ms)
+2: [ RUN      ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark
+2: [INFO] [1789261307.874023564] [tdt_test_costmap.tdt_test_costmap]: 
+2: 	tdt_test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1789261307.874523551] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+2: [INFO] [1789261307.874748479] [tdt_test_costmap.tdt_test_costmap]: Configuring
+2: [INFO] [1789261307.877895877] [tdt_test]: Configuring plugin NavfnBaseline of type NavfnPlanner
+2: [INFO] [1789261307.877983483] [tdt_test]: Activating plugin NavfnBaseline of type NavfnPlanner
+2: [INFO] [1789261308.014221303] [tdt_test]: Deactivating plugin NavfnBaseline of type NavfnPlanner
+2: [INFO] [1789261308.014304181] [tdt_test]: Cleaning up plugin NavfnBaseline of type NavfnPlanner
+2: [INFO] [1789261308.014325318] [tdt_test]: Destroying plugin NavfnBaseline of type NavfnPlanner
+2: [INFO] [1789261308.014352708] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+2: [INFO] [1789261308.016175822] [tdt_test_costmap.tdt_test_costmap]: Destroying
+2: [       OK ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark (152 ms)
+2: [----------] 3 tests from PluginTest (209 ms total)
+2: 
+2: [----------] Global test environment tear-down
+2: [==========] 3 tests from 1 test suite ran. (209 ms total)
+2: [  PASSED  ] 3 tests.
+2/2 Test #2: nav2_plugin_contract .............   Passed    0.33 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.74 sec

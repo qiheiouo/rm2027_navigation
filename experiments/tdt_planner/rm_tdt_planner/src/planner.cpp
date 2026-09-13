@@ -8,6 +8,7 @@
 #include <cmath>
 #include <limits>
 #include <stdexcept>
+#include <utility>
 
 namespace rm_tdt_planner
 {
@@ -173,7 +174,34 @@ bool collision_free(const Grid & g, const std::vector<Point> & path, const Optio
   } catch (const std::exception &) {return false;}
 }
 
-Result plan(const Grid & g, Point start, Point goal, const Options & o)
+PreparedGrid::PreparedGrid(Grid grid, double radius, double clearance)
+: grid_(std::move(grid)), radius_(radius), clearance_(clearance) {}
+
+PreparedGrid prepare_grid(const Grid & g, const Options & o)
+{
+  validate(g, o);
+  const auto collision = inflate(g, o);
+  Grid prepared = g;
+  for (size_t i = 0; i < prepared.costs.size(); ++i) {
+    prepared.costs[i] = collision.free[i] ? 0 : 254;
+  }
+  return PreparedGrid(std::move(prepared), o.radius, o.clearance);
+}
+
+static CollisionGrid prepared_collision(const Grid & g)
+{
+  CollisionGrid c{g.width, g.height, g.resolution, g.costs};
+  for (auto & cost : c.free) {cost = cost >= 253 ? 0 : 255;}
+  return c;
+}
+
+bool collision_free_prepared(const PreparedGrid & prepared, const std::vector<Point> & path)
+{
+  return prepared_collision(prepared.grid()).path(local_path(prepared.grid(), path));
+}
+
+static Result plan_impl(const Grid & g, Point start, Point goal, const Options & o,
+  bool already_prepared)
 {
   const auto begin = Clock::now();
   Result result;
@@ -190,7 +218,7 @@ Result plan(const Grid & g, Point start, Point goal, const Options & o)
     validate(g, o);
     start.x -= g.origin_x; start.y -= g.origin_y;
     goal.x -= g.origin_x; goal.y -= g.origin_y;
-    const auto collision = inflate(g, o);
+    const auto collision = already_prepared ? prepared_collision(g) : inflate(g, o);
     if (!collision.point(start) || !collision.point(goal)) {
       result.reason = "start or goal outside conservative free space";
       return finish();
@@ -276,5 +304,20 @@ Result plan(const Grid & g, Point start, Point goal, const Options & o)
     result.reason = error.what();
   }
   return finish();
+}
+
+Result plan(const Grid & g, Point start, Point goal, const Options & o)
+{
+  return plan_impl(g, start, goal, o, false);
+}
+
+Result plan_prepared(const PreparedGrid & prepared, Point start, Point goal, const Options & o)
+{
+  if (o.radius != prepared.radius_ || o.clearance != prepared.clearance_) {
+    Result result;
+    result.reason = "prepared footprint or clearance differs from planning options";
+    return result;
+  }
+  return plan_impl(prepared.grid(), start, goal, o, true);
 }
 }  // namespace rm_tdt_planner

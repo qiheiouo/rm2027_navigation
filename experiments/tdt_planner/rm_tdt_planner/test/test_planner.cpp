@@ -1,6 +1,7 @@
 #include "rm_tdt_planner/planner.hpp"
 #include "YAstar/yastar.hpp"
 #include "MinimumSnapOsqp/minimumSnap.hpp"
+#include "benchmark_geometry.hpp"
 #include <gtest/gtest.h>
 #include <cmath>
 #include <limits>
@@ -42,6 +43,43 @@ TEST(Planner, OpenMapActuallyRunsCorridorBackend)
   auto r = plan(g, s, t, o);
   verify(g, s, t, o, r);
   EXPECT_TRUE(r.optimized) << r.reason;
+}
+TEST(Planner, PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation)
+{
+  auto g = empty_grid(); auto o = test_options();
+  for (int y = 0; y < 55; ++y) {g.costs[y*g.width+50] = 254;}
+  const auto s = at(g, 1.13, 1.27), t = at(g, 8.31, 2.24);
+  auto prepared = prepare_grid(g, o);
+  const auto raw = plan(g, s, t, o), cached = plan_prepared(prepared, s, t, o);
+  ASSERT_TRUE(raw.success); ASSERT_TRUE(cached.success);
+  EXPECT_EQ(raw.optimized, cached.optimized);
+  ASSERT_EQ(raw.path.size(), cached.path.size());
+  for (size_t i = 0; i < raw.path.size(); ++i) {
+    EXPECT_DOUBLE_EQ(raw.path[i].x, cached.path[i].x);
+    EXPECT_DOUBLE_EQ(raw.path[i].y, cached.path[i].y);
+  }
+  EXPECT_TRUE(collision_free_prepared(prepared, cached.path));
+  g.costs.assign(g.costs.size(), 254);
+  EXPECT_TRUE(plan_prepared(prepared, s, t, o).success);  // immutable old snapshot
+  EXPECT_FALSE(plan(g, s, t, o).success);
+  o.radius += 0.1;
+  const auto mismatch = plan_prepared(prepared, s, t, o);
+  EXPECT_FALSE(mismatch.success);
+  EXPECT_TRUE(mismatch.path.empty());
+  EXPECT_NE(mismatch.reason.find("footprint"), std::string::npos);
+}
+TEST(BenchmarkGeometry, ExactSegmentDistanceAndSweptDisk)
+{
+  using benchmark_geometry::segment_box;
+  EXPECT_DOUBLE_EQ(segment_box({0,0},{4,4},1,1,2,2),0.0);
+  EXPECT_DOUBLE_EQ(segment_box({0,0},{0,4},1,1,2,2),1.0);
+  EXPECT_NEAR(segment_box({0,0},{0,0},1,1,2,2),std::sqrt(2.0),1e-12);
+  EXPECT_DOUBLE_EQ(segment_box({0,2},{4,2},1,1,2,2),0.0);
+  Grid g{10,10,1.0,0,0,std::vector<uint8_t>(100,0)};
+  g.costs[5*10+5]=254;
+  EXPECT_NEAR(benchmark_geometry::clearance(g,{{3,3},{7,3}},1.5),0.25,1e-12);
+  EXPECT_NEAR(benchmark_geometry::clearance(g,{{3,4},{7,4}},1.5),-0.5,1e-12);
+  EXPECT_NEAR(benchmark_geometry::clearance(g,{{3,4},{7,4}},1.0),0.0,1e-12);
 }
 TEST(Planner, DetoursAroundWallAndPreservesOriginAndEndpoints)
 {

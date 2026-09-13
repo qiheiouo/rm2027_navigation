@@ -30,6 +30,9 @@ candidate, not an accepted competition capability. It does not change any
 default listed above. Offline algorithm/plugin results and the unimplemented
 timed-controller/localization follow-up gates are recorded separately in
 `docs/tdt_migration/assessment_and_plan.md`.
+P2A now includes 3,200 shared-footprint snapshot comparisons and Smac2D as a
+baseline (`docs/tdt_migration/validation_20260913.md`). This establishes neither
+moving-obstacle safety nor MPPI tracking or field acceptance.
 
 1. Real lower-controller competition-state decoding is implemented from the
    confirmed currently flashed firmware, but no live serial acceptance was run
