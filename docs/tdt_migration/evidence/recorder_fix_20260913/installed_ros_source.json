@@ -1,0 +1,43 @@
+{
+  "kind": "read_only_installed_source_inspection_no_runtime_test",
+  "files": {
+    "/opt/ros/humble/local/lib/python3.10/dist-packages/rcl_interfaces/msg/_log.py": {
+      "sha256": "3915718021a0d7b00e384b93dc4336312f45d0fd49810a131ff0c9f346fa17a3",
+      "excerpts": [
+        {
+          "start_line": 21,
+          "end_line": 29,
+          "text": "\n    __constants = {\n        'DEBUG': b'\\n',\n        'INFO': b'\\x14',\n        'WARN': b'\\x1e',\n        'ERROR': b'(',\n        'FATAL': b'2',\n    }\n"
+        },
+        {
+          "start_line": 210,
+          "end_line": 227,
+          "text": "        self._stamp = value\n\n    @builtins.property\n    def level(self):\n        \"\"\"Message field 'level'.\"\"\"\n        return self._level\n\n    @level.setter\n    def level(self, value):\n        if __debug__:\n            assert \\\n                isinstance(value, int), \\\n                \"The 'level' field must be of type 'int'\"\n            assert value >= 0 and value < 256, \\\n                \"The 'level' field must be an unsigned integer in [0, 255]\"\n        self._level = value\n\n    @builtins.property"
+        }
+      ]
+    },
+    "/opt/ros/humble/local/lib/python3.10/dist-packages/nav_msgs/msg/_occupancy_grid.py": {
+      "sha256": "6af42bbc3abc78ae5c10e557ac39edfbdfffd21c78bfeda119b9d05a8765a7ea",
+      "excerpts": [
+        {
+          "start_line": 171,
+          "end_line": 192,
+          "text": "    @data.setter\n    def data(self, value):\n        if isinstance(value, array.array):\n            assert value.typecode == 'b', \\\n                \"The 'data' array.array() must have the type code of 'b'\"\n            self._data = value\n            return\n        if __debug__:\n            from collections.abc import Sequence\n            from collections.abc import Set\n            from collections import UserList\n            from collections import UserString\n            assert \\\n                ((isinstance(value, Sequence) or\n                  isinstance(value, Set) or\n                  isinstance(value, UserList)) and\n                 not isinstance(value, str) and\n                 not isinstance(value, UserString) and\n                 all(isinstance(v, int) for v in value) and\n                 all(val >= -128 and val < 128 for val in value)), \\\n                \"The 'data' field must be a set or sequence and each value of type 'int' and each integer in [-128, 127]\"\n        self._data = array.array('b', value)"
+        }
+      ]
+    },
+    "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/impl/logging_severity.py": {
+      "sha256": "cb8b7a70eb4434f0ee2a72709cee3fbb01e5e9fa4868fbf6c5743ef481ee0359",
+      "excerpts": [
+        {
+          "start_line": 17,
+          "end_line": 33,
+          "text": "\nfrom rclpy.impl.implementation_singleton import rclpy_implementation as _rclpy\n\n\nclass LoggingSeverity(IntEnum):\n    \"\"\"\n    Enum for logging severity levels.\n\n    This enum must match the one defined in rcutils/logging.h\n    \"\"\"\n\n    UNSET = _rclpy.RCUTILS_LOG_SEVERITY.RCUTILS_LOG_SEVERITY_UNSET\n    DEBUG = _rclpy.RCUTILS_LOG_SEVERITY.RCUTILS_LOG_SEVERITY_DEBUG\n    INFO = _rclpy.RCUTILS_LOG_SEVERITY.RCUTILS_LOG_SEVERITY_INFO\n    WARN = _rclpy.RCUTILS_LOG_SEVERITY.RCUTILS_LOG_SEVERITY_WARN\n    ERROR = _rclpy.RCUTILS_LOG_SEVERITY.RCUTILS_LOG_SEVERITY_ERROR\n    FATAL = _rclpy.RCUTILS_LOG_SEVERITY.RCUTILS_LOG_SEVERITY_FATAL"
+        }
+      ]
+    }
+  },
+  "date": "2026-09-13",
+  "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+  "source_snapshot_note": "Read from the installed image; no ROS nodes, message callbacks, unit tests or simulations executed."
+}

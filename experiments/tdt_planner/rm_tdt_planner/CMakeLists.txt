@@ -66,6 +66,10 @@ if(RM_TDT_BUILD_ROS2)
     vendor/tdt_nav/LOCAL_CHANGES.patch
     DESTINATION share/${PROJECT_NAME})
   if(BUILD_TESTING)
+    add_test(NAME simulation_ros_messages
+      COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_simulation_ros_messages.py)
+    set_tests_properties(simulation_ros_messages PROPERTIES TIMEOUT 30
+      ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
     find_package(nav2_navfn_planner REQUIRED)
     add_executable(test_nav2_plugin test/test_nav2_plugin.cpp)
     target_link_libraries(test_nav2_plugin rm_tdt_core GTest::gtest)

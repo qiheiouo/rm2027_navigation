@@ -106,10 +106,12 @@ P2A 统一了碰撞输入，但未统一内部势场/平滑目标，也没有保
 这一比较当成实际 dual STVL profile 的排名。堵路/撤障是成对静态快照，不是连续
 动态障碍回放；现有检查过的高速录包没有可用 costmap/plan 主题。
 
-**P2B 工具已实现，待 Terra 验证**：当前交付静态仿真入口、四配置生成器、轨迹/命令/
-costmap 记录器、原始数据复算汇总及测试用例。交接见
-[`p2b_terra_handoff.md`](p2b_terra_handoff.md)，进度见
-[`p2b_work_status.md`](p2b_work_status.md)。本交接轮不运行完整仿真，不能标 P2B 已通过。
+**P2B 静态验证中断，记录器修复待重验**：b1c40e6 构建与 35 项测试通过，首例
+因共享记录器退出，未取得静态导航结论。设计者已修正 rosout 等级类型比较、补
+异常调用栈与 4 项消息边界测试；交由 Terra 用 static_v2 重验，保留 static_v1。
+当前交接见 [`p2b_recorder_fix_20260913.md`](p2b_recorder_fix_20260913.md)，
+完整规范见 [`p2b_terra_handoff.md`](p2b_terra_handoff.md)，进度见
+[`p2b_work_status.md`](p2b_work_status.md)。修复尚未经运行验证，不能标 P2B 已通过。
 
 按用户分工，设计者负责方案/代码和复核，Terra 按详细步骤验证并返回证据；后续全部
 源码、依赖、构建和日志留在 `/home`。当前机器的性能限制仍只记录。

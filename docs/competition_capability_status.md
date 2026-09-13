@@ -33,8 +33,10 @@ timed-controller/localization follow-up gates are recorded separately in
 P2A now includes 3,200 shared-footprint snapshot comparisons and Smac2D as a
 baseline (`docs/tdt_migration/validation_20260913.md`). This establishes neither
 moving-obstacle safety nor MPPI tracking or field acceptance. P2B static
-simulation tooling and a Terra handoff now exist; their new build/tests/runtime
-validation is pending (`docs/tdt_migration/p2b_terra_handoff.md`).
+simulation at b1c40e6 passed build and 35 tests, then stopped on a shared observer
+error before navigation. The log-severity fix and four ROS message regressions await
+Terra validation in static_v2; static_v1 remains preserved. See
+`docs/tdt_migration/p2b_recorder_fix_20260913.md`.
 
 1. Real lower-controller competition-state decoding is implemented from the
    confirmed currently flashed firmware, but no live serial acceptance was run

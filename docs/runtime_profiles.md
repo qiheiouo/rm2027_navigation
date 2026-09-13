@@ -23,8 +23,9 @@ The P2B `simulation_comparison.launch.py` is a separate experiment-only entry
 point invoked by `p2b_validation.sh`. It reuses the existing Phase 1.5 world,
 static course, MPPI and chassis stub. The observer is the sole test action
 client inside the isolated simulation domain; it never publishes velocity or
-TF and never co-launches competition mission or real hardware. New tooling
-awaits Terra validation; see `tdt_migration/p2b_terra_handoff.md`.
+TF and never co-launches competition mission or real hardware. The static_v1 run
+stopped on a shared recorder error before navigation; its log-severity fix awaits
+Terra validation in static_v2. See `tdt_migration/p2b_recorder_fix_20260913.md`.
 
 ## Principle
 

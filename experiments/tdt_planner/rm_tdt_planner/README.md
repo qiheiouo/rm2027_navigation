@@ -16,7 +16,9 @@ TF、目标、串口或速度发布器。P2B 的独立仿真记录器作为该�
 README 假定子模块已提供。不要在构建时下载依赖或运行上游 setup 脚本。
 
 当前开发与验证都使用 `/home` 下的持久工作区。P2B 按用户约定由 Terra 执行
-验证，设计者先交付代码与文档；**新工具尚待编译与运行验收**。
+验证，设计者先交付代码与文档。b1c40e6 构建及 35 项测试通过，但 static_v1 因
+记录器错误中断；**当前修复与新增回归待重验**，先读
+[记录器修复交接](../../../docs/tdt_migration/p2b_recorder_fix_20260913.md)。
 
 ```bash
 candidate_ws=/home/wpie/worktrees/rm2027_tdt_phase2
@@ -87,7 +89,9 @@ Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行�
 `p2b_validation.sh` 提供 `deps/build/check/profiles/run/summarize`，每次 `run`
 创建新隔离容器，自动结束自身 launch 进程组。原始轨迹、路径、命令、costmap、事件
 和 action 结果写在 `build/tdt_p2b/runs/`；目录已存在时拒绝覆盖。日志留在 `/home`。
-新增 13 个 Python 工具测试，交由 Terra 与既有 22 个 core/plugin 测试一同执行。
+修复版有 13 个纯 Python 工具测试及 4 个真实 ROS 消息记录器测试，交由 Terra
+与 22 个 core/plugin 测试一同执行，共 39 项预期。原 35 项通过仅属于 b1c40e6。
+默认新系列为 `static_v2`；原始 `static_v1` 失败证据保留。
 
 几何记录器验证采样矩形及线性位姿插值下的间隙，无法独立证明采样间真实接触状态。
 汇总回读原始事件和数据，不把 SUCCEEDED、CPU 告警或缺少日志直接当作方案验收。

@@ -6,10 +6,12 @@ import math
 import os
 from pathlib import Path
 import time
+import traceback
 
 import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
+from rclpy.logging import LoggingSeverity
 from rclpy.parameter import Parameter
 from rclpy.qos import qos_profile_sensor_data, QoSProfile, DurabilityPolicy
 from geometry_msgs.msg import PoseStamped, Twist
@@ -119,7 +121,8 @@ class Observer(Node):
         self.write('commands', row)
 
     def log_cb(self, msg):
-        if msg.level >= Log.WARN:
+        # Humble Log.level is uint8/int, but Log.WARN is a byte constant.
+        if msg.level >= LoggingSeverity.WARN:
             row = {'t': self.now_sim, 'node': msg.name, 'level': msg.level, 'message': msg.msg}
             self.events.append(row)
             self.write('events', row)
@@ -224,7 +227,10 @@ def main():
     try:
         report = node.run(args.goal_x, args.goal_y)
     except Exception as exc:
-        report = {'error': str(exc), 'evidence_valid': False, 'simulation_clock': node.now_sim}
+        traceback.print_exc()  # stderr is retained in observer.log by the trial runner.
+        report = {'error': str(exc), 'error_type': type(exc).__name__,
+                  'traceback': traceback.format_exc(), 'evidence_valid': False,
+                  'static_geometry_and_goal_pass': False, 'simulation_clock': node.now_sim}
     finally:
         (args.output / 'summary.json').write_text(json.dumps(report, indent=2, allow_nan=False) + '\n')
         for stream in node.streams.values():
