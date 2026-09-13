@@ -121,6 +121,30 @@ TEST_F(PluginTest, NavfnFrontendAndBackendSameSnapshotBenchmark)
   frontend->deactivate(); frontend->cleanup();
   navfn.deactivate(); navfn.cleanup();
 }
+TEST_F(PluginTest, MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved)
+{
+  auto * master = map->getCostmap();
+  for (unsigned int y = 0; y < 80; ++y) {
+    for (unsigned int x = 48; x <= 52; ++x) {master->setCost(x, y, x == 50 ? 254 : 253);}
+  }
+  const std::vector<unsigned char> before(master->getCharMap(), master->getCharMap() + 8000);
+  const auto start = pose(8.05, 4.05), goal = pose(5.75, 4.05);
+  const auto path = planner->createPlan(start, goal);
+  ASSERT_FALSE(path.poses.empty());
+  EXPECT_DOUBLE_EQ(path.poses.back().pose.position.x, goal.pose.position.x);
+  EXPECT_DOUBLE_EQ(path.poses.back().pose.position.y, goal.pose.position.y);
+  EXPECT_TRUE(std::equal(before.begin(), before.end(), master->getCharMap()));
+  master->setCost(57, 40, 254);
+  try {
+    planner->createPlan(start, goal);
+    FAIL() << "new lethal goal must be rejected";
+  } catch (const nav2_core::PlannerException & error) {
+    const std::string message = error.what();
+    EXPECT_NE(message.find("goal=blocked@cost=254"), std::string::npos);
+    EXPECT_NE(message.find("input=nav2_master"), std::string::npos);
+    EXPECT_NE(message.find("resolution="), std::string::npos);
+  }
+}
 }  // namespace
 int main(int argc, char ** argv)
 {

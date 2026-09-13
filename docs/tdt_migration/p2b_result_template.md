@@ -9,7 +9,7 @@
 - git status；是否存在源码偏离：
 - 镜像 ID、CPU、可用内存：
 - P2B_SERIES / 持久运行目录：
-- 旧 static_v1 证据及原回传报告哈希核对：
+- 旧 static_v1/static_v2 证据及原回传报告哈希核对：
 - profile、场景及 aggregate 路径/SHA：
 
 ## 实际执行记录
@@ -18,7 +18,8 @@
 | --- | --- | --- | --- |
 | 依赖（如执行） | | | |
 | 构建 | | | |
-| CTest：19 + 3 + 13 + 4 预期 | | | |
+| CTest：24 + 4 + 13 + 4 预期 | | | |
+| ASan/UBSan/LSan：24 核心预期 | | | |
 | 四配置核对 | | | |
 | 汇总 | | | |
 
@@ -36,7 +37,8 @@
 - canonical TF/恒等 map-odom 前提核对：
 - 间隙、到点/yaw、停止命令、恢复结果：
 - 轨迹图与 global-plan revision；cross-track 的解释：
-- snapshot 并发更新拒收：已观察到的次数/对应试次，或明确“未覆盖”：
+- snapshot 并发更新拒收：仅计 costmap or footprint changed，或明确“未覆盖”：
+- 端点拒收：起点/终点、原格值、输入模式、radius、地图几何；不要混作更新拒收：
 - 完整预检查 action 延迟（含往返），非纯 core 时间：
 
 ## 问题与证据

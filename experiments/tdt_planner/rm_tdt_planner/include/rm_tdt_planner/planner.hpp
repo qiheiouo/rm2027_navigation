@@ -9,6 +9,10 @@ namespace rm_tdt_planner
 {
 struct Point {double x = 0.0; double y = 0.0;};
 
+// Unannotated/offline grids retain the historical conservative seed policy.
+// Nav2 master costmaps already encode a footprint-dependent centre exclusion at 253.
+enum class CostInterpretation {ObstacleSeeds, Nav2Master};
+
 // Nav2 cost bytes, row-major, y increasing upwards. Unknown (255) is blocked.
 struct Grid
 {
@@ -18,6 +22,7 @@ struct Grid
   double origin_x = 0.0;
   double origin_y = 0.0;
   std::vector<uint8_t> costs;
+  CostInterpretation cost_interpretation = CostInterpretation::ObstacleSeeds;
 };
 
 struct Options

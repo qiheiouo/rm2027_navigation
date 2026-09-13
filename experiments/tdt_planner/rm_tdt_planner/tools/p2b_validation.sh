@@ -4,7 +4,7 @@ set -euo pipefail
 repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)
 pkg_rel=experiments/tdt_planner/rm_tdt_planner
 work="$repo/build/tdt_p2b"
-series=${P2B_SERIES:-static_v2}
+series=${P2B_SERIES:-static_v3}
 [[ "$repo" = /home/* && "$series" =~ ^[A-Za-z0-9_-]+$ ]] || exit 2
 mkdir -p "$work" "$work/tmp"
 docker_args=(run --rm --init --network none --user "$(id -u):$(id -g)" --entrypoint bash
@@ -39,6 +39,21 @@ source /work/install/setup.bash
 export LD_LIBRARY_PATH="/work/deps/lib:${LD_LIBRARY_PATH:-}"
 export ROS_LOG_DIR=/work/check-ros
 ctest --test-dir /work/build/rm_tdt_planner -V
+'
+    ;;
+  sanitizers)
+    container -c '
+set -e
+export CMAKE_PREFIX_PATH="/work/deps:${CMAKE_PREFIX_PATH:-}"
+export LD_LIBRARY_PATH="/work/deps/lib:${LD_LIBRARY_PATH:-}"
+export ASAN_OPTIONS=halt_on_error=1:detect_leaks=1
+export UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1
+cmake -S /ws/experiments/tdt_planner/rm_tdt_planner -B /work/costmap-semantics-sanitizer \
+  -DBUILD_TESTING=ON -DRM_TDT_BUILD_ROS2=OFF -DRM_TDT_BUILD_BENCHMARK=OFF \
+  -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer" \
+  "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined"
+cmake --build /work/costmap-semantics-sanitizer --target test_planner -j2
+ctest --test-dir /work/costmap-semantics-sanitizer -R "^planner_safety$" -V
 '
     ;;
   profiles)
@@ -90,5 +105,5 @@ METADATA
     container -c 'python3 /ws/experiments/tdt_planner/rm_tdt_planner/tools/summarize_simulation.py "$1" --output "$2"' -- \
       "/work/runs/$series" "/work/runs/$series/$filename"
     ;;
-  *) echo 'usage: bash p2b_validation.sh {deps|build|check|profiles|run PLANNER TRIAL|summarize [FILE.json]}' >&2; exit 2;;
+  *) echo 'usage: bash p2b_validation.sh {deps|build|check|sanitizers|profiles|run PLANNER TRIAL|summarize [FILE.json]}' >&2; exit 2;;
 esac

@@ -23,9 +23,11 @@ The P2B `simulation_comparison.launch.py` is a separate experiment-only entry
 point invoked by `p2b_validation.sh`. It reuses the existing Phase 1.5 world,
 static course, MPPI and chassis stub. The observer is the sole test action
 client inside the isolated simulation domain; it never publishes velocity or
-TF and never co-launches competition mission or real hardware. The static_v1 run
-stopped on a shared recorder error before navigation; its log-severity fix awaits
-Terra validation in static_v2. See `tdt_migration/p2b_recorder_fix_20260913.md`.
+TF and never co-launches competition mission or real hardware. The e85b076 validation
+passed 39 tests, and both baseline groups achieved 5/5 limited static passes.
+Both T-DT first trials failed. A local fix for double inflation of Nav2 inscribed costs
+awaits static_v3 validation; preserve static_v1/v2. See
+`docs/tdt_migration/p2b_costmap_semantics_handoff.md`.
 
 ## Principle
 

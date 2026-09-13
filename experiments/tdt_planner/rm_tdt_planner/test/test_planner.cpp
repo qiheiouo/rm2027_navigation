@@ -283,3 +283,99 @@ TEST(Planner, DeterministicRandomObstacleSafety)
   }
   EXPECT_GE(successes, 10);
 }
+
+namespace
+{
+Grid nav2_wall_grid()
+{
+  auto g = empty_grid();
+  g.cost_interpretation = CostInterpretation::Nav2Master;
+  for (int y = 0; y < g.height; ++y) {
+    for (int x = 48; x <= 52; ++x) {g.costs[y * g.width + x] = x == 50 ? 254 : 253;}
+  }
+  return g;
+}
+}
+
+TEST(Nav2CostSemantics, InscribedBandDoesNotSeedASecondFootprintInflation)
+{
+  const auto g = nav2_wall_grid();
+  auto o = test_options();
+  const auto start = at(g, 8.05, 4.05), goal = at(g, 5.45, 4.05);
+  auto legacy = g; legacy.cost_interpretation = CostInterpretation::ObstacleSeeds;
+  EXPECT_FALSE(plan(legacy, start, goal, o).success);
+  auto physical = g;
+  for (auto & cost : physical.costs) {if (cost == 253) {cost = 0;}}
+  for (bool optimize : {false, true}) {
+    o.optimize = optimize;
+    const auto result = plan(g, start, goal, o);
+    verify(g, start, goal, o, result);
+    // Independent continuous segment-to-square oracle checks the whole swept circle.
+    EXPECT_GT(benchmark_geometry::clearance(physical, result.path, o.radius + o.clearance), 0.0);
+  }
+  EXPECT_EQ(g.costs, legacy.costs);  // interpretation never clears the caller's grid
+}
+
+TEST(Nav2CostSemantics, InscribedCellsRemainForbiddenEvenWithoutLethalSeeds)
+{
+  auto g = empty_grid(); auto o = test_options(); o.optimize = false;
+  g.cost_interpretation = CostInterpretation::Nav2Master;
+  for (int y = 0; y < g.height; ++y) {g.costs[y * g.width + 50] = 253;}
+  EXPECT_FALSE(collision_free(g, {at(g, 5.05, 4.05)}, o));
+  EXPECT_FALSE(collision_free(g, {at(g, 4.05, 4.05), at(g, 6.05, 4.05)}, o));
+  EXPECT_FALSE(plan(g, at(g, 4.05, 4.05), at(g, 6.05, 4.05), o).success);
+  // 253 is a centre exclusion, not an inferred physical obstacle to dilate again.
+  EXPECT_TRUE(collision_free(g, {at(g, 5.25, 4.05)}, o));
+}
+
+TEST(Nav2CostSemantics, LethalUnknownAndBoundaryStillReserveTheFullRadius)
+{
+  auto o = test_options();
+  for (uint8_t cost : {254, 255}) {
+    auto g = empty_grid(); g.cost_interpretation = CostInterpretation::Nav2Master;
+    g.costs[40 * g.width + 50] = cost;
+    EXPECT_FALSE(collision_free(g, {at(g, 5.25, 4.05)}, o));
+    EXPECT_FALSE(collision_free(g, {at(g, 4.05, 4.05), at(g, 6.05, 4.05)}, o));
+    EXPECT_TRUE(collision_free(g, {at(g, 5.55, 4.05)}, o));
+    EXPECT_FALSE(collision_free(g, {at(g, .25, 4.05)}, o));
+    EXPECT_FALSE(collision_free(g, {at(g, -.01, 4.05)}, o));
+  }
+}
+
+TEST(Nav2CostSemantics, PreparedSnapshotRetainsInterpretationAndIsImmutable)
+{
+  auto g = nav2_wall_grid(); auto o = test_options(); o.optimize = false;
+  const auto start = at(g, 8.05, 4.05), goal = at(g, 5.45, 4.05);
+  const auto prepared = prepare_grid(g, o);
+  const auto raw = plan(g, start, goal, o), cached = plan_prepared(prepared, start, goal, o);
+  ASSERT_TRUE(raw.success); ASSERT_TRUE(cached.success);
+  ASSERT_EQ(raw.path.size(), cached.path.size());
+  for (size_t i = 0; i < raw.path.size(); ++i) {
+    EXPECT_DOUBLE_EQ(raw.path[i].x, cached.path[i].x);
+    EXPECT_DOUBLE_EQ(raw.path[i].y, cached.path[i].y);
+  }
+  EXPECT_TRUE(collision_free_prepared(prepared, cached.path));
+  g.cost_interpretation = CostInterpretation::ObstacleSeeds;
+  g.costs.assign(g.costs.size(), 254);
+  EXPECT_TRUE(plan_prepared(prepared, start, goal, o).success);
+  EXPECT_FALSE(plan(g, start, goal, o).success);
+  o.radius += .1;
+  EXPECT_FALSE(plan_prepared(prepared, start, goal, o).success);
+}
+
+TEST(Nav2CostSemantics, EndpointReasonsDistinguishOutsideBlockedAndFree)
+{
+  auto g = nav2_wall_grid(); auto o = test_options(); o.optimize = false;
+  const auto free = at(g, 8.05, 4.05), blocked = at(g, 5.05, 4.05);
+  auto result = plan(g, free, blocked, o);
+  EXPECT_FALSE(result.success); EXPECT_TRUE(result.path.empty());
+  EXPECT_NE(result.reason.find("start=free@cost=0, goal=blocked@cost=254"), std::string::npos);
+  result = plan(g, blocked, free, o);
+  EXPECT_NE(result.reason.find("start=blocked@cost=254, goal=free@cost=0"), std::string::npos);
+  result = plan(g, free, at(g, -1, 4.05), o);
+  EXPECT_NE(result.reason.find("goal=outside_map"), std::string::npos);
+  g.cost_interpretation = static_cast<CostInterpretation>(42);
+  result = plan(g, free, free, o);
+  EXPECT_FALSE(result.success); EXPECT_TRUE(result.path.empty());
+  EXPECT_EQ(result.reason, "unsupported cost interpretation");
+}

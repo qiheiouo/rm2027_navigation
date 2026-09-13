@@ -28,6 +28,11 @@ void validate(const Grid & g, const Options & o)
   {
     throw std::invalid_argument("invalid or oversized axis-aligned costmap");
   }
+  if (g.cost_interpretation != CostInterpretation::ObstacleSeeds &&
+    g.cost_interpretation != CostInterpretation::Nav2Master)
+  {
+    throw std::invalid_argument("unsupported cost interpretation");
+  }
   for (double value : {o.radius, o.clearance, o.potential_weight, o.simplify_tolerance,
       o.output_spacing, o.time_budget, o.nominal_speed, o.nominal_acceleration,
       o.corridor_range})
@@ -119,10 +124,14 @@ struct CollisionGrid
 CollisionGrid inflate(const Grid & g, const Options & o)
 {
   CollisionGrid c{g.width, g.height, g.resolution, g.costs};
+  // A Nav2 253 cell is already a centre exclusion produced by footprint inflation.
+  // Seed the physical swept-radius inflation from lethal/unknown cells, not that band.
+  const uint8_t seed_threshold =
+    g.cost_interpretation == CostInterpretation::Nav2Master ? 254 : 253;
   for (int y = 0; y < g.height; ++y) {
     for (int x = 0; x < g.width; ++x) {
       const int i = y * g.width + x;
-      c.free[i] = (g.costs[i] >= 253 || x == 0 || y == 0 ||
+      c.free[i] = (g.costs[i] >= seed_threshold || x == 0 || y == 0 ||
         x == g.width - 1 || y == g.height - 1) ? 0 : 255;
     }
   }
@@ -133,7 +142,8 @@ CollisionGrid inflate(const Grid & g, const Options & o)
   // cover any robot centre in the free cell and any point in the obstacle cell.
   const double blocked_distance = o.radius + o.clearance + std::sqrt(2.0) * g.resolution;
   for (size_t i = 0; i < c.free.size(); ++i) {
-    c.free[i] = sdf.data()[i] <= blocked_distance + 1e-6 ? 0 : 255;
+    // Keep every inscribed cell forbidden to the path centre, including isolated 253s.
+    c.free[i] = g.costs[i] >= 253 || sdf.data()[i] <= blocked_distance + 1e-6 ? 0 : 255;
   }
   return c;
 }
@@ -220,7 +230,15 @@ static Result plan_impl(const Grid & g, Point start, Point goal, const Options &
     goal.x -= g.origin_x; goal.y -= g.origin_y;
     const auto collision = already_prepared ? prepared_collision(g) : inflate(g, o);
     if (!collision.point(start) || !collision.point(goal)) {
-      result.reason = "start or goal outside conservative free space";
+      auto endpoint = [&](Point p) {
+          if (!collision.inside(p)) {return std::string("outside_map");}
+          const int x = static_cast<int>(std::floor(p.x / g.resolution));
+          const int y = static_cast<int>(std::floor(p.y / g.resolution));
+          return std::string(collision.point(p) ? "free" : "blocked") +
+                 "@cost=" + std::to_string(g.costs[y * g.width + x]);
+        };
+      result.reason = "start or goal outside conservative free space: start=" + endpoint(start) +
+        ", goal=" + endpoint(goal);
       return finish();
     }
     if (distance(start, goal) < 1e-8) {

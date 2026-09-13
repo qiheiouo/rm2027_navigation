@@ -70,3 +70,10 @@ diff，并把 OSQP/NOTICE、OsqpEigen、QDLDL、AMD 许可证复制到依赖安�
   README 的 1000 次统计、不同地图/硬件与本地适配后的时延也不能混为同一指标。
 
 迁移判断与后续阶段：[`../tdt_migration/assessment_and_plan.md`](../tdt_migration/assessment_and_plan.md)。
+
+## 2026-09-13：Nav2 master 代价解释修复
+
+static_v2 暴露的 253 内切区重复膨胀在本地 `Grid`/core/Nav2 适配层修正，新增
+显式 `CostInterpretation`；未修改 vendor 六文件或依赖。实体/未知区保留完整车体
+安全余量，253 中心禁区仍有效，默认离线语义不变。依据与 static_v3 待验步骤见
+[代价语义修复交接](../tdt_migration/p2b_costmap_semantics_handoff.md)。

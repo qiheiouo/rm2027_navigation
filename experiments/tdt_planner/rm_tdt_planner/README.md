@@ -16,9 +16,9 @@ TF、目标、串口或速度发布器。P2B 的独立仿真记录器作为该�
 README 假定子模块已提供。不要在构建时下载依赖或运行上游 setup 脚本。
 
 当前开发与验证都使用 `/home` 下的持久工作区。P2B 按用户约定由 Terra 执行
-验证，设计者先交付代码与文档。b1c40e6 构建及 35 项测试通过，但 static_v1 因
-记录器错误中断；**当前修复与新增回归待重验**，先读
-[记录器修复交接](../../../docs/tdt_migration/p2b_recorder_fix_20260913.md)。
+验证，设计者先交付代码与文档。e85b076 的 39 项测试已通过，static_v2 中两组
+基线各 5/5、两组 T-DT 首例失败。**当前 Nav2 内切区重复膨胀修复待重验**，先读
+[代价语义修复交接](../../../docs/tdt_migration/p2b_costmap_semantics_handoff.md)。
 
 ```bash
 candidate_ws=/home/wpie/worktrees/rm2027_tdt_phase2
@@ -86,12 +86,12 @@ Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行�
 仿真模型/MPPI/costmap 不变，`make_sim_profiles.py` 仅替换 `GridBased`；使用该仿真
 原有 0.60×0.50 m footprint、0.03 m padding，与 P2A 旧车模型不同。
 
-`p2b_validation.sh` 提供 `deps/build/check/profiles/run/summarize`，每次 `run`
+`p2b_validation.sh` 提供 `deps/build/check/sanitizers/profiles/run/summarize`，每次 `run`
 创建新隔离容器，自动结束自身 launch 进程组。原始轨迹、路径、命令、costmap、事件
 和 action 结果写在 `build/tdt_p2b/runs/`；目录已存在时拒绝覆盖。日志留在 `/home`。
 修复版有 13 个纯 Python 工具测试及 4 个真实 ROS 消息记录器测试，交由 Terra
-与 22 个 core/plugin 测试一同执行，共 39 项预期。原 35 项通过仅属于 b1c40e6。
-默认新系列为 `static_v2`；原始 `static_v1` 失败证据保留。
+与 24 个 core/4 个 plugin 测试一同执行，共 45 项预期；另运行 24 个核心 sanitizer。
+原 39 项通过仅属于 e85b076。默认新系列为 `static_v3`；保留 static_v1/v2。
 
 几何记录器验证采样矩形及线性位姿插值下的间隙，无法独立证明采样间真实接触状态。
 汇总回读原始事件和数据，不把 SUCCEEDED、CPU 告警或缺少日志直接当作方案验收。
@@ -121,10 +121,12 @@ python3 "$pkg/tools/make_profile.py" \
 
 - 仅接受 axis-aligned Nav2 costmap：行主序、y 正向、保留 resolution/origin。
   不能直接传 PGM 顶行顺序或带旋转的 YAML origin；应先由 map_server/costmap 转换。
-- 253/254/255 都阻塞，未知区不通行；其他 cost 转为自由区后重建距离势场。
-  因而自定义软语义 cost 不保留。本候选不能据此替换语义路线/特殊通道执行。
+- 默认离线 `Grid` 沿用 `ObstacleSeeds`：253/254/255 都作为障碍种子。Nav2 插件
+  显式标记 `Nav2Master`：只从 254/255/边界种子膨胀，253 另保留中心禁区，避免
+  内切区重复膨胀。没有关闭安全检查的 ROS 参数；未知区仍不通行。
+  其他软 cost 仍不保留，本候选不能据此替换语义路线/特殊通道执行。
 - 使用 **padded footprint 外接圆 + clearance**，距离变换再预留一个栅格对角线。
-  允许任意自转时仍保守；已经膨胀的 253 区域会再次保守膨胀，可能拒绝窄通道。
+  允许任意自转时仍保守，修复不保证外接圆模型可通过真实矩形能通过的窄通道。
   狗洞、定向穿越和坡道不属于本轮适用场景，不得为了通过而缩小真实 footprint。
 - 将上游角点结果转为单元中心，保留精确起终点；不把不可行 goal 移到别处。
 - 开启上游严格碰撞模式，并独立对输出折线逐段做 supercover 检查。无解、非法坐标、

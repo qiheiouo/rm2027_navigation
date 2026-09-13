@@ -106,12 +106,13 @@ P2A 统一了碰撞输入，但未统一内部势场/平滑目标，也没有保
 这一比较当成实际 dual STVL profile 的排名。堵路/撤障是成对静态快照，不是连续
 动态障碍回放；现有检查过的高速录包没有可用 costmap/plan 主题。
 
-**P2B 静态验证中断，记录器修复待重验**：b1c40e6 构建与 35 项测试通过，首例
-因共享记录器退出，未取得静态导航结论。设计者已修正 rosout 等级类型比较、补
-异常调用栈与 4 项消息边界测试；交由 Terra 用 static_v2 重验，保留 static_v1。
-当前交接见 [`p2b_recorder_fix_20260913.md`](p2b_recorder_fix_20260913.md)，
-完整规范见 [`p2b_terra_handoff.md`](p2b_terra_handoff.md)，进度见
-[`p2b_work_status.md`](p2b_work_status.md)。修复尚未经运行验证，不能标 P2B 已通过。
+**P2B static_v2 已回传，代价语义修复待验证**：e85b076 构建与 39 项测试通过；
+Navfn/Smac2D 各 5/5 有限静态通过。两组 T-DT 首例均失败，未完成 P2B 验收。
+历史地图/事件和源码表明应优先修正把 Nav2 内切区重复膨胀的解释；现已区分
+master/离线输入，补 6 项回归与精确端点诊断，交由 Terra 用 static_v3 重验。
+本次不放宽 footprint、clearance、snapshot 更新或迟到拒收，也不改 MPPI/场景。
+当前交接见 [`p2b_costmap_semantics_handoff.md`](p2b_costmap_semantics_handoff.md)，
+进度见 [`p2b_work_status.md`](p2b_work_status.md)。新修复尚未经运行验证。
 
 按用户分工，设计者负责方案/代码和复核，Terra 按详细步骤验证并返回证据；后续全部
 源码、依赖、构建和日志留在 `/home`。当前机器的性能限制仍只记录。

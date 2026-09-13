@@ -1,6 +1,7 @@
 # P2B 记录器修复复核与 static_v2 重验交接
 
-状态：**已复核 static_v1 中断；修复与 4 项回归用例已编写，等待 Terra 验证。**
+历史交接：记录器修复已在 e85b076/static_v2 验证通过，本文保留原交接预期。
+当前执行入口为 [代价语义修复交接](p2b_costmap_semantics_handoff.md)。
 修复基线 `b1c40e68f08771cec763d6bc30ff5fa7072365a8`，分支
 `experiment/tdt-planner-phase2`。修复交接提交号以设计者交付的最终提交为准。
 本文记录源码复核与重验要求，不是新的运行通过报告。

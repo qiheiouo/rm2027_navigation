@@ -7,7 +7,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
 #include <mutex>
+#include <sstream>
 
 namespace rm_tdt_planner
 {
@@ -72,7 +74,17 @@ public:
     const Grid grid = snapshot();
     const auto result = plan(grid, {start.pose.position.x, start.pose.position.y},
       {goal.pose.position.x, goal.pose.position.y}, options);
-    if (!result.success) {throw nav2_core::PlannerException(result.reason);}
+    if (!result.success) {
+      // Diagnose the exact request/snapshot; published OccupancyGrid samples may lag it.
+      std::ostringstream detail;
+      detail << std::setprecision(17) << result.reason
+             << " [input=nav2_master start=(" << start.pose.position.x << ',' << start.pose.position.y
+             << ") goal=(" << goal.pose.position.x << ',' << goal.pose.position.y
+             << ") origin=(" << grid.origin_x << ',' << grid.origin_y
+             << ") size=" << grid.width << 'x' << grid.height << " resolution=" << grid.resolution
+             << " radius=" << options.radius << " clearance=" << options.clearance << ']';
+      throw nav2_core::PlannerException(detail.str());
+    }
 
     // Costmap updates continue while the expensive solver runs. A changed map
     // invalidates this candidate; planner_server/BT may request a fresh plan.
@@ -135,6 +147,7 @@ private:
     auto * map = costmap_->getCostmap();
     std::unique_lock<nav2_costmap_2d::Costmap2D::mutex_t> lock(*map->getMutex());
     Grid grid;
+    grid.cost_interpretation = CostInterpretation::Nav2Master;
     grid.width = map->getSizeInCellsX(); grid.height = map->getSizeInCellsY();
     grid.resolution = map->getResolution();
     grid.origin_x = map->getOriginX(); grid.origin_y = map->getOriginY();

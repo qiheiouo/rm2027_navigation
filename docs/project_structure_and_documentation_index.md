@@ -117,9 +117,10 @@ velocity ownership. Offline results do not grant hardware acceptance.
 The optional four-planner snapshot benchmark and its 2026-09-13 results are
 documented in `docs/tdt_migration/validation_20260913.md`; the package README
 contains explicit build and static-input comparison commands. The P2B static
-simulation at b1c40e6 passed build/35 tests but stopped on a shared observer error.
-The recorder fix awaits validation in a new series; execution and return-report
-instructions are in `docs/tdt_migration/p2b_recorder_fix_20260913.md`.
+simulation at e85b076 passed 39 tests and both baseline groups achieved 5/5 limited static passes.
+Both T-DT first trials failed. A local fix for double inflation of Nav2 inscribed costs
+awaits static_v3 validation; preserve static_v1/v2. See
+`docs/tdt_migration/p2b_costmap_semantics_handoff.md`.
 
 ## Documentation Maintenance Rule
 
