@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Execute only when carrying out the handoff validation. All artifacts persist in /home.
+# Staged development validation; preserve each series. All artifacts persist in /home.
 set -euo pipefail
 repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)
 pkg_rel=experiments/tdt_planner/rm_tdt_planner
 work="$repo/build/tdt_p2b"
-series=${P2B_SERIES:-static_v4}
+series=${P2B_SERIES:-static_v5}
 [[ "$repo" = /home/* && "$series" =~ ^[A-Za-z0-9_-]+$ ]] || exit 2
 mkdir -p "$work" "$work/tmp"
 docker_args=(run --rm --init --network none --user "$(id -u):$(id -g)" --entrypoint bash

@@ -15,10 +15,10 @@ TF、目标、串口或速度发布器。P2B 的独立仿真记录器作为该�
 插件还需要 ROS2 Humble Nav2 与 pluginlib。求解器使用本包锁定版本，不能按上游
 README 假定子模块已提供。不要在构建时下载依赖或运行上游 setup 脚本。
 
-当前开发与验证都使用 `/home` 下的持久工作区。P2B 按用户约定由 Terra 执行
-验证，设计者先交付代码与文档。e85b076 的 39 项测试已通过，static_v2 中两组
-基线各 5/5、两组 T-DT 首例失败。**当前 Nav2 内切区重复膨胀修复待重验**，先读
-[代价语义修复交接](../../../docs/tdt_migration/p2b_costmap_semantics_handoff.md)。
+当前开发与验证都使用 `/home` 下的持久工作区。按用户 2026-09-15 最新约定，
+开发者同时负责执行测试、仿真和结果复核。static_v4 已通过统一 sanitizer 链和
+46 项常规测试，但 T-DT 两组导航仍失败。端点连接修复及本轮实际结果见
+[端点几何修复记录](../../../docs/tdt_migration/p2b_endpoint_connections.md)。
 
 ```bash
 candidate_ws=/home/wpie/worktrees/rm2027_tdt_phase2
@@ -89,12 +89,12 @@ Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行�
 `p2b_validation.sh` 提供 `deps/build/check/sanitizers/profiles/run/summarize`，每次 `run`
 创建新隔离容器，自动结束自身 launch 进程组。原始轨迹、路径、命令、costmap、事件
 和 action 结果写在 `build/tdt_p2b/runs/`；目录已存在时拒绝覆盖。日志留在 `/home`。
-修复版有 13 个纯 Python 工具测试及 4 个真实 ROS 消息记录器测试，交由 Terra
-与 25 个 core/4 个 plugin 测试一同执行，共 46 项预期（新增求解器跨库生命周期用例）。
-74f68e2 常规 45 项通过，但混合依赖的 sanitizer 失败，static_v3 无仿真试次。新的
-`sanitizers` 在独立目录统一插桩构建固定求解器与 core，审计实际宏/库后先运行边界用例，
-再运行包含它的 25 项核心测试；均待 Terra 验证。默认 `static_v4`；保留 static_v1/v2/v3。
-详细命令见 [构建链交接](../../../docs/tdt_migration/p2b_sanitizer_chain_handoff.md)。
+当前有 30 个 core、4 个 plugin、14 个纯 Python 工具和 4 个真实 ROS 消息测试，
+共 52 项。`sanitizers` 在独立目录统一插桩构建固定求解器与 core，审计实际宏/库，
+先运行求解器跨库生命周期用例，再运行包含它的 30 项核心测试。
+默认新系列 `static_v5`；保留 static_v1/v2/v3/v4，单组失败后停止该组重复。
+构建链命令仍见 [构建链交接](../../../docs/tdt_migration/p2b_sanitizer_chain_handoff.md)，
+其中 static_v4 的次数与执行角色仅代表当时交接。当前结果以本轮修复记录为准。
 
 几何记录器验证采样矩形及线性位姿插值下的间隙，无法独立证明采样间真实接触状态。
 汇总回读原始事件和数据，不把 SUCCEEDED、CPU 告警或缺少日志直接当作方案验收。
@@ -128,11 +128,16 @@ python3 "$pkg/tools/make_profile.py" \
   显式标记 `Nav2Master`：只从 254/255/边界种子膨胀，253 另保留中心禁区，避免
   内切区重复膨胀。没有关闭安全检查的 ROS 参数；未知区仍不通行。
   其他软 cost 仍不保留，本候选不能据此替换语义路线/特殊通道执行。
-- 使用 **padded footprint 外接圆 + clearance**，距离变换再预留一个栅格对角线。
+- 内部搜索/优化使用 **padded footprint 外接圆 + clearance**，距离变换再预留一个栅格对角线。
   允许任意自转时仍保守，修复不保证外接圆模型可通过真实矩形能通过的窄通道。
   狗洞、定向穿越和坡道不属于本轮适用场景，不得为了通过而缩小真实 footprint。
-- 将上游角点结果转为单元中心，保留精确起终点；不把不可行 goal 移到别处。
-- 开启上游严格碰撞模式，并独立对输出折线逐段做 supercover 检查。无解、非法坐标、
+- Nav2 输入的精确端点按原始 254/255/边界闭方格检查整个圆，253 保留中心禁区。
+  从端点连接到距离不超过 3 格的最近可连接自由格中心；每条短连接都检查连续扫掠圆。
+  A*/QP 仅搜索/优化两锚点之间的保守内部路径，随后接回精确端点并验证全部输出段。
+  没有连接时拒绝，不移动目标，不缩小半径，也不把碰撞目标投影到附近自由区。
+  最近锚点策略不保证找到所有可行连接；离线 ObstacleSeeds 保留原整格拒收策略。
+  PreparedGrid 同时保留不可变原始输入和膨胀掩码，raw/prepared 使用相同端点规则。
+- 开启上游严格碰撞模式，内部折线逐段做 supercover 检查，Nav2 最终输出再做连续圆检查。无解、非法坐标、
   footprint 内碰撞、超时返回空失败；QP 失败/不安全/控制点超预算，只回退到该次
   snapshot 已通过检查的 A* 路径，绝不复用旧路径。
 - 搜索周期性检查时间预算；QP 仍只能在上游一次求解返回后判超时，`time_budget`

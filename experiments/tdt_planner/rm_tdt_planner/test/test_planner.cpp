@@ -379,3 +379,113 @@ TEST(Nav2CostSemantics, EndpointReasonsDistinguishOutsideBlockedAndFree)
   EXPECT_FALSE(result.success); EXPECT_TRUE(result.path.empty());
   EXPECT_EQ(result.reason, "unsupported cost interpretation");
 }
+
+namespace
+{
+Grid endpoint_corner_grid()
+{
+  Grid g{200, 160, 0.05, -2.0, -4.0, std::vector<uint8_t>(32000, 0)};
+  g.cost_interpretation = CostInterpretation::Nav2Master;
+  // World corner (4.0, 0.35), goal (4.3, 0): exact square distance 0.460977 m.
+  g.costs[87 * g.width + 119] = 254;
+  return g;
+}
+Options endpoint_options()
+{
+  auto o = test_options(); o.radius = std::hypot(0.33, 0.28);
+  return o;
+}
+}
+
+TEST(Nav2Endpoints, ConnectsExactSafeEndpointFromBlockedCellInBothModes)
+{
+  auto g = endpoint_corner_grid(); auto o = endpoint_options();
+  const auto start = at(g, 7.3, 3.0), goal = at(g, 6.3, 4.0);
+  const auto prepared = prepare_grid(g, o);
+  EXPECT_EQ(prepared.grid().costs[80 * g.width + 126], 254);
+  ASSERT_GT(benchmark_geometry::clearance(g, {goal}, o.radius), o.clearance);
+  for (bool optimize : {false, true}) {
+    o.optimize = optimize;
+    const auto result = plan(g, start, goal, o);
+    verify(g, start, goal, o, result);
+    EXPECT_GT(benchmark_geometry::clearance(g, result.path, o.radius), o.clearance);
+    // Both endpoint directions use certified connections, not a goal-only exception.
+    const auto reverse = plan(g, goal, start, o);
+    verify(g, goal, start, o, reverse);
+    EXPECT_GT(benchmark_geometry::clearance(g, reverse.path, o.radius), o.clearance);
+  }
+  verify(g, goal, goal, o, plan(g, goal, goal, o));
+}
+
+TEST(Nav2Endpoints, RejectsActuallyUnsafeCornerWithoutRelocatingGoal)
+{
+  for (uint8_t cost : {254, 255}) {
+    auto g = endpoint_corner_grid(); auto o = endpoint_options();
+    // One-cell shift gives 0.430116 m: smaller than the unchanged 0.452782 m reach.
+    g.costs[87 * g.width + 120] = cost;
+    const auto start = at(g, 7.3, 3.0), goal = at(g, 6.3, 4.0);
+    EXPECT_LT(benchmark_geometry::clearance(g, {goal}, o.radius), o.clearance);
+    EXPECT_FALSE(collision_free(g, {goal}, o));
+    for (bool optimize : {false, true}) {
+      o.optimize = optimize;
+      const auto result = plan(g, start, goal, o);
+      EXPECT_FALSE(result.success); EXPECT_TRUE(result.path.empty());
+      EXPECT_NE(result.reason.find("goal=blocked"), std::string::npos);
+    }
+  }
+}
+
+TEST(Nav2Endpoints, PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable)
+{
+  auto g = endpoint_corner_grid(); auto o = endpoint_options(); o.optimize = false;
+  const auto start = at(g, 7.3, 3.0), goal = at(g, 6.3, 4.0);
+  const auto prepared = prepare_grid(g, o);
+  const auto raw = plan(g, start, goal, o), cached = plan_prepared(prepared, start, goal, o);
+  ASSERT_TRUE(raw.success); ASSERT_TRUE(cached.success);
+  ASSERT_EQ(raw.path.size(), cached.path.size());
+  for (size_t i = 0; i < raw.path.size(); ++i) {
+    EXPECT_DOUBLE_EQ(raw.path[i].x, cached.path[i].x);
+    EXPECT_DOUBLE_EQ(raw.path[i].y, cached.path[i].y);
+  }
+  g.costs.assign(g.costs.size(), 254);
+  EXPECT_FALSE(collision_free(g, raw.path, o));
+  EXPECT_TRUE(collision_free_prepared(prepared, raw.path));
+  EXPECT_TRUE(plan_prepared(prepared, start, goal, o).success);
+}
+
+TEST(Nav2Endpoints, ContinuousSegmentsMatchIndependentDistanceOracle)
+{
+  auto g = endpoint_corner_grid(); auto o = endpoint_options();
+  std::mt19937 rng(20260914);
+  std::uniform_real_distribution<double> x(5.0, 7.0), y(3.0, 5.5);
+  for (int i = 0; i < 1500; ++i) {
+    const std::vector<Point> path{at(g, x(rng), y(rng)), at(g, x(rng), y(rng))};
+    const double margin = benchmark_geometry::clearance(g, path, o.radius) - o.clearance;
+    // No floating boundary ambiguity in these randomized comparisons.
+    if (std::abs(margin) > 1e-6) {
+      EXPECT_EQ(collision_free(g, path, o), margin > 0.0) << i << " margin=" << margin;
+    }
+  }
+  const auto unsafe_middle = std::vector<Point>{at(g, 5.0, 4.0), at(g, 7.0, 4.0)};
+  EXPECT_TRUE(collision_free(g, {unsafe_middle.front()}, o));
+  EXPECT_TRUE(collision_free(g, {unsafe_middle.back()}, o));
+  EXPECT_FALSE(collision_free(g, unsafe_middle, o));
+  // Exact tangency and orphan 253 centres remain forbidden, including on grid lines.
+  o.radius = 0.20; o.clearance = 0.0;
+  EXPECT_FALSE(collision_free(g, {at(g, 6.2, 4.375)}, o));
+  g.costs.assign(g.costs.size(), 0); g.costs[87 * g.width + 119] = 253;
+  EXPECT_FALSE(collision_free(g, {at(g, 5.0, 4.35), at(g, 7.0, 4.35)}, o));
+  EXPECT_TRUE(collision_free(g, {at(g, 5.0, 4.3), at(g, 7.0, 4.3)}, o));
+}
+
+TEST(Nav2Endpoints, LegacyOfflineWholeCellPolicyRemainsUnchanged)
+{
+  auto g = endpoint_corner_grid(); auto o = endpoint_options();
+  const auto start = at(g, 7.3, 3.0), goal = at(g, 6.3, 4.0);
+  g.cost_interpretation = CostInterpretation::ObstacleSeeds;
+  EXPECT_FALSE(collision_free(g, {goal}, o));
+  EXPECT_FALSE(plan(g, start, goal, o).success);
+  const auto prepared = prepare_grid(g, o);
+  EXPECT_FALSE(plan_prepared(prepared, start, goal, o).success);
+  EXPECT_FALSE(collision_free_prepared(prepared, {goal}));
+}

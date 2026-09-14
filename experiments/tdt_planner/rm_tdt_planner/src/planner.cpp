@@ -148,6 +148,103 @@ CollisionGrid inflate(const Grid & g, const Options & o)
   return c;
 }
 
+// Closed-square distance, in local metres. This implementation is independent
+// of the benchmark oracle. Contact is rejected, including centre-only 253 contact.
+double segment_square_distance(Point a, Point b, double x, double y, double r)
+{
+  const Point delta{b.x - a.x, b.y - a.y};
+  double enter = 0.0, leave = 1.0;
+  auto clip = [&](double position, double direction, double lower) {
+      if (direction == 0.0) {return position >= lower && position <= lower + r;}
+      double t0 = (lower - position) / direction;
+      double t1 = (lower + r - position) / direction;
+      if (t0 > t1) {std::swap(t0, t1);}
+      enter = std::max(enter, t0); leave = std::min(leave, t1);
+      return enter <= leave;
+    };
+  if (clip(a.x, delta.x, x) && clip(a.y, delta.y, y)) {return 0.0;}
+  auto point_square = [&](Point p) {
+      return std::hypot(std::max({x - p.x, 0.0, p.x - x - r}),
+        std::max({y - p.y, 0.0, p.y - y - r}));
+    };
+  double result = std::min(point_square(a), point_square(b));
+  const double norm = delta.x * delta.x + delta.y * delta.y;
+  for (Point corner : {Point{x, y}, Point{x + r, y}, Point{x, y + r}, Point{x + r, y + r}}) {
+    const double t = norm > 0.0 ? std::clamp(
+      ((corner.x - a.x) * delta.x + (corner.y - a.y) * delta.y) / norm, 0.0, 1.0) : 0.0;
+    result = std::min(result, distance(corner, {a.x + t * delta.x, a.y + t * delta.y}));
+  }
+  return result;
+}
+
+struct SweptCircle
+{
+  const Grid & source;
+  double reach;
+  bool segment(Point a, Point b) const
+  {
+    const double r = source.resolution;
+    auto inside = [&](Point p) {
+        return finite(p) && p.x >= 0.0 && p.y >= 0.0 &&
+               p.x < source.width * r && p.y < source.height * r;
+      };
+    if (!inside(a) || !inside(b)) {return false;}
+    // Positive numerical guard: never accept a segment on the collision boundary.
+    const double guard = 1e-7;
+    auto lower = [&](double value) {return static_cast<int>(std::floor((value - reach) / r)) - 1;};
+    auto upper = [&](double value) {return static_cast<int>(std::floor((value + reach) / r)) + 1;};
+    const int x0 = std::max(0, lower(std::min(a.x, b.x)));
+    const int x1 = std::min(source.width - 1, upper(std::max(a.x, b.x)));
+    const int y0 = std::max(0, lower(std::min(a.y, b.y)));
+    const int y1 = std::min(source.height - 1, upper(std::max(a.y, b.y)));
+    for (int y = y0; y <= y1; ++y) {
+      for (int x = x0; x <= x1; ++x) {
+        const auto cost = source.costs[y * source.width + x];
+        const bool seed = cost >= 254 || x == 0 || y == 0 ||
+          x == source.width - 1 || y == source.height - 1;
+        if (!seed && cost != 253) {continue;}
+        if (segment_square_distance(a, b, x * r, y * r, r) <= (seed ? reach : 0.0) + guard) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  bool point(Point p) const {return segment(p, p);}
+  bool path(const std::vector<Point> & points) const
+  {
+    if (points.empty() || !point(points.front())) {return false;}
+    for (size_t i = 1; i < points.size(); ++i) {
+      if (!segment(points[i - 1], points[i])) {return false;}
+    }
+    return true;
+  }
+};
+
+bool endpoint_anchor(Point endpoint, const CollisionGrid & collision,
+  const SweptCircle & geometry, Point & anchor)
+{
+  if (!geometry.point(endpoint)) {return false;}
+  const double r = collision.resolution;
+  const int cx = static_cast<int>(std::floor(endpoint.x / r));
+  const int cy = static_cast<int>(std::floor(endpoint.y / r));
+  // Only bridge local cell discretization. Do not relocate the requested goal
+  // or search arbitrarily far for an escape from occupied geometry.
+  double best = 3.0 * r;
+  bool found = false;
+  for (int y = cy - 3; y <= cy + 3; ++y) {
+    for (int x = cx - 3; x <= cx + 3; ++x) {
+      if (!collision.cell(x, y)) {continue;}
+      const Point candidate{(x + 0.5) * r, (y + 0.5) * r};
+      const double length = distance(endpoint, candidate);
+      if (length <= best && geometry.segment(endpoint, candidate)) {
+        best = length; anchor = candidate; found = true;
+      }
+    }
+  }
+  return found;
+}
+
 std::vector<Point> local_path(const Grid & g, const std::vector<Point> & path)
 {
   auto result = path;
@@ -180,12 +277,14 @@ bool collision_free(const Grid & g, const std::vector<Point> & path, const Optio
 {
   try {
     validate(g, o);
-    return inflate(g, o).path(local_path(g, path));
+    return g.cost_interpretation == CostInterpretation::Nav2Master ?
+      SweptCircle{g, o.radius + o.clearance}.path(local_path(g, path)) :
+      inflate(g, o).path(local_path(g, path));
   } catch (const std::exception &) {return false;}
 }
 
-PreparedGrid::PreparedGrid(Grid grid, double radius, double clearance)
-: grid_(std::move(grid)), radius_(radius), clearance_(clearance) {}
+PreparedGrid::PreparedGrid(Grid grid, Grid source, double radius, double clearance)
+: grid_(std::move(grid)), source_(std::move(source)), radius_(radius), clearance_(clearance) {}
 
 PreparedGrid prepare_grid(const Grid & g, const Options & o)
 {
@@ -195,7 +294,7 @@ PreparedGrid prepare_grid(const Grid & g, const Options & o)
   for (size_t i = 0; i < prepared.costs.size(); ++i) {
     prepared.costs[i] = collision.free[i] ? 0 : 254;
   }
-  return PreparedGrid(std::move(prepared), o.radius, o.clearance);
+  return PreparedGrid(std::move(prepared), g, o.radius, o.clearance);
 }
 
 static CollisionGrid prepared_collision(const Grid & g)
@@ -207,11 +306,15 @@ static CollisionGrid prepared_collision(const Grid & g)
 
 bool collision_free_prepared(const PreparedGrid & prepared, const std::vector<Point> & path)
 {
+  if (prepared.source_.cost_interpretation == CostInterpretation::Nav2Master) {
+    return SweptCircle{prepared.source_, prepared.radius_ + prepared.clearance_}.path(
+      local_path(prepared.source_, path));
+  }
   return prepared_collision(prepared.grid()).path(local_path(prepared.grid(), path));
 }
 
 static Result plan_impl(const Grid & g, Point start, Point goal, const Options & o,
-  bool already_prepared)
+  bool already_prepared, const Grid & source)
 {
   const auto begin = Clock::now();
   Result result;
@@ -229,13 +332,17 @@ static Result plan_impl(const Grid & g, Point start, Point goal, const Options &
     start.x -= g.origin_x; start.y -= g.origin_y;
     goal.x -= g.origin_x; goal.y -= g.origin_y;
     const auto collision = already_prepared ? prepared_collision(g) : inflate(g, o);
-    if (!collision.point(start) || !collision.point(goal)) {
+    const bool nav2 = source.cost_interpretation == CostInterpretation::Nav2Master;
+    const SweptCircle geometry{source, o.radius + o.clearance};
+    const Point requested_start = start, requested_goal = goal;
+    auto endpoint_free = [&](Point p) {return nav2 ? geometry.point(p) : collision.point(p);};
+    if (!endpoint_free(start) || !endpoint_free(goal)) {
       auto endpoint = [&](Point p) {
           if (!collision.inside(p)) {return std::string("outside_map");}
           const int x = static_cast<int>(std::floor(p.x / g.resolution));
           const int y = static_cast<int>(std::floor(p.y / g.resolution));
-          return std::string(collision.point(p) ? "free" : "blocked") +
-                 "@cost=" + std::to_string(g.costs[y * g.width + x]);
+          return std::string(endpoint_free(p) ? "free" : "blocked") +
+                 "@cost=" + std::to_string(source.costs[y * g.width + x]);
         };
       result.reason = "start or goal outside conservative free space: start=" + endpoint(start) +
         ", goal=" + endpoint(goal);
@@ -244,6 +351,13 @@ static Result plan_impl(const Grid & g, Point start, Point goal, const Options &
     if (distance(start, goal) < 1e-8) {
       result.path = {{start.x + g.origin_x, start.y + g.origin_y}};
       result.success = true; result.reason = "already at goal";
+      return finish();
+    }
+
+    if (nav2 && (!endpoint_anchor(requested_start, collision, geometry, start) ||
+      !endpoint_anchor(requested_goal, collision, geometry, goal)))
+    {
+      result.reason = "no certified local endpoint connection to conservative grid";
       return finish();
     }
 
@@ -309,8 +423,14 @@ static Result plan_impl(const Grid & g, Point start, Point goal, const Options &
         }
       }
     }
+    // Optimize only the conservative interior; the exact endpoint connections
+    // are added afterwards and independently certified together with the path.
+    if (nav2) {
+      base.insert(base.begin(), requested_start);
+      base.push_back(requested_goal);
+    }
     result.path = resample(base, std::min(o.output_spacing, g.resolution * 0.5));
-    if (!collision.path(result.path)) {
+    if (nav2 ? !geometry.path(result.path) : !collision.path(result.path)) {
       result.path.clear(); result.optimized = false;
       result.reason = "final output failed segment validation";
       return finish();
@@ -326,7 +446,7 @@ static Result plan_impl(const Grid & g, Point start, Point goal, const Options &
 
 Result plan(const Grid & g, Point start, Point goal, const Options & o)
 {
-  return plan_impl(g, start, goal, o, false);
+  return plan_impl(g, start, goal, o, false, g);
 }
 
 Result plan_prepared(const PreparedGrid & prepared, Point start, Point goal, const Options & o)
@@ -336,6 +456,6 @@ Result plan_prepared(const PreparedGrid & prepared, Point start, Point goal, con
     result.reason = "prepared footprint or clearance differs from planning options";
     return result;
   }
-  return plan_impl(prepared.grid(), start, goal, o, true);
+  return plan_impl(prepared.grid(), start, goal, o, true, prepared.source_);
 }
 }  // namespace rm_tdt_planner

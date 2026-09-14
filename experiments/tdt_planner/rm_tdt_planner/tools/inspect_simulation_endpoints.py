@@ -17,17 +17,28 @@ def endpoint(grid, x, y, radius, clearance):
     # OccupancyGrid encoding: 100=lethal, -1=unknown, 99=inscribed inflation.
     hard = min(ix, iy, w-1-ix, h-1-iy)*r  # retained outer border seeds
     inscribed = math.inf
+    px, py = x-ox, y-oy
+    point_hard = max(0.0, min(px-r, py-r, (w-1)*r-px, (h-1)*r-py))
+    point_inscribed = math.inf
     for i, cost in enumerate(grid['data']):
         if cost not in (-1, 99, 100):
             continue
         d = math.hypot(ix-i % w, iy-i // w)*r
+        left, bottom = (i % w)*r, (i // w)*r
+        square_distance = math.hypot(max(left-px, 0.0, px-left-r),
+                                     max(bottom-py, 0.0, py-bottom-r))
         if cost == 99:
             inscribed = min(inscribed, d)
+            point_inscribed = min(point_inscribed, square_distance)
         else:
             hard = min(hard, d)
+            point_hard = min(point_hard, square_distance)
     limit = radius + clearance + math.sqrt(2)*r + 1e-6
     cell_cost = grid['data'][iy*w+ix]
     return {'xy': [x, y], 'cell': [ix, iy], 'inside': True, 'occupancy_value': cell_cost,
+            'point_to_hard_or_border_square_m': point_hard,
+            'point_circle_margin_m': point_hard-radius-clearance,
+            'point_model_free': point_hard > radius+clearance+1e-7 and point_inscribed > 1e-7,
             'nearest_hard_or_border_cell_centre_m': hard,
             'nearest_inscribed_cell_centre_m': inscribed if math.isfinite(inscribed) else None,
             'reserved_cell_centre_distance_m': limit,
@@ -80,7 +91,8 @@ def inspect(observation, radius, clearance):
                 'Published costmaps bracket callbacks but are not exact planning snapshots.',
                 'Start uses nearby ground truth, not the actual action request start.',
                 'OccupancyGrid resolution is float32; grid-line rounding may differ from native double.',
-                'Seed-model predictions do not prove a returned path or static navigation success.'],
+                'Seed-model predictions do not prove a returned path or static navigation success.',
+                'Point clearance does not prove a local anchor exists or the full path is safe.'],
             'input_sha256': {name: hashlib.sha256(data).hexdigest() for name, data in content.items()},
             'endpoint_refusals': len(rows), 'events': rows}
 

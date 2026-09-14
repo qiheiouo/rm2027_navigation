@@ -11,8 +11,27 @@ import unittest
 TOOLS = Path(__file__).resolve().parents[1]/'tools'
 sys.path.insert(0, str(TOOLS))
 from simulation_geometry import clearance, point_segment, polygon_distance
+from inspect_simulation_endpoints import endpoint
 from simulation_evidence import analyze
 from summarize_simulation import summarize
+
+
+class EndpointInspectionTest(unittest.TestCase):
+    def test_point_distance_distinguishes_cell_overconservatism_and_real_collision(self):
+        grid = dict(width=200, height=160, resolution=.05, origin=[-2.0,-4.0], data=[0]*32000)
+        grid['data'][87*200+119] = 100
+        radius = math.hypot(.33,.28)
+        point = endpoint(grid,4.3,0,radius,.02)
+        self.assertFalse(point['nav2_master_seed_model_free'])
+        self.assertTrue(point['point_model_free'])
+        self.assertAlmostEqual(point['point_to_hard_or_border_square_m'],math.hypot(.3,.35))
+        grid['data'][87*200+120] = -1
+        point = endpoint(grid,4.3,0,radius,.02)
+        self.assertFalse(point['point_model_free'])
+        self.assertAlmostEqual(point['point_to_hard_or_border_square_m'],math.hypot(.25,.35))
+        grid['data'] = [0]*32000
+        grid['data'][80*200+126] = 99
+        self.assertFalse(endpoint(grid,4.3,0,radius,.02)['point_model_free'])
 
 
 class GeometryTest(unittest.TestCase):

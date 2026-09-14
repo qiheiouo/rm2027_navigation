@@ -1,0 +1,744 @@
+{
+  "schema": "rm_tdt_planner/endpoint_snapshot_inspection/v1",
+  "kind": "historical_published_data_analysis_not_planner_or_runtime_validation",
+  "observation": "build/tdt_p2b/runs/static_v4/tdt_astar_1/observation",
+  "radius_m": 0.4327817083123309,
+  "clearance_m": 0.02,
+  "limitations": [
+    "Published costmaps bracket callbacks but are not exact planning snapshots.",
+    "Start uses nearby ground truth, not the actual action request start.",
+    "OccupancyGrid resolution is float32; grid-line rounding may differ from native double.",
+    "Seed-model predictions do not prove a returned path or static navigation success.",
+    "Point clearance does not prove a local anchor exists or the full path is safe."
+  ],
+  "input_sha256": {
+    "summary.json": "1937baa75c24632bfe729b0b5d86080cef03eebe23d84760d828c6b20c766013",
+    "costmap.jsonl": "1ddff82965853820cbc490f5cc11efc544805335847ce33268f1561abee252b8",
+    "events.jsonl": "154583dec9e81e0d310029262b63510bbefd1b6027c0d017fc741d6259209122",
+    "trajectory.jsonl": "d1bc97b693bc232813907efe24e69f0268dcb393d49db3f3aa99d9ac85cbbb19"
+  },
+  "endpoint_refusals": 7,
+  "events": [
+    {
+      "event_t": 16.829,
+      "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"start or goal outside conservative free space: start=free@cost=0, goal=blocked@cost=162 [input=nav2_master start=(4.3134608403979753,-1.7316557698452553) goal=(4.2999999999999998,0) origin=(-1.7000000000000037,-7.7499999999999947) size=240x240 resolution=0.050000000000000003 radius=0.43278170831233093 clearance=0.02]\"",
+      "nearest_pose_t": 16.82,
+      "maps": {
+        "before": {
+          "map_t": 16.462,
+          "origin": [
+            -1.850000000372533,
+            -7.900000000372523
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.313460840397975,
+              -1.7316557698452553
+            ],
+            "cell": [
+              123,
+              123
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.0782260858012913,
+            "point_circle_margin_m": 0.6254443774889604,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.1067971975514959,
+            "nearest_inscribed_cell_centre_m": 0.8381527432014595,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              122,
+              157
+            ],
+            "inside": true,
+            "occupancy_value": 66,
+            "point_to_hard_or_border_square_m": 0.4716989157491375,
+            "point_circle_margin_m": 0.0189172074368066,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.47169906363169384,
+            "nearest_inscribed_cell_centre_m": 0.21213203751697787,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        },
+        "after": {
+          "map_t": 17.009,
+          "origin": [
+            -1.6500000003725328,
+            -7.7000000003725235
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.313460840397975,
+              -1.7316557698452553
+            ],
+            "cell": [
+              119,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.0647654257023533,
+            "point_circle_margin_m": 0.6119837173900224,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.0920164996643913,
+            "nearest_inscribed_cell_centre_m": 0.8246211374113445,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              118,
+              153
+            ],
+            "inside": true,
+            "occupancy_value": 63,
+            "point_to_hard_or_border_square_m": 0.46097725910925497,
+            "point_circle_margin_m": 0.00819555079692404,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.5000000074505806,
+            "nearest_inscribed_cell_centre_m": 0.2500000037252903,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        }
+      }
+    },
+    {
+      "event_t": 17.193,
+      "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"start or goal outside conservative free space: start=free@cost=0, goal=blocked@cost=162 [input=nav2_master start=(4.4127560266598547,-1.6605421494875656) goal=(4.2999999999999998,0) origin=(-1.6000000000000036,-7.649999999999995) size=240x240 resolution=0.050000000000000003 radius=0.43278170831233093 clearance=0.02]\"",
+      "nearest_pose_t": 17.18,
+      "maps": {
+        "before": {
+          "map_t": 17.009,
+          "origin": [
+            -1.6500000003725328,
+            -7.7000000003725235
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.412756026659855,
+              -1.6605421494875656
+            ],
+            "cell": [
+              121,
+              120
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.0267586348003366,
+            "point_circle_margin_m": 0.5739769264880057,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.0770329774759426,
+            "nearest_inscribed_cell_centre_m": 0.8077747331069568,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              118,
+              153
+            ],
+            "inside": true,
+            "occupancy_value": 63,
+            "point_to_hard_or_border_square_m": 0.46097725910925497,
+            "point_circle_margin_m": 0.00819555079692404,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.5000000074505806,
+            "nearest_inscribed_cell_centre_m": 0.2500000037252903,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        },
+        "after": {
+          "map_t": 17.56,
+          "origin": [
+            -1.6000000003725328,
+            -7.650000000372524
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.412756026659855,
+              -1.6605421494875656
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.0267586343665585,
+            "point_circle_margin_m": 0.5739769260542276,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.0770329774759426,
+            "nearest_inscribed_cell_centre_m": 0.8077747331069568,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              117,
+              152
+            ],
+            "inside": true,
+            "occupancy_value": 63,
+            "point_to_hard_or_border_square_m": 0.4609772590284417,
+            "point_circle_margin_m": 0.008195550716110795,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.5000000074505806,
+            "nearest_inscribed_cell_centre_m": 0.2500000037252903,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        }
+      }
+    },
+    {
+      "event_t": 19.873,
+      "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"start or goal outside conservative free space: start=free@cost=0, goal=blocked@cost=163 [input=nav2_master start=(4.419372823684566,-1.6576369187763149) goal=(4.2999999999999998,0) origin=(-1.6000000000000036,-7.649999999999995) size=240x240 resolution=0.050000000000000003 radius=0.43278170831233093 clearance=0.02]\"",
+      "nearest_pose_t": 19.86,
+      "maps": {
+        "before": {
+          "map_t": 19.686,
+          "origin": [
+            -1.6000000003725328,
+            -7.650000000372524
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.419372823684566,
+              -1.657636918776315
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.0264038614489588,
+            "point_circle_margin_m": 0.5736221531366279,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.0770329774759426,
+            "nearest_inscribed_cell_centre_m": 0.8077747331069568,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              117,
+              152
+            ],
+            "inside": true,
+            "occupancy_value": 63,
+            "point_to_hard_or_border_square_m": 0.4609772590284417,
+            "point_circle_margin_m": 0.008195550716110795,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.5000000074505806,
+            "nearest_inscribed_cell_centre_m": 0.2500000037252903,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        },
+        "after": {
+          "map_t": 20.23,
+          "origin": [
+            -1.6000000003725328,
+            -7.650000000372524
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.419372823684566,
+              -1.657636918776315
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.0264038614489588,
+            "point_circle_margin_m": 0.5736221531366279,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.0770329774759426,
+            "nearest_inscribed_cell_centre_m": 0.8077747331069568,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              117,
+              152
+            ],
+            "inside": true,
+            "occupancy_value": 63,
+            "point_to_hard_or_border_square_m": 0.4609772590284417,
+            "point_circle_margin_m": 0.008195550716110795,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.5000000074505806,
+            "nearest_inscribed_cell_centre_m": 0.2500000037252903,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        }
+      }
+    },
+    {
+      "event_t": 25.002,
+      "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"start or goal outside conservative free space: start=free@cost=0, goal=blocked@cost=162 [input=nav2_master start=(4.419372823684566,-1.6576369187763149) goal=(4.2999999999999998,0) origin=(-1.6000000000000036,-7.649999999999995) size=240x240 resolution=0.050000000000000003 radius=0.43278170831233093 clearance=0.02]\"",
+      "nearest_pose_t": 25.02,
+      "maps": {
+        "before": {
+          "map_t": 24.662,
+          "origin": [
+            -1.6000000003725328,
+            -7.650000000372524
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.419372823684566,
+              -1.657636918776315
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.0264038614489588,
+            "point_circle_margin_m": 0.5736221531366279,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.0770329774759426,
+            "nearest_inscribed_cell_centre_m": 0.8077747331069568,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              117,
+              152
+            ],
+            "inside": true,
+            "occupancy_value": 63,
+            "point_to_hard_or_border_square_m": 0.4609772590284417,
+            "point_circle_margin_m": 0.008195550716110795,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.5000000074505806,
+            "nearest_inscribed_cell_centre_m": 0.2500000037252903,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        },
+        "after": {
+          "map_t": 25.217,
+          "origin": [
+            -1.6000000003725328,
+            -7.650000000372524
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.419372823684566,
+              -1.657636918776315
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.0264038614489588,
+            "point_circle_margin_m": 0.5736221531366279,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.0770329774759426,
+            "nearest_inscribed_cell_centre_m": 0.8077747331069568,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              117,
+              152
+            ],
+            "inside": true,
+            "occupancy_value": 63,
+            "point_to_hard_or_border_square_m": 0.4609772590284417,
+            "point_circle_margin_m": 0.008195550716110795,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.5000000074505806,
+            "nearest_inscribed_cell_centre_m": 0.2500000037252903,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        }
+      }
+    },
+    {
+      "event_t": 31.181,
+      "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"start or goal outside conservative free space: start=free@cost=0, goal=blocked@cost=162 [input=nav2_master start=(4.5639035623002053,-1.9253637944154867) goal=(4.2999999999999998,0) origin=(-1.4500000000000035,-7.8999999999999941) size=240x240 resolution=0.050000000000000003 radius=0.43278170831233093 clearance=0.02]\"",
+      "nearest_pose_t": 31.18,
+      "maps": {
+        "before": {
+          "map_t": 30.816,
+          "origin": [
+            -1.4500000003725326,
+            -7.850000000372523
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.564160089658563,
+              -1.9258389823846842
+            ],
+            "cell": [
+              120,
+              118
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.3293013145761479,
+            "point_circle_margin_m": 0.876519606263817,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.3656500487245375,
+            "nearest_inscribed_cell_centre_m": 1.0965856263134643,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              114,
+              156
+            ],
+            "inside": true,
+            "occupancy_value": 63,
+            "point_to_hard_or_border_square_m": 0.46097726274583517,
+            "point_circle_margin_m": 0.008195554433504244,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.5000000074505806,
+            "nearest_inscribed_cell_centre_m": 0.2500000037252903,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        },
+        "after": {
+          "map_t": 31.376,
+          "origin": [
+            -1.4500000003725326,
+            -7.900000000372523
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.564160089658563,
+              -1.9258389823846842
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.3494287637399214,
+            "point_circle_margin_m": 0.8966470554275905,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.3865424830472974,
+            "nearest_inscribed_cell_centre_m": 1.1180340054098996,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              114,
+              157
+            ],
+            "inside": true,
+            "occupancy_value": 66,
+            "point_to_hard_or_border_square_m": 0.43011631566534936,
+            "point_circle_margin_m": -0.02266539264698157,
+            "point_model_free": false,
+            "nearest_hard_or_border_cell_centre_m": 0.47169906363169384,
+            "nearest_inscribed_cell_centre_m": 0.21213203751697787,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        }
+      }
+    },
+    {
+      "event_t": 31.402,
+      "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"start or goal outside conservative free space: start=free@cost=0, goal=blocked@cost=162 [input=nav2_master start=(4.5641657908272801,-1.9258495431560663) goal=(4.2999999999999998,0) origin=(-1.4500000000000035,-7.8999999999999941) size=240x240 resolution=0.050000000000000003 radius=0.43278170831233093 clearance=0.02]\"",
+      "nearest_pose_t": 31.42,
+      "maps": {
+        "before": {
+          "map_t": 31.376,
+          "origin": [
+            -1.4500000003725326,
+            -7.900000000372523
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.56416579082728,
+              -1.9258495431560663
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.349440740791614,
+            "point_circle_margin_m": 0.8966590324792831,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.3865424830472974,
+            "nearest_inscribed_cell_centre_m": 1.1180340054098996,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              114,
+              157
+            ],
+            "inside": true,
+            "occupancy_value": 66,
+            "point_to_hard_or_border_square_m": 0.43011631566534936,
+            "point_circle_margin_m": -0.02266539264698157,
+            "point_model_free": false,
+            "nearest_hard_or_border_cell_centre_m": 0.47169906363169384,
+            "nearest_inscribed_cell_centre_m": 0.21213203751697787,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        },
+        "after": {
+          "map_t": 31.888,
+          "origin": [
+            -1.4500000003725326,
+            -7.900000000372523
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.56416579082728,
+              -1.9258495431560663
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.349440740791614,
+            "point_circle_margin_m": 0.8966590324792831,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.3865424830472974,
+            "nearest_inscribed_cell_centre_m": 1.1180340054098996,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              114,
+              157
+            ],
+            "inside": true,
+            "occupancy_value": 66,
+            "point_to_hard_or_border_square_m": 0.4609772633115257,
+            "point_circle_margin_m": 0.008195554999194794,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.47169906363169384,
+            "nearest_inscribed_cell_centre_m": 0.21213203751697787,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        }
+      }
+    },
+    {
+      "event_t": 31.545,
+      "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"start or goal outside conservative free space: start=free@cost=0, goal=blocked@cost=162 [input=nav2_master start=(4.5641657908272801,-1.9258495431560663) goal=(4.2999999999999998,0) origin=(-1.4500000000000035,-7.8999999999999941) size=240x240 resolution=0.050000000000000003 radius=0.43278170831233093 clearance=0.02]\"",
+      "nearest_pose_t": 31.54,
+      "maps": {
+        "before": {
+          "map_t": 31.376,
+          "origin": [
+            -1.4500000003725326,
+            -7.900000000372523
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.56416579082728,
+              -1.9258495431560663
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.349440740791614,
+            "point_circle_margin_m": 0.8966590324792831,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.3865424830472974,
+            "nearest_inscribed_cell_centre_m": 1.1180340054098996,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              114,
+              157
+            ],
+            "inside": true,
+            "occupancy_value": 66,
+            "point_to_hard_or_border_square_m": 0.43011631566534936,
+            "point_circle_margin_m": -0.02266539264698157,
+            "point_model_free": false,
+            "nearest_hard_or_border_cell_centre_m": 0.47169906363169384,
+            "nearest_inscribed_cell_centre_m": 0.21213203751697787,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        },
+        "after": {
+          "map_t": 31.888,
+          "origin": [
+            -1.4500000003725326,
+            -7.900000000372523
+          ],
+          "resolution": 0.05000000074505806,
+          "start_approximation": {
+            "xy": [
+              4.56416579082728,
+              -1.9258495431560663
+            ],
+            "cell": [
+              120,
+              119
+            ],
+            "inside": true,
+            "occupancy_value": 0,
+            "point_to_hard_or_border_square_m": 1.349440740791614,
+            "point_circle_margin_m": 0.8966590324792831,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 1.3865424830472974,
+            "nearest_inscribed_cell_centre_m": 1.1180340054098996,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": true,
+            "nav2_master_seed_model_free": true
+          },
+          "goal": {
+            "xy": [
+              4.3,
+              0.0
+            ],
+            "cell": [
+              114,
+              157
+            ],
+            "inside": true,
+            "occupancy_value": 66,
+            "point_to_hard_or_border_square_m": 0.4609772633115257,
+            "point_circle_margin_m": 0.008195554999194794,
+            "point_model_free": true,
+            "nearest_hard_or_border_cell_centre_m": 0.47169906363169384,
+            "nearest_inscribed_cell_centre_m": 0.21213203751697787,
+            "reserved_cell_centre_distance_m": 0.5234933874846569,
+            "legacy_seed_model_free": false,
+            "nav2_master_seed_model_free": false
+          }
+        }
+      }
+    }
+  ]
+}

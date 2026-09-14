@@ -59,10 +59,12 @@ class PreparedGrid
 public:
   const Grid & grid() const {return grid_;}
 private:
-  PreparedGrid(Grid grid, double radius, double clearance);
+  PreparedGrid(Grid grid, Grid source, double radius, double clearance);
   Grid grid_;
+  Grid source_;  // Raw immutable input for certified Nav2 endpoint connections.
   double radius_;
   double clearance_;
+  friend bool collision_free_prepared(const PreparedGrid &, const std::vector<Point> &);
   friend PreparedGrid prepare_grid(const Grid &, const Options &);
   friend Result plan_prepared(const PreparedGrid &, Point, Point, const Options &);
 };
@@ -74,7 +76,9 @@ bool collision_free_prepared(const PreparedGrid & grid, const std::vector<Point>
 // No ROS, global state, cached map, hardware IO, or velocity output.
 // Returned samples are a geometric polyline, not a timed trajectory.
 Result plan(const Grid & grid, Point start, Point goal, const Options & options);
-// Checks every segment against conservative configuration-space occupancy.
+// Checks every segment. Nav2Master uses continuous swept-circle geometry against
+// raw lethal/unknown squares and forbids centres in 253 squares; offline inputs
+// retain the historical conservative configuration-space occupancy check.
 bool collision_free(const Grid & grid, const std::vector<Point> & path,
   const Options & options);
 }  // namespace rm_tdt_planner

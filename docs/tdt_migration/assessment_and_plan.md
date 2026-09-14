@@ -1,6 +1,6 @@
 # 东北大学 T-DT 导航吸收：项目判断与分阶段实施
 
-初次评估：2026-09-12；进度更新：2026-09-13。
+初次评估：2026-09-12；进度更新：2026-09-15。
 检查基线：`fix/old-car-fast-lio-high-spin` @ `46c521b`。
 P1 分支 `experiment/tdt-planner-intake` 已由用户提交并推送为 `359fd71`，当前
 worktree 为 `/home/wpie/worktrees/rm2027_tdt_planner`（原 `/tmp` 路径已迁移）。
@@ -106,18 +106,15 @@ P2A 统一了碰撞输入，但未统一内部势场/平滑目标，也没有保
 这一比较当成实际 dual STVL profile 的排名。堵路/撤障是成对静态快照，不是连续
 动态障碍回放；现有检查过的高速录包没有可用 costmap/plan 主题。
 
-**P2B static_v3 已中断，sanitizer 构建链修复待验证**：static_v2 的两组基线各
-5/5 有限静态通过，T-DT 两组首例失败；这些均为 e85b076 的历史证据。
-代价语义修复 74f68e2 构建、45 项常规测试通过，核心 sanitizer 在首例两次报
-heap-buffer-overflow，因此 static_v3 没有仿真试次。堆栈与镜像预处理确认原
-Release OsqpEigen 和 ASan 调用方的 Eigen 分配模式不同，先修正统一插桩构建链，
-不以常规通过把 ASan 判为误报。当前没有改动 core/vendor 算法、MPPI 或安全门。
-新交接见 [`p2b_sanitizer_chain_handoff.md`](p2b_sanitizer_chain_handoff.md)，
-Terra 先验 46 项常规测试、链审计与 25 项核心 sanitizer，再进入 static_v4。
-新构建链和静态闭环尚未经验证，P2B 仍未通过。
+**P2B static_v4 回传已复核，端点几何修复进入 static_v5 验证**：78648e2 的
+构建、46 项常规测试、统一 sanitizer 链和 25 项核心测试通过。Smac2D 5/5 静态门
+通过；Navfn 首例到点但恢复 1 次；T-DT 两组预检查成功、导航失败。因此 v4 为
+8/20 有效但未通过的部分矩阵。static_v3 的 ASan 失败与空矩阵仍保留为历史证据。
+本轮修复保留半径、clearance、目标和 MPPI，新增精确端点到保守栅格的连续几何连接。
+运行和限制见 [端点修复记录](p2b_endpoint_connections.md)。P2B 尚未通过。
 
-按用户分工，设计者负责方案/代码和复核，Terra 按详细步骤验证并返回证据；后续全部
-源码、依赖、构建和日志留在 `/home`。当前机器的性能限制仍只记录。
+按用户最新分工（2026-09-15），开发者同时执行验证并复核；全部源码、依赖、构建和
+日志留在 `/home`，Terra 可用于后续独立审查。当前机器的性能限制仍只记录。
 
 **P2B 验证路线**：先复用现有 Gazebo/MPPI 工程做连续 costmap 更新下的接口与
 静态导航比较，测 snapshot 改变拒收、action 停等/重试和完整插件延迟。保留四组，
