@@ -1,0 +1,116 @@
+Internal ctest changing into directory: /work/sanitizer_runs/chain_20260914T134803Z.8Sb1xZ/core
+UpdateCTestConfiguration  from :/work/sanitizer_runs/chain_20260914T134803Z.8Sb1xZ/core/DartConfiguration.tcl
+Parse Config file:/work/sanitizer_runs/chain_20260914T134803Z.8Sb1xZ/core/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/work/sanitizer_runs/chain_20260914T134803Z.8Sb1xZ/core/DartConfiguration.tcl
+Parse Config file:/work/sanitizer_runs/chain_20260914T134803Z.8Sb1xZ/core/DartConfiguration.tcl
+Test project /work/sanitizer_runs/chain_20260914T134803Z.8Sb1xZ/core
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 2
+    Start 2: planner_safety
+
+2: Test command: /work/sanitizer_runs/chain_20260914T134803Z.8Sb1xZ/core/test_planner
+2: Test timeout computed to be: 60
+2: Running main() from ./googletest/src/gtest_main.cc
+2: [==========] Running 30 tests from 6 test suites.
+2: [----------] Global test environment set-up.
+2: [----------] 16 tests from Planner
+2: [ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+2: [       OK ] Planner.OpenMapActuallyRunsCorridorBackend (65 ms)
+2: [ RUN      ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation
+2: [       OK ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation (227 ms)
+2: [ RUN      ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints
+2: [       OK ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints (77 ms)
+2: [ RUN      ] Planner.CompletelySealedWallFailsEmpty
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Planner.CompletelySealedWallFailsEmpty (47 ms)
+2: [ RUN      ] Planner.UnknownAndInscribedCellsAreBlocked
+2: [31mError: No path found! return empty path[0m
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Planner.UnknownAndInscribedCellsAreBlocked (99 ms)
+2: [ RUN      ] Planner.SameCellAndSamePose
+2: [       OK ] Planner.SameCellAndSamePose (63 ms)
+2: [ RUN      ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty
+2: [       OK ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty (73 ms)
+2: [ RUN      ] Planner.NarrowPassageRejectedForCircumscribedFootprint
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Planner.NarrowPassageRejectedForCircumscribedFootprint (45 ms)
+2: [ RUN      ] Planner.LateOutputIsNotPublished
+2: [       OK ] Planner.LateOutputIsNotPublished (2296 ms)
+2: [ RUN      ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty
+2: [       OK ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty (0 ms)
+2: [ RUN      ] Planner.FrontendOnlyIsSelectable
+2: [       OK ] Planner.FrontendOnlyIsSelectable (55 ms)
+2: [ RUN      ] Planner.WaypointBudgetFallsBackToValidatedAstar
+2: [       OK ] Planner.WaypointBudgetFallsBackToValidatedAstar (67 ms)
+2: [ RUN      ] Planner.UnresolvedOptimizerCollisionFallsBack
+2: [       OK ] Planner.UnresolvedOptimizerCollisionFallsBack (84 ms)
+2: [ RUN      ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples
+2: [       OK ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples (11 ms)
+2: [ RUN      ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace (92 ms)
+2: [ RUN      ] Planner.DeterministicRandomObstacleSafety
+2: [       OK ] Planner.DeterministicRandomObstacleSafety (2422 ms)
+2: [----------] 16 tests from Planner (5731 ms total)
+2: 
+2: [----------] 1 test from BenchmarkGeometry
+2: [ RUN      ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk
+2: [       OK ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk (0 ms)
+2: [----------] 1 test from BenchmarkGeometry (0 ms total)
+2: 
+2: [----------] 2 tests from UpstreamFix
+2: [ RUN      ] UpstreamFix.BoundsAndDiagonalCorner
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] UpstreamFix.BoundsAndDiagonalCorner (0 ms)
+2: [ RUN      ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost
+2: [       OK ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost (79 ms)
+2: [----------] 2 tests from UpstreamFix (79 ms total)
+2: 
+2: [----------] 5 tests from Nav2CostSemantics
+2: [ RUN      ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation
+2: [       OK ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation (75 ms)
+2: [ RUN      ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds (48 ms)
+2: [ RUN      ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius
+2: [       OK ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius (0 ms)
+2: [ RUN      ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable
+2: [       OK ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable (93 ms)
+2: [ RUN      ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree
+2: [       OK ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree (33 ms)
+2: [----------] 5 tests from Nav2CostSemantics (251 ms total)
+2: 
+2: [----------] 5 tests from Nav2Endpoints
+2: [ RUN      ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes
+2: [       OK ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes (525 ms)
+2: [ RUN      ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal
+2: [       OK ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal (209 ms)
+2: [ RUN      ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable
+2: [       OK ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable (290 ms)
+2: [ RUN      ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle
+2: [       OK ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle (158 ms)
+2: [ RUN      ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged
+2: [       OK ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged (246 ms)
+2: [----------] 5 tests from Nav2Endpoints (1430 ms total)
+2: 
+2: [----------] 1 test from SolverBoundary
+2: [ RUN      ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime
+2: [       OK ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime (4 ms)
+2: [----------] 1 test from SolverBoundary (4 ms total)
+2: 
+2: [----------] Global test environment tear-down
+2: [==========] 30 tests from 6 test suites ran. (7497 ms total)
+2: [  PASSED  ] 30 tests.
+1/1 Test #2: planner_safety ...................   Passed    7.62 sec
+
+The following tests passed:
+	planner_safety
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   7.62 sec

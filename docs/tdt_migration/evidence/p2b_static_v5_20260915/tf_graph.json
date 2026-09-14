@@ -1,0 +1,257 @@
+{
+  "scope": "four-second graph and TF observation; Humble callback lacks message publisher identity, ownership also requires launch-source audit",
+  "nodes": [
+    [
+      "simulation_bridge",
+      "/"
+    ],
+    [
+      "scan_frame_adapter",
+      "/"
+    ],
+    [
+      "robot_state_publisher",
+      "/"
+    ],
+    [
+      "map_odom_stub",
+      "/"
+    ],
+    [
+      "lio_adapter",
+      "/"
+    ],
+    [
+      "transform_listener_impl_62ae170297a0",
+      "/"
+    ],
+    [
+      "gimbal_state_adapter",
+      "/"
+    ],
+    [
+      "imu_frame_adapter",
+      "/"
+    ],
+    [
+      "chassis_interface_stub",
+      "/"
+    ],
+    [
+      "controller_server",
+      "/"
+    ],
+    [
+      "local_costmap",
+      "/local_costmap"
+    ],
+    [
+      "transform_listener_impl_63af1a7dbfc0",
+      "/"
+    ],
+    [
+      "smoother_server",
+      "/"
+    ],
+    [
+      "transform_listener_impl_56e314e8fce0",
+      "/"
+    ],
+    [
+      "planner_server",
+      "/"
+    ],
+    [
+      "global_costmap",
+      "/global_costmap"
+    ],
+    [
+      "transform_listener_impl_6022c6dd88c0",
+      "/"
+    ],
+    [
+      "behavior_server",
+      "/"
+    ],
+    [
+      "transform_listener_impl_64dcefddb240",
+      "/"
+    ],
+    [
+      "bt_navigator",
+      "/"
+    ],
+    [
+      "bt_navigator_navigate_to_pose_rclcpp_node",
+      "/"
+    ],
+    [
+      "bt_navigator_navigate_through_poses_rclcpp_node",
+      "/"
+    ],
+    [
+      "waypoint_follower",
+      "/"
+    ],
+    [
+      "velocity_smoother",
+      "/"
+    ],
+    [
+      "lifecycle_manager_navigation",
+      "/"
+    ],
+    [
+      "tdt_tf_evidence_probe",
+      "/"
+    ]
+  ],
+  "publishers": {
+    "010f7f012a00942d00000000000013030000000000000000": {
+      "node": "/robot_state_publisher",
+      "topic": "/tf"
+    },
+    "010f7f012c0060e500000000000013030000000000000000": {
+      "node": "/map_odom_stub",
+      "topic": "/tf"
+    },
+    "010f7f012e009b5f00000000000016030000000000000000": {
+      "node": "/lio_adapter",
+      "topic": "/tf"
+    },
+    "010f7f012a00942d00000000000014030000000000000000": {
+      "node": "/robot_state_publisher",
+      "topic": "/tf_static"
+    }
+  },
+  "frames": [
+    {
+      "parent": "odom",
+      "child": "base_link",
+      "stamp": 7.18,
+      "translation": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        0.0
+      ],
+      "rotation": [
+        7.3353932386677195e-19,
+        6.917739277089033e-19,
+        2.339150357155708e-20,
+        1.0
+      ]
+    },
+    {
+      "parent": "base_link",
+      "child": "base_imu_link",
+      "stamp": 0.0,
+      "translation": [
+        0.0,
+        0.0,
+        0.05
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "parent": "base_link",
+      "child": "sim_lidar_link",
+      "stamp": 0.0,
+      "translation": [
+        0.0,
+        0.0,
+        0.35
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "parent": "gimbal_yaw_link",
+      "child": "lio_imu_link",
+      "stamp": 0.0,
+      "translation": [
+        0.0,
+        0.12,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "parent": "gimbal_yaw_link",
+      "child": "mid360_left_frame",
+      "stamp": 0.0,
+      "translation": [
+        0.0,
+        0.12,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "parent": "gimbal_yaw_link",
+      "child": "mid360_right_frame",
+      "stamp": 0.0,
+      "translation": [
+        0.0,
+        -0.12,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "parent": "base_link",
+      "child": "gimbal_yaw_link",
+      "stamp": 7.185,
+      "translation": [
+        0.0,
+        0.0,
+        0.35
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "parent": "map",
+      "child": "odom",
+      "stamp": 7.194,
+      "translation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  ]
+}

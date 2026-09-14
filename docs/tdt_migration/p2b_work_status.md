@@ -1,34 +1,29 @@
 # P2B 持久工作记录
 
-状态：**static_v3 中断；常规 45 项通过，混合构建的 sanitizer 失败；新构建链待 Terra 验证。**
-分支 `experiment/tdt-planner-phase2`；本轮开发基线 `74f68e2`，交付提交执行前核对。
+状态：**static_v5 已由开发者执行验证：52 项常规测试、统一 sanitizer 审计和 30 项
+核心 sanitizer 通过；Navfn/Smac2D 各 5/5 静态通过，T-DT 两组首例仍失败。P2B 未通过。**
+本系列源码 `b0c0f9b`，分支 `experiment/tdt-planner-phase2`。
 
-## 已有证据
+## 当前证据
 
-- P2A ca608e5：3,200 次离线比较通过相应几何检查；不是闭环导航验收。
-- static_v1：记录器错误中断。static_v2 e85b076：39 项通过，Navfn/Smac2D
-  各 5/5 有限静态通过；T-DT 首例各恢复 16 次后失败，停止重复。
-- static_v3 74f68e2：166 份旧证据完整；构建、45 项常规测试和四 profile 核对通过。
-  首个核心测试两次 ASan heap-buffer-overflow，未启动任何仿真试次。
-- static_v2 的单次 LIO teardown -11 另案保留，尚未归因规划器。
+- P1 几何迁移和 P2A 3,200 次离线比较保留；不代表闭环验收。
+- static_v1 记录器中断；v2 基线各 5/5、T-DT 首例失败；v3 sanitizer 混合构建失败，
+  无导航试次；v4 统一链和 46 项通过、Smac2D 5/5、Navfn 首例有恢复、T-DT 失败。
+- 本轮精确端点连接保留安全半径和目标，修复整格过保守问题。T-DT 终点位置误差降至
+  0.061/0.068 m，但恢复 21/22 次、yaw 约 1.51 rad，导航仍失败。
+- static_v5 12/20 有效且可审计；未用旧结果填补 T-DT 的 2–5 次。
+  最终报告与全部命令/诊断边界见
+  [validation_20260915.md](evidence/p2b_static_v5_20260915/validation_20260915.md)。
+- v2 166 份、此前 sanitizer 保留集 238 份、v4 272 份和现场三个配置文件核对未变。
 
-## 本轮实现与待验
+## 当前分工与下一项
 
-- 已确认原 Release OsqpEigen 与 ASan 调用方的 Eigen 分配宏不同（1/0），与
-  库内分配、调用方析构读取指针前 8 字节的报告吻合。修正先前提供的混合构建入口。
-- 固定 SHA 不变；新目录中由同一 GCC、Debug、ASan/UBSan 构建 OSQP/OsqpEigen/core。
-  旧源码/Release 前缀只读，独立源码快照承接 OSQP 生成头文件；记录与审计实际宏及加载库。
-- 新增独立的求解器取解/析构回归。预期常规 46 项；sanitizer 先单验该项，随后
-  执行包含它的 25 项核心测试。以上是待验预期；原始失败仍保留。
-- 本轮没有改动规划 core、vendor、MPPI、costmap 语义、安全间隙、场景或目标。
+按用户最新要求，后续由开发者同时编写代码、运行验证并复核；Terra 可做独立审查。
+全部工作和日志保存在 `/home/wpie/worktrees/rm2027_tdt_phase2`，不依赖 `/tmp`。
 
-## 下一执行者
+下一项是终点几何/MPPI 到点与失败恢复合同。发布地图只支持相邻观测诊断，需精确
+callback 证据；精确目标的圆碰撞不能被取消安全检查掩盖。姿态相关矩形连接或目标
+容差均需独立设计和验证，本轮未实现。详见 [修复记录](p2b_endpoint_connections.md)。
 
-Terra 按 [构建链修复交接](p2b_sanitizer_chain_handoff.md) 在
-`/home/wpie/worktrees/rm2027_tdt_phase2` 执行，依赖、构建和日志保存在
-`build/tdt_p2b/`。保留 static_v1/v2/v3，使用 static_v4；sanitizer 每次生成独立
-`sanitizer_runs/chain_<时间>.<随机值>/`，中断后保留，禁止覆盖旧编号。
-
-先编译/常规检查、sanitizer 构建链审计和 25 项核心通过，才逐组启动静态首例；
-首例和人工审查通过后才补 2–5。当前约 55% 规划迁移进度估算保持，P2B 未通过。
-设备性能限制只记录待新设备，不做性能补丁或淘汰方案。移动障碍、全负载与实车未验。
+整体规划迁移进度仍估计约 55%，不是测试通过率或工时百分比。设备性能只记录，
+移动障碍、新设备全负载和实车仍待验；未部署、push 或 merge。

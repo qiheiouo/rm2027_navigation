@@ -44,7 +44,9 @@ padded 外接圆 0.432782 m + clearance 0.02 m；但原算法要求目标所在�
 开发日志位于 `build/tdt_p2b/endpoint_connectors_logs/`。截至仿真开始前，52 项完整 CTest、四配置哈希
 核对、统一 sanitizer 审计及 30 项核心均通过。日志索引见
 [development_checks.json](evidence/endpoint_connectors_20260914/development_checks.json)。
-static_v5 尚待执行，未运行结果不记为通过。
+static_v5 已完成本轮 12 次有效试验：Navfn/Smac2D 各 5/5 通过；T-DT 两组位置
+误差分别 0.061/0.068 m，但恢复 21/22 次且 yaw 不合格，导航失败，停止重复。
+完整实际结果见 [static_v5 报告](evidence/p2b_static_v5_20260915/validation_20260915.md)。
 
 复现入口：`experiments/tdt_planner/rm_tdt_planner/tools/p2b_validation.sh`，按
 build → check → sanitizers → profiles → 四组首例 → 通过组重复 → summarize 顺序执行。
