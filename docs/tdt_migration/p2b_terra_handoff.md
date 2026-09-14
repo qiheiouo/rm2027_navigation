@@ -1,7 +1,7 @@
 # P2B 静态仿真：Terra 验证交接
 
-状态：**static_v2 记录器回归通过，两组 T-DT 首例失败；代价语义修复待重验**。
-本轮优先读 [代价语义修复交接](p2b_costmap_semantics_handoff.md)，使用 `static_v3`。
+状态：**static_v3 常规 45 项通过，sanitizer 失败；构建链修复待 Terra 复验**。
+本轮优先读 [sanitizer 构建链修复交接](p2b_sanitizer_chain_handoff.md)，使用 `static_v4`。
 本文是执行规范，不是当前修复版的验证报告。
 开发基线为 `ca608e5`；本交接属于 `experiment/tdt-planner-phase2`，实际交接提交号
 由用户提供并与下文 `git rev-parse HEAD` 核对。P2A 的历史结果仍属于其原提交，
@@ -28,7 +28,7 @@ padding、clearance、控制器、安全门或超时来获得通过。涉及这�
 | --- | --- |
 | 代码 | `/home/wpie/worktrees/rm2027_tdt_phase2` |
 | 依赖、构建、配置、日志 | 代码目录下 `build/tdt_p2b/` |
-| 本次试验原始数据 | `build/tdt_p2b/runs/static_v3/<planner>_<trial>/` |
+| 本次试验原始数据 | `build/tdt_p2b/runs/static_v4/<planner>_<trial>/` |
 | 回传报告模板 | `docs/tdt_migration/p2b_result_template.md` |
 | 当前进度 | `docs/tdt_migration/p2b_work_status.md` |
 
@@ -57,7 +57,7 @@ mkdir -p "$work/handoff_logs"
 `run` 会拒绝未提交的相关源码；编译/日志产物不会导致此项失败。
 
 读取 `p2b_work_status.md`。e85b076 构建、39 项测试和两组基线静态验证已通过，
-T-DT 两组首例失败。本次核心输入解释已修改，需新版本回归；保留 static_v1/v2。
+T-DT 两组首例失败。74f68e2 常规 45 项通过，sanitizer 失败；保留 static_v1/v2/v3。
 
 ## 2. 依赖与构建
 
@@ -89,15 +89,15 @@ bash "$pkg/tools/p2b_validation.sh" profiles 2>&1 | tee "$work/handoff_logs/prof
 
 | 入口 | 期望测试数 | 检查内容 |
 | --- | --- | --- |
-| `planner_safety` | 24 个 GTest | 原 core 合同及 5 项 Nav2 代价语义回归 |
+| `planner_safety` | 25 个 GTest | 原 24 项及 1 项求解器跨库分配/析构回归 |
 | `nav2_plugin_contract` | 4 个 GTest | 原插件合同及 master 内切区/原地图不变回归 |
 | `simulation_evidence_tools` | 13 个 Python unittest | 多边形几何、间隙/到点分离、缺证据拒绝、性能约束、四配置一致性 |
 | `simulation_ros_messages` | 4 个 Python unittest | 真实消息序列化与回调、日志等级、有符号 costmap、异常证据与清理 |
 
-**共 45 个用例是本修复版预期值，尚未实测。** 原 e85b076 的 39 项通过仅属于旧版。
+**共 46 个用例是本修复版预期值，尚未实测。** 74f68e2 的 45 项通过仅属于旧版。
 只有全部通过才进入下一步。Python fixture 不是 Gazebo，4 个 CTest 入口也不是 4 个场景。
-本轮改动了 core 的碰撞输入解释，按新交接运行 `sanitizers`（预期 24 项核心）；
-未修改 vendor 求解数学。默认离线语义保留，无需无理由重跑 P2A 的 3,200 次比较。
+本轮按新交接统一插桩构建求解器与 core，执行构建链审计、边界用例 1 项及全套
+25 项核心 sanitizer（边界用例已包含在 25 项中）；未修改 core/vendor 规划算法。默认离线语义保留，无需无理由重跑 P2A 的 3,200 次比较。
 
 `profiles` 生成 `profiles_p2b/{navfn,smac2d,tdt_astar,tdt_qp}.yaml`。重复调用仅核对，
 不会覆盖。唯一不同的配置块是 `planner_server.ros__parameters.GridBased`。
@@ -114,7 +114,7 @@ MPPI、BT、costmap、footprint、padding 保持原仿真值。配置被修改�
 先逐条执行并查看每条结果，**不要先批量循环**：
 
 ```bash
-export P2B_SERIES=static_v3
+export P2B_SERIES=static_v4
 bash "$pkg/tools/p2b_validation.sh" run navfn 1
 bash "$pkg/tools/p2b_validation.sh" run smac2d 1
 bash "$pkg/tools/p2b_validation.sh" run tdt_astar 1
@@ -245,8 +245,8 @@ bash "$pkg/tools/p2b_validation.sh" summarize
 ## 可直接交给 Terra 的任务说明
 
 > 请在 `/home/wpie/worktrees/rm2027_tdt_phase2` 执行
-> `docs/tdt_migration/p2b_costmap_semantics_handoff.md`，再按本文继续。
-> 先核对用户提供的修复提交号，保留 static_v1/v2，使用新 static_v3。
+> `docs/tdt_migration/p2b_sanitizer_chain_handoff.md`，再按本文继续。
+> 先核对用户提供的修复提交号，保留 static_v1/v2/v3，使用新 static_v4。
 > 你负责验证和报告，不改算法、业务代码、测试断言或安全参数。按顺序运行工具检查、
 > 构建/CTest、四配置核对、各组首次静态试验，再按门完成最多 5 次矩阵。失败按文档
 > 分类并保存原始证据，不为通过而修改配置。设备性能问题只记录，后续换设备验收。

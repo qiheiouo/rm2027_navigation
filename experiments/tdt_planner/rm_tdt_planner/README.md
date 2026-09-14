@@ -90,8 +90,11 @@ Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行�
 创建新隔离容器，自动结束自身 launch 进程组。原始轨迹、路径、命令、costmap、事件
 和 action 结果写在 `build/tdt_p2b/runs/`；目录已存在时拒绝覆盖。日志留在 `/home`。
 修复版有 13 个纯 Python 工具测试及 4 个真实 ROS 消息记录器测试，交由 Terra
-与 24 个 core/4 个 plugin 测试一同执行，共 45 项预期；另运行 24 个核心 sanitizer。
-原 39 项通过仅属于 e85b076。默认新系列为 `static_v3`；保留 static_v1/v2。
+与 25 个 core/4 个 plugin 测试一同执行，共 46 项预期（新增求解器跨库生命周期用例）。
+74f68e2 常规 45 项通过，但混合依赖的 sanitizer 失败，static_v3 无仿真试次。新的
+`sanitizers` 在独立目录统一插桩构建固定求解器与 core，审计实际宏/库后先运行边界用例，
+再运行包含它的 25 项核心测试；均待 Terra 验证。默认 `static_v4`；保留 static_v1/v2/v3。
+详细命令见 [构建链交接](../../../docs/tdt_migration/p2b_sanitizer_chain_handoff.md)。
 
 几何记录器验证采样矩形及线性位姿插值下的间隙，无法独立证明采样间真实接触状态。
 汇总回读原始事件和数据，不把 SUCCEEDED、CPU 告警或缺少日志直接当作方案验收。

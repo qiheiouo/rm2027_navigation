@@ -77,3 +77,12 @@ static_v2 暴露的 253 内切区重复膨胀在本地 `Grid`/core/Nav2 适配�
 显式 `CostInterpretation`；未修改 vendor 六文件或依赖。实体/未知区保留完整车体
 安全余量，253 中心禁区仍有效，默认离线语义不变。依据与 static_v3 待验步骤见
 [代价语义修复交接](../tdt_migration/p2b_costmap_semantics_handoff.md)。
+
+## 2026-09-14：sanitizer 依赖构建边界
+
+74f68e2 的普通测试 45 项通过；static_v3 在 sanitizer 析构时失败，没有仿真结果。
+本轮修正本地构建流程：保持上述 OSQP/OsqpEigen/QDLDL 固定 SHA 与许可，离线复制
+受控源码到独立目录，将求解器和调用方一同以 ASan/UBSan 编译，避免 Eigen 动态存储
+跨越不同分配模式。上游算法源码未修改或重新导入；新增本地边界回归和实际加载库审计。
+Release 部署前缀保持，ROS/GTest/系统库不属于本次重新插桩范围。实际验证与归因边界见
+[构建链交接](../tdt_migration/p2b_sanitizer_chain_handoff.md)。

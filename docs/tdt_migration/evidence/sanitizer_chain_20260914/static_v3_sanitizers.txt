@@ -1,0 +1,131 @@
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Looking for C++ include pthread.h
+-- Looking for C++ include pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found GTest: /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake (found version "1.11.0")  
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /work/costmap-semantics-sanitizer
+[ 25%] Building CXX object CMakeFiles/tdt_nav_core.dir/vendor/tdt_nav/YAstar/yastar.cpp.o
+[ 25%] Building CXX object CMakeFiles/tdt_nav_core.dir/vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.cpp.o
+[ 37%] Building CXX object CMakeFiles/tdt_nav_core.dir/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp.o
+[ 50%] Linking CXX static library libtdt_nav_core.a
+[ 50%] Built target tdt_nav_core
+[ 62%] Building CXX object CMakeFiles/rm_tdt_core.dir/src/planner.cpp.o
+[ 75%] Linking CXX static library librm_tdt_core.a
+[ 75%] Built target rm_tdt_core
+[ 87%] Building CXX object CMakeFiles/test_planner.dir/test/test_planner.cpp.o
+[100%] Linking CXX executable test_planner
+[100%] Built target test_planner
+Internal ctest changing into directory: /work/costmap-semantics-sanitizer
+UpdateCTestConfiguration  from :/work/costmap-semantics-sanitizer/DartConfiguration.tcl
+Parse Config file:/work/costmap-semantics-sanitizer/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/work/costmap-semantics-sanitizer/DartConfiguration.tcl
+Parse Config file:/work/costmap-semantics-sanitizer/DartConfiguration.tcl
+Test project /work/costmap-semantics-sanitizer
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 2
+    Start 2: planner_safety
+
+2: Test command: /work/costmap-semantics-sanitizer/test_planner
+2: Test timeout computed to be: 60
+2: Running main() from ./googletest/src/gtest_main.cc
+2: [==========] Running 24 tests from 4 test suites.
+2: [----------] Global test environment set-up.
+2: [----------] 16 tests from Planner
+2: [ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+2: =================================================================
+2: ==135==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x50d000001148 at pc 0x565dad84a12a bp 0x7fff35c604a0 sp 0x7fff35c60490
+2: READ of size 8 at 0x50d000001148 thread T0
+2:     #0 0x565dad84a129 in Eigen::internal::handmade_aligned_free(void*) /usr/include/eigen3/Eigen/src/Core/util/Memory.h:118
+2:     #1 0x565dad84a157 in Eigen::internal::aligned_free(void*) /usr/include/eigen3/Eigen/src/Core/util/Memory.h:206
+2:     #2 0x565dad86cd00 in void Eigen::internal::conditional_aligned_free<true>(void*) /usr/include/eigen3/Eigen/src/Core/util/Memory.h:259
+2:     #3 0x565dad996343 in void Eigen::internal::conditional_aligned_delete_auto<double, true>(double*, unsigned long) /usr/include/eigen3/Eigen/src/Core/util/Memory.h:446
+2:     #4 0x565dad989d3f in Eigen::DenseStorage<double, -1, -1, 1, 0>::~DenseStorage() /usr/include/eigen3/Eigen/src/Core/DenseStorage.h:621
+2:     #5 0x565dad9820ad in Eigen::PlainObjectBase<Eigen::Matrix<double, -1, 1, 0, -1, 1> >::~PlainObjectBase() /usr/include/eigen3/Eigen/src/Core/PlainObjectBase.h:98
+2:     #6 0x565dad98211f in Eigen::Matrix<double, -1, 1, 0, -1, 1>::~Matrix() /usr/include/eigen3/Eigen/src/Core/Matrix.h:178
+2:     #7 0x565dad983777 in OsqpEigen::Solver::~Solver() /work/deps/include/OsqpEigen/Solver.hpp:32
+2:     #8 0x565dad9664aa in MinimumSnap::osqpExecute(std::vector<double, std::allocator<double> > const&, std::vector<MinimumSnap::SolveInput::Item, std::allocator<MinimumSnap::SolveInput::Item> > const&, std::vector<std::array<float, 4ul>, std::allocator<std::array<float, 4ul> > > const&, bool) const /ws/experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.cpp:903
+2:     #9 0x565dad9688c1 in operator() /ws/experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.cpp:946
+2:     #10 0x565dad96f96c in iterate<MinimumSnap::_solve(const std::vector<double>&, const std::vector<MinimumSnap::SolveInput::Item>&, float, float, int, bool)::<lambda(const std::vector<double>&, const std::vector<MinimumSnap::SolveInput::Item>&)>, MinimumSnap::_solve(const std::vector<double>&, const std::vector<MinimumSnap::SolveInput::Item>&, float, float, int, bool)::<lambda(const std::vector<double>&, int, const MatXd&, const MatXd&)>, MinimumSnap::_solve(const std::vector<double>&, const std::vector<MinimumSnap::SolveInput::Item>&, float, float, int, bool)::<lambda(const Vector2f&, const Vector2f&)>, MinimumSnap::_solve(const std::vector<double>&, const std::vector<MinimumSnap::SolveInput::Item>&, float, float, int, bool)::<lambda(std::vector<double>&, std::vector<MinimumSnap::SolveInput::Item>&, const std::vector<int>&, int)> > /ws/experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.cpp:126
+2:     #11 0x565dad96d347 in MinimumSnap::_solve(std::vector<double, std::allocator<double> > const&, std::vector<MinimumSnap::SolveInput::Item, std::allocator<MinimumSnap::SolveInput::Item> > const&, float, float, int, bool) /ws/experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.cpp:991
+2:     #12 0x565dad94f04e in MinimumSnap::solve(MinimumSnap::SolveInput&) /ws/experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.cpp:276
+2:     #13 0x565dad89c379 in plan_impl /ws/experiments/tdt_planner/rm_tdt_planner/src/planner.cpp:296
+2:     #14 0x565dad89e624 in rm_tdt_planner::plan(rm_tdt_planner::Grid const&, rm_tdt_planner::Point, rm_tdt_planner::Point, rm_tdt_planner::Options const&) /ws/experiments/tdt_planner/rm_tdt_planner/src/planner.cpp:329
+2:     #15 0x565dad8185da in Planner_OpenMapActuallyRunsCorridorBackend_Test::TestBody() /ws/experiments/tdt_planner/rm_tdt_planner/test/test_planner.cpp:43
+2:     #16 0x565dadc94a2e in void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (/work/costmap-semantics-sanitizer/test_planner+0xbe4a2e)
+2:     #17 0x565dadc891c5 in testing::Test::Run() (/work/costmap-semantics-sanitizer/test_planner+0xbd91c5)
+2:     #18 0x565dadc89344 in testing::TestInfo::Run() (/work/costmap-semantics-sanitizer/test_planner+0xbd9344)
+2:     #19 0x565dadc898f8 in testing::TestSuite::Run() (/work/costmap-semantics-sanitizer/test_planner+0xbd98f8)
+2:     #20 0x565dadc89ffe in testing::internal::UnitTestImpl::RunAllTests() (/work/costmap-semantics-sanitizer/test_planner+0xbd9ffe)
+2:     #21 0x565dadc94ff6 in bool testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) (/work/costmap-semantics-sanitizer/test_planner+0xbe4ff6)
+2:     #22 0x565dadc8940b in testing::UnitTest::Run() (/work/costmap-semantics-sanitizer/test_planner+0xbd940b)
+2:     #23 0x565dad814823 in main (/work/costmap-semantics-sanitizer/test_planner+0x764823)
+2:     #24 0x70b9aa242d8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f)
+2:     #25 0x70b9aa242e3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f)
+2:     #26 0x565dad814c64 in _start (/work/costmap-semantics-sanitizer/test_planner+0x764c64)
+2: 
+2: 0x50d000001148 is located 8 bytes to the left of 144-byte region [0x50d000001150,0x50d0000011e0)
+2: allocated by thread T0 here:
+2:     #0 0x70b9aae86887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+2:     #1 0x70b9aadcb087 in OsqpEigen::Solver::getSolution() (/work/deps/lib/libOsqpEigen.so.0.8.1+0x6087)
+2:     #2 0x70b9aadca4af  (/work/deps/lib/libOsqpEigen.so.0.8.1+0x54af)
+2: 
+2: SUMMARY: AddressSanitizer: heap-buffer-overflow /usr/include/eigen3/Eigen/src/Core/util/Memory.h:118 in Eigen::internal::handmade_aligned_free(void*)
+2: Shadow bytes around the buggy address:
+2:   0x0a1a7fff81d0: fd fd fd fd fa fa fa fa fa fa fa fa 00 00 00 00
+2:   0x0a1a7fff81e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fa fa
+2:   0x0a1a7fff81f0: fa fa fa fa fa fa 00 00 00 00 00 00 00 00 00 00
+2:   0x0a1a7fff8200: 00 00 00 00 00 00 00 00 fa fa fa fa fa fa fa fa
+2:   0x0a1a7fff8210: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+2: =>0x0a1a7fff8220: 00 fa fa fa fa fa fa fa fa[fa]00 00 00 00 00 00
+2:   0x0a1a7fff8230: 00 00 00 00 00 00 00 00 00 00 00 00 fa fa fa fa
+2:   0x0a1a7fff8240: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+2:   0x0a1a7fff8250: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+2:   0x0a1a7fff8260: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+2:   0x0a1a7fff8270: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+2: Shadow byte legend (one shadow byte represents 8 application bytes):
+2:   Addressable:           00
+2:   Partially addressable: 01 02 03 04 05 06 07 
+2:   Heap left redzone:       fa
+2:   Freed heap region:       fd
+2:   Stack left redzone:      f1
+2:   Stack mid redzone:       f2
+2:   Stack right redzone:     f3
+2:   Stack after return:      f5
+2:   Stack use after scope:   f8
+2:   Global redzone:          f9
+2:   Global init order:       f6
+2:   Poisoned by user:        f7
+2:   Container overflow:      fc
+2:   Array cookie:            ac
+2:   Intra object redzone:    bb
+2:   ASan internal:           fe
+2:   Left alloca redzone:     ca
+2:   Right alloca redzone:    cb
+2:   Shadow gap:              cc
+2: ==135==ABORTING
+1/1 Test #2: planner_safety ...................***Failed    0.19 sec
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.19 sec
+
+The following tests FAILED:
+	  2 - planner_safety (Failed)
+Errors while running CTest
+Output from these tests are in: /work/costmap-semantics-sanitizer/Testing/Temporary/LastTest.log
+Use "--rerun-failed --output-on-failure" to re-run the failed cases verbosely.

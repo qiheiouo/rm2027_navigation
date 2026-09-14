@@ -1,0 +1,46 @@
+{
+  "kind": "authoring_checks_not_runtime_validation",
+  "date": "2026-09-14",
+  "development_base": "74f68e2d6e6957dfbdc64542165acbbb6f740f41",
+  "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+  "python_ast_parse": "passed",
+  "bash_n": "passed",
+  "git_diff_check": "passed for source and authored docs; original log copies excluded from whitespace formatting",
+  "old_inputs_verified": 238,
+  "three_field_configs_unchanged": true,
+  "unchanged_paths": [
+    "src",
+    "experiments/tdt_planner/rm_tdt_planner/src",
+    "experiments/tdt_planner/rm_tdt_planner/include",
+    "experiments/tdt_planner/rm_tdt_planner/vendor",
+    "experiments/tdt_planner/rm_tdt_planner/config",
+    "experiments/tdt_planner/rm_tdt_planner/launch",
+    "experiments/tdt_planner/rm_tdt_planner/test/test_planner.cpp",
+    "experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp"
+  ],
+  "container_read_only_preprocessing_executed": true,
+  "observed_eigen_malloc_already_aligned": {
+    "old_release_flags": 1,
+    "old_core_asan_flags": 0
+  },
+  "new_boundary_test_definitions": 1,
+  "expected_normal_cases": 46,
+  "expected_core_sanitizer_cases": 25,
+  "boundary_case_included_in_core_count": true,
+  "new_build_executed": false,
+  "new_chain_audit_executed": false,
+  "new_tests_executed": false,
+  "sanitizers_executed": false,
+  "gazebo_executed": false,
+  "hardware_executed": false,
+  "validation_owner": "user-operated Terra",
+  "source_sha256": {
+    "experiments/tdt_planner/rm_tdt_planner/CMakeLists.txt": "6f6398dc45857179432cd4eede61bc49ad5e1a64016abce1f7453c43c2ed77db",
+    "experiments/tdt_planner/rm_tdt_planner/tools/build_dependencies.sh": "c9d2d22395e2a62027c4227e792657d32a01c9369d473e570d195cbc9089d04e",
+    "experiments/tdt_planner/rm_tdt_planner/tools/p2b_validation.sh": "118ec0a7675ce6f4d82799fbe13c7fc1605c8a5e256170d056daca2a8782dc47",
+    "experiments/tdt_planner/rm_tdt_planner/tools/run_core_sanitizers.sh": "3a2a8ec7e591741b62b95d0c241fe1c68a0a21dfef6be7aa96a9740617a54c18",
+    "experiments/tdt_planner/rm_tdt_planner/tools/audit_sanitizer_chain.py": "7539070ddc1a1a1697fa7051ba8d21a4e9a7519f6891311261adf489f3434a57",
+    "experiments/tdt_planner/rm_tdt_planner/test/test_solver_lifetime.cpp": "89905f7ca31468f1e79e4b85fd2686a6c9bff8134b843366e4cd7a66b19ee8c8"
+  },
+  "verbatim_log_trailing_whitespace_retained": true
+}

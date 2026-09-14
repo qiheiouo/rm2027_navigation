@@ -9,7 +9,8 @@
 - git status；是否存在源码偏离：
 - 镜像 ID、CPU、可用内存：
 - P2B_SERIES / 持久运行目录：
-- 旧 static_v1/static_v2 证据及原回传报告哈希核对：
+- 旧 static_v1/static_v2/static_v3 证据及原回传报告哈希核对：
+- sanitizer 独立目录、source_commit/image_id、chain_audit.json、ldd.txt、求解器 SHA、宏与插桩符号核对：
 - profile、场景及 aggregate 路径/SHA：
 
 ## 实际执行记录
@@ -18,8 +19,9 @@
 | --- | --- | --- | --- |
 | 依赖（如执行） | | | |
 | 构建 | | | |
-| CTest：24 + 4 + 13 + 4 预期 | | | |
-| ASan/UBSan/LSan：24 核心预期 | | | |
+| CTest：25 + 4 + 13 + 4 预期 | | | |
+| sanitizer 构建链审计、边界用例 1 项 | | | |
+| ASan/UBSan/LSan：25 核心预期（含边界用例） | | | |
 | 四配置核对 | | | |
 | 汇总 | | | |
 

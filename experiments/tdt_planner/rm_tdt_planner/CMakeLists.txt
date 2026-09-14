@@ -30,7 +30,7 @@ if(BUILD_TESTING)
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_simulation_tools.py)
   set_tests_properties(simulation_evidence_tools PROPERTIES TIMEOUT 30
     ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
-  add_executable(test_planner test/test_planner.cpp)
+  add_executable(test_planner test/test_planner.cpp test/test_solver_lifetime.cpp)
   target_include_directories(test_planner PRIVATE tools)
   target_link_libraries(test_planner rm_tdt_core GTest::gtest_main)
   add_test(NAME planner_safety COMMAND test_planner)

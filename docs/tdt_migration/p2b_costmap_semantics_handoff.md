@@ -1,5 +1,10 @@
 # P2B：Nav2 代价语义修复与 static_v3 交接
 
+> 2026-09-14 回传更新：74f68e2 构建、45 项常规测试通过；static_v3 因 sanitizer
+> 失败而无仿真试次。以下为该轮历史交接，新的执行入口见
+> [sanitizer 构建链修复交接](p2b_sanitizer_chain_handoff.md)，使用 static_v4。
+
+
 状态：**static_v2 已复核；重复膨胀修复与回归用例已编写，尚待 Terra 编译及运行验证。**
 开发基线 `e85b076760c1367385b4f92a84ee24b14985c3c0`，分支
 `experiment/tdt-planner-phase2`；修复交接提交以设计者交付号为准。

@@ -25,9 +25,10 @@ static course, MPPI and chassis stub. The observer is the sole test action
 client inside the isolated simulation domain; it never publishes velocity or
 TF and never co-launches competition mission or real hardware. The e85b076 validation
 passed 39 tests, and both baseline groups achieved 5/5 limited static passes.
-Both T-DT first trials failed. A local fix for double inflation of Nav2 inscribed costs
-awaits static_v3 validation; preserve static_v1/v2. See
-`docs/tdt_migration/p2b_costmap_semantics_handoff.md`.
+Both T-DT first trials failed. The 74f68e2 costmap fix passed 45 ordinary tests, but
+static_v3 ran no navigation trials after a repeatable ASan failure. A fix for the
+mixed Release/sanitized Eigen allocation boundary awaits validation in static_v4;
+preserve static_v1/v2/v3. See `docs/tdt_migration/p2b_sanitizer_chain_handoff.md`.
 
 ## Principle
 

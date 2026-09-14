@@ -4,7 +4,7 @@ set -euo pipefail
 repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)
 pkg_rel=experiments/tdt_planner/rm_tdt_planner
 work="$repo/build/tdt_p2b"
-series=${P2B_SERIES:-static_v3}
+series=${P2B_SERIES:-static_v4}
 [[ "$repo" = /home/* && "$series" =~ ^[A-Za-z0-9_-]+$ ]] || exit 2
 mkdir -p "$work" "$work/tmp"
 docker_args=(run --rm --init --network none --user "$(id -u):$(id -g)" --entrypoint bash
@@ -42,19 +42,22 @@ ctest --test-dir /work/build/rm_tdt_planner -V
 '
     ;;
   sanitizers)
-    container -c '
-set -e
-export CMAKE_PREFIX_PATH="/work/deps:${CMAKE_PREFIX_PATH:-}"
-export LD_LIBRARY_PATH="/work/deps/lib:${LD_LIBRARY_PATH:-}"
-export ASAN_OPTIONS=halt_on_error=1:detect_leaks=1
-export UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1
-cmake -S /ws/experiments/tdt_planner/rm_tdt_planner -B /work/costmap-semantics-sanitizer \
-  -DBUILD_TESTING=ON -DRM_TDT_BUILD_ROS2=OFF -DRM_TDT_BUILD_BENCHMARK=OFF \
-  -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer" \
-  "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined"
-cmake --build /work/costmap-semantics-sanitizer --target test_planner -j2
-ctest --test-dir /work/costmap-semantics-sanitizer -R "^planner_safety$" -V
-'
+    mkdir -p "$work/sanitizer_runs"
+    sanitizer_run=$(mktemp -d "$work/sanitizer_runs/chain_$(date -u +%Y%m%dT%H%M%SZ).XXXXXX")
+    echo "Sanitizer evidence: $sanitizer_run"
+    git -C "$repo" rev-parse HEAD > "$sanitizer_run/source_commit.txt"
+    docker image inspect rm2027_navigation:humble --format '{{.Id}}' > "$sanitizer_run/image_id.txt"
+    set +e
+    docker "${docker_args[@]}" -v "$work/deps_source:/work/deps_source:ro" \
+      -v "$work/deps:/work/deps:ro" rm2027_navigation:humble \
+      "/ws/$pkg_rel/tools/run_core_sanitizers.sh" /work/deps_source \
+      "/work/sanitizer_runs/$(basename "$sanitizer_run")" 2>&1 | tee "$sanitizer_run/session.log"
+    pipeline_status=("${PIPESTATUS[@]}")
+    status=${pipeline_status[0]}
+    [[ "$status" != 0 || "${pipeline_status[1]}" = 0 ]] || status=1
+    set -e
+    printf '%s\n' "$status" > "$sanitizer_run/exit.txt"
+    exit "$status"
     ;;
   profiles)
     extra=()
