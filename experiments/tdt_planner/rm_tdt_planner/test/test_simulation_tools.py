@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Synthetic fixtures for handoff tooling; not Gazebo or physical acceptance."""
 import copy
+import json
 import math
 from pathlib import Path
 import subprocess
@@ -10,10 +11,64 @@ import unittest
 
 TOOLS = Path(__file__).resolve().parents[1]/'tools'
 sys.path.insert(0, str(TOOLS))
+from audit_endpoint_witness import audit_message, audit_file
 from simulation_geometry import clearance, point_segment, polygon_distance
 from inspect_simulation_endpoints import endpoint
 from simulation_evidence import analyze
 from summarize_simulation import summarize
+
+
+class WitnessAuditTest(unittest.TestCase):
+    def setUp(self):
+        self.payload = dict(origin=[-2.,-4.], size=[200,160], resolution=.05,
+                            radius=.43, clearance=.02, guard=1e-7,
+                            start=dict(status='free', local=[7.3,3.], collision=None),
+                            goal=dict(status='blocked', local=[6.3,4.], collision=dict(
+                                cell=[120,87], cost=254, boundary=False,
+                                distance=math.hypot(.25,.35), required=.43+.02)))
+        self.context = (' [input=nav2_master start=(5.3,-1) goal=(4.3,0) origin=(-2,-4) '
+                        'size=200x160 resolution=0.05 radius=0.43 clearance=0.02 '
+                        'start_yaw=0 goal_yaw=0]')
+
+    def message(self):
+        return ('start or goal outside conservative free space endpoint_witness_v1=' +
+                json.dumps(self.payload) + self.context)
+
+    def test_exact_square_and_raw_cost_not_endpoint_cost(self):
+        result = audit_message(self.message())
+        self.assertAlmostEqual(result['goal']['shortfall_m'], .45-math.hypot(.25,.35))
+        self.assertEqual(result['goal']['cost'],254)
+        self.assertFalse(result['start']['free_claim_independently_verified'])
+        self.assertAlmostEqual(result['goal']['world_box'][0],4.)
+
+    def test_corrupt_evidence_is_rejected(self):
+        original = copy.deepcopy(self.payload)
+        for key, value in [('cost', 252), ('distance', 0.), ('distance', float('nan')),
+                           ('required', .1), ('boundary', True), ('cell', [200,87])]:
+            self.payload = copy.deepcopy(original)
+            self.payload['goal']['collision'][key] = value
+            with self.assertRaises(ValueError): audit_message(self.message())
+        self.payload = original
+        with self.assertRaises(ValueError):
+            audit_message(self.message().replace('goal=(4.3,0)','goal=(4.4,0)'))
+
+    def test_centre_only_and_outside_reasons(self):
+        self.payload['goal']['local'] = [6.3,4.0]
+        self.payload['goal']['collision'] = dict(cell=[126,80],cost=253,boundary=False,
+                                               distance=0.,required=0.)
+        audit_message(self.message())
+        self.payload['goal'] = dict(status='outside_or_nonfinite',local=[-1.,4.],collision=None)
+        audit_message(self.message().replace('goal=(4.3,0)','goal=(-3,0)'))
+
+    def test_missing_witnesses_never_claim_an_audit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp)/'events.jsonl'
+            p.write_text('')
+            self.assertFalse(audit_file(p)['audited'])
+            p.write_text(json.dumps(dict(node='planner_server',t=1.,
+                message='start or goal outside conservative free space'))+'\n')
+            self.assertEqual(audit_file(p)['missing_witnesses'],1)
+            self.assertFalse(audit_file(p)['audited'])
 
 
 class EndpointInspectionTest(unittest.TestCase):

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <limits>
 #include <random>
+#include <regex>
 
 using namespace rm_tdt_planner;
 namespace
@@ -488,4 +489,63 @@ TEST(Nav2Endpoints, LegacyOfflineWholeCellPolicyRemainsUnchanged)
   const auto prepared = prepare_grid(g, o);
   EXPECT_FALSE(plan_prepared(prepared, start, goal, o).success);
   EXPECT_FALSE(collision_free_prepared(prepared, {goal}));
+}
+
+TEST(EndpointWitness, SameSnapshotHardCellAndIndependentDistance)
+{
+  for (uint8_t cost : {254, 255}) {
+    auto g = endpoint_corner_grid(); auto o = endpoint_options(); o.optimize = false;
+    g.costs[87 * g.width + 120] = cost;
+    const auto free = at(g, 7.3, 3.0), blocked = at(g, 6.3, 4.0);
+    const auto prepared = prepare_grid(g, o);
+    for (bool reverse : {false, true}) {
+      const auto a = reverse ? blocked : free, b = reverse ? free : blocked;
+      const auto result = plan(g, a, b, o);
+      ASSERT_FALSE(result.success); EXPECT_TRUE(result.path.empty());
+      EXPECT_NE(result.reason.find("endpoint_witness_v1="), std::string::npos);
+      EXPECT_NE(result.reason.find("\"cell\":[120,87],\"cost\":" + std::to_string(cost)),
+        std::string::npos);
+      std::smatch match;
+      ASSERT_TRUE(std::regex_search(result.reason, match, std::regex("\"distance\":([0-9.eE+-]+)")));
+      EXPECT_NEAR(std::stod(match[1]),
+        benchmark_geometry::clearance(g, {blocked}, 0.0, 1.0), 1e-12);
+      EXPECT_EQ(result.reason, plan_prepared(prepared, a, b, o).reason);
+    }
+    g.costs.assign(g.costs.size(), 0);
+    EXPECT_TRUE(plan(g, free, blocked, o).success);
+    const auto old = plan_prepared(prepared, free, blocked, o);
+    EXPECT_FALSE(old.success);
+    EXPECT_NE(old.reason.find("\"cell\":[120,87]"), std::string::npos);
+  }
+}
+
+TEST(EndpointWitness, BoundaryAndCentreOnly253RetainDistinctThresholds)
+{
+  auto g = empty_grid(); g.cost_interpretation = CostInterpretation::Nav2Master;
+  auto o = test_options(); o.optimize = false;
+  const auto free = at(g, 5.0, 4.0);
+  const auto edge = plan(g, free, at(g, .2, 4.0), o);
+  EXPECT_FALSE(edge.success);
+  EXPECT_NE(edge.reason.find("\"cost\":0,\"boundary\":true"), std::string::npos);
+  g.costs[40 * g.width + 40] = 253;
+  const auto centre = plan(g, free, at(g, 4.05, 4.05), o);
+  EXPECT_FALSE(centre.success);
+  EXPECT_NE(centre.reason.find("\"cell\":[40,40],\"cost\":253,\"boundary\":false"),
+    std::string::npos);
+  EXPECT_NE(centre.reason.find("\"distance\":0,\"required\":0"), std::string::npos);
+}
+
+TEST(EndpointWitness, NoInventedCollisionForOutsideOrLegacyInputs)
+{
+  auto g = empty_grid(); g.cost_interpretation = CostInterpretation::Nav2Master;
+  auto o = test_options(); o.optimize = false;
+  const auto free = at(g, 5.0, 4.0);
+  const auto outside = plan(g, free, at(g, -1.0, 4.0), o);
+  EXPECT_NE(outside.reason.find("\"status\":\"outside_or_nonfinite\""), std::string::npos);
+  EXPECT_EQ(outside.reason.find("\"cell\":"), std::string::npos);
+  const auto invalid = plan(g, free, {std::numeric_limits<double>::infinity(), 0}, o);
+  EXPECT_NE(invalid.reason.find("\"local\":null,\"collision\":null"), std::string::npos);
+  EXPECT_TRUE(plan(g, free, at(g, 6.0, 4.0), o).success);
+  g.cost_interpretation = CostInterpretation::ObstacleSeeds;
+  EXPECT_EQ(plan(g, free, at(g, -1, 4), o).reason.find("endpoint_witness_v1="), std::string::npos);
 }

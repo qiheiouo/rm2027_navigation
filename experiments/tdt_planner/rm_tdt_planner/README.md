@@ -155,3 +155,13 @@ python3 "$pkg/tools/make_profile.py" \
 
 来源/补丁与后续阶段见 `docs/external/tdt_nav_kit.md`、
 `docs/tdt_migration/assessment_and_plan.md`。
+
+### Exact endpoint rejection evidence
+
+Nav2 endpoint failures include `endpoint_witness_v1` JSON from the same immutable
+raw input and the original collision predicate. Each blocked endpoint supplies
+one sufficient raw cell, distance and threshold; this is not a nearest-obstacle
+query. `tools/audit_endpoint_witness.py EVENTS --output NEW_JSON` independently
+checks the recorded geometry and plugin request. Published OccupancyGrid frames
+are not substituted for the exact input. See
+[diagnostic scope](../../../docs/tdt_migration/p2b_endpoint_witness.md).

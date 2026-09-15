@@ -7,6 +7,9 @@
 #include <chrono>
 #include <cmath>
 #include <limits>
+#include <iomanip>
+#include <locale>
+#include <sstream>
 #include <stdexcept>
 #include <utility>
 
@@ -177,12 +180,24 @@ double segment_square_distance(Point a, Point b, double x, double y, double r)
   return result;
 }
 
+// One sufficient collision witness, chosen by the existing row-major traversal.
+// It is not necessarily the closest cell; no second map read or relaxed predicate.
+struct CollisionWitness
+{
+  bool present = false;
+  int x = 0, y = 0, cost = 0;
+  bool boundary = false;
+  double distance = 0.0, required = 0.0;
+};
+
 struct SweptCircle
 {
   const Grid & source;
   double reach;
-  bool segment(Point a, Point b) const
+  static constexpr double guard = 1e-7;
+  bool segment(Point a, Point b, CollisionWitness * witness = nullptr) const
   {
+    if (witness) {*witness = CollisionWitness{};}
     const double r = source.resolution;
     auto inside = [&](Point p) {
         return finite(p) && p.x >= 0.0 && p.y >= 0.0 &&
@@ -190,7 +205,6 @@ struct SweptCircle
       };
     if (!inside(a) || !inside(b)) {return false;}
     // Positive numerical guard: never accept a segment on the collision boundary.
-    const double guard = 1e-7;
     auto lower = [&](double value) {return static_cast<int>(std::floor((value - reach) / r)) - 1;};
     auto upper = [&](double value) {return static_cast<int>(std::floor((value + reach) / r)) + 1;};
     const int x0 = std::max(0, lower(std::min(a.x, b.x)));
@@ -200,17 +214,22 @@ struct SweptCircle
     for (int y = y0; y <= y1; ++y) {
       for (int x = x0; x <= x1; ++x) {
         const auto cost = source.costs[y * source.width + x];
-        const bool seed = cost >= 254 || x == 0 || y == 0 ||
+        const bool boundary = x == 0 || y == 0 ||
           x == source.width - 1 || y == source.height - 1;
+        const bool seed = cost >= 254 || boundary;
         if (!seed && cost != 253) {continue;}
-        if (segment_square_distance(a, b, x * r, y * r, r) <= (seed ? reach : 0.0) + guard) {
+        const double separation = segment_square_distance(a, b, x * r, y * r, r);
+        const double required = seed ? reach : 0.0;
+        if (separation <= required + guard) {
+          if (witness) {*witness = {true, x, y, cost, boundary, separation, required};}
           return false;
         }
       }
     }
     return true;
   }
-  bool point(Point p) const {return segment(p, p);}
+  bool point(Point p, CollisionWitness * witness = nullptr) const
+  {return segment(p, p, witness);}
   bool path(const std::vector<Point> & points) const
   {
     if (points.empty() || !point(points.front())) {return false;}
@@ -220,6 +239,37 @@ struct SweptCircle
     return true;
   }
 };
+
+// Compact JSON embedded in PlannerException/rosout. Local points and cell indices
+// retain the exact double-precision snapshot geometry (not OccupancyGrid float32).
+std::string endpoint_witness_json(const Grid & g, const Options & o,
+  Point start, Point goal, bool start_free, bool goal_free,
+  const CollisionWitness & start_witness, const CollisionWitness & goal_witness)
+{
+  std::ostringstream out;
+  out.imbue(std::locale::classic());
+  out << std::setprecision(17) << " endpoint_witness_v1={\"origin\":[" << g.origin_x << ','
+      << g.origin_y << "],\"size\":[" << g.width << ',' << g.height
+      << "],\"resolution\":" << g.resolution << ",\"radius\":" << o.radius
+      << ",\"clearance\":" << o.clearance << ",\"guard\":" << SweptCircle::guard;
+  auto endpoint = [&](const char * name, Point p, bool free, const CollisionWitness & w) {
+      out << ",\"" << name << "\":{\"status\":\""
+          << (free ? "free" : (w.present ? "blocked" : "outside_or_nonfinite"))
+          << "\",\"local\":";
+      if (finite(p)) {out << '[' << p.x << ',' << p.y << ']';} else {out << "null";}
+      out << ",\"collision\":";
+      if (w.present) {
+        out << "{\"cell\":[" << w.x << ',' << w.y << "],\"cost\":" << w.cost
+            << ",\"boundary\":" << (w.boundary ? "true" : "false")
+            << ",\"distance\":" << w.distance << ",\"required\":" << w.required << '}';
+      } else {out << "null";}
+      out << '}';
+    };
+  endpoint("start", start, start_free, start_witness);
+  endpoint("goal", goal, goal_free, goal_witness);
+  out << '}';
+  return out.str();
+}
 
 bool endpoint_anchor(Point endpoint, const CollisionGrid & collision,
   const SweptCircle & geometry, Point & anchor)
@@ -336,7 +386,10 @@ static Result plan_impl(const Grid & g, Point start, Point goal, const Options &
     const SweptCircle geometry{source, o.radius + o.clearance};
     const Point requested_start = start, requested_goal = goal;
     auto endpoint_free = [&](Point p) {return nav2 ? geometry.point(p) : collision.point(p);};
-    if (!endpoint_free(start) || !endpoint_free(goal)) {
+    CollisionWitness start_witness, goal_witness;
+    const bool start_free = nav2 ? geometry.point(start, &start_witness) : collision.point(start);
+    const bool goal_free = nav2 ? geometry.point(goal, &goal_witness) : collision.point(goal);
+    if (!start_free || !goal_free) {
       auto endpoint = [&](Point p) {
           if (!collision.inside(p)) {return std::string("outside_map");}
           const int x = static_cast<int>(std::floor(p.x / g.resolution));
@@ -346,6 +399,10 @@ static Result plan_impl(const Grid & g, Point start, Point goal, const Options &
         };
       result.reason = "start or goal outside conservative free space: start=" + endpoint(start) +
         ", goal=" + endpoint(goal);
+      if (nav2) {
+        result.reason += endpoint_witness_json(source, o, start, goal, start_free, goal_free,
+          start_witness, goal_witness);
+      }
       return finish();
     }
     if (distance(start, goal) < 1e-8) {

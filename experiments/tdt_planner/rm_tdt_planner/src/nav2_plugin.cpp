@@ -76,13 +76,19 @@ public:
       {goal.pose.position.x, goal.pose.position.y}, options);
     if (!result.success) {
       // Diagnose the exact request/snapshot; published OccupancyGrid samples may lag it.
+      auto yaw = [](const geometry_msgs::msg::Quaternion & q) {
+          return std::atan2(2.0 * (q.w * q.z + q.x * q.y),
+            1.0 - 2.0 * (q.y * q.y + q.z * q.z));
+        };
       std::ostringstream detail;
       detail << std::setprecision(17) << result.reason
              << " [input=nav2_master start=(" << start.pose.position.x << ',' << start.pose.position.y
              << ") goal=(" << goal.pose.position.x << ',' << goal.pose.position.y
              << ") origin=(" << grid.origin_x << ',' << grid.origin_y
              << ") size=" << grid.width << 'x' << grid.height << " resolution=" << grid.resolution
-             << " radius=" << options.radius << " clearance=" << options.clearance << ']';
+             << " radius=" << options.radius << " clearance=" << options.clearance
+             << " start_yaw=" << yaw(start.pose.orientation)
+             << " goal_yaw=" << yaw(goal.pose.orientation) << ']';
       throw nav2_core::PlannerException(detail.str());
     }
 

@@ -143,6 +143,9 @@ TEST_F(PluginTest, MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved)
     EXPECT_NE(message.find("goal=blocked@cost=254"), std::string::npos);
     EXPECT_NE(message.find("input=nav2_master"), std::string::npos);
     EXPECT_NE(message.find("resolution="), std::string::npos);
+    EXPECT_NE(message.find("endpoint_witness_v1="), std::string::npos);
+    EXPECT_NE(message.find("\"boundary\":false"), std::string::npos);
+    EXPECT_NE(message.find("start_yaw=0 goal_yaw=0"), std::string::npos);
   }
 }
 }  // namespace
