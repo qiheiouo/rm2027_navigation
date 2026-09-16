@@ -1,0 +1,40 @@
+{
+  "schema": "rm_tdt_planner/preservation_review/v1",
+  "checks": [
+    {
+      "manifest": "docs/tdt_migration/evidence/costmap_semantics_20260913/preserved_static_v2.json",
+      "count": 166,
+      "all_match": true
+    },
+    {
+      "manifest": "docs/tdt_migration/evidence/sanitizer_chain_20260914/preserved_inputs.json",
+      "count": 238,
+      "all_match": true
+    },
+    {
+      "manifest": "docs/tdt_migration/evidence/endpoint_connectors_20260914/preserved_static_v4.json",
+      "count": 272,
+      "all_match": true
+    },
+    {
+      "manifest": "docs/tdt_migration/evidence/endpoint_witness_20260915/preserved_static_v5.json",
+      "count": 438,
+      "all_match": true
+    },
+    {
+      "manifest": "docs/tdt_migration/evidence/pose_geometry_20260916/preserved_endpoint_witness.json",
+      "count": 114,
+      "all_match": true
+    },
+    {
+      "manifest": "docs/tdt_migration/evidence/costmap_semantics_20260913/field_config_preservation.json",
+      "count": 3,
+      "all_match": true
+    }
+  ],
+  "tested_source_commit": "4ad918f40e9a92216d46c47baa65fa0374c07211",
+  "tested_source_matches_git": true,
+  "package_changes_since_tested_commit": [
+    "experiments/tdt_planner/rm_tdt_planner/README.md"
+  ]
+}

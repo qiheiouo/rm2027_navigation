@@ -11,3 +11,7 @@
 证书仅适用于线性中心、显式线性 yaw 的合成运动，尚无真实完整 raw snapshot 回放、
 候选连接生成或 MPPI 姿态约束。`RawCostmapInput` 拒绝 Grid/PreparedGrid 对象转换，
 人工构造字节时仍由调用方保证 raw 来源；类型本身不能识别手动复制的膨胀字节。
+
+后续 `4ad918f` 的统一 sanitizer 已实际覆盖本库：56/56 core 通过（含本库 19 项）；
+见 [航向 A/B 验证](evidence/heading_follow_20260916/validation_20260916.md)。仍为 test-only，
+用户要求的终端状态语义改造尚未实现，不把离线结果与当前朝向 A/B 功能混淆。

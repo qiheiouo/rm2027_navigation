@@ -89,9 +89,9 @@ Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行�
 `p2b_validation.sh` 提供 `deps/build/check/sanitizers/profiles/run/summarize`，每次 `run`
 创建新隔离容器，自动结束自身 launch 进程组。原始轨迹、路径、命令、costmap、事件
 和 action 结果写在 `build/tdt_p2b/runs/`；目录已存在时拒绝覆盖。日志留在 `/home`。
-当前有 33 个 core、4 个 plugin、18 个纯 Python 工具和 4 个真实 ROS 消息测试，
-共 59 项。`sanitizers` 在独立目录统一插桩构建固定求解器与 core，审计实际宏/库，
-先运行求解器跨库生命周期用例，再运行包含它的 33 项核心测试。
+当前有 56 个 core、6 个 plugin/实际 MPPI scorer、20 个纯 Python 工具和 5 个真实 ROS 消息测试，
+共 87 项（5 个 CTest 入口）。`sanitizers` 在独立目录统一插桩构建固定求解器与 core，审计实际宏/库，
+先运行求解器跨库生命周期用例，再运行包含它的 56 项核心测试。
 入口默认值仍是 `static_v5`，该系列已使用；新运行必须显式设置新的 `P2B_SERIES`。
 保留所有旧系列，单组失败后停止该组重复。精确端点诊断系列为 `endpoint_witness_v1`，也已使用。
 构建链命令仍见 [构建链交接](../../../docs/tdt_migration/p2b_sanitizer_chain_handoff.md)，
@@ -166,3 +166,13 @@ query. `tools/audit_endpoint_witness.py EVENTS --output NEW_JSON` independently
 checks the recorded geometry and plugin request. Published OccupancyGrid frames
 are not substituted for the exact input. See
 [diagnostic scope](../../../docs/tdt_migration/p2b_endpoint_witness.md).
+
+### 默认关闭的路径朝向 A/B
+
+`GridBased.experimental_path_heading` 缺省 false；true 为 A*/QP 的同一条 XY 路径
+生成弧长切线 yaw 及起终朝向过渡。`tools/heading_ab.py` 复用原静态场景，将原 QP
+与已有 chassis-heading 策略加 PathAlign orientation 消费的候选进行独立 A/B；
+不修改部署默认或圆碰撞模型，不链接 test-only SE(2) 库。
+`heading_follow_v1` 已使用并冻结：本例朝向误差下降，恢复 18/22 次，两组导航失败。
+[实测和限制](../../../docs/tdt_migration/evidence/heading_follow_20260916/validation_20260916.md)、
+[完整差异和命令](../../../docs/tdt_migration/p2b_heading_follow_experiment.md)。

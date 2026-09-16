@@ -1,0 +1,273 @@
+{
+  "schema": "rm_tdt_planner/heading_ab/v1",
+  "consistent_and_audited": true,
+  "recorded": 2,
+  "both_variants_present": true,
+  "all_recorded_static_checks_pass": false,
+  "trials": [
+    {
+      "directory": "tdt_qp_1",
+      "raw_summary_matches": true,
+      "planner": "tdt_qp",
+      "trial": 1,
+      "heading_variant": "baseline",
+      "source_commit": "4ad918f40e9a92216d46c47baa65fa0374c07211",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "5718ec4045ba56634208a13d7f2bcee0b768ae40ab2c4110a4a01a66af4b4e67",
+      "fixture_sha256": {
+        "src/rm_simulation/worlds/phase1_omni.sdf": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3",
+        "src/rm_simulation/models/course_wall.sdf": "8dd4d62b879626a206936f939e5212609da89a0f483ed0a394bb7df20f2c9c81",
+        "src/rm_nav_config/config/nav2_phase1_5_mppi.yaml": "0e2020c8eb5001e3f57c3626353a99fdad785cb6a716abd9d6fd89ae88628caf",
+        "experiments/tdt_planner/rm_tdt_planner/launch/simulation_comparison.launch.py": "1e1d66725ce8951eb291cbcaf438113bb8c392a6a9630982f9a996ac25363acf"
+      },
+      "scope": "static heading bundle A/B, goal (4.3,0,0), no hardware",
+      "performance_is_not_algorithm_rejection": true,
+      "summary": {
+        "schema": "rm_tdt_planner/static_simulation/v1",
+        "evidence_valid": true,
+        "checks": {
+          "action_succeeded": false,
+          "body_clearance_at_least_005m": true,
+          "padded_footprint_no_contact": true,
+          "final_position_within_015m": false,
+          "final_yaw_within_020rad": false,
+          "no_recovery": false,
+          "fresh_stopped_command": false
+        },
+        "static_geometry_and_goal_pass": false,
+        "action_status": 6,
+        "timed_out": false,
+        "recoveries": 18,
+        "goal": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "final_pose": [
+          4.481369305955538,
+          -0.3832607040330915,
+          3.0730028812224632
+        ],
+        "final_xy_error_m": 0.4240089532058664,
+        "final_yaw_error_rad": 3.0730028812224632,
+        "trajectory_samples": 901,
+        "max_sample_gap_sim_s": 0.04000000000000625,
+        "min_body_clearance_m": 0.09132494426928568,
+        "min_padded_clearance_m": 0.048916784723294436,
+        "linear_pose_interpolation_body_bound_m": 0.08351469443856256,
+        "linear_pose_interpolation_padded_bound_m": 0.04026115054836797,
+        "cross_track_rms_m": 0.06297974925801139,
+        "cross_track_max_m": 0.1097460344178054,
+        "traveled_m": 6.804080420259797,
+        "max_command_acceleration_m_s2": 1.6835875742537632,
+        "warning_counts": {
+          "costmap or footprint changed": 1,
+          "start or goal outside": 15
+        },
+        "snapshot_rejection_observed": true,
+        "algorithm_rejected": false,
+        "scope": "Static fixture, sampled poses and linear pose interpolation; manual review still required.",
+        "performance_policy": "Record current-device limits; no performance patches or algorithm rejection.",
+        "preflight": {
+          "status": 4,
+          "wall_ms": 34.13140099996781,
+          "samples": 238
+        },
+        "sim_seconds": 36.025,
+        "wall_seconds": 38.85973964499999,
+        "plan_messages": 15,
+        "max_scan_gap_sim_s": 0.067,
+        "max_odom_gap_sim_s": 0.020000000000003126,
+        "clock_reversed": false,
+        "fixture_spawn_verified": true
+      },
+      "docker_exit": 1,
+      "artifact_sha256": {
+        "container_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "container_id": "079ce7d97e336c5448eb87946b5ed3711bd95191696b7fd7e4ebfeb3ff473601",
+        "docker_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "endpoint_witness_audit.json": "59262e2965b87f05fee18d41ee9d38c068de702c9a0ceadc1cf6c28f5a0908cc",
+        "launch.log": "4f8df8e68e26f53d92654f8e20b514ee05f36db1540855453eed9999bd17ee8a",
+        "metadata.json": "4bc6432c69e40dedf48dc07e17cb20c6d54c4aad0c183c7c811b0b5446315a9c",
+        "observation/commands.jsonl": "e28840703e82fc4e5ca7b160096935b3d933fea25a045c8168d760d007b8a792",
+        "observation/costmap.jsonl": "c5e5c026a0b662699de2b8f7aca6145f1345adaac471502523e9ce6101e4b6a3",
+        "observation/events.jsonl": "1cb4bc64602d2cf7c19c31090a7143969c037d316b6d02ab10951c73352bc142",
+        "observation/plans.jsonl": "e98cf824b4707e62b70d13635d8f0cca70955b81a890efffe2746cdcc00d66e2",
+        "observation/summary.json": "7dc52df5f4addb24fb91d82415884027cc594c92896ca31c3c7e968eff1e0ab8",
+        "observation/trajectory.jsonl": "32cdd37e1511db28451a0b5cc0605fb3fe51c9d15127fa7c559d114079836c64",
+        "observer.log": "3d41521d0430c2e3f469e61366c0cf7d81205fe178adc09ad7a401501928c358",
+        "profile.yaml": "5718ec4045ba56634208a13d7f2bcee0b768ae40ab2c4110a4a01a66af4b4e67"
+      },
+      "runtime_parameters_verified": true,
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 1.0000000474974513,
+          "time_weighted_rms_wz_rad_s": 0.29252975346940013,
+          "max_abs_dwz_dt_rad_s2": 2.0000006770715544,
+          "max_abs_delta_wz_rad_s": 0.08000002708286047,
+          "total_variation_wz_rad_s": 9.494242968815048,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 901,
+          "duration_s": 35.99999999999999
+        },
+        "command": {
+          "max_abs_wz_rad_s": 1.0,
+          "time_weighted_rms_wz_rad_s": 0.35878673002313666,
+          "max_abs_dwz_dt_rad_s2": 1000.0000000023306,
+          "max_abs_delta_wz_rad_s": 1.0,
+          "total_variation_wz_rad_s": 22.777645688503984,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 435,
+          "duration_s": 30.084
+        },
+        "translating_yaw_to_path": {
+          "samples": 343,
+          "rms_rad": 0.9770472471342365,
+          "median_rad": 0.7248506603372634,
+          "p95_rad": 2.084380435865047
+        },
+        "translating_yaw_to_motion": {
+          "samples": 343,
+          "rms_rad": 1.003591855065286,
+          "median_rad": 0.8406279401528902,
+          "p95_rad": 2.0892891495182133
+        },
+        "max_plan_adjacent_yaw_step_rad": 2.8198420991931794,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      }
+    },
+    {
+      "directory": "tdt_qp_1",
+      "raw_summary_matches": true,
+      "planner": "tdt_qp",
+      "trial": 1,
+      "heading_variant": "path_heading_follow",
+      "source_commit": "4ad918f40e9a92216d46c47baa65fa0374c07211",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "4a17fedbdaf9be9785adfcbf4ed2555f381a7c7d498e824998f01d774441373f",
+      "fixture_sha256": {
+        "src/rm_simulation/worlds/phase1_omni.sdf": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3",
+        "src/rm_simulation/models/course_wall.sdf": "8dd4d62b879626a206936f939e5212609da89a0f483ed0a394bb7df20f2c9c81",
+        "src/rm_nav_config/config/nav2_phase1_5_mppi.yaml": "0e2020c8eb5001e3f57c3626353a99fdad785cb6a716abd9d6fd89ae88628caf",
+        "experiments/tdt_planner/rm_tdt_planner/launch/simulation_comparison.launch.py": "1e1d66725ce8951eb291cbcaf438113bb8c392a6a9630982f9a996ac25363acf"
+      },
+      "scope": "static heading bundle A/B, goal (4.3,0,0), no hardware",
+      "performance_is_not_algorithm_rejection": true,
+      "summary": {
+        "schema": "rm_tdt_planner/static_simulation/v1",
+        "evidence_valid": true,
+        "checks": {
+          "action_succeeded": false,
+          "body_clearance_at_least_005m": true,
+          "padded_footprint_no_contact": true,
+          "final_position_within_015m": false,
+          "final_yaw_within_020rad": false,
+          "no_recovery": false,
+          "fresh_stopped_command": true
+        },
+        "static_geometry_and_goal_pass": false,
+        "action_status": 6,
+        "timed_out": false,
+        "recoveries": 22,
+        "goal": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "final_pose": [
+          4.467698277451755,
+          -0.09674448700589038,
+          1.7694877991872642
+        ],
+        "final_xy_error_m": 0.19360322318163728,
+        "final_yaw_error_rad": 1.7694877991872642,
+        "trajectory_samples": 981,
+        "max_sample_gap_sim_s": 0.04000000000000625,
+        "min_body_clearance_m": 0.10422199390398841,
+        "min_padded_clearance_m": 0.06201584315838274,
+        "linear_pose_interpolation_body_bound_m": 0.1004987437281104,
+        "linear_pose_interpolation_padded_bound_m": 0.05762968448930753,
+        "cross_track_rms_m": 0.04460125685952054,
+        "cross_track_max_m": 0.1376846106265298,
+        "traveled_m": 7.032609573188922,
+        "max_command_acceleration_m_s2": 32.421228289679746,
+        "warning_counts": {
+          "costmap or footprint changed": 1,
+          "start or goal outside": 16
+        },
+        "snapshot_rejection_observed": true,
+        "algorithm_rejected": false,
+        "scope": "Static fixture, sampled poses and linear pose interpolation; manual review still required.",
+        "performance_policy": "Record current-device limits; no performance patches or algorithm rejection.",
+        "preflight": {
+          "status": 4,
+          "wall_ms": 54.0172739999889,
+          "samples": 238
+        },
+        "sim_seconds": 39.245,
+        "wall_seconds": 42.85327504399993,
+        "plan_messages": 19,
+        "max_scan_gap_sim_s": 0.067,
+        "max_odom_gap_sim_s": 0.020000000000003126,
+        "clock_reversed": false,
+        "fixture_spawn_verified": true
+      },
+      "docker_exit": 1,
+      "artifact_sha256": {
+        "container_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "container_id": "4df58bf353db72fae7b73d4d29a342993ed9c309753c39901cb958ae4994717d",
+        "docker_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "endpoint_witness_audit.json": "3d5d80275afde1302be143f99081fdc757df76268381b3bfff24c48b2ddad716",
+        "launch.log": "b8265903ad9ee17c61124a217c0adf8f19dfffa4f12a7869a57152ab1bc19a71",
+        "metadata.json": "393c336418e4a9d3030c25e2dd162ddbb262b3e65797766ee2fe15877d08280f",
+        "observation/commands.jsonl": "23d4ee943d95aab788d6edce33076fbcd2860dee86f12f275cf9ee0e67b25f05",
+        "observation/costmap.jsonl": "5a80f06d7e02ffa126f506bb0b16628546b55dccfa966f26ff0327160b4ad92f",
+        "observation/events.jsonl": "84bf02be8e45f1804499af4b91ec1479b94593570418729f8673d7cfa4fadb75",
+        "observation/plans.jsonl": "e10a30442ad11e9c2751757593f147ccc19655607f059c369b2b327963361606",
+        "observation/summary.json": "c589aea4e4a053aac938f3a1ae4cc352cd10f4113f75ea1ccbd5f51aff9f2e39",
+        "observation/trajectory.jsonl": "8c1099706dfe789aaaa8613500221c6c51dc91332ff7127dc008cf0ef9c7d81c",
+        "observer.log": "c95e361b800ab69b68401b843fcdf47e018c03820ae1cfe5cb36d95826bf994a",
+        "profile.yaml": "4a17fedbdaf9be9785adfcbf4ed2555f381a7c7d498e824998f01d774441373f"
+      },
+      "runtime_parameters_verified": true,
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 1.0000000474974513,
+          "time_weighted_rms_wz_rad_s": 0.3660469915909212,
+          "max_abs_dwz_dt_rad_s2": 2.0000006770715544,
+          "max_abs_delta_wz_rad_s": 0.08000002708286047,
+          "total_variation_wz_rad_s": 17.64146354499294,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 981,
+          "duration_s": 39.199999999999996
+        },
+        "command": {
+          "max_abs_wz_rad_s": 1.0,
+          "time_weighted_rms_wz_rad_s": 0.38961417056646014,
+          "max_abs_dwz_dt_rad_s2": 1317.4980819256016,
+          "max_abs_delta_wz_rad_s": 1.317498081922531,
+          "total_variation_wz_rad_s": 39.3993213146925,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 535,
+          "duration_s": 39.080999999999996
+        },
+        "translating_yaw_to_path": {
+          "samples": 422,
+          "rms_rad": 0.3212977425688402,
+          "median_rad": 0.0541003011367364,
+          "p95_rad": 0.6353829014026303
+        },
+        "translating_yaw_to_motion": {
+          "samples": 422,
+          "rms_rad": 0.5062437573983899,
+          "median_rad": 0.15197939601840282,
+          "p95_rad": 1.516432969154005
+        },
+        "max_plan_adjacent_yaw_step_rad": 0.4068274427085329,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      }
+    }
+  ],
+  "accepted_for_deployment": false,
+  "attribution": "Bundled path yaw and existing path_aligned policy; cannot isolate individual critic effects."
+}

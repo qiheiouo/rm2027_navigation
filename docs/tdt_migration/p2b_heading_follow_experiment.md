@@ -2,7 +2,7 @@
 
 2026-09-16 开发，当前计划与实际结果分开记录。试验在原
 `experiment/tdt-planner-phase2` 分支，不启动定位/MPC/UWB/因子图或终端选择器。
-运行结果见本目录下 `evidence/heading_follow_20260916/validation_20260916.md`（形成后保存）。
+已完成并冻结的实际结果见 [验证报告](evidence/heading_follow_20260916/validation_20260916.md)。
 
 ## 复用审计
 
@@ -10,13 +10,14 @@
 `feature/chassis-heading-motion-policy` 的 `docs/chassis_heading_motion_policy.md`。
 复用提交 `828d4d898d61444ed2a5fb419e02add3421b4ced` 的 `path_aligned` MPPI 策略，
 不引入其定位融合、狗洞执行器或其他分支功能。历史仿真数字不作为本轮结果。
-当前分支的 T-DT 已生成切线 quaternion，但首/末点直接覆盖 start/goal yaw，
+改动前的 T-DT 已生成切线 quaternion，但首/末点直接覆盖 start/goal yaw，
 尚无连续末端过渡；原 PathAlignCritic 未使用 path orientation。
 
 镜像内实际 MPPI 包为 `1.1.20-1jammy.20260607.083249`，原生 Omni 控制器。
 核对官方固定版本源码：
 [PathAlignCritic](https://raw.githubusercontent.com/ros-navigation/navigation2/1.1.20/nav2_mppi_controller/src/critics/path_align_critic.cpp)
-读取 path yaws 进入代价；0.5 m 以内退出，由 GoalAngleCritic 接管。
+读取 path yaws 进入代价；距离当前输入路径末端 0.5 m 以内退出。
+既有 GoalAngleCritic 仍独立按自己的阈值对目标朝向评分，不保证两者无缝衔接。
 [PathAngleCritic](https://raw.githubusercontent.com/ros-navigation/navigation2/1.1.20/nav2_mppi_controller/src/critics/path_angle_critic.cpp)
 使用指向路径前方点的方向，不能代替显式 path orientation。
 本轮还直接调用镜像已安装的 scorer 比较相同 XY、不同 yaw 的轨迹成本，验证开关有效。

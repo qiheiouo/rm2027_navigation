@@ -1,0 +1,310 @@
+Internal ctest changing into directory: /work/build/rm_tdt_planner
+UpdateCTestConfiguration  from :/work/build/rm_tdt_planner/CTestConfiguration.ini
+Parse Config file:/work/build/rm_tdt_planner/CTestConfiguration.ini
+ Add coverage exclude regular expressions.
+UpdateCTestConfiguration  from :/work/build/rm_tdt_planner/CTestConfiguration.ini
+Parse Config file:/work/build/rm_tdt_planner/CTestConfiguration.ini
+Test project /work/build/rm_tdt_planner
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: simulation_evidence_tools
+
+1: Test command: /usr/bin/python3 "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_simulation_tools.py"
+1: Environment variables: 
+1:  PYTHONDONTWRITEBYTECODE=1
+1: Test timeout computed to be: 30
+1: ..................
+1: ----------------------------------------------------------------------
+1: Ran 18 tests in 0.761s
+1: 
+1: OK
+1/5 Test #1: simulation_evidence_tools ........   Passed    0.84 sec
+test 2
+    Start 2: heading_ab_metrics
+
+2: Test command: /usr/bin/python3 "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_heading_ab.py"
+2: Environment variables: 
+2:  PYTHONDONTWRITEBYTECODE=1
+2: Test timeout computed to be: 30
+2: test_invalid_timing_rejected (__main__.AngularMetrics) ... ok
+2: test_time_weighting_and_zero_dt_accounting (__main__.AngularMetrics) ... ok
+2: 
+2: ----------------------------------------------------------------------
+2: Ran 2 tests in 0.000s
+2: 
+2: OK
+2/5 Test #2: heading_ab_metrics ...............   Passed    0.10 sec
+test 3
+    Start 3: planner_safety
+
+3: Test command: /work/build/rm_tdt_planner/test_planner
+3: Test timeout computed to be: 60
+3: Running main() from ./googletest/src/gtest_main.cc
+3: [==========] Running 56 tests from 9 test suites.
+3: [----------] Global test environment set-up.
+3: [----------] 16 tests from Planner
+3: [ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+3: [       OK ] Planner.OpenMapActuallyRunsCorridorBackend (2 ms)
+3: [ RUN      ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation
+3: [       OK ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation (8 ms)
+3: [ RUN      ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints
+3: [       OK ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints (3 ms)
+3: [ RUN      ] Planner.CompletelySealedWallFailsEmpty
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.CompletelySealedWallFailsEmpty (1 ms)
+3: [ RUN      ] Planner.UnknownAndInscribedCellsAreBlocked
+3: [31mError: No path found! return empty path[0m
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.UnknownAndInscribedCellsAreBlocked (2 ms)
+3: [ RUN      ] Planner.SameCellAndSamePose
+3: [       OK ] Planner.SameCellAndSamePose (1 ms)
+3: [ RUN      ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty
+3: [       OK ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty (1 ms)
+3: [ RUN      ] Planner.NarrowPassageRejectedForCircumscribedFootprint
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.NarrowPassageRejectedForCircumscribedFootprint (2 ms)
+3: [ RUN      ] Planner.LateOutputIsNotPublished
+3: [       OK ] Planner.LateOutputIsNotPublished (120 ms)
+3: [ RUN      ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty
+3: [       OK ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty (0 ms)
+3: [ RUN      ] Planner.FrontendOnlyIsSelectable
+3: [       OK ] Planner.FrontendOnlyIsSelectable (2 ms)
+3: [ RUN      ] Planner.WaypointBudgetFallsBackToValidatedAstar
+3: [       OK ] Planner.WaypointBudgetFallsBackToValidatedAstar (2 ms)
+3: [ RUN      ] Planner.UnresolvedOptimizerCollisionFallsBack
+3: [       OK ] Planner.UnresolvedOptimizerCollisionFallsBack (2 ms)
+3: [ RUN      ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples
+3: [       OK ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples (0 ms)
+3: [ RUN      ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace (2 ms)
+3: [ RUN      ] Planner.DeterministicRandomObstacleSafety
+3: [       OK ] Planner.DeterministicRandomObstacleSafety (177 ms)
+3: [----------] 16 tests from Planner (333 ms total)
+3: 
+3: [----------] 1 test from BenchmarkGeometry
+3: [ RUN      ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk
+3: [       OK ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk (0 ms)
+3: [----------] 1 test from BenchmarkGeometry (0 ms total)
+3: 
+3: [----------] 2 tests from UpstreamFix
+3: [ RUN      ] UpstreamFix.BoundsAndDiagonalCorner
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] UpstreamFix.BoundsAndDiagonalCorner (0 ms)
+3: [ RUN      ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost
+3: [       OK ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost (3 ms)
+3: [----------] 2 tests from UpstreamFix (3 ms total)
+3: 
+3: [----------] 5 tests from Nav2CostSemantics
+3: [ RUN      ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation
+3: [       OK ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation (2 ms)
+3: [ RUN      ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds (2 ms)
+3: [ RUN      ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius
+3: [       OK ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius (0 ms)
+3: [ RUN      ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable
+3: [       OK ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable (2 ms)
+3: [ RUN      ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree
+3: [       OK ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree (1 ms)
+3: [----------] 5 tests from Nav2CostSemantics (9 ms total)
+3: 
+3: [----------] 5 tests from Nav2Endpoints
+3: [ RUN      ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes
+3: [       OK ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes (15 ms)
+3: [ RUN      ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal
+3: [       OK ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal (4 ms)
+3: [ RUN      ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable
+3: [       OK ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable (7 ms)
+3: [ RUN      ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle
+3: [       OK ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle (18 ms)
+3: [ RUN      ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged
+3: [       OK ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged (3 ms)
+3: [----------] 5 tests from Nav2Endpoints (49 ms total)
+3: 
+3: [----------] 3 tests from EndpointWitness
+3: [ RUN      ] EndpointWitness.SameSnapshotHardCellAndIndependentDistance
+3: [       OK ] EndpointWitness.SameSnapshotHardCellAndIndependentDistance (13 ms)
+3: [ RUN      ] EndpointWitness.BoundaryAndCentreOnly253RetainDistinctThresholds
+3: [       OK ] EndpointWitness.BoundaryAndCentreOnly253RetainDistinctThresholds (0 ms)
+3: [ RUN      ] EndpointWitness.NoInventedCollisionForOutsideOrLegacyInputs
+3: [       OK ] EndpointWitness.NoInventedCollisionForOutsideOrLegacyInputs (1 ms)
+3: [----------] 3 tests from EndpointWitness (15 ms total)
+3: 
+3: [----------] 1 test from SolverBoundary
+3: [ RUN      ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime
+3: [       OK ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime (0 ms)
+3: [----------] 1 test from SolverBoundary (0 ms total)
+3: 
+3: [----------] 19 tests from PoseGeometry
+3: [ RUN      ] PoseGeometry.ExactEndpointSingleCellDistinguishesYawFromCircle
+3: [       OK ] PoseGeometry.ExactEndpointSingleCellDistinguishesYawFromCircle (1 ms)
+3: [ RUN      ] PoseGeometry.TranslationFindsCollisionMissedByEndpointsAndMidpoint
+3: [       OK ] PoseGeometry.TranslationFindsCollisionMissedByEndpointsAndMidpoint (3 ms)
+3: [ RUN      ] PoseGeometry.SafeEndpointsDoNotCertifyIntermediateRotation
+3: [       OK ] PoseGeometry.SafeEndpointsDoNotCertifyIntermediateRotation (1 ms)
+3: [ RUN      ] PoseGeometry.ExplicitFullTurnsAreNotCollapsedToEqualYaw
+3: [       OK ] PoseGeometry.ExplicitFullTurnsAreNotCollapsedToEqualYaw (1 ms)
+3: [ RUN      ] PoseGeometry.WrappedGoalHonorsExplicitShortAndLongRotation
+3: [       OK ] PoseGeometry.WrappedGoalHonorsExplicitShortAndLongRotation (0 ms)
+3: [ RUN      ] PoseGeometry.InscribedCostConstrainsCentreWithoutInflatingFootprintAgain
+3: [       OK ] PoseGeometry.InscribedCostConstrainsCentreWithoutInflatingFootprintAgain (0 ms)
+3: [ RUN      ] PoseGeometry.UnknownAndBoundaryRemainHardObstacles
+3: [       OK ] PoseGeometry.UnknownAndBoundaryRemainHardObstacles (0 ms)
+3: [ RUN      ] PoseGeometry.OutsideCentreIsRejectedEvenWhenEntireBodyIsOutside
+3: [       OK ] PoseGeometry.OutsideCentreIsRejectedEvenWhenEntireBodyIsOutside (0 ms)
+3: [ RUN      ] PoseGeometry.ClosedEdgeAndCornerContactRejectAtZeroClearance
+3: [       OK ] PoseGeometry.ClosedEdgeAndCornerContactRejectAtZeroClearance (0 ms)
+3: [ RUN      ] PoseGeometry.NumericalGuardCannotProduceSafeCertificate
+3: [       OK ] PoseGeometry.NumericalGuardCannotProduceSafeCertificate (0 ms)
+3: [ RUN      ] PoseGeometry.PolygonAndCellContainmentReject
+3: [       OK ] PoseGeometry.PolygonAndCellContainmentReject (0 ms)
+3: [ RUN      ] PoseGeometry.BudgetExhaustionIsUnresolvedWithoutPartialCertificate
+3: [       OK ] PoseGeometry.BudgetExhaustionIsUnresolvedWithoutPartialCertificate (2 ms)
+3: [ RUN      ] PoseGeometry.RawSnapshotOwnsCopyAndHasNoPreparedConversion
+3: [       OK ] PoseGeometry.RawSnapshotOwnsCopyAndHasNoPreparedConversion (0 ms)
+3: [ RUN      ] PoseGeometry.InvalidRawMetadataThrowsBeforeIndexing
+3: [       OK ] PoseGeometry.InvalidRawMetadataThrowsBeforeIndexing (0 ms)
+3: [ RUN      ] PoseGeometry.InvalidMotionAndLimitsNeverCertify
+3: [       OK ] PoseGeometry.InvalidMotionAndLimitsNeverCertify (0 ms)
+3: [ RUN      ] PoseGeometry.MalformedFootprintsNeverCertify
+3: [       OK ] PoseGeometry.MalformedFootprintsNeverCertify (0 ms)
+3: [ RUN      ] PoseGeometry.WorldTranslationAndWindingDoNotChangeCertificate
+3: [       OK ] PoseGeometry.WorldTranslationAndWindingDoNotChangeCertificate (1 ms)
+3: [ RUN      ] PoseGeometry.SoftCostsDoNotBecomeHardObstacles
+3: [       OK ] PoseGeometry.SoftCostsDoNotBecomeHardObstacles (0 ms)
+3: [ RUN      ] PoseGeometry.ContinuousCertificatesCrossCheckedByIndependentDenseOracle
+3: [       OK ] PoseGeometry.ContinuousCertificatesCrossCheckedByIndependentDenseOracle (1942 ms)
+3: [----------] 19 tests from PoseGeometry (1956 ms total)
+3: 
+3: [----------] 4 tests from PathHeading
+3: [ RUN      ] PathHeading.StraightMiddleAndSmoothExactGoalWithoutChangingXY
+3: [       OK ] PathHeading.StraightMiddleAndSmoothExactGoalWithoutChangingXY (0 ms)
+3: [ RUN      ] PathHeading.WrapAndRepeatedPointsRemainFiniteAndContinuous
+3: [       OK ] PathHeading.WrapAndRepeatedPointsRemainFiniteAndContinuous (0 ms)
+3: [ RUN      ] PathHeading.ShortAndZeroLengthPathsDoNotDivideByZero
+3: [       OK ] PathHeading.ShortAndZeroLengthPathsDoNotDivideByZero (0 ms)
+3: [ RUN      ] PathHeading.RoundedCornerChangesHeadingBeforeAndAfterVertex
+3: [       OK ] PathHeading.RoundedCornerChangesHeadingBeforeAndAfterVertex (0 ms)
+3: [----------] 4 tests from PathHeading (0 ms total)
+3: 
+3: [----------] Global test environment tear-down
+3: [==========] 56 tests from 9 test suites ran. (2368 ms total)
+3: [  PASSED  ] 56 tests.
+3/5 Test #3: planner_safety ...................   Passed    2.38 sec
+test 4
+    Start 4: simulation_ros_messages
+
+4: Test command: /usr/bin/python3 "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_simulation_ros_messages.py"
+4: Environment variables: 
+4:  PYTHONDONTWRITEBYTECODE=1
+4: Test timeout computed to be: 30
+4: test_callback_failure_keeps_traceback_and_returns_invalid_evidence (__main__.RecorderMessagesTest) ... ok
+4: test_costmap_signed_unknown_and_occupancy_values_remain_exact (__main__.RecorderMessagesTest) ... ok
+4: test_low_severity_rosout_before_clock_or_costmap_is_ignored (__main__.RecorderMessagesTest) ... ok
+4: test_plan_yaw_survives_ros_roundtrip_and_keeps_xy (__main__.RecorderMessagesTest) ... FAIL
+4: test_warning_and_higher_survive_ros_serialization_and_json (__main__.RecorderMessagesTest) ... ok
+4: 
+4: ======================================================================
+4: FAIL: test_plan_yaw_survives_ros_roundtrip_and_keeps_xy (__main__.RecorderMessagesTest)
+4: ----------------------------------------------------------------------
+4: Traceback (most recent call last):
+4:   File "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_simulation_ros_messages.py", line 97, in test_plan_yaw_survives_ros_roundtrip_and_keeps_xy
+4:     self.assertAlmostEqual(abs(row['yaw'][0]), 3.141592653589793)
+4: AssertionError: 2.0344439357957027 != 3.141592653589793 within 7 places (1.1071487177940904 difference)
+4: 
+4: ----------------------------------------------------------------------
+4: Ran 5 tests in 0.110s
+4: 
+4: FAILED (failures=1)
+4/5 Test #4: simulation_ros_messages ..........***Failed    0.83 sec
+test 5
+    Start 5: nav2_plugin_contract
+
+5: Test command: /work/build/rm_tdt_planner/test_nav2_plugin
+5: Test timeout computed to be: 60
+5: [==========] Running 6 tests from 2 test suites.
+5: [----------] Global test environment set-up.
+5: [----------] 5 tests from PluginTest
+5: [ RUN      ] PluginTest.LoadLifecycleAndEndpointContract
+5: [INFO] [1789548751.950813403] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789548751.954197893] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789548751.954775691] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [INFO] [1789548751.976201213] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789548751.980835707] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.LoadLifecycleAndEndpointContract (61 ms)
+5: [ RUN      ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher
+5: [INFO] [1789548751.992954596] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789548751.993315752] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789548751.993499839] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [31mError: No path found! return empty path[0m
+5: [INFO] [1789548751.999394964] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789548752.001148556] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher (17 ms)
+5: [ RUN      ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark
+5: [INFO] [1789548752.013319285] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789548752.014591166] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789548752.015400148] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [INFO] [1789548752.020712936] [tdt_test]: Configuring plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789548752.020840703] [tdt_test]: Activating plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789548752.170818923] [tdt_test]: Deactivating plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789548752.170915695] [tdt_test]: Cleaning up plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789548752.170936203] [tdt_test]: Destroying plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789548752.170967851] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789548752.173476133] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark (176 ms)
+5: [ RUN      ] PluginTest.MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved
+5: [INFO] [1789548752.189220288] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789548752.189634218] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789548752.189838325] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [INFO] [1789548752.194012897] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789548752.195475636] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved (19 ms)
+5: [ RUN      ] PluginTest.OptInHeadingPreservesExactXYAndCircleRejectionForBothBackends
+5: [INFO] [1789548752.206049026] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789548752.206489368] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789548752.206759595] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [INFO] [1789548752.220148814] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789548752.223548439] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.OptInHeadingPreservesExactXYAndCircleRejectionForBothBackends (27 ms)
+5: [----------] 5 tests from PluginTest (302 ms total)
+5: 
+5: [----------] 1 test from MppiHeading
+5: [ RUN      ] MppiHeading.InstalledPathAlignScoresYawAndHandsOffNearGoal
+5: [       OK ] MppiHeading.InstalledPathAlignScoresYawAndHandsOffNearGoal (0 ms)
+5: [----------] 1 test from MppiHeading (0 ms total)
+5: 
+5: [----------] Global test environment tear-down
+5: [==========] 6 tests from 2 test suites ran. (302 ms total)
+5: [  PASSED  ] 6 tests.
+5/5 Test #5: nav2_plugin_contract .............   Passed    0.44 sec
+
+80% tests passed, 1 tests failed out of 5
+
+Total Test time (real) =   4.59 sec
+
+The following tests FAILED:
+	  4 - simulation_ros_messages (Failed)
+Errors while running CTest
+Output from these tests are in: /work/build/rm_tdt_planner/Testing/Temporary/LastTest.log
+Use "--rerun-failed --output-on-failure" to re-run the failed cases verbosely.

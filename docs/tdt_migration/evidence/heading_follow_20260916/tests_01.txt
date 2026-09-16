@@ -1,0 +1,1973 @@
+Internal ctest changing into directory: /work/build/rm_tdt_planner
+UpdateCTestConfiguration  from :/work/build/rm_tdt_planner/CTestConfiguration.ini
+Parse Config file:/work/build/rm_tdt_planner/CTestConfiguration.ini
+ Add coverage exclude regular expressions.
+UpdateCTestConfiguration  from :/work/build/rm_tdt_planner/CTestConfiguration.ini
+Parse Config file:/work/build/rm_tdt_planner/CTestConfiguration.ini
+Test project /work/build/rm_tdt_planner
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: simulation_evidence_tools
+
+1: Test command: /usr/bin/python3 "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_simulation_tools.py"
+1: Environment variables: 
+1:  PYTHONDONTWRITEBYTECODE=1
+1: Test timeout computed to be: 30
+1: ..................
+1: ----------------------------------------------------------------------
+1: Ran 18 tests in 0.708s
+1: 
+1: OK
+1/5 Test #1: simulation_evidence_tools ........   Passed    0.79 sec
+test 2
+    Start 2: heading_ab_metrics
+
+2: Test command: /usr/bin/python3 "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_heading_ab.py"
+2: Environment variables: 
+2:  PYTHONDONTWRITEBYTECODE=1
+2: Test timeout computed to be: 30
+2: test_invalid_timing_rejected (__main__.AngularMetrics) ... ok
+2: test_time_weighting_and_zero_dt_accounting (__main__.AngularMetrics) ... ok
+2: 
+2: ----------------------------------------------------------------------
+2: Ran 2 tests in 0.001s
+2: 
+2: OK
+2/5 Test #2: heading_ab_metrics ...............   Passed    0.09 sec
+test 3
+    Start 3: planner_safety
+
+3: Test command: /work/build/rm_tdt_planner/test_planner
+3: Test timeout computed to be: 60
+3: Running main() from ./googletest/src/gtest_main.cc
+3: [==========] Running 56 tests from 9 test suites.
+3: [----------] Global test environment set-up.
+3: [----------] 16 tests from Planner
+3: [ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+3: [       OK ] Planner.OpenMapActuallyRunsCorridorBackend (2 ms)
+3: [ RUN      ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation
+3: [       OK ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation (6 ms)
+3: [ RUN      ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints
+3: [       OK ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints (2 ms)
+3: [ RUN      ] Planner.CompletelySealedWallFailsEmpty
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.CompletelySealedWallFailsEmpty (1 ms)
+3: [ RUN      ] Planner.UnknownAndInscribedCellsAreBlocked
+3: [31mError: No path found! return empty path[0m
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.UnknownAndInscribedCellsAreBlocked (3 ms)
+3: [ RUN      ] Planner.SameCellAndSamePose
+3: [       OK ] Planner.SameCellAndSamePose (2 ms)
+3: [ RUN      ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty
+3: [       OK ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty (1 ms)
+3: [ RUN      ] Planner.NarrowPassageRejectedForCircumscribedFootprint
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.NarrowPassageRejectedForCircumscribedFootprint (1 ms)
+3: [ RUN      ] Planner.LateOutputIsNotPublished
+3: [       OK ] Planner.LateOutputIsNotPublished (132 ms)
+3: [ RUN      ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty
+3: [       OK ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty (0 ms)
+3: [ RUN      ] Planner.FrontendOnlyIsSelectable
+3: [       OK ] Planner.FrontendOnlyIsSelectable (2 ms)
+3: [ RUN      ] Planner.WaypointBudgetFallsBackToValidatedAstar
+3: [       OK ] Planner.WaypointBudgetFallsBackToValidatedAstar (2 ms)
+3: [ RUN      ] Planner.UnresolvedOptimizerCollisionFallsBack
+3: [       OK ] Planner.UnresolvedOptimizerCollisionFallsBack (3 ms)
+3: [ RUN      ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples
+3: [       OK ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples (0 ms)
+3: [ RUN      ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace (2 ms)
+3: [ RUN      ] Planner.DeterministicRandomObstacleSafety
+3: [       OK ] Planner.DeterministicRandomObstacleSafety (177 ms)
+3: [----------] 16 tests from Planner (345 ms total)
+3: 
+3: [----------] 1 test from BenchmarkGeometry
+3: [ RUN      ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk
+3: [       OK ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk (0 ms)
+3: [----------] 1 test from BenchmarkGeometry (0 ms total)
+3: 
+3: [----------] 2 tests from UpstreamFix
+3: [ RUN      ] UpstreamFix.BoundsAndDiagonalCorner
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] UpstreamFix.BoundsAndDiagonalCorner (0 ms)
+3: [ RUN      ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost
+3: [       OK ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost (3 ms)
+3: [----------] 2 tests from UpstreamFix (3 ms total)
+3: 
+3: [----------] 5 tests from Nav2CostSemantics
+3: [ RUN      ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation
+3: [       OK ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation (2 ms)
+3: [ RUN      ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds (2 ms)
+3: [ RUN      ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius
+3: [       OK ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius (0 ms)
+3: [ RUN      ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable
+3: [       OK ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable (2 ms)
+3: [ RUN      ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree
+3: [       OK ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree (0 ms)
+3: [----------] 5 tests from Nav2CostSemantics (8 ms total)
+3: 
+3: [----------] 5 tests from Nav2Endpoints
+3: [ RUN      ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes
+3: [       OK ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes (13 ms)
+3: [ RUN      ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal
+3: [       OK ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal (3 ms)
+3: [ RUN      ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable
+3: [       OK ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable (8 ms)
+3: [ RUN      ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle
+3: [       OK ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle (18 ms)
+3: [ RUN      ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged
+3: [       OK ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged (3 ms)
+3: [----------] 5 tests from Nav2Endpoints (48 ms total)
+3: 
+3: [----------] 3 tests from EndpointWitness
+3: [ RUN      ] EndpointWitness.SameSnapshotHardCellAndIndependentDistance
+3: [       OK ] EndpointWitness.SameSnapshotHardCellAndIndependentDistance (13 ms)
+3: [ RUN      ] EndpointWitness.BoundaryAndCentreOnly253RetainDistinctThresholds
+3: [       OK ] EndpointWitness.BoundaryAndCentreOnly253RetainDistinctThresholds (1 ms)
+3: [ RUN      ] EndpointWitness.NoInventedCollisionForOutsideOrLegacyInputs
+3: [       OK ] EndpointWitness.NoInventedCollisionForOutsideOrLegacyInputs (1 ms)
+3: [----------] 3 tests from EndpointWitness (16 ms total)
+3: 
+3: [----------] 1 test from SolverBoundary
+3: [ RUN      ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime
+3: [       OK ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime (0 ms)
+3: [----------] 1 test from SolverBoundary (0 ms total)
+3: 
+3: [----------] 19 tests from PoseGeometry
+3: [ RUN      ] PoseGeometry.ExactEndpointSingleCellDistinguishesYawFromCircle
+3: [       OK ] PoseGeometry.ExactEndpointSingleCellDistinguishesYawFromCircle (1 ms)
+3: [ RUN      ] PoseGeometry.TranslationFindsCollisionMissedByEndpointsAndMidpoint
+3: [       OK ] PoseGeometry.TranslationFindsCollisionMissedByEndpointsAndMidpoint (2 ms)
+3: [ RUN      ] PoseGeometry.SafeEndpointsDoNotCertifyIntermediateRotation
+3: [       OK ] PoseGeometry.SafeEndpointsDoNotCertifyIntermediateRotation (1 ms)
+3: [ RUN      ] PoseGeometry.ExplicitFullTurnsAreNotCollapsedToEqualYaw
+3: [       OK ] PoseGeometry.ExplicitFullTurnsAreNotCollapsedToEqualYaw (1 ms)
+3: [ RUN      ] PoseGeometry.WrappedGoalHonorsExplicitShortAndLongRotation
+3: [       OK ] PoseGeometry.WrappedGoalHonorsExplicitShortAndLongRotation (0 ms)
+3: [ RUN      ] PoseGeometry.InscribedCostConstrainsCentreWithoutInflatingFootprintAgain
+3: [       OK ] PoseGeometry.InscribedCostConstrainsCentreWithoutInflatingFootprintAgain (0 ms)
+3: [ RUN      ] PoseGeometry.UnknownAndBoundaryRemainHardObstacles
+3: [       OK ] PoseGeometry.UnknownAndBoundaryRemainHardObstacles (0 ms)
+3: [ RUN      ] PoseGeometry.OutsideCentreIsRejectedEvenWhenEntireBodyIsOutside
+3: [       OK ] PoseGeometry.OutsideCentreIsRejectedEvenWhenEntireBodyIsOutside (0 ms)
+3: [ RUN      ] PoseGeometry.ClosedEdgeAndCornerContactRejectAtZeroClearance
+3: [       OK ] PoseGeometry.ClosedEdgeAndCornerContactRejectAtZeroClearance (0 ms)
+3: [ RUN      ] PoseGeometry.NumericalGuardCannotProduceSafeCertificate
+3: [       OK ] PoseGeometry.NumericalGuardCannotProduceSafeCertificate (0 ms)
+3: [ RUN      ] PoseGeometry.PolygonAndCellContainmentReject
+3: [       OK ] PoseGeometry.PolygonAndCellContainmentReject (0 ms)
+3: [ RUN      ] PoseGeometry.BudgetExhaustionIsUnresolvedWithoutPartialCertificate
+3: [       OK ] PoseGeometry.BudgetExhaustionIsUnresolvedWithoutPartialCertificate (1 ms)
+3: [ RUN      ] PoseGeometry.RawSnapshotOwnsCopyAndHasNoPreparedConversion
+3: [       OK ] PoseGeometry.RawSnapshotOwnsCopyAndHasNoPreparedConversion (0 ms)
+3: [ RUN      ] PoseGeometry.InvalidRawMetadataThrowsBeforeIndexing
+3: [       OK ] PoseGeometry.InvalidRawMetadataThrowsBeforeIndexing (0 ms)
+3: [ RUN      ] PoseGeometry.InvalidMotionAndLimitsNeverCertify
+3: [       OK ] PoseGeometry.InvalidMotionAndLimitsNeverCertify (0 ms)
+3: [ RUN      ] PoseGeometry.MalformedFootprintsNeverCertify
+3: [       OK ] PoseGeometry.MalformedFootprintsNeverCertify (0 ms)
+3: [ RUN      ] PoseGeometry.WorldTranslationAndWindingDoNotChangeCertificate
+3: [       OK ] PoseGeometry.WorldTranslationAndWindingDoNotChangeCertificate (1 ms)
+3: [ RUN      ] PoseGeometry.SoftCostsDoNotBecomeHardObstacles
+3: [       OK ] PoseGeometry.SoftCostsDoNotBecomeHardObstacles (0 ms)
+3: [ RUN      ] PoseGeometry.ContinuousCertificatesCrossCheckedByIndependentDenseOracle
+3: [       OK ] PoseGeometry.ContinuousCertificatesCrossCheckedByIndependentDenseOracle (1883 ms)
+3: [----------] 19 tests from PoseGeometry (1896 ms total)
+3: 
+3: [----------] 4 tests from PathHeading
+3: [ RUN      ] PathHeading.StraightMiddleAndSmoothExactGoalWithoutChangingXY
+3: [       OK ] PathHeading.StraightMiddleAndSmoothExactGoalWithoutChangingXY (0 ms)
+3: [ RUN      ] PathHeading.WrapAndRepeatedPointsRemainFiniteAndContinuous
+3: [       OK ] PathHeading.WrapAndRepeatedPointsRemainFiniteAndContinuous (0 ms)
+3: [ RUN      ] PathHeading.ShortAndZeroLengthPathsDoNotDivideByZero
+3: [       OK ] PathHeading.ShortAndZeroLengthPathsDoNotDivideByZero (0 ms)
+3: [ RUN      ] PathHeading.RoundedCornerChangesHeadingBeforeAndAfterVertex
+3: [       OK ] PathHeading.RoundedCornerChangesHeadingBeforeAndAfterVertex (0 ms)
+3: [----------] 4 tests from PathHeading (0 ms total)
+3: 
+3: [----------] Global test environment tear-down
+3: [==========] 56 tests from 9 test suites ran. (2319 ms total)
+3: [  PASSED  ] 56 tests.
+3/5 Test #3: planner_safety ...................   Passed    2.32 sec
+test 4
+    Start 4: simulation_ros_messages
+
+4: Test command: /usr/bin/python3 "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_simulation_ros_messages.py"
+4: Environment variables: 
+4:  PYTHONDONTWRITEBYTECODE=1
+4: Test timeout computed to be: 30
+4: Traceback (most recent call last):
+4:   File "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_simulation_ros_messages.py", line 20, in <module>
+4:     import observe_simulation as observer
+4:   File "/ws/experiments/tdt_planner/rm_tdt_planner/tools/observe_simulation.py", line 16, in <module>
+4:     from rclpy.parameter_client import AsyncParameterClient
+4: ModuleNotFoundError: No module named 'rclpy.parameter_client'
+4/5 Test #4: simulation_ros_messages ..........***Failed    0.26 sec
+test 5
+    Start 5: nav2_plugin_contract
+
+5: Test command: /work/build/rm_tdt_planner/test_nav2_plugin
+5: Test timeout computed to be: 60
+5: [==========] Running 6 tests from 2 test suites.
+5: [----------] Global test environment set-up.
+5: [----------] 5 tests from PluginTest
+5: [ RUN      ] PluginTest.LoadLifecycleAndEndpointContract
+5: [INFO] [1789522556.865717178] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789522556.866507977] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789522556.866773394] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [INFO] [1789522556.878599306] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789522556.880453860] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.LoadLifecycleAndEndpointContract (30 ms)
+5: [ RUN      ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher
+5: [INFO] [1789522556.889219302] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789522556.889663407] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789522556.889912531] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [31mError: No path found! return empty path[0m
+5: [INFO] [1789522556.895477892] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789522556.896932821] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher (17 ms)
+5: [ RUN      ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark
+5: [INFO] [1789522556.906461447] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789522556.906930453] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789522556.907146834] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [INFO] [1789522556.909958940] [tdt_test]: Configuring plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789522556.910067381] [tdt_test]: Activating plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789522557.043360037] [tdt_test]: Deactivating plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789522557.043398041] [tdt_test]: Cleaning up plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789522557.043408392] [tdt_test]: Destroying plugin NavfnBaseline of type NavfnPlanner
+5: [INFO] [1789522557.043424393] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789522557.045178768] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark (147 ms)
+5: [ RUN      ] PluginTest.MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved
+5: [INFO] [1789522557.054044916] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789522557.054543698] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789522557.054796973] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: [INFO] [1789522557.059153949] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789522557.060752326] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [       OK ] PluginTest.MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved (15 ms)
+5: [ RUN      ] PluginTest.OptInHeadingPreservesExactXYAndCircleRejectionForBothBackends
+5: [INFO] [1789522557.068524591] [tdt_test_costmap.tdt_test_costmap]: 
+5: 	tdt_test_costmap lifecycle node launched. 
+5: 	Waiting on external lifecycle transitions to activate
+5: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+5: [INFO] [1789522557.068889720] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+5: [INFO] [1789522557.069068341] [tdt_test_costmap.tdt_test_costmap]: Configuring
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.016666666666666607, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.23333333333333339,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.033333333333333215, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.21666666666666679,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.033333333333333215, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.21666666666666679,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.016666666666666607, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.23333333333333339,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.016666666666666607, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.23333333333333339,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.033333333333333215, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.21666666666666679,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999988079070912, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000001192092909,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999976158142001, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.200000023841858,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999996423721309, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000003576278691,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999995231628418, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000004768371582,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.04999996423721309, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000003576278691,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999976158142001, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.200000023841858,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999988079070912, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000001192092909,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.049999999999999822, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.20000000000000018,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.033333333333333215, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.21666666666666679,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: /ws/experiments/tdt_planner/rm_tdt_planner/test/test_nav2_plugin.cpp:167: Failure
+5: The difference between p.pose.position.y and start.pose.position.y is 0.016666666666666607, which exceeds .001, where
+5: p.pose.position.y evaluates to 0.23333333333333339,
+5: start.pose.position.y evaluates to 0.25, and
+5: .001 evaluates to 0.001.
+5: [INFO] [1789522557.080470688] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+5: [INFO] [1789522557.082040629] [tdt_test_costmap.tdt_test_costmap]: Destroying
+5: [  FAILED  ] PluginTest.OptInHeadingPreservesExactXYAndCircleRejectionForBothBackends (21 ms)
+5: [----------] 5 tests from PluginTest (232 ms total)
+5: 
+5: [----------] 1 test from MppiHeading
+5: [ RUN      ] MppiHeading.InstalledPathAlignScoresYawAndHandsOffNearGoal
+5: [       OK ] MppiHeading.InstalledPathAlignScoresYawAndHandsOffNearGoal (0 ms)
+5: [----------] 1 test from MppiHeading (0 ms total)
+5: 
+5: [----------] Global test environment tear-down
+5: [==========] 6 tests from 2 test suites ran. (232 ms total)
+5: [  PASSED  ] 5 tests.
+5: [  FAILED  ] 1 test, listed below:
+5: [  FAILED  ] PluginTest.OptInHeadingPreservesExactXYAndCircleRejectionForBothBackends
+5: 
+5:  1 FAILED TEST
+5/5 Test #5: nav2_plugin_contract .............***Failed    0.35 sec
+
+60% tests passed, 2 tests failed out of 5
+
+Total Test time (real) =   3.82 sec
+
+The following tests FAILED:
+	  4 - simulation_ros_messages (Failed)
+	  5 - nav2_plugin_contract (Failed)
+Errors while running CTest
+Output from these tests are in: /work/build/rm_tdt_planner/Testing/Temporary/LastTest.log
+Use "--rerun-failed --output-on-failure" to re-run the failed cases verbosely.
