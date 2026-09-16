@@ -1,0 +1,36 @@
+{
+  "schema": "rm_tdt_planner/terminal_selection_synthetic_example/v1",
+  "classification": "Analytic synthetic geometry, not a simulation or full-map replay",
+  "nominal": [
+    4.3,
+    0,
+    0
+  ],
+  "padded_rectangle_half_extents_m": [
+    0.33,
+    0.28
+  ],
+  "clearance_m": 0.02,
+  "lethal_closed_boxes": [
+    [
+      4.0,
+      0.35,
+      4.05,
+      0.4
+    ],
+    [
+      4.0,
+      -0.4,
+      4.05,
+      -0.35
+    ]
+  ],
+  "distance_to_each_box_m": 0.4301162633521313,
+  "padded_footprint_at_yaw_zero_distance_m": 0.06999999999999995,
+  "full_spin_padded_radius_m": 0.43278170016764805,
+  "full_spin_required_distance_m": 0.45278170016764807,
+  "full_spin_clearance_constraint_fails": true,
+  "symmetric_positive_x_shift_to_clearance_equality_m": 0.03724774673912756,
+  "equality_is_not_accepted": true,
+  "scope": "Only these two boxes; equality is the boundary/infimum and is rejected under strict clearance. No actual terminal state is selected."
+}

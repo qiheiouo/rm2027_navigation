@@ -1,6 +1,6 @@
 # P2B 持久工作记录
 
-状态：**航向跟随最小 A/B 已完成并冻结；P2B 静态门仍未通过。**
+状态：**航向 A/B 已冻结；动作驱动的终端选择设计已形成，尚未实现；P2B 静态门仍未通过。**
 试验源码 `4ad918f`，分支 `experiment/tdt-planner-phase2`，实际执行 2026-09-16。
 
 ## 当前证据
@@ -30,3 +30,12 @@
 旧 v1–v5、endpoint_witness_v1 和用户 v4 未提交报告保持不变。
 规划迁移到可部署候选的阶段估计仍约 55%，只是阶段判断，不是测试通过率或工时。
 未部署、push、merge，动态障碍、新设备全负载与实车仍待验证。
+
+## 2026-09-16 终端选择设计检查点
+
+已完成 [接口、复用与算法设计](p2b_terminal_selection_design.md) 及
+[离线/交接验收计划](p2b_terminal_selection_validation_plan.md)。先区分普通停放与
+完整 Spin 的可行集合；复用已有 mission/狗洞执行权和 test-only pose_geometry。
+下一实现只做离线普通停放/Spin provider 与有限候选选择，执行准入保持 NotEvaluated；
+尚无 selector 测试、真实快照回放或新闭环通过证据。狗洞/堡垒先保留动作接口和缺失项，
+不扩展执行器，不同时改控制器。此次只改文档，旧 heading 125 份证据保持不变。

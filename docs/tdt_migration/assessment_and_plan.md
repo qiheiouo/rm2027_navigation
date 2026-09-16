@@ -126,7 +126,9 @@ P2A 统一了碰撞输入，但未统一内部势场/平滑目标，也没有保
 候选行进朝向更贴近路径，整段 wz RMS/总变差未降低，仍有圆模型终点拒收。
 [冻结结果](evidence/heading_follow_20260916/validation_20260916.md)保留为默认关闭
 跟踪候选，不把它当作终点 recovery 修复。下一项才独立设计 nominal goal 与后续
-动作驱动的 terminal feasibility/selection；尚未实现，原目标和安全门未改。
+动作驱动的 terminal feasibility/selection；[独立设计已形成](p2b_terminal_selection_design.md)，
+含复用清单、可行集合、有限搜索边界与[验收计划](p2b_terminal_selection_validation_plan.md)。
+选择器与运行时交接尚未实现，原目标和安全门未改。
 
 按用户最新分工（2026-09-15），开发者同时执行验证并复核；全部源码、依赖、构建和
 日志留在 `/home`，Terra 可用于后续独立审查。当前机器的性能限制仍只记录。
