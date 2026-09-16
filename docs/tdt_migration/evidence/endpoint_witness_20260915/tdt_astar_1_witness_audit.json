@@ -1,0 +1,121 @@
+{
+  "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+  "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/endpoint_witness_v1/tdt_astar_1/observation/events.jsonl",
+  "source_sha256": "6a5192faa564c0d7fc5714fe756e3886217f19893b80c32f4a0ff30f9377c374",
+  "audited": true,
+  "missing_witnesses": 0,
+  "rejections": 3,
+  "start_blocked": 0,
+  "goal_blocked": 3,
+  "entries": [
+    {
+      "line": 14,
+      "t": 17.785,
+      "start": {
+        "status": "free",
+        "world": [
+          4.544966744796387,
+          -1.4507754889883215
+        ],
+        "yaw": 0.42483725939840306,
+        "free_claim_independently_verified": false
+      },
+      "goal": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          156
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999925,
+          0.350000000000005,
+          4.049999999999994,
+          0.4000000000000048
+        ],
+        "distance_m": 0.43011626335213954,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.022665444960191405
+      }
+    },
+    {
+      "line": 16,
+      "t": 21.476,
+      "start": {
+        "status": "free",
+        "world": [
+          4.48131212280504,
+          -0.09759645584306474
+        ],
+        "yaw": 0.05266490484264827,
+        "free_claim_independently_verified": false
+      },
+      "goal": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          109,
+          115
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.999999999999993,
+          -0.40000000000000036,
+          4.049999999999993,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213515,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019579
+      }
+    },
+    {
+      "line": 18,
+      "t": 21.655,
+      "start": {
+        "status": "free",
+        "world": [
+          4.457184040828869,
+          -0.07538501024481141
+        ],
+        "yaw": 0.052942849533060964,
+        "free_claim_independently_verified": false
+      },
+      "goal": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999925,
+          -0.40000000000000036,
+          4.049999999999994,
+          -0.35000000000000053
+        ],
+        "distance_m": 0.4301162633521359,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019507
+      }
+    }
+  ],
+  "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+}

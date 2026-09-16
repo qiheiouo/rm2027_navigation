@@ -1,0 +1,213 @@
+Internal ctest changing into directory: /work/build/rm_tdt_planner
+UpdateCTestConfiguration  from :/work/build/rm_tdt_planner/CTestConfiguration.ini
+Parse Config file:/work/build/rm_tdt_planner/CTestConfiguration.ini
+ Add coverage exclude regular expressions.
+UpdateCTestConfiguration  from :/work/build/rm_tdt_planner/CTestConfiguration.ini
+Parse Config file:/work/build/rm_tdt_planner/CTestConfiguration.ini
+Test project /work/build/rm_tdt_planner
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: simulation_evidence_tools
+
+1: Test command: /usr/bin/python3 "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_simulation_tools.py"
+1: Environment variables: 
+1:  PYTHONDONTWRITEBYTECODE=1
+1: Test timeout computed to be: 30
+1: ..................
+1: ----------------------------------------------------------------------
+1: Ran 18 tests in 0.802s
+1: 
+1: OK
+1/4 Test #1: simulation_evidence_tools ........   Passed    0.89 sec
+test 2
+    Start 2: planner_safety
+
+2: Test command: /work/build/rm_tdt_planner/test_planner
+2: Test timeout computed to be: 60
+2: Running main() from ./googletest/src/gtest_main.cc
+2: [==========] Running 33 tests from 7 test suites.
+2: [----------] Global test environment set-up.
+2: [----------] 16 tests from Planner
+2: [ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+2: [       OK ] Planner.OpenMapActuallyRunsCorridorBackend (1 ms)
+2: [ RUN      ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation
+2: [       OK ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation (9 ms)
+2: [ RUN      ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints
+2: [       OK ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints (2 ms)
+2: [ RUN      ] Planner.CompletelySealedWallFailsEmpty
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Planner.CompletelySealedWallFailsEmpty (1 ms)
+2: [ RUN      ] Planner.UnknownAndInscribedCellsAreBlocked
+2: [31mError: No path found! return empty path[0m
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Planner.UnknownAndInscribedCellsAreBlocked (3 ms)
+2: [ RUN      ] Planner.SameCellAndSamePose
+2: [       OK ] Planner.SameCellAndSamePose (2 ms)
+2: [ RUN      ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty
+2: [       OK ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty (2 ms)
+2: [ RUN      ] Planner.NarrowPassageRejectedForCircumscribedFootprint
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Planner.NarrowPassageRejectedForCircumscribedFootprint (1 ms)
+2: [ RUN      ] Planner.LateOutputIsNotPublished
+2: [       OK ] Planner.LateOutputIsNotPublished (128 ms)
+2: [ RUN      ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty
+2: [       OK ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty (0 ms)
+2: [ RUN      ] Planner.FrontendOnlyIsSelectable
+2: [       OK ] Planner.FrontendOnlyIsSelectable (2 ms)
+2: [ RUN      ] Planner.WaypointBudgetFallsBackToValidatedAstar
+2: [       OK ] Planner.WaypointBudgetFallsBackToValidatedAstar (1 ms)
+2: [ RUN      ] Planner.UnresolvedOptimizerCollisionFallsBack
+2: [       OK ] Planner.UnresolvedOptimizerCollisionFallsBack (2 ms)
+2: [ RUN      ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples
+2: [       OK ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples (0 ms)
+2: [ RUN      ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace (2 ms)
+2: [ RUN      ] Planner.DeterministicRandomObstacleSafety
+2: [       OK ] Planner.DeterministicRandomObstacleSafety (175 ms)
+2: [----------] 16 tests from Planner (340 ms total)
+2: 
+2: [----------] 1 test from BenchmarkGeometry
+2: [ RUN      ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk
+2: [       OK ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk (0 ms)
+2: [----------] 1 test from BenchmarkGeometry (0 ms total)
+2: 
+2: [----------] 2 tests from UpstreamFix
+2: [ RUN      ] UpstreamFix.BoundsAndDiagonalCorner
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] UpstreamFix.BoundsAndDiagonalCorner (0 ms)
+2: [ RUN      ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost
+2: [       OK ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost (5 ms)
+2: [----------] 2 tests from UpstreamFix (5 ms total)
+2: 
+2: [----------] 5 tests from Nav2CostSemantics
+2: [ RUN      ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation
+2: [       OK ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation (3 ms)
+2: [ RUN      ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds
+2: [31mError: No path found! return empty path[0m
+2: [       OK ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds (2 ms)
+2: [ RUN      ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius
+2: [       OK ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius (0 ms)
+2: [ RUN      ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable
+2: [       OK ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable (3 ms)
+2: [ RUN      ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree
+2: [       OK ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree (1 ms)
+2: [----------] 5 tests from Nav2CostSemantics (11 ms total)
+2: 
+2: [----------] 5 tests from Nav2Endpoints
+2: [ RUN      ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes
+2: [       OK ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes (14 ms)
+2: [ RUN      ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal
+2: [       OK ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal (7 ms)
+2: [ RUN      ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable
+2: [       OK ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable (8 ms)
+2: [ RUN      ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle
+2: [       OK ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle (18 ms)
+2: [ RUN      ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged
+2: [       OK ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged (6 ms)
+2: [----------] 5 tests from Nav2Endpoints (55 ms total)
+2: 
+2: [----------] 3 tests from EndpointWitness
+2: [ RUN      ] EndpointWitness.SameSnapshotHardCellAndIndependentDistance
+2: [       OK ] EndpointWitness.SameSnapshotHardCellAndIndependentDistance (14 ms)
+2: [ RUN      ] EndpointWitness.BoundaryAndCentreOnly253RetainDistinctThresholds
+2: [       OK ] EndpointWitness.BoundaryAndCentreOnly253RetainDistinctThresholds (0 ms)
+2: [ RUN      ] EndpointWitness.NoInventedCollisionForOutsideOrLegacyInputs
+2: [       OK ] EndpointWitness.NoInventedCollisionForOutsideOrLegacyInputs (1 ms)
+2: [----------] 3 tests from EndpointWitness (16 ms total)
+2: 
+2: [----------] 1 test from SolverBoundary
+2: [ RUN      ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime
+2: [       OK ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime (0 ms)
+2: [----------] 1 test from SolverBoundary (0 ms total)
+2: 
+2: [----------] Global test environment tear-down
+2: [==========] 33 tests from 7 test suites ran. (428 ms total)
+2: [  PASSED  ] 33 tests.
+2/4 Test #2: planner_safety ...................   Passed    0.43 sec
+test 3
+    Start 3: simulation_ros_messages
+
+3: Test command: /usr/bin/python3 "/ws/experiments/tdt_planner/rm_tdt_planner/test/test_simulation_ros_messages.py"
+3: Environment variables: 
+3:  PYTHONDONTWRITEBYTECODE=1
+3: Test timeout computed to be: 30
+3: test_callback_failure_keeps_traceback_and_returns_invalid_evidence (__main__.RecorderMessagesTest) ... ok
+3: test_costmap_signed_unknown_and_occupancy_values_remain_exact (__main__.RecorderMessagesTest) ... ok
+3: test_low_severity_rosout_before_clock_or_costmap_is_ignored (__main__.RecorderMessagesTest) ... ok
+3: test_warning_and_higher_survive_ros_serialization_and_json (__main__.RecorderMessagesTest) ... ok
+3: 
+3: ----------------------------------------------------------------------
+3: Ran 4 tests in 0.077s
+3: 
+3: OK
+3/4 Test #3: simulation_ros_messages ..........   Passed    0.70 sec
+test 4
+    Start 4: nav2_plugin_contract
+
+4: Test command: /work/build/rm_tdt_planner/test_nav2_plugin
+4: Test timeout computed to be: 60
+4: [==========] Running 4 tests from 1 test suite.
+4: [----------] Global test environment set-up.
+4: [----------] 4 tests from PluginTest
+4: [ RUN      ] PluginTest.LoadLifecycleAndEndpointContract
+4: [INFO] [1789451033.422398243] [tdt_test_costmap.tdt_test_costmap]: 
+4: 	tdt_test_costmap lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1789451033.423937816] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+4: [INFO] [1789451033.424230779] [tdt_test_costmap.tdt_test_costmap]: Configuring
+4: [INFO] [1789451033.439376702] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+4: [INFO] [1789451033.441303631] [tdt_test_costmap.tdt_test_costmap]: Destroying
+4: [       OK ] PluginTest.LoadLifecycleAndEndpointContract (39 ms)
+4: [ RUN      ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher
+4: [INFO] [1789451033.454394475] [tdt_test_costmap.tdt_test_costmap]: 
+4: 	tdt_test_costmap lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1789451033.455428538] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+4: [INFO] [1789451033.455665862] [tdt_test_costmap.tdt_test_costmap]: Configuring
+4: [31mError: No path found! return empty path[0m
+4: [INFO] [1789451033.464124875] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+4: [INFO] [1789451033.466587849] [tdt_test_costmap.tdt_test_costmap]: Destroying
+4: [       OK ] PluginTest.MapUpdateIsUsedAndNoVelocityPublisher (26 ms)
+4: [ RUN      ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark
+4: [INFO] [1789451033.477391963] [tdt_test_costmap.tdt_test_costmap]: 
+4: 	tdt_test_costmap lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1789451033.477842764] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+4: [INFO] [1789451033.478028827] [tdt_test_costmap.tdt_test_costmap]: Configuring
+4: [INFO] [1789451033.481029666] [tdt_test]: Configuring plugin NavfnBaseline of type NavfnPlanner
+4: [INFO] [1789451033.481140545] [tdt_test]: Activating plugin NavfnBaseline of type NavfnPlanner
+4: [INFO] [1789451033.649738063] [tdt_test]: Deactivating plugin NavfnBaseline of type NavfnPlanner
+4: [INFO] [1789451033.650079544] [tdt_test]: Cleaning up plugin NavfnBaseline of type NavfnPlanner
+4: [INFO] [1789451033.650171468] [tdt_test]: Destroying plugin NavfnBaseline of type NavfnPlanner
+4: [INFO] [1789451033.650340507] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+4: [INFO] [1789451033.655220408] [tdt_test_costmap.tdt_test_costmap]: Destroying
+4: [       OK ] PluginTest.NavfnFrontendAndBackendSameSnapshotBenchmark (190 ms)
+4: [ RUN      ] PluginTest.MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved
+4: [INFO] [1789451033.672058444] [tdt_test_costmap.tdt_test_costmap]: 
+4: 	tdt_test_costmap lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1789451033.672709818] [tdt_test_costmap.tdt_test_costmap]: Creating Costmap
+4: [INFO] [1789451033.672898671] [tdt_test_costmap.tdt_test_costmap]: Configuring
+4: [INFO] [1789451033.677547632] [tdt_test_costmap.tdt_test_costmap]: Cleaning up
+4: [INFO] [1789451033.680407550] [tdt_test_costmap.tdt_test_costmap]: Destroying
+4: [       OK ] PluginTest.MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved (28 ms)
+4: [----------] 4 tests from PluginTest (286 ms total)
+4: 
+4: [----------] Global test environment tear-down
+4: [==========] 4 tests from 1 test suite ran. (286 ms total)
+4: [  PASSED  ] 4 tests.
+4/4 Test #4: nav2_plugin_contract .............   Passed    0.42 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   2.45 sec

@@ -89,10 +89,11 @@ Nav2 action 延迟。`rss_max_kb` 是整个进程累计高水位，不能按行�
 `p2b_validation.sh` 提供 `deps/build/check/sanitizers/profiles/run/summarize`，每次 `run`
 创建新隔离容器，自动结束自身 launch 进程组。原始轨迹、路径、命令、costmap、事件
 和 action 结果写在 `build/tdt_p2b/runs/`；目录已存在时拒绝覆盖。日志留在 `/home`。
-当前有 30 个 core、4 个 plugin、14 个纯 Python 工具和 4 个真实 ROS 消息测试，
-共 52 项。`sanitizers` 在独立目录统一插桩构建固定求解器与 core，审计实际宏/库，
-先运行求解器跨库生命周期用例，再运行包含它的 30 项核心测试。
-默认新系列 `static_v5`；保留 static_v1/v2/v3/v4，单组失败后停止该组重复。
+当前有 33 个 core、4 个 plugin、18 个纯 Python 工具和 4 个真实 ROS 消息测试，
+共 59 项。`sanitizers` 在独立目录统一插桩构建固定求解器与 core，审计实际宏/库，
+先运行求解器跨库生命周期用例，再运行包含它的 33 项核心测试。
+入口默认值仍是 `static_v5`，该系列已使用；新运行必须显式设置新的 `P2B_SERIES`。
+保留所有旧系列，单组失败后停止该组重复。精确端点诊断系列为 `endpoint_witness_v1`，也已使用。
 构建链命令仍见 [构建链交接](../../../docs/tdt_migration/p2b_sanitizer_chain_handoff.md)，
 其中 static_v4 的次数与执行角色仅代表当时交接。当前结果以本轮修复记录为准。
 
