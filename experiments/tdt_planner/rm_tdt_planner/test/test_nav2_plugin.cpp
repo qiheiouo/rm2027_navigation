@@ -148,6 +148,39 @@ TEST_F(PluginTest, MasterInflationBandIsNotExpandedTwiceAndRawMapIsPreserved)
     EXPECT_NE(message.find("start_yaw=0 goal_yaw=0"), std::string::npos);
   }
 }
+TEST_F(PluginTest, OptInHeadingPreservesExactXYAndCircleRejectionForBothBackends)
+{
+  for (bool optimize : {false,true}) {
+    const std::string name=optimize ? "HeadingQP" : "HeadingAstar";
+    auto candidate=loader->createSharedInstance("rm_tdt_planner/TdtGlobalPlanner");
+    node->declare_parameter(name+".experimental_path_heading",true);
+    node->declare_parameter(name+".optimize",optimize);
+    candidate->configure(node,name,{},map); candidate->activate();
+    const auto start=pose(1,2);
+    auto goal=pose(5,2); goal.pose.orientation.z=std::sin(M_PI/4); goal.pose.orientation.w=std::cos(M_PI/4);
+    auto reference=loader->createSharedInstance("rm_tdt_planner/TdtGlobalPlanner");
+    node->declare_parameter(name+"Reference.optimize",optimize);
+    reference->configure(node,name+"Reference",{},map); reference->activate();
+    const auto original=reference->createPlan(start,goal);
+    const auto path=candidate->createPlan(start,goal);
+    ASSERT_GT(path.poses.size(),20u);
+    EXPECT_DOUBLE_EQ(path.poses.front().pose.position.x,start.pose.position.x);
+    EXPECT_DOUBLE_EQ(path.poses.back().pose.position.x,goal.pose.position.x);
+    EXPECT_DOUBLE_EQ(path.poses.back().pose.orientation.z,goal.pose.orientation.z);
+    EXPECT_GT(std::abs(path.poses[path.poses.size()-5].pose.orientation.z),.1);
+    ASSERT_EQ(path.poses.size(),original.poses.size());
+    for (size_t i=0;i<path.poses.size();++i) {
+      EXPECT_DOUBLE_EQ(path.poses[i].pose.position.x,original.poses[i].pose.position.x);
+      EXPECT_DOUBLE_EQ(path.poses[i].pose.position.y,original.poses[i].pose.position.y);
+    }
+    reference->deactivate(); reference->cleanup();
+    unsigned int x,y; ASSERT_TRUE(map->getCostmap()->worldToMap(goal.pose.position.x,goal.pose.position.y,x,y));
+    map->getCostmap()->setCost(x,y,254);
+    EXPECT_THROW(candidate->createPlan(start,goal),nav2_core::PlannerException);
+    map->getCostmap()->setCost(x,y,0);
+    candidate->deactivate(); candidate->cleanup();
+  }
+}
 }  // namespace
 int main(int argc, char ** argv)
 {

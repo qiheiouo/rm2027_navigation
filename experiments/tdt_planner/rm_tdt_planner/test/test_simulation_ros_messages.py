@@ -10,7 +10,8 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
 
-from nav_msgs.msg import OccupancyGrid
+from nav_msgs.msg import OccupancyGrid, Path as NavPath
+from geometry_msgs.msg import PoseStamped
 from rcl_interfaces.msg import Log
 from rclpy.serialization import deserialize_message, serialize_message
 
@@ -79,6 +80,22 @@ class RecorderMessagesTest(unittest.TestCase):
         self.assertEqual(row['origin'], [-1.5, -2.0])
         self.assertAlmostEqual(row['resolution'], 0.05, places=7)
         self.assertEqual(row['t'], 7.25)
+
+    def test_plan_yaw_survives_ros_roundtrip_and_keeps_xy(self):
+        msg = NavPath()
+        msg.header.frame_id = 'map'
+        pose = PoseStamped()
+        pose.pose.position.x = 2.0
+        pose.pose.orientation.z = 1.0
+        pose.pose.orientation.w = 0.0
+        msg.poses = [pose]
+        sink = Sink()
+        sink.path_id = 0
+        sink.streams['plans'] = io.StringIO()
+        observer.Observer.plan_cb(sink, roundtrip(msg))
+        row = json.loads(sink.streams['plans'].getvalue())
+        self.assertEqual(row['xy'], [[2.0, 0.0]])
+        self.assertAlmostEqual(abs(row['yaw'][0]), 3.141592653589793)
 
     def test_callback_failure_keeps_traceback_and_returns_invalid_evidence(self):
         # Main's failure handler is exercised, but ROS init/node creation are mocked.

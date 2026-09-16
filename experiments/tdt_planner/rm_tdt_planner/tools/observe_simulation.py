@@ -12,7 +12,8 @@ import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
 from rclpy.logging import LoggingSeverity
-from rclpy.parameter import Parameter
+from rclpy.parameter import Parameter, parameter_value_to_python
+from rcl_interfaces.srv import GetParameters
 from rclpy.qos import qos_profile_sensor_data, QoSProfile, DurabilityPolicy
 from geometry_msgs.msg import PoseStamped, Twist
 from nav_msgs.msg import Odometry, OccupancyGrid, Path as NavPath
@@ -113,7 +114,8 @@ class Observer(Node):
             return
         self.path = [(p.pose.position.x, p.pose.position.y) for p in msg.poses]
         self.path_id += 1
-        self.write('plans', {'id': self.path_id, 't': seconds(msg.header.stamp), 'xy': self.path})
+        self.write('plans', {'id': self.path_id, 't': seconds(msg.header.stamp), 'xy': self.path,
+                             'yaw': [yaw(p.pose.orientation) for p in msg.poses]})
 
     def command_cb(self, msg):
         row = {'t': self.now_sim, 'vx': msg.linear.x, 'vy': msg.linear.y, 'wz': msg.angular.z}
@@ -157,10 +159,42 @@ class Observer(Node):
         p.pose.orientation.z, p.pose.orientation.w = math.sin(heading/2), math.cos(heading/2)
         return p
 
+    def verify_profile(self):
+        if not getattr(self, 'profile_to_verify', None):
+            return
+        import yaml
+        profile = yaml.safe_load(self.profile_to_verify.read_text())
+        def flatten(data, prefix):
+            result = {}
+            for key, value in data.items():
+                name = prefix + '.' + key
+                if isinstance(value, dict):
+                    result.update(flatten(value, name))
+                else:
+                    result[name] = value
+            return result
+        for target, block in (('controller_server', 'FollowPath'), ('planner_server', 'GridBased')):
+            expected = flatten(profile[target]['ros__parameters'][block], block)
+            if target == 'planner_server':
+                expected.setdefault('GridBased.experimental_path_heading', False)
+            client = self.create_client(GetParameters, '/' + target + '/get_parameters')
+            if not client.wait_for_service(timeout_sec=10):
+                raise RuntimeError('parameter service unavailable: ' + target)
+            future = client.call_async(GetParameters.Request(names=list(expected)))
+            if not self.until(future.done, 10):
+                raise RuntimeError('parameter read timeout: ' + target)
+            actual = dict(zip(expected, [parameter_value_to_python(v) for v in future.result().values]))
+            self.write('events', {'t': self.now_sim, 'event': 'runtime_parameters',
+                                 'node': target, 'expected': expected, 'actual': actual})
+            self.destroy_client(client)
+            if actual != expected:
+                raise RuntimeError('loaded profile mismatch: ' + target)
+
     def run(self, goal_x, goal_y):
         if not self.until(self.ready, 120):
             raise RuntimeError(f'simulation readiness timeout: clock={self.now_sim}, scans={self.scan_count}, '
                                f'odom={self.odom_count}, maps={self.map_count}, fixture={self.fixture_ready}')
+        self.verify_profile()
         preflight = ComputePathToPose.Goal()
         preflight.start, preflight.goal = self.pose(*self.current), self.pose(goal_x, goal_y)
         preflight.use_start, preflight.planner_id = True, 'GridBased'
@@ -215,6 +249,7 @@ def main():
     parser.add_argument('--launch-log', required=True, type=Path)
     parser.add_argument('--goal-x', type=float, default=4.3)
     parser.add_argument('--goal-y', type=float, default=0.0)
+    parser.add_argument('--verify-profile', type=Path)
     args = parser.parse_args()
     if os.environ.get('ROS_DOMAIN_ID') != '174' or os.environ.get('ROS_LOCALHOST_ONLY') != '1':
         parser.error('use the documented isolated localhost simulation domain 174')
@@ -223,6 +258,7 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     rclpy.init()
     node = Observer(args.output, args.launch_log)
+    node.profile_to_verify = args.verify_profile
     report = {}
     try:
         report = node.run(args.goal_x, args.goal_y)

@@ -37,6 +37,8 @@ trap 'exit 143' TERM
 setsid ros2 launch /ws/experiments/tdt_planner/rm_tdt_planner/launch/simulation_comparison.launch.py \
   params_file:="$profile" > "$trial_dir/launch.log" 2>&1 &
 launch_pid=$!
+observer_extra=()
+if [[ "${TDT_HEADING_AB:-0}" == 1 ]]; then observer_extra=(--verify-profile "$profile"); fi
 python3 /ws/experiments/tdt_planner/rm_tdt_planner/tools/observe_simulation.py \
-  "$trial_dir/observation" --launch-log "$trial_dir/launch.log" \
+  "$trial_dir/observation" --launch-log "$trial_dir/launch.log" "${observer_extra[@]}" \
   > "$trial_dir/observer.log" 2>&1

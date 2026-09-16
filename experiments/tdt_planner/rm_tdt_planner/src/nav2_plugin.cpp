@@ -1,5 +1,6 @@
 // Copyright 2026 RM Navigation. SPDX-License-Identifier: MIT
 #include "rm_tdt_planner/planner.hpp"
+#include "rm_tdt_planner/path_heading.hpp"
 #include "nav2_core/global_planner.hpp"
 #include "nav2_core/exceptions.hpp"
 #include "nav2_util/node_utils.hpp"
@@ -48,6 +49,9 @@ public:
     nav2_util::declare_parameter_if_not_declared(node_, name_ + ".optimize",
       rclcpp::ParameterValue(true));
     options_.optimize = node_->get_parameter(name_ + ".optimize").as_bool();
+    nav2_util::declare_parameter_if_not_declared(node_, name_ + ".experimental_path_heading",
+      rclcpp::ParameterValue(false));
+    path_heading_ = node_->get_parameter(name_ + ".experimental_path_heading").as_bool();
     active_ = false;
   }
   void cleanup() override
@@ -102,6 +106,13 @@ public:
     {
       throw nav2_core::PlannerException("costmap or footprint changed during TDT planning");
     }
+    std::vector<double> headings;
+    if (path_heading_) {
+      auto yaw_of=[](const auto & q) {
+          return std::atan2(2.0*(q.w*q.z+q.x*q.y),1.0-2.0*(q.y*q.y+q.z*q.z));
+        };
+      headings=continuous_path_heading(result.path,yaw_of(start.pose.orientation),yaw_of(goal.pose.orientation));
+    }
     nav_msgs::msg::Path output;
     output.header.frame_id = frame;
     output.header.stamp = node_->now();
@@ -115,6 +126,7 @@ public:
         yaw = std::atan2(result.path[i + 1].y - result.path[i].y,
           result.path[i + 1].x - result.path[i].x);
       }
+      if (path_heading_) {yaw=headings[i];}
       pose.pose.orientation.z = std::sin(yaw / 2.0);
       pose.pose.orientation.w = std::cos(yaw / 2.0);
       output.poses.push_back(pose);
@@ -167,6 +179,7 @@ private:
   std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap_;
   std::string name_;
   Options options_;
+  bool path_heading_ = false;
   bool active_ = false;
 };
 }  // namespace rm_tdt_planner
