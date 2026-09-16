@@ -30,9 +30,17 @@ if(BUILD_TESTING)
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_simulation_tools.py)
   set_tests_properties(simulation_evidence_tools PROPERTIES TIMEOUT 30
     ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
-  add_executable(test_planner test/test_planner.cpp test/test_solver_lifetime.cpp)
+  # Offline geometry experiment: test-only, never linked into the Nav2 plugin.
+  add_library(rm_tdt_pose_geometry STATIC src/pose_geometry.cpp)
+  target_include_directories(rm_tdt_pose_geometry PUBLIC include)
+  # Supply the same include environment for the existing whole-chain macro audit.
+  # The geometry implementation itself uses only the C++ standard library.
+  target_link_libraries(rm_tdt_pose_geometry PRIVATE Eigen3::Eigen)
+  target_compile_options(rm_tdt_pose_geometry PRIVATE -Wall -Wextra -Wpedantic)
+  add_executable(test_planner test/test_planner.cpp test/test_solver_lifetime.cpp
+    test/test_pose_geometry.cpp)
   target_include_directories(test_planner PRIVATE tools)
-  target_link_libraries(test_planner rm_tdt_core GTest::gtest_main)
+  target_link_libraries(test_planner rm_tdt_core rm_tdt_pose_geometry GTest::gtest_main)
   add_test(NAME planner_safety COMMAND test_planner)
   set_tests_properties(planner_safety PROPERTIES TIMEOUT 60)
 endif()
