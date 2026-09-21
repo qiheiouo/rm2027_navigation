@@ -104,6 +104,38 @@ public:
       grid.origin_y != latest.origin_y || grid.costs != latest.costs ||
       options.radius != footprint_radius())
     {
+      // Diagnostic only: retain the strict rejection in this baseline. Test the
+      // exact candidate against the exact second snapshot, never a published map.
+      const bool same_geometry = grid.width == latest.width && grid.height == latest.height &&
+        grid.resolution == latest.resolution && grid.origin_x == latest.origin_x &&
+        grid.origin_y == latest.origin_y;
+      size_t changed = 0, hard_changed = 0;
+      std::ostringstream cells;
+      if (same_geometry) {
+        for (size_t i = 0; i < grid.costs.size(); ++i) {
+          if (grid.costs[i] == latest.costs[i]) {continue;}
+          if (changed < 64) {
+            if (changed) {cells << ',';}
+            cells << '[' << i % grid.width << ',' << i / grid.width << ','
+                  << int(grid.costs[i]) << ',' << int(latest.costs[i]) << ']';
+          }
+          ++changed;
+          if (grid.costs[i] >= 253 || latest.costs[i] >= 253) {++hard_changed;}
+        }
+      }
+      auto latest_options = options;
+      latest_options.radius = footprint_radius();
+      std::ostringstream detail;
+      detail << std::setprecision(17)
+             << "snapshot_change_v1={\"same_geometry\":" << (same_geometry ? "true" : "false")
+             << ",\"old_radius\":" << options.radius << ",\"latest_radius\":" << latest_options.radius
+             << ",\"changed_cells\":" << changed << ",\"hard_changed_cells\":" << hard_changed
+             << ",\"cells_truncated\":" << (changed > 64 ? "true" : "false")
+             << ",\"candidate_latest_collision_free\":"
+             << (collision_free(latest, result.path, latest_options) ? "true" : "false")
+             << ",\"origin\":[" << latest.origin_x << ',' << latest.origin_y
+             << "],\"resolution\":" << latest.resolution << ",\"cells_xy_old_new\":[" << cells.str() << "]}";
+      RCLCPP_WARN(node_->get_logger(), "%s", detail.str().c_str());
       throw nav2_core::PlannerException("costmap or footprint changed during TDT planning");
     }
     std::vector<double> headings;
