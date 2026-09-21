@@ -128,6 +128,10 @@ public:
       std::ostringstream detail;
       detail << std::setprecision(17)
              << "snapshot_change_v1={\"same_geometry\":" << (same_geometry ? "true" : "false")
+             << ",\"old_origin\":[" << grid.origin_x << ',' << grid.origin_y
+             << "],\"old_size\":[" << grid.width << ',' << grid.height
+             << "],\"latest_size\":[" << latest.width << ',' << latest.height
+             << "],\"old_resolution\":" << grid.resolution
              << ",\"old_radius\":" << options.radius << ",\"latest_radius\":" << latest_options.radius
              << ",\"changed_cells\":" << changed << ",\"hard_changed_cells\":" << hard_changed
              << ",\"cells_truncated\":" << (changed > 64 ? "true" : "false")
