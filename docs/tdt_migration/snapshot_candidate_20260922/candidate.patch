@@ -1,0 +1,337 @@
+--- a/experiments/tdt_planner/rm_tdt_planner/src/nav2_plugin.cpp
++++ b/experiments/tdt_planner/rm_tdt_planner/src/nav2_plugin.cpp
+@@ -1,6 +1,8 @@
+ // Copyright 2026 RM Navigation. SPDX-License-Identifier: MIT
+ #include "rm_tdt_planner/planner.hpp"
+ #include "rm_tdt_planner/path_heading.hpp"
++#include "rm_tdt_planner/snapshot_guard.hpp"
++#include <chrono>
+ #include "nav2_core/global_planner.hpp"
+ #include "nav2_core/exceptions.hpp"
+ #include "nav2_util/node_utils.hpp"
+@@ -73,9 +75,17 @@
+     {
+       throw nav2_core::PlannerException("TDT requires finite poses in the global costmap frame");
+     }
++    const auto began = std::chrono::steady_clock::now();
+     auto options = options_;
+-    options.radius = footprint_radius();
+-    const Grid grid = snapshot();
++    auto * master = costmap_->getCostmap();
++    Grid grid;
++    std::vector<Point> footprint;
++    {
++      std::unique_lock<nav2_costmap_2d::Costmap2D::mutex_t> lock(*master->getMutex());
++      footprint = footprint_points();
++      options.radius = footprint_radius(footprint);
++      grid = snapshot_locked();
++    }
+     const auto result = plan(grid, {start.pose.position.x, start.pose.position.y},
+       {goal.pose.position.x, goal.pose.position.y}, options);
+     if (!result.success) {
+@@ -96,52 +106,6 @@
+       throw nav2_core::PlannerException(detail.str());
+     }
+ 
+-    // Costmap updates continue while the expensive solver runs. A changed map
+-    // invalidates this candidate; planner_server/BT may request a fresh plan.
+-    const Grid latest = snapshot();
+-    if (grid.width != latest.width || grid.height != latest.height ||
+-      grid.resolution != latest.resolution || grid.origin_x != latest.origin_x ||
+-      grid.origin_y != latest.origin_y || grid.costs != latest.costs ||
+-      options.radius != footprint_radius())
+-    {
+-      // Diagnostic only: retain the strict rejection in this baseline. Test the
+-      // exact candidate against the exact second snapshot, never a published map.
+-      const bool same_geometry = grid.width == latest.width && grid.height == latest.height &&
+-        grid.resolution == latest.resolution && grid.origin_x == latest.origin_x &&
+-        grid.origin_y == latest.origin_y;
+-      size_t changed = 0, hard_changed = 0;
+-      std::ostringstream cells;
+-      if (same_geometry) {
+-        for (size_t i = 0; i < grid.costs.size(); ++i) {
+-          if (grid.costs[i] == latest.costs[i]) {continue;}
+-          if (changed < 64) {
+-            if (changed) {cells << ',';}
+-            cells << '[' << i % grid.width << ',' << i / grid.width << ','
+-                  << int(grid.costs[i]) << ',' << int(latest.costs[i]) << ']';
+-          }
+-          ++changed;
+-          if (grid.costs[i] >= 253 || latest.costs[i] >= 253) {++hard_changed;}
+-        }
+-      }
+-      auto latest_options = options;
+-      latest_options.radius = footprint_radius();
+-      std::ostringstream detail;
+-      detail << std::setprecision(17)
+-             << "snapshot_change_v1={\"same_geometry\":" << (same_geometry ? "true" : "false")
+-             << ",\"old_origin\":[" << grid.origin_x << ',' << grid.origin_y
+-             << "],\"old_size\":[" << grid.width << ',' << grid.height
+-             << "],\"latest_size\":[" << latest.width << ',' << latest.height
+-             << "],\"old_resolution\":" << grid.resolution
+-             << ",\"old_radius\":" << options.radius << ",\"latest_radius\":" << latest_options.radius
+-             << ",\"changed_cells\":" << changed << ",\"hard_changed_cells\":" << hard_changed
+-             << ",\"cells_truncated\":" << (changed > 64 ? "true" : "false")
+-             << ",\"candidate_latest_collision_free\":"
+-             << (collision_free(latest, result.path, latest_options) ? "true" : "false")
+-             << ",\"origin\":[" << latest.origin_x << ',' << latest.origin_y
+-             << "],\"resolution\":" << latest.resolution << ",\"cells_xy_old_new\":[" << cells.str() << "]}";
+-      RCLCPP_WARN(node_->get_logger(), "%s", detail.str().c_str());
+-      throw nav2_core::PlannerException("costmap or footprint changed during TDT planning");
+-    }
+     std::vector<double> headings;
+     if (path_heading_) {
+       auto yaw_of=[](const auto & q) {
+@@ -169,6 +133,42 @@
+     }
+     output.poses.front().pose.orientation = start.pose.orientation;
+     output.poses.back().pose.orientation = goal.pose.orientation;
++    // Final admission only: never hold this lock through A*/QP solving.
++    // Output is constructed already; updates cannot race validation-to-return.
++    std::unique_lock<nav2_costmap_2d::Costmap2D::mutex_t> lock(*master->getMutex());
++    const Grid latest = snapshot_locked();
++    const auto latest_footprint = footprint_points();
++    if (frame != costmap_->getGlobalFrameID()) {
++      throw nav2_core::PlannerException("global frame changed during TDT planning");
++    }
++    const auto validation_began = std::chrono::steady_clock::now();
++    const auto admission = validate_latest_candidate(grid, latest, footprint, latest_footprint,
++      result.path, options);
++    const double validation_seconds = std::chrono::duration<double>(
++      std::chrono::steady_clock::now() - validation_began).count();
++    const bool admitted = admission == SnapshotAdmission::Unchanged ||
++      admission == SnapshotAdmission::Revalidated;
++    if (admission != SnapshotAdmission::Unchanged) {
++      std::ostringstream detail;
++      detail << std::setprecision(17) << "snapshot_admission_v1={\"decision\":\""
++             << snapshot_admission_name(admission) << "\",\"old_origin\":["
++             << grid.origin_x << ',' << grid.origin_y << "],\"latest_origin\":["
++             << latest.origin_x << ',' << latest.origin_y << "],\"radius\":" << options.radius
++             << ",\"clearance\":" << options.clearance << ",\"validation_seconds\":"
++             << validation_seconds << '}';
++      if (admitted) {RCLCPP_INFO(node_->get_logger(), "%s", detail.str().c_str());}
++      else {RCLCPP_WARN(node_->get_logger(), "%s", detail.str().c_str());}
++    }
++    if (!admitted) {
++      throw nav2_core::PlannerException(std::string("TDT latest snapshot rejected: ") +
++        snapshot_admission_name(admission));
++    }
++    // Preserve the soft budget; count snapshot copying/final checking too.
++    if (std::chrono::duration<double>(std::chrono::steady_clock::now() - began).count() >
++      options.time_budget)
++    {
++      throw nav2_core::PlannerException("TDT deadline exceeded including latest snapshot validation");
++    }
+     RCLCPP_DEBUG(node_->get_logger(), "%s: %s, %.3f s", name_.c_str(),
+       result.reason.c_str(), result.elapsed_seconds);
+     return output;
+@@ -183,9 +183,14 @@
+     return std::isfinite(p.x) && std::isfinite(p.y) && std::isfinite(p.z) &&
+            std::isfinite(norm) && std::abs(norm - 1.0) < 1e-3;
+   }
+-  double footprint_radius() const
+-  {
+-    const auto footprint = costmap_->getRobotFootprint();
++  std::vector<Point> footprint_points() const
++  {
++    std::vector<Point> points;
++    for (const auto & p : costmap_->getRobotFootprint()) {points.push_back({p.x, p.y});}
++    return points;
++  }
++  static double footprint_radius(const std::vector<Point> & footprint)
++  {
+     if (footprint.size() < 3) {throw nav2_core::PlannerException("missing padded footprint");}
+     double radius = 0.0;
+     for (const auto & p : footprint) {
+@@ -196,10 +201,10 @@
+     }
+     return radius;
+   }
+-  Grid snapshot() const
++  // Caller holds the master-map mutex.
++  Grid snapshot_locked() const
+   {
+     auto * map = costmap_->getCostmap();
+-    std::unique_lock<nav2_costmap_2d::Costmap2D::mutex_t> lock(*map->getMutex());
+     Grid grid;
+     grid.cost_interpretation = CostInterpretation::Nav2Master;
+     grid.width = map->getSizeInCellsX(); grid.height = map->getSizeInCellsY();
+--- a/experiments/tdt_planner/rm_tdt_planner/CMakeLists.txt
++++ b/experiments/tdt_planner/rm_tdt_planner/CMakeLists.txt
+@@ -17,7 +17,7 @@
+ target_compile_definitions(tdt_nav_core PUBLIC RM_TDT_NO_OPENCV)
+ target_compile_features(tdt_nav_core PRIVATE cxx_std_20)
+ target_link_libraries(tdt_nav_core PUBLIC Eigen3::Eigen OsqpEigen::OsqpEigen Threads::Threads)
+-add_library(rm_tdt_core STATIC src/planner.cpp src/path_heading.cpp)
++add_library(rm_tdt_core STATIC src/planner.cpp src/path_heading.cpp src/snapshot_guard.cpp)
+ target_include_directories(rm_tdt_core PUBLIC include)
+ target_link_libraries(rm_tdt_core PUBLIC tdt_nav_core)
+ target_compile_options(rm_tdt_core PRIVATE -Wall -Wextra -Wpedantic)
+@@ -42,7 +42,7 @@
+   set_tests_properties(heading_ab_metrics PROPERTIES TIMEOUT 30
+     ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
+   add_executable(test_planner test/test_planner.cpp test/test_solver_lifetime.cpp
+-    test/test_pose_geometry.cpp test/test_path_heading.cpp)
++    test/test_pose_geometry.cpp test/test_path_heading.cpp test/test_snapshot_guard.cpp)
+   target_include_directories(test_planner PRIVATE tools)
+   target_link_libraries(test_planner rm_tdt_core rm_tdt_pose_geometry GTest::gtest_main)
+   add_test(NAME planner_safety COMMAND test_planner)
+--- /dev/null
++++ b/experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/snapshot_guard.hpp
+@@ -0,0 +1,13 @@
++// Copyright 2026 RM Navigation. SPDX-License-Identifier: MIT
++#pragma once
++#include "rm_tdt_planner/planner.hpp"
++namespace rm_tdt_planner
++{
++enum class SnapshotAdmission {Unchanged, Revalidated, FootprintChanged, GeometryChanged, Unsafe};
++// OFFLINE PROPOSAL ONLY. Caller holds the latest master-map mutex through
++// validation/return and fixes the global frame. Candidate must be newly planned.
++SnapshotAdmission validate_latest_candidate(const Grid & planned, const Grid & latest,
++  const std::vector<Point> & planned_footprint, const std::vector<Point> & latest_footprint,
++  const std::vector<Point> & path, const Options & options);
++const char * snapshot_admission_name(SnapshotAdmission admission);
++}
+--- /dev/null
++++ b/experiments/tdt_planner/rm_tdt_planner/src/snapshot_guard.cpp
+@@ -0,0 +1,39 @@
++// Copyright 2026 RM Navigation. SPDX-License-Identifier: MIT
++#include "rm_tdt_planner/snapshot_guard.hpp"
++#include <algorithm>
++#include <cmath>
++namespace rm_tdt_planner
++{
++SnapshotAdmission validate_latest_candidate(const Grid & planned, const Grid & latest,
++  const std::vector<Point> & before, const std::vector<Point> & after,
++  const std::vector<Point> & path, const Options & options)
++{
++  if (before.size() < 3 || before.size() != after.size()) {return SnapshotAdmission::FootprintChanged;}
++  double radius = 0.0;
++  for (size_t i = 0; i < before.size(); ++i) {
++    if (!std::isfinite(before[i].x) || !std::isfinite(before[i].y) ||
++      before[i].x != after[i].x || before[i].y != after[i].y)
++    {return SnapshotAdmission::FootprintChanged;}
++    radius = std::max(radius, std::hypot(before[i].x, before[i].y));
++  }
++  if (radius != options.radius) {return SnapshotAdmission::FootprintChanged;}
++  if (planned.width != latest.width || planned.height != latest.height ||
++    planned.resolution != latest.resolution || planned.cost_interpretation != latest.cost_interpretation)
++  {return SnapshotAdmission::GeometryChanged;}
++  // Exactly the existing continuous checker and existing physical/numerical margins.
++  if (!collision_free(latest, path, options)) {return SnapshotAdmission::Unsafe;}
++  return planned.origin_x == latest.origin_x && planned.origin_y == latest.origin_y &&
++         planned.costs == latest.costs ? SnapshotAdmission::Unchanged : SnapshotAdmission::Revalidated;
++}
++const char * snapshot_admission_name(SnapshotAdmission a)
++{
++  switch (a) {
++    case SnapshotAdmission::Unchanged: return "unchanged";
++    case SnapshotAdmission::Revalidated: return "revalidated";
++    case SnapshotAdmission::FootprintChanged: return "footprint_changed";
++    case SnapshotAdmission::GeometryChanged: return "geometry_changed";
++    case SnapshotAdmission::Unsafe: return "unsafe_latest_path";
++  }
++  return "invalid_admission";
++}
++}
+--- /dev/null
++++ b/experiments/tdt_planner/rm_tdt_planner/test/test_snapshot_guard.cpp
+@@ -0,0 +1,98 @@
++// Offline proposal tests; not linked into the installed planner.
++#include "rm_tdt_planner/snapshot_guard.hpp"
++#include <gtest/gtest.h>
++#include <cmath>
++#include <limits>
++using namespace rm_tdt_planner;
++namespace {
++class SnapshotGuard : public ::testing::Test {
++protected:
++  Grid old{100,80,.1,-3.25,-1.75,std::vector<uint8_t>(8000,0),CostInterpretation::Nav2Master};
++  std::vector<Point> fp{{.2,.15},{-.2,.15},{-.2,-.15},{.2,-.15}};
++  // Deliberately sparse samples: a new obstacle midway must invalidate a segment.
++  std::vector<Point> path{{-1.25,.30},{3.75,.30}};
++  Options options;
++  void SetUp() override {options.radius=.25; options.clearance=.02;}
++  SnapshotAdmission check(const Grid & latest) {
++    return validate_latest_candidate(old,latest,fp,fp,path,options);
++  }
++  Grid shifted(int cells) {
++    Grid next=old;next.origin_x+=cells*old.resolution;
++    next.costs.assign(next.costs.size(),0);
++    for(int y=0;y<old.height;++y) for(int x=0;x<old.width;++x) {
++      int src=x+cells;
++      if(src>=0 && src<old.width) next.costs[y*old.width+x]=old.costs[y*old.width+src];
++    }
++    return next;
++  }
++};
++TEST_F(SnapshotGuard, UnchangedValidPath) {EXPECT_EQ(check(old),SnapshotAdmission::Unchanged);}
++TEST_F(SnapshotGuard, RollingOriginPreservesWorldPathAndObstacle) {
++  old.costs[35*100+45]=254;const auto before=old.costs;const auto original=path;
++  const auto latest=shifted(2);
++  EXPECT_EQ(check(latest),SnapshotAdmission::Revalidated);
++  EXPECT_EQ(old.costs,before);
++  ASSERT_EQ(path.size(),original.size());
++  for(size_t i=0;i<path.size();++i) {EXPECT_DOUBLE_EQ(path[i].x,original[i].x);EXPECT_DOUBLE_EQ(path[i].y,original[i].y);}
++}
++TEST_F(SnapshotGuard, RollingAndNewLethalRejectsBetweenSamples) {
++  auto latest=shifted(2);latest.costs[20*100+43]=254;
++  EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe);
++}
++TEST_F(SnapshotGuard, RollingUnknownStripRejectsFullFootprint) {
++  auto latest=shifted(2);
++  for(int x=20;x<68;++x) latest.costs[22*100+x]=255; // y .45-.55, 15 cm from path centre
++  EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe);
++}
++TEST_F(SnapshotGuard, RollingOutsideWindowRejects) {EXPECT_EQ(check(shifted(30)),SnapshotAdmission::Unsafe);}
++TEST_F(SnapshotGuard, NewLethalUnknownOr253OnSegmentRejects) {
++  for(int cost:{253,254,255}) {
++    auto latest=old;latest.costs[20*100+45]=cost;
++    EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe)<<cost;
++  }
++}
++TEST_F(SnapshotGuard, SoftCostUpdateRequiresValidPath) {
++  auto latest=old;latest.costs[20*100+45]=252;
++  EXPECT_EQ(check(latest),SnapshotAdmission::Revalidated);
++  latest.costs[22*100+45]=254;
++  EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe);
++}
++TEST_F(SnapshotGuard, RemoteHardChangeCanPassFullCheck) {
++  auto latest=old;latest.costs[50*100+45]=254;
++  EXPECT_EQ(check(latest),SnapshotAdmission::Revalidated);
++}
++TEST_F(SnapshotGuard, SameRadiusDifferentFootprintRejects) {
++  auto changed=fp;changed[0]={.15,.2};
++  EXPECT_EQ(validate_latest_candidate(old,old,fp,changed,path,options),SnapshotAdmission::FootprintChanged);
++}
++TEST_F(SnapshotGuard, SizeResolutionAndInterpretationChangesReject) {
++  auto latest=old;latest.width=80;latest.height=100;
++  EXPECT_EQ(check(latest),SnapshotAdmission::GeometryChanged);
++  latest=old;latest.resolution=.05;EXPECT_EQ(check(latest),SnapshotAdmission::GeometryChanged);
++  latest=old;latest.cost_interpretation=CostInterpretation::ObstacleSeeds;
++  EXPECT_EQ(check(latest),SnapshotAdmission::GeometryChanged);
++}
++TEST_F(SnapshotGuard, MalformedOrNonfiniteLatestRejects) {
++  auto latest=old;latest.costs.pop_back();EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe);
++  latest=old;latest.origin_x=std::numeric_limits<double>::quiet_NaN();
++  EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe);
++  latest=old;latest.origin_y=std::numeric_limits<double>::infinity();
++  EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe);
++}
++TEST_F(SnapshotGuard, InvalidFootprintOrRadiusMismatchRejects) {
++  auto changed=fp;changed[0].x=std::numeric_limits<double>::quiet_NaN();
++  EXPECT_EQ(validate_latest_candidate(old,old,fp,changed,path,options),SnapshotAdmission::FootprintChanged);
++  EXPECT_EQ(validate_latest_candidate(old,old,{},fp,path,options),SnapshotAdmission::FootprintChanged);
++  options.radius=.2;EXPECT_EQ(check(old),SnapshotAdmission::FootprintChanged);
++}
++TEST_F(SnapshotGuard, ClearanceAndTouchRemainRejected) {
++  auto latest=old;latest.costs[23*100+45]=254; // y .55-.65: exactly .25 body radius
++  EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe);
++  options.clearance=0.;EXPECT_EQ(check(latest),SnapshotAdmission::Unsafe); // guard rejects contact
++}
++TEST_F(SnapshotGuard, EmptyNonfiniteAndBoundaryPathsReject) {
++  path.clear();EXPECT_EQ(check(old),SnapshotAdmission::Unsafe);
++  path={{std::numeric_limits<double>::quiet_NaN(),.3}};EXPECT_EQ(check(old),SnapshotAdmission::Unsafe);
++  path={{-3.1,.3},{-3.1,.6}};EXPECT_EQ(check(old),SnapshotAdmission::Unsafe);
++}
++}

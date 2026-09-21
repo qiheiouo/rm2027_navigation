@@ -1,0 +1,95 @@
+cmake_minimum_required(VERSION 3.16)
+project(rm_tdt_planner LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+option(RM_TDT_BUILD_ROS2 "Build the opt-in Humble GlobalPlanner plugin" ON)
+option(RM_TDT_BUILD_BENCHMARK "Build offline P2 map snapshot comparison tool" OFF)
+find_package(Eigen3 REQUIRED)
+find_package(OsqpEigen 0.8.1 EXACT REQUIRED)
+find_package(Threads REQUIRED)
+
+add_library(tdt_nav_core STATIC
+  vendor/tdt_nav/YAstar/yastar.cpp
+  vendor/tdt_nav/MinimumSnapOsqp/minimumSnap.cpp
+  vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp)
+target_include_directories(tdt_nav_core PUBLIC vendor/tdt_nav)
+target_compile_definitions(tdt_nav_core PUBLIC RM_TDT_NO_OPENCV)
+target_compile_features(tdt_nav_core PRIVATE cxx_std_20)
+target_link_libraries(tdt_nav_core PUBLIC Eigen3::Eigen OsqpEigen::OsqpEigen Threads::Threads)
+add_library(rm_tdt_core STATIC src/planner.cpp src/path_heading.cpp src/snapshot_guard.cpp)
+target_include_directories(rm_tdt_core PUBLIC include)
+target_link_libraries(rm_tdt_core PUBLIC tdt_nav_core)
+target_compile_options(rm_tdt_core PRIVATE -Wall -Wextra -Wpedantic)
+
+include(CTest)
+if(BUILD_TESTING)
+  find_package(GTest REQUIRED)
+  find_package(Python3 REQUIRED COMPONENTS Interpreter)
+  add_test(NAME simulation_evidence_tools
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_simulation_tools.py)
+  set_tests_properties(simulation_evidence_tools PROPERTIES TIMEOUT 30
+    ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
+  # Offline geometry experiment: test-only, never linked into the Nav2 plugin.
+  add_library(rm_tdt_pose_geometry STATIC src/pose_geometry.cpp)
+  target_include_directories(rm_tdt_pose_geometry PUBLIC include)
+  # Supply the same include environment for the existing whole-chain macro audit.
+  # The geometry implementation itself uses only the C++ standard library.
+  target_link_libraries(rm_tdt_pose_geometry PRIVATE Eigen3::Eigen)
+  target_compile_options(rm_tdt_pose_geometry PRIVATE -Wall -Wextra -Wpedantic)
+  add_test(NAME heading_ab_metrics
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_heading_ab.py)
+  set_tests_properties(heading_ab_metrics PROPERTIES TIMEOUT 30
+    ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
+  add_executable(test_planner test/test_planner.cpp test/test_solver_lifetime.cpp
+    test/test_pose_geometry.cpp test/test_path_heading.cpp test/test_snapshot_guard.cpp)
+  target_include_directories(test_planner PRIVATE tools)
+  target_link_libraries(test_planner rm_tdt_core rm_tdt_pose_geometry GTest::gtest_main)
+  add_test(NAME planner_safety COMMAND test_planner)
+  set_tests_properties(planner_safety PROPERTIES TIMEOUT 60)
+endif()
+
+if(RM_TDT_BUILD_ROS2)
+  find_package(ament_cmake REQUIRED)
+  find_package(nav2_core REQUIRED)
+  find_package(nav2_costmap_2d REQUIRED)
+  find_package(nav2_util REQUIRED)
+  find_package(nav_msgs REQUIRED)
+  find_package(pluginlib REQUIRED)
+  find_package(rclcpp REQUIRED)
+  add_library(rm_tdt_global_planner SHARED src/nav2_plugin.cpp)
+  target_link_libraries(rm_tdt_global_planner rm_tdt_core)
+  ament_target_dependencies(rm_tdt_global_planner
+    nav2_core nav2_costmap_2d nav2_util nav_msgs pluginlib rclcpp)
+  pluginlib_export_plugin_description_file(nav2_core plugins.xml)
+  if(BUILD_TESTING AND RM_TDT_BUILD_BENCHMARK)
+    find_package(nav2_map_server REQUIRED)
+    find_package(nav2_navfn_planner REQUIRED)
+    find_package(nav2_smac_planner REQUIRED)
+    add_executable(benchmark_planners tools/benchmark_planners.cpp)
+    target_link_libraries(benchmark_planners rm_tdt_core)
+    ament_target_dependencies(benchmark_planners nav2_core nav2_costmap_2d
+      nav2_map_server nav2_navfn_planner nav2_smac_planner nav2_util nav_msgs rclcpp)
+    install(TARGETS benchmark_planners DESTINATION lib/${PROJECT_NAME})
+  endif()
+  install(TARGETS rm_tdt_global_planner LIBRARY DESTINATION lib)
+  install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
+  install(FILES README.md LICENSE vendor/tdt_nav/LICENCE vendor/tdt_nav/UPSTREAM.json
+    vendor/tdt_nav/LOCAL_CHANGES.patch
+    DESTINATION share/${PROJECT_NAME})
+  if(BUILD_TESTING)
+    add_test(NAME simulation_ros_messages
+      COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test/test_simulation_ros_messages.py)
+    set_tests_properties(simulation_ros_messages PROPERTIES TIMEOUT 30
+      ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
+    find_package(nav2_navfn_planner REQUIRED)
+    find_package(nav2_mppi_controller REQUIRED)
+    add_executable(test_nav2_plugin test/test_nav2_plugin.cpp test/test_mppi_heading.cpp)
+    target_link_libraries(test_nav2_plugin rm_tdt_core GTest::gtest)
+    ament_target_dependencies(test_nav2_plugin
+      nav2_core nav2_costmap_2d nav2_navfn_planner nav2_mppi_controller nav2_util nav_msgs pluginlib rclcpp)
+    add_test(NAME nav2_plugin_contract COMMAND test_nav2_plugin)
+    set_tests_properties(nav2_plugin_contract PROPERTIES TIMEOUT 60)
+  endif()
+  ament_package()
+endif()

@@ -1,0 +1,93 @@
+{
+  "schema": "rm_tdt_planner/snapshot_diagnosis_review/v1",
+  "trials": [
+    {
+      "series": "snapshot_diagnosis_v1",
+      "source_commit": "98f59081fe93e28c84ea7149d52aec15c76c35ae",
+      "raw_summary_matches": true,
+      "action_status": 4,
+      "recoveries": 1,
+      "target_static_pass": false,
+      "final_xy_error_m": 0.13529959846549144,
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.16358245848957997,
+        "min_padded_clearance_m": 0.1222880225200909,
+        "linear_pose_interpolation_body_bound_m": 0.16038527272951192,
+        "linear_pose_interpolation_padded_bound_m": 0.11935122299581742,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "changes": [
+        {
+          "sim_t": 13.064,
+          "same_geometry": false,
+          "old_radius": 0.3807889076915766,
+          "latest_radius": 0.3807889076915766,
+          "changed_cells": 0,
+          "hard_changed_cells": 0,
+          "cells_truncated": false,
+          "candidate_latest_collision_free": true,
+          "origin": [
+            -3.250000000000005,
+            -7.5499999999999945
+          ],
+          "resolution": 0.05,
+          "cells_xy_old_new": []
+        }
+      ],
+      "note": "Cell deltas were not compared when origins differed; zero changed_cells is not proof of unchanged costs."
+    },
+    {
+      "series": "snapshot_diagnosis_v2",
+      "source_commit": "50f53cbad991422bc2d3df775b8c604a0c4add09",
+      "raw_summary_matches": true,
+      "action_status": 4,
+      "recoveries": 1,
+      "target_static_pass": false,
+      "final_xy_error_m": 0.12373824539308223,
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.1535168243107711,
+        "min_padded_clearance_m": 0.11133306547574356,
+        "linear_pose_interpolation_body_bound_m": 0.1501106854144658,
+        "linear_pose_interpolation_padded_bound_m": 0.10805376364507255,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "changes": [
+        {
+          "sim_t": 14.342,
+          "same_geometry": false,
+          "old_origin": [
+            -2.6500000000000052,
+            -7.5499999999999945
+          ],
+          "old_size": [
+            240,
+            240
+          ],
+          "latest_size": [
+            240,
+            240
+          ],
+          "old_resolution": 0.05,
+          "old_radius": 0.3807889076915766,
+          "latest_radius": 0.3807889076915766,
+          "changed_cells": 0,
+          "hard_changed_cells": 0,
+          "cells_truncated": false,
+          "candidate_latest_collision_free": true,
+          "origin": [
+            -2.550000000000005,
+            -7.5499999999999945
+          ],
+          "resolution": 0.05,
+          "cells_xy_old_new": []
+        }
+      ],
+      "note": "Cell deltas were not compared when origins differed; zero changed_cells is not proof of unchanged costs."
+    }
+  ],
+  "candidate_applied": false,
+  "candidate_simulation_run": false,
+  "accepted_for_deployment": false
+}
