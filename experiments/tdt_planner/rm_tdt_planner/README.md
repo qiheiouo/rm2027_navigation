@@ -144,9 +144,12 @@ python3 "$pkg/tools/make_profile.py" \
 - 搜索周期性检查时间预算；QP 仍只能在上游一次求解返回后判超时，`time_budget`
   是**拒收迟到结果的软预算**，不是可抢占的硬实时上限。未通过 target CPU p99
   与最坏情况测试前不能用于要求确定响应期限的运动链路。
-- costmap 仅复制时加锁，求解期间允许原图更新；完成后若任意 cost、原点、分辨率、
-  尺寸或 footprint 半径改变则拒收。保证对所检查 snapshot 一致；不能保证返回以后
-  环境不再变化，局部感知/控制/安全门仍必须运行。
+- costmap 求解期间允许更新；返回前持有 master mutex，对最新快照逐段复查完整世界坐标路径。
+  同 frame 的滚动原点/代价变化只有通过既有连续碰撞检查才可接受；尺寸、分辨率、
+  解释语义或 footprint 任一顶点变化仍拒收。复查、输出构造也计入原软 time_budget。
+  当前实验 footprint 固定；运行时动态改 footprint 的完整同步支持尚未验证。
+  该检查保证所检查 snapshot 的几何安全，不保证最新代价最优或返回后环境不变，
+  局部感知/控制/执行安全门仍必需。见 docs/tdt_migration/p2b_snapshot_revalidation_review.md。
 - 上游 `SolveOutput` 没有时间/速度/加速度/系数；`setDt()` 不控制当前 solve 路径
   所用的每段 11 点采样。重采样只细分折线，不恢复多项式。这不构成连续曲线碰撞
   证明，也不保证跟踪速度、加速度、jerk 或 MPC 可行性。

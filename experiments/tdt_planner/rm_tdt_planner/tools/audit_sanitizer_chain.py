@@ -26,7 +26,8 @@ def audit(root, result):
     prefix = (root / 'deps').resolve()
     required = {'Solver.cpp', 'minimumSnap.cpp', 'planner.cpp',
                 'test_planner.cpp', 'test_solver_lifetime.cpp', 'pose_geometry.cpp',
-                'test_pose_geometry.cpp', 'path_heading.cpp', 'test_path_heading.cpp', 'osqp.c', 'qdldl.c'}
+                'test_pose_geometry.cpp', 'path_heading.cpp', 'test_path_heading.cpp',
+                'snapshot_guard.cpp', 'test_snapshot_guard.cpp', 'osqp.c', 'qdldl.c'}
     seen = set()
     signatures = []
     names = ('EIGEN_MALLOC_ALREADY_ALIGNED', 'EIGEN_DEFAULT_ALIGN_BYTES',

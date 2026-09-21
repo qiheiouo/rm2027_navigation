@@ -1,6 +1,8 @@
 // Copyright 2026 RM Navigation. SPDX-License-Identifier: MIT
 #include "rm_tdt_planner/planner.hpp"
 #include "rm_tdt_planner/path_heading.hpp"
+#include "rm_tdt_planner/snapshot_guard.hpp"
+#include <chrono>
 #include "nav2_core/global_planner.hpp"
 #include "nav2_core/exceptions.hpp"
 #include "nav2_util/node_utils.hpp"
@@ -73,9 +75,17 @@ public:
     {
       throw nav2_core::PlannerException("TDT requires finite poses in the global costmap frame");
     }
+    const auto began = std::chrono::steady_clock::now();
     auto options = options_;
-    options.radius = footprint_radius();
-    const Grid grid = snapshot();
+    auto * master = costmap_->getCostmap();
+    Grid grid;
+    std::vector<Point> footprint;
+    {
+      std::unique_lock<nav2_costmap_2d::Costmap2D::mutex_t> lock(*master->getMutex());
+      footprint = footprint_points();
+      options.radius = footprint_radius(footprint);
+      grid = snapshot_locked();
+    }
     const auto result = plan(grid, {start.pose.position.x, start.pose.position.y},
       {goal.pose.position.x, goal.pose.position.y}, options);
     if (!result.success) {
@@ -96,52 +106,6 @@ public:
       throw nav2_core::PlannerException(detail.str());
     }
 
-    // Costmap updates continue while the expensive solver runs. A changed map
-    // invalidates this candidate; planner_server/BT may request a fresh plan.
-    const Grid latest = snapshot();
-    if (grid.width != latest.width || grid.height != latest.height ||
-      grid.resolution != latest.resolution || grid.origin_x != latest.origin_x ||
-      grid.origin_y != latest.origin_y || grid.costs != latest.costs ||
-      options.radius != footprint_radius())
-    {
-      // Diagnostic only: retain the strict rejection in this baseline. Test the
-      // exact candidate against the exact second snapshot, never a published map.
-      const bool same_geometry = grid.width == latest.width && grid.height == latest.height &&
-        grid.resolution == latest.resolution && grid.origin_x == latest.origin_x &&
-        grid.origin_y == latest.origin_y;
-      size_t changed = 0, hard_changed = 0;
-      std::ostringstream cells;
-      if (same_geometry) {
-        for (size_t i = 0; i < grid.costs.size(); ++i) {
-          if (grid.costs[i] == latest.costs[i]) {continue;}
-          if (changed < 64) {
-            if (changed) {cells << ',';}
-            cells << '[' << i % grid.width << ',' << i / grid.width << ','
-                  << int(grid.costs[i]) << ',' << int(latest.costs[i]) << ']';
-          }
-          ++changed;
-          if (grid.costs[i] >= 253 || latest.costs[i] >= 253) {++hard_changed;}
-        }
-      }
-      auto latest_options = options;
-      latest_options.radius = footprint_radius();
-      std::ostringstream detail;
-      detail << std::setprecision(17)
-             << "snapshot_change_v1={\"same_geometry\":" << (same_geometry ? "true" : "false")
-             << ",\"old_origin\":[" << grid.origin_x << ',' << grid.origin_y
-             << "],\"old_size\":[" << grid.width << ',' << grid.height
-             << "],\"latest_size\":[" << latest.width << ',' << latest.height
-             << "],\"old_resolution\":" << grid.resolution
-             << ",\"old_radius\":" << options.radius << ",\"latest_radius\":" << latest_options.radius
-             << ",\"changed_cells\":" << changed << ",\"hard_changed_cells\":" << hard_changed
-             << ",\"cells_truncated\":" << (changed > 64 ? "true" : "false")
-             << ",\"candidate_latest_collision_free\":"
-             << (collision_free(latest, result.path, latest_options) ? "true" : "false")
-             << ",\"origin\":[" << latest.origin_x << ',' << latest.origin_y
-             << "],\"resolution\":" << latest.resolution << ",\"cells_xy_old_new\":[" << cells.str() << "]}";
-      RCLCPP_WARN(node_->get_logger(), "%s", detail.str().c_str());
-      throw nav2_core::PlannerException("costmap or footprint changed during TDT planning");
-    }
     std::vector<double> headings;
     if (path_heading_) {
       auto yaw_of=[](const auto & q) {
@@ -169,6 +133,42 @@ public:
     }
     output.poses.front().pose.orientation = start.pose.orientation;
     output.poses.back().pose.orientation = goal.pose.orientation;
+    // Final admission only: never hold this lock through A*/QP solving.
+    // Output is constructed already; updates cannot race validation-to-return.
+    std::unique_lock<nav2_costmap_2d::Costmap2D::mutex_t> lock(*master->getMutex());
+    const Grid latest = snapshot_locked();
+    const auto latest_footprint = footprint_points();
+    if (frame != costmap_->getGlobalFrameID()) {
+      throw nav2_core::PlannerException("global frame changed during TDT planning");
+    }
+    const auto validation_began = std::chrono::steady_clock::now();
+    const auto admission = validate_latest_candidate(grid, latest, footprint, latest_footprint,
+      result.path, options);
+    const double validation_seconds = std::chrono::duration<double>(
+      std::chrono::steady_clock::now() - validation_began).count();
+    const bool admitted = admission == SnapshotAdmission::Unchanged ||
+      admission == SnapshotAdmission::Revalidated;
+    if (admission != SnapshotAdmission::Unchanged) {
+      std::ostringstream detail;
+      detail << std::setprecision(17) << "snapshot_admission_v1={\"decision\":\""
+             << snapshot_admission_name(admission) << "\",\"old_origin\":["
+             << grid.origin_x << ',' << grid.origin_y << "],\"latest_origin\":["
+             << latest.origin_x << ',' << latest.origin_y << "],\"radius\":" << options.radius
+             << ",\"clearance\":" << options.clearance << ",\"validation_seconds\":"
+             << validation_seconds << '}';
+      if (admitted) {RCLCPP_INFO(node_->get_logger(), "%s", detail.str().c_str());}
+      else {RCLCPP_WARN(node_->get_logger(), "%s", detail.str().c_str());}
+    }
+    if (!admitted) {
+      throw nav2_core::PlannerException(std::string("TDT latest snapshot rejected: ") +
+        snapshot_admission_name(admission));
+    }
+    // Preserve the soft budget; count snapshot copying/final checking too.
+    if (std::chrono::duration<double>(std::chrono::steady_clock::now() - began).count() >
+      options.time_budget)
+    {
+      throw nav2_core::PlannerException("TDT deadline exceeded including latest snapshot validation");
+    }
     RCLCPP_DEBUG(node_->get_logger(), "%s: %s, %.3f s", name_.c_str(),
       result.reason.c_str(), result.elapsed_seconds);
     return output;
@@ -183,9 +183,14 @@ private:
     return std::isfinite(p.x) && std::isfinite(p.y) && std::isfinite(p.z) &&
            std::isfinite(norm) && std::abs(norm - 1.0) < 1e-3;
   }
-  double footprint_radius() const
+  std::vector<Point> footprint_points() const
   {
-    const auto footprint = costmap_->getRobotFootprint();
+    std::vector<Point> points;
+    for (const auto & p : costmap_->getRobotFootprint()) {points.push_back({p.x, p.y});}
+    return points;
+  }
+  static double footprint_radius(const std::vector<Point> & footprint)
+  {
     if (footprint.size() < 3) {throw nav2_core::PlannerException("missing padded footprint");}
     double radius = 0.0;
     for (const auto & p : footprint) {
@@ -196,10 +201,10 @@ private:
     }
     return radius;
   }
-  Grid snapshot() const
+  // Caller holds the master-map mutex.
+  Grid snapshot_locked() const
   {
     auto * map = costmap_->getCostmap();
-    std::unique_lock<nav2_costmap_2d::Costmap2D::mutex_t> lock(*map->getMutex());
     Grid grid;
     grid.cost_interpretation = CostInterpretation::Nav2Master;
     grid.width = map->getSizeInCellsX(); grid.height = map->getSizeInCellsY();
