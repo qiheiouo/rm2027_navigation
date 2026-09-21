@@ -1,0 +1,703 @@
+{
+  "schema": "rm_tdt_planner/reference_geometry_pilot/v2",
+  "series": "new_car_geometry_reference_v2",
+  "consistent_and_audited": true,
+  "recorded": 2,
+  "planned_tdt_trials": 10,
+  "complete": false,
+  "complete_20_trial_matrix": false,
+  "all_recorded_target_static_checks_pass": false,
+  "missing_trials": [
+    [
+      "tdt_astar",
+      2
+    ],
+    [
+      "tdt_astar",
+      3
+    ],
+    [
+      "tdt_astar",
+      4
+    ],
+    [
+      "tdt_astar",
+      5
+    ],
+    [
+      "tdt_qp",
+      2
+    ],
+    [
+      "tdt_qp",
+      3
+    ],
+    [
+      "tdt_qp",
+      4
+    ],
+    [
+      "tdt_qp",
+      5
+    ]
+  ],
+  "unexecuted_baselines": [
+    "navfn",
+    "smac2d"
+  ],
+  "source_commit": "cb48ba46f5c3513f3ce90e677f225ab789474f1e",
+  "scope": "382/126 mm existing reference footprint; unchanged surrogate dynamics. Polygon-at-measured-yaw safety oracle; existing conservative-circle TDT backend.",
+  "trials": [
+    {
+      "planner": "tdt_astar",
+      "trial": 1,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": false,
+      "action_status": 4,
+      "recoveries": 1,
+      "final_xy_error_m": 0.13357202577041474,
+      "final_yaw_error_rad": 0.061239096238678445,
+      "cross_track_rms_m": 0.02726187239623485,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 45.09207199998855,
+        "samples": 241
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.1697403189751897,
+        "min_padded_clearance_m": 0.12821771977185273,
+        "linear_pose_interpolation_body_bound_m": 0.16782354068634073,
+        "linear_pose_interpolation_padded_bound_m": 0.12647543867008623,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.10116226836360552,
+        "min_padded_clearance_m": 0.07960317443135242,
+        "linear_pose_interpolation_body_bound_m": 0.10012645705405872,
+        "linear_pose_interpolation_padded_bound_m": 0.0786203967454491,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.3407295444048941,
+          "time_weighted_rms_wz_rad_s": 0.14707369684947885,
+          "max_abs_dwz_dt_rad_s2": 1.999999709880738,
+          "max_abs_delta_wz_rad_s": 0.0799999883952296,
+          "total_variation_wz_rad_s": 3.43054318220599,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 391,
+          "duration_s": 15.6
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.34072959423065186,
+          "time_weighted_rms_wz_rad_s": 0.14766685990630707,
+          "max_abs_dwz_dt_rad_s2": 2.4390243902438806,
+          "max_abs_delta_wz_rad_s": 0.1,
+          "total_variation_wz_rad_s": 3.4135681092739105,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 351,
+          "duration_s": 15.514
+        },
+        "translating_yaw_to_path": {
+          "samples": 374,
+          "rms_rad": 1.0670060661024015,
+          "median_rad": 0.8231416518028583,
+          "p95_rad": 2.38362612264369
+        },
+        "translating_yaw_to_motion": {
+          "samples": 374,
+          "rms_rad": 1.0988917241180542,
+          "median_rad": 0.7613803420066361,
+          "p95_rad": 2.3649864951508746
+        },
+        "max_plan_adjacent_yaw_step_rad": 3.1216842218106966,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/new_car_geometry_reference_v2/tdt_astar_1/observation/events.jsonl",
+        "source_sha256": "f1e184e71e0b1863fccf841aa8d166b3302ad764bd40892d471657214249bc78",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127792
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.049329109879291094
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.401209619308205,
+          -0.08716707536622102,
+          0.061239096238678445
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4386675726695766
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.059923098614442005
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 18,
+      "published_plan_messages": 18,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 0,
+      "validated_astar_fallback_debug_messages": 0,
+      "snapshot_rejection_observed": true,
+      "source_commit": "cb48ba46f5c3513f3ce90e677f225ab789474f1e",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "container_id": "c351ff72c685db8094f8265ee3386536572ba3326ccfc324273697ffb728cc13",
+        "docker_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "8ceabe1d2e606030c0dcb7e73f735f5f3bf4ef35815017b73e448a681b8f4f6b",
+        "metadata.json": "545124652bae0714f485360ab90006c1e9252d1ba7010addb82e1f4a11a444a1",
+        "observation/commands.jsonl": "4aaefc17ae93347073f00cf3c61c719c42fa9ea2e68d05ae83e7139e47ddc45c",
+        "observation/costmap.jsonl": "898e21bc6131cd1443dd3a009351856cb02ec14c233f44bbd6be6613409ff219",
+        "observation/events.jsonl": "f1e184e71e0b1863fccf841aa8d166b3302ad764bd40892d471657214249bc78",
+        "observation/planner_diagnostics.jsonl": "7151e392c38a390d91d6e0c5af85759ec9b4027017adbb6237b8cd9805e886aa",
+        "observation/plans.jsonl": "3c0f3ee965ab09535a008aec3e68e4c9710e983c0d5a6cbaf94814958f47242c",
+        "observation/summary.json": "9d1ea55c2f193c494331cf20e8ce53a84eeb3c7b11ddb9e05679826de0ba0d4c",
+        "observation/trajectory.jsonl": "eb8970c521f872aa3a67b7e943eb0e09cb0182b91f9941ead9a29806d8e436c2",
+        "observer.log": "fb2d18b7ede17b6118fd113f3e7efb3f0a2453eab2c5cd45af18cef2e5abe2ba",
+        "observer_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "profile.yaml": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+        "runtime_geometry.json": "a1a0463e0735abc6939e68a3d0080a3a9859814240ded1399941b379430a7d6d"
+      },
+      "raw_summary_recomputed": true,
+      "snapshot_rejections": [
+        {
+          "t": 17.299,
+          "node": "planner_server",
+          "level": 30,
+          "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"costmap or footprint changed during TDT planning\""
+        }
+      ],
+      "safe_fallbacks": []
+    },
+    {
+      "planner": "tdt_qp",
+      "trial": 1,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": false,
+      "action_status": 4,
+      "recoveries": 1,
+      "final_xy_error_m": 0.1344425848360245,
+      "final_yaw_error_rad": 0.025065860119678488,
+      "cross_track_rms_m": 0.02651670971992493,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 50.87108699999021,
+        "samples": 253
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.15089031066412864,
+        "min_padded_clearance_m": 0.10876333006509242,
+        "linear_pose_interpolation_body_bound_m": 0.14773668037139173,
+        "linear_pose_interpolation_padded_bound_m": 0.10582812353005236,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.07794600231317772,
+        "min_padded_clearance_m": 0.05572809426015092,
+        "linear_pose_interpolation_body_bound_m": 0.07612168917314356,
+        "linear_pose_interpolation_padded_bound_m": 0.054389046967904545,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.5855655181221664,
+          "time_weighted_rms_wz_rad_s": 0.1906454027213843,
+          "max_abs_dwz_dt_rad_s2": 1.9999999494757486,
+          "max_abs_delta_wz_rad_s": 0.07999999797903001,
+          "total_variation_wz_rad_s": 5.121768349319916,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 352,
+          "duration_s": 14.040000000000001
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.5855655670166016,
+          "time_weighted_rms_wz_rad_s": 0.19214292939739597,
+          "max_abs_dwz_dt_rad_s2": 2.7777777777778097,
+          "max_abs_delta_wz_rad_s": 0.10000000000000003,
+          "total_variation_wz_rad_s": 5.081738360226154,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 312,
+          "duration_s": 13.976999999999999
+        },
+        "translating_yaw_to_path": {
+          "samples": 335,
+          "rms_rad": 0.9716768696775179,
+          "median_rad": 0.7725691115145533,
+          "p95_rad": 1.8429719933902222
+        },
+        "translating_yaw_to_motion": {
+          "samples": 335,
+          "rms_rad": 1.0576380502418328,
+          "median_rad": 0.879082829446438,
+          "p95_rad": 2.1182029311404014
+        },
+        "max_plan_adjacent_yaw_step_rad": 2.3561944901923804,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/new_car_geometry_reference_v2/tdt_qp_1/observation/events.jsonl",
+        "source_sha256": "079ac5df9f48f19e6652a062eb78436b33b7363f6a0890d5e23932394354175a",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127792
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.049329109879291094
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.3883643057392066,
+          -0.10132402522906224,
+          0.025065860119678488
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4199167116727847
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.03935089389036873
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 16,
+      "published_plan_messages": 16,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 14,
+      "validated_astar_fallback_debug_messages": 2,
+      "snapshot_rejection_observed": true,
+      "source_commit": "cb48ba46f5c3513f3ce90e677f225ab789474f1e",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "container_id": "b706f9e9e14fc651c6e487546194fc1cb61251b977c23107e46334303ba5381b",
+        "docker_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "f4d165dcf5ea9e0fae9979be1bf76a6a6a8bcfe47af9e85f0a7e8f56af6be081",
+        "metadata.json": "1700486ef6fdce3bca9700a2839708bccf50a68643ab2ce90895a4b0cd032f15",
+        "observation/commands.jsonl": "74b6e2b8c5033edc738ec7513c2891e5c1a1864396708ec91a7c56160d138740",
+        "observation/costmap.jsonl": "ef367fee2f65573379818865149691848b91221f59b83c18293df71e983967c6",
+        "observation/events.jsonl": "079ac5df9f48f19e6652a062eb78436b33b7363f6a0890d5e23932394354175a",
+        "observation/planner_diagnostics.jsonl": "57c6ef8a6840066580acbb85b8f7c81def735b76fcd70961601b333c7696798c",
+        "observation/plans.jsonl": "1a19816622207685c8aa3e306dc0a37f7df0ba5d9e7b386d949193d1925c5d7b",
+        "observation/summary.json": "4ec17b2011aa4fab406b27ccbb75acb5815b96578cda99f5d952329b90904e98",
+        "observation/trajectory.jsonl": "03af3b0380546fd944cd8ad0ef9ee0d1351d306bc9a3e5c0a888dc8c68ada9a7",
+        "observer.log": "45e86fdae9b9af5a5caaeb2678934c32006ea2e00c738dd4b66675f55ba4a56e",
+        "observer_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "profile.yaml": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+        "runtime_geometry.json": "fa090ca96affeb3144cc2fc447ad7bf7de4577482fde4d1b442463de390a56e6"
+      },
+      "raw_summary_recomputed": true,
+      "snapshot_rejections": [
+        {
+          "t": 12.772,
+          "node": "planner_server",
+          "level": 30,
+          "message": "GridBased plugin failed to plan calculation to (4.30, 0.00): \"costmap or footprint changed during TDT planning\""
+        }
+      ],
+      "safe_fallbacks": [
+        {
+          "t": 14.871,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.018 s"
+        },
+        {
+          "t": 19.441,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer failed, 0.012 s"
+        }
+      ]
+    }
+  ],
+  "sensitivity_127mm": [
+    {
+      "planner": "tdt_astar",
+      "scope": "127 mm offline replay on the SAME measured trajectory/map; no 127 mm navigation run",
+      "trajectory_metrics": {
+        "min_body_clearance_m": 0.16915963516124216,
+        "min_padded_clearance_m": 0.1276143266025411,
+        "linear_pose_interpolation_body_bound_m": 0.16723568464789512,
+        "linear_pose_interpolation_padded_bound_m": 0.1258635915758715,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127792
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.0487588725336679
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40136495913380094,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.401209619308205,
+          -0.08716707536622102,
+          0.061239096238678445
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4386675726695766
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.05925636039764591
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40136495913380094,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      }
+    },
+    {
+      "planner": "tdt_qp",
+      "scope": "127 mm offline replay on the SAME measured trajectory/map; no 127 mm navigation run",
+      "trajectory_metrics": {
+        "min_body_clearance_m": 0.15034318048940465,
+        "min_padded_clearance_m": 0.10819923494573337,
+        "linear_pose_interpolation_body_bound_m": 0.14717477020825206,
+        "linear_pose_interpolation_padded_bound_m": 0.10524479888927907,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127792
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.0487588725336679
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40136495913380094,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.3883643057392066,
+          -0.10132402522906224,
+          0.025065860119678488
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4199167116727847
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.0387343624229078
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40136495913380094,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      }
+    }
+  ],
+  "accepted_for_deployment": false,
+  "decision": "No immediate terminal selector for this nominal goal; investigate retained snapshot invalidation and recovery separately, without weakening safety gates."
+}

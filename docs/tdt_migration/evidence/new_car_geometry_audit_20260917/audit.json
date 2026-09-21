@@ -1,0 +1,1778 @@
+{
+  "schema": "rm_tdt_planner/new_car_geometry_audit/v1",
+  "development_head": "cb48ba46f5c3513f3ce90e677f225ab789474f1e",
+  "new_car_data_commit": "bd6cf689d3d5aca5c8edd430ff760ca5ceb27496",
+  "source_sha256": {
+    "src/rm_description/meshes/new_car_octagonal_chassis.obj": "a615ec2e3e24207a41c1b1e9a3bd7847aa0718d0d5fd9c59187d98fddc5c9519",
+    "src/rm_dog_hole/config/dog_hole_sim.yaml": "bb7336c32bf20484d392c967003b4163b8a521ebda311f90041bc489ed1cc086",
+    "src/rm_simulation/worlds/phase1_omni.sdf": "cd05d4d74b277d649ccd7dc5f347a6cc36adda7218d76de165b970358ca19c5f"
+  },
+  "existing_mesh_yaml_sdf_vertices_identical": true,
+  "centre_confirmation": "User confirmed base_link XY origin = geometric centre = actual Spin centre; no new vertical-origin or extrinsic claim.",
+  "dimension_selection": "Pending 126 mm existing source versus 127 mm approximate description. Both evaluated; neither silently promoted to final CAD.",
+  "models": {
+    "p2a_old_car_rectangle": {
+      "vertices_m": [
+        [
+          -0.32,
+          -0.27
+        ],
+        [
+          -0.32,
+          0.27
+        ],
+        [
+          0.32,
+          0.27
+        ],
+        [
+          0.32,
+          -0.27
+        ]
+      ],
+      "padding_m": 0.02,
+      "axis_extents_m": [
+        0.64,
+        0.54
+      ],
+      "edge_lengths_m": [
+        0.54,
+        0.64,
+        0.54,
+        0.64
+      ],
+      "spin_centre_m": [
+        0.0,
+        0.0
+      ],
+      "R_spin_body_m": 0.41868842830916647,
+      "R_spin_body_plus_physical_clearance_005_m": 0.46868842830916646,
+      "R_spin_nav2_padded_m": 0.4468780594300866,
+      "planner_clearance_m": 0.02,
+      "R_spin_nav2_padded_plus_planner_clearance_m": 0.46687805943008664,
+      "nominal_exact_fixture_body_gap_yaw0_m": 0.13,
+      "nominal_exact_fixture_spin_body_margin_above_005_m": 0.031311571690833526,
+      "nominal_exact_fixture_spin_padded_margin_above_002_m": 0.03312194056991337
+    },
+    "p2b_simulation_rectangle": {
+      "vertices_m": [
+        [
+          -0.3,
+          -0.25
+        ],
+        [
+          -0.3,
+          0.25
+        ],
+        [
+          0.3,
+          0.25
+        ],
+        [
+          0.3,
+          -0.25
+        ]
+      ],
+      "padding_m": 0.03,
+      "axis_extents_m": [
+        0.6,
+        0.5
+      ],
+      "edge_lengths_m": [
+        0.5,
+        0.6,
+        0.5,
+        0.6
+      ],
+      "spin_centre_m": [
+        0.0,
+        0.0
+      ],
+      "R_spin_body_m": 0.3905124837953327,
+      "R_spin_body_plus_physical_clearance_005_m": 0.4405124837953327,
+      "R_spin_nav2_padded_m": 0.432781700167648,
+      "planner_clearance_m": 0.02,
+      "R_spin_nav2_padded_plus_planner_clearance_m": 0.452781700167648,
+      "nominal_exact_fixture_body_gap_yaw0_m": 0.15000000000000002,
+      "nominal_exact_fixture_spin_body_margin_above_005_m": 0.05948751620466729,
+      "nominal_exact_fixture_spin_padded_margin_above_002_m": 0.047218299832352
+    },
+    "existing_new_car_126mm": {
+      "vertices_m": [
+        [
+          0.2800954544,
+          0.191
+        ],
+        [
+          0.191,
+          0.2800954544
+        ],
+        [
+          -0.191,
+          0.2800954544
+        ],
+        [
+          -0.2800954544,
+          0.191
+        ],
+        [
+          -0.2800954544,
+          -0.191
+        ],
+        [
+          -0.191,
+          -0.2800954544
+        ],
+        [
+          0.191,
+          -0.2800954544
+        ],
+        [
+          0.2800954544,
+          -0.191
+        ]
+      ],
+      "padding_m": 0.03,
+      "axis_extents_m": [
+        0.5601909088,
+        0.5601909088
+      ],
+      "edge_lengths_m": [
+        0.12599999995827363,
+        0.382,
+        0.12599999995827363,
+        0.382,
+        0.12599999995827363,
+        0.382,
+        0.12599999995827363,
+        0.382
+      ],
+      "spin_centre_m": [
+        0.0,
+        0.0
+      ],
+      "R_spin_body_m": 0.3390198571994603,
+      "R_spin_body_plus_physical_clearance_005_m": 0.3890198571994603,
+      "R_spin_nav2_padded_m": 0.38078890587770864,
+      "planner_clearance_m": 0.02,
+      "R_spin_nav2_padded_plus_planner_clearance_m": 0.40078890587770866,
+      "nominal_exact_fixture_body_gap_yaw0_m": 0.1620435128462182,
+      "nominal_exact_fixture_spin_body_margin_above_005_m": 0.11098014280053968,
+      "nominal_exact_fixture_spin_padded_margin_above_002_m": 0.09921109412229136
+    },
+    "unconfirmed_127mm_sensitivity_only": {
+      "vertices_m": [
+        [
+          0.2808025612106915,
+          0.191
+        ],
+        [
+          0.191,
+          0.2808025612106915
+        ],
+        [
+          -0.191,
+          0.2808025612106915
+        ],
+        [
+          -0.2808025612106915,
+          0.191
+        ],
+        [
+          -0.2808025612106915,
+          -0.191
+        ],
+        [
+          -0.191,
+          -0.2808025612106915
+        ],
+        [
+          0.191,
+          -0.2808025612106915
+        ],
+        [
+          0.2808025612106915,
+          -0.191
+        ]
+      ],
+      "padding_m": 0.03,
+      "axis_extents_m": [
+        0.561605122421383,
+        0.561605122421383
+      ],
+      "edge_lengths_m": [
+        0.12699999999999997,
+        0.382,
+        0.12699999999999997,
+        0.382,
+        0.12699999999999997,
+        0.382,
+        0.12699999999999997,
+        0.382
+      ],
+      "spin_centre_m": [
+        0.0,
+        0.0
+      ],
+      "R_spin_body_m": 0.3396042967668168,
+      "R_spin_body_plus_physical_clearance_005_m": 0.3896042967668168,
+      "R_spin_nav2_padded_m": 0.3813649591338009,
+      "planner_clearance_m": 0.02,
+      "R_spin_nav2_padded_plus_planner_clearance_m": 0.40136495913380094,
+      "nominal_exact_fixture_body_gap_yaw0_m": 0.16152098753391445,
+      "nominal_exact_fixture_spin_body_margin_above_005_m": 0.11039570323318319,
+      "nominal_exact_fixture_spin_padded_margin_above_002_m": 0.09863504086619908
+    }
+  },
+  "frozen_goal_witness_count": 26,
+  "witnesses": [
+    {
+      "variant": "baseline",
+      "event_line": 14,
+      "t": 18.771,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          107,
+          135
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.999999999999994,
+          0.3500000000000014,
+          4.049999999999994,
+          0.40000000000000213
+        ],
+        "distance_m": 0.4301162633521361,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.022665444960194847
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077950534,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.0800000000000014,
+          "padded_gap_at_requested_yaw_m": 0.060000000000001386
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.0226654368155119,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000142,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000014
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474427457,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301617,
+          "padded_gap_at_requested_yaw_m": 0.049329228247996654
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218335178,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851742,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413517
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 16,
+      "t": 19.843,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          130
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          0.35000000000000053,
+          4.049999999999994,
+          0.40000000000000124
+        ],
+        "distance_m": 0.4301162633521349,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019607
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077951756,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.08000000000000052,
+          "padded_gap_at_requested_yaw_m": 0.0600000000000005
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513123,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000053,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000005
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474426236,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301549,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799593
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333957,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851674,
+          "padded_gap_at_requested_yaw_m": 0.048758991044134455
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 18,
+      "t": 20.002,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          129
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          0.35000000000000053,
+          4.049999999999994,
+          0.40000000000000036
+        ],
+        "distance_m": 0.4301162633521349,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019607
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077951756,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.08000000000000052,
+          "padded_gap_at_requested_yaw_m": 0.0600000000000005
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513123,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000053,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000005
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474426236,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301549,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799593
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333957,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851674,
+          "padded_gap_at_requested_yaw_m": 0.048758991044134455
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 21,
+      "t": 20.174,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          -0.39999999999999947,
+          4.049999999999994,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301481,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799522
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851608,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413375
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 23,
+      "t": 20.349,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          -0.39999999999999947,
+          4.049999999999994,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301481,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799522
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851608,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413375
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 25,
+      "t": 22.94,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          -0.39999999999999947,
+          4.049999999999994,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301481,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799522
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851608,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413375
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 27,
+      "t": 22.985,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          -0.39999999999999947,
+          4.049999999999994,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301481,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799522
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851608,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413375
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 30,
+      "t": 28.041,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          -0.39999999999999947,
+          4.049999999999994,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301481,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799522
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851608,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413375
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 32,
+      "t": 28.174,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          -0.39999999999999947,
+          4.049999999999994,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301481,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799522
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851608,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413375
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "event_line": 41,
+      "t": 34.846000000000004,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          110,
+          134
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999933,
+          0.3500000000000014,
+          4.049999999999994,
+          0.40000000000000124
+        ],
+        "distance_m": 0.4301162633521356,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.022665444960195347
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077951034,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.0800000000000014,
+          "padded_gap_at_requested_yaw_m": 0.060000000000001386
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.0226654368155124,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000142,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000014
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474426958,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301617,
+          "padded_gap_at_requested_yaw_m": 0.049329228247996654
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.02875130421833468,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851742,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413517
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 14,
+      "t": 16.943,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          116,
+          138
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999942,
+          -0.399999999999995,
+          4.049999999999994,
+          -0.3499999999999952
+        ],
+        "distance_m": 0.43011626335213105,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.0226654449601999
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077955586,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999519,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999517
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815516953,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.0999999999999952,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999518
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474422406,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301143,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799162
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218330127,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851269,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413017
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 16,
+      "t": 19.971,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          106,
+          135
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          0.3500000000000014,
+          4.0499999999999945,
+          0.40000000000000213
+        ],
+        "distance_m": 0.4301162633521356,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.022665444960195347
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077951034,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.0800000000000014,
+          "padded_gap_at_requested_yaw_m": 0.060000000000001386
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.0226654368155124,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000142,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000014
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474426958,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0914748353130156,
+          "padded_gap_at_requested_yaw_m": 0.049329228247996126
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.02875130421833468,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851684,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413464
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 18,
+      "t": 20.047,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          106,
+          135
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          0.3500000000000014,
+          4.0499999999999945,
+          0.40000000000000213
+        ],
+        "distance_m": 0.4301162633521356,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.022665444960195347
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077951034,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.0800000000000014,
+          "padded_gap_at_requested_yaw_m": 0.060000000000001386
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.0226654368155124,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000142,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000014
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474426958,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0914748353130156,
+          "padded_gap_at_requested_yaw_m": 0.049329228247996126
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.02875130421833468,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851684,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413464
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 21,
+      "t": 21.115,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          107,
+          118
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          -0.3999999999999986,
+          4.0499999999999945,
+          -0.34999999999999876
+        ],
+        "distance_m": 0.43011626335213343,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019751
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.0367617960779532,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999874,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999872
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815514566,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999876,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999873
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474424793,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301356,
+          "padded_gap_at_requested_yaw_m": 0.049329228247993975
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218332514,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851481,
+          "padded_gap_at_requested_yaw_m": 0.048758991044132505
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 23,
+      "t": 23.17,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          111,
+          130
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          0.35000000000000053,
+          4.0499999999999945,
+          0.40000000000000124
+        ],
+        "distance_m": 0.4301162633521349,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019607
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077951756,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.08000000000000052,
+          "padded_gap_at_requested_yaw_m": 0.0600000000000005
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513123,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000053,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000005
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474426236,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301492,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799541
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333957,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851617,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413393
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 25,
+      "t": 23.3,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          111,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          -0.39999999999999947,
+          4.0499999999999945,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301424,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799469
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0909356120285155,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413321
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 31,
+      "t": 30.136,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          111,
+          129
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          0.35000000000000053,
+          4.0499999999999945,
+          0.40000000000000036
+        ],
+        "distance_m": 0.4301162633521349,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019607
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077951756,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.08000000000000052,
+          "padded_gap_at_requested_yaw_m": 0.0600000000000005
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513123,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000053,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000005
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474426236,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301492,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799541
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333957,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851617,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413393
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 33,
+      "t": 30.232,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          111,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          -0.39999999999999947,
+          4.0499999999999945,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301424,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799469
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0909356120285155,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413321
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 38,
+      "t": 30.409,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          111,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          -0.39999999999999947,
+          4.0499999999999945,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301424,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799469
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0909356120285155,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413321
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 40,
+      "t": 30.589,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          111,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          -0.39999999999999947,
+          4.0499999999999945,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301424,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799469
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0909356120285155,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413321
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 46,
+      "t": 37.031,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          111,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          -0.39999999999999947,
+          4.0499999999999945,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301424,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799469
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0909356120285155,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413321
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 48,
+      "t": 37.233,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          111,
+          114
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          -0.39999999999999947,
+          4.0499999999999945,
+          -0.34999999999999964
+        ],
+        "distance_m": 0.43011626335213415,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019679
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.03676179607795248,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999963,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999961
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815513845,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999964,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999962
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425515,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301424,
+          "padded_gap_at_requested_yaw_m": 0.04932922824799469
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333235,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0909356120285155,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413321
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 50,
+      "t": 43.371,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          107,
+          116
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          -0.3999999999999986,
+          4.0499999999999945,
+          -0.34999999999999876
+        ],
+        "distance_m": 0.43011626335213343,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.02266544496019751
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.0367617960779532,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999874,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999872
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815514566,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999876,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999873
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474424793,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301356,
+          "padded_gap_at_requested_yaw_m": 0.049329228247993975
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218332514,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851481,
+          "padded_gap_at_requested_yaw_m": 0.048758991044132505
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 52,
+      "t": 43.526,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          107,
+          131
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.9999999999999947,
+          0.3500000000000014,
+          4.0499999999999945,
+          0.40000000000000124
+        ],
+        "distance_m": 0.4301162633521356,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.022665444960195347
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.036761796077951034,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.0800000000000014,
+          "padded_gap_at_requested_yaw_m": 0.060000000000001386
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.0226654368155124,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.10000000000000142,
+          "padded_gap_at_requested_yaw_m": 0.0700000000000014
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474426958,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0914748353130156,
+          "padded_gap_at_requested_yaw_m": 0.049329228247996126
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.02875130421833468,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09093561202851684,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413464
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 54,
+      "t": 44.69,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          109,
+          115
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.999999999999994,
+          -0.39999999999999947,
+          4.049999999999994,
+          -0.34999999999999876
+        ],
+        "distance_m": 0.43011626335213393,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.022665444960197012
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.0367617960779527,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999874,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999872
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815514067,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999876,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999873
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425293,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301413,
+          "padded_gap_at_requested_yaw_m": 0.049329228247994496
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333013,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0909356120285154,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413303
+        }
+      }
+    },
+    {
+      "variant": "path_heading_follow",
+      "event_line": 56,
+      "t": 44.828,
+      "historical_goal_witness": {
+        "status": "blocked",
+        "world": [
+          4.3,
+          0.0
+        ],
+        "yaw": 0.0,
+        "cell": [
+          109,
+          115
+        ],
+        "cost": 254,
+        "boundary": false,
+        "world_box": [
+          3.999999999999994,
+          -0.39999999999999947,
+          4.049999999999994,
+          -0.34999999999999876
+        ],
+        "distance_m": 0.43011626335213393,
+        "required_m": 0.45278170831233094,
+        "shortfall_m": 0.022665444960197012
+      },
+      "counterfactual_models": {
+        "p2a_old_car_rectangle": {
+          "spin_margin_m": -0.0367617960779527,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.07999999999999874,
+          "padded_gap_at_requested_yaw_m": 0.05999999999999872
+        },
+        "p2b_simulation_rectangle": {
+          "spin_margin_m": -0.022665436815514067,
+          "still_rejected_by_this_cell": true,
+          "body_gap_at_requested_yaw_m": 0.09999999999999876,
+          "padded_gap_at_requested_yaw_m": 0.06999999999999873
+        },
+        "existing_new_car_126mm": {
+          "spin_margin_m": 0.029327357474425293,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.09147483531301413,
+          "padded_gap_at_requested_yaw_m": 0.049329228247994496
+        },
+        "unconfirmed_127mm_sensitivity_only": {
+          "spin_margin_m": 0.028751304218333013,
+          "still_rejected_by_this_cell": false,
+          "body_gap_at_requested_yaw_m": 0.0909356120285154,
+          "padded_gap_at_requested_yaw_m": 0.04875899104413303
+        }
+      }
+    }
+  ],
+  "exact_fixture_nominal_nearest_obstacle_distance_m": 0.5,
+  "full_raw_snapshot_nominal_feasibility": "Not certified; one sufficient rejecting cell per witness, not all raw snapshot cells.",
+  "historical_trajectory_counterfactuals": [
+    {
+      "historical_variant": "baseline",
+      "counterfactual_geometry": "p2a_old_car_rectangle",
+      "trajectory_sha256": "32cdd37e1511db28451a0b5cc0605fb3fe51c9d15127fa7c559d114079836c64",
+      "samples": 901,
+      "min_body_gap_m": 0.06305010996849622,
+      "min_padded_gap_m": 0.03479062069424455,
+      "linear_interpolation_body_bound_m": 0.05467634123632647,
+      "linear_interpolation_padded_bound_m": 0.025853059328481014,
+      "body_005_and_padded_no_contact": true,
+      "scope": "Same historical poses only; not a new navigation trial or prediction of action/recoveries."
+    },
+    {
+      "historical_variant": "baseline",
+      "counterfactual_geometry": "p2b_simulation_rectangle",
+      "trajectory_sha256": "32cdd37e1511db28451a0b5cc0605fb3fe51c9d15127fa7c559d114079836c64",
+      "samples": 901,
+      "min_body_gap_m": 0.09132494426928568,
+      "min_padded_gap_m": 0.048916784723294436,
+      "linear_interpolation_body_bound_m": 0.08351469443856256,
+      "linear_interpolation_padded_bound_m": 0.04026115054836797,
+      "body_005_and_padded_no_contact": true,
+      "scope": "Same historical poses only; not a new navigation trial or prediction of action/recoveries."
+    },
+    {
+      "historical_variant": "baseline",
+      "counterfactual_geometry": "existing_new_car_126mm",
+      "trajectory_sha256": "32cdd37e1511db28451a0b5cc0605fb3fe51c9d15127fa7c559d114079836c64",
+      "samples": 901,
+      "min_body_gap_m": 0.14270511785910828,
+      "min_padded_gap_m": 0.10088421477591604,
+      "linear_interpolation_body_bound_m": 0.1359247205806618,
+      "linear_interpolation_padded_bound_m": 0.09326843650753332,
+      "body_005_and_padded_no_contact": true,
+      "scope": "Same historical poses only; not a new navigation trial or prediction of action/recoveries."
+    },
+    {
+      "historical_variant": "baseline",
+      "counterfactual_geometry": "unconfirmed_127mm_sensitivity_only",
+      "trajectory_sha256": "32cdd37e1511db28451a0b5cc0605fb3fe51c9d15127fa7c559d114079836c64",
+      "samples": 901,
+      "min_body_gap_m": 0.14210749097753908,
+      "min_padded_gap_m": 0.10031672468078591,
+      "linear_interpolation_body_bound_m": 0.13531540490751368,
+      "linear_interpolation_padded_bound_m": 0.09268942534705317,
+      "body_005_and_padded_no_contact": true,
+      "scope": "Same historical poses only; not a new navigation trial or prediction of action/recoveries."
+    },
+    {
+      "historical_variant": "path_heading_follow",
+      "counterfactual_geometry": "p2a_old_car_rectangle",
+      "trajectory_sha256": "8c1099706dfe789aaaa8613500221c6c51dc91332ff7127dc008cf0ef9c7d81c",
+      "samples": 981,
+      "min_body_gap_m": 0.07605733280145334,
+      "min_padded_gap_m": 0.04803260762441794,
+      "linear_interpolation_body_bound_m": 0.07191926293247962,
+      "linear_interpolation_padded_bound_m": 0.043340389536618736,
+      "body_005_and_padded_no_contact": true,
+      "scope": "Same historical poses only; not a new navigation trial or prediction of action/recoveries."
+    },
+    {
+      "historical_variant": "path_heading_follow",
+      "counterfactual_geometry": "p2b_simulation_rectangle",
+      "trajectory_sha256": "8c1099706dfe789aaaa8613500221c6c51dc91332ff7127dc008cf0ef9c7d81c",
+      "samples": 981,
+      "min_body_gap_m": 0.10422199390398841,
+      "min_padded_gap_m": 0.06201584315838277,
+      "linear_interpolation_body_bound_m": 0.10049874372811045,
+      "linear_interpolation_padded_bound_m": 0.05762968448930757,
+      "body_005_and_padded_no_contact": true,
+      "scope": "Same historical poses only; not a new navigation trial or prediction of action/recoveries."
+    },
+    {
+      "historical_variant": "path_heading_follow",
+      "counterfactual_geometry": "existing_new_car_126mm",
+      "trajectory_sha256": "8c1099706dfe789aaaa8613500221c6c51dc91332ff7127dc008cf0ef9c7d81c",
+      "samples": 981,
+      "min_body_gap_m": 0.15571047200598848,
+      "min_padded_gap_m": 0.1139414444294583,
+      "linear_interpolation_body_bound_m": 0.14893491056527514,
+      "linear_interpolation_padded_bound_m": 0.10656734163612905,
+      "body_005_and_padded_no_contact": true,
+      "scope": "Same historical poses only; not a new navigation trial or prediction of action/recoveries."
+    },
+    {
+      "historical_variant": "path_heading_follow",
+      "counterfactual_geometry": "unconfirmed_127mm_sensitivity_only",
+      "trajectory_sha256": "8c1099706dfe789aaaa8613500221c6c51dc91332ff7127dc008cf0ef9c7d81c",
+      "samples": 981,
+      "min_body_gap_m": 0.1551291625828239,
+      "min_padded_gap_m": 0.11336365041231367,
+      "linear_interpolation_body_bound_m": 0.14834405102384252,
+      "linear_interpolation_padded_bound_m": 0.1059516389220573,
+      "body_005_and_padded_no_contact": true,
+      "scope": "Same historical poses only; not a new navigation trial or prediction of action/recoveries."
+    }
+  ],
+  "new_branch_wheel_proxy_mismatch": [
+    {
+      "link": "front_left_wheel",
+      "centre_xy_m": [
+        0.245,
+        0.215
+      ],
+      "placeholder_sphere_radius_m": 0.075,
+      "sweep_radius_m": 0.40096012026013245,
+      "chamfer_overhang_m": 0.06715432895341386
+    },
+    {
+      "link": "front_right_wheel",
+      "centre_xy_m": [
+        0.245,
+        -0.215
+      ],
+      "placeholder_sphere_radius_m": 0.075,
+      "sweep_radius_m": 0.40096012026013245,
+      "chamfer_overhang_m": 0.06715432895341386
+    },
+    {
+      "link": "rear_left_wheel",
+      "centre_xy_m": [
+        -0.245,
+        0.215
+      ],
+      "placeholder_sphere_radius_m": 0.075,
+      "sweep_radius_m": 0.40096012026013245,
+      "chamfer_overhang_m": 0.06715432895341386
+    },
+    {
+      "link": "rear_right_wheel",
+      "centre_xy_m": [
+        -0.245,
+        -0.215
+      ],
+      "placeholder_sphere_radius_m": 0.075,
+      "sweep_radius_m": 0.40096012026013245,
+      "chamfer_overhang_m": 0.06715432895341386
+    }
+  ],
+  "new_static_trials": 0,
+  "accepted_for_deployment": false
+}

@@ -7,8 +7,10 @@
 
 ## A. 坐标系与 TF
 
-- [ ] 共同确认 `base_link` 原点。当前仿真采用底盘旋转中心在地面的投影点；需确认实车
-  是否仍采用该定义。
+- [x] 二维中心：用户在本轮 P2B 审查中确认新车 `base_link` XY 原点、几何中心、实际 Spin 中心重合；
+  记录见 [新车几何审查](tdt_migration/p2b_new_car_geometry_review.md)。
+- [ ] `base_link` 的 Z 原点、实测基准与标定记录。当前仿真采用旋转中心的地面投影；
+  上述二维确认不替代高度和传感器外参的实测确认。
 - [ ] 共同确认 REP-103 方向：`base_link` 的 `+x` 前、`+y` 左、`+z` 上，正 yaw 逆时针。
 - [ ] 确认底盘下位机 `vx/vy/wz` 的正方向与 `base_link` 完全一致；如不一致，只允许在
   `rm_chassis_interface` 做有文档的转换。

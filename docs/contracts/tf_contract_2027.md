@@ -13,7 +13,10 @@ map -> odom -> base_link -> gimbal_yaw_link -> mid360_left_frame
 
 `base_link` is the only upper-level robot body frame used by navigation, localization, control, and mission interfaces.
 
-The exact physical origin of `base_link` is not yet a final hardware decision.
+The user confirmed during the September 2026 P2B geometry review that the new-car
+`base_link` XY origin, footprint geometric centre and actual Spin centre coincide.
+See [the geometry review](../tdt_migration/p2b_new_car_geometry_review.md). This
+confirmation does not settle the vertical origin or sensor extrinsics.
 Phase 1.5 simulation places it at the ground-projected chassis rotation center
 with x forward, y left, and z up. Before real-robot calibration, the mechanical,
 electrical, and navigation teams must confirm this origin and update URDF, SDF,
