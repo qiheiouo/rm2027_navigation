@@ -1,0 +1,2413 @@
+{
+  "schema": "rm_tdt_planner/snapshot_revalidation_matrix/v1",
+  "series": "snapshot_revalidation_v1",
+  "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+  "consistent_and_audited": true,
+  "recorded": 10,
+  "planned_tdt_trials": 10,
+  "complete_targeted_matrix": true,
+  "complete_20_trial_matrix": false,
+  "unexecuted_baselines": [
+    "navfn",
+    "smac2d"
+  ],
+  "all_recorded_target_static_checks_pass": true,
+  "targeted_static_gate_pass": true,
+  "missing_trials": [],
+  "groups": [
+    {
+      "planner": "tdt_astar",
+      "recorded": 5,
+      "target_static_pass": 5,
+      "recovery_counts": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "preflight_statuses": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "snapshot_revalidations": 5,
+      "snapshot_revalidation_max_ms": 0.534145,
+      "snapshot_revalidation_mean_ms": 0.3980546,
+      "latest_snapshot_rejections": 0,
+      "endpoint_rejections": 0,
+      "mean_cross_track_rms_m": 0.02656988012829927,
+      "qp_adopted": 0,
+      "safe_astar_fallbacks": 0
+    },
+    {
+      "planner": "tdt_qp",
+      "recorded": 5,
+      "target_static_pass": 5,
+      "recovery_counts": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "preflight_statuses": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "snapshot_revalidations": 3,
+      "snapshot_revalidation_max_ms": 0.884495,
+      "snapshot_revalidation_mean_ms": 0.653842,
+      "latest_snapshot_rejections": 0,
+      "endpoint_rejections": 0,
+      "mean_cross_track_rms_m": 0.04023617370459078,
+      "qp_adopted": 63,
+      "safe_astar_fallbacks": 13
+    }
+  ],
+  "trials": [
+    {
+      "planner": "tdt_astar",
+      "trial": 1,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.1298908263003795,
+      "final_yaw_error_rad": 0.05202391675028973,
+      "cross_track_rms_m": 0.03076710220314694,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 53.428833999987546,
+        "samples": 241
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.16434623264538095,
+        "min_padded_clearance_m": 0.12243343851436629,
+        "linear_pose_interpolation_body_bound_m": 0.16207181318590783,
+        "linear_pose_interpolation_padded_bound_m": 0.12034448756576824,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.0931247819263478,
+        "min_padded_clearance_m": 0.07081842006599892,
+        "linear_pose_interpolation_body_bound_m": 0.0920282438332754,
+        "linear_pose_interpolation_padded_bound_m": 0.06986409398248035,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.3704817791003734,
+          "time_weighted_rms_wz_rad_s": 0.14365385891825871,
+          "max_abs_dwz_dt_rad_s2": 1.9999996652586987,
+          "max_abs_delta_wz_rad_s": 0.07999998661034624,
+          "total_variation_wz_rad_s": 3.6062132812276104,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 385,
+          "duration_s": 15.360000000000001
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.37048181891441345,
+          "time_weighted_rms_wz_rad_s": 0.1444097219922563,
+          "max_abs_dwz_dt_rad_s2": 2.222222222222226,
+          "max_abs_delta_wz_rad_s": 0.1,
+          "total_variation_wz_rad_s": 3.5969082415103912,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 337,
+          "duration_s": 15.238
+        },
+        "translating_yaw_to_path": {
+          "samples": 367,
+          "rms_rad": 1.055657457998969,
+          "median_rad": 0.8249045670238006,
+          "p95_rad": 2.312291955109835
+        },
+        "translating_yaw_to_motion": {
+          "samples": 367,
+          "rms_rad": 1.089028623547631,
+          "median_rad": 0.7564259628341404,
+          "p95_rad": 2.341862576113293
+        },
+        "max_plan_adjacent_yaw_step_rad": 3.141592653589722,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_astar_1/observation/events.jsonl",
+        "source_sha256": "5cbe6031090745205e86a3b91294756e63008ddb2bda3a5151ee1611c4dfc13d",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.00000008270144,
+            -0.39999991506338084,
+            4.050000083446498,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127791
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.00000008270144,
+            -0.39999991506338084,
+            4.050000083446498,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.04932910987929005
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.395148217179016,
+          -0.08842196290882794,
+          0.05202391675028973
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.00000008270144,
+            -0.39999991506338084,
+            4.050000083446498,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4330707319626066
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.00000008270144,
+            -0.39999991506338084,
+            4.050000083446498,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.053087674979136544
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 17,
+      "published_plan_messages": 17,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 0,
+      "validated_astar_fallback_debug_messages": 0,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [
+        {
+          "sim_t": 9.908,
+          "decision": "revalidated",
+          "old_origin": [
+            -5.250000000000003,
+            -7.399999999999995
+          ],
+          "latest_origin": [
+            -5.200000000000003,
+            -7.499999999999995
+          ],
+          "radius": 0.3807889076915766,
+          "clearance": 0.02,
+          "validation_seconds": 0.000336272
+        },
+        {
+          "sim_t": 14.599,
+          "decision": "revalidated",
+          "old_origin": [
+            -2.850000000000005,
+            -7.999999999999993
+          ],
+          "latest_origin": [
+            -2.750000000000005,
+            -7.999999999999993
+          ],
+          "radius": 0.3807889076915766,
+          "clearance": 0.02,
+          "validation_seconds": 0.000309727
+        }
+      ],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "8956ba4290abfd83c5f4566176d887214360f442f0029b9c87be213d69064569",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "b23edac8fc302ca5cc8a25856e2f5beb36bcacdf09365cb7296dfa3a42cd186a",
+        "metadata.json": "f93e7b4624bf37828e3330473d34e05fbd24328d97cfa293b64a0b2abd8f62ec",
+        "observation/commands.jsonl": "5209d5da32571777a36bc43fe7df0efd9d8e5520c4c82c1d8a1921ef451501fe",
+        "observation/costmap.jsonl": "cdcd1db902a6b260f16d2f9e35328f9c36fe0ade286a247a1a53a3730521b59b",
+        "observation/events.jsonl": "5cbe6031090745205e86a3b91294756e63008ddb2bda3a5151ee1611c4dfc13d",
+        "observation/planner_diagnostics.jsonl": "32c68424b6dda79ef36a5ea888a5d22106c7745ca861c9867983ebef738a20a9",
+        "observation/plans.jsonl": "e0740f786b83e8c6d121a63059213ba38db62f58a1a3954b4d46857e01d1bcb4",
+        "observation/summary.json": "064a21f4ecf587db361fc03f2104a4869cec788f51e5b7b96b850b242646cfb1",
+        "observation/trajectory.jsonl": "8639969d900a995d0b1084e480a1cc076e7f4659f5a1a9612ff33d6bc2a11291",
+        "observer.log": "88e4baa3a6c215965a5332166f5f10b0001474e4c4620b33c5704ba5ef3c776e",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+        "runtime_geometry.json": "54cd6d4ff24aaa78f65df5be686e91d955465cef0248c3b4f26b23b4e76003b4"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": []
+    },
+    {
+      "planner": "tdt_astar",
+      "trial": 2,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.13308682225768356,
+      "final_yaw_error_rad": 0.061070456308920974,
+      "cross_track_rms_m": 0.028659341553223,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 30.384400000002643,
+        "samples": 241
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.17205747221366746,
+        "min_padded_clearance_m": 0.13047078997683334,
+        "linear_pose_interpolation_body_bound_m": 0.17048260462207304,
+        "linear_pose_interpolation_padded_bound_m": 0.1291681802800974,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.10284337777512258,
+        "min_padded_clearance_m": 0.08090423911887402,
+        "linear_pose_interpolation_body_bound_m": 0.10222105686812806,
+        "linear_pose_interpolation_padded_bound_m": 0.08033807637139218,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.3617862530518323,
+          "time_weighted_rms_wz_rad_s": 0.15235933020737286,
+          "max_abs_dwz_dt_rad_s2": 1.9499981647186775,
+          "max_abs_delta_wz_rad_s": 0.07799992658874544,
+          "total_variation_wz_rad_s": 3.362156294357428,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 386,
+          "duration_s": 15.399999999999999
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.3617863059043884,
+          "time_weighted_rms_wz_rad_s": 0.15314735510964636,
+          "max_abs_dwz_dt_rad_s2": 2.631578947368465,
+          "max_abs_delta_wz_rad_s": 0.1,
+          "total_variation_wz_rad_s": 3.3444512262940407,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 335,
+          "duration_s": 15.309
+        },
+        "translating_yaw_to_path": {
+          "samples": 368,
+          "rms_rad": 1.08610109476424,
+          "median_rad": 0.802313437727545,
+          "p95_rad": 2.335318662773156
+        },
+        "translating_yaw_to_motion": {
+          "samples": 368,
+          "rms_rad": 1.0924169704466693,
+          "median_rad": 0.7625319922475429,
+          "p95_rad": 2.3530547459983233
+        },
+        "max_plan_adjacent_yaw_step_rad": 3.133572409522856,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_astar_2/observation/events.jsonl",
+        "source_sha256": "b6ebec900391e25075bba7d40e3163e4f9f93a3d9ccc994f4cd6401e09b7af4e",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.0000000827014395,
+            -0.39999991506338084,
+            4.0500000834464975,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4301161451277915
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.0000000827014395,
+            -0.39999991506338084,
+            4.0500000834464975,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.049329109879290574
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.402427662481998,
+          -0.08497456217670209,
+          0.061070456308920974
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.0000000827014395,
+            -0.39999991506338084,
+            4.0500000834464975,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4409576348614611
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.0000000827014395,
+            -0.39999991506338084,
+            4.0500000834464975,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.061900020940267454
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 17,
+      "published_plan_messages": 17,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 0,
+      "validated_astar_fallback_debug_messages": 0,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "b85b94b11fe6dd3a0ace9136fad655be8b71955ed9358a0feb476ccf81455ff2",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "dc4ea9492eead9c33989f4179ee4f6c2cc584aa244f47a0766e96960c0608398",
+        "metadata.json": "3708dc6f6fd489bcee13e2eeb72760e18e3c2f5322de306e1cda551e4e52a22c",
+        "observation/commands.jsonl": "013548b2372b9f89107d7dbfb9090722821bda4b79692af2ce3cb991219240cf",
+        "observation/costmap.jsonl": "7a49fe5ba9b5e0c9a7465a815a015167000cc2ad2d500871e5b2e16b0a6d08f0",
+        "observation/events.jsonl": "b6ebec900391e25075bba7d40e3163e4f9f93a3d9ccc994f4cd6401e09b7af4e",
+        "observation/planner_diagnostics.jsonl": "08b54a7574b267329d02d0a678471bbc5a9fb3cd4556f68012270fcf0eb880eb",
+        "observation/plans.jsonl": "6cc757820467a0d8775896baa7882f265a0eb5912a64647f7fed16f991d90f68",
+        "observation/summary.json": "f17e33bf48227dc4572264664756a53eaec83f891cf1c0a39e11a0dc8ff80384",
+        "observation/trajectory.jsonl": "8f9fdd20a4b87177e31afb5e445f5ac0f157b02fdcd3b94a8042f7b4c7650a3f",
+        "observer.log": "dee10398da12f953b12b46bb9096b474bfdac486b2b871a62f31b743b2c48af3",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+        "runtime_geometry.json": "02e9dd78ca1d283f3dfbdd649641dba23dc1df408b3ac8ad35b23a4e90ded628"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": []
+    },
+    {
+      "planner": "tdt_astar",
+      "trial": 3,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.14009925362630912,
+      "final_yaw_error_rad": 0.05308487631568882,
+      "cross_track_rms_m": 0.021164791224376693,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 49.429427999939435,
+        "samples": 241
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.1704076426659905,
+        "min_padded_clearance_m": 0.129028877455416,
+        "linear_pose_interpolation_body_bound_m": 0.16971353912667764,
+        "linear_pose_interpolation_padded_bound_m": 0.1283576472196172,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.1027635072126215,
+        "min_padded_clearance_m": 0.08149330479729805,
+        "linear_pose_interpolation_body_bound_m": 0.1021763785987219,
+        "linear_pose_interpolation_padded_bound_m": 0.08091452518301866,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.34449700615368783,
+          "time_weighted_rms_wz_rad_s": 0.140911903857353,
+          "max_abs_dwz_dt_rad_s2": 1.7027665489877093,
+          "max_abs_delta_wz_rad_s": 0.06811066195950843,
+          "total_variation_wz_rad_s": 3.1935178499072694,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 390,
+          "duration_s": 15.56
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.34449705481529236,
+          "time_weighted_rms_wz_rad_s": 0.14151686643548703,
+          "max_abs_dwz_dt_rad_s2": 2.0408163265306336,
+          "max_abs_delta_wz_rad_s": 0.1,
+          "total_variation_wz_rad_s": 3.1786638125777245,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 347,
+          "duration_s": 15.443999999999999
+        },
+        "translating_yaw_to_path": {
+          "samples": 372,
+          "rms_rad": 1.0508751890943058,
+          "median_rad": 0.7661103879257103,
+          "p95_rad": 2.3997500270789613
+        },
+        "translating_yaw_to_motion": {
+          "samples": 372,
+          "rms_rad": 1.084534632120582,
+          "median_rad": 0.6961917801291267,
+          "p95_rad": 2.4160803367951718
+        },
+        "max_plan_adjacent_yaw_step_rad": 2.42686832798009,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_astar_3/observation/events.jsonl",
+        "source_sha256": "038dc8063d4cd67daede276b6970d1caa48e8798eca54d2bc5a9c61358d73ffa",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127792
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.049329109879291094
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.405718717050175,
+          -0.09193124459025824,
+          0.05308487631568882
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.43947148324786767
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.061458622735018426
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 18,
+      "published_plan_messages": 18,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 0,
+      "validated_astar_fallback_debug_messages": 0,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [
+        {
+          "sim_t": 13.556000000000001,
+          "decision": "revalidated",
+          "old_origin": [
+            -3.450000000000007,
+            -7.999999999999993
+          ],
+          "latest_origin": [
+            -3.3500000000000068,
+            -7.999999999999993
+          ],
+          "radius": 0.3807889076915766,
+          "clearance": 0.02,
+          "validation_seconds": 0.000385973
+        }
+      ],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "a429dd0b08c44f9e44076430c17b5ad2b358fe66214a98d8297c10be460fcb6c",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "ee6b20eb233a6285caf63d197d661b1f86e48cae1ab0d0a07c2276cf981a9992",
+        "metadata.json": "f40a5e6d7be1710e2cb3e002a43b10faf0b133679c545eff0a219c51750b9ee2",
+        "observation/commands.jsonl": "5006b37f871b544dfbc88715d71ea3b3f859c5ebeb97a36da84a022a149d2c0f",
+        "observation/costmap.jsonl": "191fe665a6d45c804ca21407d3f5a1f36bd623567425cccde14a1380b8eeecae",
+        "observation/events.jsonl": "038dc8063d4cd67daede276b6970d1caa48e8798eca54d2bc5a9c61358d73ffa",
+        "observation/planner_diagnostics.jsonl": "5d1a1dd62dc787cf6c65bd11f560d9dd25843155870124066e4cd2c7a7d05470",
+        "observation/plans.jsonl": "613f894bc8bcb59c23c211df86a39f3293d1a69096e56b9fa59e211c13950694",
+        "observation/summary.json": "d05566cfe3ed5267b4e8e8f5454006b05d6ab1620359e335e99f71527a9375ac",
+        "observation/trajectory.jsonl": "498230bd636f2694827299f88820550a8324e75667e944f405436b52a19a1172",
+        "observer.log": "13f583fff2b46670a13b7c0d8686ddd0d31ed214cb2b9bc91b2b04ca6d918bf3",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+        "runtime_geometry.json": "36791bf1c8ba739e1c544f120af54dbd9ada1a01d62487b23c30c69c4fad2faf"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": []
+    },
+    {
+      "planner": "tdt_astar",
+      "trial": 4,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.13554430521204602,
+      "final_yaw_error_rad": 0.047825160656300277,
+      "cross_track_rms_m": 0.02588340678855323,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 57.352698999920904,
+        "samples": 241
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.16993405372327292,
+        "min_padded_clearance_m": 0.12814812727509328,
+        "linear_pose_interpolation_body_bound_m": 0.16859753849720974,
+        "linear_pose_interpolation_padded_bound_m": 0.1270291026965118,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.09935723727294508,
+        "min_padded_clearance_m": 0.07696935989105273,
+        "linear_pose_interpolation_body_bound_m": 0.09872823753033327,
+        "linear_pose_interpolation_padded_bound_m": 0.0764606987120346,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.3371299244463444,
+          "time_weighted_rms_wz_rad_s": 0.12915982190848824,
+          "max_abs_dwz_dt_rad_s2": 1.9999997311970201,
+          "max_abs_delta_wz_rad_s": 0.07999998924788088,
+          "total_variation_wz_rad_s": 3.1160111008936022,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 386,
+          "duration_s": 15.4
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.33712995052337646,
+          "time_weighted_rms_wz_rad_s": 0.13001203874692768,
+          "max_abs_dwz_dt_rad_s2": 2.0408163265305967,
+          "max_abs_delta_wz_rad_s": 0.1,
+          "total_variation_wz_rad_s": 3.09830598346889,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 333,
+          "duration_s": 15.321
+        },
+        "translating_yaw_to_path": {
+          "samples": 369,
+          "rms_rad": 1.0688411382306766,
+          "median_rad": 0.829266264765135,
+          "p95_rad": 2.3818924540930237
+        },
+        "translating_yaw_to_motion": {
+          "samples": 369,
+          "rms_rad": 1.083294749247101,
+          "median_rad": 0.772489559710249,
+          "p95_rad": 2.375280207558275
+        },
+        "max_plan_adjacent_yaw_step_rad": 3.1314042822395276,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_astar_4/observation/events.jsonl",
+        "source_sha256": "7a5c80a9a0eda3a85b0784b7a6fccf8dba80116822b4759e5b0a3f110b844119",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127792
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.049329109879291094
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.402525770109122,
+          -0.08866073053470577,
+          0.047825160656300277
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.43883086575313124
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.05924679732797646
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 17,
+      "published_plan_messages": 17,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 0,
+      "validated_astar_fallback_debug_messages": 0,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [
+        {
+          "sim_t": 8.068,
+          "decision": "revalidated",
+          "old_origin": [
+            -5.95,
+            -6.549999999999998
+          ],
+          "latest_origin": [
+            -5.9,
+            -6.649999999999998
+          ],
+          "radius": 0.3807889076915766,
+          "clearance": 0.02,
+          "validation_seconds": 0.000534145
+        }
+      ],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "0613fc19fd06d7b5dda1f70364a3149c27e87eb7d2a96e1dd1a1cf45c9b91e81",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "d59a0e7624d44d170ceeb9b2876273789c6bd476fb8157d656fbb79743e44c54",
+        "metadata.json": "a43a4dff5a55f720b87019d5f00955d649e7108b58ae9474f438bae63acb7621",
+        "observation/commands.jsonl": "5dd1ff907af1328427ce575a24ffb662eec9fe6afadddaff81a745ab95567514",
+        "observation/costmap.jsonl": "a449b4adc8bf958d59e5ea86c43e462fa26005b9025f891ca070ab17e4f2fe9e",
+        "observation/events.jsonl": "7a5c80a9a0eda3a85b0784b7a6fccf8dba80116822b4759e5b0a3f110b844119",
+        "observation/planner_diagnostics.jsonl": "3501eb5592af79b62125ef9ec01546e2e5a0886916edbd6b59fd1693ee2b08cd",
+        "observation/plans.jsonl": "f94837675601f152d126ac6f0989372c94649e1a0cd81f93cf21abd3f9c0afa7",
+        "observation/summary.json": "6c018dd3ac4e7e029c740c6cfa17e55ce424da1d737c149de14168b56328c5ff",
+        "observation/trajectory.jsonl": "ed79e5931322af741bb99019eac8ed56900aeedecfe06a8814fda2f0b43648fd",
+        "observer.log": "91fe0bb0d41a4dfd9fa6ac9c392e47ab2ba862fc630c3ce0e8dbb7e343e93205",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+        "runtime_geometry.json": "62dde628e0ca155a541be63abd5085edc8d301dc9639fa5a5621d215f36c4321"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": []
+    },
+    {
+      "planner": "tdt_astar",
+      "trial": 5,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.1239453733348075,
+      "final_yaw_error_rad": 0.049643028464956565,
+      "cross_track_rms_m": 0.026374758872196494,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 48.03144499987866,
+        "samples": 241
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.1711026899213342,
+        "min_padded_clearance_m": 0.12888619020070505,
+        "linear_pose_interpolation_body_bound_m": 0.16903031475291175,
+        "linear_pose_interpolation_padded_bound_m": 0.12687368067563864,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.09623032139847165,
+        "min_padded_clearance_m": 0.07192683503308982,
+        "linear_pose_interpolation_body_bound_m": 0.09500901519966731,
+        "linear_pose_interpolation_padded_bound_m": 0.07082550244939274,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.3162702778354287,
+          "time_weighted_rms_wz_rad_s": 0.13278994524501883,
+          "max_abs_dwz_dt_rad_s2": 1.999999694817232,
+          "max_abs_delta_wz_rad_s": 0.07999998779268935,
+          "total_variation_wz_rad_s": 3.3328364143017097,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 391,
+          "duration_s": 15.600000000000001
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.3162703216075897,
+          "time_weighted_rms_wz_rad_s": 0.13343272052021,
+          "max_abs_dwz_dt_rad_s2": 2.7027027027027084,
+          "max_abs_delta_wz_rad_s": 0.1,
+          "total_variation_wz_rad_s": 3.3182497434318066,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 336,
+          "duration_s": 15.536999999999999
+        },
+        "translating_yaw_to_path": {
+          "samples": 374,
+          "rms_rad": 1.0594195625025282,
+          "median_rad": 0.8037178604009738,
+          "p95_rad": 2.3057536826144887
+        },
+        "translating_yaw_to_motion": {
+          "samples": 374,
+          "rms_rad": 1.1088302833867274,
+          "median_rad": 0.7713312782529562,
+          "p95_rad": 2.3421788219930493
+        },
+        "max_plan_adjacent_yaw_step_rad": 3.071171385431077,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_astar_5/observation/events.jsonl",
+        "source_sha256": "6aa441f76b17de1601f5d5cb38d6522642bcecf3db5b4a3450b84fe3624d9479",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127792
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.049329109879291094
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.395616178019209,
+          -0.07886698974922125,
+          0.049643028464956565
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.43927616326530616
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.058505974391337874
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 17,
+      "published_plan_messages": 17,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 0,
+      "validated_astar_fallback_debug_messages": 0,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [
+        {
+          "sim_t": 11.903,
+          "decision": "revalidated",
+          "old_origin": [
+            -4.200000000000006,
+            -7.949999999999993
+          ],
+          "latest_origin": [
+            -4.100000000000007,
+            -7.949999999999993
+          ],
+          "radius": 0.3807889076915766,
+          "clearance": 0.02,
+          "validation_seconds": 0.000424156
+        }
+      ],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "83cc16d9a18f7e50a689763b13efa9832771294b7373bdf948dea4653ab73417",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "59b770f59c67ca26c780c9b5db4ab0357d2c97c99f91730ba8ff62acad12ad5b",
+        "metadata.json": "0591c6fc3553a1a429530cffd2f3ef678375f33101612a88352a8e3bfd4b7dc6",
+        "observation/commands.jsonl": "c1144043041e3955b0a3572a3252aa589376cc766f71dc14975efe7bbd9e7a0a",
+        "observation/costmap.jsonl": "e11116e662a397e8b5c276e672966d1441250720634ffd48d87ad6a31d66dbe1",
+        "observation/events.jsonl": "6aa441f76b17de1601f5d5cb38d6522642bcecf3db5b4a3450b84fe3624d9479",
+        "observation/planner_diagnostics.jsonl": "b594adcfee1bfb7cd6d036612f2dd0c793b74a98677d0e254aa2f193845847d8",
+        "observation/plans.jsonl": "4eef646d743abe35a2d912b27147b3327dec8f55994a33a7a717c7381f2f8f53",
+        "observation/summary.json": "ea0400ae4e27e0e7a147d0921ee28ef8336b30903673c5ce214978988a48bcc6",
+        "observation/trajectory.jsonl": "feb98a2c09a4a9c98c30a8e2be5ea81e3a6d005591b435458670cc542bff2741",
+        "observer.log": "a1999650733d0884d8a505f97382ee2934f5fe8522c33469ae97f3896689d807",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+        "runtime_geometry.json": "50ab6b85f21c46a58b3e4c163f18848a0a9ec1812b170470e323e608cb79aedd"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": []
+    },
+    {
+      "planner": "tdt_qp",
+      "trial": 1,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.13210362908595177,
+      "final_yaw_error_rad": 0.03673756913007141,
+      "cross_track_rms_m": 0.030728133959614063,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 37.49306299982891,
+        "samples": 253
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.16220586574778653,
+        "min_padded_clearance_m": 0.12008134901298086,
+        "linear_pose_interpolation_body_bound_m": 0.15952291761911364,
+        "linear_pose_interpolation_padded_bound_m": 0.11757957530898638,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.08904986955892251,
+        "min_padded_clearance_m": 0.06601490116903184,
+        "linear_pose_interpolation_body_bound_m": 0.08773374458975884,
+        "linear_pose_interpolation_padded_bound_m": 0.06490178943406008,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.6099233112763613,
+          "time_weighted_rms_wz_rad_s": 0.20297077793758364,
+          "max_abs_dwz_dt_rad_s2": 1.9999999494757486,
+          "max_abs_delta_wz_rad_s": 0.07999999797903001,
+          "total_variation_wz_rad_s": 4.782472737644154,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 354,
+          "duration_s": 14.12
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.6111233234405518,
+          "time_weighted_rms_wz_rad_s": 0.20448092193034914,
+          "max_abs_dwz_dt_rad_s2": 4.354512488300102,
+          "max_abs_delta_wz_rad_s": 0.1,
+          "total_variation_wz_rad_s": 4.758374258875847,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 304,
+          "duration_s": 14.050999999999998
+        },
+        "translating_yaw_to_path": {
+          "samples": 336,
+          "rms_rad": 0.9681140784932187,
+          "median_rad": 0.6782677042584353,
+          "p95_rad": 2.204826964880425
+        },
+        "translating_yaw_to_motion": {
+          "samples": 336,
+          "rms_rad": 1.0721125750541212,
+          "median_rad": 0.8169541066152445,
+          "p95_rad": 2.2986327772017896
+        },
+        "max_plan_adjacent_yaw_step_rad": 2.819842099193151,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_qp_1/observation/events.jsonl",
+        "source_sha256": "d7c6d1e86511d35b18674265c2b90417d77b72cb88036cc6f31c3459391caa0a",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.0000000827014395,
+            -0.39999991506338084,
+            4.0500000834464975,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4301161451277915
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.0000000827014395,
+            -0.39999991506338084,
+            4.0500000834464975,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.049329109879290574
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.394879745829734,
+          -0.09191954443405215,
+          0.03673756913007141
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.0000000827014395,
+            -0.39999991506338084,
+            4.0500000834464975,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.43075220120758223
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.0000000827014395,
+            -0.39999991506338084,
+            4.0500000834464975,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.05026157581854337
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 16,
+      "published_plan_messages": 16,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 13,
+      "validated_astar_fallback_debug_messages": 3,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [
+        {
+          "sim_t": 6.167,
+          "decision": "revalidated",
+          "old_origin": [
+            -5.95,
+            -5.95
+          ],
+          "latest_origin": [
+            -5.95,
+            -5.95
+          ],
+          "radius": 0.3807889076915766,
+          "clearance": 0.02,
+          "validation_seconds": 0.000375287
+        }
+      ],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "e5410fa34324a1d9d170cb28cd4503fda991aff1273a4ea953e9bec4a9479d17",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "c5cd30fa15525f39ae745f6dcbb5b19b5026253609201b7c8398237a923084ee",
+        "metadata.json": "a175cb5418babb36e1562a1feeafd755b6eef075e73c04eaad47833858781e03",
+        "observation/commands.jsonl": "0c6e53c0e8dd53181c7892d599d5110a2c7c1159139c306c77bf13f8a23cb7c9",
+        "observation/costmap.jsonl": "a95070b68c765a016265ddfcc124c6df1e3c1d580051c172a15d7f26a3e052bc",
+        "observation/events.jsonl": "d7c6d1e86511d35b18674265c2b90417d77b72cb88036cc6f31c3459391caa0a",
+        "observation/planner_diagnostics.jsonl": "7c26e5eecb01d19363295af756ec6f0ec9c84e3fad9475575c72d20a68e09ab1",
+        "observation/plans.jsonl": "3756bb866bb06baac217b99e590de94624f834995619991b1fca9501047592e1",
+        "observation/summary.json": "4f0fa08128090ec053fd84b6c09b4af46a14e515d0665f3a8baa840c7f645981",
+        "observation/trajectory.jsonl": "6af5b7b39440182822a18ff001c4a634abbf40af846acce3c1d96627e26904cc",
+        "observer.log": "042a160e86d4a56782014846e4ef3fbefe886ad729d8e62226d09b8a72858811",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+        "runtime_geometry.json": "5cf88add7667fd02d78ee960bb3036f141709588b89ef0b6fae3c35952b294c4"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": [
+        {
+          "t": 17.77,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.007 s"
+        },
+        {
+          "t": 18.725,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.017 s"
+        },
+        {
+          "t": 19.627,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer failed, 0.013 s"
+        }
+      ]
+    },
+    {
+      "planner": "tdt_qp",
+      "trial": 2,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.11728406951229298,
+      "final_yaw_error_rad": 0.03380161504933981,
+      "cross_track_rms_m": 0.038060501000823636,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 43.92897799993989,
+        "samples": 253
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.16080779084926042,
+        "min_padded_clearance_m": 0.11846088548605924,
+        "linear_pose_interpolation_body_bound_m": 0.15582071524304691,
+        "linear_pose_interpolation_padded_bound_m": 0.11339719202853862,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.0782776408116878,
+        "min_padded_clearance_m": 0.05004465458616766,
+        "linear_pose_interpolation_body_bound_m": 0.07461000442804809,
+        "linear_pose_interpolation_padded_bound_m": 0.04636143567932957,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.5959884787444025,
+          "time_weighted_rms_wz_rad_s": 0.22420018877766415,
+          "max_abs_dwz_dt_rad_s2": 1.9999999494757486,
+          "max_abs_delta_wz_rad_s": 0.07999999797903001,
+          "total_variation_wz_rad_s": 6.1611947165501455,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 329,
+          "duration_s": 13.120000000000001
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.5959885120391846,
+          "time_weighted_rms_wz_rad_s": 0.22628158917035848,
+          "max_abs_dwz_dt_rad_s2": 2.4390243902439863,
+          "max_abs_delta_wz_rad_s": 0.10000000000000003,
+          "total_variation_wz_rad_s": 6.121164862066507,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 282,
+          "duration_s": 13.015
+        },
+        "translating_yaw_to_path": {
+          "samples": 311,
+          "rms_rad": 1.0266591687043483,
+          "median_rad": 0.8075420722237713,
+          "p95_rad": 2.208936012011985
+        },
+        "translating_yaw_to_motion": {
+          "samples": 311,
+          "rms_rad": 1.0383585971455285,
+          "median_rad": 0.7998598647666229,
+          "p95_rad": 2.250374279418047
+        },
+        "max_plan_adjacent_yaw_step_rad": 2.819842099193151,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_qp_2/observation/events.jsonl",
+        "source_sha256": "1b2c99af6c6a1927fa0672234e62b42e6f1dcae9a62fd78cd8b3699c43bea89e",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            112,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000083446498,
+            -0.39999991506338084,
+            4.050000084191556,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4301161446947352
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            112,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000083446498,
+            -0.39999991506338084,
+            4.050000084191556,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.04932910944128092
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.3831277521361205,
+          -0.08273650818205985,
+          -0.03380161504933981
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            112,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000083446498,
+            -0.39999991506338084,
+            4.050000084191556,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4270875453694959
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            112,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000083446498,
+            -0.39999991506338084,
+            4.050000084191556,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.05033084151251058
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 15,
+      "published_plan_messages": 15,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 13,
+      "validated_astar_fallback_debug_messages": 2,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [
+        {
+          "sim_t": 15.836,
+          "decision": "revalidated",
+          "old_origin": [
+            -1.8500000000000056,
+            -7.249999999999996
+          ],
+          "latest_origin": [
+            -1.8000000000000056,
+            -7.199999999999996
+          ],
+          "radius": 0.3807889076915766,
+          "clearance": 0.02,
+          "validation_seconds": 0.000884495
+        }
+      ],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "bd6a4aaf22438b6b4ef4f8a1f4b900525d10561091ea30f39e586b7fdae05683",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "3c67f0f5672eb7b856cb13ca0692191feb88486f27d0255fb1eea4ab07778673",
+        "metadata.json": "5ca418c51e888354c6ee22dd7046e55033ed9eca67d5e5865d4485385459ca4c",
+        "observation/commands.jsonl": "aec41b7a09a9cb8c3bc509084244335a23cfe4cba07c6125fce1161eeba2ebcf",
+        "observation/costmap.jsonl": "f4013fce64df9794753ce7df84dff07508df5ed498217e4f77ac3d1e9eb92b27",
+        "observation/events.jsonl": "1b2c99af6c6a1927fa0672234e62b42e6f1dcae9a62fd78cd8b3699c43bea89e",
+        "observation/planner_diagnostics.jsonl": "d657a8912b0e91184848671aeb7379774a888e5712d6d7f09f7e691c630fcadb",
+        "observation/plans.jsonl": "a619d1b4f23310e9d897feb66329606a6c21c9806ad2a1fd193943d31855a873",
+        "observation/summary.json": "480fb2796ccab75656c04221de1f57eabc35c7c2ea2620fc5daaa60d3a7a5f1b",
+        "observation/trajectory.jsonl": "928b529a8a746f64e0bb7f6c69086f39a9bcb9ea94ae4fd74c93b52e084de621",
+        "observer.log": "eab667dfbe62afeebfdcdfc40f52a9057ef3bae12f5648175dc8362296892654",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+        "runtime_geometry.json": "5136bca8d16e76604a4c8460384b16739f7849b95a53bceeee3a0fec58f1dd0b"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": [
+        {
+          "t": 11.019,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.012 s"
+        },
+        {
+          "t": 18.781,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer failed, 0.027 s"
+        }
+      ]
+    },
+    {
+      "planner": "tdt_qp",
+      "trial": 3,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.12530441217982696,
+      "final_yaw_error_rad": 0.00946099609928917,
+      "cross_track_rms_m": 0.04097546172538552,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 38.30387199991492,
+        "samples": 253
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.17429402094211147,
+        "min_padded_clearance_m": 0.13186761407091915,
+        "linear_pose_interpolation_body_bound_m": 0.17111074304359827,
+        "linear_pose_interpolation_padded_bound_m": 0.12866587942013052,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.09319331293849259,
+        "min_padded_clearance_m": 0.06619378120470874,
+        "linear_pose_interpolation_body_bound_m": 0.09153920609102663,
+        "linear_pose_interpolation_padded_bound_m": 0.06494026378340433,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.5982258880976588,
+          "time_weighted_rms_wz_rad_s": 0.1973123749280759,
+          "max_abs_dwz_dt_rad_s2": 1.9999999494757486,
+          "max_abs_delta_wz_rad_s": 0.07999999797903001,
+          "total_variation_wz_rad_s": 5.203729936813891,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 345,
+          "duration_s": 13.76
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.5988259315490723,
+          "time_weighted_rms_wz_rad_s": 0.19957925587229827,
+          "max_abs_dwz_dt_rad_s2": 2.702702702702708,
+          "max_abs_delta_wz_rad_s": 0.10000000000000003,
+          "total_variation_wz_rad_s": 5.166072713211179,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 297,
+          "duration_s": 13.674000000000003
+        },
+        "translating_yaw_to_path": {
+          "samples": 328,
+          "rms_rad": 1.0914156535142474,
+          "median_rad": 0.8443964130454349,
+          "p95_rad": 2.46654796929885
+        },
+        "translating_yaw_to_motion": {
+          "samples": 328,
+          "rms_rad": 1.1241615472728896,
+          "median_rad": 0.8182353314868764,
+          "p95_rad": 2.3780141992898955
+        },
+        "max_plan_adjacent_yaw_step_rad": 2.3660989751143062,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_qp_3/observation/events.jsonl",
+        "source_sha256": "9047061a2e0c4280cae01e963ea030dd691e2bc3c67f49a3171e4425f2b5f76e",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            110,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            3.9500000819563805,
+            -0.39999991506338084,
+            4.000000082701439,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.46097710398888236
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            110,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            3.9500000819563805,
+            -0.39999991506338084,
+            4.000000082701439,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.0840780914428219
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.397296910614471,
+          -0.07895889371446141,
+          0.00946099609928917
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            113
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.4499999158084389,
+            4.050000083446497,
+            -0.39999991506338084
+          ],
+          "distance_m": 0.47295076228895017
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            113
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.4499999158084389,
+            4.050000083446497,
+            -0.39999991506338084
+          ],
+          "distance_m": 0.09684823000120366
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 15,
+      "published_plan_messages": 15,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 12,
+      "validated_astar_fallback_debug_messages": 3,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [
+        {
+          "sim_t": 9.01,
+          "decision": "revalidated",
+          "old_origin": [
+            -5.3000000000000025,
+            -6.799999999999997
+          ],
+          "latest_origin": [
+            -5.200000000000003,
+            -6.899999999999997
+          ],
+          "radius": 0.3807889076915766,
+          "clearance": 0.02,
+          "validation_seconds": 0.000701744
+        }
+      ],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "bc249dda1d78e68c22973f79870d7edf0f465657c350b52c86a1c521ebbe7a46",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "a4eb32f4d6415923fb0f76731aae547a15af51600707ad09a2cffff256907fc1",
+        "metadata.json": "f33b0c43991f9e2420d2336096fb0fcfb22d8212fbefa044da013fcac2b0133e",
+        "observation/commands.jsonl": "5ecbc99c56c1a29b51dd691248a94336ec24de4ce384ca4ef51c3a5e92f7d05e",
+        "observation/costmap.jsonl": "38ed83adfd7a10e0b2f6a21ed793faa34b8592ac48377732c16adc6e32b66868",
+        "observation/events.jsonl": "9047061a2e0c4280cae01e963ea030dd691e2bc3c67f49a3171e4425f2b5f76e",
+        "observation/planner_diagnostics.jsonl": "b79ad0ea2bfb9f6751438cf531fa7437c7698f0c20a604cf38956ddcc86cdb68",
+        "observation/plans.jsonl": "6073e39fdcf88937ea3e007728d75a152075fcb45bff9fbedc95b1f5e7da40c0",
+        "observation/summary.json": "f2975e02e5c933e9571dfd07bc95806f2c62acb4b0b8f0a65ecad0ef48b25095",
+        "observation/trajectory.jsonl": "86df235160ce025afc9a5906b35ef7fa843a6b637431afe48d4d3ed8a414927f",
+        "observer.log": "fe6606716f89e8343221fc2dfb758472224fea41972c85a5866cb43543e6a17a",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+        "runtime_geometry.json": "ba6b4a5afe902a3b0b2a2d1dca210251dec568708ae9621a431c6f83873f46b5"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": [
+        {
+          "t": 11.884,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.010 s"
+        },
+        {
+          "t": 13.814,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.015 s"
+        },
+        {
+          "t": 15.789,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.007 s"
+        }
+      ]
+    },
+    {
+      "planner": "tdt_qp",
+      "trial": 4,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.07120612109255188,
+      "final_yaw_error_rad": 0.1316778215127813,
+      "cross_track_rms_m": 0.04273747922006968,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 42.20804400006273,
+        "samples": 253
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.15415634934015457,
+        "min_padded_clearance_m": 0.11343783193381535,
+        "linear_pose_interpolation_body_bound_m": 0.14940064975676012,
+        "linear_pose_interpolation_padded_bound_m": 0.10871377601374659,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.08059006024378827,
+        "min_padded_clearance_m": 0.05540681154810948,
+        "linear_pose_interpolation_body_bound_m": 0.0789995734436193,
+        "linear_pose_interpolation_padded_bound_m": 0.05470262203512739,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.6079712067730725,
+          "time_weighted_rms_wz_rad_s": 0.29039168663661974,
+          "max_abs_dwz_dt_rad_s2": 2.000000094994901,
+          "max_abs_delta_wz_rad_s": 0.0800000037997961,
+          "total_variation_wz_rad_s": 6.2897039351810236,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 352,
+          "duration_s": 14.040000000000001
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.6084335446357727,
+          "time_weighted_rms_wz_rad_s": 0.29287274168905547,
+          "max_abs_dwz_dt_rad_s2": 7.303830236194079,
+          "max_abs_delta_wz_rad_s": 0.1,
+          "total_variation_wz_rad_s": 6.250677138566969,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 299,
+          "duration_s": 13.933000000000002
+        },
+        "translating_yaw_to_path": {
+          "samples": 334,
+          "rms_rad": 0.882725962040566,
+          "median_rad": 0.5912138622283598,
+          "p95_rad": 1.6656858708636009
+        },
+        "translating_yaw_to_motion": {
+          "samples": 334,
+          "rms_rad": 0.9139301240015092,
+          "median_rad": 0.7419438245015628,
+          "p95_rad": 1.7255731753894588
+        },
+        "max_plan_adjacent_yaw_step_rad": 2.584450763110413,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_qp_4/observation/events.jsonl",
+        "source_sha256": "2e4ac1464adb942609eb49ced02cd0db8f91e905372867d17693d10959d1f1db",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            113
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            3.95000008270144,
+            -0.3999999158084382,
+            4.000000083446498,
+            -0.34999991506338013
+          ],
+          "distance_m": 0.46097710406969405
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            113
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            3.95000008270144,
+            -0.3999999158084382,
+            4.000000083446498,
+            -0.34999991506338013
+          ],
+          "distance_m": 0.08407809144282065
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.351235587660675,
+          -0.04944922889300153,
+          0.1316778215127813
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            112,
+            112
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000083446498,
+            -0.44999991655349625,
+            4.050000084191556,
+            -0.3999999158084382
+          ],
+          "distance_m": 0.4621997540535673
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            113
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            3.95000008270144,
+            -0.3999999158084382,
+            4.000000083446498,
+            -0.34999991506338013
+          ],
+          "distance_m": 0.08346464178059798
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 15,
+      "published_plan_messages": 15,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 13,
+      "validated_astar_fallback_debug_messages": 2,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "6ca02be84b6c6bf2f53af796dfc403f27473b7ad76ac1edbd1c11ed8817dc3bf",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "5a17b6eb74454ba507040c99faf0a8e013567f5e3dc269b47e9770f606264ede",
+        "metadata.json": "20df74289079519322554d0d2312122b522fbbb22cb61b31ecfb2337b2a64de2",
+        "observation/commands.jsonl": "efd918aa15071251fc8a6c82408d7b32ede654bae91e5ad3d0da6b91af2e15e8",
+        "observation/costmap.jsonl": "5e19f2f5cc72ea1d73dfe0da2d684983cc5bbe021dee68570018ee8bee241fdd",
+        "observation/events.jsonl": "2e4ac1464adb942609eb49ced02cd0db8f91e905372867d17693d10959d1f1db",
+        "observation/planner_diagnostics.jsonl": "b14c155f53f934feaae7a9e2c0c6990328d8886577e6fad71ca2a4a9384243b1",
+        "observation/plans.jsonl": "5913eb6fe3cc8e780ae01e1eaef8372f41169b6bac7b219a8bc16ce872e86b45",
+        "observation/summary.json": "1ed067c9c95ec64d2c24e33871e98243b2ace4a7ff312587469ed44be198bf45",
+        "observation/trajectory.jsonl": "ef5500511f67c80da21e3ec9ef8486fc139d209c9c7e84eb766020379bbbb1d3",
+        "observer.log": "8a1d078aecd8b6c800369040970cafa07fb449a5e068bf106b61c50ab8c49dc4",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+        "runtime_geometry.json": "7259fe1eb3980dd44b6cdc1ad4beee9e90ca3abea6f9cbd4b30ce6922583bb57"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": [
+        {
+          "t": 10.049,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.013 s"
+        },
+        {
+          "t": 16.821,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.009 s"
+        }
+      ]
+    },
+    {
+      "planner": "tdt_qp",
+      "trial": 5,
+      "reference_geometry": "existing_new_car_126mm",
+      "original_rectangle_observer_audited": true,
+      "target_static_checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "target_static_pass": true,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.12314285565987532,
+      "final_yaw_error_rad": 0.05875384661946911,
+      "cross_track_rms_m": 0.04867929261706101,
+      "preflight": {
+        "status": 4,
+        "wall_ms": 40.394168000148056,
+        "samples": 253
+      },
+      "target_geometry_metrics": {
+        "min_body_clearance_m": 0.17087406989605758,
+        "min_padded_clearance_m": 0.1294392018748884,
+        "linear_pose_interpolation_body_bound_m": 0.15987092350496704,
+        "linear_pose_interpolation_padded_bound_m": 0.11837898153134044,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "old_car_rectangle_physical_oracle": {
+        "min_body_clearance_m": 0.09208244811755341,
+        "min_padded_clearance_m": 0.06422103500197152,
+        "linear_pose_interpolation_body_bound_m": 0.08316496688403466,
+        "linear_pose_interpolation_padded_bound_m": 0.055033918636294976,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "yaw_metrics": {
+        "ground_truth": {
+          "max_abs_wz_rad_s": 0.5913626519031823,
+          "time_weighted_rms_wz_rad_s": 0.21899638180816075,
+          "max_abs_dwz_dt_rad_s2": 1.9999999494757486,
+          "max_abs_delta_wz_rad_s": 0.07999999797903001,
+          "total_variation_wz_rad_s": 6.026392935792782,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 340,
+          "duration_s": 13.56
+        },
+        "command": {
+          "max_abs_wz_rad_s": 0.591362714767456,
+          "time_weighted_rms_wz_rad_s": 0.22206981101543533,
+          "max_abs_dwz_dt_rad_s2": 2.439024390244092,
+          "max_abs_delta_wz_rad_s": 0.10000000000000003,
+          "total_variation_wz_rad_s": 5.986363200470805,
+          "zero_dt_intervals_excluded_from_derivative": 0,
+          "sample_count": 293,
+          "duration_s": 13.460000000000003
+        },
+        "translating_yaw_to_path": {
+          "samples": 323,
+          "rms_rad": 1.0623728971849657,
+          "median_rad": 0.7976312190732,
+          "p95_rad": 2.415582584805192
+        },
+        "translating_yaw_to_motion": {
+          "samples": 323,
+          "rms_rad": 1.1536783160103545,
+          "median_rad": 0.8234187858070339,
+          "p95_rad": 2.5811010264017504
+        },
+        "max_plan_adjacent_yaw_step_rad": 2.939394263424877,
+        "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+      },
+      "endpoint_rejections": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/snapshot_revalidation_v1/tdt_qp_5/observation/events.jsonl",
+        "source_sha256": "080013c03caab82a665da32ab56fca9b6e18aff3f1112f97aa2273e548931a4c",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "nominal_after_navigation": {
+        "pose": [
+          4.3,
+          0.0,
+          0.0
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.430116145127792
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.049329109879291094
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "actual_final_after_navigation": {
+        "pose": [
+          4.394613331094436,
+          -0.07881929002016884,
+          -0.05875384661946911
+        ],
+        "inside_map": true,
+        "centre_253": false,
+        "nearest_raw_obstacle": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.4385170708754637
+        },
+        "ordinary_padded_polygon_witness": {
+          "cell": [
+            111,
+            114
+          ],
+          "cost": 254,
+          "boundary": false,
+          "world_box": [
+            4.000000082701439,
+            -0.39999991506338084,
+            4.050000083446497,
+            -0.3499999143183228
+          ],
+          "distance_m": 0.06218850404101812
+        },
+        "ordinary_required_clearance_m": 0.02,
+        "ordinary_polygon_safe": true,
+        "derived_spin_required_m": 0.40078890587770866,
+        "spin_safe": true,
+        "scope": "Complete post-navigation raw map at capture time, lethal/unknown/boundary squares; 253 centre exclusion. Not dynamic or high-speed Spin admission."
+      },
+      "planner_success_diagnostic_count": 15,
+      "published_plan_messages": 15,
+      "planner_success_diagnostics_complete": true,
+      "qp_adopted_debug_messages": 12,
+      "validated_astar_fallback_debug_messages": 3,
+      "snapshot_rejection_observed": false,
+      "snapshot_admissions": [],
+      "source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+      "image_id": "sha256:7e864ca17d5329df021ca7be828391491a0c83229b390cdfafac98f41cad1172",
+      "profile_sha256": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+      "accepted_for_deployment": false,
+      "artifacts_sha256": {
+        "container_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "container_id": "f29542dbbf8c12e6263c060f936d0f356bf11edebe8b27bdfe92b0ee5a645ea7",
+        "docker_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "launch.log": "da9b9ca18e4f415e834f180693aa8704ba5f2538af453e328d2352abf6957e65",
+        "metadata.json": "1d9ab0b5814419ca717f038afc44556ac93bff5f01ae75d94f5623c441028143",
+        "observation/commands.jsonl": "9af254564259c96b707362905247fd83ecd5e308610091e244546ce1231d0961",
+        "observation/costmap.jsonl": "fb9153b04531afb2d518dcfbae03c2d4b0ecab3b9103d65dc4d75eca98873d71",
+        "observation/events.jsonl": "080013c03caab82a665da32ab56fca9b6e18aff3f1112f97aa2273e548931a4c",
+        "observation/planner_diagnostics.jsonl": "1765ca28a964ba3301a4aa2bcd8bbe585e7b08b3853c91c5564339fd0b58414d",
+        "observation/plans.jsonl": "d320e237517aa1b9d483f1176a81282db2eaf97b6806c0038d94b4ac36c0fde5",
+        "observation/summary.json": "c901871a7fab301311501368a57b932a480a35ea138d4022caf352cf0df1f8b6",
+        "observation/trajectory.jsonl": "b461dbef865a5d47efc0efe5abc082537aa7591762d802d4e71c6edaf3ec734f",
+        "observer.log": "a2b30ce3c302bd19a831aa4eb4cc85cd4aa86eb358d187fc9bb2a7d2dcfff56d",
+        "observer_exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "profile.yaml": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa",
+        "runtime_geometry.json": "a9b3eb5175e5fcb7f932a03fc11b718c9aa49ff28d4d4b9ec66366bf9c4c12f5"
+      },
+      "raw_summary_recomputed": true,
+      "latest_snapshot_rejections": [],
+      "planner_failure_events": [],
+      "safe_fallbacks": [
+        {
+          "t": 10.883,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.009 s"
+        },
+        {
+          "t": 17.599,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer geometry rejected, 0.007 s"
+        },
+        {
+          "t": 18.564,
+          "node": "planner_server",
+          "level": 10,
+          "message": "GridBased: validated A* fallback: optimizer failed, 0.018 s"
+        }
+      ]
+    }
+  ],
+  "accepted_for_deployment": false,
+  "scope": "Existing new-car 382/126 mm reference polygon on surrogate dynamics; same profiles as geometry reference v2. Heading and terminal selection unchanged.",
+  "limits": [
+    "no new Navfn/Smac2D baselines",
+    "no dynamic obstacle or real vehicle acceptance",
+    "snapshot validation time is not the entire master-lock hold time",
+    "fixed footprint only; dynamic footprint reconfiguration synchronization not validated"
+  ]
+}

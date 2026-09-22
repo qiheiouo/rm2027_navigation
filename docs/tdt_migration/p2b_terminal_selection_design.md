@@ -1,7 +1,9 @@
 # P2B：由后续动作定义终端可行性与自动选点
 
-> 2026-09-22：selector 继续暂缓。当前工作为[滚动快照拒收诊断与待审修复](p2b_snapshot_revalidation_review.md)，
-> 候选仅完成离线检查，尚未接入运行规划器。
+> 2026-09-22：selector继续暂缓。最新快照复查修复已接入隔离实验，A*、QP各5/5静态通过且全部零恢复。
+> 新车参考几何下nominal合法，当前没有立即实现selector的必要。
+> 见[真实回传与边界](evidence/snapshot_revalidation_20260922/validation_20260922.md)。
+> 以下2026-09-16设计与旧矩形算例保留为历史，不应继续用旧模型给新车目标判blocked。
 
 > 2026-09-21 状态更新：**暂缓实现 terminal selector。** 新车八边形参考模型下，当前
 > nominal goal 的普通停车和静态完整 Spin 均可行；先处理剩余 snapshot 拒收/恢复。

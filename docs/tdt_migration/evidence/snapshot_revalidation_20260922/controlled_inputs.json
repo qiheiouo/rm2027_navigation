@@ -1,0 +1,57 @@
+{
+  "comparison": "new_car_geometry_reference_v2 vs snapshot_revalidation_v1",
+  "unchanged": {
+    "profiles": {
+      "tdt_astar": "bbc593053e32308a22acd661ea49ea508fba5ee8fa734ddca5fb76a3d04a1099",
+      "tdt_qp": "18267a236c7821dc515e1c4b006dfeec83174b9cb915d62f4924458b7d661daa"
+    },
+    "baseline_profiles": {
+      "tdt_astar": "593417c67ce5045188cf2635e244c213d99ea256d91a3a9be4e4daddc1dd2369",
+      "tdt_qp": "5718ec4045ba56634208a13d7f2bcee0b768ae40ab2c4110a4a01a66af4b4e67"
+    },
+    "body_polygon_m": [
+      [
+        0.2800954544,
+        0.191
+      ],
+      [
+        0.191,
+        0.2800954544
+      ],
+      [
+        -0.191,
+        0.2800954544
+      ],
+      [
+        -0.2800954544,
+        0.191
+      ],
+      [
+        -0.2800954544,
+        -0.191
+      ],
+      [
+        -0.191,
+        -0.2800954544
+      ],
+      [
+        0.191,
+        -0.2800954544
+      ],
+      [
+        0.2800954544,
+        -0.191
+      ]
+    ],
+    "padding_m": 0.03,
+    "physical_clearance_m": 0.05,
+    "planner_clearance_m": 0.02,
+    "fixture_sha256": {
+      "src/rm_simulation/worlds/phase1_omni.sdf": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3",
+      "src/rm_simulation/models/course_wall.sdf": "8dd4d62b879626a206936f939e5212609da89a0f483ed0a394bb7df20f2c9c81",
+      "src/rm_nav_config/config/nav2_phase1_5_mppi.yaml": "0e2020c8eb5001e3f57c3626353a99fdad785cb6a716abd9d6fd89ae88628caf",
+      "experiments/tdt_planner/rm_tdt_planner/launch/simulation_comparison.launch.py": "1e1d66725ce8951eb291cbcaf438113bb8c392a6a9630982f9a996ac25363acf"
+    }
+  },
+  "runtime_change": "Latest snapshot admission guard only; fixed profile, goal, heading, controller, fixture and all static gates."
+}

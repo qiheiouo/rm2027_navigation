@@ -1,9 +1,19 @@
 # P2B 持久工作记录
 
-2026-09-22 更新：**已证实滚动地图原点移动触发严格 snapshot 拒收及一次 recovery。**
-诊断基线50f53cb仍保留原拒收逻辑；离线候选14/14通过、适配器对象编译通过，
-补丁尚未应用。自动审批要求对安全准入行为变更取得明确批准，详见
-[快照复查审查](p2b_snapshot_revalidation_review.md)。候选新静态仿真尚未运行。
+2026-09-22 更新：**快照复查修复 `a419654` 已接入并完成验证：A*、QP各5/5静态通过，十次零恢复。**
+构建、常规101/101、独立统一sanitizer链及core70/70通过。
+全新 `snapshot_revalidation_v1` 完成10次T-DT目标矩阵，实际8次快照变化复查通过；
+QP采用63条、安全A*回退13条，没有endpoint拒收。未运行本轮Navfn/Smac2D，不能称四组20次全通过。
+[完整回传](evidence/snapshot_revalidation_20260922/validation_20260922.md)、
+[审计汇总](evidence/snapshot_revalidation_20260922/aggregate.json)、
+[修复审查与授权](p2b_snapshot_revalidation_review.md)。
+
+当前nominal在已有382/126 mm八边形参考几何下合法；terminal selector继续暂缓，航向A/B冻结。
+下一层先闭环新车真实整车/轮组碰撞包络，再独立验证动态障碍拒收与控制闭环、目标设备全负载。
+全局T-DT仍使用新polygon派生保守圆，最终CAD/动力学、动态footprint同步与完整持锁时间未验收。
+保留老车实际运动独立安全oracle，狗洞专项隔离；没有部署、push或merge。
+
+以下为历史检查点，不替代上述最新结果。
 
 状态（2026-09-21）：**新车八边形参考几何已消除当前 nominal endpoint blocker；
 A*、QP 均到点但各一次恢复，静态零恢复门仍未通过。terminal selector 暂缓；航向 A/B 冻结。**
@@ -15,7 +25,7 @@ v2目标平台轨迹/停车/静态Spin检查通过，唯一失败门为 no_recov
 QP实际采用14次、安全A*回退2次；没有 endpoint拒收。全局T-DT仍为从新polygon自动推导的
 保守圆，尚未完成纯polygon路径准入；占位轮组与最终整车包络也未闭环。
 
-下一步先诊断 snapshot 更新拒收与恢复时序，保留所有安全门；不实施 selector、不调航向。
+该阶段下一步为诊断 snapshot 更新拒收与恢复时序（现已完成，见顶部）；安全门保持，不实施 selector、不调航向。
 旧车真实运动仍须独立真实几何安全检查，狗洞专项保持隔离。
 
 以下为此前阶段记录，不能替代本轮验证。

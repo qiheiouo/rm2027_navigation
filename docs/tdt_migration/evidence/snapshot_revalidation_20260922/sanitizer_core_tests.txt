@@ -1,0 +1,208 @@
+Internal ctest changing into directory: /work/sanitizer_runs/chain_20260921T234317Z.Xbuu3P/core
+UpdateCTestConfiguration  from :/work/sanitizer_runs/chain_20260921T234317Z.Xbuu3P/core/DartConfiguration.tcl
+Parse Config file:/work/sanitizer_runs/chain_20260921T234317Z.Xbuu3P/core/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/work/sanitizer_runs/chain_20260921T234317Z.Xbuu3P/core/DartConfiguration.tcl
+Parse Config file:/work/sanitizer_runs/chain_20260921T234317Z.Xbuu3P/core/DartConfiguration.tcl
+Test project /work/sanitizer_runs/chain_20260921T234317Z.Xbuu3P/core
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 3
+    Start 3: planner_safety
+
+3: Test command: /work/sanitizer_runs/chain_20260921T234317Z.Xbuu3P/core/test_planner
+3: Test timeout computed to be: 60
+3: Running main() from ./googletest/src/gtest_main.cc
+3: [==========] Running 70 tests from 10 test suites.
+3: [----------] Global test environment set-up.
+3: [----------] 16 tests from Planner
+3: [ RUN      ] Planner.OpenMapActuallyRunsCorridorBackend
+3: [       OK ] Planner.OpenMapActuallyRunsCorridorBackend (65 ms)
+3: [ RUN      ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation
+3: [       OK ] Planner.PreparedSnapshotMatchesRawPlanningWithoutDoubleInflation (204 ms)
+3: [ RUN      ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints
+3: [       OK ] Planner.DetoursAroundWallAndPreservesOriginAndEndpoints (80 ms)
+3: [ RUN      ] Planner.CompletelySealedWallFailsEmpty
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.CompletelySealedWallFailsEmpty (48 ms)
+3: [ RUN      ] Planner.UnknownAndInscribedCellsAreBlocked
+3: [31mError: No path found! return empty path[0m
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.UnknownAndInscribedCellsAreBlocked (98 ms)
+3: [ RUN      ] Planner.SameCellAndSamePose
+3: [       OK ] Planner.SameCellAndSamePose (62 ms)
+3: [ RUN      ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty
+3: [       OK ] Planner.BoundaryNaNAndOccupiedEndpointsFailEmpty (67 ms)
+3: [ RUN      ] Planner.NarrowPassageRejectedForCircumscribedFootprint
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.NarrowPassageRejectedForCircumscribedFootprint (41 ms)
+3: [ RUN      ] Planner.LateOutputIsNotPublished
+3: [       OK ] Planner.LateOutputIsNotPublished (2257 ms)
+3: [ RUN      ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty
+3: [       OK ] Planner.InvalidConfigurationAndMalformedMapsFailEmpty (0 ms)
+3: [ RUN      ] Planner.FrontendOnlyIsSelectable
+3: [       OK ] Planner.FrontendOnlyIsSelectable (56 ms)
+3: [ RUN      ] Planner.WaypointBudgetFallsBackToValidatedAstar
+3: [       OK ] Planner.WaypointBudgetFallsBackToValidatedAstar (64 ms)
+3: [ RUN      ] Planner.UnresolvedOptimizerCollisionFallsBack
+3: [       OK ] Planner.UnresolvedOptimizerCollisionFallsBack (82 ms)
+3: [ RUN      ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples
+3: [       OK ] Planner.IndependentSegmentsCatchWallBetweenSparseSamples (10 ms)
+3: [ RUN      ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Planner.RepeatedCallsDoNotReuseStaleFreeSpace (86 ms)
+3: [ RUN      ] Planner.DeterministicRandomObstacleSafety
+3: [       OK ] Planner.DeterministicRandomObstacleSafety (2349 ms)
+3: [----------] 16 tests from Planner (5578 ms total)
+3: 
+3: [----------] 1 test from BenchmarkGeometry
+3: [ RUN      ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk
+3: [       OK ] BenchmarkGeometry.ExactSegmentDistanceAndSweptDisk (0 ms)
+3: [----------] 1 test from BenchmarkGeometry (0 ms total)
+3: 
+3: [----------] 2 tests from UpstreamFix
+3: [ RUN      ] UpstreamFix.BoundsAndDiagonalCorner
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] UpstreamFix.BoundsAndDiagonalCorner (0 ms)
+3: [ RUN      ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost
+3: [       OK ] UpstreamFix.ImmutableHeapMatchesIndependentDijkstraCost (76 ms)
+3: [----------] 2 tests from UpstreamFix (76 ms total)
+3: 
+3: [----------] 5 tests from Nav2CostSemantics
+3: [ RUN      ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation
+3: [       OK ] Nav2CostSemantics.InscribedBandDoesNotSeedASecondFootprintInflation (73 ms)
+3: [ RUN      ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds
+3: [31mError: No path found! return empty path[0m
+3: [       OK ] Nav2CostSemantics.InscribedCellsRemainForbiddenEvenWithoutLethalSeeds (48 ms)
+3: [ RUN      ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius
+3: [       OK ] Nav2CostSemantics.LethalUnknownAndBoundaryStillReserveTheFullRadius (0 ms)
+3: [ RUN      ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable
+3: [       OK ] Nav2CostSemantics.PreparedSnapshotRetainsInterpretationAndIsImmutable (87 ms)
+3: [ RUN      ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree
+3: [       OK ] Nav2CostSemantics.EndpointReasonsDistinguishOutsideBlockedAndFree (34 ms)
+3: [----------] 5 tests from Nav2CostSemantics (244 ms total)
+3: 
+3: [----------] 5 tests from Nav2Endpoints
+3: [ RUN      ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes
+3: [       OK ] Nav2Endpoints.ConnectsExactSafeEndpointFromBlockedCellInBothModes (483 ms)
+3: [ RUN      ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal
+3: [       OK ] Nav2Endpoints.RejectsActuallyUnsafeCornerWithoutRelocatingGoal (162 ms)
+3: [ RUN      ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable
+3: [       OK ] Nav2Endpoints.PreparedConnectionsMatchRawAndKeepRawSnapshotImmutable (253 ms)
+3: [ RUN      ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle
+3: [       OK ] Nav2Endpoints.ContinuousSegmentsMatchIndependentDistanceOracle (114 ms)
+3: [ RUN      ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged
+3: [       OK ] Nav2Endpoints.LegacyOfflineWholeCellPolicyRemainsUnchanged (129 ms)
+3: [----------] 5 tests from Nav2Endpoints (1144 ms total)
+3: 
+3: [----------] 3 tests from EndpointWitness
+3: [ RUN      ] EndpointWitness.SameSnapshotHardCellAndIndependentDistance
+3: [       OK ] EndpointWitness.SameSnapshotHardCellAndIndependentDistance (454 ms)
+3: [ RUN      ] EndpointWitness.BoundaryAndCentreOnly253RetainDistinctThresholds
+3: [       OK ] EndpointWitness.BoundaryAndCentreOnly253RetainDistinctThresholds (21 ms)
+3: [ RUN      ] EndpointWitness.NoInventedCollisionForOutsideOrLegacyInputs
+3: [       OK ] EndpointWitness.NoInventedCollisionForOutsideOrLegacyInputs (56 ms)
+3: [----------] 3 tests from EndpointWitness (532 ms total)
+3: 
+3: [----------] 1 test from SolverBoundary
+3: [ RUN      ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime
+3: [       OK ] SolverBoundary.SolutionStorageSurvivesLibraryAndCallerLifetime (1 ms)
+3: [----------] 1 test from SolverBoundary (1 ms total)
+3: 
+3: [----------] 19 tests from PoseGeometry
+3: [ RUN      ] PoseGeometry.ExactEndpointSingleCellDistinguishesYawFromCircle
+3: [       OK ] PoseGeometry.ExactEndpointSingleCellDistinguishesYawFromCircle (10 ms)
+3: [ RUN      ] PoseGeometry.TranslationFindsCollisionMissedByEndpointsAndMidpoint
+3: [       OK ] PoseGeometry.TranslationFindsCollisionMissedByEndpointsAndMidpoint (13 ms)
+3: [ RUN      ] PoseGeometry.SafeEndpointsDoNotCertifyIntermediateRotation
+3: [       OK ] PoseGeometry.SafeEndpointsDoNotCertifyIntermediateRotation (8 ms)
+3: [ RUN      ] PoseGeometry.ExplicitFullTurnsAreNotCollapsedToEqualYaw
+3: [       OK ] PoseGeometry.ExplicitFullTurnsAreNotCollapsedToEqualYaw (9 ms)
+3: [ RUN      ] PoseGeometry.WrappedGoalHonorsExplicitShortAndLongRotation
+3: [       OK ] PoseGeometry.WrappedGoalHonorsExplicitShortAndLongRotation (6 ms)
+3: [ RUN      ] PoseGeometry.InscribedCostConstrainsCentreWithoutInflatingFootprintAgain
+3: [       OK ] PoseGeometry.InscribedCostConstrainsCentreWithoutInflatingFootprintAgain (3 ms)
+3: [ RUN      ] PoseGeometry.UnknownAndBoundaryRemainHardObstacles
+3: [       OK ] PoseGeometry.UnknownAndBoundaryRemainHardObstacles (1 ms)
+3: [ RUN      ] PoseGeometry.OutsideCentreIsRejectedEvenWhenEntireBodyIsOutside
+3: [       OK ] PoseGeometry.OutsideCentreIsRejectedEvenWhenEntireBodyIsOutside (0 ms)
+3: [ RUN      ] PoseGeometry.ClosedEdgeAndCornerContactRejectAtZeroClearance
+3: [       OK ] PoseGeometry.ClosedEdgeAndCornerContactRejectAtZeroClearance (1 ms)
+3: [ RUN      ] PoseGeometry.NumericalGuardCannotProduceSafeCertificate
+3: [       OK ] PoseGeometry.NumericalGuardCannotProduceSafeCertificate (0 ms)
+3: [ RUN      ] PoseGeometry.PolygonAndCellContainmentReject
+3: [       OK ] PoseGeometry.PolygonAndCellContainmentReject (1 ms)
+3: [ RUN      ] PoseGeometry.BudgetExhaustionIsUnresolvedWithoutPartialCertificate
+3: [       OK ] PoseGeometry.BudgetExhaustionIsUnresolvedWithoutPartialCertificate (11 ms)
+3: [ RUN      ] PoseGeometry.RawSnapshotOwnsCopyAndHasNoPreparedConversion
+3: [       OK ] PoseGeometry.RawSnapshotOwnsCopyAndHasNoPreparedConversion (2 ms)
+3: [ RUN      ] PoseGeometry.InvalidRawMetadataThrowsBeforeIndexing
+3: [       OK ] PoseGeometry.InvalidRawMetadataThrowsBeforeIndexing (0 ms)
+3: [ RUN      ] PoseGeometry.InvalidMotionAndLimitsNeverCertify
+3: [       OK ] PoseGeometry.InvalidMotionAndLimitsNeverCertify (0 ms)
+3: [ RUN      ] PoseGeometry.MalformedFootprintsNeverCertify
+3: [       OK ] PoseGeometry.MalformedFootprintsNeverCertify (0 ms)
+3: [ RUN      ] PoseGeometry.WorldTranslationAndWindingDoNotChangeCertificate
+3: [       OK ] PoseGeometry.WorldTranslationAndWindingDoNotChangeCertificate (8 ms)
+3: [ RUN      ] PoseGeometry.SoftCostsDoNotBecomeHardObstacles
+3: [       OK ] PoseGeometry.SoftCostsDoNotBecomeHardObstacles (3 ms)
+3: [ RUN      ] PoseGeometry.ContinuousCertificatesCrossCheckedByIndependentDenseOracle
+3: [       OK ] PoseGeometry.ContinuousCertificatesCrossCheckedByIndependentDenseOracle (7259 ms)
+3: [----------] 19 tests from PoseGeometry (7343 ms total)
+3: 
+3: [----------] 4 tests from PathHeading
+3: [ RUN      ] PathHeading.StraightMiddleAndSmoothExactGoalWithoutChangingXY
+3: [       OK ] PathHeading.StraightMiddleAndSmoothExactGoalWithoutChangingXY (0 ms)
+3: [ RUN      ] PathHeading.WrapAndRepeatedPointsRemainFiniteAndContinuous
+3: [       OK ] PathHeading.WrapAndRepeatedPointsRemainFiniteAndContinuous (0 ms)
+3: [ RUN      ] PathHeading.ShortAndZeroLengthPathsDoNotDivideByZero
+3: [       OK ] PathHeading.ShortAndZeroLengthPathsDoNotDivideByZero (0 ms)
+3: [ RUN      ] PathHeading.RoundedCornerChangesHeadingBeforeAndAfterVertex
+3: [       OK ] PathHeading.RoundedCornerChangesHeadingBeforeAndAfterVertex (0 ms)
+3: [----------] 4 tests from PathHeading (1 ms total)
+3: 
+3: [----------] 14 tests from SnapshotGuard
+3: [ RUN      ] SnapshotGuard.UnchangedValidPath
+3: [       OK ] SnapshotGuard.UnchangedValidPath (0 ms)
+3: [ RUN      ] SnapshotGuard.RollingOriginPreservesWorldPathAndObstacle
+3: [       OK ] SnapshotGuard.RollingOriginPreservesWorldPathAndObstacle (0 ms)
+3: [ RUN      ] SnapshotGuard.RollingAndNewLethalRejectsBetweenSamples
+3: [       OK ] SnapshotGuard.RollingAndNewLethalRejectsBetweenSamples (0 ms)
+3: [ RUN      ] SnapshotGuard.RollingUnknownStripRejectsFullFootprint
+3: [       OK ] SnapshotGuard.RollingUnknownStripRejectsFullFootprint (0 ms)
+3: [ RUN      ] SnapshotGuard.RollingOutsideWindowRejects
+3: [       OK ] SnapshotGuard.RollingOutsideWindowRejects (0 ms)
+3: [ RUN      ] SnapshotGuard.NewLethalUnknownOr253OnSegmentRejects
+3: [       OK ] SnapshotGuard.NewLethalUnknownOr253OnSegmentRejects (0 ms)
+3: [ RUN      ] SnapshotGuard.SoftCostUpdateRequiresValidPath
+3: [       OK ] SnapshotGuard.SoftCostUpdateRequiresValidPath (0 ms)
+3: [ RUN      ] SnapshotGuard.RemoteHardChangeCanPassFullCheck
+3: [       OK ] SnapshotGuard.RemoteHardChangeCanPassFullCheck (0 ms)
+3: [ RUN      ] SnapshotGuard.SameRadiusDifferentFootprintRejects
+3: [       OK ] SnapshotGuard.SameRadiusDifferentFootprintRejects (0 ms)
+3: [ RUN      ] SnapshotGuard.SizeResolutionAndInterpretationChangesReject
+3: [       OK ] SnapshotGuard.SizeResolutionAndInterpretationChangesReject (0 ms)
+3: [ RUN      ] SnapshotGuard.MalformedOrNonfiniteLatestRejects
+3: [       OK ] SnapshotGuard.MalformedOrNonfiniteLatestRejects (0 ms)
+3: [ RUN      ] SnapshotGuard.InvalidFootprintOrRadiusMismatchRejects
+3: [       OK ] SnapshotGuard.InvalidFootprintOrRadiusMismatchRejects (0 ms)
+3: [ RUN      ] SnapshotGuard.ClearanceAndTouchRemainRejected
+3: [       OK ] SnapshotGuard.ClearanceAndTouchRemainRejected (0 ms)
+3: [ RUN      ] SnapshotGuard.EmptyNonfiniteAndBoundaryPathsReject
+3: [       OK ] SnapshotGuard.EmptyNonfiniteAndBoundaryPathsReject (0 ms)
+3: [----------] 14 tests from SnapshotGuard (2 ms total)
+3: 
+3: [----------] Global test environment tear-down
+3: [==========] 70 tests from 10 test suites ran. (14925 ms total)
+3: [  PASSED  ] 70 tests.
+1/1 Test #3: planner_safety ...................   Passed   15.18 sec
+
+The following tests passed:
+	planner_safety
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =  15.18 sec
