@@ -1,5 +1,11 @@
 # P2B 持久工作记录
 
+2026-09-22 离线动态诊断更新：**碰撞前已有匹配雷达回波与100致命格；首次重叠时最近发布图仍显示本体间隙0.093/0.131m。**
+原数据只记录平滑后/恢复共用的cmd_vel，缺少原始cmd_vel_nav与MPPI同次内部图/rollout，不能单独归因控制器或平滑器。
+原“99个lethal”更正为99/100两类合计；实际几何侵入结论不变。新离线测试5/5，新增导航试次0。
+[失败时间窗审查及下一项观测范围](evidence/dynamic_failure_analysis_20260922/validation_20260922.md)。
+下一步补齐独立诊断series的控制输入/输出与运行footprint证据；不调heading、terminal selector或安全门。
+
 2026-09-22 动态阶段更新：**A*、QP首例均到点，但分别恢复1/13次，参考八边形与实际移动障碍均发生平面重叠；动态安全门失败，已停止两组重复。**
 [动态报告](evidence/dynamic_reference_20260922/validation_20260922.md)、
 [审计汇总](evidence/dynamic_reference_20260922/aggregate.json)、[无实车推进边界](p2b_without_hardware_plan.md)。
