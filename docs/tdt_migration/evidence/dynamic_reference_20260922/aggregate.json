@@ -1,0 +1,1141 @@
+{
+  "schema": "rm_tdt_planner/dynamic_reference_pilot_review/v1",
+  "series": "dynamic_reference_pilot_v2",
+  "consistent_and_audited": true,
+  "full_evidence_complete": false,
+  "recorded": 2,
+  "target_dynamic_pass": 0,
+  "complete_varied_phase_matrix": false,
+  "accepted_for_deployment": false,
+  "runtime_source_commit": "a419654a8fed1fc8321c234fb212abd0a6cabe04",
+  "fixture_correction": {
+    "only_parameter": "global_costmap.global_costmap.ros__parameters.width",
+    "before_m": 12,
+    "after_m": 13,
+    "minimum_derived_m": 12.201578011755416,
+    "reason": "5.6m goal plus derived padded-radius/clearance and full boundary/rolling cells must fit from initial pose. No footprint or safety threshold changes."
+  },
+  "trials": [
+    {
+      "planner": "tdt_astar",
+      "summary": {
+        "schema": "rm_tdt_planner/dynamic_reference_pilot/v1",
+        "planner": "tdt_astar",
+        "evidence_valid": true,
+        "original_static_summary_matches": true,
+        "limited_dynamic_geometry_and_goal_pass": false,
+        "checks": {
+          "action_succeeded": true,
+          "body_clearance_at_least_005m": false,
+          "padded_footprint_no_contact": false,
+          "final_position_within_015m": true,
+          "final_yaw_within_020rad": true,
+          "no_recovery": false,
+          "fresh_stopped_command": true
+        },
+        "action_status": 4,
+        "recoveries": 1,
+        "final_xy_error_m": 0.019464828248628968,
+        "final_yaw_error_rad": 0.1722664166938366,
+        "cross_track_rms_m": 0.03674875396338799,
+        "preflight": {
+          "status": 4,
+          "wall_ms": 57.98297100000127,
+          "samples": 297
+        },
+        "navigation_interval_sim_s": [
+          16.097,
+          34.735
+        ],
+        "geometry": {
+          "new_car_reference": {
+            "body": {
+              "static_sample_min_m": 0.588778757090327,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.5840951198850148,
+              "moving_interpolation_bound_m": -0.01000842480449583,
+              "overall_interpolation_bound_m": -0.01000842480449583,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 29.11,
+                "robot": [
+                  5.223620105286027,
+                  -1.2325343149933925,
+                  0.47911544322863614
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.6955843789035662,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "padded": {
+              "static_sample_min_m": 0.5480365059070182,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.5432429609288338,
+              "moving_interpolation_bound_m": -0.010066304380292022,
+              "overall_interpolation_bound_m": -0.010066304380292022,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 29.056,
+                "robot": [
+                  5.1929732896190375,
+                  -1.2471346572044122,
+                  0.46851856912402323
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.667109951666731,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "body_clearance_at_least_005m": false,
+            "padded_footprint_no_contact": false
+          },
+          "old_car_physical_rectangle": {
+            "body": {
+              "static_sample_min_m": 0.515854570396957,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.5113140435587605,
+              "moving_interpolation_bound_m": -0.010118821934572675,
+              "overall_interpolation_bound_m": -0.010118821934572675,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 29.136,
+                "robot": [
+                  5.239246918546894,
+                  -1.2262087124445111,
+                  0.48357344536713176
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.708840566455071,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "padded": {
+              "static_sample_min_m": 0.488748572584333,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.4842474209653069,
+              "moving_interpolation_bound_m": -0.01015788444479881,
+              "overall_interpolation_bound_m": -0.01015788444479881,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 29.083,
+                "robot": [
+                  5.2079476641733535,
+                  -1.2394700054015497,
+                  0.4744287701468738
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.681497929539291,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "body_clearance_at_least_005m": false,
+            "padded_footprint_no_contact": false
+          },
+          "surrogate_body_rectangle": {
+            "body": {
+              "static_sample_min_m": 0.5429848179897168,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.5384541713705417,
+              "moving_interpolation_bound_m": -0.00892870861396662,
+              "overall_interpolation_bound_m": -0.00892870861396662,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 29.204,
+                "robot": [
+                  5.283951517092395,
+                  -1.213047059789375,
+                  0.4985127933195009
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.7401089076595543,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "padded": {
+              "static_sample_min_m": 0.5023036178651429,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.49776382792792384,
+              "moving_interpolation_bound_m": -0.010138351050570333,
+              "overall_interpolation_bound_m": -0.010138351050570333,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 29.11,
+                "robot": [
+                  5.223620105286027,
+                  -1.2325343149933925,
+                  0.47911544322863614
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.6955843789035662,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "body_clearance_at_least_005m": false,
+            "padded_footprint_no_contact": false
+          }
+        },
+        "continuity": {
+          "gazebo_covers_navigation": true,
+          "max_gazebo_gap_s": 0.019000000000001904,
+          "max_gazebo_ros_position_difference_m": 9.38952837224131e-05,
+          "max_scan_gap_sim_s": 0.067,
+          "max_odom_gap_sim_s": 0.020000000000003126,
+          "obstacle_y_range_m": [
+            -0.9499670088249241,
+            0.9500000000001207
+          ]
+        },
+        "yaw_metrics": {
+          "ground_truth": {
+            "max_abs_wz_rad_s": 0.4924757522530854,
+            "time_weighted_rms_wz_rad_s": 0.17846976592641162,
+            "max_abs_dwz_dt_rad_s2": 4.393960307425098,
+            "max_abs_delta_wz_rad_s": 0.17575841229700018,
+            "total_variation_wz_rad_s": 5.786266847712795,
+            "zero_dt_intervals_excluded_from_derivative": 0,
+            "sample_count": 466,
+            "duration_s": 18.6
+          },
+          "command": {
+            "max_abs_wz_rad_s": 0.4924757778644562,
+            "time_weighted_rms_wz_rad_s": 0.17913706135516938,
+            "max_abs_dwz_dt_rad_s2": 3.045594692230398,
+            "max_abs_delta_wz_rad_s": 0.1,
+            "total_variation_wz_rad_s": 5.564860999584198,
+            "zero_dt_intervals_excluded_from_derivative": 0,
+            "sample_count": 420,
+            "duration_s": 18.517
+          },
+          "translating_yaw_to_path": {
+            "samples": 438,
+            "rms_rad": 0.8037391576877062,
+            "median_rad": 0.6180224439387476,
+            "p95_rad": 1.553929780815316
+          },
+          "translating_yaw_to_motion": {
+            "samples": 438,
+            "rms_rad": 0.8101961632904693,
+            "median_rad": 0.4714320140541359,
+            "p95_rad": 1.5999011377885477
+          },
+          "max_plan_adjacent_yaw_step_rad": 3.084189803799013,
+          "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+        },
+        "snapshot_admissions": [
+          {
+            "decision": "revalidated",
+            "old_origin": [
+              -6.45,
+              -6.1
+            ],
+            "latest_origin": [
+              -6.45,
+              -6.199999999999999
+            ],
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "validation_seconds": 0.000398544
+          },
+          {
+            "decision": "revalidated",
+            "old_origin": [
+              -4.900000000000005,
+              -8.049999999999994
+            ],
+            "latest_origin": [
+              -4.800000000000005,
+              -8.099999999999994
+            ],
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "validation_seconds": 0.000281963
+          },
+          {
+            "decision": "revalidated",
+            "old_origin": [
+              -2.4500000000000073,
+              -8.249999999999996
+            ],
+            "latest_origin": [
+              -2.350000000000007,
+              -8.149999999999997
+            ],
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "validation_seconds": 0.000218928
+          },
+          {
+            "decision": "revalidated",
+            "old_origin": [
+              -0.850000000000007,
+              -7.099999999999999
+            ],
+            "latest_origin": [
+              -0.8000000000000069,
+              -7.049999999999999
+            ],
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "validation_seconds": 0.000125357
+          }
+        ],
+        "planner_failures": [],
+        "qp_adopted": 0,
+        "validated_astar_fallbacks": 0,
+        "full_dynamic_gate_pass": false,
+        "accepted_for_deployment": false,
+        "uncovered": [
+          "ten clean varied-phase runs per planner",
+          "complete marking/clearing and TF ownership audit",
+          "full moving-vehicle physical envelope",
+          "high speed Spin",
+          "hardware"
+        ],
+        "scope": "Actual synchronized Gazebo model/link planar poses, convex polygon distance, linear interpolation of both bodies. Static summary alone is not dynamic safety.",
+        "artifacts_sha256": {
+          "profile.yaml": "bd1aaba64d16dee9b1e1a93520fd2cf384980f499b65d7af0ade1bb192a035e9",
+          "metadata.json": "2db9074c33fbe5e497815b18d0c568bd1529ae6d1ddbe70a3151d3b5a1905e8c",
+          "docker_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "observer_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "container_id": "3277206fd33e3d3c649dc2bafe4aad6c27e1b1e061ba7c3e7f294106a53334d7",
+          "container_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "gazebo_poses.jsonl": "b18bc5882848c901cb3a8f20e12c57554bf3f893212f9709547b431f6a994fe5",
+          "pose_stderr.log": "54a7c03172ee4fddf6f3dbbe93fdfdd6fbcdcba7db8317084fe056ba7328c65a",
+          "launch.log": "df49625df9ee4627a6056a11000d4fde3b9cf74ce138ab9e8a75c529348e7e7c",
+          "geometry_capture.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runtime_geometry.json": "440381a5ac9ad43dde6cac9590ac87b4edf23d98eb219c0fa132d2bd7ef76ebd",
+          "observer.log": "08feda83c5ae2a54ec395b1039752feb66c09318242fedf10648ac9d4f2b7a7b",
+          "observation/scans.jsonl": "0b58d11b161e9baa15a826a8fe5ae486ea28b707995163a68126a87a07a049aa",
+          "observation/moving_target.jsonl": "794d13d0f71333d3624e885ab13d67797ce2c553457ad50f839abcbe2b7c9dbc",
+          "observation/trajectory.jsonl": "01c190360a5c7a4d8a3aad0a12ce99f7d0577f6f1cc0eadb1acf98451e700022",
+          "observation/commands.jsonl": "391859795b2cfcb241068bca33f93ce5867dd293cb1672b93f5aa3c94bd68680",
+          "observation/plans.jsonl": "54a96b6a17c546a18e57f97682d11b30ef3eea923314f4327a038d33ea01670e",
+          "observation/local_costmap.jsonl": "5ed0fc66d1b79796d409c5fc67a37872106acba2a11c27bc7b246db478727226",
+          "observation/costmap.jsonl": "714ec2b3cb585706aa178ae26803557cca3daf8a7e1ba9dedbf0ad454b57879a",
+          "observation/events.jsonl": "bdf92d802ff11fdb2f127297584ad9a257342c13ae48436d339648b2c384b957",
+          "observation/summary.json": "36ea39a90731bd6ee48f8cd90a24fd772be2e5bd37f98488676ef8533a2bf9c9",
+          "observation/planner_diagnostics.jsonl": "06c8e87050f8af35eefd8e314bef9e7cc0a70e89531070831d3a8ce443db6cd6"
+        }
+      },
+      "first_below_005": {
+        "t": 29.013,
+        "robot": [
+          5.171470380794919,
+          -1.2599564949995754,
+          0.4568520304957889
+        ],
+        "obstacle": [
+          4.9,
+          -0.6435917974594894,
+          0.0
+        ],
+        "body_gap_m": 0.04676004260565621
+      },
+      "first_sampled_body_overlap": {
+        "t": 29.11,
+        "robot": [
+          5.223620105286027,
+          -1.2325343149933925,
+          0.47911544322863614
+        ],
+        "obstacle": [
+          4.9,
+          -0.6955843789035662,
+          0.0
+        ]
+      },
+      "command_before_first_violation": {
+        "t": 28.993,
+        "vx": 0.5749790668487549,
+        "vy": 0.04920656606554985,
+        "wz": 0.27689623832702637
+      },
+      "new_car_vertices_strictly_inside_obstacle_at_overlap": [],
+      "costmap_before_first_violation": {
+        "global": {
+          "covered": true,
+          "stamp": 29.01,
+          "age_s": 0.0030000000000001137,
+          "frame": "map",
+          "lethal_centres_inside_actual_obstacle_box": 99,
+          "scope": "Published OccupancyGrid at/before violation; not planner raw snapshot; count alone is not marking/clearing acceptance."
+        },
+        "local": {
+          "covered": true,
+          "stamp": 28.918,
+          "age_s": 0.09500000000000242,
+          "frame": "odom",
+          "lethal_centres_inside_actual_obstacle_box": 99,
+          "scope": "Published OccupancyGrid at/before violation; not planner raw snapshot; count alone is not marking/clearing acceptance."
+        }
+      },
+      "controller_errors": [
+        {
+          "t": 29.152,
+          "node": "controller_server",
+          "level": 40,
+          "message": "Optimizer fail to compute path"
+        }
+      ],
+      "endpoint_audit": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/dynamic_reference_pilot_v2/tdt_astar_1/observation/events.jsonl",
+        "source_sha256": "bdf92d802ff11fdb2f127297584ad9a257342c13ae48436d339648b2c384b957",
+        "audited": false,
+        "missing_witnesses": 0,
+        "rejections": 0,
+        "start_blocked": 0,
+        "goal_blocked": 0,
+        "entries": [],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "raw_summary_recomputed": true,
+      "dynamic_geometry_recomputed": true,
+      "post_navigation_runtime_geometry_capture": {
+        "available": true,
+        "footprint_parameters_verified": true
+      }
+    },
+    {
+      "planner": "tdt_qp",
+      "summary": {
+        "schema": "rm_tdt_planner/dynamic_reference_pilot/v1",
+        "planner": "tdt_qp",
+        "evidence_valid": true,
+        "original_static_summary_matches": true,
+        "limited_dynamic_geometry_and_goal_pass": false,
+        "checks": {
+          "action_succeeded": true,
+          "body_clearance_at_least_005m": false,
+          "padded_footprint_no_contact": false,
+          "final_position_within_015m": true,
+          "final_yaw_within_020rad": true,
+          "no_recovery": false,
+          "fresh_stopped_command": true
+        },
+        "action_status": 4,
+        "recoveries": 13,
+        "final_xy_error_m": 0.006047698496869563,
+        "final_yaw_error_rad": 0.10948329831027036,
+        "cross_track_rms_m": 0.06739316270370836,
+        "preflight": {
+          "status": 4,
+          "wall_ms": 42.174020999937056,
+          "samples": 287
+        },
+        "navigation_interval_sim_s": [
+          16.124,
+          42.282
+        ],
+        "geometry": {
+          "new_car_reference": {
+            "body": {
+              "static_sample_min_m": 0.17064732199095947,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.1655230024241794,
+              "moving_interpolation_bound_m": -0.011507964892005052,
+              "overall_interpolation_bound_m": -0.011507964892005052,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 28.114,
+                "robot": [
+                  5.1906677455508605,
+                  -0.5702945194690803,
+                  0.32448965248273953
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.02713659508018351,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "padded": {
+              "static_sample_min_m": 0.1288508122777327,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.12371135089411273,
+              "moving_interpolation_bound_m": -0.011548913094111359,
+              "overall_interpolation_bound_m": -0.011548913094111359,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 28.08,
+                "robot": [
+                  5.174616080400616,
+                  -0.5809448981795731,
+                  0.3222011324471942
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.0011102192744920627,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "body_clearance_at_least_005m": false,
+            "padded_footprint_no_contact": false
+          },
+          "old_car_physical_rectangle": {
+            "body": {
+              "static_sample_min_m": 0.09186523686388914,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.08693994895719827,
+              "moving_interpolation_bound_m": -0.011078477543537002,
+              "overall_interpolation_bound_m": -0.011078477543537002,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 28.129,
+                "robot": [
+                  5.198047027514501,
+                  -0.5657959215125204,
+                  0.3252265687968956
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.038782801544208816,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "padded": {
+              "static_sample_min_m": 0.06386383465197971,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.05892370599718555,
+              "moving_interpolation_bound_m": -0.011586823812033903,
+              "overall_interpolation_bound_m": -0.011586823812033903,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 28.097,
+                "robot": [
+                  5.182641169262789,
+                  -0.5756224230326622,
+                  0.3233483923494564
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.014141498710392584,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "body_clearance_at_least_005m": false,
+            "padded_footprint_no_contact": false
+          },
+          "surrogate_body_rectangle": {
+            "body": {
+              "static_sample_min_m": 0.11990468071849839,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.11499422635205347,
+              "moving_interpolation_bound_m": -0.011034475720140094,
+              "overall_interpolation_bound_m": -0.011034475720140094,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 28.146,
+                "robot": [
+                  5.20618622525389,
+                  -0.5617932656150154,
+                  0.3283499298168113
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.05056188197516184,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "padded": {
+              "static_sample_min_m": 0.0778389719886954,
+              "moving_sample_min_m": 0.0,
+              "static_interpolation_bound_m": 0.07290626452065213,
+              "moving_interpolation_bound_m": -0.011561468218706426,
+              "overall_interpolation_bound_m": -0.011561468218706426,
+              "sampled_moving_overlap": true,
+              "moving_min_witness": {
+                "t": 28.114,
+                "robot": [
+                  5.1906677455508605,
+                  -0.5702945194690803,
+                  0.32448965248273953
+                ],
+                "obstacle": [
+                  4.9,
+                  -0.02713659508018351,
+                  0.0
+                ],
+                "gap_m": 0.0
+              }
+            },
+            "body_clearance_at_least_005m": false,
+            "padded_footprint_no_contact": false
+          }
+        },
+        "continuity": {
+          "gazebo_covers_navigation": true,
+          "max_gazebo_gap_s": 0.01899999999999835,
+          "max_gazebo_ros_position_difference_m": 0.0005289957305671334,
+          "max_scan_gap_sim_s": 0.067,
+          "max_odom_gap_sim_s": 0.020000000000003126,
+          "obstacle_y_range_m": [
+            -0.9500000000000816,
+            0.9500000000000303
+          ]
+        },
+        "yaw_metrics": {
+          "ground_truth": {
+            "max_abs_wz_rad_s": 1.0546308476477861,
+            "time_weighted_rms_wz_rad_s": 0.36926448970959314,
+            "max_abs_dwz_dt_rad_s2": 11.17995565550724,
+            "max_abs_delta_wz_rad_s": 0.44719822622028005,
+            "total_variation_wz_rad_s": 12.03083237047644,
+            "zero_dt_intervals_excluded_from_derivative": 0,
+            "sample_count": 654,
+            "duration_s": 26.119999999999997
+          },
+          "command": {
+            "max_abs_wz_rad_s": 1.054630994796753,
+            "time_weighted_rms_wz_rad_s": 0.40733846732436274,
+            "max_abs_dwz_dt_rad_s2": 499.99999999938893,
+            "max_abs_delta_wz_rad_s": 1.0,
+            "total_variation_wz_rad_s": 48.98418434709311,
+            "zero_dt_intervals_excluded_from_derivative": 0,
+            "sample_count": 478,
+            "duration_s": 26.026
+          },
+          "translating_yaw_to_path": {
+            "samples": 372,
+            "rms_rad": 0.6784447270720834,
+            "median_rad": 0.5975289378618042,
+            "p95_rad": 1.008035334896316
+          },
+          "translating_yaw_to_motion": {
+            "samples": 372,
+            "rms_rad": 0.6860769708212244,
+            "median_rad": 0.6138061331209944,
+            "p95_rad": 1.0631333417447038
+          },
+          "max_plan_adjacent_yaw_step_rad": 2.3561944901924514,
+          "scope": "ground truth and commanded wz kept separate; derivatives use sim time; includes recovery and settle"
+        },
+        "snapshot_admissions": [
+          {
+            "decision": "revalidated",
+            "old_origin": [
+              -6.45,
+              -6.1
+            ],
+            "latest_origin": [
+              -6.4,
+              -6.199999999999999
+            ],
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "validation_seconds": 0.000789929
+          }
+        ],
+        "planner_failures": [
+          {
+            "t": 28.266,
+            "node": "planner_server",
+            "level": 30,
+            "message": "GridBased plugin failed to plan calculation to (5.60, 0.00): \"start or goal outside conservative free space: start=blocked@cost=218, goal=free@cost=172 endpoint_witness_v1={\"origin\":[-1.3000000000000078,-6.5499999999999989],\"size\":[260,240],\"resolution\":0.050000000000000003,\"radius\":0.38078890769157658,\"clearance\":0.02,\"guard\":9.9999999999999995e-08,\"start\":{\"status\":\"blocked\",\"local\":[6.5442282544272956,5.9935518101565419],\"collision\":{\"cell\":[124,125],\"cost\":254,\"boundary\":false,\"distance\":0.39030236967935467,\"required\":0.4007889076915766}},\"goal\":{\"status\":\"free\",\"local\":[6.9000000000000075,6.5499999999999989],\"collision\":null}} [input=nav2_master start=(5.2442282544272878,-0.55644818984345679) goal=(5.5999999999999996,0) origin=(-1.3000000000000078,-6.5499999999999989) size=260x240 resolution=0.050000000000000003 radius=0.38078890769157658 clearance=0.02 start_yaw=0.35774835903913921 goal_yaw=0]\""
+          },
+          {
+            "t": 28.357,
+            "node": "planner_server",
+            "level": 30,
+            "message": "GridBased plugin failed to plan calculation to (5.60, 0.00): \"start or goal outside conservative free space: start=blocked@cost=239, goal=free@cost=172 endpoint_witness_v1={\"origin\":[-1.2500000000000078,-6.5499999999999989],\"size\":[260,240],\"resolution\":0.050000000000000003,\"radius\":0.38078890769157658,\"clearance\":0.02,\"guard\":9.9999999999999995e-08,\"start\":{\"status\":\"blocked\",\"local\":[6.5371215709913004,6.0075568956234928],\"collision\":{\"cell\":[123,124],\"cost\":254,\"boundary\":false,\"distance\":0.38818204756236407,\"required\":0.4007889076915766}},\"goal\":{\"status\":\"free\",\"local\":[6.8500000000000076,6.5499999999999989],\"collision\":null}} [input=nav2_master start=(5.2871215709912924,-0.542443104376506) goal=(5.5999999999999996,0) origin=(-1.2500000000000078,-6.5499999999999989) size=260x240 resolution=0.050000000000000003 radius=0.38078890769157658 clearance=0.02 start_yaw=0.35759757555678068 goal_yaw=0]\""
+          },
+          {
+            "t": 28.549,
+            "node": "planner_server",
+            "level": 30,
+            "message": "GridBased plugin failed to plan calculation to (5.60, 0.00): \"start or goal outside conservative free space: start=blocked@cost=227, goal=free@cost=172 endpoint_witness_v1={\"origin\":[-1.1500000000000077,-6.5499999999999989],\"size\":[260,240],\"resolution\":0.050000000000000003,\"radius\":0.38078890769157658,\"clearance\":0.02,\"guard\":9.9999999999999995e-08,\"start\":{\"status\":\"blocked\",\"local\":[6.4977709385134483,6.0019971090307918],\"collision\":{\"cell\":[122,123],\"cost\":254,\"boundary\":false,\"distance\":0.37795433773111764,\"required\":0.4007889076915766}},\"goal\":{\"status\":\"free\",\"local\":[6.7500000000000071,6.5499999999999989],\"collision\":null}} [input=nav2_master start=(5.3477709385134409,-0.5480028909692074) goal=(5.5999999999999996,0) origin=(-1.1500000000000077,-6.5499999999999989) size=260x240 resolution=0.050000000000000003 radius=0.38078890769157658 clearance=0.02 start_yaw=0.36628417932502783 goal_yaw=0]\""
+          },
+          {
+            "t": 28.728,
+            "node": "planner_server",
+            "level": 30,
+            "message": "GridBased plugin failed to plan calculation to (5.60, 0.00): \"start or goal outside conservative free space: start=blocked@cost=231, goal=free@cost=172 endpoint_witness_v1={\"origin\":[-1.1500000000000077,-6.5499999999999989],\"size\":[260,240],\"resolution\":0.050000000000000003,\"radius\":0.38078890769157658,\"clearance\":0.02,\"guard\":9.9999999999999995e-08,\"start\":{\"status\":\"blocked\",\"local\":[6.5191129484898482,6.0001302862018022],\"collision\":{\"cell\":[122,123],\"cost\":254,\"boundary\":false,\"distance\":0.39837833758479235,\"required\":0.4007889076915766}},\"goal\":{\"status\":\"free\",\"local\":[6.7500000000000071,6.5499999999999989],\"collision\":null}} [input=nav2_master start=(5.3691129484898408,-0.54986971379819671) goal=(5.5999999999999996,0) origin=(-1.1500000000000077,-6.5499999999999989) size=260x240 resolution=0.050000000000000003 radius=0.38078890769157658 clearance=0.02 start_yaw=0.36705623717116193 goal_yaw=0]\""
+          },
+          {
+            "t": 36.24,
+            "node": "planner_server",
+            "level": 30,
+            "message": "GridBased plugin failed to plan calculation to (5.60, 0.00): \"start or goal outside conservative free space: start=blocked@cost=209, goal=free@cost=172 endpoint_witness_v1={\"origin\":[-1.0000000000000075,-6.2999999999999998],\"size\":[260,240],\"resolution\":0.050000000000000003,\"radius\":0.38078890769157658,\"clearance\":0.02,\"guard\":9.9999999999999995e-08,\"start\":{\"status\":\"blocked\",\"local\":[6.5300940388286186,6.0503282677410093],\"collision\":{\"cell\":[122,122],\"cost\":254,\"boundary\":false,\"distance\":0.38332591790623805,\"required\":0.4007889076915766}},\"goal\":{\"status\":\"free\",\"local\":[6.6000000000000068,6.2999999999999998],\"collision\":null}} [input=nav2_master start=(5.5300940388286106,-0.24967173225899078) goal=(5.5999999999999996,0) origin=(-1.0000000000000075,-6.2999999999999998) size=260x240 resolution=0.050000000000000003 radius=0.38078890769157658 clearance=0.02 start_yaw=0.13171721799710873 goal_yaw=0]\""
+          },
+          {
+            "t": 36.258,
+            "node": "planner_server",
+            "level": 30,
+            "message": "GridBased plugin failed to plan calculation to (5.60, 0.00): \"start or goal outside conservative free space: start=blocked@cost=210, goal=free@cost=172 endpoint_witness_v1={\"origin\":[-1.0000000000000075,-6.25],\"size\":[260,240],\"resolution\":0.050000000000000003,\"radius\":0.38078890769157658,\"clearance\":0.02,\"guard\":9.9999999999999995e-08,\"start\":{\"status\":\"blocked\",\"local\":[6.5329946741152938,6.0060762749189909],\"collision\":{\"cell\":[122,118],\"cost\":254,\"boundary\":false,\"distance\":0.38707811745107717,\"required\":0.4007889076915766}},\"goal\":{\"status\":\"free\",\"local\":[6.6000000000000068,6.25],\"collision\":null}} [input=nav2_master start=(5.5329946741152858,-0.24392372508100896) goal=(5.5999999999999996,0) origin=(-1.0000000000000075,-6.25) size=260x240 resolution=0.050000000000000003 radius=0.38078890769157658 clearance=0.02 start_yaw=0.12613773263101682 goal_yaw=0]\""
+          },
+          {
+            "t": 36.4,
+            "node": "planner_server",
+            "level": 30,
+            "message": "GridBased plugin failed to plan calculation to (5.60, 0.00): \"start or goal outside conservative free space: start=blocked@cost=210, goal=free@cost=172 endpoint_witness_v1={\"origin\":[-0.95000000000000751,-6.25],\"size\":[260,240],\"resolution\":0.050000000000000003,\"radius\":0.38078890769157658,\"clearance\":0.02,\"guard\":9.9999999999999995e-08,\"start\":{\"status\":\"blocked\",\"local\":[6.4960962025131268,6.037426909106375],\"collision\":{\"cell\":[121,119],\"cost\":254,\"boundary\":false,\"distance\":0.39786049712251687,\"required\":0.4007889076915766}},\"goal\":{\"status\":\"free\",\"local\":[6.5500000000000069,6.25],\"collision\":null}} [input=nav2_master start=(5.5460962025131195,-0.21257309089362461) goal=(5.5999999999999996,0) origin=(-0.95000000000000751,-6.25) size=260x240 resolution=0.050000000000000003 radius=0.38078890769157658 clearance=0.02 start_yaw=0.10073988880130223 goal_yaw=0]\""
+          },
+          {
+            "t": 36.546,
+            "node": "planner_server",
+            "level": 30,
+            "message": "GridBased plugin failed to plan calculation to (5.60, 0.00): \"start or goal outside conservative free space: start=blocked@cost=232, goal=blocked@cost=189 endpoint_witness_v1={\"origin\":[-0.95000000000000751,-6.2000000000000002],\"size\":[260,240],\"resolution\":0.050000000000000003,\"radius\":0.38078890769157658,\"clearance\":0.02,\"guard\":9.9999999999999995e-08,\"start\":{\"status\":\"blocked\",\"local\":[6.4964893324531277,5.9955034743519384],\"collision\":{\"cell\":[121,118],\"cost\":254,\"boundary\":false,\"distance\":0.39909191538694905,\"required\":0.4007889076915766}},\"goal\":{\"status\":\"blocked\",\"local\":[6.5500000000000069,6.2000000000000002],\"collision\":{\"cell\":[122,123],\"cost\":254,\"boundary\":false,\"distance\":0.40000000000000641,\"required\":0.4007889076915766}}} [input=nav2_master start=(5.5464893324531204,-0.20449652564806145) goal=(5.5999999999999996,0) origin=(-0.95000000000000751,-6.2000000000000002) size=260x240 resolution=0.050000000000000003 radius=0.38078890769157658 clearance=0.02 start_yaw=0.098976407188767143 goal_yaw=0]\""
+          }
+        ],
+        "qp_adopted": 18,
+        "validated_astar_fallbacks": 1,
+        "full_dynamic_gate_pass": false,
+        "accepted_for_deployment": false,
+        "uncovered": [
+          "ten clean varied-phase runs per planner",
+          "complete marking/clearing and TF ownership audit",
+          "full moving-vehicle physical envelope",
+          "high speed Spin",
+          "hardware"
+        ],
+        "scope": "Actual synchronized Gazebo model/link planar poses, convex polygon distance, linear interpolation of both bodies. Static summary alone is not dynamic safety.",
+        "artifacts_sha256": {
+          "profile.yaml": "624f6bd1c9f60ea6faff7c4a14a0800dfb2179ea9d15f3fdf3a8405936cac018",
+          "metadata.json": "02e7e629eb51756b221c92b26adeb4ec87b64a2d2a75eabacc5863d6962cdd82",
+          "docker_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "observer_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "container_id": "0bdc81a5b37b45473165f1d1ecfd9d38e0d7df858705562b74ba011dfa955ae2",
+          "container_exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "gazebo_poses.jsonl": "6b56be202b8b35de39b773d126eaed902b105ffc93ec7994e1461d24b942a001",
+          "pose_stderr.log": "54a7c03172ee4fddf6f3dbbe93fdfdd6fbcdcba7db8317084fe056ba7328c65a",
+          "launch.log": "b42e5ee1f0cf3099af04bcc41eda2bb7e59610209bd9d1782ecf0a1a5be7109d",
+          "geometry_capture.log": "9ba56cf5b3d39570ae74278233c54a0f7acc2e76305f8f46673f012ffdc74112",
+          "observer.log": "6246081c254bdb0fe5b76cda2543efc23b986c2fca10b2af2b297bb78be1b5da",
+          "observation/scans.jsonl": "087d8182e69935fe6ce455d73f48949838f84f5374462df3518f6a01458d2dd6",
+          "observation/moving_target.jsonl": "f51ed2c0705a4a0fa96f5c74f4d6a0a96f53fc1caf11f06f23662fb3bdde7763",
+          "observation/trajectory.jsonl": "be8b589bd6e773ede93a9697dbaaf497faef26bc10d0d51c3531c25ffb52e5f4",
+          "observation/commands.jsonl": "8b2d94c2a659bf4a7cfe46830462fc98d886a5361d83d88b1f7df91990e4f655",
+          "observation/plans.jsonl": "dd462f8e6ff6efb3ded8d10366baf77f8bf0397efb1cde3c1e6e300221589ae6",
+          "observation/local_costmap.jsonl": "e55cba4a59e8ca4578d037cc4c7b5d34a1d817e93716dddf939b90b646454723",
+          "observation/costmap.jsonl": "bc5805b16e635f3b0ed5c913090b77235366478da65b8370392f2115172fbecf",
+          "observation/events.jsonl": "6c1e00253c44d0355a32c8fafd03d16be8e215ef928c7520e56712d424bd80f7",
+          "observation/summary.json": "f9eda46b35ae39eeec77a9f64aff17623a5e8e14fbe0cb8139646485e01b9538",
+          "observation/planner_diagnostics.jsonl": "dfb4a1cc83b5cff4182b6ac579d02e7ac8d648488d88dbc2d56fd366fd21b4ee"
+        }
+      },
+      "first_below_005": {
+        "t": 28.065,
+        "robot": [
+          5.167530052737943,
+          -0.585633551262996,
+          0.3211888442899948
+        ],
+        "obstacle": [
+          4.9,
+          0.010603287768076177,
+          0.0
+        ],
+        "body_gap_m": 0.03814010000921172
+      },
+      "first_sampled_body_overlap": {
+        "t": 28.114,
+        "robot": [
+          5.1906677455508605,
+          -0.5702945194690803,
+          0.32448965248273953
+        ],
+        "obstacle": [
+          4.9,
+          -0.02713659508018351,
+          0.0
+        ]
+      },
+      "command_before_first_violation": {
+        "t": 28.017,
+        "vx": 0.5469921827316284,
+        "vy": 0.14719876646995544,
+        "wz": 0.06748588383197784
+      },
+      "new_car_vertices_strictly_inside_obstacle_at_overlap": [],
+      "costmap_before_first_violation": {
+        "global": {
+          "covered": true,
+          "stamp": 27.978,
+          "age_s": 0.08699999999999974,
+          "frame": "map",
+          "lethal_centres_inside_actual_obstacle_box": 99,
+          "scope": "Published OccupancyGrid at/before violation; not planner raw snapshot; count alone is not marking/clearing acceptance."
+        },
+        "local": {
+          "covered": true,
+          "stamp": 27.953,
+          "age_s": 0.11200000000000188,
+          "frame": "odom",
+          "lethal_centres_inside_actual_obstacle_box": 99,
+          "scope": "Published OccupancyGrid at/before violation; not planner raw snapshot; count alone is not marking/clearing acceptance."
+        }
+      },
+      "controller_errors": [
+        {
+          "t": 28.166,
+          "node": "controller_server",
+          "level": 40,
+          "message": "Optimizer fail to compute path"
+        },
+        {
+          "t": 28.388,
+          "node": "bt_navigator_navigate_to_pose_rclcpp_node",
+          "level": 40,
+          "message": "Failed to get result for follow_path in node halt!"
+        },
+        {
+          "t": 36.267,
+          "node": "bt_navigator_navigate_to_pose_rclcpp_node",
+          "level": 40,
+          "message": "Failed to get result for follow_path in node halt!"
+        }
+      ],
+      "endpoint_audit": {
+        "schema": "rm_tdt_planner/endpoint_witness_audit/v1",
+        "source": "/home/wpie/worktrees/rm2027_tdt_phase2/build/tdt_p2b/runs/dynamic_reference_pilot_v2/tdt_qp_1/observation/events.jsonl",
+        "source_sha256": "6c1e00253c44d0355a32c8fafd03d16be8e215ef928c7520e56712d424bd80f7",
+        "audited": true,
+        "missing_witnesses": 0,
+        "rejections": 8,
+        "start_blocked": 8,
+        "goal_blocked": 1,
+        "entries": [
+          {
+            "line": 13,
+            "t": 28.266,
+            "start": {
+              "status": "blocked",
+              "world": [
+                5.244228254427288,
+                -0.5564481898434568
+              ],
+              "yaw": 0.3577483590391392,
+              "cell": [
+                124,
+                125
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                4.899999999999992,
+                -0.29999999999999893,
+                4.949999999999992,
+                -0.24999999999999822
+              ],
+              "distance_m": 0.3903023696793548,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.010486538012221824
+            },
+            "goal": {
+              "status": "free",
+              "world": [
+                5.6,
+                0.0
+              ],
+              "yaw": 0.0,
+              "free_claim_independently_verified": false
+            }
+          },
+          {
+            "line": 15,
+            "t": 28.357,
+            "start": {
+              "status": "blocked",
+              "world": [
+                5.287121570991292,
+                -0.542443104376506
+              ],
+              "yaw": 0.3575975755567807,
+              "cell": [
+                123,
+                124
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                4.899999999999992,
+                -0.34999999999999876,
+                4.949999999999992,
+                -0.29999999999999893
+              ],
+              "distance_m": 0.38818204756236424,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.01260686012921236
+            },
+            "goal": {
+              "status": "free",
+              "world": [
+                5.6,
+                0.0
+              ],
+              "yaw": 0.0,
+              "free_claim_independently_verified": false
+            }
+          },
+          {
+            "line": 18,
+            "t": 28.549,
+            "start": {
+              "status": "blocked",
+              "world": [
+                5.347770938513441,
+                -0.5480028909692074
+              ],
+              "yaw": 0.3662841793250278,
+              "cell": [
+                122,
+                123
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                4.949999999999993,
+                -0.3999999999999986,
+                4.999999999999993,
+                -0.34999999999999876
+              ],
+              "distance_m": 0.3779543377311178,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.022834569960458795
+            },
+            "goal": {
+              "status": "free",
+              "world": [
+                5.6,
+                0.0
+              ],
+              "yaw": 0.0,
+              "free_claim_independently_verified": false
+            }
+          },
+          {
+            "line": 20,
+            "t": 28.728,
+            "start": {
+              "status": "blocked",
+              "world": [
+                5.369112948489841,
+                -0.5498697137981967
+              ],
+              "yaw": 0.3670562371711619,
+              "cell": [
+                122,
+                123
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                4.949999999999993,
+                -0.3999999999999986,
+                4.999999999999993,
+                -0.34999999999999876
+              ],
+              "distance_m": 0.3983783375847925,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.0024105701067840823
+            },
+            "goal": {
+              "status": "free",
+              "world": [
+                5.6,
+                0.0
+              ],
+              "yaw": 0.0,
+              "free_claim_independently_verified": false
+            }
+          },
+          {
+            "line": 26,
+            "t": 36.24,
+            "start": {
+              "status": "blocked",
+              "world": [
+                5.530094038828611,
+                -0.24967173225899078
+              ],
+              "yaw": 0.13171721799710873,
+              "cell": [
+                122,
+                122
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                5.0999999999999925,
+                -0.1999999999999993,
+                5.149999999999993,
+                -0.14999999999999947
+              ],
+              "distance_m": 0.3833259179062382,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.01746298978533839
+            },
+            "goal": {
+              "status": "free",
+              "world": [
+                5.6,
+                0.0
+              ],
+              "yaw": 0.0,
+              "free_claim_independently_verified": false
+            }
+          },
+          {
+            "line": 28,
+            "t": 36.258,
+            "start": {
+              "status": "blocked",
+              "world": [
+                5.532994674115286,
+                -0.24392372508100896
+              ],
+              "yaw": 0.12613773263101682,
+              "cell": [
+                122,
+                118
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                5.0999999999999925,
+                -0.34999999999999964,
+                5.149999999999993,
+                -0.2999999999999998
+              ],
+              "distance_m": 0.38707811745107734,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.01371079024049926
+            },
+            "goal": {
+              "status": "free",
+              "world": [
+                5.6,
+                0.0
+              ],
+              "yaw": 0.0,
+              "free_claim_independently_verified": false
+            }
+          },
+          {
+            "line": 34,
+            "t": 36.4,
+            "start": {
+              "status": "blocked",
+              "world": [
+                5.5460962025131195,
+                -0.2125730908936246
+              ],
+              "yaw": 0.10073988880130223,
+              "cell": [
+                121,
+                119
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                5.099999999999993,
+                -0.2999999999999998,
+                5.149999999999993,
+                -0.25
+              ],
+              "distance_m": 0.39786049712251703,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.0029284105690595696
+            },
+            "goal": {
+              "status": "free",
+              "world": [
+                5.6,
+                0.0
+              ],
+              "yaw": 0.0,
+              "free_claim_independently_verified": false
+            }
+          },
+          {
+            "line": 36,
+            "t": 36.546,
+            "start": {
+              "status": "blocked",
+              "world": [
+                5.54648933245312,
+                -0.20449652564806145
+              ],
+              "yaw": 0.09897640718876714,
+              "cell": [
+                121,
+                118
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                5.099999999999993,
+                -0.2999999999999998,
+                5.149999999999993,
+                -0.25
+              ],
+              "distance_m": 0.39909191538694927,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.0016969923046273316
+            },
+            "goal": {
+              "status": "blocked",
+              "world": [
+                5.6,
+                0.0
+              ],
+              "yaw": 0.0,
+              "cell": [
+                122,
+                123
+              ],
+              "cost": 254,
+              "boundary": false,
+              "world_box": [
+                5.149999999999993,
+                -0.04999999999999982,
+                5.199999999999993,
+                0.0
+              ],
+              "distance_m": 0.4000000000000066,
+              "required_m": 0.4007889076915766,
+              "shortfall_m": 0.0007889076915700288
+            }
+          }
+        ],
+        "scope": "One sufficient raw snapshot cell per blocked endpoint. Free claims, nearest cell, physical collision and whole-footprint feasibility are not certified."
+      },
+      "raw_summary_recomputed": true,
+      "dynamic_geometry_recomputed": true,
+      "post_navigation_runtime_geometry_capture": {
+        "available": false,
+        "footprint_parameters_verified": false,
+        "reason": "Post-navigation parameter service timed out. No post-navigation full raw map captured; do not substitute a later run."
+      }
+    }
+  ],
+  "scope": "Two first-stage trials only; each group stopped after its first safety failure. Geometry uses actual synchronized Gazebo poses, not target joint commands."
+}

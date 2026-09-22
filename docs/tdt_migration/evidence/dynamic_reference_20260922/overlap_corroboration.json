@@ -1,0 +1,49 @@
+{
+  "method": "Independent convex half-plane test of obstacle vertices inside actual placed robot octagon. Strict same-sign edge cross-products demonstrate penetration rather than a conservative negative interpolation bound alone.",
+  "trials": [
+    {
+      "planner": "tdt_astar",
+      "t": 29.11,
+      "obstacle_vertices_strictly_inside_robot": [
+        {
+          "obstacle_vertex": [
+            5.125,
+            -0.9705843789035662
+          ],
+          "oriented_cross_products_m2": [
+            0.01424950787893874,
+            0.0008316015033628492,
+            0.02017287148103316,
+            0.11969478198120581,
+            0.06969541927214658,
+            0.21316132565823692,
+            0.06377205567005187,
+            0.09429814518039423
+          ]
+        }
+      ]
+    },
+    {
+      "planner": "tdt_qp",
+      "t": 28.114,
+      "obstacle_vertices_strictly_inside_robot": [
+        {
+          "obstacle_vertex": [
+            5.125,
+            -0.30213659508018353
+          ],
+          "oriented_cross_products_m2": [
+            0.015390394219616403,
+            0.0019081704695621954,
+            0.019534170487143242,
+            0.11587975928233307,
+            0.06855453293146888,
+            0.2120847566920375,
+            0.06441075666394186,
+            0.0981131678792671
+          ]
+        }
+      ]
+    }
+  ]
+}
