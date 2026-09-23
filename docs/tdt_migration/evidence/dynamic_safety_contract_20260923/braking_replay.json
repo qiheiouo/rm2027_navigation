@@ -1,0 +1,2923 @@
+{
+  "schema": "tdt_dynamic_braking_hindsight/v1",
+  "source_series": "build/tdt_p2b/runs/dynamic_map_age_pilot_v1",
+  "source_map_analysis_sha256": "d60bd8db7b7ef7cc797003e05c1b3b29f480274fed410a431fd3b628a1926a41",
+  "scope": "actual future box poses and ideal configured smoother decel; not online prediction or verified chassis braking",
+  "assumptions": {
+    "horizon_s": 2.0,
+    "step_s": 0.01,
+    "response_delays_s": [
+      0.0,
+      0.1,
+      0.2
+    ],
+    "linear_deceleration_per_axis_m_s2": 1.0,
+    "yaw_deceleration_rad_s2": 2.0,
+    "body_gate_m": 0.05,
+    "padding_m": 0.03
+  },
+  "trials": [
+    {
+      "planner": "tdt_astar",
+      "profile_sha256": "c3a3ce2c6f5493d3b538866f94f173409fb4b6edfe5ca371fdf5f2d0c8bf95a8",
+      "gazebo_poses_sha256": "e1d7319ca73a043bcc4c5ed387e2d57879cf46498a8824affab9553d7794e238",
+      "first_body_gap_violation_sim_s": 37.027,
+      "cycles": [
+        {
+          "cycle_id": 127,
+          "sim_s": 35.574000000000005,
+          "relative_to_first_violation_s": -1.4529999999999959,
+          "pose": [
+            4.519653346304548,
+            -1.7355951129319094,
+            -0.8208921417660192
+          ],
+          "odom_speed": [
+            -0.005133058144550723,
+            0.4949174224230627,
+            -0.5026924191042781
+          ],
+          "actual_box_gap_at_decision_m": 1.5129001317965547,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.3922780454263451,
+                "continuous_bound_m": 0.3850250186562435,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.34985163855515217,
+                "continuous_bound_m": 0.34249362686443185,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.612867994796081,
+                -1.656213353791241,
+                -0.884065246542089
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.35726701330222077,
+                "continuous_bound_m": 0.3500139865321192,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.3149067493570605,
+                "continuous_bound_m": 0.30754873766634017,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.653446996379439,
+                -1.6278054693186488,
+                -0.9343344884525168
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.32905265629674885,
+                "continuous_bound_m": 0.32179962952664726,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.28746526988868304,
+                "continuous_bound_m": 0.2801072581979627,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.695402178707073,
+                -1.6014724872321966,
+                -0.9846037303629442
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 128,
+          "sim_s": 35.660000000000004,
+          "relative_to_first_violation_s": -1.3669999999999973,
+          "pose": [
+            4.547811548277215,
+            -1.7075955419810487,
+            -0.8622367186562879
+          ],
+          "odom_speed": [
+            -0.04806827201712986,
+            0.49581827443165827,
+            -0.5283025675453246
+          ],
+          "actual_box_gap_at_decision_m": 1.422945813370069,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.3619274441559839,
+                "continuous_bound_m": 0.35461501148889935,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.3195139809462436,
+                "continuous_bound_m": 0.3120912148008559,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.644121083708107,
+                -1.6313472121973052,
+                -0.9319953862180725
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.3291324783862817,
+                "continuous_bound_m": 0.32182004571919715,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.28754695613388614,
+                "continuous_bound_m": 0.2801241899884984,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.683464998798368,
+                -1.6015528326527124,
+                -0.984825642972605
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.302154182416827,
+                "continuous_bound_m": 0.2948417497497425,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.26107051278208404,
+                "continuous_bound_m": 0.2536477466366963,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.724327334136128,
+                -1.573877604418401,
+                -1.0376558997271372
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 129,
+          "sim_s": 35.734,
+          "relative_to_first_violation_s": -1.2929999999999993,
+          "pose": [
+            4.575287245106583,
+            -1.6782994975217316,
+            -0.9053850505096174
+          ],
+          "odom_speed": [
+            -0.0852678701307229,
+            0.49898343425189423,
+            -0.549806107301265
+          ],
+          "actual_box_gap_at_decision_m": 1.3348447245565274,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.33130135843371933,
+                "continuous_bound_m": 0.3239121073208271,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.28968343111529016,
+                "continuous_bound_m": 0.2821793556121006,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.6748309862787965,
+                -1.603734199331381,
+                -0.9809326994809592
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.30099596192382927,
+                "continuous_bound_m": 0.29360671081093703,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.25989390197047235,
+                "continuous_bound_m": 0.2523898264672828,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.713780973828204,
+                -1.5727559885005293,
+                -1.0359133102110856
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.2739002731250192,
+                "continuous_bound_m": 0.26651102201212695,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.23343829532512805,
+                "continuous_bound_m": 0.2259342198219385,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.75437444886772,
+                -1.543965002748113,
+                -1.0908939209412118
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 130,
+          "sim_s": 35.825,
+          "relative_to_first_violation_s": -1.2019999999999982,
+          "pose": [
+            4.609311695407177,
+            -1.6403284160932108,
+            -0.9613280072462322
+          ],
+          "odom_speed": [
+            -0.11596803383916843,
+            0.4994071232245084,
+            -0.5657069268636405
+          ],
+          "actual_box_gap_at_decision_m": 1.223703847167457,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.29738699687225834,
+                "continuous_bound_m": 0.2899383999622579,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.2563424668567297,
+                "continuous_bound_m": 0.24877572474590026,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.711501615198282,
+                -1.5690142441865271,
+                -1.0413259467680516
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.26803580083448486,
+                "continuous_bound_m": 0.2605872039244844,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.22766417202748535,
+                "continuous_bound_m": 0.22009742991665593,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.750739951894599,
+                -1.5378002240407642,
+                -1.0978966394544156
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.24202920878029366,
+                "continuous_bound_m": 0.2345806118702932,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.2024596457632336,
+                "continuous_bound_m": 0.1948929036524042,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.791680376282817,
+                -1.5088546929303126,
+                -1.1544673321407797
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 131,
+          "sim_s": 35.919000000000004,
+          "relative_to_first_violation_s": -1.107999999999997,
+          "pose": [
+            4.636767973018714,
+            -1.6094867064547167,
+            -1.0061484250443296
+          ],
+          "odom_speed": [
+            -0.14368492854637022,
+            0.49896060133495446,
+            -0.5566604668274522
+          ],
+          "actual_box_gap_at_decision_m": 1.119434028729325,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.2693650507469051,
+                "continuous_bound_m": 0.26189907808546037,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.22881124306026857,
+                "continuous_bound_m": 0.22122901450814297,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.739938766138719,
+                -1.539682169592546,
+                -1.0836133557560161
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.2399706733740924,
+                "continuous_bound_m": 0.23250470071264767,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.20017322845765084,
+                "continuous_bound_m": 0.19259099990552525,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.779187861369466,
+                -1.5076709107102217,
+                -1.1392794024387614
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.21384524119513537,
+                "continuous_bound_m": 0.20637926853369065,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.17492744789852332,
+                "continuous_bound_m": 0.16734521934639773,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.820157181632277,
+                -1.4778929495834645,
+                -1.1949454491215066
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 132,
+          "sim_s": 36.012,
+          "relative_to_first_violation_s": -1.0150000000000006,
+          "pose": [
+            4.6714034157321604,
+            -1.5704295397265338,
+            -1.0613666700507522
+          ],
+          "odom_speed": [
+            -0.1741720622647009,
+            0.4958048787125753,
+            -0.5484335124492645
+          ],
+          "actual_box_gap_at_decision_m": 1.0094952211761092,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.23475571813857132,
+                "continuous_bound_m": 0.227272337175602,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.19491820081110767,
+                "continuous_bound_m": 0.18732028211774696,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.774565924875768,
+                -1.5026619212065246,
+                -1.1365437184120537
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.20564217177818866,
+                "continuous_bound_m": 0.19815879081521934,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.16666450993236204,
+                "continuous_bound_m": 0.15906659123900133,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.813978780756073,
+                -1.470007230028808,
+                -1.1913870696569802
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7852386013022011,
+              "body": {
+                "sample_min_m": 0.17973325277547003,
+                "continuous_bound_m": 0.1722498718125007,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.14173265377421007,
+                "continuous_bound_m": 0.13413473508084936,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.855122373692707,
+                -1.439562085509227,
+                -1.2462304209019066
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 133,
+          "sim_s": 36.091,
+          "relative_to_first_violation_s": -0.9359999999999999,
+          "pose": [
+            4.699223913681237,
+            -1.538721147201753,
+            -1.1042260324157764
+          ],
+          "odom_speed": [
+            -0.19828705116555206,
+            0.49084447848840657,
+            -0.5251882830634713
+          ],
+          "actual_box_gap_at_decision_m": 0.9182448681487358,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7766927046366142,
+              "body": {
+                "sample_min_m": 0.2062714468254151,
+                "continuous_bound_m": 0.1988508234540728,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.16699511582182336,
+                "continuous_bound_m": 0.15946480937567845,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.8009015106455735,
+                -1.4719345696150905,
+                -1.173174986012279
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7766927046366142,
+              "body": {
+                "sample_min_m": 0.17685596683493288,
+                "continuous_bound_m": 0.16943534346359057,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.1384759490630766,
+                "continuous_bound_m": 0.13094564261693167,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.840214497463497,
+                -1.4385103736984675,
+                -1.2256938143186262
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7766927046366142,
+              "body": {
+                "sample_min_m": 0.1504553240276919,
+                "continuous_bound_m": 0.1430347006563496,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.11307745597127605,
+                "continuous_bound_m": 0.10554714952513114,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.881227872417632,
+                -1.407195985949541,
+                -1.2782126426249734
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 134,
+          "sim_s": 36.187000000000005,
+          "relative_to_first_violation_s": -0.8399999999999963,
+          "pose": [
+            4.734241177023757,
+            -1.498659346337956,
+            -1.154667250349797
+          ],
+          "odom_speed": [
+            -0.22406574383939923,
+            0.4854344207728493,
+            -0.4866061790380627
+          ],
+          "actual_box_gap_at_decision_m": 0.8070909583276102,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.768386730281619,
+              "body": {
+                "sample_min_m": 0.16980287926437843,
+                "continuous_bound_m": 0.16246284322419052,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.1312114416132002,
+                "continuous_bound_m": 0.1237697801871154,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.834383991424168,
+                -1.432373366745852,
+                -1.2138527333189322
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.768386730281619,
+              "body": {
+                "sample_min_m": 0.13984528428691956,
+                "continuous_bound_m": 0.13250524824673166,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.10215691529195992,
+                "continuous_bound_m": 0.09471525386587512,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.873795165939342,
+                -1.3980816776642466,
+                -1.2625133512227384
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.768386730281619,
+              "body": {
+                "sample_min_m": 0.11261432849631725,
+                "continuous_bound_m": 0.10527429245612935,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.07591825117054918,
+                "continuous_bound_m": 0.06847658974446438,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.91482768600834,
+                -1.3657475948177813,
+                -1.3111739691265447
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 135,
+          "sim_s": 36.269000000000005,
+          "relative_to_first_violation_s": -0.7579999999999956,
+          "pose": [
+            4.762536047334398,
+            -1.46662440452958,
+            -1.1921754557058482
+          ],
+          "odom_speed": [
+            -0.23832334512972841,
+            0.47817800594092275,
+            -0.45379786752164364
+          ],
+          "actual_box_gap_at_decision_m": 0.7151675777304989,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7658841220519673,
+              "body": {
+                "sample_min_m": 0.14167698832442632,
+                "continuous_bound_m": 0.13440694882486326,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.10362781229980078,
+                "continuous_bound_m": 0.09626299927414472,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.860454907599947,
+                -1.4016883848279218,
+                -1.2436489652358262
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7658841220519673,
+              "body": {
+                "sample_min_m": 0.11164602444033311,
+                "continuous_bound_m": 0.10437598494077005,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.07448744210105429,
+                "continuous_bound_m": 0.06712262907539823,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.899812780539338,
+                -1.3671992365116898,
+                -1.2890287519879906
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7658841220519673,
+              "body": {
+                "sample_min_m": 0.08409932044058943,
+                "continuous_bound_m": 0.07682928094102637,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.04790784025492778,
+                "continuous_bound_m": 0.04054302722927173,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.940694708178796,
+                -1.3345310332189795,
+                -1.334408538740155
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 136,
+          "sim_s": 36.356,
+          "relative_to_first_violation_s": -0.6709999999999994,
+          "pose": [
+            4.791478005218772,
+            -1.4350188215234196,
+            -1.2274190510267093
+          ],
+          "odom_speed": [
+            -0.24484594767670226,
+            0.47767086870874625,
+            -0.42796257184818387
+          ],
+          "actual_box_gap_at_decision_m": 0.6210289982702133,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7460203050555422,
+              "body": {
+                "sample_min_m": 0.11460119481443953,
+                "continuous_bound_m": 0.10746181837932908,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.0771230066216283,
+                "continuous_bound_m": 0.06989425223903788,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.890739779683629,
+                -1.3717944516932414,
+                -1.273191191114828
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7460203050555422,
+              "body": {
+                "sample_min_m": 0.0851616679171533,
+                "continuous_bound_m": 0.07802229148204284,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.0485685094081344,
+                "continuous_bound_m": 0.041339755025543976,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.930915361288748,
+                -1.3377599804653661,
+                -1.3159874482996463
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7460203050555422,
+              "body": {
+                "sample_min_m": 0.05805666633094175,
+                "continuous_bound_m": 0.0509172898958313,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.022415548365234406,
+                "continuous_bound_m": 0.015186793982643982,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.972510260734176,
+                -1.3054755116112011,
+                -1.3587837054844647
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 137,
+          "sim_s": 36.451,
+          "relative_to_first_violation_s": -0.5760000000000005,
+          "pose": [
+            4.828497463919022,
+            -1.397299885328313,
+            -1.273620911827967
+          ],
+          "odom_speed": [
+            -0.2381454732899883,
+            0.4644711130311439,
+            -0.5333234381396323
+          ],
+          "actual_box_gap_at_decision_m": 0.5179934652390632,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.725246041514879,
+              "body": {
+                "sample_min_m": 0.09408012549373523,
+                "continuous_bound_m": 0.086940037842544,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.05811882077057695,
+                "continuous_bound_m": 0.050867351056141194,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.925585468660182,
+                -1.3433211803613039,
+                -1.3447182401256679
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.725246041514879,
+              "body": {
+                "sample_min_m": 0.0710009111530151,
+                "continuous_bound_m": 0.06386082350182387,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.036803818380084174,
+                "continuous_bound_m": 0.029552348665648417,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.966714651211109,
+                -1.313217325273772,
+                -1.398050583939631
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.725246041514879,
+              "body": {
+                "sample_min_m": 0.05551562338812579,
+                "continuous_bound_m": 0.04837553573693456,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.02551562338812558,
+                "continuous_bound_m": 0.018264153673689824,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.009390103114142,
+                -1.285348748824474,
+                -1.4513829277535943
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 138,
+          "sim_s": 36.536,
+          "relative_to_first_violation_s": -0.49099999999999966,
+          "pose": [
+            4.859490530517362,
+            -1.3691473090022186,
+            -1.3177809599712142
+          ],
+          "odom_speed": [
+            -0.22930521946981436,
+            0.4721104103912287,
+            -0.5703954957425594
+          ],
+          "actual_box_gap_at_decision_m": 0.4338174045479014,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7048370916643987,
+              "body": {
+                "sample_min_m": 0.07939416415436795,
+                "continuous_bound_m": 0.07227884407356694,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.04479494623314583,
+                "continuous_bound_m": 0.0375605017662072,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.962996734696638,
+                -1.3214080911573507,
+                -1.3990956537365564
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7048370916643987,
+              "body": {
+                "sample_min_m": 0.0650945369011791,
+                "continuous_bound_m": 0.057979216820378085,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.03509453690117888,
+                "continuous_bound_m": 0.027860092434240244,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                5.006466138311151,
+                -1.2945259027815983,
+                -1.4561352033108124
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7048370916643987,
+              "body": {
+                "sample_min_m": 0.05186926897151377,
+                "continuous_bound_m": 0.044753948890712755,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.021869268971513773,
+                "continuous_bound_m": 0.01463482450457514,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.051397363612889,
+                -1.2701655642093324,
+                -1.5131747528850683
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 139,
+          "sim_s": 36.651,
+          "relative_to_first_violation_s": -0.37599999999999767,
+          "pose": [
+            4.901215031418048,
+            -1.336955417537742,
+            -1.3753487726330815
+          ],
+          "odom_speed": [
+            -0.2152109179595553,
+            0.4831940437334329,
+            -0.5794716416858137
+          ],
+          "actual_box_gap_at_decision_m": 0.32945511398167515,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.6830208615833073,
+              "body": {
+                "sample_min_m": 0.06955295298376174,
+                "continuous_bound_m": 0.06251081723442387,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.03955295298376187,
+                "continuous_bound_m": 0.0323897973383778,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                5.013041063790611,
+                -1.2978278839810125,
+                -1.4592955487219674
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.6830208615833073,
+              "body": {
+                "sample_min_m": 0.057576891620520536,
+                "continuous_bound_m": 0.05053475587118266,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.027576891620520603,
+                "continuous_bound_m": 0.020413735975136536,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                5.059198543326072,
+                -1.2751435955346508,
+                -1.5172427128905488
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.6830208615833073,
+              "body": {
+                "sample_min_m": 0.04107681286739673,
+                "continuous_bound_m": 0.034034677118058854,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.010992491277650784,
+                "continuous_bound_m": 0.003829335632266717,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.106592303709149,
+                -1.2551705803357436,
+                -1.5751898770591302
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 140,
+          "sim_s": 36.714000000000006,
+          "relative_to_first_violation_s": -0.3129999999999953,
+          "pose": [
+            4.936425689257438,
+            -1.31343006800636,
+            -1.4216345056234017
+          ],
+          "odom_speed": [
+            -0.20906877449851033,
+            0.4898433578244319,
+            -0.5722717382013798
+          ],
+          "actual_box_gap_at_decision_m": 0.270478412346598,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.656750090445818,
+              "body": {
+                "sample_min_m": 0.06127875035776663,
+                "continuous_bound_m": 0.05436197296556633,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.0312787503577668,
+                "continuous_bound_m": 0.024242456735115905,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                5.053282316298095,
+                -1.2804085188406586,
+                -1.5034933097018017
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.656750090445818,
+              "body": {
+                "sample_min_m": 0.046724409484053,
+                "continuous_bound_m": 0.0398076320918527,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.01672440948405305,
+                "continuous_bound_m": 0.009688115861402152,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.10108814983565,
+                -1.260504063412662,
+                -1.5607204835219397
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.656750090445818,
+              "body": {
+                "sample_min_m": 0.021061078742583672,
+                "continuous_bound_m": 0.01414430135038337,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007036293622650898,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.149954177987672,
+                -1.24336649185916,
+                -1.6179476573420777
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 141,
+          "sim_s": 36.798,
+          "relative_to_first_violation_s": -0.2289999999999992,
+          "pose": [
+            4.9738285756238065,
+            -1.2925683734034488,
+            -1.4649871072944252
+          ],
+          "odom_speed": [
+            -0.1948557413794205,
+            0.49806142163686395,
+            -0.522892689332366
+          ],
+          "actual_box_gap_at_decision_m": 0.20246387505685973,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.6251009314266535,
+              "body": {
+                "sample_min_m": 0.05164745012886701,
+                "continuous_bound_m": 0.04496148340170744,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.021647450128867072,
+                "continuous_bound_m": 0.014852279750736382,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.096138659115893,
+                -1.2664381097855466,
+                -1.5333392065208404
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.6251009314266535,
+              "body": {
+                "sample_min_m": 0.033273701909327436,
+                "continuous_bound_m": 0.026587735182167865,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0029437854188139045,
+                "continuous_bound_m": -0.0038513849593167842,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.145429285418342,
+                -1.2494816875516137,
+                -1.585628475454077
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.6251009314266535,
+              "body": {
+                "sample_min_m": 0.01229426809337364,
+                "continuous_bound_m": 0.00560830136621407,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006795170378130689,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.195538777595924,
+                -1.2351246373681828,
+                -1.6379177443873136
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 142,
+          "sim_s": 36.911,
+          "relative_to_first_violation_s": -0.11599999999999966,
+          "pose": [
+            5.022089330330531,
+            -1.2701205060121137,
+            -1.515100716573634
+          ],
+          "odom_speed": [
+            -0.1774313242886806,
+            0.49991518779980215,
+            -0.4777666472364217
+          ],
+          "actual_box_gap_at_decision_m": 0.1232380807356571,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.5885232040475373,
+              "body": {
+                "sample_min_m": 0.03884449045643901,
+                "continuous_bound_m": 0.032439668900922154,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.008803467002948984,
+                "continuous_bound_m": 0.0022988661557058207,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.1464996047889775,
+                -1.2525631143549365,
+                -1.5721647119103754
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.5885232040475373,
+              "body": {
+                "sample_min_m": 0.016700360578769557,
+                "continuous_bound_m": 0.010295539023252701,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006504600847243163,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.196593471874578,
+                -1.2392026314677609,
+                -1.6199413766340176
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.5885232040475373,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006404821555516855,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006504600847243163,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.247268253961453,
+                -1.2282498015587624,
+                -1.6677180413576598
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 143,
+          "sim_s": 36.978,
+          "relative_to_first_violation_s": -0.04899999999999949,
+          "pose": [
+            5.061577208060343,
+            -1.256147724067242,
+            -1.5514314247477592
+          ],
+          "odom_speed": [
+            -0.12439946555793244,
+            0.4999485121609185,
+            -0.4135645867791027
+          ],
+          "actual_box_gap_at_decision_m": 0.07555741021883912,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.5682259856006504,
+              "body": {
+                "sample_min_m": 0.02246705979578789,
+                "continuous_bound_m": 0.016348932246458493,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00620449854611328,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.186493524881387,
+                -1.250021135379376,
+                -1.5941799879713707
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.5682259856006504,
+              "body": {
+                "sample_min_m": 0.007882865175044551,
+                "continuous_bound_m": 0.0017647376257151513,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00620449854611328,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.2366476336628,
+                -1.2428175947053315,
+                -1.635536446649281
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.5682259856006504,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.0061181275493294,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00620449854611328,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.2870566858662995,
+                -1.237693818573899,
+                -1.6768929053271913
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 144,
+          "sim_s": 37.085,
+          "relative_to_first_violation_s": 0.05799999999999983,
+          "pose": [
+            5.106069781521038,
+            -1.2533336382191846,
+            -1.5566051031567898
+          ],
+          "odom_speed": [
+            0.11844274612848145,
+            0.3903762741533978,
+            0.16331550068571232
+          ],
+          "actual_box_gap_at_decision_m": 0.039670998040884455,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.2659085014792497,
+              "body": {
+                "sample_min_m": 0.029801108999338813,
+                "continuous_bound_m": 0.026154985914349237,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.003680230750479846,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.182379665444257,
+                -1.258823966173235,
+                -1.5499398631019328
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.2659085014792497,
+              "body": {
+                "sample_min_m": 0.039670998040884455,
+                "continuous_bound_m": 0.036024874955894876,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.009670998040884594,
+                "continuous_bound_m": 0.005990767290404748,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.221751370279504,
+                -1.2685455331944115,
+                -1.5336083130333615
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.2659085014792497,
+              "body": {
+                "sample_min_m": 0.039670998040884455,
+                "continuous_bound_m": 0.036024874955894876,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.009670998040884594,
+                "continuous_bound_m": 0.005990767290404748,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                5.261276585831074,
+                -1.277622831392825,
+                -1.5172767629647903
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "planner": "tdt_qp",
+      "profile_sha256": "1862d4dc9742f10d8d1db1d4404ef5f8123c7184e876c7e6179410ad9f3f9505",
+      "gazebo_poses_sha256": "83023aba7b1da719cb2be43acf83f231a976b4b6addc02642715035afcb42fb0",
+      "first_body_gap_violation_sim_s": 28.581,
+      "cycles": [
+        {
+          "cycle_id": 124,
+          "sim_s": 27.112000000000002,
+          "relative_to_first_violation_s": -1.4689999999999976,
+          "pose": [
+            4.046424051850689,
+            -1.4656001712084403,
+            -0.12256346175682134
+          ],
+          "odom_speed": [
+            0.3401298266775021,
+            0.3831910389952093,
+            0.0
+          ],
+          "actual_box_gap_at_decision_m": 1.6533250086517406,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.512945230144114,
+                "continuous_bound_m": 0.5064416863576213,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.47132936104768236,
+                "continuous_bound_m": 0.46482581726118966,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.112809466615495,
+                -1.399810123020209,
+                -0.12256346175682134
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.46217437959015495,
+                "continuous_bound_m": 0.45567083580366224,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.4206942355221891,
+                "continuous_bound_m": 0.4141906917356964,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.151252073257268,
+                -1.3659367897297783,
+                -0.12256346175682134
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.41151911085480414,
+                "continuous_bound_m": 0.40501556706831143,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.3702247782696603,
+                "continuous_bound_m": 0.3637212344831676,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.189694679899041,
+                -1.3320634564393476,
+                -0.12256346175682134
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 125,
+          "sim_s": 27.203000000000003,
+          "relative_to_first_violation_s": -1.3779999999999966,
+          "pose": [
+            4.084666587997032,
+            -1.4314778709245015,
+            -0.12338757660973107
+          ],
+          "odom_speed": [
+            0.3345238820213551,
+            0.38861871090006667,
+            -0.020828952983720228
+          ],
+          "actual_box_gap_at_decision_m": 1.5637904481254177,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.4505941606482875,
+                "continuous_bound_m": 0.44405332433404887,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.4088904256178027,
+                "continuous_bound_m": 0.40234523927580856,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.149484875297754,
+                -1.3634326264880832,
+                -0.12349586613956827
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.39963099171041455,
+                "continuous_bound_m": 0.39309015539617587,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.35808849880344845,
+                "continuous_bound_m": 0.3515433124614543,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.187643292953009,
+                -1.3291580873025206,
+                -0.1255787614379403
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.34880616607162,
+                "continuous_bound_m": 0.34226532975738133,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.3074962926884038,
+                "continuous_bound_m": 0.30095110634640965,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.2258730180589525,
+                -1.2949631023974253,
+                -0.12766165673631233
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 126,
+          "sim_s": 27.289,
+          "relative_to_first_violation_s": -1.291999999999998,
+          "pose": [
+            4.115078407913871,
+            -1.4035684101549109,
+            -0.1255248304446653
+          ],
+          "odom_speed": [
+            0.33324113038952985,
+            0.3997769970714105,
+            -0.035137174563715234
+          ],
+          "actual_box_gap_at_decision_m": 1.4812666402168886,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.3962590490200961,
+                "continuous_bound_m": 0.38965553255631147,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.35444654247939195,
+                "continuous_bound_m": 0.34783568778383345,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.180186813375172,
+                -1.3312560900283947,
+                -0.12582757393593963
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.3443546595992987,
+                "continuous_bound_m": 0.337751143135514,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.302707479306056,
+                "continuous_bound_m": 0.2960966246104975,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.218569719039694,
+                -1.2960611278414538,
+                -0.12934129139231115
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.29258513136781283,
+                "continuous_bound_m": 0.2859816149040282,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.25119257802628775,
+                "continuous_bound_m": 0.24458172333072925,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.25707605266129,
+                -1.261001249324641,
+                -0.13285500884868268
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 127,
+          "sim_s": 27.414,
+          "relative_to_first_violation_s": -1.166999999999998,
+          "pose": [
+            4.152904369412016,
+            -1.3674528009940492,
+            -0.12901261316243792
+          ],
+          "odom_speed": [
+            0.3242238358936179,
+            0.41533866899536126,
+            -0.034560845961095765
+          ],
+          "actual_box_gap_at_decision_m": 1.3618248817563572,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.33185993412107445,
+                "continuous_bound_m": 0.32522514192740626,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.289875217501045,
+                "continuous_bound_m": 0.28323320743909025,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.216136996861493,
+                -1.2887060222866564,
+                -0.12930383008165985
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.27908936020269315,
+                "continuous_bound_m": 0.27245456800902496,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.2371975832951726,
+                "continuous_bound_m": 0.23055557323321782,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.253969142398877,
+                -1.2519725050135562,
+                -0.13275991467776943
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.22635696323314214,
+                "continuous_bound_m": 0.21972217103947392,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.18461667612443747,
+                "continuous_bound_m": 0.1779746660624827,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.29192801588354,
+                -1.2153699579575041,
+                -0.136215999273879
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 128,
+          "sim_s": 27.471,
+          "relative_to_first_violation_s": -1.1099999999999994,
+          "pose": [
+            4.18301503101533,
+            -1.3374932310789354,
+            -0.13192551185682258
+          ],
+          "odom_speed": [
+            0.3248385091421171,
+            0.42889828160912835,
+            -0.03929522426915355
+          ],
+          "actual_box_gap_at_decision_m": 1.2897371261595685,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.28269546863771516,
+                "continuous_bound_m": 0.275997030298231,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.2406604085065792,
+                "continuous_bound_m": 0.23395376354641845,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.247435269262304,
+                -1.2532786774631752,
+                -0.13231141634220567
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.22876224968851874,
+                "continuous_bound_m": 0.2220638113490346,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.18680556154727673,
+                "continuous_bound_m": 0.180098916587116,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.28568418173624,
+                -1.2153628131680199,
+                -0.13624093876912102
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.17484715615172516,
+                "continuous_bound_m": 0.16814871781224103,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.13303207485179494,
+                "continuous_bound_m": 0.1263254298916342,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.324081789762677,
+                -1.1775975411772663,
+                -0.14017046119603638
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 129,
+          "sim_s": 27.557000000000002,
+          "relative_to_first_violation_s": -1.0239999999999974,
+          "pose": [
+            4.213429716732886,
+            -1.3066977414351901,
+            -0.13512363482289583
+          ],
+          "odom_speed": [
+            0.3270304276715527,
+            0.4397877224585975,
+            -0.041395429434487596
+          ],
+          "actual_box_gap_at_decision_m": 1.195937005827688,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.23405743787233915,
+                "continuous_bound_m": 0.22730531268527696,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.19198949195871612,
+                "continuous_bound_m": 0.1852287215331184,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.279476630890334,
+                -1.2181027769038675,
+                -0.1355515434115856
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.17910479652218567,
+                "continuous_bound_m": 0.17235267133512347,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.1371051596274561,
+                "continuous_bound_m": 0.13034438920185837,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.318253223779462,
+                -1.1792840112036782,
+                -0.13969108635503436
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.1241575344556988,
+                "continuous_bound_m": 0.1174054092686366,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.08230853134732237,
+                "continuous_bound_m": 0.07554776092172465,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.357190175923485,
+                -1.1406260950116556,
+                -0.14383062929848311
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 130,
+          "sim_s": 27.651000000000003,
+          "relative_to_first_violation_s": -0.9299999999999962,
+          "pose": [
+            4.252043707400918,
+            -1.2672799479814691,
+            -0.13933956692210095
+          ],
+          "odom_speed": [
+            0.3312930792424975,
+            0.44981956167880977,
+            -0.04346180139691569
+          ],
+          "actual_box_gap_at_decision_m": 1.0847232714811181,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.17434631437790574,
+                "continuous_bound_m": 0.16753768864936208,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.132287200477791,
+                "continuous_bound_m": 0.12546949795875637,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.320481775370298,
+                -1.1747441478191372,
+                -0.13980880295003928
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.118325242539407,
+                "continuous_bound_m": 0.11151661681086333,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.07636791278892945,
+                "continuous_bound_m": 0.06955021026989482,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.360025706252578,
+                -1.1351827738023272,
+                -0.14415498308973085
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.062305808934779605,
+                "continuous_bound_m": 0.05549718320623594,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.020950814213054135,
+                "continuous_bound_m": 0.014133111694019507,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.399741203973968,
+                -1.0957936379338786,
+                -0.14850116322942242
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 131,
+          "sim_s": 27.773000000000003,
+          "relative_to_first_violation_s": -0.8079999999999963,
+          "pose": [
+            4.291392841628507,
+            -1.2273366642929755,
+            -0.1438416769902298
+          ],
+          "odom_speed": [
+            0.33589950700363985,
+            0.4525512185300468,
+            -0.04721619552583434
+          ],
+          "actual_box_gap_at_decision_m": 0.9504196371622453,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.11619614161994415,
+                "continuous_bound_m": 0.10935647643797089,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.0742890933515866,
+                "continuous_bound_m": 0.06743956729176673,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.3619435177734935,
+                -1.1341183387210725,
+                -0.1443860009007465
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.05967705567482901,
+                "continuous_bound_m": 0.052837390492855754,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.01875973454774966,
+                "continuous_bound_m": 0.0119102084879298,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.402207294256029,
+                -1.0945736694851624,
+                -0.14910762045332993
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.0038905774839859096,
+                "continuous_bound_m": -0.0029490876979873515,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.0068495260598198625,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.442657336115007,
+                -1.0552195505746793,
+                -0.15382924000591336
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 132,
+          "sim_s": 27.838,
+          "relative_to_first_violation_s": -0.7429999999999986,
+          "pose": [
+            4.323498616410619,
+            -1.1960342796656238,
+            -0.14853768496222253
+          ],
+          "odom_speed": [
+            0.34748499878706546,
+            0.4318123236921817,
+            -0.08877577056409791
+          ],
+          "actual_box_gap_at_decision_m": 0.8669283819306758,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.07680620049046606,
+                "continuous_bound_m": 0.06994271009605016,
+                "passes_assumed_model": true
+              },
+              "padded": {
+                "sample_min_m": 0.037824474336582745,
+                "continuous_bound_m": 0.030942443544756136,
+                "passes_assumed_model": true
+              },
+              "assumed_braking_gate_pass": true,
+              "assumed_stop_pose": [
+                4.397152522021831,
+                -1.112897919059112,
+                -0.15048871578478645
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.026241775180772635,
+                "continuous_bound_m": 0.01937828478635673,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.0068820307918266085,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.438810208311104,
+                -1.0761732130036559,
+                -0.15936629284119624
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006863490394415905,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.0068820307918266085,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.480792275186873,
+                -1.0398197685633563,
+                -0.16824386989760604
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 133,
+          "sim_s": 27.949,
+          "relative_to_first_violation_s": -0.6319999999999979,
+          "pose": [
+            4.364400011055749,
+            -1.158314167785327,
+            -0.15783294674419712
+          ],
+          "odom_speed": [
+            0.34535652161282354,
+            0.4413575056259826,
+            -0.10089465649798512
+          ],
+          "actual_box_gap_at_decision_m": 0.7407469423010031,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.021991480803528782,
+                "continuous_bound_m": 0.015076677140171696,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006935875032450284,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.438796978292733,
+                -1.0716710393008504,
+                -0.16037767956909638
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006914803663357087,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006935875032450284,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.480902735613089,
+                -1.0344748679895748,
+                -0.1704671452188949
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006914803663357087,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006935875032450284,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.523381632950595,
+                -0.9977054072819737,
+                -0.1805566108686934
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 134,
+          "sim_s": 28.016000000000002,
+          "relative_to_first_violation_s": -0.5649999999999977,
+          "pose": [
+            4.397977580195786,
+            -1.1291460655156864,
+            -0.16731051476236533
+          ],
+          "odom_speed": [
+            0.37123950765095776,
+            0.4013462444541883,
+            -0.16589452716289088
+          ],
+          "actual_box_gap_at_decision_m": 0.656554768934773,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.0076653380014129364,
+                "continuous_bound_m": 0.0007088633932790783,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006991120891036467,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.479740991580583,
+                -1.0616900027614857,
+                -0.1741820769353966
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006956474608133858,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006991120891036467,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.524412958434635,
+                -1.030024321064114,
+                -0.1907715296516857
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7883381186375231,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006956474608133858,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006991120891036467,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.569604070579173,
+                -0.9991040461120928,
+                -0.2073609823679748
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 135,
+          "sim_s": 28.096,
+          "relative_to_first_violation_s": -0.48499999999999943,
+          "pose": [
+            4.4336615209371235,
+            -1.1030835531140606,
+            -0.18596289178756756
+          ],
+          "odom_speed": [
+            0.39591920555578686,
+            0.3965127001800797,
+            -0.2898747334256768
+          ],
+          "actual_box_gap_at_decision_m": 0.5654119267723642,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7832102498020495,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00720908835931287,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007269627318568126,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.526222961928009,
+                -1.0418280791377255,
+                -0.2069453544671623
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7832102498020495,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00720908835931287,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007269627318568126,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.574652208256399,
+                -1.0135637677482092,
+                -0.23593282780973
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7832102498020495,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00720908835931287,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007269627318568126,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.62388030533753,
+                -0.9867149752980763,
+                -0.2649203011522977
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 136,
+          "sim_s": 28.16,
+          "relative_to_first_violation_s": -0.4209999999999994,
+          "pose": [
+            4.461871982500532,
+            -1.0845276455662143,
+            -0.2048702344192463
+          ],
+          "odom_speed": [
+            0.4123035595243499,
+            0.3915947499714213,
+            -0.34308270551264286
+          ],
+          "actual_box_gap_at_decision_m": 0.4945351323933899,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7745986131147972,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.0072977049372637895,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007369356128399902,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.561910632948698,
+                -1.0289450107811884,
+                -0.23429429435639557
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7745986131147972,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.0072977049372637895,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007369356128399902,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.612597366315712,
+                -1.0032914797839498,
+                -0.2686025649076598
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7745986131147972,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.0072977049372637895,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007369356128399902,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.664134227642579,
+                -0.9793916781818424,
+                -0.3029108354589241
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 137,
+          "sim_s": 28.264000000000003,
+          "relative_to_first_violation_s": -0.3169999999999966,
+          "pose": [
+            4.511244760967642,
+            -1.0566723945348164,
+            -0.2433516450788545
+          ],
+          "odom_speed": [
+            0.4336400305334734,
+            0.35976149942625174,
+            -0.4400515463203192
+          ],
+          "actual_box_gap_at_decision_m": 0.3798817058267611,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7679485627771508,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007402906616287411,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00749480928858337,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.619227016361336,
+                -1.0201464836923366,
+                -0.2917629852693247
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7679485627771508,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007402906616287411,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00749480928858337,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.672006229097484,
+                -1.0015892356586307,
+                -0.3357681399013566
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7679485627771508,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007402906616287411,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.00749480928858337,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.725550698869119,
+                -0.9853717602537783,
+                -0.37977329453338854
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 138,
+          "sim_s": 28.338,
+          "relative_to_first_violation_s": -0.24299999999999855,
+          "pose": [
+            4.552674738043755,
+            -1.0389273409218074,
+            -0.28292382915817466
+          ],
+          "odom_speed": [
+            0.45602530352547666,
+            0.33127095397496364,
+            -0.5109345074743032
+          ],
+          "actual_box_gap_at_decision_m": 0.29723322809937835,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7617584824635797,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007493119147009554,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007599825388580009,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.668422472882266,
+                -1.020283008820316,
+                -0.34816680110149345
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7617584824635797,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007493119147009554,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007599825388580009,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.722725341006808,
+                -1.008502169019317,
+                -0.3992602518489238
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7617584824635797,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007493119147009554,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007599825388580009,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.777559006526885,
+                -0.9995100169632145,
+                -0.4503537025963541
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 139,
+          "sim_s": 28.398000000000003,
+          "relative_to_first_violation_s": -0.18299999999999628,
+          "pose": [
+            4.584827760076286,
+            -1.0284882467731251,
+            -0.31314638327182487
+          ],
+          "odom_speed": [
+            0.4740796435661003,
+            0.3004319938800256,
+            -0.4807826247997582
+          ],
+          "actual_box_gap_at_decision_m": 0.23336669851377576,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7445896503541719,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007344214089559082,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007444623253853668,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.705529715833611,
+                -1.0249760605241445,
+                -0.3709342132237668
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7445896503541719,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007344214089559082,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007444623253853668,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.76023148492461,
+                -1.018114870006494,
+                -0.4190124757037426
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7445896503541719,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007344214089559082,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007444623253853668,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.815199791143042,
+                -1.013890560775379,
+                -0.46709073818371843
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 140,
+          "sim_s": 28.504,
+          "relative_to_first_violation_s": -0.07699999999999818,
+          "pose": [
+            4.639516803777057,
+            -1.017249326991118,
+            -0.35940233763150964
+          ],
+          "odom_speed": [
+            0.4877556263837823,
+            0.2649528469771836,
+            -0.4109196685021743
+          ],
+          "actual_box_gap_at_decision_m": 0.12761483737502993,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.7211958566327329,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007077891788868243,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007163710407050827,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.762625000795985,
+                -1.0300490041714565,
+                -0.4015954680169662
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.7211958566327329,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007077891788868243,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007163710407050827,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.81711486980516,
+                -1.0285797594711212,
+                -0.44268743486718365
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.7211958566327329,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007077891788868243,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007163710407050827,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.871619098025469,
+                -1.029350220849359,
+                -0.4837794017174011
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 141,
+          "sim_s": 28.585,
+          "relative_to_first_violation_s": 0.004000000000001336,
+          "pose": [
+            4.684112908948121,
+            -1.0132005269042637,
+            -0.3911085592066206
+          ],
+          "odom_speed": [
+            0.5317900893104375,
+            0.21514503476649877,
+            -0.36203594063408673
+          ],
+          "actual_box_gap_at_decision_m": 0.050165345794658395,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.6951569360358382,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006957781522120443,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007033391006258545,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.822591642551288,
+                -1.049255877470318,
+                -0.42387502852075615
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.6951569360358382,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006957781522120443,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007033391006258545,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.878541349819685,
+                -1.0556654724607217,
+                -0.4600786225841648
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.6951569360358382,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.006957781522120443,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.007033391006258545,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.9342223947588755,
+                -1.064096005411891,
+                -0.4962822166475735
+              ]
+            }
+          ]
+        },
+        {
+          "cycle_id": 142,
+          "sim_s": 28.663,
+          "relative_to_first_violation_s": 0.08200000000000074,
+          "pose": [
+            4.72922265443363,
+            -1.0184387000404016,
+            -0.4190154375490281
+          ],
+          "odom_speed": [
+            0.5802897671081402,
+            0.12069860446199274,
+            -0.30703605443704873
+          ],
+          "actual_box_gap_at_decision_m": 0.0,
+          "cases": [
+            {
+              "delay_s": 0.0,
+              "observed_future_box_speed_max_m_s": 0.42327874160103685,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.005600397026616423,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.005664520046135216,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.884674144465058,
+                -1.0833281659349805,
+                -0.4425708457145854
+              ]
+            },
+            {
+              "delay_s": 0.1,
+              "observed_future_box_speed_max_m_s": 0.42327874160103685,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.005600397026616423,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.005664520046135216,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.940326246430817,
+                -1.1015409293370788,
+                -0.47327445115829025
+              ]
+            },
+            {
+              "delay_s": 0.2,
+              "observed_future_box_speed_max_m_s": 0.42327874160103685,
+              "body": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.005600397026616423,
+                "passes_assumed_model": false
+              },
+              "padded": {
+                "sample_min_m": 0.0,
+                "continuous_bound_m": -0.005664520046135216,
+                "passes_assumed_model": false
+              },
+              "assumed_braking_gate_pass": false,
+              "assumed_stop_pose": [
+                4.9953930088767855,
+                -1.1214535604456997,
+                -0.5039780566019951
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
