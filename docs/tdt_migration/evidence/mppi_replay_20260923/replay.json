@@ -1,0 +1,610 @@
+{
+  "schema": "tdt_mppi_offline_replay/v1",
+  "source_series": "dynamic_cycle_diagnostic_v2",
+  "scope": "diagnostic ideal-kinematic open-loop counterfactual; not executed commands, physical braking, or an exact Nav2 raster critic replay",
+  "source_cycle_analysis_sha256": "a072c0ea4cc72679c2679152c03e1de472d72d73163cef15eed18874d513da53",
+  "trials": {
+    "tdt_astar": {
+      "profile_sha256": "bd1aaba64d16dee9b1e1a93520fd2cf384980f499b65d7af0ade1bb192a035e9",
+      "controller_server_odom_topic_in_profile": null,
+      "cycles": 198,
+      "zero_speed_cycles": 198,
+      "cycles_nearest_actual_translation_gt_0p1mps": 196,
+      "max_nearest_odom_time_error_s": 0.019999999999999574,
+      "median_actual_translation_mps": 0.5146501142006572,
+      "median_counterfactual_first_step_m": 0.051465012186954165,
+      "max_counterfactual_first_step_m": 0.06860120870342618,
+      "all_scored_rollouts_first_step_stationary": true,
+      "window": [
+        {
+          "cycle_id": 145,
+          "t": 36.935,
+          "raw_closed_cells": 303,
+          "scored_rollouts_collision_flags": 44,
+          "returned_command": [
+            0.6222935914993286,
+            0.05328179523348808,
+            0.07671701908111572
+          ],
+          "before_filter": {
+            "first_command": [
+              0.6279056668281555,
+              0.05391814932227135,
+              0.06820546090602875
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.10189487231764327,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.178551104645382,
+              -1.2990999356187083,
+              0.39527514701603506
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              0.6222935914993286,
+              0.05328179523348808,
+              0.07671701908111572
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.09886065819023596,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.178055812051746,
+              -1.2993713920911383,
+              0.39612630284622696
+            ]
+          }
+        },
+        {
+          "cycle_id": 146,
+          "t": 37.025000000000006,
+          "raw_closed_cells": 315,
+          "scored_rollouts_collision_flags": 105,
+          "returned_command": [
+            0.6370894908905029,
+            -0.06111591309309006,
+            -0.02894200198352337
+          ],
+          "before_filter": {
+            "first_command": [
+              0.6592985391616821,
+              -0.10409346222877502,
+              -0.18193954229354858
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.10373901064815186,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.231335953736355,
+              -1.2887805903118752,
+              0.37500575565868255
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              0.6370894908905029,
+              -0.06111591309309006,
+              -0.02894200198352337
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.09768078887326855,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.227637863715927,
+              -1.2856617369253738,
+              0.39030550991766916
+            ]
+          }
+        },
+        {
+          "cycle_id": 147,
+          "t": 37.108000000000004,
+          "raw_closed_cells": 305,
+          "scored_rollouts_collision_flags": 74,
+          "returned_command": [
+            0.647983193397522,
+            -0.14564187824726105,
+            -0.051559388637542725
+          ],
+          "before_filter": {
+            "first_command": [
+              0.6352214813232422,
+              -0.1636277139186859,
+              -0.09137167036533356
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.065421461325331,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.275872903865793,
+              -1.2718275949156603,
+              0.38995990556104976
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              0.647983193397522,
+              -0.14564187824726105,
+              -0.051559388637542725
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.06359001363064119,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.276349878285359,
+              -1.2696744550347683,
+              0.39394113379315376
+            ]
+          }
+        },
+        {
+          "cycle_id": 148,
+          "t": 37.175000000000004,
+          "raw_closed_cells": 305,
+          "scored_rollouts_collision_flags": 20,
+          "returned_command": [
+            0.6473796367645264,
+            -0.19605794548988342,
+            -0.04371899738907814
+          ],
+          "before_filter": {
+            "first_command": [
+              0.6684848666191101,
+              -0.19928491115570068,
+              -0.05081583186984062
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.0702719961272554,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.3279592185588305,
+              -1.2555053154671416,
+              0.3930215193089309
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              0.6473796367645264,
+              -0.19605794548988342,
+              -0.04371899738907814
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.06999207191336004,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.325888642677906,
+              -1.2560260418861195,
+              0.39373120276758233
+            ]
+          }
+        },
+        {
+          "cycle_id": 149,
+          "t": 37.281,
+          "raw_closed_cells": 299,
+          "scored_rollouts_collision_flags": 5,
+          "returned_command": [
+            0.6232321858406067,
+            -0.19298917055130005,
+            0.008041811175644398
+          ],
+          "before_filter": {
+            "first_command": [
+              0.6489066481590271,
+              -0.19299562275409698,
+              0.002525361254811287
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.05531645184474973,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.390497341967509,
+              -1.2425311630157214,
+              0.3936899773940418
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              0.6232321858406067,
+              -0.19298917055130005,
+              0.008041811175644398
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.055410360952551044,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.388125809651482,
+              -1.243514837372507,
+              0.3942416223943453
+            ]
+          }
+        }
+      ],
+      "window_speed_inputs": [
+        {
+          "cycle_id": 145,
+          "t": 36.935,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 36.92,
+          "nearest_odom_twist": [
+            0.6166914003942247,
+            0.07081098775299781,
+            0.044084667024435475
+          ],
+          "odom_time_error_s": 0.015000000000000568,
+          "counterfactual_first_step_m": 0.062074349838741785,
+          "scored_rollouts_first_step_stationary": true
+        },
+        {
+          "cycle_id": 146,
+          "t": 37.025000000000006,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 37.04,
+          "nearest_odom_twist": [
+            0.6222975856762941,
+            0.053234038317740186,
+            0.0767170058679767
+          ],
+          "odom_time_error_s": 0.014999999999993463,
+          "counterfactual_first_step_m": 0.06245703800210949,
+          "scored_rollouts_first_step_stationary": true
+        },
+        {
+          "cycle_id": 147,
+          "t": 37.108000000000004,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 37.12,
+          "nearest_odom_twist": [
+            0.637089560729442,
+            -0.005702763237692491,
+            -0.023580584456794895
+          ],
+          "odom_time_error_s": 0.01199999999999335,
+          "counterfactual_first_step_m": 0.06371150932101749,
+          "scored_rollouts_first_step_stationary": true
+        },
+        {
+          "cycle_id": 148,
+          "t": 37.175000000000004,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 37.16,
+          "nearest_odom_twist": [
+            0.6433592352242739,
+            -0.053894543342629865,
+            -0.036141891905572265
+          ],
+          "odom_time_error_s": 0.015000000000007674,
+          "counterfactual_first_step_m": 0.0645612685572823,
+          "scored_rollouts_first_step_stationary": true
+        },
+        {
+          "cycle_id": 149,
+          "t": 37.281,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 37.28,
+          "nearest_odom_twist": [
+            0.6473881175970527,
+            -0.19602960330092228,
+            -0.043718977394746616
+          ],
+          "odom_time_error_s": 0.0009999999999976694,
+          "counterfactual_first_step_m": 0.06764162873644458,
+          "scored_rollouts_first_step_stationary": true
+        }
+      ]
+    },
+    "tdt_qp": {
+      "profile_sha256": "624f6bd1c9f60ea6faff7c4a14a0800dfb2179ea9d15f3fdf3a8405936cac018",
+      "controller_server_odom_topic_in_profile": null,
+      "cycles": 172,
+      "zero_speed_cycles": 172,
+      "cycles_nearest_actual_translation_gt_0p1mps": 164,
+      "max_nearest_odom_time_error_s": 0.019999999999999574,
+      "median_actual_translation_mps": 0.5162048574757495,
+      "median_counterfactual_first_step_m": 0.0516204865167801,
+      "max_counterfactual_first_step_m": 0.07062515456129058,
+      "all_scored_rollouts_first_step_stationary": true,
+      "window": [
+        {
+          "cycle_id": 132,
+          "t": 28.17,
+          "raw_closed_cells": 258,
+          "scored_rollouts_collision_flags": 157,
+          "returned_command": [
+            -0.14266552031040192,
+            0.4540451169013977,
+            -0.5480344295501709
+          ],
+          "before_filter": {
+            "first_command": [
+              -0.16095562279224396,
+              0.44090959429740906,
+              -0.5811458230018616
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.03744560512485841,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.048218808587479,
+              -0.8100515253599283,
+              -1.1216901374613606
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              -0.14266552031040192,
+              0.4540451169013977,
+              -0.5480344295501709
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.037326127757069186,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.050255423257194,
+              -0.8110122016149622,
+              -1.1183789980668517
+            ]
+          }
+        },
+        {
+          "cycle_id": 133,
+          "t": 28.255000000000003,
+          "raw_closed_cells": 263,
+          "scored_rollouts_collision_flags": 184,
+          "returned_command": [
+            -0.09516489505767822,
+            0.43990471959114075,
+            -0.4601726830005646
+          ],
+          "before_filter": {
+            "first_command": [
+              -0.1011483371257782,
+              0.46457967162132263,
+              -0.4622659981250763
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.031489805836444826,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.081497851470435,
+              -0.7883852697196326,
+              -1.1545404313466123
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              -0.09516489505767822,
+              0.43990471959114075,
+              -0.4601726830005646
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.030869109312976397,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.079556536380149,
+              -0.7900216817334882,
+              -1.1543310998310419
+            ]
+          }
+        },
+        {
+          "cycle_id": 134,
+          "t": 28.346,
+          "raw_closed_cells": 273,
+          "scored_rollouts_collision_flags": 244,
+          "returned_command": [
+            0.0033587412908673286,
+            0.4434252083301544,
+            -0.39938411116600037
+          ],
+          "before_filter": {
+            "first_command": [
+              -0.046096354722976685,
+              0.4176422953605652,
+              -0.3883330523967743
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.033201256730345255,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.1081863366441285,
+              -0.7878820800296875,
+              -1.1964500463097534
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              0.0033587412908673286,
+              0.4434252083301544,
+              -0.39938411116600037
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.03343122823539423,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.112533399334188,
+              -0.7913761747801297,
+              -1.1975551522031433
+            ]
+          }
+        },
+        {
+          "cycle_id": 135,
+          "t": 28.436000000000003,
+          "raw_closed_cells": 279,
+          "scored_rollouts_collision_flags": 183,
+          "returned_command": [
+            0.0632605254650116,
+            0.4789676070213318,
+            -0.32444754242897034
+          ],
+          "before_filter": {
+            "first_command": [
+              0.057343851774930954,
+              0.5,
+              -0.3311317265033722
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.04136316139083072,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.150759190582425,
+              -0.7798167008448869,
+              -1.2243334603194869
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              0.0632605254650116,
+              0.4789676070213318,
+              -0.32444754242897034
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.03836458757372564,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.149024884598946,
+              -0.7811455607763974,
+              -1.2236650419020865
+            ]
+          }
+        },
+        {
+          "cycle_id": 136,
+          "t": 28.522000000000002,
+          "raw_closed_cells": 271,
+          "scored_rollouts_collision_flags": 95,
+          "returned_command": [
+            0.08969493210315704,
+            0.49892792105674744,
+            -0.2597452700138092
+          ],
+          "before_filter": {
+            "first_command": [
+              0.0921444520354271,
+              0.5,
+              -0.2823004126548767
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.04556028320902252,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.187067374389221,
+              -0.7755337787601776,
+              -1.2470214122680068
+            ]
+          },
+          "after_filter": {
+            "first_command": [
+              0.08969493210315704,
+              0.49892792105674744,
+              -0.2597452700138092
+            ],
+            "raw_closed_cell_min_body_gap_m": 0.04349565319377726,
+            "observed_future_box_min_body_gap_m": 0.0,
+            "first_predicted_pose": [
+              5.1868822854480525,
+              -0.7753408095979283,
+              -1.2447658979702902
+            ]
+          }
+        }
+      ],
+      "window_speed_inputs": [
+        {
+          "cycle_id": 132,
+          "t": 28.17,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 28.18,
+          "nearest_odom_twist": [
+            -0.15370378956891942,
+            0.46587935602445907,
+            -0.5825351807288826
+          ],
+          "odom_time_error_s": 0.00999999999999801,
+          "counterfactual_first_step_m": 0.04905796943108113,
+          "scored_rollouts_first_step_stationary": true
+        },
+        {
+          "cycle_id": 133,
+          "t": 28.255000000000003,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 28.26,
+          "nearest_odom_twist": [
+            -0.1429143617531785,
+            0.45396677942923613,
+            -0.5480343825183809
+          ],
+          "odom_time_error_s": 0.004999999999999005,
+          "counterfactual_first_step_m": 0.047593104371453435,
+          "scored_rollouts_first_step_stationary": true
+        },
+        {
+          "cycle_id": 134,
+          "t": 28.346,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 28.34,
+          "nearest_odom_twist": [
+            0.019893157908727126,
+            0.32457472528068665,
+            -0.48883696435950696
+          ],
+          "odom_time_error_s": 0.006000000000000227,
+          "counterfactual_first_step_m": 0.03251837836886142,
+          "scored_rollouts_first_step_stationary": true
+        },
+        {
+          "cycle_id": 135,
+          "t": 28.436000000000003,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 28.42,
+          "nearest_odom_twist": [
+            -0.006394094844626878,
+            0.44333551164683965,
+            -0.3994566504843533
+          ],
+          "odom_time_error_s": 0.01600000000000179,
+          "counterfactual_first_step_m": 0.04433816259102344,
+          "scored_rollouts_first_step_stationary": true
+        },
+        {
+          "cycle_id": 136,
+          "t": 28.522000000000002,
+          "speed_recorded": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nearest_odom_t": 28.54,
+          "nearest_odom_twist": [
+            0.08009055353264735,
+            0.49474753387333054,
+            -0.30746928532607853
+          ],
+          "odom_time_error_s": 0.01799999999999713,
+          "counterfactual_first_step_m": 0.05011882146708378,
+          "scored_rollouts_first_step_stationary": true
+        }
+      ]
+    }
+  }
+}
