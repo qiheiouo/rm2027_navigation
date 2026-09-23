@@ -1,0 +1,77 @@
+{
+  "baseline": {
+    "docker_exit": 1,
+    "action_status": 4,
+    "timed_out": false,
+    "recoveries": 14,
+    "final_pose": [
+      5.605166596316255,
+      -0.09147447204360518,
+      -0.14836329952286098
+    ],
+    "final_xy_error_m": 0.09162026387842072,
+    "final_yaw_error_rad": 0.14836329952286098,
+    "preflight_status": 4,
+    "planar_oracle_valid": false,
+    "nonplanar_pose": {
+      "threshold_quaternion_xy": 0.001,
+      "first_xy_norm_and_sim_s": [
+        0.00196200399553394,
+        36.438
+      ],
+      "max_xy_norm_and_sim_s": [
+        0.00196200399553394,
+        36.438
+      ],
+      "samples_over_threshold": 2
+    }
+  },
+  "guard": {
+    "docker_exit": 1,
+    "action_status": 5,
+    "timed_out": true,
+    "recoveries": 9,
+    "final_pose": [
+      4.084975483934124,
+      -1.1403259979408467,
+      -0.5670707196764896
+    ],
+    "final_xy_error_m": 1.8962179900687655,
+    "final_yaw_error_rad": 0.5670707196764896,
+    "preflight_status": 4,
+    "dynamic_evidence_valid": true,
+    "dynamic_gate_pass": false,
+    "checks": {
+      "action_succeeded": false,
+      "body_clearance_at_least_005m": true,
+      "padded_footprint_no_contact": true,
+      "final_position_within_015m": false,
+      "final_yaw_within_020rad": false,
+      "no_recovery": false,
+      "fresh_stopped_command": true
+    },
+    "body_moving_interpolation_bound_m": 0.09051777238485194,
+    "padded_moving_interpolation_bound_m": 0.04865009840830642,
+    "guard": {
+      "decisions_by_reason": {
+        "admit": 383,
+        "reject_sweep": 1753
+      },
+      "first_reject_sim_s": 26.957,
+      "first_reject_pose": [
+        4.089799062733067,
+        -1.3375943882102048,
+        -0.5198548701818778
+      ],
+      "first_reject_body_gap_m": 0.2611234378917983,
+      "command_chain_counts": {
+        "/cmd_vel": 2136,
+        "/cmd_vel_guarded": 2136,
+        "/simulation/chassis/cmd_vel": 2137
+      },
+      "filtered_to_chassis_ordered_value_matches": 2102,
+      "filtered_to_chassis_ordered_comparisons": 2136
+    }
+  },
+  "accepted_for_deployment": false
+}

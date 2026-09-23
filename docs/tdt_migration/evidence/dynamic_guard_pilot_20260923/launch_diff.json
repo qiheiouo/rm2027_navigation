@@ -1,0 +1,30 @@
+[
+  {
+    "source": "src/rm_simulation/launch/phase1_5_gazebo.launch.py",
+    "source_sha256": "c1d1931b6e24fcae786fbf7a93f59aac59647ffaa20600f64b60784b9f07f991",
+    "candidate": "docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/phase1_guard.launch.py",
+    "candidate_sha256": "c842e67125db004eb2f0bf30c68c539d3df3938a6fe2a7db439aee447b296e23",
+    "diff": "--- src/rm_simulation/launch/phase1_5_gazebo.launch.py\n+++ docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/phase1_guard.launch.py\n@@ -120,7 +120,7 @@\n             output=\"screen\",\n             parameters=[{\n                 \"use_sim_time\": True,\n-                \"cmd_vel_topic\": \"/cmd_vel\",\n+                \"cmd_vel_topic\": \"/cmd_vel_guarded\",\n                 \"mock_output_cmd_vel_topic\": \"/simulation/chassis/cmd_vel\",\n             }],\n         ),\n"
+  },
+  {
+    "source": "experiments/tdt_planner/rm_tdt_planner/launch/simulation_comparison.launch.py",
+    "source_sha256": "1e1d66725ce8951eb291cbcaf438113bb8c392a6a9630982f9a996ac25363acf",
+    "candidate": "docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/comparison_guard.launch.py",
+    "candidate_sha256": "6684f4069cddfe820a9c4a560ff532277979424d447ca86b0815cd8b5a0ac6f8",
+    "diff": "--- experiments/tdt_planner/rm_tdt_planner/launch/simulation_comparison.launch.py\n+++ docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/comparison_guard.launch.py\n@@ -32,8 +32,7 @@\n         *handlers,\n         DeclareLaunchArgument(\"params_file\", description=\"New complete simulation comparison YAML\"),\n         IncludeLaunchDescription(\n-            PythonLaunchDescriptionSource(PathJoinSubstitution([\n-                share, \"launch\", \"phase1_5_gazebo.launch.py\"])),\n+            PythonLaunchDescriptionSource(\"/ws/docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/phase1_guard.launch.py\"),\n             launch_arguments={\"headless\": \"true\", \"use_rviz\": \"false\", \"use_nav2\": \"true\",\n                               \"nav2_params\": LaunchConfiguration(\"params_file\")}.items()),\n         TimerAction(period=2.0, actions=walls),\n"
+  },
+  {
+    "source": "docs/tdt_migration/evidence/snapshot_revalidation_20260922/reference.launch.py",
+    "source_sha256": "733061a431d878e6e7ce03122d4218da7690206828dee53196f82b2743bf6b78",
+    "candidate": "docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/reference_guard.launch.py",
+    "candidate_sha256": "e78596ec7348df2671e64b03e70dfb5de9bc589991de6ba4f4edddc883b8ae04",
+    "diff": "--- docs/tdt_migration/evidence/snapshot_revalidation_20260922/reference.launch.py\n+++ docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/reference_guard.launch.py\n@@ -10,5 +10,5 @@\n         # Existing plugin reports adopted QP versus validated fallback at DEBUG.\n         SetLaunchConfiguration('log_level','planner_server:=debug'),\n         IncludeLaunchDescription(PythonLaunchDescriptionSource(\n-            '/ws/experiments/tdt_planner/rm_tdt_planner/launch/simulation_comparison.launch.py'),\n+            '/ws/docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/comparison_guard.launch.py'),\n             launch_arguments={'params_file':LaunchConfiguration('params_file')}.items())])\n"
+  },
+  {
+    "source": "docs/tdt_migration/evidence/dynamic_reference_20260922/dynamic.launch.py",
+    "source_sha256": "0647031e50ec042961f51f09ec73316a39d49fc5c112ffcdf5102ef9b0d2a527",
+    "candidate": "docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/dynamic_guard.launch.py",
+    "candidate_sha256": "71cab76faf549fff8b790e04fcc84dd2c0436dc7c65851a0ca09bb3800ad894a",
+    "diff": "--- docs/tdt_migration/evidence/dynamic_reference_20260922/dynamic.launch.py\n+++ docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/dynamic_guard.launch.py\n@@ -17,7 +17,7 @@\n         return result\n     return LaunchDescription([\n         DeclareLaunchArgument('params_file'),\n-        IncludeLaunchDescription(PythonLaunchDescriptionSource('/ws/docs/tdt_migration/evidence/snapshot_revalidation_20260922/reference.launch.py'),\n+        IncludeLaunchDescription(PythonLaunchDescriptionSource('/ws/docs/tdt_migration/evidence/dynamic_guard_pilot_20260923/reference_guard.launch.py'),\n             launch_arguments={'params_file':LaunchConfiguration('params_file')}.items()),\n         RegisterEventHandler(OnProcessExit(target_action=moving,on_exit=finished)),\n         TimerAction(period=3.,actions=[moving,Node(package='ros_gz_bridge',executable='parameter_bridge',name='course_dynamic_bridge',output='screen',\n"
+  }
+]
