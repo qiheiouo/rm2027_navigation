@@ -1,0 +1,259 @@
+{
+  "upstream_gtest_entries": [
+    {
+      "entry": "optimizer_unit_tests.gtest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "models_test.gtest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "critics_tests.gtest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "path_handler_test.gtest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "critic_manager_test.gtest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "utils_test.gtest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "motion_model_tests.gtest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "trajectory_visualizer_tests.gtest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "controller_state_transition_test.gtest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "parameter_handler_test.gtest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "noise_generator_test.gtest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "entry": "optimizer_smoke_test.gtest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "upstream_gtest_total": 72,
+  "cost_critic_special_test": {
+    "passed": true,
+    "first_attempt_failed_due_to_test_fixture_missing_polygon": true,
+    "free_cycle_collisions": 0,
+    "blocked_cycle_collisions": 1000,
+    "blocked_retry_unwinding": true,
+    "writer": {
+      "attempted": 2,
+      "closed": true,
+      "dropped": 0,
+      "errors": 0,
+      "written": 2
+    }
+  },
+  "decoder_tests": 4,
+  "controller_output_matches_filter": true,
+  "collector_asan_ubsan": {
+    "asan_ubsan_process_exit": 0,
+    "report_log_empty": true,
+    "snapshot_owns_copied_values": true,
+    "exception_unwind_recorded": true,
+    "writer_status": {
+      "attempted": 2,
+      "closed": true,
+      "dropped": 0,
+      "errors": 0,
+      "written": 2
+    },
+    "scope": "Collector-only lifetime and flush probe; not ROS/MPPI/TDT full-stack sanitizer acceptance."
+  },
+  "header_comparison": {
+    "upstream_release": "1.1.20",
+    "headers": [
+      {
+        "header": "nav2_mppi_controller/critic_data.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critic_function.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/motion_models.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critic_manager.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/optimizer.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/controller.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/tools/utils.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/tools/noise_generator.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/tools/parameters_handler.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/tools/trajectory_visualizer.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/tools/path_handler.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/models/control_sequence.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/models/state.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/models/optimizer_settings.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/models/trajectories.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/models/path.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/models/constraints.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/velocity_deadband_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/prefer_forward_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/path_align_legacy_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/path_align_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/goal_angle_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/path_follow_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/twirling_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/constraint_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/path_angle_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/goal_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/obstacles_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      },
+      {
+        "header": "nav2_mppi_controller/critics/cost_critic.hpp",
+        "installed_exists": true,
+        "same": true
+      }
+    ],
+    "all_match": true
+  },
+  "scope": "Instrumented source-built MPPI; no byte-identical Debian binary rebuild or full-stack sanitizer claim."
+}

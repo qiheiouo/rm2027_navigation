@@ -1,0 +1,4 @@
+
+ament_add_gtest(cost_critic_trace_test cost_critic_trace_test.cpp)
+ament_target_dependencies(cost_critic_trace_test ${dependencies_pkgs})
+target_link_libraries(cost_critic_trace_test mppi_controller mppi_critics)

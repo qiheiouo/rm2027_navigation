@@ -1,0 +1,134 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -68,6 +68,7 @@
+ add_compile_options(-O3 -finline-limit=10000000 -ffp-contract=fast -ffast-math -mtune=generic)
+ 
+ add_library(mppi_controller SHARED
++  src/cycle_trace.cpp
+   src/controller.cpp
+   src/optimizer.cpp
+   src/critic_manager.cpp
+@@ -92,6 +93,7 @@
+   src/critics/velocity_deadband_critic.cpp
+ )
+ 
++target_link_libraries(mppi_critics mppi_controller)
+ set(libraries mppi_controller mppi_critics)
+ 
+ foreach(lib IN LISTS libraries)
+--- a/src/optimizer.cpp
++++ b/src/optimizer.cpp
+@@ -1,3 +1,4 @@
++#include "nav2_mppi_controller/cycle_trace.hpp"
+ // Copyright (c) 2022 Samsung Research America, @artofnothingness Alexey Budyakov
+ //
+ // Licensed under the Apache License, Version 2.0 (the "License");
+@@ -137,12 +138,15 @@
+   const nav_msgs::msg::Path & plan, nav2_core::GoalChecker * goal_checker)
+ {
+   prepare(robot_pose, robot_speed, plan, goal_checker);
++  tdt_trace::value("settings", {{"dt", settings_.model_dt}, {"offset", settings_.shift_control_sequence ? 1 : 0}, {"temperature", settings_.temperature}, {"gamma", settings_.gamma}});
+ 
+   do {
+     optimize();
+   } while (fallback(critics_data_.fail_flag));
+ 
++  tdt_trace::controls("before_filter", control_sequence_);
+   utils::savitskyGolayFilter(control_sequence_, control_history_, settings_);
++  tdt_trace::controls("after_filter", control_sequence_);
+   auto control = getControlFromSequenceAsTwist(plan.header.stamp);
+ 
+   if (settings_.shift_control_sequence) {
+@@ -157,7 +161,10 @@
+   for (size_t i = 0; i < settings_.iteration_count; ++i) {
+     generateNoisedTrajectories();
+     critic_manager_.evalTrajectoriesScores(critics_data_);
++    tdt_trace::scored(critics_data_);
+     updateControlSequence();
++    tdt_trace::tensor("weighted.costs", costs_);
++    tdt_trace::controls("after_update", control_sequence_);
+   }
+ }
+ 
+--- a/src/critic_manager.cpp
++++ b/src/critic_manager.cpp
+@@ -1,3 +1,4 @@
++#include "nav2_mppi_controller/cycle_trace.hpp"
+ // Copyright (c) 2022 Samsung Research America, @artofnothingness Alexey Budyakov
+ //
+ // Licensed under the Apache License, Version 2.0 (the "License");
+@@ -72,6 +73,8 @@
+       break;
+     }
+     critics_[q]->score(data);
++    tdt_trace::tensor("critic." + critics_[q]->getName(), data.costs);
++    tdt_trace::value("critic.fail", data.fail_flag);
+   }
+ }
+ 
+--- a/src/controller.cpp
++++ b/src/controller.cpp
+@@ -1,3 +1,4 @@
++#include "nav2_mppi_controller/cycle_trace.hpp"
+ // Copyright (c) 2022 Samsung Research America, @artofnothingness Alexey Budyakov
+ //
+ // Licensed under the Apache License, Version 2.0 (the "License");
+@@ -54,6 +55,7 @@
+ void MPPIController::cleanup()
+ {
+   optimizer_.shutdown();
++  tdt_trace::shutdown();
+   trajectory_visualizer_.on_cleanup();
+   parameters_handler_.reset();
+   RCLCPP_INFO(logger_, "Cleaned up MPPI Controller: %s", name_.c_str());
+@@ -94,9 +96,11 @@
+   std::lock_guard<std::mutex> param_lock(*parameters_handler_->getLock());
+   nav_msgs::msg::Path transformed_plan = path_handler_.transformPath(robot_pose);
+ 
++  tdt_trace::Cycle trace(robot_pose, robot_speed, clock_);
+   nav2_costmap_2d::Costmap2D * costmap = costmap_ros_->getCostmap();
+   std::unique_lock<nav2_costmap_2d::Costmap2D::mutex_t> costmap_lock(*(costmap->getMutex()));
+ 
++  trace.locked(costmap_ros_, transformed_plan);
+   geometry_msgs::msg::TwistStamped cmd =
+     optimizer_.evalControl(robot_pose, robot_speed, transformed_plan, goal_checker);
+ 
+@@ -110,6 +114,7 @@
+     visualize(std::move(transformed_plan));
+   }
+ 
++  trace.output(cmd);
+   return cmd;
+ }
+ 
+--- a/src/critics/cost_critic.cpp
++++ b/src/critics/cost_critic.cpp
+@@ -1,3 +1,4 @@
++#include "nav2_mppi_controller/cycle_trace.hpp"
+ // Copyright (c) 2022 Samsung Research America, @artofnothingness Alexey Budyakov
+ // Copyright (c) 2023 Open Navigation LLC
+ //
+@@ -140,6 +141,7 @@
+   repulsive_cost.fill(0.0);
+ 
+   const size_t traj_len = data.trajectories.x.shape(1);
++  std::vector<uint8_t> trace_collisions(tdt_trace::active() ? data.trajectories.x.shape(0) : 0);
+   bool all_trajectories_collide = true;
+   for (size_t i = 0; i < data.trajectories.x.shape(0); ++i) {
+     bool trajectory_collide = false;
+@@ -169,6 +171,7 @@
+       }
+     }
+ 
++    if (!trace_collisions.empty()) trace_collisions[i] = trajectory_collide;
+     if (!trajectory_collide) {
+       all_trajectories_collide = false;
+     } else {
+@@ -176,6 +179,7 @@
+     }
+   }
+ 
++  if (tdt_trace::active()) tdt_trace::collision_mask(trace_collisions, near_goal);
+   data.costs += xt::pow((weight_ * repulsive_cost / traj_len), power_);
+   data.fail_flag = all_trajectories_collide;
+ }

@@ -1,0 +1,495 @@
+{
+  "schema": "rm_tdt_planner/mppi_cycle_diagnostic/v1",
+  "source_series": "dynamic_cycle_diagnostic_v2",
+  "source_inputs_sha256": "80d15d566ddadf6808b60b60196cc84df91786e3717ab28a524797d0aaf92de5",
+  "scope": "Two phase-zero first cases; instrumented MPPI, not dynamic acceptance or causal A/B.",
+  "timing_limit": "Cycle map_capture_sim_s is time of locked raw copy, not last map update time; topic t is observer latest /clock callback, not calibrated transport latency.",
+  "trials": [
+    {
+      "planner": "tdt_astar",
+      "source_series": "dynamic_cycle_diagnostic_v2",
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.12068038829807541,
+      "final_yaw_error_rad": 0.17709943591512026,
+      "body_interpolation_lower_bound_m": -0.0101554625836839,
+      "padded_interpolation_lower_bound_m": -0.010391871263134385,
+      "first_sample_body_below_005_sim_s": 37.087,
+      "first_sample_padded_contact_sim_s": 37.132,
+      "first_sample_body_contact_sim_s": 37.211,
+      "writer": {
+        "attempted": 198,
+        "closed": true,
+        "dropped": 0,
+        "errors": 0,
+        "written": 198
+      },
+      "cycle_count": 198,
+      "output_matches_after_filter_index_1": 198,
+      "output_matches_cmd_vel_nav_value": 198,
+      "observer_copy_median_ms": 0.23232049999999999,
+      "observer_copy_max_ms": 1.396796,
+      "full_compute_cycle_median_ms": 2.0061020000000003,
+      "full_compute_cycle_max_ms": 5.908312,
+      "window_cycles": [
+        {
+          "cycle": 145,
+          "map_capture_sim_s": 36.935,
+          "relative_to_first_gate_s": -0.15200000000000102,
+          "actual_robot_to_box_body_gap_m": 0.13557219665948753,
+          "actual_robot_to_box_padded_gap_m": 0.10557219665948751,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 32,
+            "254_lethal": 67,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.20099164104975878,
+          "robot_pose_to_raw_254_padded_gap_m": 0.16808281347835244,
+          "costcritic_colliding_rollouts": 44,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            0.6279056668281555,
+            0.05391814932227135,
+            0.06820546090602875
+          ],
+          "after_filter_selected_index_1": [
+            0.6222935914993286,
+            0.05328179523348808,
+            0.07671701908111572
+          ],
+          "returned_mppi_command": [
+            0.6222935914993286,
+            0.05328179523348808,
+            0.07671701908111572
+          ],
+          "observer_copy_ms": 0.118919,
+          "full_compute_cycle_ms": 1.32997
+        },
+        {
+          "cycle": 146,
+          "map_capture_sim_s": 37.025000000000006,
+          "relative_to_first_gate_s": -0.06199999999999761,
+          "actual_robot_to_box_body_gap_m": 0.08218210131955149,
+          "actual_robot_to_box_padded_gap_m": 0.05218210131955159,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 24,
+            "254_lethal": 75,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.09977063837833909,
+          "robot_pose_to_raw_254_padded_gap_m": 0.0697706383783391,
+          "costcritic_colliding_rollouts": 105,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            0.6592985391616821,
+            -0.10409346222877502,
+            -0.18193954229354858
+          ],
+          "after_filter_selected_index_1": [
+            0.6370894908905029,
+            -0.06111591309309006,
+            -0.02894200198352337
+          ],
+          "returned_mppi_command": [
+            0.6370894908905029,
+            -0.06111591309309006,
+            -0.02894200198352337
+          ],
+          "observer_copy_ms": 0.272232,
+          "full_compute_cycle_ms": 3.82528
+        },
+        {
+          "cycle": 147,
+          "map_capture_sim_s": 37.108000000000004,
+          "relative_to_first_gate_s": 0.021000000000000796,
+          "actual_robot_to_box_body_gap_m": 0.038287092596089645,
+          "actual_robot_to_box_padded_gap_m": 0.00828709259608964,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 16,
+            "254_lethal": 83,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.04899017271981696,
+          "robot_pose_to_raw_254_padded_gap_m": 0.01899017271981697,
+          "costcritic_colliding_rollouts": 74,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            0.6352214813232422,
+            -0.1636277139186859,
+            -0.09137167036533356
+          ],
+          "after_filter_selected_index_1": [
+            0.647983193397522,
+            -0.14564187824726105,
+            -0.051559388637542725
+          ],
+          "returned_mppi_command": [
+            0.647983193397522,
+            -0.14564187824726105,
+            -0.051559388637542725
+          ],
+          "observer_copy_ms": 0.460394,
+          "full_compute_cycle_ms": 4.529463
+        },
+        {
+          "cycle": 148,
+          "map_capture_sim_s": 37.175000000000004,
+          "relative_to_first_gate_s": 0.08800000000000097,
+          "actual_robot_to_box_body_gap_m": 0.010396973262660692,
+          "actual_robot_to_box_padded_gap_m": 0.0,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 21,
+            "254_lethal": 78,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.05057978652188786,
+          "robot_pose_to_raw_254_padded_gap_m": 0.020579786521887775,
+          "costcritic_colliding_rollouts": 20,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            0.6684848666191101,
+            -0.19928491115570068,
+            -0.05081583186984062
+          ],
+          "after_filter_selected_index_1": [
+            0.6473796367645264,
+            -0.19605794548988342,
+            -0.04371899738907814
+          ],
+          "returned_mppi_command": [
+            0.6473796367645264,
+            -0.19605794548988342,
+            -0.04371899738907814
+          ],
+          "observer_copy_ms": 0.13617,
+          "full_compute_cycle_ms": 1.982047
+        },
+        {
+          "cycle": 149,
+          "map_capture_sim_s": 37.281,
+          "relative_to_first_gate_s": 0.1939999999999955,
+          "actual_robot_to_box_body_gap_m": 0.0,
+          "actual_robot_to_box_padded_gap_m": 0.0,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 13,
+            "254_lethal": 86,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.03597262425192951,
+          "robot_pose_to_raw_254_padded_gap_m": 0.0,
+          "costcritic_colliding_rollouts": 5,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            0.6489066481590271,
+            -0.19299562275409698,
+            0.002525361254811287
+          ],
+          "after_filter_selected_index_1": [
+            0.6232321858406067,
+            -0.19298917055130005,
+            0.008041811175644398
+          ],
+          "returned_mppi_command": [
+            0.6232321858406067,
+            -0.19298917055130005,
+            0.008041811175644398
+          ],
+          "observer_copy_ms": 0.539499,
+          "full_compute_cycle_ms": 2.610751
+        }
+      ],
+      "command_chain": {
+        "/cmd_vel_nav": {
+          "count": 199,
+          "last_at_or_before_gate": {
+            "t": 37.027,
+            "vx": 0.6370894908905029,
+            "vy": -0.06111591309309006,
+            "wz": -0.02894200198352337,
+            "publisher_gid": null,
+            "callback_steady_ns": 1174676875835
+          }
+        },
+        "/cmd_vel": {
+          "count": 406,
+          "last_at_or_before_gate": {
+            "t": 37.064,
+            "vx": 0.6370894908905029,
+            "vy": 0.00328179523348808,
+            "wz": -0.023282980918884283,
+            "publisher_gid": null,
+            "callback_steady_ns": 1174717313271
+          }
+        },
+        "/simulation/chassis/cmd_vel": {
+          "count": 406,
+          "last_at_or_before_gate": {
+            "t": 37.065,
+            "vx": 0.6370894908905029,
+            "vy": 0.00328179523348808,
+            "wz": -0.023282980918884283,
+            "publisher_gid": null,
+            "callback_steady_ns": 1174718262046
+          }
+        },
+        "/simulation/ground_truth/odom": {
+          "count": 2091,
+          "last_at_or_before_gate": {
+            "t": 37.08,
+            "vx": 0.636731939488025,
+            "vy": 0.03224676712757564,
+            "wz": 0.055717133000143804,
+            "publisher_gid": null,
+            "callback_steady_ns": 1174736051614
+          }
+        }
+      },
+      "runtime_geometry_preflight_verified": true,
+      "postnavigation_runtime_geometry_present": true,
+      "per_message_publisher_gid_available": false
+    },
+    {
+      "planner": "tdt_qp",
+      "source_series": "dynamic_cycle_diagnostic_v2",
+      "action_status": 4,
+      "recoveries": 10,
+      "final_xy_error_m": 0.026991996158913945,
+      "final_yaw_error_rad": 0.17092694782115914,
+      "body_interpolation_lower_bound_m": 0.012202362230051403,
+      "padded_interpolation_lower_bound_m": -0.008435298312283157,
+      "first_sample_body_below_005_sim_s": 28.337,
+      "first_sample_padded_contact_sim_s": 28.432,
+      "first_sample_body_contact_sim_s": null,
+      "writer": {
+        "attempted": 172,
+        "closed": true,
+        "dropped": 0,
+        "errors": 0,
+        "written": 172
+      },
+      "cycle_count": 172,
+      "output_matches_after_filter_index_1": 172,
+      "output_matches_cmd_vel_nav_value": 172,
+      "observer_copy_median_ms": 0.21115299999999998,
+      "observer_copy_max_ms": 1.277233,
+      "full_compute_cycle_median_ms": 1.74311,
+      "full_compute_cycle_max_ms": 7.764503,
+      "window_cycles": [
+        {
+          "cycle": 132,
+          "map_capture_sim_s": 28.17,
+          "relative_to_first_gate_s": -0.16699999999999804,
+          "actual_robot_to_box_body_gap_m": 0.15832711776075947,
+          "actual_robot_to_box_padded_gap_m": 0.11760057460456608,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 29,
+            "254_lethal": 70,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.25792873856344545,
+          "robot_pose_to_raw_254_padded_gap_m": 0.21713330756195953,
+          "costcritic_colliding_rollouts": 157,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            -0.16095562279224396,
+            0.44090959429740906,
+            -0.5811458230018616
+          ],
+          "after_filter_selected_index_1": [
+            -0.14266552031040192,
+            0.4540451169013977,
+            -0.5480344295501709
+          ],
+          "returned_mppi_command": [
+            -0.14266552031040192,
+            0.4540451169013977,
+            -0.5480344295501709
+          ],
+          "observer_copy_ms": 0.396358,
+          "full_compute_cycle_ms": 4.288421
+        },
+        {
+          "cycle": 133,
+          "map_capture_sim_s": 28.255000000000003,
+          "relative_to_first_gate_s": -0.08199999999999719,
+          "actual_robot_to_box_body_gap_m": 0.06684339341421791,
+          "actual_robot_to_box_padded_gap_m": 0.026721862157200016,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 27,
+            "254_lethal": 72,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.18227626147958276,
+          "robot_pose_to_raw_254_padded_gap_m": 0.1420426968318778,
+          "costcritic_colliding_rollouts": 184,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            -0.1011483371257782,
+            0.46457967162132263,
+            -0.4622659981250763
+          ],
+          "after_filter_selected_index_1": [
+            -0.09516489505767822,
+            0.43990471959114075,
+            -0.4601726830005646
+          ],
+          "returned_mppi_command": [
+            -0.09516489505767822,
+            0.43990471959114075,
+            -0.4601726830005646
+          ],
+          "observer_copy_ms": 0.322984,
+          "full_compute_cycle_ms": 7.764503
+        },
+        {
+          "cycle": 134,
+          "map_capture_sim_s": 28.346,
+          "relative_to_first_gate_s": 0.009000000000000341,
+          "actual_robot_to_box_body_gap_m": 0.04522385003975086,
+          "actual_robot_to_box_padded_gap_m": 0.014790653792561446,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 20,
+            "254_lethal": 79,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.07565708027924656,
+          "robot_pose_to_raw_254_padded_gap_m": 0.03613591580288966,
+          "costcritic_colliding_rollouts": 244,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            -0.046096354722976685,
+            0.4176422953605652,
+            -0.3883330523967743
+          ],
+          "after_filter_selected_index_1": [
+            0.0033587412908673286,
+            0.4434252083301544,
+            -0.39938411116600037
+          ],
+          "returned_mppi_command": [
+            0.0033587412908673286,
+            0.4434252083301544,
+            -0.39938411116600037
+          ],
+          "observer_copy_ms": 0.264233,
+          "full_compute_cycle_ms": 2.379313
+        },
+        {
+          "cycle": 135,
+          "map_capture_sim_s": 28.436000000000003,
+          "relative_to_first_gate_s": 0.09900000000000375,
+          "actual_robot_to_box_body_gap_m": 0.025329724610601418,
+          "actual_robot_to_box_padded_gap_m": 0.0,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 13,
+            "254_lethal": 86,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.03931874097334829,
+          "robot_pose_to_raw_254_padded_gap_m": 0.009318740973348635,
+          "costcritic_colliding_rollouts": 183,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            0.057343851774930954,
+            0.5,
+            -0.3311317265033722
+          ],
+          "after_filter_selected_index_1": [
+            0.0632605254650116,
+            0.4789676070213318,
+            -0.32444754242897034
+          ],
+          "returned_mppi_command": [
+            0.0632605254650116,
+            0.4789676070213318,
+            -0.32444754242897034
+          ],
+          "observer_copy_ms": 0.526602,
+          "full_compute_cycle_ms": 2.924725
+        },
+        {
+          "cycle": 136,
+          "map_capture_sim_s": 28.522000000000002,
+          "relative_to_first_gate_s": 0.18500000000000227,
+          "actual_robot_to_box_body_gap_m": 0.019859212579178578,
+          "actual_robot_to_box_padded_gap_m": 0.0,
+          "actual_box_raw_cell_counts": {
+            "253_inscribed": 14,
+            "254_lethal": 85,
+            "255_unknown": 0
+          },
+          "robot_pose_to_raw_254_body_gap_m": 0.046282366238352496,
+          "robot_pose_to_raw_254_padded_gap_m": 0.016282366238352525,
+          "costcritic_colliding_rollouts": 95,
+          "rollout_count": 300,
+          "before_filter_selected_index_1": [
+            0.0921444520354271,
+            0.5,
+            -0.2823004126548767
+          ],
+          "after_filter_selected_index_1": [
+            0.08969493210315704,
+            0.49892792105674744,
+            -0.2597452700138092
+          ],
+          "returned_mppi_command": [
+            0.08969493210315704,
+            0.49892792105674744,
+            -0.2597452700138092
+          ],
+          "observer_copy_ms": 0.383291,
+          "full_compute_cycle_ms": 3.240095
+        }
+      ],
+      "command_chain": {
+        "/cmd_vel_nav": {
+          "count": 175,
+          "last_at_or_before_gate": {
+            "t": 28.259,
+            "vx": -0.09516489505767822,
+            "vy": 0.43990471959114075,
+            "wz": -0.4601726830005646,
+            "publisher_gid": null,
+            "callback_steady_ns": 734247038109
+          }
+        },
+        "/cmd_vel": {
+          "count": 397,
+          "last_at_or_before_gate": {
+            "t": 28.305,
+            "vx": -0.09516489505767822,
+            "vy": 0.43990471959114075,
+            "wz": -0.4601726830005646,
+            "publisher_gid": null,
+            "callback_steady_ns": 734286895125
+          }
+        },
+        "/simulation/chassis/cmd_vel": {
+          "count": 398,
+          "last_at_or_before_gate": {
+            "t": 28.305,
+            "vx": -0.09516489505767822,
+            "vy": 0.43990471959114075,
+            "wz": -0.4601726830005646,
+            "publisher_gid": null,
+            "callback_steady_ns": 734287039751
+          }
+        },
+        "/simulation/ground_truth/odom": {
+          "count": 1968,
+          "last_at_or_before_gate": {
+            "t": 28.318,
+            "vx": 0.07660300248215615,
+            "vy": 0.24005040027697308,
+            "wz": -0.5287820007652044,
+            "publisher_gid": null,
+            "callback_steady_ns": 734306561442
+          }
+        }
+      },
+      "runtime_geometry_preflight_verified": true,
+      "postnavigation_runtime_geometry_present": true,
+      "per_message_publisher_gid_available": false
+    }
+  ]
+}
