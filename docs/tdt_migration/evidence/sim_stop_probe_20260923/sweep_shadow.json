@@ -1,0 +1,2329 @@
+{
+  "schema": "tdt_fixture_sweep_shadow/v1",
+  "scope": "Frozen instrumented trials; fixture joint bounds, reference polygon and hypothetical configured deceleration. No online control or verified physical stop certificate.",
+  "hindsight_replay_sha256": "62f65f967500ddc3d3af0d57c7d2b3a9554e8f013533a1814ad7774e1c2e446a",
+  "inputs_sha256": "8839c14d345eee7da9ce131c066d459ce507f5f7d124877d4c45e88af48b6750",
+  "fixture": {
+    "slider_limit_m": [
+      -0.95,
+      0.95
+    ],
+    "box_size_m": [
+      0.45,
+      0.55,
+      0.8
+    ],
+    "model_spawn_xy_m": [
+      4.9,
+      0.0
+    ],
+    "sdf_sha256": "ac489655001736911da1dce5bd46f6a3d559e364c65542cdcc9eb75510e2d8cc",
+    "launch_sha256": "0647031e50ec042961f51f09ec73316a39d49fc5c112ffcdf5102ef9b0d2a527"
+  },
+  "sweep_polygon_m": [
+    [
+      4.675000000000001,
+      -1.225
+    ],
+    [
+      5.125,
+      -1.225
+    ],
+    [
+      5.125,
+      1.225
+    ],
+    [
+      4.675000000000001,
+      1.225
+    ]
+  ],
+  "trials": [
+    {
+      "planner": "tdt_astar",
+      "first_body_gap_violation_sim_s": 37.027,
+      "delays": [
+        {
+          "delay_s": 0.0,
+          "cycles": [
+            {
+              "cycle_id": 127,
+              "sim_s": 35.574000000000005,
+              "relative_to_first_violation_s": -1.4529999999999959,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.10212173481507154,
+                  "continuous_bound_m": 0.09879490105148099,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.059695327943878725,
+                  "continuous_bound_m": 0.0562635092596694,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 128,
+              "sim_s": 35.660000000000004,
+              "relative_to_first_violation_s": -1.3669999999999973,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.07338445044203003,
+                  "continuous_bound_m": 0.06999821078145653,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.030958043570837153,
+                  "continuous_bound_m": 0.02746147043196043,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 129,
+              "sim_s": 35.734,
+              "relative_to_first_violation_s": -1.2929999999999993,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.03972693215179324,
+                  "continuous_bound_m": 0.03626387404541203,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035778824966785317,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 130,
+              "sim_s": 35.825,
+              "relative_to_first_violation_s": -1.2019999999999982,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.005801371396577881,
+                  "continuous_bound_m": 0.002278967493088432,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036405491043183975,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 131,
+              "sim_s": 35.919000000000004,
+              "relative_to_first_violation_s": -1.107999999999997,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035397796549337265,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036560355456145876,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 132,
+              "sim_s": 36.012,
+              "relative_to_first_violation_s": -1.0150000000000006,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.00355718795645832,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036717256868497,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 133,
+              "sim_s": 36.091,
+              "relative_to_first_violation_s": -0.9359999999999999,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003537159848159229,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036468429229618475,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 134,
+              "sim_s": 36.187000000000005,
+              "relative_to_first_violation_s": -0.8399999999999963,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003498102388779808,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035997277746766944,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 135,
+              "sim_s": 36.269000000000005,
+              "relative_to_first_violation_s": -0.7579999999999956,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034406188893032308,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003535392415396215,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 136,
+              "sim_s": 36.356,
+              "relative_to_first_violation_s": -0.6709999999999994,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034092749098327364,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003498652857312712,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 137,
+              "sim_s": 36.451,
+              "relative_to_first_violation_s": -0.5760000000000005,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035138574436168347,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036252395068613603,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 138,
+              "sim_s": 36.536,
+              "relative_to_first_violation_s": -0.49099999999999966,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035911346224790186,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037102590086166417,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 139,
+              "sim_s": 36.651,
+              "relative_to_first_violation_s": -0.37599999999999767,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003627031441421335,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037480513374675314,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 140,
+              "sim_s": 36.714000000000006,
+              "relative_to_first_violation_s": -0.3129999999999953,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036330269399712117,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037525431704218083,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 141,
+              "sim_s": 36.798,
+              "relative_to_first_violation_s": -0.2289999999999992,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035604620700263024,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036696657209974214,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 142,
+              "sim_s": 36.911,
+              "relative_to_first_violation_s": -0.11599999999999966,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003462205535279168,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035619848270054765,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 143,
+              "sim_s": 36.978,
+              "relative_to_first_violation_s": -0.04899999999999949,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0032769976213261475,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0033633686181100274,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 144,
+              "sim_s": 37.085,
+              "relative_to_first_violation_s": 0.05799999999999983,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0023165805775933277,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0023506882430835976,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            }
+          ],
+          "last_safe_cycle": 128,
+          "first_unsafe_cycle": 129,
+          "first_unsafe_lead_before_actual_violation_s": 1.2929999999999993,
+          "safe_to_unsafe_transitions": 1
+        },
+        {
+          "delay_s": 0.1,
+          "cycles": [
+            {
+              "cycle_id": 127,
+              "sim_s": 35.574000000000005,
+              "relative_to_first_violation_s": -1.4529999999999959,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0684295805913984,
+                  "continuous_bound_m": 0.06510274682780785,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.02600317372020543,
+                  "continuous_bound_m": 0.022571355035996107,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 128,
+              "sim_s": 35.660000000000004,
+              "relative_to_first_violation_s": -1.3669999999999973,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.03755950831261523,
+                  "continuous_bound_m": 0.034173268652041726,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003496573138876723,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 129,
+              "sim_s": 35.734,
+              "relative_to_first_violation_s": -1.2929999999999993,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.009421535641903178,
+                  "continuous_bound_m": 0.00595847753552197,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035778824966785317,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 130,
+              "sim_s": 35.825,
+              "relative_to_first_violation_s": -1.2019999999999982,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035224039034894494,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036405491043183975,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 131,
+              "sim_s": 35.919000000000004,
+              "relative_to_first_violation_s": -1.107999999999997,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035397796549337265,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036560355456145876,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 132,
+              "sim_s": 36.012,
+              "relative_to_first_violation_s": -1.0150000000000006,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.00355718795645832,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036717256868497,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 133,
+              "sim_s": 36.091,
+              "relative_to_first_violation_s": -0.9359999999999999,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003537159848159229,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036468429229618475,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 134,
+              "sim_s": 36.187000000000005,
+              "relative_to_first_violation_s": -0.8399999999999963,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003498102388779808,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035997277746766944,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 135,
+              "sim_s": 36.269000000000005,
+              "relative_to_first_violation_s": -0.7579999999999956,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034406188893032308,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003535392415396215,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 136,
+              "sim_s": 36.356,
+              "relative_to_first_violation_s": -0.6709999999999994,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034092749098327364,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003498652857312712,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 137,
+              "sim_s": 36.451,
+              "relative_to_first_violation_s": -0.5760000000000005,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035138574436168347,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036252395068613603,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 138,
+              "sim_s": 36.536,
+              "relative_to_first_violation_s": -0.49099999999999966,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035911346224790186,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037102590086166417,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 139,
+              "sim_s": 36.651,
+              "relative_to_first_violation_s": -0.37599999999999767,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003627031441421335,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037480513374675314,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 140,
+              "sim_s": 36.714000000000006,
+              "relative_to_first_violation_s": -0.3129999999999953,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036330269399712117,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037525431704218083,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 141,
+              "sim_s": 36.798,
+              "relative_to_first_violation_s": -0.2289999999999992,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035604620700263024,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036696657209974214,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 142,
+              "sim_s": 36.911,
+              "relative_to_first_violation_s": -0.11599999999999966,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003462205535279168,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035619848270054765,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 143,
+              "sim_s": 36.978,
+              "relative_to_first_violation_s": -0.04899999999999949,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0032769976213261475,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0033633686181100274,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 144,
+              "sim_s": 37.085,
+              "relative_to_first_violation_s": 0.05799999999999983,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0023165805775933277,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0023506882430835976,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            }
+          ],
+          "last_safe_cycle": 127,
+          "first_unsafe_cycle": 128,
+          "first_unsafe_lead_before_actual_violation_s": 1.3669999999999973,
+          "safe_to_unsafe_transitions": 1
+        },
+        {
+          "delay_s": 0.2,
+          "cycles": [
+            {
+              "cycle_id": 127,
+              "sim_s": 35.574000000000005,
+              "relative_to_first_violation_s": -1.4529999999999959,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.037478230014822644,
+                  "continuous_bound_m": 0.034151396251232084,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034318186842093234,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 128,
+              "sim_s": 35.660000000000004,
+              "relative_to_first_violation_s": -1.3669999999999973,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.010581212343160562,
+                  "continuous_bound_m": 0.007194972682587061,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003496573138876723,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 129,
+              "sim_s": 35.734,
+              "relative_to_first_violation_s": -1.2929999999999993,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034630581063812083,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035778824966785317,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 130,
+              "sim_s": 35.825,
+              "relative_to_first_violation_s": -1.2019999999999982,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035224039034894494,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036405491043183975,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 131,
+              "sim_s": 35.919000000000004,
+              "relative_to_first_violation_s": -1.107999999999997,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035397796549337265,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036560355456145876,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 132,
+              "sim_s": 36.012,
+              "relative_to_first_violation_s": -1.0150000000000006,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.00355718795645832,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036717256868497,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 133,
+              "sim_s": 36.091,
+              "relative_to_first_violation_s": -0.9359999999999999,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003537159848159229,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036468429229618475,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 134,
+              "sim_s": 36.187000000000005,
+              "relative_to_first_violation_s": -0.8399999999999963,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003498102388779808,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035997277746766944,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 135,
+              "sim_s": 36.269000000000005,
+              "relative_to_first_violation_s": -0.7579999999999956,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034406188893032308,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003535392415396215,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 136,
+              "sim_s": 36.356,
+              "relative_to_first_violation_s": -0.6709999999999994,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034092749098327364,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003498652857312712,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 137,
+              "sim_s": 36.451,
+              "relative_to_first_violation_s": -0.5760000000000005,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035138574436168347,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036252395068613603,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 138,
+              "sim_s": 36.536,
+              "relative_to_first_violation_s": -0.49099999999999966,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035911346224790186,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037102590086166417,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 139,
+              "sim_s": 36.651,
+              "relative_to_first_violation_s": -0.37599999999999767,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003627031441421335,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037480513374675314,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 140,
+              "sim_s": 36.714000000000006,
+              "relative_to_first_violation_s": -0.3129999999999953,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036330269399712117,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037525431704218083,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 141,
+              "sim_s": 36.798,
+              "relative_to_first_violation_s": -0.2289999999999992,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035604620700263024,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036696657209974214,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 142,
+              "sim_s": 36.911,
+              "relative_to_first_violation_s": -0.11599999999999966,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003462205535279168,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035619848270054765,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 143,
+              "sim_s": 36.978,
+              "relative_to_first_violation_s": -0.04899999999999949,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0032769976213261475,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0033633686181100274,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 144,
+              "sim_s": 37.085,
+              "relative_to_first_violation_s": 0.05799999999999983,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0023165805775933277,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0023506882430835976,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            }
+          ],
+          "last_safe_cycle": null,
+          "first_unsafe_cycle": 127,
+          "first_unsafe_lead_before_actual_violation_s": 1.4529999999999959,
+          "safe_to_unsafe_transitions": 0
+        }
+      ]
+    },
+    {
+      "planner": "tdt_qp",
+      "first_body_gap_violation_sim_s": 28.581,
+      "delays": [
+        {
+          "delay_s": 0.0,
+          "cycles": [
+            {
+              "cycle_id": 124,
+              "sim_s": 27.112000000000002,
+              "relative_to_first_violation_s": -1.4689999999999976,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.2615720186531092,
+                  "continuous_bound_m": 0.2590101654598041,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.22740249989680184,
+                  "continuous_bound_m": 0.22484064670349677,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 125,
+              "sim_s": 27.203000000000003,
+              "relative_to_first_violation_s": -1.3779999999999966,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.22402505783406923,
+                  "continuous_bound_m": 0.22142591211301818,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.190558069821944,
+                  "continuous_bound_m": 0.1879545740731375,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 126,
+              "sim_s": 27.289,
+              "relative_to_first_violation_s": -1.291999999999998,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.19296242565954103,
+                  "continuous_bound_m": 0.19030059978894398,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.15943472693632632,
+                  "continuous_bound_m": 0.15676556283395543,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 127,
+              "sim_s": 27.414,
+              "relative_to_first_violation_s": -1.166999999999998,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.15647754457415886,
+                  "continuous_bound_m": 0.15378444297367824,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.12285967307869061,
+                  "continuous_bound_m": 0.12015935360992346,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 128,
+              "sim_s": 27.471,
+              "relative_to_first_violation_s": -1.1099999999999994,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.1247196107935249,
+                  "continuous_bound_m": 0.12196286304722838,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.09102405139227443,
+                  "continuous_bound_m": 0.08825909702530131,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 129,
+              "sim_s": 27.557000000000002,
+              "relative_to_first_violation_s": -1.0239999999999974,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.09218611307047553,
+                  "continuous_bound_m": 0.08937567847660095,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.05840720015941425,
+                  "continuous_bound_m": 0.055588120327004144,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 130,
+              "sim_s": 27.651000000000003,
+              "relative_to_first_violation_s": -0.9299999999999962,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.05053918420225045,
+                  "continuous_bound_m": 0.0476722490668944,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.016651290880374425,
+                  "continuous_bound_m": 0.013775278954527414,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 131,
+              "sim_s": 27.773000000000003,
+              "relative_to_first_violation_s": -0.8079999999999963,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0083935728293838,
+                  "continuous_bound_m": 0.005495598240598153,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029078354666322473,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 132,
+              "sim_s": 27.838,
+              "relative_to_first_violation_s": -0.7429999999999986,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002921799801228289,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029403401986389933,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 133,
+              "sim_s": 27.949,
+              "relative_to_first_violation_s": -0.6319999999999979,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002973113070169471,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029941844392626683,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 134,
+              "sim_s": 28.016000000000002,
+              "relative_to_first_violation_s": -0.5649999999999977,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0030147840149462425,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0030494302978488516,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 135,
+              "sim_s": 28.096,
+              "relative_to_first_violation_s": -0.48499999999999943,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0032930371103026225,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0033535760695578795,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 136,
+              "sim_s": 28.16,
+              "relative_to_first_violation_s": -0.4209999999999994,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034247118716898037,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003496363062825917,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 137,
+              "sim_s": 28.264000000000003,
+              "relative_to_first_violation_s": -0.3169999999999966,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035631638024016562,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003655066474697615,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 138,
+              "sim_s": 28.338,
+              "relative_to_first_violation_s": -0.24299999999999855,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036843267346916555,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037910329762621104,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 139,
+              "sim_s": 28.398000000000003,
+              "relative_to_first_violation_s": -0.18299999999999628,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036212658377882227,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003721675002082808,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 140,
+              "sim_s": 28.504,
+              "relative_to_first_violation_s": -0.07699999999999818,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034719125057045786,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035577311238871633,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 141,
+              "sim_s": 28.585,
+              "relative_to_first_violation_s": 0.004000000000001336,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034819968419412517,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035576063260793545,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 142,
+              "sim_s": 28.663,
+              "relative_to_first_violation_s": 0.08200000000000074,
+              "full_sweep": {
+                "delay_s": 0.0,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034840033186112384,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035481263381300305,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            }
+          ],
+          "last_safe_cycle": 129,
+          "first_unsafe_cycle": 130,
+          "first_unsafe_lead_before_actual_violation_s": 0.9299999999999962,
+          "safe_to_unsafe_transitions": 1
+        },
+        {
+          "delay_s": 0.1,
+          "cycles": [
+            {
+              "cycle_id": 124,
+              "sim_s": 27.112000000000002,
+              "relative_to_first_violation_s": -1.4689999999999976,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.22240255329374659,
+                  "continuous_bound_m": 0.21984070010044152,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.1889598932550287,
+                  "continuous_bound_m": 0.18639804006172364,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 125,
+              "sim_s": 27.203000000000003,
+              "relative_to_first_violation_s": -1.3779999999999966,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.1855443569410129,
+                  "continuous_bound_m": 0.18294521121996185,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.15202312787049177,
+                  "continuous_bound_m": 0.14941963212168527,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 126,
+              "sim_s": 27.289,
+              "relative_to_first_violation_s": -1.291999999999998,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.15403908020366952,
+                  "continuous_bound_m": 0.15137725433307248,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.12042023918652234,
+                  "continuous_bound_m": 0.11775107508415145,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 127,
+              "sim_s": 27.414,
+              "relative_to_first_violation_s": -1.166999999999998,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.11811742648246071,
+                  "continuous_bound_m": 0.11542432488198011,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.0844103081758254,
+                  "continuous_bound_m": 0.08170998870705824,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 128,
+              "sim_s": 27.471,
+              "relative_to_first_violation_s": -1.1099999999999994,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.08587426210654225,
+                  "continuous_bound_m": 0.08311751436024574,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.05207765995972036,
+                  "continuous_bound_m": 0.04931270559274724,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 129,
+              "sim_s": 27.557000000000002,
+              "relative_to_first_violation_s": -1.0239999999999974,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.052785407629299286,
+                  "continuous_bound_m": 0.04997497303542471,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.01890051945443716,
+                  "continuous_bound_m": 0.016081439622027054,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 130,
+              "sim_s": 27.651000000000003,
+              "relative_to_first_violation_s": -0.9299999999999962,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.010345747380135606,
+                  "continuous_bound_m": 0.007478812244779555,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002876011925847012,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 131,
+              "sim_s": 27.773000000000003,
+              "relative_to_first_violation_s": -0.8079999999999963,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002897974588785646,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029078354666322473,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 132,
+              "sim_s": 27.838,
+              "relative_to_first_violation_s": -0.7429999999999986,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002921799801228289,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029403401986389933,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 133,
+              "sim_s": 27.949,
+              "relative_to_first_violation_s": -0.6319999999999979,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002973113070169471,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029941844392626683,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 134,
+              "sim_s": 28.016000000000002,
+              "relative_to_first_violation_s": -0.5649999999999977,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0030147840149462425,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0030494302978488516,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 135,
+              "sim_s": 28.096,
+              "relative_to_first_violation_s": -0.48499999999999943,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0032930371103026225,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0033535760695578795,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 136,
+              "sim_s": 28.16,
+              "relative_to_first_violation_s": -0.4209999999999994,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034247118716898037,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003496363062825917,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 137,
+              "sim_s": 28.264000000000003,
+              "relative_to_first_violation_s": -0.3169999999999966,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035631638024016562,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003655066474697615,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 138,
+              "sim_s": 28.338,
+              "relative_to_first_violation_s": -0.24299999999999855,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036843267346916555,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037910329762621104,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 139,
+              "sim_s": 28.398000000000003,
+              "relative_to_first_violation_s": -0.18299999999999628,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036212658377882227,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003721675002082808,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 140,
+              "sim_s": 28.504,
+              "relative_to_first_violation_s": -0.07699999999999818,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034719125057045786,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035577311238871633,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 141,
+              "sim_s": 28.585,
+              "relative_to_first_violation_s": 0.004000000000001336,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034819968419412517,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035576063260793545,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 142,
+              "sim_s": 28.663,
+              "relative_to_first_violation_s": 0.08200000000000074,
+              "full_sweep": {
+                "delay_s": 0.1,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034840033186112384,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035481263381300305,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            }
+          ],
+          "last_safe_cycle": 128,
+          "first_unsafe_cycle": 129,
+          "first_unsafe_lead_before_actual_violation_s": 1.0239999999999974,
+          "safe_to_unsafe_transitions": 1
+        },
+        {
+          "delay_s": 0.2,
+          "cycles": [
+            {
+              "cycle_id": 124,
+              "sim_s": 27.112000000000002,
+              "relative_to_first_violation_s": -1.4689999999999976,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.18395994665197346,
+                  "continuous_bound_m": 0.1813980934586684,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.15051728661325559,
+                  "continuous_bound_m": 0.14795543341995052,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 125,
+              "sim_s": 27.203000000000003,
+              "relative_to_first_violation_s": -1.3779999999999966,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.14699365799543607,
+                  "continuous_bound_m": 0.14439451227438502,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.113418333296738,
+                  "continuous_bound_m": 0.11081483754793149,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 126,
+              "sim_s": 27.289,
+              "relative_to_first_violation_s": -1.291999999999998,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.11499604017225895,
+                  "continuous_bound_m": 0.11233421430166189,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.08128647192603644,
+                  "continuous_bound_m": 0.07861730782366555,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 127,
+              "sim_s": 27.414,
+              "relative_to_first_violation_s": -1.166999999999998,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.07963419859564169,
+                  "continuous_bound_m": 0.07694109699516109,
+                  "passes_assumed_model": true
+                },
+                "padded": {
+                  "sample_min_m": 0.04583823609281179,
+                  "continuous_bound_m": 0.043137916624044634,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": true
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 128,
+              "sim_s": 27.471,
+              "relative_to_first_violation_s": -1.1099999999999994,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.046884903346553486,
+                  "continuous_bound_m": 0.04412815560025697,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.012987780311775055,
+                  "continuous_bound_m": 0.010222825944801934,
+                  "passes_assumed_model": true
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 129,
+              "sim_s": 27.557000000000002,
+              "relative_to_first_violation_s": -1.0239999999999974,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.013229551551808605,
+                  "continuous_bound_m": 0.01041911695793403,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002819079832410105,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 130,
+              "sim_s": 27.651000000000003,
+              "relative_to_first_violation_s": -0.9299999999999962,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002866935135356051,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002876011925847012,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": true
+            },
+            {
+              "cycle_id": 131,
+              "sim_s": 27.773000000000003,
+              "relative_to_first_violation_s": -0.8079999999999963,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002897974588785646,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029078354666322473,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 132,
+              "sim_s": 27.838,
+              "relative_to_first_violation_s": -0.7429999999999986,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002921799801228289,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029403401986389933,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 133,
+              "sim_s": 27.949,
+              "relative_to_first_violation_s": -0.6319999999999979,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.002973113070169471,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0029941844392626683,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 134,
+              "sim_s": 28.016000000000002,
+              "relative_to_first_violation_s": -0.5649999999999977,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0030147840149462425,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0030494302978488516,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 135,
+              "sim_s": 28.096,
+              "relative_to_first_violation_s": -0.48499999999999943,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0032930371103026225,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0033535760695578795,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 136,
+              "sim_s": 28.16,
+              "relative_to_first_violation_s": -0.4209999999999994,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034247118716898037,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003496363062825917,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 137,
+              "sim_s": 28.264000000000003,
+              "relative_to_first_violation_s": -0.3169999999999966,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035631638024016562,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003655066474697615,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 138,
+              "sim_s": 28.338,
+              "relative_to_first_violation_s": -0.24299999999999855,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036843267346916555,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0037910329762621104,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 139,
+              "sim_s": 28.398000000000003,
+              "relative_to_first_violation_s": -0.18299999999999628,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0036212658377882227,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.003721675002082808,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 140,
+              "sim_s": 28.504,
+              "relative_to_first_violation_s": -0.07699999999999818,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034719125057045786,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035577311238871633,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 141,
+              "sim_s": 28.585,
+              "relative_to_first_violation_s": 0.004000000000001336,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034819968419412517,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035576063260793545,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            },
+            {
+              "cycle_id": 142,
+              "sim_s": 28.663,
+              "relative_to_first_violation_s": 0.08200000000000074,
+              "full_sweep": {
+                "delay_s": 0.2,
+                "body": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0034840033186112384,
+                  "passes_assumed_model": false
+                },
+                "padded": {
+                  "sample_min_m": 0.0,
+                  "continuous_bound_m": -0.0035481263381300305,
+                  "passes_assumed_model": false
+                },
+                "assumed_braking_gate_pass": false
+              },
+              "hindsight_pass": false
+            }
+          ],
+          "last_safe_cycle": 127,
+          "first_unsafe_cycle": 128,
+          "first_unsafe_lead_before_actual_violation_s": 1.1099999999999994,
+          "safe_to_unsafe_transitions": 1
+        }
+      ]
+    }
+  ]
+}

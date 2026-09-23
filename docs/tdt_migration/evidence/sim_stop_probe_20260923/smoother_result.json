@@ -1,0 +1,54 @@
+{
+  "schema": "tdt_smoother_sim_stop_probe/v1",
+  "scope": "one no-navigation /cmd_vel_nav step per axis through OPEN_LOOP velocity_smoother and simulator; not a certified worst-case response",
+  "records_sha256": "946732e64670fe362089589b98c7688821c3efeb5b2be5814b58eb6adede7d14",
+  "profile_sha256": "c3a3ce2c6f5493d3b538866f94f173409fb4b6edfe5ca371fdf5f2d0c8bf95a8",
+  "robot_sdf_sha256": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3",
+  "trials": [
+    {
+      "name": "lateral_stop",
+      "axis": 1,
+      "initial_speed": 0.3999999412789723,
+      "first_zero_sent_sim_s": 3.5850000000000004,
+      "first_smoothed_drop_sim_s": 3.6170000000000004,
+      "first_smoothed_near_zero_sim_s": 3.959,
+      "first_relay_near_zero_sim_s": 3.959,
+      "first_odom_drop_stamp_s": 3.64,
+      "first_odom_near_zero_stamp_s": 4.0,
+      "sent_to_smoothed_drop_s": 0.03200000000000003,
+      "sent_to_smoothed_near_zero_s": 0.37399999999999967,
+      "sent_to_odom_near_zero_s": 0.4149999999999996,
+      "sampled_axis_motion_after_zero_sent": 0.09016807622853175
+    },
+    {
+      "name": "longitudinal_stop",
+      "axis": 0,
+      "initial_speed": 0.39999994127903893,
+      "first_zero_sent_sim_s": 7.598000000000001,
+      "first_smoothed_drop_sim_s": 7.638000000000001,
+      "first_smoothed_near_zero_sim_s": 7.982,
+      "first_relay_near_zero_sim_s": 7.984000000000001,
+      "first_odom_drop_stamp_s": 7.66,
+      "first_odom_near_zero_stamp_s": 8.02,
+      "sent_to_smoothed_drop_s": 0.040000000000000036,
+      "sent_to_smoothed_near_zero_s": 0.38399999999999945,
+      "sent_to_odom_near_zero_s": 0.4219999999999988,
+      "sampled_axis_motion_after_zero_sent": 0.09920007582493806
+    },
+    {
+      "name": "yaw_stop",
+      "axis": 2,
+      "initial_speed": 0.49999996554106474,
+      "first_zero_sent_sim_s": 11.587000000000002,
+      "first_smoothed_drop_sim_s": 11.596,
+      "first_smoothed_near_zero_sim_s": 11.792000000000002,
+      "first_relay_near_zero_sim_s": 11.794,
+      "first_odom_drop_stamp_s": 11.62,
+      "first_odom_near_zero_stamp_s": 11.86,
+      "sent_to_smoothed_drop_s": 0.008999999999998565,
+      "sent_to_smoothed_near_zero_s": 0.20500000000000007,
+      "sent_to_odom_near_zero_s": 0.2729999999999979,
+      "sampled_axis_motion_after_zero_sent": 0.07378802045786864
+    }
+  ]
+}

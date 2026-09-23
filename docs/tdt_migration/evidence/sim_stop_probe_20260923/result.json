@@ -1,0 +1,79 @@
+{
+  "schema": "tdt_direct_sim_stop_probe/v1",
+  "scope": "one no-navigation direct /cmd_vel step per axis; neither velocity_smoother nor Nav2, not a certified braking lower bound",
+  "records_sha256": "618c56f36d791a27c003109e33ad75196140c98233766654376d6cca3722921b",
+  "robot_sdf_sha256": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3",
+  "chassis_stub_sha256": "6e5128c485f240d76e64fc18ad0c0686012d9ac26321c6d8a6ccc281c14eaff1",
+  "trials": [
+    {
+      "name": "lateral_stop",
+      "axis": 1,
+      "initial_speed": 0.39999994127903893,
+      "first_zero_sent_sim_s": 3.0410000000000004,
+      "first_zero_relay_sim_s": 3.0420000000000003,
+      "first_drop_odom_stamp_s": 3.06,
+      "first_at_or_below_001_odom_stamp_s": 3.26,
+      "relay_to_first_drop_s": 0.017999999999999794,
+      "relay_to_near_zero_s": 0.21799999999999953,
+      "sampled_axis_motion_after_relay": 0.04260008597857804,
+      "intermediate_deceleration_per_s": [
+        1.9999997063924173,
+        1.9999997063951929,
+        1.9999997063951929,
+        1.9999997063946378,
+        1.999999706395748,
+        1.9999997063968582,
+        1.9999997063951929,
+        1.999999706396303
+      ],
+      "sample_count": 49
+    },
+    {
+      "name": "longitudinal_stop",
+      "axis": 0,
+      "initial_speed": 0.39999994127903893,
+      "first_zero_sent_sim_s": 7.054,
+      "first_zero_relay_sim_s": 7.054,
+      "first_drop_odom_stamp_s": 7.08,
+      "first_at_or_below_001_odom_stamp_s": 7.26,
+      "relay_to_first_drop_s": 0.0259999999999998,
+      "relay_to_near_zero_s": 0.20599999999999952,
+      "sampled_axis_motion_after_relay": 0.047780082450955844,
+      "intermediate_deceleration_per_s": [
+        1.999999706393572,
+        1.9999997063945933,
+        1.999999706393572,
+        1.9999997063968138,
+        1.9999997063952373,
+        1.9999997063957036,
+        1.9999997063980128
+      ],
+      "sample_count": 49
+    },
+    {
+      "name": "yaw_stop",
+      "axis": 2,
+      "initial_speed": 0.49999996554106474,
+      "first_zero_sent_sim_s": 11.030000000000001,
+      "first_zero_relay_sim_s": 11.030000000000001,
+      "first_drop_odom_stamp_s": 11.06,
+      "first_at_or_below_001_odom_stamp_s": 11.3,
+      "relay_to_first_drop_s": 0.02999999999999936,
+      "relay_to_near_zero_s": 0.2699999999999996,
+      "sampled_axis_motion_after_relay": 0.07025602221528988,
+      "intermediate_deceleration_per_s": [
+        1.999999949475793,
+        1.999999949475793,
+        1.999999949475793,
+        1.9999999494756153,
+        1.9999995856779123,
+        1.9999998767162168,
+        1.9999995856779123,
+        1.9999996584373108,
+        1.9999998039566407,
+        1.9999997311970645
+      ],
+      "sample_count": 50
+    }
+  ]
+}
