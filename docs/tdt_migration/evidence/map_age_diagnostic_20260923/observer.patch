@@ -1,0 +1,53 @@
+--- a/plugins/obstacle_layer.cpp
++++ b/plugins/obstacle_layer.cpp
+@@ -1,3 +1,4 @@
++#include "nav2_costmap_2d/tdt_map_trace.hpp"
+ /*********************************************************************
+  *
+  * Software License Agreement (BSD License)
+@@ -434,6 +435,17 @@
+   // get the clearing observations
+   current = current && getClearingObservations(clearing_observations);
+ 
++  if (tdt_map_trace::enabled()) {
++    for (const auto & obs : observations) {
++      const auto & stamp = obs.cloud_->header.stamp;
++      const auto stamp_ns = static_cast<int64_t>(stamp.sec) * INT64_C(1000000000) + stamp.nanosec;
++      tdt_map_trace::emit(
++        "{\"kind\":\"marking_selected\",\"steady_ns\":%llu,\"pid\":%ld,\"layer\":\"%s\",\"stamp_ns\":%lld,\"cloud_bytes\":%zu}",
++        static_cast<unsigned long long>(tdt_map_trace::steady_ns()),
++        static_cast<long>(::getpid()), name_.c_str(), static_cast<long long>(stamp_ns),
++        obs.cloud_->data.size());
++    }
++  }
+   // update the global current status
+   current_ = current;
+ 
+--- a/src/layered_costmap.cpp
++++ b/src/layered_costmap.cpp
+@@ -1,3 +1,4 @@
++#include "nav2_costmap_2d/tdt_map_trace.hpp"
+ /*********************************************************************
+  *
+  * Software License Agreement (BSD License)
+@@ -254,6 +255,20 @@
+   byn_ = yn;
+ 
+   initialized_ = true;
++  const auto update_complete_ns = tdt_map_trace::enabled() ? tdt_map_trace::steady_ns() : 0;
++  if (tdt_map_trace::enabled()) {
++    const auto width = combined_costmap_.getSizeInCellsX();
++    const auto height = combined_costmap_.getSizeInCellsY();
++    const auto hash = tdt_map_trace::fnv64(
++      combined_costmap_.getCharMap(),
++      static_cast<size_t>(width) * height);
++    tdt_map_trace::emit(
++      "{\"kind\":\"master_complete\",\"steady_ns\":%llu,\"pid\":%ld,\"frame\":\"%s\",\"width\":%u,\"height\":%u,\"resolution\":%.17g,\"origin\":[%.17g,%.17g],\"fnv64\":\"%016llx\"}",
++      static_cast<unsigned long long>(update_complete_ns),
++      static_cast<long>(::getpid()), global_frame_.c_str(), width, height,
++      combined_costmap_.getResolution(), combined_costmap_.getOriginX(),
++      combined_costmap_.getOriginY(), static_cast<unsigned long long>(hash));
++  }
+ }
+ 
+ bool LayeredCostmap::isCurrent()

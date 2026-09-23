@@ -1,0 +1,595 @@
+{
+  "schema": "tdt_costmap_age_analysis/v1",
+  "series": "build/tdt_p2b/runs/dynamic_map_age_pilot_v1",
+  "trials": [
+    {
+      "planner": "tdt_astar",
+      "scope": "fixed-phase instrumented first case, not acceptance",
+      "action_status": 4,
+      "recoveries": 11,
+      "body_interpolation_bound_m": 0.01946273794708078,
+      "padded_interpolation_bound_m": -0.00866142416034767,
+      "dynamic_gate_pass": false,
+      "first_body_below_005_sim_s": 37.027,
+      "cycle_count": 202,
+      "local_update_count": 579,
+      "all_cycles_latest_completed_map_matches_raw": true,
+      "nonzero_speed_cycles": 196,
+      "exception_cycles": 0,
+      "cycles_without_selected_observation": 0,
+      "map_age_ms": {
+        "median": 18.8498065,
+        "p95": 76.8862813,
+        "max": 88.058449
+      },
+      "selected_scan_age_sim_s": {
+        "median": 0.1115,
+        "p95": 0.16574999999999995,
+        "max": 0.2
+      },
+      "window": [
+        {
+          "cycle_id": 140,
+          "sim_s": 36.714000000000006,
+          "map_age_ms": 0.073561,
+          "map_complete_steady_ns": 3157803606019,
+          "map_hash_fnv64": "bf2f7b4f82824755",
+          "map_origin": [
+            2.399999999999999,
+            -3.849999999999995
+          ],
+          "latest_selected_scan_stamp_s": 36.631,
+          "selected_scan_age_sim_s": 0.083,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.4625820061734923,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.2678025014336787,
+          "raw_254_body_gap_m": 0.28249147516905954,
+          "actual_box_cell_counts": {
+            "253_inscribed": 15,
+            "254_lethal": 84,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.7249999999999952,
+            0.5250000000000048
+          ],
+          "cost_critic_collision_rollouts": 39,
+          "returned_command": [
+            -0.19459524750709534,
+            0.4981633424758911,
+            -0.5228927731513977
+          ]
+        },
+        {
+          "cycle_id": 141,
+          "sim_s": 36.798,
+          "map_age_ms": 1.342963,
+          "map_complete_steady_ns": 3157902208785,
+          "map_hash_fnv64": "e9f70128f9f6da6a",
+          "map_origin": [
+            2.449999999999999,
+            -3.7999999999999954
+          ],
+          "latest_selected_scan_stamp_s": 36.697,
+          "selected_scan_age_sim_s": 0.101,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.5166118043540722,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.2004429227506508,
+          "raw_254_body_gap_m": 0.2438675014354369,
+          "actual_box_cell_counts": {
+            "253_inscribed": 16,
+            "254_lethal": 83,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.7249999999999952,
+            0.5250000000000048
+          ],
+          "cost_critic_collision_rollouts": 68,
+          "returned_command": [
+            -0.17719243466854095,
+            0.5007774829864502,
+            -0.4777666926383972
+          ]
+        },
+        {
+          "cycle_id": 142,
+          "sim_s": 36.911,
+          "map_age_ms": 20.868582999999997,
+          "map_complete_steady_ns": 3158002515575,
+          "map_hash_fnv64": "6a4782bc927a1851",
+          "map_origin": [
+            2.4999999999999987,
+            -3.7999999999999954
+          ],
+          "latest_selected_scan_stamp_s": 36.829,
+          "selected_scan_age_sim_s": 0.082,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.5854229843310593,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.11945440038927256,
+          "raw_254_body_gap_m": 0.1322532326901365,
+          "actual_box_cell_counts": {
+            "253_inscribed": 9,
+            "254_lethal": 90,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.8249999999999953,
+            0.5250000000000048
+          ],
+          "cost_critic_collision_rollouts": 228,
+          "returned_command": [
+            -0.11630754172801971,
+            0.5080177187919617,
+            -0.41356465220451355
+          ]
+        },
+        {
+          "cycle_id": 143,
+          "sim_s": 36.978,
+          "map_age_ms": 1.5733219999999999,
+          "map_complete_steady_ns": 3158102237261,
+          "map_hash_fnv64": "3d0c4f0abac484d8",
+          "map_origin": [
+            2.5499999999999985,
+            -3.7499999999999956
+          ],
+          "latest_selected_scan_stamp_s": 36.895,
+          "selected_scan_age_sim_s": 0.083,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.6241998345180569,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.0739475443165387,
+          "raw_254_body_gap_m": 0.07427330246888038,
+          "actual_box_cell_counts": {
+            "253_inscribed": 10,
+            "254_lethal": 89,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.8749999999999956,
+            0.5250000000000048
+          ],
+          "cost_critic_collision_rollouts": 276,
+          "returned_command": [
+            -0.049309853464365005,
+            0.5081951022148132,
+            -0.30256444215774536
+          ]
+        },
+        {
+          "cycle_id": 144,
+          "sim_s": 37.085,
+          "map_age_ms": 20.988115999999998,
+          "map_complete_steady_ns": 3158202346392,
+          "map_hash_fnv64": "a95b2c8a104a4b75",
+          "map_origin": [
+            2.5999999999999983,
+            -3.7499999999999956
+          ],
+          "latest_selected_scan_stamp_s": 36.961000000000006,
+          "selected_scan_age_sim_s": 0.12400000000000001,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.6582663230613182,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.0419769650221528,
+          "raw_254_body_gap_m": 0.07257920270943276,
+          "actual_box_cell_counts": {
+            "253_inscribed": 19,
+            "254_lethal": 80,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.9249999999999954,
+            0.5250000000000048
+          ],
+          "cost_critic_collision_rollouts": 212,
+          "returned_command": [
+            -0.1078399121761322,
+            0.5137085914611816,
+            -0.2872152626514435
+          ]
+        },
+        {
+          "cycle_id": 145,
+          "sim_s": 37.175000000000004,
+          "map_age_ms": 21.44435,
+          "map_complete_steady_ns": 3158302166496,
+          "map_hash_fnv64": "e9549cbceea5e640",
+          "map_origin": [
+            2.649999999999998,
+            -3.7499999999999956
+          ],
+          "latest_selected_scan_stamp_s": 37.027,
+          "selected_scan_age_sim_s": 0.14800000000000002,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.6488561687742159,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.04513291404611175,
+          "raw_254_body_gap_m": 0.05438183423506989,
+          "actual_box_cell_counts": {
+            "253_inscribed": 13,
+            "254_lethal": 86,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.9249999999999954,
+            0.5250000000000048
+          ],
+          "cost_critic_collision_rollouts": 86,
+          "returned_command": [
+            -0.1847575604915619,
+            0.5031980276107788,
+            -0.24744053184986115
+          ]
+        },
+        {
+          "cycle_id": 146,
+          "sim_s": 37.259,
+          "map_age_ms": 23.052623999999998,
+          "map_complete_steady_ns": 3158401540655,
+          "map_hash_fnv64": "d102aa9586c0cf21",
+          "map_origin": [
+            2.699999999999998,
+            -3.7499999999999956
+          ],
+          "latest_selected_scan_stamp_s": 37.159,
+          "selected_scan_age_sim_s": 0.1,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.6317160208413483,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.04587916626118416,
+          "raw_254_body_gap_m": 0.04617706252953695,
+          "actual_box_cell_counts": {
+            "253_inscribed": 10,
+            "254_lethal": 89,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.9249999999999954,
+            0.5250000000000048
+          ],
+          "cost_critic_collision_rollouts": 230,
+          "returned_command": [
+            -0.2464992105960846,
+            0.4919677972793579,
+            -0.2608600854873657
+          ]
+        }
+      ]
+    },
+    {
+      "planner": "tdt_qp",
+      "scope": "fixed-phase instrumented first case, not acceptance",
+      "action_status": 4,
+      "recoveries": 13,
+      "body_interpolation_bound_m": -0.011010806817568105,
+      "padded_interpolation_bound_m": -0.011164689785486315,
+      "dynamic_gate_pass": false,
+      "first_body_below_005_sim_s": 28.581,
+      "cycle_count": 203,
+      "local_update_count": 559,
+      "all_cycles_latest_completed_map_matches_raw": true,
+      "nonzero_speed_cycles": 184,
+      "exception_cycles": 0,
+      "cycles_without_selected_observation": 0,
+      "map_age_ms": {
+        "median": 78.553708,
+        "p95": 90.7831358,
+        "max": 100.061521
+      },
+      "selected_scan_age_sim_s": {
+        "median": 0.15000000000000002,
+        "p95": 0.1949,
+        "max": 0.21200000000000002
+      },
+      "window": [
+        {
+          "cycle_id": 138,
+          "sim_s": 28.338,
+          "map_age_ms": 0.204124,
+          "map_complete_steady_ns": 3290537551175,
+          "map_hash_fnv64": "0b79b7dbbc2351ab",
+          "map_origin": [
+            2.0500000000000003,
+            -3.5499999999999963
+          ],
+          "latest_selected_scan_stamp_s": 28.249000000000002,
+          "selected_scan_age_sim_s": 0.08900000000000001,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.19825839778827103,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.2908396137350123,
+          "raw_254_body_gap_m": 0.31258783845882027,
+          "actual_box_cell_counts": {
+            "253_inscribed": 6,
+            "254_lethal": 104,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.42499999999999627,
+            0.6750000000000043
+          ],
+          "cost_critic_collision_rollouts": 42,
+          "returned_command": [
+            0.47422415018081665,
+            0.2973695993423462,
+            -0.4786306619644165
+          ]
+        },
+        {
+          "cycle_id": 139,
+          "sim_s": 28.398000000000003,
+          "map_age_ms": 79.719213,
+          "map_complete_steady_ns": 3290537551175,
+          "map_hash_fnv64": "0b79b7dbbc2351ab",
+          "map_origin": [
+            2.0500000000000003,
+            -3.5499999999999963
+          ],
+          "latest_selected_scan_stamp_s": 28.249000000000002,
+          "selected_scan_age_sim_s": 0.14900000000000002,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.24297732731949345,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.2273449892715308,
+          "raw_254_body_gap_m": 0.29033688400887464,
+          "actual_box_cell_counts": {
+            "253_inscribed": 15,
+            "254_lethal": 95,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.42499999999999627,
+            0.6750000000000043
+          ],
+          "cost_critic_collision_rollouts": 34,
+          "returned_command": [
+            0.48786455392837524,
+            0.2647523880004883,
+            -0.4091123342514038
+          ]
+        },
+        {
+          "cycle_id": 140,
+          "sim_s": 28.504,
+          "map_age_ms": 0.029715,
+          "map_complete_steady_ns": 3290737702059,
+          "map_hash_fnv64": "0f7f0bca02960bd9",
+          "map_origin": [
+            2.15,
+            -3.5499999999999963
+          ],
+          "latest_selected_scan_stamp_s": 28.447000000000003,
+          "selected_scan_age_sim_s": 0.057,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.32004305956045326,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.1200571576706103,
+          "raw_254_body_gap_m": 0.11418173924966779,
+          "actual_box_cell_counts": {
+            "253_inscribed": 8,
+            "254_lethal": 102,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.5749999999999962,
+            0.6750000000000043
+          ],
+          "cost_critic_collision_rollouts": 139,
+          "returned_command": [
+            0.531868040561676,
+            0.1482454538345337,
+            -0.36203598976135254
+          ]
+        },
+        {
+          "cycle_id": 141,
+          "sim_s": 28.585,
+          "map_age_ms": 1.200994,
+          "map_complete_steady_ns": 3290837646404,
+          "map_hash_fnv64": "8c6ccd9b163c4a8e",
+          "map_origin": [
+            2.1999999999999997,
+            -3.5499999999999963
+          ],
+          "latest_selected_scan_stamp_s": 28.513,
+          "selected_scan_age_sim_s": 0.07200000000000001,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.37720599354203654,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.04393483455805692,
+          "raw_254_body_gap_m": 0.06173509565710367,
+          "actual_box_cell_counts": {
+            "253_inscribed": 4,
+            "254_lethal": 95,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.624999999999996,
+            0.6750000000000043
+          ],
+          "cost_critic_collision_rollouts": 173,
+          "returned_command": [
+            0.5806917548179626,
+            0.12052039802074432,
+            -0.28188401460647583
+          ]
+        },
+        {
+          "cycle_id": 142,
+          "sim_s": 28.663,
+          "map_age_ms": 93.83801799999999,
+          "map_complete_steady_ns": 3290837646404,
+          "map_hash_fnv64": "8c6ccd9b163c4a8e",
+          "map_origin": [
+            2.1999999999999997,
+            -3.5499999999999963
+          ],
+          "latest_selected_scan_stamp_s": 28.513,
+          "selected_scan_age_sim_s": 0.15000000000000002,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.42811075656807196,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.0,
+          "raw_254_body_gap_m": 0.044580034109945044,
+          "actual_box_cell_counts": {
+            "253_inscribed": 12,
+            "254_lethal": 87,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.624999999999996,
+            0.6750000000000043
+          ],
+          "cost_critic_collision_rollouts": 98,
+          "returned_command": [
+            0.6264682412147522,
+            0.12953612208366394,
+            -0.23304295539855957
+          ]
+        },
+        {
+          "cycle_id": 143,
+          "sim_s": 28.754,
+          "map_age_ms": 0.023760999999999997,
+          "map_complete_steady_ns": 3291037462041,
+          "map_hash_fnv64": "b0054fc1a37181f3",
+          "map_origin": [
+            2.2499999999999996,
+            -3.5499999999999963
+          ],
+          "latest_selected_scan_stamp_s": 28.645000000000003,
+          "selected_scan_age_sim_s": 0.10900000000000001,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.45977214749259815,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.0,
+          "raw_254_body_gap_m": 0.037713165705651565,
+          "actual_box_cell_counts": {
+            "253_inscribed": 10,
+            "254_lethal": 89,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.7249999999999961,
+            0.6750000000000043
+          ],
+          "cost_critic_collision_rollouts": 288,
+          "returned_command": [
+            0.7352346777915955,
+            0.06738102436065674,
+            -0.3292441666126251
+          ]
+        },
+        {
+          "cycle_id": 144,
+          "sim_s": 28.829,
+          "map_age_ms": 100.061521,
+          "map_complete_steady_ns": 3291037462041,
+          "map_hash_fnv64": "b0054fc1a37181f3",
+          "map_origin": [
+            2.2499999999999996,
+            -3.5499999999999963
+          ],
+          "latest_selected_scan_stamp_s": 28.645000000000003,
+          "selected_scan_age_sim_s": 0.18400000000000002,
+          "selected_observation_count": 1,
+          "nonzero_input_speed": true,
+          "unwinding_exception": false,
+          "actual_obstacle_pose": [
+            4.9,
+            -0.4748766917934686,
+            0.0
+          ],
+          "actual_robot_body_to_box_gap_m": 0.0,
+          "raw_254_body_gap_m": 0.05754847603458238,
+          "actual_box_cell_counts": {
+            "253_inscribed": 10,
+            "254_lethal": 89,
+            "255_unknown": 0
+          },
+          "moving_x_slab_raw_254_y_range_m": [
+            -0.7249999999999961,
+            0.6750000000000043
+          ],
+          "cost_critic_collision_rollouts": 251,
+          "returned_command": [
+            0.781898021697998,
+            0.08828806132078171,
+            -0.31502893567085266
+          ]
+        }
+      ]
+    }
+  ],
+  "interpretation": "map age uses steady clock; selected scan age uses simulation stamps; neither proves causation or braking feasibility"
+}
