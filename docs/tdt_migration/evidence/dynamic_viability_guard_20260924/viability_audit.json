@@ -1,0 +1,83 @@
+{
+  "schema": "tdt_dynamic_viability_guard_audit/v1",
+  "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+  "same_profile_as_horizon_v2": true,
+  "fixture_source": {
+    "slider_limit_m": [
+      -0.95,
+      0.95
+    ],
+    "box_size_m": [
+      0.45,
+      0.55,
+      0.8
+    ],
+    "model_spawn_xy_m": [
+      4.9,
+      0.0
+    ],
+    "sdf_sha256": "ac489655001736911da1dce5bd46f6a3d559e364c65542cdcc9eb75510e2d8cc",
+    "launch_sha256": "0647031e50ec042961f51f09ec73316a39d49fc5c112ffcdf5102ef9b0d2a527"
+  },
+  "docker_exit": 0,
+  "runtime_geometry_capture_exit": 0,
+  "preflight_status": 4,
+  "action_status": 4,
+  "timed_out": false,
+  "recoveries": 0,
+  "final_xy_error_m": 0.10049087427336645,
+  "final_yaw_error_rad": 0.16569357850987457,
+  "cross_track_rms_m": 0.03059723863770793,
+  "checks": {
+    "action_succeeded": true,
+    "body_clearance_at_least_005m": true,
+    "padded_footprint_no_contact": true,
+    "final_position_within_015m": true,
+    "final_yaw_within_020rad": true,
+    "no_recovery": true,
+    "fresh_stopped_command": true
+  },
+  "limited_dynamic_geometry_and_goal_pass": true,
+  "body_moving_interpolation_bound_m": 0.1739056766903179,
+  "padded_moving_interpolation_bound_m": 0.1315664060622811,
+  "max_gazebo_gap_s": 0.01899999999999835,
+  "guard_decisions_recomputed": 551,
+  "guard_decisions_by_reason": {
+    "admit": 343,
+    "scale_viability": 171,
+    "reject_next_unstoppable": 37
+  },
+  "current_stop_model_failure_on_zero": 0,
+  "next_decision_model_failure_on_zero": 37,
+  "next_decision_failure_time_range_s": [
+    36.702000000000005,
+    44.623000000000005
+  ],
+  "min_current_body_lower_m": 0.10213994101333346,
+  "min_next_body_lower_m": 0.03038257213190685,
+  "min_next_padded_lower_m": -0.0007905087096934139,
+  "max_odom_age_s": 0.020000000000003126,
+  "max_guard_decision_gap_s": 0.05100000000000193,
+  "command_chain_counts": {
+    "/simulation/ground_truth/odom": 2308,
+    "/cmd_vel_nav": 265,
+    "/cmd_vel": 539,
+    "/simulation/chassis/cmd_vel": 539,
+    "/cmd_vel_guarded": 539
+  },
+  "costmap_marking": {
+    "global": {
+      "recorded": 75,
+      "sweep_center_checked": 37,
+      "lethal": 37
+    },
+    "local": {
+      "recorded": 189,
+      "sweep_center_checked": 61,
+      "lethal": 61
+    }
+  },
+  "qp_adopted": 24,
+  "validated_astar_fallbacks": 3,
+  "accepted_for_deployment": false
+}

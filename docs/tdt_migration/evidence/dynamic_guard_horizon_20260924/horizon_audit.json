@@ -1,0 +1,93 @@
+{
+  "schema": "tdt_dynamic_guard_horizon_audit/v1",
+  "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+  "same_profile_as_scaled_pilot": true,
+  "fixture_source": {
+    "slider_limit_m": [
+      -0.95,
+      0.95
+    ],
+    "box_size_m": [
+      0.45,
+      0.55,
+      0.8
+    ],
+    "model_spawn_xy_m": [
+      4.9,
+      0.0
+    ],
+    "sdf_sha256": "ac489655001736911da1dce5bd46f6a3d559e364c65542cdcc9eb75510e2d8cc",
+    "launch_sha256": "0647031e50ec042961f51f09ec73316a39d49fc5c112ffcdf5102ef9b0d2a527"
+  },
+  "v1_launch_error": "usage: observe_guard.py [-h] --launch-log LAUNCH_LOG [--goal-x GOAL_X]\n                        [--goal-y GOAL_Y] [--verify-profile VERIFY_PROFILE]\n                        output\nobserve_guard.py: error: use the documented isolated localhost simulation domain 174",
+  "v1_entered_preflight": false,
+  "v2": {
+    "docker_exit": 0,
+    "preflight_status": 4,
+    "action_status": 4,
+    "timed_out": false,
+    "recoveries": 0,
+    "final_xy_error_m": 0.07901558243484921,
+    "final_yaw_error_rad": 0.15904334872437026,
+    "cross_track_rms_m": 0.029448520495763172,
+    "checks": {
+      "action_succeeded": true,
+      "body_clearance_at_least_005m": true,
+      "padded_footprint_no_contact": true,
+      "final_position_within_015m": true,
+      "final_yaw_within_020rad": true,
+      "no_recovery": true,
+      "fresh_stopped_command": true
+    },
+    "limited_dynamic_geometry_and_goal_pass": true,
+    "body_moving_interpolation_bound_m": 0.1794318414850599,
+    "padded_moving_interpolation_bound_m": 0.14491899695744564,
+    "max_gazebo_gap_s": 0.01899999999999835,
+    "guard_decisions_recomputed": 550,
+    "guard_decisions_by_reason": {
+      "admit": 440,
+      "scale_sweep": 85,
+      "reject_unstoppable": 25
+    },
+    "model_unstoppable_zero_commands": 25,
+    "min_selected_body_lower_m": 0.03456670628633059,
+    "min_selected_padded_lower_m": -0.006834708147941862,
+    "first_unstoppable_transition": {
+      "previous_sim_s": 30.468000000000004,
+      "previous_reason": "scale_sweep",
+      "previous_body_lower_m": 0.05000008682142089,
+      "first_unstoppable_sim_s": 30.508000000000003,
+      "first_unstoppable_body_lower_m": 0.03456670628633059,
+      "first_unstoppable_padded_lower_m": 0.0016085571833505709,
+      "delta_sim_s": 0.03999999999999915
+    },
+    "command_chain_counts": {
+      "/simulation/ground_truth/odom": 1826,
+      "/cmd_vel_nav": 264,
+      "/cmd_vel": 537,
+      "/cmd_vel_guarded": 537,
+      "/simulation/chassis/cmd_vel": 537
+    },
+    "costmap_marking": {
+      "global": {
+        "recorded": 60,
+        "sweep_center_checked": 21,
+        "lethal": 21
+      },
+      "local": {
+        "recorded": 153,
+        "sweep_center_checked": 55,
+        "lethal": 55
+      }
+    },
+    "qp_adopted": 25,
+    "validated_astar_fallbacks": 1
+  },
+  "prior_scaled_pilot": {
+    "action_status": 4,
+    "recoveries": 0,
+    "model_unstoppable_zero_commands": 15,
+    "body_moving_interpolation_bound_m": 0.16885204567648612
+  },
+  "accepted_for_deployment": false
+}

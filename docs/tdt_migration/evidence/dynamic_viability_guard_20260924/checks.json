@@ -1,0 +1,67 @@
+{
+  "schema": "tdt_dynamic_viability_checks/v1",
+  "runtime_source_unchanged": true,
+  "old_manifest_sha256": "00982d3f3663733a82781845c43a4d914f25b872dc9b2cfda2e382712e1d57d7",
+  "old_manifest_files_preserved": 81,
+  "series": {
+    "dynamic_sweep_routing_pilot_v1": {
+      "inputs_sha256": "dc6296804574cbc70d204ef711fc31ca6590028aaf95498579262808777bfaa0",
+      "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+      "hashed_file_count": 14
+    },
+    "dynamic_sweep_routing_pilot_v2": {
+      "inputs_sha256": "a8d014c78dc0646d3448bbaaec021c583db0e3defbfd654e46638367d66cbc51",
+      "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+      "hashed_file_count": 14
+    },
+    "dynamic_scaled_guard_pilot_v1": {
+      "inputs_sha256": "f7d4c04ad2c772796aaf5a4be3ca83fc6199a8d7c36df05fc63fc291d50a272d",
+      "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+      "hashed_file_count": 16
+    },
+    "dynamic_guard_horizon_pilot_v1": {
+      "inputs_sha256": "6005a72189bbc29b5b3fada67cb366b0ec84712ac7dce9fb42038c8ab71f8067",
+      "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+      "hashed_file_count": 16
+    },
+    "dynamic_guard_horizon_pilot_v2": {
+      "inputs_sha256": "9bf1125915c9ad816e94261d211a305705a930fac06169b943c19e974da5e5bc",
+      "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+      "hashed_file_count": 17
+    },
+    "dynamic_viability_guard_pilot_v1": {
+      "inputs_sha256": "326f5d2dc6d4938d70c02e870a1232687af1ff523d538c6789829d852fc05bfb",
+      "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+      "hashed_file_count": 16
+    }
+  },
+  "focused_tests": {
+    "sweep_v1": {
+      "exit": 0,
+      "output": "test_lattice_covers_sweep_and_one_cell_raster_margin (test_planner_sweep.PlannerSweepTest) ... ok\ntest_only_two_costmaps_gain_new_layer (test_planner_sweep.PlannerSweepTest) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.002s\n\nOK\n"
+    },
+    "sweep_v2": {
+      "exit": 0,
+      "output": "test_every_positive_area_intersecting_cell_contains_lattice_point (test_planner_sweep_v2.PlannerSweepV2Test) ... ok\ntest_nominal_goal_has_room_beyond_true_sweep_and_one_cell (test_planner_sweep_v2.PlannerSweepV2Test) ... ok\ntest_points_have_no_extra_margin_and_include_boundary (test_planner_sweep_v2.PlannerSweepV2Test) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.017s\n\nOK\n"
+    },
+    "directional_offline": {
+      "exit": 0,
+      "output": "test_command_into_sweep_fails (test_directional_core.DirectionalCertificateTest) ... ok\ntest_direction_away_from_sweep_can_pass (test_directional_core.DirectionalCertificateTest) ... ok\ntest_existing_motion_blocks_zero_command_if_stop_is_too_late (test_directional_core.DirectionalCertificateTest) ... ok\ntest_nonfinite_rejected (test_directional_core.DirectionalCertificateTest) ... ok\ntest_static_position_outside_sweep_passes (test_directional_core.DirectionalCertificateTest) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.027s\n\nOK\n"
+    },
+    "scaled": {
+      "exit": 0,
+      "output": "test_existing_speed_can_make_zero_the_only_response (test_scaled_core.ScaledGuardTest) ... ok\ntest_fast_command_is_scaled_to_safe_boundary (test_scaled_core.ScaledGuardTest) ... ok\ntest_nonfinite_input_fails_closed (test_scaled_core.ScaledGuardTest) ... ok\ntest_unrestricted_command_is_unchanged (test_scaled_core.ScaledGuardTest) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.003s\n\nOK\n"
+    },
+    "horizon": {
+      "exit": 0,
+      "output": "test_distant_command_passes (test_horizon_core.HorizonGuardTest) ... ok\ntest_near_command_is_scaled_under_unchanged_clearance_gate (test_horizon_core.HorizonGuardTest) ... ok\ntest_next_cycle_and_observation_age_are_explicit (test_horizon_core.HorizonGuardTest) ... ok\ntest_stale_or_nonfinite_timing_rejected (test_horizon_core.HorizonGuardTest) ... ok\ntest_unstoppable_zero_fails_closed (test_horizon_core.HorizonGuardTest) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n"
+    },
+    "viability": {
+      "exit": 0,
+      "output": "test_far_command_admitted (test_viability_core.ViabilityTest) ... ok\ntest_near_command_scaled_before_zero_loses_certificate (test_viability_core.ViabilityTest) ... ok\ntest_rejects_invalid_age (test_viability_core.ViabilityTest) ... ok\ntest_unstoppable_zero_fails_closed (test_viability_core.ViabilityTest) ... ok\ntest_uses_existing_watchdog_and_max_age (test_viability_core.ViabilityTest) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n"
+    }
+  },
+  "full_stack_sanitizer_this_round": false,
+  "new_nav2_ctest_this_round": false,
+  "accepted_for_deployment": false
+}

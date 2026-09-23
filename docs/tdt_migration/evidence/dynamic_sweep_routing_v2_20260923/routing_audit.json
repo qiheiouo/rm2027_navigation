@@ -1,0 +1,96 @@
+{
+  "schema": "tdt_dynamic_sweep_routing_audit/v1",
+  "v1_extra_raster_margin_m": 0.05,
+  "v2_extra_raster_margin_m": 0.0,
+  "byte_identical_profile": true,
+  "v1": {
+    "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+    "profile_matches_input": true,
+    "docker_exit": 2,
+    "preflight": {
+      "status": 6,
+      "wall_ms": 14.605684000116526,
+      "samples": 0
+    },
+    "action_status": 6,
+    "timed_out": false,
+    "recoveries": 15,
+    "final_pose": [
+      0.027086326451282765,
+      -0.3025900635711047,
+      -2.97045727050978
+    ],
+    "final_xy_error_m": 5.581122428275357,
+    "final_yaw_error_rad": 2.97045727050978,
+    "evidence_valid": false,
+    "dynamic_gate_pass": false,
+    "body_moving_interpolation_bound_m": 4.300702760331932,
+    "padded_moving_interpolation_bound_m": 4.258594727696534,
+    "guard_decisions": {
+      "configuration": 1,
+      "admit": 129
+    },
+    "plan_messages": 0,
+    "global_maps": {
+      "recorded": 69,
+      "with_sweep_center_in_window_after_release": 27,
+      "sweep_center_lethal_count": 27,
+      "center_values": {
+        "100": 27
+      }
+    },
+    "local_maps": {
+      "recorded": 162,
+      "with_sweep_center_in_window_after_release": 0,
+      "sweep_center_lethal_count": 0,
+      "center_values": {}
+    }
+  },
+  "v2": {
+    "profile_sha256": "68e60eb805c4ce071e01c29704fe433e58594e55a383e7586ecf4b0c0186b44e",
+    "profile_matches_input": true,
+    "docker_exit": 1,
+    "preflight": {
+      "status": 4,
+      "wall_ms": 118.38001099999929,
+      "samples": 399
+    },
+    "action_status": 5,
+    "timed_out": true,
+    "recoveries": 7,
+    "final_pose": [
+      5.693043200069068,
+      -0.8181489377596448,
+      0.9057400873582667
+    ],
+    "final_xy_error_m": 0.8234225655374814,
+    "final_yaw_error_rad": 0.9057400873582667,
+    "evidence_valid": true,
+    "dynamic_gate_pass": false,
+    "body_moving_interpolation_bound_m": 0.18739905519468975,
+    "padded_moving_interpolation_bound_m": 0.14603035106355353,
+    "guard_decisions": {
+      "configuration": 1,
+      "admit": 573,
+      "reject_sweep": 1654
+    },
+    "plan_messages": 104,
+    "global_maps": {
+      "recorded": 187,
+      "with_sweep_center_in_window_after_release": 148,
+      "sweep_center_lethal_count": 148,
+      "center_values": {
+        "100": 148
+      }
+    },
+    "local_maps": {
+      "recorded": 482,
+      "with_sweep_center_in_window_after_release": 354,
+      "sweep_center_lethal_count": 354,
+      "center_values": {
+        "254": 354
+      }
+    }
+  },
+  "accepted_for_deployment": false
+}
