@@ -1,0 +1,279 @@
+{
+  "schema": "rm_dynamic_prediction_navfn_transfer_review/v1",
+  "accepted_for_deployment": false,
+  "scope": "One prespecified Navfn phase-0 baseline/candidate pair and one fixed-profile collision reproduction; not the T-DT matrix, not a pass-rate estimate.",
+  "old_evidence_preservation": {
+    "old_v1_ab": {
+      "manifest_sha256": "57a81b6582557c61623d8eb5c0b924004d2679b8fa55bfe5cd4161567ca0140c",
+      "entries_verified": 543
+    },
+    "prior_failure_window": {
+      "manifest_sha256": "04bc4e3b69949a016639eea1ae019d2562c6614661c6d2b4d475ebe5ea6bcfbf",
+      "entries_verified": 3
+    }
+  },
+  "plans_sha256": {
+    "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/plan.json": "629c5414a9b5e2bd8eca1c67f932d19f9e9101d2029831a483187d71ed18ddc8",
+    "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/plan.json": "9b8a8d570bfc07cc98892ac2f559b0f1b0f2f12b2bf58ef3640f44be9476f148"
+  },
+  "trials": {
+    "baseline": {
+      "directory": "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1",
+      "profile_sha256": "6abb14de1a25343c662e7c4b92231090288536363b72c889925ad70a1eaf8534",
+      "action": 4,
+      "recoveries": 0,
+      "navigation_duration_sim_s": 21.185,
+      "traveled_m": 7.781096607263575,
+      "low_speed_time_s": 0.120000000000001,
+      "body_sampled_overlap": false,
+      "body_min_sample_m": 0.046683103350516564,
+      "body_interpolation_bound_m": 0.03809274481234788,
+      "padded_interpolation_bound_m": 0.004274542404904278,
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 0,
+      "critic_consumption_log_samples": 0,
+      "obstacle_y_at_navigation_start_m": -0.05666176723607656,
+      "first_robot_x_ge_4p9": {
+        "sim_s": 27.951,
+        "robot": [
+          4.906972315547539,
+          1.792378747865413,
+          -1.5580451238102793
+        ],
+        "obstacle": [
+          4.9,
+          0.09993328261553444,
+          0.0
+        ]
+      },
+      "body_min_witness": {
+        "t": 32.112,
+        "robot": [
+          5.50901771799618,
+          0.32387584623691185,
+          -2.498484370817135
+        ],
+        "obstacle": [
+          4.9,
+          0.022615421961339907,
+          0.0
+        ],
+        "gap_m": 0.046683103350516564
+      },
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1/metadata.json": "5eded566e762e2272ff96adf00667706516b765b74ae6a80dff906e9c1c3d8ab",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1/profile.yaml": "6abb14de1a25343c662e7c4b92231090288536363b72c889925ad70a1eaf8534",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1/audit.json": "f3ba106616fa04b2c91f9486d2bf02a196b717ecc90bad217e7eab3af57072d0",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1/gazebo_poses.jsonl": "1a00d7054f8b30eb312356d4e983e85032ca4f5bf1c09462c6fa9eaa67d54732",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1/observation/summary.json": "ef596289eba42f619e1b2afffe062cc40657571b9900cad18961ef1d046cdcda",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1/observation/events.jsonl": "4c706d7ff39a137935810563966cd795c23e1437486e406f511e19e31c319ded",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1/launch.log": "0f49ca67e387dccf8c03b5de49aaf948db744bfae6dcfe5560ccc5dfbd942c80",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/baseline_navfn_1/observation/commands.jsonl": "c4c6fa4db97465f1ade7ea2e982a1f02a2210f53ea9e3d4a1dcb9867dfeb5df4"
+      }
+    },
+    "candidate_first": {
+      "directory": "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1",
+      "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+      "action": 4,
+      "recoveries": 0,
+      "navigation_duration_sim_s": 22.790000000000003,
+      "traveled_m": 8.123559715624657,
+      "low_speed_time_s": 0.28000000000000114,
+      "body_sampled_overlap": true,
+      "body_min_sample_m": 0.0,
+      "body_interpolation_bound_m": -0.008800967354137067,
+      "padded_interpolation_bound_m": -0.009104633180871145,
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 592,
+      "critic_consumption_log_samples": 16,
+      "obstacle_y_at_navigation_start_m": -0.05310736947135428,
+      "first_robot_x_ge_4p9": {
+        "sim_s": 31.298000000000002,
+        "robot": [
+          4.90071625075186,
+          0.9659815746803885,
+          -3.0309240724537982
+        ],
+        "obstacle": [
+          4.9,
+          -0.5595659944251214,
+          0.0
+        ]
+      },
+      "body_min_witness": {
+        "t": 33.081,
+        "robot": [
+          5.390964547111699,
+          1.1412541795554678,
+          2.701065194161419
+        ],
+        "obstacle": [
+          4.9,
+          0.6822701535674268,
+          0.0
+        ],
+        "gap_m": 0.0
+      },
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/metadata.json": "3c5e2f8880e4bef4fd91431fccb00946ac9e93a247f34d02887c8103cc6812fb",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/profile.yaml": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/audit.json": "b0837db82663e298771599b91ea3268d9ed7d899ad2da31e36425add2235d97e",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/gazebo_poses.jsonl": "a15d66b8f351c5e26deba3a9bb0f1a83f606c29867aeed1b06ab67e559ab51eb",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/observation/summary.json": "8dfda2c45bb583f1118e53570adc51528535f085d8f2b52db9ac0a74035a0424",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/observation/events.jsonl": "f4a848583a30e256530d2eb7822fb0b729f8842b775565417bbcb97c6eeca00a",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/launch.log": "b58f5404d2dd61f6c9e0f1d1a4eb81fbabff61a5901a60d82b605df114b626c9",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/observation/commands.jsonl": "c4ae1f2baa0601e9b1fa2fe0fe6e080fe057a072fbe600f2fcbb4edc7cf61887",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_transfer_v1/candidate_navfn_1/predictions.jsonl": "19c260b84654d2e9178f958cb5f332aedd244f07cb2af0e8db6c0ce5f30ed488"
+      }
+    },
+    "candidate_reproduction": {
+      "directory": "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1",
+      "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+      "action": 4,
+      "recoveries": 0,
+      "navigation_duration_sim_s": 23.089000000000002,
+      "traveled_m": 9.95841666673339,
+      "low_speed_time_s": 0.1999999999999993,
+      "body_sampled_overlap": false,
+      "body_min_sample_m": 0.22707968385163074,
+      "body_interpolation_bound_m": 0.22015136402148666,
+      "padded_interpolation_bound_m": 0.1901390525274794,
+      "limited_dynamic_gate_pass": true,
+      "prediction_messages": 596,
+      "critic_consumption_log_samples": 17,
+      "obstacle_y_at_navigation_start_m": -0.05383369596212461,
+      "first_robot_x_ge_4p9": {
+        "sim_s": 27.729,
+        "robot": [
+          4.90152717235422,
+          1.8402481439054013,
+          -2.5714775322124255
+        ],
+        "obstacle": [
+          4.9,
+          0.26525117586495284,
+          0.0
+        ]
+      },
+      "body_min_witness": {
+        "t": 33.566,
+        "robot": [
+          5.598472091933194,
+          1.399279489855352,
+          1.7395588279463696
+        ],
+        "obstacle": [
+          4.9,
+          0.8835741401245853,
+          0.0
+        ],
+        "gap_m": 0.22707968385163074
+      },
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/metadata.json": "407127e55ba2f6b5abd616873153817a5ecd16a4bc321941a1c9262d8b3263fe",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/profile.yaml": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/audit.json": "4e65aec434f83192d2194f9cc219c3b206f552e69ab6b88c71b67f8371263daa",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/gazebo_poses.jsonl": "4d4021bc8780416934ac918d52b14dc6e380b0a2277030caac23917afd999222",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/observation/summary.json": "894c00d29bb579091bcb2802e6256eee180be331cb8e5492f8c48a07615c27de",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/observation/events.jsonl": "311937b6e939c3ec5ed54b3737909fe6d9263fe7492a83d08d2effd51a66642e",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/launch.log": "56dfba4b5e9e042f96c91e44190bdd9def5817770e634a2b7c817a25a2be5cd8",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/observation/commands.jsonl": "6b551f54816c352c74670e97ce630749595c8fbe2e6ab529f7cb44c97f2dba9c",
+        "build/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1/predictions.jsonl": "78b4dd993d952a5fdc836fddaad37c3075463b4e78a66300d319e855b847834a"
+      }
+    }
+  },
+  "first_candidate_collision_window": {
+    "first_body_below_005m_sim_s": 32.98,
+    "first_padded_overlap_sim_s": 33.021,
+    "first_body_overlap_sim_s": 33.081,
+    "selected_samples": [
+      {
+        "sim_s": 32.5,
+        "actual_body_gap_m": 0.4390097791496368,
+        "actual_padded_gap_m": 0.4067451016576865,
+        "source_age_s": 0.027000000000001023,
+        "predicted_box_full_object_miss_m": 0.0,
+        "padded_to_current_predicted_box_gap_m": 0.0,
+        "last_command_sim_s": 32.487,
+        "last_command_planar_speed_m_s": 0.44797749315858587
+      },
+      {
+        "sim_s": 32.8,
+        "actual_body_gap_m": 0.16986894921098994,
+        "actual_padded_gap_m": 0.13986894921098988,
+        "source_age_s": 0.06299999999999528,
+        "predicted_box_full_object_miss_m": 0.0,
+        "padded_to_current_predicted_box_gap_m": 0.0,
+        "last_command_sim_s": 32.777,
+        "last_command_planar_speed_m_s": 0.5124682409915925
+      },
+      {
+        "sim_s": 32.9,
+        "actual_body_gap_m": 0.09624006073675767,
+        "actual_padded_gap_m": 0.06624006073675763,
+        "source_age_s": 0.030999999999998806,
+        "predicted_box_full_object_miss_m": 0.0,
+        "padded_to_current_predicted_box_gap_m": 0.0,
+        "last_command_sim_s": 32.878,
+        "last_command_planar_speed_m_s": 0.49948107129996394
+      },
+      {
+        "sim_s": 33.0,
+        "actual_body_gap_m": 0.03853078500849684,
+        "actual_padded_gap_m": 0.008530785008497044,
+        "source_age_s": 0.06499999999999773,
+        "predicted_box_full_object_miss_m": 0.0,
+        "padded_to_current_predicted_box_gap_m": 0.0,
+        "last_command_sim_s": 32.984,
+        "last_command_planar_speed_m_s": 0.5002545771400688
+      },
+      {
+        "sim_s": 33.02,
+        "actual_body_gap_m": 0.028335613693223346,
+        "actual_padded_gap_m": 0.0,
+        "source_age_s": 0.08500000000000085,
+        "predicted_box_full_object_miss_m": 0.0,
+        "padded_to_current_predicted_box_gap_m": 0.0,
+        "last_command_sim_s": 32.984,
+        "last_command_planar_speed_m_s": 0.5002545771400688
+      },
+      {
+        "sim_s": 33.08,
+        "actual_body_gap_m": 0.00017741662857738704,
+        "actual_padded_gap_m": 0.0,
+        "source_age_s": 0.07900000000000063,
+        "predicted_box_full_object_miss_m": 0.0,
+        "padded_to_current_predicted_box_gap_m": 0.0,
+        "last_command_sim_s": 33.058,
+        "last_command_planar_speed_m_s": 0.50734713947464
+      }
+    ],
+    "throttled_critic_logs_approx_sim": [
+      {
+        "approx_sim_s": 30.057,
+        "collision_rollouts": 0,
+        "rollouts": 300,
+        "wall_match_error_s": 0.01262211799621582
+      },
+      {
+        "approx_sim_s": 31.117,
+        "collision_rollouts": 287,
+        "rollouts": 300,
+        "wall_match_error_s": 0.005242586135864258
+      },
+      {
+        "approx_sim_s": 32.173,
+        "collision_rollouts": 300,
+        "rollouts": 300,
+        "wall_match_error_s": 0.03226923942565918
+      },
+      {
+        "approx_sim_s": 33.224,
+        "collision_rollouts": 300,
+        "rollouts": 300,
+        "wall_match_error_s": 0.040734291076660156
+      }
+    ],
+    "note": "Prediction box evaluated from latest recorder message at sample time; critic logs mapped by nearest wall timestamp, not exact same-cycle MPPI trace."
+  }
+}
