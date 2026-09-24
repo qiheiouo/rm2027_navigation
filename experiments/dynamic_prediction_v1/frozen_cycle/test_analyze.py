@@ -9,9 +9,16 @@ import numpy as np
 import yaml
 
 import analyze
+import rank_probe
 
 
 class FrozenCycleTest(unittest.TestCase):
+    def test_overlap_area_is_graded_for_partial_occupancy(self):
+        square = [(0., 0.), (1., 0.), (1., 1.), (0., 1.)]
+        box = analyze.predicted_box((1., .5), (0., 0.), (0., 0.),
+                                    (.5, .5), 0., 0., 0.)
+        self.assertAlmostEqual(rank_probe.overlap_area(square, box), .5)
+
     def test_safe_candidate_and_collision_score(self):
         with TemporaryDirectory() as directory:
             root = Path(directory)
@@ -38,6 +45,7 @@ class FrozenCycleTest(unittest.TestCase):
                           "tracks": [{"state": 2, "xy": [2., 0.], "vxy": [0., 0.],
                                       "size_xy": [0., 0.]}]}
             meta = {"schema": "rm_dynamic_prediction_cycle/v1", "cycle_id": 0,
+                    "pose": [0., 0., 0.],
                     "map": {"width": 1, "height": 1, "frame": "odom"},
                     "path": [[0., 0., 0.]], "padded_footprint":
                         [[-.23, -.23], [.23, -.23], [.23, .23], [-.23, .23]],
@@ -49,7 +57,7 @@ class FrozenCycleTest(unittest.TestCase):
                     "observer_copy_ns": 100_000}
             arrays = [
                 ("locked.raw_map", np.zeros((1, 1), dtype=np.uint8)),
-                ("rollout.x", np.array([[0., 0.], [2., 2.]], dtype=np.float32)),
+                ("rollout.x", np.array([[0., 0.], [0., 2.]], dtype=np.float32)),
                 ("rollout.y", np.zeros((2, 2), dtype=np.float32)),
                 ("rollout.yaw", np.zeros((2, 2), dtype=np.float32)),
                 ("critic.FollowPath.CostCritic", np.array([0., 0.], dtype=np.float32)),
@@ -64,7 +72,10 @@ class FrozenCycleTest(unittest.TestCase):
                 for key in ("vx", "vy", "wz"):
                     arrays.append((f"{name}.{key}", np.zeros(2, dtype=np.float32)))
             for key in ("cvx", "cvy", "cwz", "vx", "vy", "wz"):
-                arrays.append((f"sampled.{key}", np.zeros((2, 2), dtype=np.float32)))
+                sample = np.zeros((2, 2), dtype=np.float32)
+                if key == "vx":
+                    sample[1, 1] = 20.
+                arrays.append((f"sampled.{key}", sample))
             rows = [{"t": t, "obstacle": (2., 0., 0.)} for t in (0., .1, .2, .3)]
             with patch.object(analyze, "read_cycle", return_value=(meta, arrays)), \
                  patch.object(analyze, "rows_from_transport", return_value=rows):
@@ -72,7 +83,7 @@ class FrozenCycleTest(unittest.TestCase):
             self.assertEqual(summary["safe_truth_and_costmap_rollouts"], 1)
             self.assertEqual(summary["predicted_collision_rollouts"], 1)
             self.assertEqual(summary["best_safe_total_rank"], 1)
-            self.assertEqual(records[1]["first_predicted_conflict_s"], .1)
+            self.assertEqual(records[1]["first_predicted_conflict_s"], .2)
             self.assertLess(summary["prediction_score_max_abs_error"], .01)
 
 

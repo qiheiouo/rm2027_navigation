@@ -1,0 +1,24 @@
+{
+  "schema": "rm_dynamic_prediction_frozen_cycle_probe/v1",
+  "scope": "One new instrumented Navfn+V1 phase-0 diagnostic, not a historical replay or acceptance trial.",
+  "source_commit": "ac3e83215388bf00bf7df8686375219465ff216d",
+  "source_branch": "experiment/dynamic-prediction-v1",
+  "image_tag": "rm2027_navigation:dynamic-prediction-20260924",
+  "image_id": "sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6",
+  "historical_candidate_manifest_entries_verified": 52,
+  "historical_profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+  "phase_s": 0,
+  "batch_size": 300,
+  "selection_rule": "If sampled body clearance first falls below 0.05 m, select the last complete accepted MPPI cycle at least 0.25 s before that event. Otherwise select the complete accepted cycle at least 0.25 s before the minimum sampled body clearance. Retain this one trial regardless of outcome.",
+  "no_repeat_for_favorable_phase": true,
+  "accepted_for_deployment": false,
+  "file_sha256": {
+    "docker/Dockerfile.humble": "4fd1999353e9bc447cba7997f757491f6b97b71652e25c311d3936cdd1b6199e",
+    "trace_source_manifest": "8996a90c21d4b571c260ab111a89f49ddb1e3a81f3f9fe62ddaf22aa93b4d4f8",
+    "run_trace_trial.sh": "bccf545bfe3a089fb3548a4df439bbf1b02b1d4486f65fb9a813266c56a6f6e9",
+    "nav2_mppi_controller": "9c3b4dfc1e3082d4191d933d3bdfa375ac79e32b86dd961a8650b72515479fc0",
+    "nav2_mppi_critics": "87838c555190fba035bb6977f5301afedf587f70a769e00468282bfd51dc18f0",
+    "prediction_v1_critic": "8fb28a3838a13aa06fe8167a4a0331134d6933e6865d6f8dab31039862b01a7d",
+    "simulation_moving_obstacle_controller": "26adab36a356c136c6f796a74521df1d880d2d45d69e746a86282d72cd11563b"
+  }
+}

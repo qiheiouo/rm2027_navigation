@@ -69,6 +69,24 @@ def interpolated_pose(rows, times, t):
             pa[2] + f * yaw_delta)
 
 
+def integrate_omni(vx, vy, wz, pose, dt):
+    """Mirror Nav2 1.1.20's float Omni integration and previous-yaw translation."""
+    vx, vy, wz = (np.asarray(v, dtype=np.float32) for v in (vx, vy, wz))
+    if vx.shape != vy.shape or vx.shape != wz.shape or vx.ndim not in (1, 2):
+        raise ValueError("bad Omni velocity tensor")
+    initial_yaw = np.float32(pose[2])
+    yaws = np.cumsum(wz * np.float32(dt), axis=-1, dtype=np.float32) + initial_yaw
+    previous_yaws = np.concatenate((np.full((*vx.shape[:-1], 1), initial_yaw,
+                                              dtype=np.float32), yaws[..., :-1]), axis=-1)
+    dx = vx * np.cos(previous_yaws) - vy * np.sin(previous_yaws)
+    dy = vx * np.sin(previous_yaws) + vy * np.cos(previous_yaws)
+    xs = np.float32(pose[0]) + np.cumsum(dx * np.float32(dt), axis=-1,
+                                          dtype=np.float32)
+    ys = np.float32(pose[1]) + np.cumsum(dy * np.float32(dt), axis=-1,
+                                          dtype=np.float32)
+    return xs, ys, yaws
+
+
 def analyze(cycle_path, profile_path, truth_path):
     meta, arrays = read_cycle(cycle_path)
     if meta.get("schema") not in ("tdt_mppi_cycle/v1", "rm_dynamic_prediction_cycle/v1"):
@@ -94,7 +112,10 @@ def analyze(cycle_path, profile_path, truth_path):
     if int(follow["iteration_count"]) != 1:
         raise ValueError("this analysis requires the frozen single-iteration MPPI profile")
     params = follow["PredictionV1Critic"]
-    dt = float(follow["model_dt"])
+    settings = event(meta, "settings")
+    # Nav2 stores model_dt as float. The V1 critic divides by that exact
+    # value, so YAML's decimal 0.1 would produce a different floor() result.
+    dt = float(settings["dt"])
     horizon_steps = min(int(math.floor(float(params["horizon"]) / dt + 1e-9)),
                         int(last(arrays, "rollout.x").shape[1]))
     if horizon_steps < 1 or age > float(params["max_age"]):
@@ -105,8 +126,8 @@ def analyze(cycle_path, profile_path, truth_path):
     count, steps = x.shape
     if count != int(follow["batch_size"]) or steps != int(follow["time_steps"]):
         raise ValueError("rollout tensors differ from profile")
-    settings = event(meta, "settings")
-    if settings["batch"] != count or settings["steps"] != steps or abs(settings["dt"] - dt) > 1e-7:
+    if settings["batch"] != count or settings["steps"] != steps or \
+            abs(dt - float(follow["model_dt"])) > 1e-7:
         raise ValueError("captured optimizer settings differ from profile")
     for name in ("initial.vx", "initial.vy", "initial.wz", "before_filter.vx",
                  "before_filter.vy", "before_filter.wz", "after_filter.vx",
@@ -116,6 +137,12 @@ def analyze(cycle_path, profile_path, truth_path):
     for name in ("cvx", "cvy", "cwz", "vx", "vy", "wz"):
         if last(arrays, "sampled." + name).shape != (count, steps):
             raise ValueError(f"sampled controls missing or malformed: {name}")
+    replay = integrate_omni(*(last(arrays, "sampled." + key)
+                              for key in ("vx", "vy", "wz")), meta["pose"], dt)
+    replay_error = max(float(np.max(np.abs(actual - generated)))
+                       for actual, generated in zip((x, y, yaw), replay))
+    if replay_error > 1e-5:
+        raise ValueError(f"frozen Omni replay differs from captured rollouts: {replay_error}")
     terms, total = critic_deltas(arrays)
     if any(term.shape != (count,) for term in terms.values()):
         raise ValueError("critic score count differs from rollout count")
@@ -148,6 +175,22 @@ def analyze(cycle_path, profile_path, truth_path):
     # padding algorithm is Nav2-specific; do not silently reconstruct it here.
     if abs(float(local["footprint_padding"]) - .03) > 1e-9:
         raise ValueError("footprint padding differs from frozen fixture")
+    first_spread = max(float(np.ptp(values[:, 0])) for values in
+                       (x, y, yaw, *(last(arrays, "sampled." + key)
+                                      for key in ("vx", "vy", "wz"))))
+    first_pose = (float(x[0, 0]), float(y[0, 0]), float(yaw[0, 0]))
+    first_truth_pose = interpolated_pose(truth, truth_times, consumed_t + dt)
+    first_truth_body_gap = polygon_distance(placed(body_shape, first_pose),
+                                            placed(actual_box, first_truth_pose))
+    first_pred_gap = min(polygon_distance(placed(padded_shape, first_pose), box.polygon())
+                         for box in boxes[0])
+    optimized = integrate_omni(*(last(arrays, "after_filter." + key)
+                                  for key in ("vx", "vy", "wz")), meta["pose"], dt)
+    optimized_truth_gaps = [polygon_distance(
+        placed(body_shape, tuple(float(v[j]) for v in optimized)),
+        placed(actual_box, interpolated_pose(truth, truth_times,
+                                             consumed_t + (j + 1) * dt)))
+        for j in range(steps)]
     output = event(meta, "output")
     selected_index = int(settings["offset"])
     filtered_output = [float(last(arrays, "after_filter." + key)[selected_index])
@@ -248,6 +291,15 @@ def analyze(cycle_path, profile_path, truth_path):
         "best_truth_body_clearance_m": max(r["truth_body_min_clearance_m"] for r in records),
         "safe_probability_mass": float(sum(weights[r["rollout"]] for r in safe)),
         "prediction_score_span": float(np.ptp(captured_pred_score)),
+        "sampled_dynamics_replay_max_abs_error_m_or_rad": replay_error,
+        "first_step_sampled_state_max_spread_m_or_rad_or_mps": first_spread,
+        "first_step_predicted_padded_gap_m": first_pred_gap,
+        "first_step_truth_body_gap_m": first_truth_body_gap,
+        "all_batches_prediction_collision_invariant_at_first_step":
+            first_spread < 1e-6 and first_pred_gap <= 1e-9,
+        "optimized_filtered_sequence_truth_body_min_gap_m": min(optimized_truth_gaps),
+        "optimized_filtered_sequence_truth_body_min_gap_step":
+            optimized_truth_gaps.index(min(optimized_truth_gaps)) + 1,
         "best_safe_total_rank": next((rank for rank, r in enumerate(order, 1) if r in safe), None),
         "minimum_total_score_rollout": order[0]["rollout"],
         "maximum_probability_rollout": int(np.argmax(weights)),
@@ -255,7 +307,7 @@ def analyze(cycle_path, profile_path, truth_path):
         "full_compute_cycle_ms": (meta["finish_steady_ns"] - meta["request_steady_ns"]) / 1e6,
         "observer_copy_ms": meta["observer_copy_ns"] / 1e6,
         "prediction_score_max_abs_error": max(score_errors),
-        "limits": "Sampled planar geometry; future Gazebo motion is an offline oracle, not online input. Instrumentation alters timing. Final blended sequence requires separate dynamics replay."
+        "limits": "Sampled planar geometry; future Gazebo motion is an offline oracle, not online input. Instrumentation alters timing. The optimized filtered sequence is open-loop intent, not the actual later closed-loop path."
     }
     return summary, records
 

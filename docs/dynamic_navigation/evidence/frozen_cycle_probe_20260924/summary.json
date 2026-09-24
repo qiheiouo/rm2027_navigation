@@ -1,0 +1,42 @@
+{
+  "schema": "rm_dynamic_prediction_frozen_cycle_analysis/v1",
+  "source": {
+    "cycle_json": "build/dynamic_prediction_runs/navfn_probe_20260924_01/candidate_navfn_1/mppi_cycles/cycle_162.json",
+    "cycle_sha256": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+    "binary_sha256": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+    "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "gazebo_truth_sha256": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+  },
+  "cycle_id": 162,
+  "consumer_sim_s": 32.239000000000004,
+  "prediction_source_age_s": 0.03,
+  "batch_size": 300,
+  "steps": 30,
+  "prediction_steps": 9,
+  "safe_truth_and_costmap_rollouts": 16,
+  "predicted_margin_safe_rollouts": 0,
+  "predicted_collision_rollouts": 300,
+  "prediction_truth_uncovered_times_s": [],
+  "best_truth_body_clearance_m": 0.07899078580376033,
+  "safe_probability_mass": 0.03140810877084732,
+  "prediction_score_span": 0.000244140625,
+  "sampled_dynamics_replay_max_abs_error_m_or_rad": 4.76837158203125e-07,
+  "first_step_sampled_state_max_spread_m_or_rad_or_mps": 0.0,
+  "first_step_predicted_padded_gap_m": 0.0,
+  "first_step_truth_body_gap_m": 0.1504754260655004,
+  "all_batches_prediction_collision_invariant_at_first_step": true,
+  "optimized_filtered_sequence_truth_body_min_gap_m": 0.009435515466096334,
+  "optimized_filtered_sequence_truth_body_min_gap_step": 4,
+  "best_safe_total_rank": 24,
+  "minimum_total_score_rollout": 269,
+  "maximum_probability_rollout": 189,
+  "returned_control": [
+    -0.37855836749076843,
+    0.14060921967029572,
+    -0.14525827765464783
+  ],
+  "full_compute_cycle_ms": 1.723135,
+  "observer_copy_ms": 0.120253,
+  "prediction_score_max_abs_error": 0.0001627604167424579,
+  "limits": "Sampled planar geometry; future Gazebo motion is an offline oracle, not online input. Instrumentation alters timing. The optimized filtered sequence is open-loop intent, not the actual later closed-loop path."
+}
