@@ -1,0 +1,38 @@
+{
+  "schema": "rm_dynamic_prediction_v1_visible_coverage/v1",
+  "scope": "Frozen-scan offline oracle only; actual box pose and full size are evaluation truth, never runtime tracker inputs.",
+  "probe_sha256": "76cdba2735eaa56b819ccbe1b6dd04710448bf97b988777146e7cf4642cd7096",
+  "box_sdf_sha256": "ac489655001736911da1dce5bd46f6a3d559e364c65542cdcc9eb75510e2d8cc",
+  "box_size_xy_m": [
+    0.45,
+    0.55
+  ],
+  "windows": {
+    "all_precontact_confirmed": {
+      "samples": 116,
+      "fully_contained": 0,
+      "x_negative_m_median": 0.0,
+      "x_negative_m_max": 0.027807572828320914,
+      "x_positive_m_median": 0.10742750859875771,
+      "x_positive_m_max": 0.3254584662304074,
+      "y_negative_m_median": 0.0,
+      "y_negative_m_max": 0.019657506980930606,
+      "y_positive_m_median": 0.19872275375618909,
+      "y_positive_m_max": 0.40076334009734005
+    },
+    "last_2s_precontact_confirmed": {
+      "samples": 32,
+      "fully_contained": 0,
+      "x_negative_m_median": 0.0075608848327122224,
+      "x_negative_m_max": 0.027807572828320914,
+      "x_positive_m_median": 0.0,
+      "x_positive_m_max": 0.04166132567765857,
+      "y_negative_m_median": 0.0,
+      "y_negative_m_max": 0.0,
+      "y_positive_m_median": 0.37631843581203533,
+      "y_positive_m_max": 0.40076334009734005
+    }
+  },
+  "runtime_occupancy_validated": false,
+  "accepted_for_deployment": false
+}

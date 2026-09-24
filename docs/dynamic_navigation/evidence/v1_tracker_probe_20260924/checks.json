@@ -1,0 +1,16 @@
+{
+  "schema": "rm_dynamic_prediction_v1_probe_checks/v1",
+  "isolated_build": {
+    "command": "colcon build --packages-select rm_competition_interfaces rm_dynamic_obstacle_tracking",
+    "result": "2 packages finished, exit 0",
+    "directory": "build/tdt_p2b/dynamic_prediction_v1_build"
+  },
+  "tracker_core_test": {"result": "18 passed", "environment": "offline ROS container"},
+  "offline_probe_tests": {"result": "3 passed", "environment": "host unittest"},
+  "humble_recorder_callbacks": {"result": "2 passed", "environment": "offline ROS container"},
+  "initial_live_v1": {"result": "recorder callback TypeError preserved; stopped before usable live conclusion", "docker_exit": 137},
+  "live_v2": {"result": "prediction/diagnostic recording complete; original dynamic gate failed", "docker_exit": 1},
+  "hash_verification": "probe_v2 source inputs, live v2 metadata inputs, live_audit_v2 raw inputs all matched",
+  "not_run": ["MPPI prediction consumer", "controller A/B", "multi-phase dynamic acceptance", "full-stack sanitizer", "hardware"],
+  "accepted_for_deployment": false
+}

@@ -1,0 +1,136 @@
+{
+  "schema": "rm_dynamic_prediction_v1_live_shadow_audit/v1",
+  "trial": "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1",
+  "source_sha256": {
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/profile.yaml": "1862d4dc9742f10d8d1db1d4404ef5f8123c7184e876c7e6179410ad9f3f9505",
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/metadata.json": "3657f57e2eb1f973fdbfd093a3b03c984aeaa5dc2f1c9fbf379b354633c18cce",
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/predictions.jsonl": "5957cab044ab46db3128606c637710be2cba9b42e93aae473375bdf32631cd57",
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/diagnostics.jsonl": "f0a027f75a1abfbd8a6442f41660d7b1c8103ff8a9ab89c8376af21e5f32f9e6",
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/gazebo_poses.jsonl": "b7c6c7b9b2ffa499b2f66cc8b30c6fd85bf2f02901caa49684ad2d108c3757ea",
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/observation/events.jsonl": "25eb97ff95337ef43266bfadf540d01e6775a58d57662cb9607f1acf4f1367c3",
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/observation/summary.json": "3f95c61b7335d10a6b1bc9ccaf096f380a058bef280c6f58de120ffc5fec5a0a",
+    "build/tdt_p2b/runs/dynamic_reference_pilot_v2/inputs.json": "f8cc65fd444cd8a5011ed8e5f6598a087025275de0ffb1c445cd8b05dd706622"
+  },
+  "navigation_interval_s": [
+    16.026,
+    49.974
+  ],
+  "first_sampled_body_clearance_below_005_s": 28.451,
+  "navigation": {
+    "action_status": 4,
+    "recoveries": 21,
+    "xy_error_m": 0.07032970649001917,
+    "yaw_error_rad": 0.17343398454250245,
+    "limited_dynamic_geometry_and_goal_pass": false,
+    "checks": {
+      "action_succeeded": true,
+      "body_clearance_at_least_005m": false,
+      "padded_footprint_no_contact": false,
+      "final_position_within_015m": true,
+      "final_yaw_within_020rad": true,
+      "no_recovery": false,
+      "fresh_stopped_command": true
+    },
+    "geometry": {
+      "body": {
+        "static_sample_min_m": 0.18620326440586604,
+        "moving_sample_min_m": 0.01936017984680626,
+        "static_interpolation_bound_m": 0.18063766059942166,
+        "moving_interpolation_bound_m": 0.012979648754491592,
+        "overall_interpolation_bound_m": 0.012979648754491592,
+        "sampled_moving_overlap": false,
+        "moving_min_witness": {
+          "t": 28.492,
+          "robot": [
+            4.682257867032153,
+            -0.9003697814793716,
+            -1.874577907482369
+          ],
+          "obstacle": [
+            4.9,
+            -0.3092695382556302,
+            0.0
+          ],
+          "gap_m": 0.01936017984680626
+        }
+      },
+      "padded": {
+        "static_sample_min_m": 0.1452041820127181,
+        "moving_sample_min_m": 0.0,
+        "static_interpolation_bound_m": 0.139478992375017,
+        "moving_interpolation_bound_m": -0.008833861302397321,
+        "overall_interpolation_bound_m": -0.008833861302397321,
+        "sampled_moving_overlap": true,
+        "moving_min_witness": {
+          "t": 28.478,
+          "robot": [
+            4.677064380941456,
+            -0.8980219386062926,
+            -1.874517943674309
+          ],
+          "obstacle": [
+            4.9,
+            -0.30222833689719175,
+            0.0
+          ],
+          "gap_m": 0.0
+        }
+      },
+      "body_clearance_at_least_005m": false,
+      "padded_footprint_no_contact": false
+    }
+  },
+  "shadow_stream": {
+    "prediction_messages": 761,
+    "diagnostic_messages": 762,
+    "statuses": {
+      "tf_unavailable": 1,
+      "ok": 761
+    },
+    "incomplete_messages": 0,
+    "confirmed_messages_before_clearance_breach": 122,
+    "messages_before_clearance_breach": 189,
+    "source_to_processing_s": {
+      "count": 761,
+      "median": 0.019000000000000128,
+      "p95": 0.027999999999999803,
+      "max": 0.05700000000000001
+    },
+    "source_to_recorder_receive_s": {
+      "count": 761,
+      "median": 0.03100000000000236,
+      "p95": 0.045000000000001705,
+      "max": 0.062
+    },
+    "prediction_source_gap_s": {
+      "count": 760,
+      "median": 0.06599999999999984,
+      "p95": 0.0660000000000025,
+      "max": 0.067
+    },
+    "late_prebreach_confirmed_near_box": 31,
+    "late_prebreach_confirmed_ids": {
+      "1": 31
+    },
+    "late_prebreach_visible_occupancy_coverage": {
+      "samples": 31,
+      "fully_contained": 0,
+      "x_negative_m_median": 0.0,
+      "x_negative_m_max": 0.0,
+      "x_positive_m_median": 0.06473450870267161,
+      "x_positive_m_max": 0.07641526901061102,
+      "y_negative_m_median": 0.0,
+      "y_negative_m_max": 0.0,
+      "y_positive_m_median": 0.1586339150164724,
+      "y_positive_m_max": 0.26802202441735373
+    }
+  },
+  "limits": [
+    "Read-only tracker; no MPPI prediction consumer or controlled A/B.",
+    "Map is experiment-only static geometry from SDF, not field map.",
+    "Gazebo actual obstacle pose and dimensions are evaluation truth only.",
+    "Recorder callback source age is not controller consumption age or DDS latency.",
+    "Reference new-car polygon on surrogate simulation carrier, not final CAD or hardware."
+  ],
+  "accepted_for_deployment": false
+}

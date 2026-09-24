@@ -1,0 +1,91 @@
+{
+  "schema": "rm_dynamic_prediction_v1_live_forecast_eval/v1",
+  "scope": "Actual ROS shadow messages and measured recorder callback age; Gazebo future is offline evaluation truth only. All target times precede first sampled 0.05m body-clearance breach.",
+  "censor_sim_s": 28.451,
+  "source_forecast_rule": "Use published prediction[index] at source stamp + (index+1)*dt.",
+  "age_compensated_rule": "Use published state [x,y,vx,vy] at source stamp, propagate CV for measured (recorder_receive_ros_stamp - source_stamp) + horizon.",
+  "fixture_full_box_size_xy_m": [
+    0.45,
+    0.55
+  ],
+  "visible_bbox_warning": "Published size is a visible scan cluster, not confirmed full obstacle extent.",
+  "horizons": {
+    "0.2": {
+      "samples": 118,
+      "source_forecast_error": {
+        "median_m": 0.22678344667025824,
+        "p95_m": 0.2757254238696761,
+        "max_m": 0.28102573531391334
+      },
+      "measured_age_compensated_error": {
+        "median_m": 0.22714983080034967,
+        "p95_m": 0.28362353842839394,
+        "max_m": 0.28850879254708833
+      },
+      "source_visible_bbox_contains_true_box": 0,
+      "aged_visible_bbox_contains_true_box": 0
+    },
+    "0.4": {
+      "samples": 115,
+      "source_forecast_error": {
+        "median_m": 0.23989835498908274,
+        "p95_m": 0.34265437471430954,
+        "max_m": 0.3454614066177051
+      },
+      "measured_age_compensated_error": {
+        "median_m": 0.24149985821238126,
+        "p95_m": 0.35738049412189943,
+        "max_m": 0.3651080221082342
+      },
+      "source_visible_bbox_contains_true_box": 0,
+      "aged_visible_bbox_contains_true_box": 0
+    },
+    "0.6": {
+      "samples": 112,
+      "source_forecast_error": {
+        "median_m": 0.2563190539742697,
+        "p95_m": 0.4336130444927856,
+        "max_m": 0.4391379935286957
+      },
+      "measured_age_compensated_error": {
+        "median_m": 0.26235013464535883,
+        "p95_m": 0.45189800856724427,
+        "max_m": 0.46124992835993306
+      },
+      "source_visible_bbox_contains_true_box": 0,
+      "aged_visible_bbox_contains_true_box": 0
+    },
+    "0.8": {
+      "samples": 109,
+      "source_forecast_error": {
+        "median_m": 0.3181533059227194,
+        "p95_m": 0.54545416871549,
+        "max_m": 0.5502093971814844
+      },
+      "measured_age_compensated_error": {
+        "median_m": 0.3303098933121569,
+        "p95_m": 0.5700848832228002,
+        "max_m": 0.5762879536706962
+      },
+      "source_visible_bbox_contains_true_box": 0,
+      "aged_visible_bbox_contains_true_box": 0
+    },
+    "1.0": {
+      "samples": 106,
+      "source_forecast_error": {
+        "median_m": 0.4007325414974065,
+        "p95_m": 0.6783481212648138,
+        "max_m": 0.6843489554097614
+      },
+      "measured_age_compensated_error": {
+        "median_m": 0.4158610017290237,
+        "p95_m": 0.7059018680385738,
+        "max_m": 0.7125031411218373
+      },
+      "source_visible_bbox_contains_true_box": 0,
+      "aged_visible_bbox_contains_true_box": 0
+    }
+  },
+  "controller_consumer_tested": false,
+  "accepted_for_deployment": false
+}
