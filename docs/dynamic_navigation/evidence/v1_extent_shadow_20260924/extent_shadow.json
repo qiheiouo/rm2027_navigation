@@ -1,0 +1,276 @@
+{
+  "schema": "rm_dynamic_prediction_v1_extent_shadow/v1",
+  "scope": "Read-only offline evaluation of a single physically sourced extent rule. Actual robot and box future poses are used only to audit coverage and realized-path conflict.",
+  "source_sha256": {
+    "build/tdt_p2b/runs/dynamic_reference_pilot_v2/inputs.json": "f8cc65fd444cd8a5011ed8e5f6598a087025275de0ffb1c445cd8b05dd706622",
+    "docs/dynamic_navigation/evidence/v1_tracker_probe_20260924/probe_v2.json": "76cdba2735eaa56b819ccbe1b6dd04710448bf97b988777146e7cf4642cd7096",
+    "build/tdt_p2b/runs/dynamic_reference_pilot_v2/tdt_qp_1/gazebo_poses.jsonl": "6b56be202b8b35de39b773d126eaed902b105ffc93ec7994e1461d24b942a001",
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/gazebo_poses.jsonl": "b7c6c7b9b2ffa499b2f66cc8b30c6fd85bf2f02901caa49684ad2d108c3757ea",
+    "build/tdt_p2b/runs/dynamic_prediction_tracker_live_v2/tdt_qp_1/predictions.jsonl": "5957cab044ab46db3128606c637710be2cba9b42e93aae473375bdf32631cd57",
+    "src/rm_simulation/models/moving_obstacle.sdf": "ac489655001736911da1dce5bd46f6a3d559e364c65542cdcc9eb75510e2d8cc",
+    "src/rm_simulation/src/moving_obstacle_controller.cpp": "1132fbb34b88548fd141cf5b1a128407aac8b50937343e9908558657c53e3f22",
+    "docs/tdt_migration/evidence/dynamic_reference_20260922/dynamic.launch.py": "0647031e50ec042961f51f09ec73316a39d49fc5c112ffcdf5102ef9b0d2a527"
+  },
+  "known_fixture_object_extent_xy_m": [
+    0.45,
+    0.55
+  ],
+  "target_amplitude_m": 0.9,
+  "target_period_s": 8.0,
+  "reference_target_acceleration_m_s2": 0.5551652475612764,
+  "acceleration_is_verified_actual_bound": false,
+  "physical_rule": "Visible cluster center +/- half visible size +/- full known box dimension in each axis; translate by KF velocity*(age+horizon).",
+  "optional_growth_rule": "Add 0.5*reference_target_acceleration*(age+horizon)^2 on each side; target acceleration is not an actuator bound.",
+  "frozen_core_replay": {
+    "first_sampled_body_clearance_breach_s": 28.065,
+    "horizons": {
+      "0": {
+        "samples_before_body_clearance_breach": 116,
+        "no_growth_full_box_covered": 116,
+        "reference_growth_full_box_covered": 116,
+        "no_growth_actual_future_robot_overlap": 8,
+        "reference_growth_actual_future_robot_overlap": 8,
+        "reference_growth_actual_future_robot_within_005": 9,
+        "reference_growth_width_x_m": {
+          "median": 1.3397569279173718,
+          "p95": 1.3486604251308787,
+          "max": 1.351922510905812
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.6099904861600542,
+          "p95": 1.64753590462415,
+          "max": 1.6540730523097489
+        },
+        "reference_growth_min_y_m": -1.8575121942475064,
+        "reference_growth_max_y_m": 1.588204325665283
+      },
+      "0.2": {
+        "samples_before_body_clearance_breach": 113,
+        "no_growth_full_box_covered": 113,
+        "reference_growth_full_box_covered": 113,
+        "no_growth_actual_future_robot_overlap": 7,
+        "reference_growth_actual_future_robot_overlap": 8,
+        "reference_growth_actual_future_robot_within_005": 8,
+        "reference_growth_width_x_m": {
+          "median": 1.3619558674606242,
+          "p95": 1.3708315977310797,
+          "max": 1.3741291208082647
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.6328831306851512,
+          "p95": 1.6697425145266012,
+          "max": 1.6762796622122003
+        },
+        "reference_growth_min_y_m": -1.917763700976559,
+        "reference_growth_max_y_m": 1.678312733305169
+      },
+      "0.4": {
+        "samples_before_body_clearance_breach": 110,
+        "no_growth_full_box_covered": 110,
+        "reference_growth_full_box_covered": 110,
+        "no_growth_actual_future_robot_overlap": 7,
+        "reference_growth_actual_future_robot_overlap": 7,
+        "reference_growth_actual_future_robot_within_005": 8,
+        "reference_growth_width_x_m": {
+          "median": 1.428511716192828,
+          "p95": 1.4374514274384325,
+          "max": 1.4407489505156175
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.7018834359907937,
+          "p95": 1.736362344233954,
+          "max": 1.7428994919195535
+        },
+        "reference_growth_min_y_m": -2.010517901831836,
+        "reference_growth_max_y_m": 1.8007994282619146
+      },
+      "0.6": {
+        "samples_before_body_clearance_breach": 107,
+        "no_growth_full_box_covered": 107,
+        "reference_growth_full_box_covered": 107,
+        "no_growth_actual_future_robot_overlap": 5,
+        "reference_growth_actual_future_robot_overlap": 7,
+        "reference_growth_actual_future_robot_within_005": 7,
+        "reference_growth_width_x_m": {
+          "median": 1.539482273784369,
+          "p95": 1.5484844769506871,
+          "max": 1.5517820000278721
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.814168026306748,
+          "p95": 1.8473953937462095,
+          "max": 1.8539325414318084
+        },
+        "reference_growth_min_y_m": -2.1269386592757757,
+        "reference_growth_max_y_m": 1.9454927331211112
+      },
+      "0.8": {
+        "samples_before_body_clearance_breach": 104,
+        "no_growth_full_box_covered": 102,
+        "reference_growth_full_box_covered": 104,
+        "no_growth_actual_future_robot_overlap": 4,
+        "reference_growth_actual_future_robot_overlap": 7,
+        "reference_growth_actual_future_robot_within_005": 7,
+        "reference_growth_width_x_m": {
+          "median": 1.6947605358561253,
+          "p95": 1.7039307462678455,
+          "max": 1.7072282693450291
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.9787382399296136,
+          "p95": 2.002841663063367,
+          "max": 2.0093788107489665
+        },
+        "reference_growth_min_y_m": -2.2692384947327673,
+        "reference_growth_max_y_m": 2.136080741139975
+      },
+      "1.0": {
+        "samples_before_body_clearance_breach": 101,
+        "no_growth_full_box_covered": 75,
+        "reference_growth_full_box_covered": 101,
+        "no_growth_actual_future_robot_overlap": 3,
+        "reference_growth_actual_future_robot_overlap": 6,
+        "reference_growth_actual_future_robot_within_005": 7,
+        "reference_growth_width_x_m": {
+          "median": 1.8944344092114687,
+          "p95": 1.9037902353899039,
+          "max": 1.907087758467089
+        },
+        "reference_growth_width_y_m": {
+          "median": 2.180664004481977,
+          "p95": 2.2027011521854263,
+          "max": 2.209238299871025
+        },
+        "reference_growth_min_y_m": -2.43374494009221,
+        "reference_growth_max_y_m": 2.3527410175618506
+      }
+    }
+  },
+  "live_ros_messages": {
+    "first_sampled_body_clearance_breach_s": 28.451,
+    "horizons": {
+      "0": {
+        "samples_before_body_clearance_breach": 121,
+        "no_growth_full_box_covered": 121,
+        "reference_growth_full_box_covered": 121,
+        "no_growth_actual_future_robot_overlap": 11,
+        "reference_growth_actual_future_robot_overlap": 11,
+        "reference_growth_actual_future_robot_within_005": 12,
+        "reference_growth_width_x_m": {
+          "median": 1.3400957202420951,
+          "p95": 1.35248907082814,
+          "max": 1.3559427394474088
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.6203900763847083,
+          "p95": 1.6482508352859258,
+          "max": 1.653771031014215
+        },
+        "reference_growth_min_y_m": -1.8580911781688025,
+        "reference_growth_max_y_m": 1.6470737812309404
+      },
+      "0.2": {
+        "samples_before_body_clearance_breach": 118,
+        "no_growth_full_box_covered": 118,
+        "reference_growth_full_box_covered": 118,
+        "no_growth_actual_future_robot_overlap": 10,
+        "reference_growth_actual_future_robot_overlap": 10,
+        "reference_growth_actual_future_robot_within_005": 11,
+        "reference_growth_width_x_m": {
+          "median": 1.368721945920024,
+          "p95": 1.3837806209553296,
+          "max": 1.3847003265878772
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.6475506680321788,
+          "p95": 1.6779695070099554,
+          "max": 1.6824543176596358
+        },
+        "reference_growth_min_y_m": -1.9247827209318342,
+        "reference_growth_max_y_m": 1.7392840622244599
+      },
+      "0.4": {
+        "samples_before_body_clearance_breach": 115,
+        "no_growth_full_box_covered": 115,
+        "reference_growth_full_box_covered": 115,
+        "no_growth_actual_future_robot_overlap": 9,
+        "reference_growth_actual_future_robot_overlap": 10,
+        "reference_growth_actual_future_robot_within_005": 10,
+        "reference_growth_width_x_m": {
+          "median": 1.4419950919021183,
+          "p95": 1.4576490128006334,
+          "max": 1.4608573271521017
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.7196990270724315,
+          "p95": 1.7519717020246661,
+          "max": 1.756520493461589
+        },
+        "reference_growth_min_y_m": -2.017920099572636,
+        "reference_growth_max_y_m": 1.863416229347148
+      },
+      "0.6": {
+        "samples_before_body_clearance_breach": 112,
+        "no_growth_full_box_covered": 112,
+        "reference_growth_full_box_covered": 112,
+        "no_growth_actual_future_robot_overlap": 7,
+        "reference_growth_actual_future_robot_overlap": 9,
+        "reference_growth_actual_future_robot_within_005": 9,
+        "reference_growth_width_x_m": {
+          "median": 1.5588501976470877,
+          "p95": 1.5776174774101754,
+          "max": 1.5816612850214344
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.834026135700195,
+          "p95": 1.8730786263006507,
+          "max": 1.87865684792507
+        },
+        "reference_growth_min_y_m": -2.1384146605972187,
+        "reference_growth_max_y_m": 2.0147523238489367
+      },
+      "0.8": {
+        "samples_before_body_clearance_breach": 109,
+        "no_growth_full_box_covered": 106,
+        "reference_growth_full_box_covered": 109,
+        "no_growth_actual_future_robot_overlap": 6,
+        "reference_growth_actual_future_robot_overlap": 8,
+        "reference_growth_actual_future_robot_within_005": 9,
+        "reference_growth_width_x_m": {
+          "median": 1.7199457557202589,
+          "p95": 1.7432787872824616,
+          "max": 1.7468784626956708
+        },
+        "reference_growth_width_y_m": {
+          "median": 1.9953547510381182,
+          "p95": 2.03697789417619,
+          "max": 2.045206422193453
+        },
+        "reference_growth_min_y_m": -2.284236665668362,
+        "reference_growth_max_y_m": 2.191034308605829
+      },
+      "1.0": {
+        "samples_before_body_clearance_breach": 106,
+        "no_growth_full_box_covered": 71,
+        "reference_growth_full_box_covered": 106,
+        "no_growth_actual_future_robot_overlap": 4,
+        "reference_growth_actual_future_robot_overlap": 8,
+        "reference_growth_actual_future_robot_within_005": 8,
+        "reference_growth_width_x_m": {
+          "median": 1.9254398851160541,
+          "p95": 1.9524412204016524,
+          "max": 1.956508860174809
+        },
+        "reference_growth_width_y_m": {
+          "median": 2.197906900110716,
+          "p95": 2.246386225556303,
+          "max": 2.256169216266738
+        },
+        "reference_growth_min_y_m": -2.458984446390106,
+        "reference_growth_max_y_m": 2.3984854490824365
+      }
+    }
+  },
+  "mpii_consumer_or_navigation_candidate_run": false,
+  "accepted_for_deployment": false
+}
