@@ -106,9 +106,9 @@ def run(series):
             f"{os.getuid()}:{os.getgid()}", "--entrypoint", "bash",
             "-v", f"{ROOT}:/ws:ro", "-v", f"{WORK}:/work:rw",
             "--cidfile", str(trial / "container_id")]
-    for value in ("ROS_DOMAIN_ID=175", "ROS_LOCALHOST_ONLY=1", "PYTHONDONTWRITEBYTECODE=1",
+    for value in ("ROS_DOMAIN_ID=174", "ROS_LOCALHOST_ONLY=1", "PYTHONDONTWRITEBYTECODE=1",
                   "TMPDIR=/work/tmp", "LIBGL_ALWAYS_SOFTWARE=true", "QT_QPA_PLATFORM=offscreen",
-                  "TDT_PHASE_SECONDS=4", "IGN_PARTITION=dynamic_prediction_rank_phase4_01"):
+                  "TDT_PHASE_SECONDS=4", "IGN_PARTITION=dynamic_prediction_rank_phase4_02"):
         args.extend(("-e", value))
     args.extend((IMAGE_TAG, "/ws/experiments/dynamic_prediction_v1/frozen_cycle/run_rank_trial.sh",
                  target, target + "/profile.yaml"))
