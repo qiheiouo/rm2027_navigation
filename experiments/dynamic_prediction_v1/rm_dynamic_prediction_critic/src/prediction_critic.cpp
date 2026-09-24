@@ -25,17 +25,21 @@ public:
     get(reference_acceleration_, "reference_acceleration", 0.5551652475612765, ParameterType::Static);
     get(max_age_, "max_age", 0.4, ParameterType::Static);
     get(horizon_, "horizon", 1.0, ParameterType::Static);
+    get(collision_rank_mode_, "collision_rank_mode", std::string("legacy"), ParameterType::Static);
     if (!(object_width_ > 0 && object_height_ > 0 && reference_acceleration_ >= 0 &&
           max_age_ > 0 && horizon_ > 0)) {
       throw std::invalid_argument("invalid PredictionV1Critic physical input");
+    }
+    if (collision_rank_mode_ != "legacy" && collision_rank_mode_ != "uniform_center_overlap") {
+      throw std::invalid_argument("invalid PredictionV1Critic collision_rank_mode");
     }
     subscription_ = node->create_subscription<rm_competition_interfaces::msg::DynamicObstaclePredictionArray>(
       topic_, rclcpp::QoS(10), [this](rm_competition_interfaces::msg::DynamicObstaclePredictionArray::ConstSharedPtr msg) {
         std::lock_guard<std::mutex> lock(message_mutex_);
         latest_ = std::move(msg);
       });
-    RCLCPP_INFO(logger_, "PredictionV1Critic subscribes %s; fixture object %.3f x %.3f m",
-      topic_.c_str(), object_width_, object_height_);
+    RCLCPP_INFO(logger_, "PredictionV1Critic subscribes %s; fixture object %.3f x %.3f m; collision rank %s",
+      topic_.c_str(), object_width_, object_height_, collision_rank_mode_.c_str());
   }
 
   void score(CriticData & data) override {
@@ -62,6 +66,10 @@ public:
     std::vector<rm_dynamic_prediction_critic::Point> footprint;
     footprint.reserve(footprint_msg.size());
     for (const auto & p : footprint_msg) footprint.push_back({p.x,p.y});
+    if (collision_rank_mode_ == "uniform_center_overlap" &&
+        !(rm_dynamic_prediction_critic::polygon_area(footprint) > 0)) {
+      log_skip("footprint area");return;
+    }
     struct Track {rm_dynamic_prediction_critic::Point center, velocity, visible;};
     std::vector<Track> tracks;
     for (const auto & track : message->tracks) {
@@ -102,7 +110,27 @@ public:
           if (clearance < 0.02) {repulsive += 300.0; ++nears;}
         }
       }
-      if (collision) {repulsive=1000000.0;++collisions;}
+      if (collision) {
+        repulsive=1000000.0;
+        ++collisions;
+        if (collision_rank_mode_ == "uniform_center_overlap") {
+          double mean_overlap = 0;
+          for (size_t j=0;j<steps;++j) {
+            const auto polygon=rm_dynamic_prediction_critic::transform(
+              footprint,traj.x(i,j),traj.y(i,j),traj.yaws(i,j));
+            double step_overlap = 0;
+            for (const auto & track:tracks) {
+              step_overlap += rm_dynamic_prediction_critic::uniform_center_overlap_fraction(
+                polygon, track.center, track.velocity, track.visible,
+                {object_width_,object_height_}, age, (j+1)*dt, reference_acceleration_);
+            }
+            mean_overlap += std::min(1.0, step_overlap) / steps;
+          }
+          // Preserve the original hard collision penalty. This term only
+          // ranks trajectories that all intersect the conservative envelope.
+          repulsive += 1000000.0 * mean_overlap;
+        }
+      }
       // Match the installed CostCritic's cost scale; retain its ordinary
       // STVL collision scoring and do not change MPPI's failure flag.
       data.costs(i) += static_cast<float>((3.81 / 254.0) * repulsive / steps);
@@ -119,7 +147,7 @@ private:
     if (node) RCLCPP_WARN_THROTTLE(logger_, *node->get_clock(), 2000,
       "PredictionV1Critic skipped prediction (%s); baseline CostCritic remains active", reason);
   }
-  std::string topic_;
+  std::string topic_,collision_rank_mode_;
   double object_width_{},object_height_{},reference_acceleration_{},max_age_{},horizon_{};
   std::mutex message_mutex_;
   rm_competition_interfaces::msg::DynamicObstaclePredictionArray::ConstSharedPtr latest_;

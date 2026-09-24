@@ -48,16 +48,12 @@ def overlap_area(polygon, box):
     return area(polygon)
 
 
-def grade(cycle, profile, truth):
-    summary, records = analyze.analyze(cycle, profile, truth)
-    meta, arrays = analyze.read_cycle(cycle)
+def overlap_fractions(meta, arrays, params):
     prediction = analyze.event(meta, "prediction.input")
-    params = yaml.safe_load(profile.read_text())["controller_server"]["ros__parameters"][
-        "FollowPath"]["PredictionV1Critic"]
     dt = analyze.event(meta, "settings")["dt"]
     x, y, yaw = (analyze.last(arrays, "rollout." + key)
                  for key in ("x", "y", "yaw"))
-    steps = summary["prediction_steps"]
+    steps = min(x.shape[1], int(np.floor(float(params["horizon"]) / dt + 1e-9)))
     footprint = meta["padded_footprint"]
     footprint_area = area(footprint)
     if footprint_area <= 0:
@@ -66,17 +62,26 @@ def grade(cycle, profile, truth):
     if len(tracks) != 1:
         raise ValueError("this ranking probe requires the single-box fixture")
     track = tracks[0]
-    scores = np.zeros(summary["batch_size"], dtype=np.float64)
+    scores = np.zeros(x.shape[0], dtype=np.float64)
     for j in range(steps):
         box = analyze.predicted_box(
             track["xy"], track["vxy"], track["size_xy"],
             (params["object_width"], params["object_height"]),
             prediction["source_age_s"], (j + 1) * dt,
             params["reference_acceleration"])
-        for i in range(summary["batch_size"]):
+        for i in range(x.shape[0]):
             robot = analyze.placed(footprint, (float(x[i, j]), float(y[i, j]),
                                                float(yaw[i, j])))
             scores[i] += overlap_area(robot, box) / footprint_area / steps
+    return scores
+
+
+def grade(cycle, profile, truth):
+    summary, records = analyze.analyze(cycle, profile, truth)
+    meta, arrays = analyze.read_cycle(cycle)
+    params = yaml.safe_load(profile.read_text())["controller_server"]["ros__parameters"][
+        "FollowPath"]["PredictionV1Critic"]
+    scores = overlap_fractions(meta, arrays, params)
     safe = np.array([row["truth_dynamic_safe"] and not row["costcritic_collision"]
                      for row in records], dtype=bool)
     order = np.argsort(scores, kind="stable")

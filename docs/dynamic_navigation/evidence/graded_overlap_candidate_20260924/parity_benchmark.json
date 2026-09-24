@@ -1,0 +1,32 @@
+{
+  "schema": "rm_dynamic_prediction_uniform_overlap_parity/v1",
+  "cycle_sha256": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+  "geometry_source_sha256": "774194cc31c59ff7a7fbcbe46ada8fa7b3ad983670aa9f92c79143dfcf795d4d",
+  "score_steps": 9,
+  "gauss_legendre_order_per_axis": 5,
+  "benchmark_repetitions": 3,
+  "scope": "Single-thread C++ geometry scoring only. Larger batches duplicate the frozen 300 trajectories; neither MPPI cost nor safe-rollout count is measured.",
+  "batches": {
+    "300": {
+      "score_only_ms_per_batch": 4.379059666666667,
+      "checksum": 91.41169221203772,
+      "duplicate_of_frozen_300": false,
+      "max_abs_cpp_python_score_error": 1.5265566588595902e-16
+    },
+    "600": {
+      "score_only_ms_per_batch": 8.199796000000001,
+      "checksum": 182.82338442407539,
+      "duplicate_of_frozen_300": true
+    },
+    "1000": {
+      "score_only_ms_per_batch": 13.741507333333333,
+      "checksum": 304.4001723636921,
+      "duplicate_of_frozen_300": true
+    },
+    "2000": {
+      "score_only_ms_per_batch": 29.112249000000002,
+      "checksum": 609.3280500336722,
+      "duplicate_of_frozen_300": true
+    }
+  }
+}

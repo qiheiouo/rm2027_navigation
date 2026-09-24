@@ -1,0 +1,1011 @@
+{
+  "schema": "rm_dynamic_prediction_frozen_ranking_replay/v1",
+  "scope": "Same-run frozen rollouts/critic costs; only V1 collision rank changed. Offline future geometry is not an online input.",
+  "window_sim_s": [
+    30.503999999999998,
+    32.504
+  ],
+  "selected_cycle_id": 162,
+  "cycles": [
+    {
+      "cycle_id": 145,
+      "cycle_sha256": "bd200a0511c75707185dbce7464d074837c3f308bbac91f6992acb9231f9d6cb",
+      "safe_rollouts": 192,
+      "predicted_collision_rollouts": 280,
+      "baseline_replay_max_control_error": 2.384185791015625e-07,
+      "overlap_fraction_span": 0.04092170124256594,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.5837109684944153,
+          "open_loop_body_min_gap_m": 0.07673541642581955,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            -0.24381153285503387,
+            0.21311968564987183,
+            -0.14585795998573303
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.5837108492851257,
+          "open_loop_body_min_gap_m": 0.07673545173571325,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            -0.2438115030527115,
+            0.21311965584754944,
+            -0.14585794508457184
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.5837108492851257,
+          "open_loop_body_min_gap_m": 0.07673545173571325,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            -0.2438115030527115,
+            0.21311965584754944,
+            -0.14585794508457184
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.5837108492851257,
+          "open_loop_body_min_gap_m": 0.07673545173571325,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            -0.2438115030527115,
+            0.21311965584754944,
+            -0.14585794508457184
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 146,
+      "cycle_sha256": "27363eed390c2aa774d91360ff14e748e24afb08ea4def68fce4e0d19b7f7fa5",
+      "safe_rollouts": 148,
+      "predicted_collision_rollouts": 285,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.04346322035351793,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.4106627106666565,
+          "open_loop_body_min_gap_m": 0.03629566043877633,
+          "open_loop_body_min_gap_step": 26,
+          "returned_control": [
+            -0.13967067003250122,
+            0.03308580815792084,
+            -0.2237745076417923
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.4106627106666565,
+          "open_loop_body_min_gap_m": 0.0362956874945671,
+          "open_loop_body_min_gap_step": 26,
+          "returned_control": [
+            -0.13967065513134003,
+            0.03308580815792084,
+            -0.2237745076417923
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.4106627106666565,
+          "open_loop_body_min_gap_m": 0.0362956874945671,
+          "open_loop_body_min_gap_step": 26,
+          "returned_control": [
+            -0.13967065513134003,
+            0.03308580815792084,
+            -0.2237745076417923
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.4106627106666565,
+          "open_loop_body_min_gap_m": 0.0362956874945671,
+          "open_loop_body_min_gap_step": 26,
+          "returned_control": [
+            -0.13967065513134003,
+            0.03308580815792084,
+            -0.2237745076417923
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 147,
+      "cycle_sha256": "b5b06b67e2dc568a95bcda7d7affe6b9d33c311eb6a394c1fafd85b484704e86",
+      "safe_rollouts": 104,
+      "predicted_collision_rollouts": 293,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.050898386691312414,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.9062567353248596,
+          "open_loop_body_min_gap_m": 0.09182642879432101,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            0.04101306572556496,
+            -0.07101769745349884,
+            -0.0913684070110321
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.9062567353248596,
+          "open_loop_body_min_gap_m": 0.09182642879432101,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            0.04101306572556496,
+            -0.07101769745349884,
+            -0.0913684070110321
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.9062567353248596,
+          "open_loop_body_min_gap_m": 0.09182642879432101,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            0.04101306572556496,
+            -0.07101769745349884,
+            -0.0913684070110321
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.9062567353248596,
+          "open_loop_body_min_gap_m": 0.09182642879432101,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            0.04101306572556496,
+            -0.07101769745349884,
+            -0.0913684070110321
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 148,
+      "cycle_sha256": "d3b501f52611da6a1e892506c43bac205a7dae5e7df75cfa899e7b8df22b4b3f",
+      "safe_rollouts": 158,
+      "predicted_collision_rollouts": 287,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.04317217095948393,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.9284976720809937,
+          "open_loop_body_min_gap_m": 0.12077720865528697,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            0.11197531968355179,
+            -0.14329472184181213,
+            -0.2737627923488617
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.9284977912902832,
+          "open_loop_body_min_gap_m": 0.12077722519969797,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            0.11197532713413239,
+            -0.14329472184181213,
+            -0.27376285195350647
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.9284977912902832,
+          "open_loop_body_min_gap_m": 0.12077722519969797,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            0.11197532713413239,
+            -0.14329472184181213,
+            -0.27376285195350647
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.9284977912902832,
+          "open_loop_body_min_gap_m": 0.12077722519969797,
+          "open_loop_body_min_gap_step": 17,
+          "returned_control": [
+            0.11197532713413239,
+            -0.14329472184181213,
+            -0.27376285195350647
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 149,
+      "cycle_sha256": "c922c65155f237952c5ef279461e41c8f807ff5442fd5812563eb9342aac0293",
+      "safe_rollouts": 205,
+      "predicted_collision_rollouts": 297,
+      "baseline_replay_max_control_error": 5.960464477539063e-08,
+      "overlap_fraction_span": 0.06263902426623436,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.646643340587616,
+          "open_loop_body_min_gap_m": 0.12348505665304813,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.2280046045780182,
+            -0.26081740856170654,
+            -0.15479768812656403
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.646643340587616,
+          "open_loop_body_min_gap_m": 0.12348505665304813,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.2280046045780182,
+            -0.26081740856170654,
+            -0.15479768812656403
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.646643340587616,
+          "open_loop_body_min_gap_m": 0.12348505665304813,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.2280046045780182,
+            -0.26081740856170654,
+            -0.15479768812656403
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.646643340587616,
+          "open_loop_body_min_gap_m": 0.12348505665304813,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.2280046045780182,
+            -0.26081740856170654,
+            -0.15479768812656403
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 150,
+      "cycle_sha256": "6b763893f8c29dbb3a7f2ecab5b2a083b31b7c396dca0cac40071024bfee205f",
+      "safe_rollouts": 213,
+      "predicted_collision_rollouts": 296,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.05320902228784646,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.6447980403900146,
+          "open_loop_body_min_gap_m": 0.10829691361931797,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.35362502932548523,
+            -0.3311522901058197,
+            -0.05826728418469429
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.6447980403900146,
+          "open_loop_body_min_gap_m": 0.10829691361931797,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.35362502932548523,
+            -0.3311522901058197,
+            -0.05826728418469429
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.6447980403900146,
+          "open_loop_body_min_gap_m": 0.10829691361931797,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.35362502932548523,
+            -0.3311522901058197,
+            -0.05826728418469429
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.6447980403900146,
+          "open_loop_body_min_gap_m": 0.10829691361931797,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.35362502932548523,
+            -0.3311522901058197,
+            -0.05826728418469429
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 151,
+      "cycle_sha256": "09ba5c4600ee7b2f94cbf949d223dffd55ed24630ae2dd79a0ec4092d4d55f0a",
+      "safe_rollouts": 197,
+      "predicted_collision_rollouts": 298,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.06078145918129493,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.5499712228775024,
+          "open_loop_body_min_gap_m": 0.09317963971301517,
+          "open_loop_body_min_gap_step": 15,
+          "returned_control": [
+            0.498800665140152,
+            -0.3621915578842163,
+            0.14946222305297852
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.5499712228775024,
+          "open_loop_body_min_gap_m": 0.09317963971301517,
+          "open_loop_body_min_gap_step": 15,
+          "returned_control": [
+            0.498800665140152,
+            -0.3621915578842163,
+            0.14946220815181732
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.5499712228775024,
+          "open_loop_body_min_gap_m": 0.09317963971301517,
+          "open_loop_body_min_gap_step": 15,
+          "returned_control": [
+            0.498800665140152,
+            -0.3621915578842163,
+            0.14946220815181732
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.5499712228775024,
+          "open_loop_body_min_gap_m": 0.09317963971301517,
+          "open_loop_body_min_gap_step": 15,
+          "returned_control": [
+            0.498800665140152,
+            -0.3621915578842163,
+            0.14946220815181732
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 152,
+      "cycle_sha256": "2450752e177be05a1434f6a5ebbcd2ee010c04cdd5cb05caea3151abdfb5af31",
+      "safe_rollouts": 195,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.07241085122819987,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.4330424666404724,
+          "open_loop_body_min_gap_m": 0.0633863280075479,
+          "open_loop_body_min_gap_step": 14,
+          "returned_control": [
+            0.38790711760520935,
+            -0.22668150067329407,
+            0.1884525567293167
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.45389872789382935,
+          "open_loop_body_min_gap_m": 0.0648300861398628,
+          "open_loop_body_min_gap_step": 14,
+          "returned_control": [
+            0.38806286454200745,
+            -0.2344961017370224,
+            0.1832510083913803
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.45555686950683594,
+          "open_loop_body_min_gap_m": 0.08063929230591017,
+          "open_loop_body_min_gap_step": 14,
+          "returned_control": [
+            0.6089321374893188,
+            -0.37348073720932007,
+            0.2699098587036133
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.5957562923431396,
+          "open_loop_body_min_gap_m": 0.07953586979155564,
+          "open_loop_body_min_gap_step": 14,
+          "returned_control": [
+            0.39146384596824646,
+            -0.2970215976238251,
+            0.16318392753601074
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 153,
+      "cycle_sha256": "5f6047ee6857f4c590a3b83bd5a4bebd9c507260be54db64cafce42041f2ce93",
+      "safe_rollouts": 168,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.1566236049231548,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.08301611244678497,
+          "open_loop_body_min_gap_m": 0.058260064769973856,
+          "open_loop_body_min_gap_step": 13,
+          "returned_control": [
+            0.17661263048648834,
+            -0.073656365275383,
+            0.19997097551822662
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.10405753552913666,
+          "open_loop_body_min_gap_m": 0.05959475530649729,
+          "open_loop_body_min_gap_step": 13,
+          "returned_control": [
+            0.17589779198169708,
+            -0.08826087415218353,
+            0.19532561302185059
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.029470114037394524,
+          "open_loop_body_min_gap_m": 0.0289098679397956,
+          "open_loop_body_min_gap_step": 30,
+          "returned_control": [
+            0.39065736532211304,
+            -0.2466745525598526,
+            0.03774907812476158
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.8195863962173462,
+          "open_loop_body_min_gap_m": 0.0921194474326918,
+          "open_loop_body_min_gap_step": 13,
+          "returned_control": [
+            0.26019126176834106,
+            -0.2775006890296936,
+            -0.030592098832130432
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 154,
+      "cycle_sha256": "2586139db2ffc449f74ddf56a13f8b81a2a4dfda3de2311874ffdc287417010d",
+      "safe_rollouts": 120,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.22515830694503647,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.22749005258083344,
+          "open_loop_body_min_gap_m": 0.04373574564488901,
+          "open_loop_body_min_gap_step": 12,
+          "returned_control": [
+            -0.015549696981906891,
+            -0.006243614479899406,
+            -0.10638676583766937
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.23190316557884216,
+          "open_loop_body_min_gap_m": 0.049943856639537446,
+          "open_loop_body_min_gap_step": 12,
+          "returned_control": [
+            -0.003937859088182449,
+            -0.022247077897191048,
+            -0.13000629842281342
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 1.6279937398167021e-09,
+          "open_loop_body_min_gap_m": 0.022329567303927433,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.07639994472265244,
+            -0.32299739122390747,
+            -0.11629409343004227
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.5392227172851562,
+          "open_loop_body_min_gap_m": 0.11295442883199021,
+          "open_loop_body_min_gap_step": 16,
+          "returned_control": [
+            0.0665542408823967,
+            -0.24519361555576324,
+            -0.1244187280535698
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 155,
+      "cycle_sha256": "c4136e60408d799de84b14a460b2259c7b4078931ec3a3477139df7f2978404c",
+      "safe_rollouts": 90,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.23159277340901846,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.25784215331077576,
+          "open_loop_body_min_gap_m": 0.03314955988541179,
+          "open_loop_body_min_gap_step": 12,
+          "returned_control": [
+            -0.14829221367835999,
+            0.08258943259716034,
+            -0.27246788144111633
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.27942606806755066,
+          "open_loop_body_min_gap_m": 0.04323103763751684,
+          "open_loop_body_min_gap_step": 12,
+          "returned_control": [
+            -0.1359747350215912,
+            0.061833202838897705,
+            -0.29093071818351746
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 1.2961502982022921e-09,
+          "open_loop_body_min_gap_m": 0.02400913150551666,
+          "open_loop_body_min_gap_step": 13,
+          "returned_control": [
+            -0.07583560049533844,
+            -0.2092777043581009,
+            -0.27336385846138
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.639654815196991,
+          "open_loop_body_min_gap_m": 0.16317235316766793,
+          "open_loop_body_min_gap_step": 15,
+          "returned_control": [
+            -0.09835425019264221,
+            -0.19854801893234253,
+            -0.402561753988266
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 156,
+      "cycle_sha256": "35914ada1f8371c1ce9340b75aae34253d66403047c6ad8c0f84214450ff58eb",
+      "safe_rollouts": 79,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.19259664188327197,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.2392999678850174,
+          "open_loop_body_min_gap_m": 0.027443885820401092,
+          "open_loop_body_min_gap_step": 10,
+          "returned_control": [
+            -0.21062642335891724,
+            0.13606031239032745,
+            -0.35717663168907166
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.24357643723487854,
+          "open_loop_body_min_gap_m": 0.030428731928302862,
+          "open_loop_body_min_gap_step": 11,
+          "returned_control": [
+            -0.20217333734035492,
+            0.11828239262104034,
+            -0.3704477846622467
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 4.7859620756916e-19,
+          "open_loop_body_min_gap_m": 0.04291212492460115,
+          "open_loop_body_min_gap_step": 11,
+          "returned_control": [
+            -0.1377124935388565,
+            -0.14271359145641327,
+            -0.35483071208000183
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.9695903062820435,
+          "open_loop_body_min_gap_m": 0.20082796251503943,
+          "open_loop_body_min_gap_step": 10,
+          "returned_control": [
+            -0.1387271136045456,
+            -0.15263670682907104,
+            -0.5046025514602661
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 157,
+      "cycle_sha256": "2b4d36d2ab2c49b88b7d706f84165d7abbdddbb422390543436fc883fe8da0c5",
+      "safe_rollouts": 53,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.1466401182904321,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.14150258898735046,
+          "open_loop_body_min_gap_m": 0.019131406390372245,
+          "open_loop_body_min_gap_step": 9,
+          "returned_control": [
+            -0.24004991352558136,
+            0.1638392060995102,
+            -0.33389103412628174
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.1793300062417984,
+          "open_loop_body_min_gap_m": 0.02560787055900962,
+          "open_loop_body_min_gap_step": 9,
+          "returned_control": [
+            -0.2383524477481842,
+            0.14963968098163605,
+            -0.3441976010799408
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 1.6000542904515136e-11,
+          "open_loop_body_min_gap_m": 0.05484876092092798,
+          "open_loop_body_min_gap_step": 10,
+          "returned_control": [
+            -0.1647048145532608,
+            -0.10690435767173767,
+            -0.33308276534080505
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.999733030796051,
+          "open_loop_body_min_gap_m": 0.1959348289733894,
+          "open_loop_body_min_gap_step": 9,
+          "returned_control": [
+            -0.19618241488933563,
+            -0.12672750651836395,
+            -0.45417943596839905
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 158,
+      "cycle_sha256": "ab1974287212400c8cc26f2738b985c77293cff87b322e986cca580826f5b139",
+      "safe_rollouts": 32,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.10509657384522231,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.06881414353847504,
+          "open_loop_body_min_gap_m": 0.008757596934613383,
+          "open_loop_body_min_gap_step": 8,
+          "returned_control": [
+            -0.2585856318473816,
+            0.17211851477622986,
+            -0.28711581230163574
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.1011572778224945,
+          "open_loop_body_min_gap_m": 0.013019922811279875,
+          "open_loop_body_min_gap_step": 8,
+          "returned_control": [
+            -0.25972092151641846,
+            0.16160811483860016,
+            -0.2939254343509674
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.9999998807907104,
+          "open_loop_body_min_gap_m": 0.06206035604182598,
+          "open_loop_body_min_gap_step": 8,
+          "returned_control": [
+            -0.18944111466407776,
+            -0.047946881502866745,
+            -0.2227080762386322
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 1.000000238418579,
+          "open_loop_body_min_gap_m": 0.1299370640824904,
+          "open_loop_body_min_gap_step": 8,
+          "returned_control": [
+            -0.34327006340026855,
+            -0.016489198431372643,
+            -0.052096202969551086
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 159,
+      "cycle_sha256": "f96e812ed68aea336e0b7d4a46cb4a9d8cfa06858288e82e7a9a00152374b184",
+      "safe_rollouts": 27,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 5.960464477539063e-08,
+      "overlap_fraction_span": 0.11468074678997098,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.03241483122110367,
+          "open_loop_body_min_gap_m": 0.0,
+          "open_loop_body_min_gap_step": 7,
+          "returned_control": [
+            -0.2834380567073822,
+            0.17573611438274384,
+            -0.2294197380542755
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.054755695164203644,
+          "open_loop_body_min_gap_m": 0.0033504450707244615,
+          "open_loop_body_min_gap_step": 7,
+          "returned_control": [
+            -0.2879917025566101,
+            0.1682070940732956,
+            -0.23422597348690033
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.12017447055572897,
+          "open_loop_body_min_gap_step": 7,
+          "returned_control": [
+            -0.36383140087127686,
+            -0.01931932382285595,
+            0.011086609214544296
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.12017447055572897,
+          "open_loop_body_min_gap_step": 7,
+          "returned_control": [
+            -0.36383146047592163,
+            -0.019319333136081696,
+            0.011086592450737953
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 160,
+      "cycle_sha256": "4690ff95b75f8268ccd7ccd1926f10c03263b5efdedb204f08c201ce3952008a",
+      "safe_rollouts": 24,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.11093532109871107,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.04961506277322769,
+          "open_loop_body_min_gap_m": 0.0,
+          "open_loop_body_min_gap_step": 6,
+          "returned_control": [
+            -0.31169185042381287,
+            0.17113137245178223,
+            -0.19904284179210663
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.07498209178447723,
+          "open_loop_body_min_gap_m": 0.0020651568848846225,
+          "open_loop_body_min_gap_step": 6,
+          "returned_control": [
+            -0.3187776207923889,
+            0.163741335272789,
+            -0.20338433980941772
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.10873348473894649,
+          "open_loop_body_min_gap_step": 6,
+          "returned_control": [
+            -0.38643062114715576,
+            -0.022554676979780197,
+            0.06264258176088333
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.10873348473894649,
+          "open_loop_body_min_gap_step": 6,
+          "returned_control": [
+            -0.38643062114715576,
+            -0.022554676979780197,
+            0.06264258176088333
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 161,
+      "cycle_sha256": "6c2dad9d748189dbce7c66e65fbfcd4489d897d2591b23c6523c4f495a43f816",
+      "safe_rollouts": 23,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.113135935145117,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.04128432273864746,
+          "open_loop_body_min_gap_m": 0.0011073972082877859,
+          "open_loop_body_min_gap_step": 5,
+          "returned_control": [
+            -0.34630054235458374,
+            0.1642964631319046,
+            -0.17567618191242218
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.06855303794145584,
+          "open_loop_body_min_gap_m": 0.0059505883447537045,
+          "open_loop_body_min_gap_step": 5,
+          "returned_control": [
+            -0.35431501269340515,
+            0.15584857761859894,
+            -0.1807410717010498
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.09151288112172207,
+          "open_loop_body_min_gap_step": 5,
+          "returned_control": [
+            -0.40561699867248535,
+            -0.03199859708547592,
+            0.09156092256307602
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.09151288112172207,
+          "open_loop_body_min_gap_step": 5,
+          "returned_control": [
+            -0.40561699867248535,
+            -0.03199859708547592,
+            0.09156092256307602
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 162,
+      "cycle_sha256": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+      "safe_rollouts": 16,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.12724383622426416,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.03140811249613762,
+          "open_loop_body_min_gap_m": 0.009435515466096334,
+          "open_loop_body_min_gap_step": 4,
+          "returned_control": [
+            -0.3785583972930908,
+            0.14060921967029572,
+            -0.14525827765464783
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.05292876809835434,
+          "open_loop_body_min_gap_m": 0.014909551867731352,
+          "open_loop_body_min_gap_step": 4,
+          "returned_control": [
+            -0.38790643215179443,
+            0.12917788326740265,
+            -0.1509079486131668
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.07214270778566255,
+          "open_loop_body_min_gap_step": 3,
+          "returned_control": [
+            -0.4244379997253418,
+            -0.04302817955613136,
+            0.12463056296110153
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.07214270778566255,
+          "open_loop_body_min_gap_step": 3,
+          "returned_control": [
+            -0.4244379997253418,
+            -0.04302817955613136,
+            0.12463056296110153
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 163,
+      "cycle_sha256": "fa444f7d4ec719aaf3ccd249f12723405ff28458936bb44dd7b9a8e79eab410b",
+      "safe_rollouts": 9,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 5.960464477539063e-08,
+      "overlap_fraction_span": 0.12790527585127454,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.027362406253814697,
+          "open_loop_body_min_gap_m": 0.016477425972710513,
+          "open_loop_body_min_gap_step": 3,
+          "returned_control": [
+            -0.4154306650161743,
+            0.09934407472610474,
+            -0.11951249837875366
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.03767925128340721,
+          "open_loop_body_min_gap_m": 0.020264639844808308,
+          "open_loop_body_min_gap_step": 3,
+          "returned_control": [
+            -0.4234265089035034,
+            0.0881020724773407,
+            -0.12927691638469696
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 1.0,
+          "open_loop_body_min_gap_m": 0.058974092058809546,
+          "open_loop_body_min_gap_step": 3,
+          "returned_control": [
+            -0.4422007203102112,
+            -0.07084646821022034,
+            0.15237843990325928
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.9999997615814209,
+          "open_loop_body_min_gap_m": 0.058974092058809546,
+          "open_loop_body_min_gap_step": 3,
+          "returned_control": [
+            -0.4422007203102112,
+            -0.07084644585847855,
+            0.15237843990325928
+          ]
+        }
+      }
+    },
+    {
+      "cycle_id": 164,
+      "cycle_sha256": "3f9f21f9c0e97844baa6308bed98fe7e536c0460b780216fd770962dde219b51",
+      "safe_rollouts": 0,
+      "predicted_collision_rollouts": 300,
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "overlap_fraction_span": 0.13348070620740093,
+      "outcomes": {
+        "baseline": {
+          "safe_rollout_probability_mass": 0.0,
+          "open_loop_body_min_gap_m": 0.015931281584924406,
+          "open_loop_body_min_gap_step": 2,
+          "returned_control": [
+            -0.4396264851093292,
+            0.07693452388048172,
+            -0.0918918251991272
+          ]
+        },
+        "near_scale_gradient": {
+          "safe_rollout_probability_mass": 0.0,
+          "open_loop_body_min_gap_m": 0.017807818380770613,
+          "open_loop_body_min_gap_step": 2,
+          "returned_control": [
+            -0.4438728094100952,
+            0.06968837976455688,
+            -0.09719111025333405
+          ]
+        },
+        "collision_scale_gradient": {
+          "safe_rollout_probability_mass": 0.0,
+          "open_loop_body_min_gap_m": 0.04809069637216279,
+          "open_loop_body_min_gap_step": 2,
+          "returned_control": [
+            -0.4599570631980896,
+            -0.11460356414318085,
+            0.16747693717479706
+          ]
+        },
+        "uniform_center_gradient": {
+          "safe_rollout_probability_mass": 0.0,
+          "open_loop_body_min_gap_m": 0.04809069637216279,
+          "open_loop_body_min_gap_step": 2,
+          "returned_control": [
+            -0.4599571228027344,
+            -0.11460347473621368,
+            0.16747668385505676
+          ]
+        }
+      }
+    }
+  ]
+}

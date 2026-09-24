@@ -16,3 +16,15 @@ TEST(Geometry, RotatedPolygonContactAndClearance) {
   EXPECT_NEAR(polygon_box_distance(transform(square,0,0,0),{.7,-.1,.8,.1}),.2,1e-12);
   EXPECT_EQ(polygon_box_distance(transform(square,0,0,M_PI/4),{.6,-.1,.8,.1}),0);
 }
+TEST(Geometry, PhysicalOverlapIsGradedInsideUnchangedEnvelope) {
+  const std::vector<Point> robot{{-.5,-.5},{.5,-.5},{.5,.5},{-.5,.5}};
+  EXPECT_DOUBLE_EQ(polygon_area(robot),1.);
+  EXPECT_NEAR(polygon_box_overlap_area(robot,{0.,-.5,1.,.5}),.5,1e-12);
+  EXPECT_DOUBLE_EQ(polygon_box_overlap_area(robot,{2.,2.,3.,3.}),0.);
+  const auto hard=predicted_box({0,0},{0,0},{0,0},{1,1},0,0,0);
+  EXPECT_DOUBLE_EQ(hard.min_x,-1.);
+  EXPECT_DOUBLE_EQ(hard.max_y,1.);
+  EXPECT_NEAR(uniform_center_overlap_fraction(robot,{0,0},{0,0},{0,0},{1,1},0,0,0),
+              .5833711784981814,1e-12);
+  EXPECT_DOUBLE_EQ(uniform_center_overlap_fraction(robot,{5,5},{0,0},{0,0},{1,1},0,0,0),0.);
+}
