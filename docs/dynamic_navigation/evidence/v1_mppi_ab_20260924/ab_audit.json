@@ -1,0 +1,345 @@
+{
+  "schema": "rm_dynamic_prediction_v1_mppi_first_ab/v1",
+  "scope": "Fixed phase QP first trials only; different simulated runs, not paired-frame A/B or a multi-phase acceptance matrix.",
+  "accepted_for_deployment": false,
+  "trials": [
+    {
+      "mode": "baseline",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "1862d4dc9742f10d8d1db1d4404ef5f8123c7184e876c7e6179410ad9f3f9505",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 11,
+      "final_xy_error_m": 0.1218369479636203,
+      "final_yaw_error_rad": 0.03901268987186031,
+      "navigation_interval_sim_s": [
+        16.018,
+        38.21
+      ],
+      "navigation_duration_sim_s": 22.192,
+      "traveled_m": 7.363317304651888,
+      "cross_track_rms_m": 0.14251213285526984,
+      "stall": {
+        "low_speed_time_s": 6.160000000000004,
+        "episodes_at_least_030s": [
+          [
+            29.06,
+            35.06
+          ]
+        ],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.2588456639014547,
+          "moving_sample_min_m": 0.0,
+          "static_interpolation_bound_m": 0.25410032479055306,
+          "moving_interpolation_bound_m": -0.003567689621914236,
+          "overall_interpolation_bound_m": -0.003567689621914236,
+          "sampled_moving_overlap": true,
+          "moving_min_witness": {
+            "t": 29.856,
+            "robot": [
+              5.278909203470394,
+              -0.7401746860709575,
+              0.16112796531946197
+            ],
+            "obstacle": [
+              4.9,
+              -0.2081999752129324,
+              0.0
+            ],
+            "gap_m": 0.0
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.21726898059092126,
+          "moving_sample_min_m": 0.0,
+          "static_interpolation_bound_m": 0.21231674319204707,
+          "moving_interpolation_bound_m": -0.011670865637149808,
+          "overall_interpolation_bound_m": -0.011670865637149808,
+          "sampled_moving_overlap": true,
+          "moving_min_witness": {
+            "t": 28.278,
+            "robot": [
+              4.992161163721839,
+              -0.7335018777555302,
+              -0.01641198683175959
+            ],
+            "obstacle": [
+              4.9,
+              -0.150719965313413,
+              0.0
+            ],
+            "gap_m": 0.0
+          }
+        },
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": false
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": false,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 0,
+      "prediction_consumption_log_samples": [],
+      "prediction_skips_logged": 0,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/metadata.json": "669dcbf5f3e9be2f6982eb76c1f7d16d3dd857d8eaf818ecfbc40cbfcc6cf2a8",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/profile.yaml": "1862d4dc9742f10d8d1db1d4404ef5f8123c7184e876c7e6179410ad9f3f9505",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/observation/summary.json": "294190e7d0d24c69d9cb75109cd1f8d3187161b0a8a4cdbed4f6fe4a6553d15b",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/observation/events.jsonl": "bc82e4b5f6205a46b227213162b9d3b1fd72fa55233e0464ad236481f3937179",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/observation/trajectory.jsonl": "8f89b354a3b6539d5fe42c690113f8f2832960171e45f784b0d6cbee5df3439e",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/gazebo_poses.jsonl": "3bada37f5a1946709def3f3e3451cb0d8dca721f855fcab5f26d142c2a139e9a",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/launch.log": "feb1711b486c22393df544ede42947e623c6914c0fda3b6e2ae95bd77a7c24bd"
+      }
+    },
+    {
+      "mode": "candidate",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "4dd877afd4d85a88c702e3cdb8a6d38534524a4ef7b04ea246f3ed1c2bdaccbe",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.11111676966406733,
+      "final_yaw_error_rad": 0.18035766168277598,
+      "navigation_interval_sim_s": [
+        16.031,
+        39.445
+      ],
+      "navigation_duration_sim_s": 23.414,
+      "traveled_m": 9.157185321996279,
+      "cross_track_rms_m": 0.06516045510882222,
+      "stall": {
+        "low_speed_time_s": 0.16000000000000014,
+        "episodes_at_least_030s": [],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.26163285141645226,
+          "moving_sample_min_m": 0.14584072901652362,
+          "static_interpolation_bound_m": 0.2575705758971192,
+          "moving_interpolation_bound_m": 0.136773423612153,
+          "overall_interpolation_bound_m": 0.136773423612153,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 36.925,
+            "robot": [
+              5.608570810509365,
+              -0.28774927443810616,
+              1.0586507632145827
+            ],
+            "obstacle": [
+              4.9,
+              -0.594790976801422,
+              0.0
+            ],
+            "gap_m": 0.14584072901652362
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.2192947214348667,
+          "moving_sample_min_m": 0.10455846591032802,
+          "static_interpolation_bound_m": 0.21510624092346808,
+          "moving_interpolation_bound_m": 0.09580392605767658,
+          "overall_interpolation_bound_m": 0.09580392605767658,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 36.933,
+            "robot": [
+              5.608425885098693,
+              -0.28629973402893794,
+              1.052110301268597
+            ],
+            "obstacle": [
+              4.9,
+              -0.5994566942663746,
+              0.0
+            ],
+            "gap_m": 0.10455846591032802
+          }
+        },
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": true,
+      "prediction_messages": 600,
+      "prediction_consumption_log_samples": [
+        {
+          "age_s": 0.062,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 1
+        },
+        {
+          "age_s": 0.068,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 15
+        },
+        {
+          "age_s": 0.082,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 29
+        },
+        {
+          "age_s": 0.036,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 43
+        },
+        {
+          "age_s": 0.059,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 56
+        },
+        {
+          "age_s": 0.09,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 71
+        },
+        {
+          "age_s": 0.061,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 86
+        },
+        {
+          "age_s": 0.077,
+          "tracks": 1,
+          "collision_trajectories": 297,
+          "trajectory_count": 300,
+          "near_samples": 54,
+          "accepted_cycles_total": 100
+        },
+        {
+          "age_s": 0.044,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 114
+        },
+        {
+          "age_s": 0.074,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 128
+        },
+        {
+          "age_s": 0.067,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 142
+        },
+        {
+          "age_s": 0.035,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 156
+        },
+        {
+          "age_s": 0.047,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 172
+        },
+        {
+          "age_s": 0.075,
+          "tracks": 1,
+          "collision_trajectories": 16,
+          "trajectory_count": 300,
+          "near_samples": 11,
+          "accepted_cycles_total": 186
+        },
+        {
+          "age_s": 0.068,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 151,
+          "accepted_cycles_total": 200
+        },
+        {
+          "age_s": 0.086,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 217
+        },
+        {
+          "age_s": 0.057,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 232
+        },
+        {
+          "age_s": 0.086,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 247
+        }
+      ],
+      "prediction_skips_logged": 3,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/metadata.json": "12a7610ecb0593091e2199f107e45e2bbc34903a30666d93c8190fe56d3e296d",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/profile.yaml": "4dd877afd4d85a88c702e3cdb8a6d38534524a4ef7b04ea246f3ed1c2bdaccbe",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/observation/summary.json": "fac0d08cd0d1e9def908c6c326c67f352b090b617a2e2227b938fd95e21f3406",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/observation/events.jsonl": "e990ae1c4cb04d27813dceec76f6a4071f6c034118421da1c3ead04e961b1af7",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/observation/trajectory.jsonl": "5c501a7aaba183c28531c201fd3e25625eaa9c72bf4d5e81574b795e2bed0a98",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/gazebo_poses.jsonl": "6cc58deec6eb3089f63f22f558b3696eecf611da37533d7c56197bbd6629aeef",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/launch.log": "6f0d4d9ada0e2b61beb15d2504b896b3c722edcf105347c9a0b5bff095512907"
+      }
+    }
+  ]
+}

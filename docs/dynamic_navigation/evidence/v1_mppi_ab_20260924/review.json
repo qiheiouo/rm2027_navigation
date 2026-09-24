@@ -1,0 +1,1446 @@
+{
+  "schema": "rm_dynamic_prediction_v1_ab_review/v1",
+  "accepted_for_deployment": false,
+  "first_trials": [
+    {
+      "mode": "baseline",
+      "planner": "tdt_qp",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "1862d4dc9742f10d8d1db1d4404ef5f8123c7184e876c7e6179410ad9f3f9505",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 11,
+      "final_xy_error_m": 0.1218369479636203,
+      "final_yaw_error_rad": 0.03901268987186031,
+      "navigation_interval_sim_s": [
+        16.018,
+        38.21
+      ],
+      "navigation_duration_sim_s": 22.192,
+      "traveled_m": 7.363317304651888,
+      "cross_track_rms_m": 0.14251213285526984,
+      "stall": {
+        "low_speed_time_s": 6.160000000000004,
+        "episodes_at_least_030s": [
+          [
+            29.06,
+            35.06
+          ]
+        ],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.2588456639014547,
+          "moving_sample_min_m": 0.0,
+          "static_interpolation_bound_m": 0.25410032479055306,
+          "moving_interpolation_bound_m": -0.003567689621914236,
+          "overall_interpolation_bound_m": -0.003567689621914236,
+          "sampled_moving_overlap": true,
+          "moving_min_witness": {
+            "t": 29.856,
+            "robot": [
+              5.278909203470394,
+              -0.7401746860709575,
+              0.16112796531946197
+            ],
+            "obstacle": [
+              4.9,
+              -0.2081999752129324,
+              0.0
+            ],
+            "gap_m": 0.0
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.21726898059092126,
+          "moving_sample_min_m": 0.0,
+          "static_interpolation_bound_m": 0.21231674319204707,
+          "moving_interpolation_bound_m": -0.011670865637149808,
+          "overall_interpolation_bound_m": -0.011670865637149808,
+          "sampled_moving_overlap": true,
+          "moving_min_witness": {
+            "t": 28.278,
+            "robot": [
+              4.992161163721839,
+              -0.7335018777555302,
+              -0.01641198683175959
+            ],
+            "obstacle": [
+              4.9,
+              -0.150719965313413,
+              0.0
+            ],
+            "gap_m": 0.0
+          }
+        },
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": false
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": false,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 0,
+      "prediction_consumption_log_samples": [],
+      "prediction_skips_logged": 0,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/metadata.json": "669dcbf5f3e9be2f6982eb76c1f7d16d3dd857d8eaf818ecfbc40cbfcc6cf2a8",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/profile.yaml": "1862d4dc9742f10d8d1db1d4404ef5f8123c7184e876c7e6179410ad9f3f9505",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/observation/summary.json": "294190e7d0d24c69d9cb75109cd1f8d3187161b0a8a4cdbed4f6fe4a6553d15b",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/observation/events.jsonl": "bc82e4b5f6205a46b227213162b9d3b1fd72fa55233e0464ad236481f3937179",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/observation/trajectory.jsonl": "8f89b354a3b6539d5fe42c690113f8f2832960171e45f784b0d6cbee5df3439e",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/gazebo_poses.jsonl": "3bada37f5a1946709def3f3e3451cb0d8dca721f855fcab5f26d142c2a139e9a",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_qp_1/launch.log": "feb1711b486c22393df544ede42947e623c6914c0fda3b6e2ae95bd77a7c24bd"
+      }
+    },
+    {
+      "mode": "candidate",
+      "planner": "tdt_qp",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "4dd877afd4d85a88c702e3cdb8a6d38534524a4ef7b04ea246f3ed1c2bdaccbe",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.11111676966406733,
+      "final_yaw_error_rad": 0.18035766168277598,
+      "navigation_interval_sim_s": [
+        16.031,
+        39.445
+      ],
+      "navigation_duration_sim_s": 23.414,
+      "traveled_m": 9.157185321996279,
+      "cross_track_rms_m": 0.06516045510882222,
+      "stall": {
+        "low_speed_time_s": 0.16000000000000014,
+        "episodes_at_least_030s": [],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.26163285141645226,
+          "moving_sample_min_m": 0.14584072901652362,
+          "static_interpolation_bound_m": 0.2575705758971192,
+          "moving_interpolation_bound_m": 0.136773423612153,
+          "overall_interpolation_bound_m": 0.136773423612153,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 36.925,
+            "robot": [
+              5.608570810509365,
+              -0.28774927443810616,
+              1.0586507632145827
+            ],
+            "obstacle": [
+              4.9,
+              -0.594790976801422,
+              0.0
+            ],
+            "gap_m": 0.14584072901652362
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.2192947214348667,
+          "moving_sample_min_m": 0.10455846591032802,
+          "static_interpolation_bound_m": 0.21510624092346808,
+          "moving_interpolation_bound_m": 0.09580392605767658,
+          "overall_interpolation_bound_m": 0.09580392605767658,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 36.933,
+            "robot": [
+              5.608425885098693,
+              -0.28629973402893794,
+              1.052110301268597
+            ],
+            "obstacle": [
+              4.9,
+              -0.5994566942663746,
+              0.0
+            ],
+            "gap_m": 0.10455846591032802
+          }
+        },
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": true,
+      "prediction_messages": 600,
+      "prediction_consumption_log_samples": [
+        {
+          "age_s": 0.062,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 1
+        },
+        {
+          "age_s": 0.068,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 15
+        },
+        {
+          "age_s": 0.082,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 29
+        },
+        {
+          "age_s": 0.036,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 43
+        },
+        {
+          "age_s": 0.059,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 56
+        },
+        {
+          "age_s": 0.09,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 71
+        },
+        {
+          "age_s": 0.061,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 86
+        },
+        {
+          "age_s": 0.077,
+          "tracks": 1,
+          "collision_trajectories": 297,
+          "trajectory_count": 300,
+          "near_samples": 54,
+          "accepted_cycles_total": 100
+        },
+        {
+          "age_s": 0.044,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 114
+        },
+        {
+          "age_s": 0.074,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 128
+        },
+        {
+          "age_s": 0.067,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 142
+        },
+        {
+          "age_s": 0.035,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 156
+        },
+        {
+          "age_s": 0.047,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 172
+        },
+        {
+          "age_s": 0.075,
+          "tracks": 1,
+          "collision_trajectories": 16,
+          "trajectory_count": 300,
+          "near_samples": 11,
+          "accepted_cycles_total": 186
+        },
+        {
+          "age_s": 0.068,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 151,
+          "accepted_cycles_total": 200
+        },
+        {
+          "age_s": 0.086,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 217
+        },
+        {
+          "age_s": 0.057,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 232
+        },
+        {
+          "age_s": 0.086,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 247
+        }
+      ],
+      "prediction_skips_logged": 3,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/metadata.json": "12a7610ecb0593091e2199f107e45e2bbc34903a30666d93c8190fe56d3e296d",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/profile.yaml": "4dd877afd4d85a88c702e3cdb8a6d38534524a4ef7b04ea246f3ed1c2bdaccbe",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/observation/summary.json": "fac0d08cd0d1e9def908c6c326c67f352b090b617a2e2227b938fd95e21f3406",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/observation/events.jsonl": "e990ae1c4cb04d27813dceec76f6a4071f6c034118421da1c3ead04e961b1af7",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/observation/trajectory.jsonl": "5c501a7aaba183c28531c201fd3e25625eaa9c72bf4d5e81574b795e2bed0a98",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/gazebo_poses.jsonl": "6cc58deec6eb3089f63f22f558b3696eecf611da37533d7c56197bbd6629aeef",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1/launch.log": "6f0d4d9ada0e2b61beb15d2504b896b3c722edcf105347c9a0b5bff095512907"
+      }
+    },
+    {
+      "mode": "baseline",
+      "planner": "tdt_astar",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "c3a3ce2c6f5493d3b538866f94f173409fb4b6edfe5ca371fdf5f2d0c8bf95a8",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 8,
+      "final_xy_error_m": 0.04034374685250804,
+      "final_yaw_error_rad": 0.16904727911446996,
+      "navigation_interval_sim_s": [
+        16.024,
+        41.14
+      ],
+      "navigation_duration_sim_s": 25.116,
+      "traveled_m": 8.399320288614309,
+      "cross_track_rms_m": 0.04311010525802153,
+      "stall": {
+        "low_speed_time_s": 6.199999999999999,
+        "episodes_at_least_030s": [
+          [
+            29.6,
+            35.68
+          ]
+        ],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.6096845810730926,
+          "moving_sample_min_m": 0.046817821774423285,
+          "static_interpolation_bound_m": 0.6054836511815967,
+          "moving_interpolation_bound_m": 0.039068831667772794,
+          "overall_interpolation_bound_m": 0.039068831667772794,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 29.005,
+            "robot": [
+              5.164540583625283,
+              -1.2396696640636466,
+              -1.6404890883668726
+            ],
+            "obstacle": [
+              4.9,
+              -0.6251357913802874,
+              0.0
+            ],
+            "gap_m": 0.046817821774423285
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.5690847977831884,
+          "moving_sample_min_m": 0.014706998298380103,
+          "static_interpolation_bound_m": 0.5651253795137418,
+          "moving_interpolation_bound_m": 0.006235728630414623,
+          "overall_interpolation_bound_m": 0.006235728630414623,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 30.811,
+            "robot": [
+              5.348379656335107,
+              -1.1976853362368833,
+              -1.547927137591317
+            ],
+            "obstacle": [
+              4.9,
+              -0.6029073316091871,
+              0.0
+            ],
+            "gap_m": 0.014706998298380103
+          }
+        },
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": true
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 0,
+      "prediction_consumption_log_samples": [],
+      "prediction_skips_logged": 0,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_astar_1/metadata.json": "bce928e68d6ea523de6997915c99c7315c40fff9d70e7133468b684bbb743912",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_astar_1/profile.yaml": "c3a3ce2c6f5493d3b538866f94f173409fb4b6edfe5ca371fdf5f2d0c8bf95a8",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_astar_1/observation/summary.json": "76c6a5acfd59e316095c75d511151b8b3befc5e0add2010a15d664c9644a73f5",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_astar_1/observation/events.jsonl": "21b07c7889854bcf79f35a760b5dc7cb162d1c04c43efb282be9e1dd258d2591",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_astar_1/observation/trajectory.jsonl": "8f65912039d0ba27f118b366e5cfc50971af5798c80ab6507cc8d77ed73dce4a",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_astar_1/gazebo_poses.jsonl": "4946f856cc1d92ac102cc9cf107473888337d1a3debc098b6f5c2d0048be4968",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/baseline_tdt_astar_1/launch.log": "e9a06f59bd6a688b1d916044c41b83d5514a38c62247359e37caf7282bc11374"
+      }
+    },
+    {
+      "mode": "candidate",
+      "planner": "tdt_astar",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "00b3feb7e1dded57ea0f475cebc6d0028827d215f560af47ae13835aba0d7ad1",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 0,
+      "final_xy_error_m": 0.058981308325103676,
+      "final_yaw_error_rad": 0.16747228902048053,
+      "navigation_interval_sim_s": [
+        24.022,
+        51.018
+      ],
+      "navigation_duration_sim_s": 26.996000000000002,
+      "traveled_m": 11.414016352672027,
+      "cross_track_rms_m": 0.09036815996700896,
+      "stall": {
+        "low_speed_time_s": 0.16000000000000725,
+        "episodes_at_least_030s": [],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.6810485996093761,
+          "moving_sample_min_m": 0.20577374696932704,
+          "static_interpolation_bound_m": 0.677641295130634,
+          "moving_interpolation_bound_m": 0.19629108351804375,
+          "overall_interpolation_bound_m": 0.19629108351804375,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 47.863,
+            "robot": [
+              5.6651073454219905,
+              -0.14921378388144213,
+              2.002815397400169
+            ],
+            "obstacle": [
+              4.9,
+              -0.16393304352516383,
+              0.0
+            ],
+            "gap_m": 0.20577374696932704
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.6390754634308792,
+          "moving_sample_min_m": 0.16579711030516986,
+          "static_interpolation_bound_m": 0.6358677408860423,
+          "moving_interpolation_bound_m": 0.1558932969639956,
+          "overall_interpolation_bound_m": 0.1558932969639956,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 47.836,
+            "robot": [
+              5.667033876046785,
+              -0.15108109320063137,
+              2.0352044730588457
+            ],
+            "obstacle": [
+              4.9,
+              -0.18462573451818967,
+              0.0
+            ],
+            "gap_m": 0.16579711030516986
+          }
+        },
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": true,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": true,
+      "prediction_messages": 777,
+      "prediction_consumption_log_samples": [
+        {
+          "age_s": 0.029,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 1
+        },
+        {
+          "age_s": 0.061,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 16
+        },
+        {
+          "age_s": 0.073,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 32
+        },
+        {
+          "age_s": 0.073,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 47
+        },
+        {
+          "age_s": 0.079,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 63
+        },
+        {
+          "age_s": 0.045,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 80
+        },
+        {
+          "age_s": 0.086,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 94
+        },
+        {
+          "age_s": 0.087,
+          "tracks": 1,
+          "collision_trajectories": 265,
+          "trajectory_count": 300,
+          "near_samples": 55,
+          "accepted_cycles_total": 109
+        },
+        {
+          "age_s": 0.052,
+          "tracks": 1,
+          "collision_trajectories": 246,
+          "trajectory_count": 300,
+          "near_samples": 57,
+          "accepted_cycles_total": 123
+        },
+        {
+          "age_s": 0.084,
+          "tracks": 1,
+          "collision_trajectories": 227,
+          "trajectory_count": 300,
+          "near_samples": 37,
+          "accepted_cycles_total": 137
+        },
+        {
+          "age_s": 0.054,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 152
+        },
+        {
+          "age_s": 0.081,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 166
+        },
+        {
+          "age_s": 0.087,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 180
+        },
+        {
+          "age_s": 0.055,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 195
+        },
+        {
+          "age_s": 0.068,
+          "tracks": 1,
+          "collision_trajectories": 285,
+          "trajectory_count": 300,
+          "near_samples": 49,
+          "accepted_cycles_total": 210
+        },
+        {
+          "age_s": 0.034,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 225
+        },
+        {
+          "age_s": 0.047,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 240
+        },
+        {
+          "age_s": 0.034,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 256
+        },
+        {
+          "age_s": 0.057,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 270
+        },
+        {
+          "age_s": 0.04,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 284
+        },
+        {
+          "age_s": 0.044,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 300
+        },
+        {
+          "age_s": 0.033,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 315
+        }
+      ],
+      "prediction_skips_logged": 3,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1/metadata.json": "f10ec202e5f097742e8c4d697ee494c27231db32c5042427fe067a9a0e62f306",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1/profile.yaml": "00b3feb7e1dded57ea0f475cebc6d0028827d215f560af47ae13835aba0d7ad1",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1/observation/summary.json": "9324496a27960535d4e7e5414aca46028b07e7610ee2f6b5ab0ea962424c64df",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1/observation/events.jsonl": "9f6863fa830af40fc8b407a9f07fcf207ed8cd40b4b1dd7a0061cd0e59a06b65",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1/observation/trajectory.jsonl": "a76205b96ea12ff3d1f86da30da98d8f5f686932bce934794c374db0ac2e2ba6",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1/gazebo_poses.jsonl": "93bd3a8da89d68b1f725d6d3254d7e930a49d1fab813b6d5512b064cb812a836",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1/launch.log": "ef2bead3a431a284961db4f8399874a45c75f2e68bfd92570be6fe2ffac92d0c"
+      }
+    }
+  ],
+  "prespecified_phases_seconds": [
+    0,
+    2,
+    4,
+    6
+  ],
+  "repeat_trials": [
+    {
+      "mode": "baseline",
+      "planner": "tdt_qp",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "1862d4dc9742f10d8d1db1d4404ef5f8123c7184e876c7e6179410ad9f3f9505",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 6,
+      "final_xy_error_m": 0.030144759534835783,
+      "final_yaw_error_rad": 0.16057119810320544,
+      "navigation_interval_sim_s": [
+        16.008,
+        41.117
+      ],
+      "navigation_duration_sim_s": 25.108999999999998,
+      "traveled_m": 7.861618904643,
+      "cross_track_rms_m": 0.04853329179603508,
+      "stall": {
+        "low_speed_time_s": 6.160000000000004,
+        "episodes_at_least_030s": [
+          [
+            29.66,
+            35.7
+          ]
+        ],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.23558732795484044,
+          "moving_sample_min_m": 0.0,
+          "static_interpolation_bound_m": 0.23079237329969698,
+          "moving_interpolation_bound_m": -0.011389139920388876,
+          "overall_interpolation_bound_m": -0.011389139920388876,
+          "sampled_moving_overlap": true,
+          "moving_min_witness": {
+            "t": 29.405,
+            "robot": [
+              5.346382163030407,
+              -0.926935170636136,
+              -2.212389267796085
+            ],
+            "obstacle": [
+              4.9,
+              -0.48712726660600747,
+              0.0
+            ],
+            "gap_m": 0.0
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.1941526634042986,
+          "moving_sample_min_m": 0.0,
+          "static_interpolation_bound_m": 0.18933004422515542,
+          "moving_interpolation_bound_m": -0.012482791402369901,
+          "overall_interpolation_bound_m": -0.012482791402369901,
+          "sampled_moving_overlap": true,
+          "moving_min_witness": {
+            "t": 29.301,
+            "robot": [
+              5.308429240397223,
+              -0.9383053089971198,
+              -2.1799483084743008
+            ],
+            "obstacle": [
+              4.9,
+              -0.38729477389927064,
+              0.0
+            ],
+            "gap_m": 0.0
+          }
+        },
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": false
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": false,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 0,
+      "prediction_consumption_log_samples": [],
+      "prediction_skips_logged": 0,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_qp_1/metadata.json": "d696f627169f73e022dff42fd85f0bab6684b4c3646fa0ce3b0576067be19982",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_qp_1/profile.yaml": "1862d4dc9742f10d8d1db1d4404ef5f8123c7184e876c7e6179410ad9f3f9505",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_qp_1/observation/summary.json": "fed9ee6e42788f2e66d0387fc05811ec844ce1320b534be19363f98cc5f08fee",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_qp_1/observation/events.jsonl": "9dd50161c4ed8fb7af813845320910d8dbc7077ad5d7d33122f0cf47fea5e213",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_qp_1/observation/trajectory.jsonl": "aee8c16e466bba0623b940541c2f8694f81ca162b4fb24103eaffabc814c2c4b",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_qp_1/gazebo_poses.jsonl": "5a6790a674054cea53bc3dadacdcc2f0ec41442441e9455d8f0f9ab81b43b043",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_qp_1/launch.log": "e3870b7f4e6ad42017e15a1911331f4a641a98e4aa3f4de2d3c1e2b2c32e0ab5"
+      },
+      "phase_seconds": 0
+    },
+    {
+      "mode": "candidate",
+      "planner": "tdt_qp",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "4dd877afd4d85a88c702e3cdb8a6d38534524a4ef7b04ea246f3ed1c2bdaccbe",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 5,
+      "final_xy_error_m": 0.13333175502359967,
+      "final_yaw_error_rad": 0.06756678791651399,
+      "navigation_interval_sim_s": [
+        16.028,
+        39.51
+      ],
+      "navigation_duration_sim_s": 23.482,
+      "traveled_m": 9.004488481389913,
+      "cross_track_rms_m": 0.07023005576949819,
+      "stall": {
+        "low_speed_time_s": 2.84,
+        "episodes_at_least_030s": [
+          [
+            30.72,
+            33.4
+          ]
+        ],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.3044860034739835,
+          "moving_sample_min_m": 0.08402361236266316,
+          "static_interpolation_bound_m": 0.3010214964605003,
+          "moving_interpolation_bound_m": 0.07729277540076564,
+          "overall_interpolation_bound_m": 0.07729277540076564,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 30.122,
+            "robot": [
+              5.125805796688145,
+              -1.6386959866327435,
+              -0.995400977661457
+            ],
+            "obstacle": [
+              4.9,
+              -0.9411874187955984,
+              0.0
+            ],
+            "gap_m": 0.08402361236266316
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.27448600347398333,
+          "moving_sample_min_m": 0.04397126736964134,
+          "static_interpolation_bound_m": 0.27084498665864204,
+          "moving_interpolation_bound_m": 0.037812896051349514,
+          "overall_interpolation_bound_m": 0.037812896051349514,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 30.11,
+            "robot": [
+              5.12004577705379,
+              -1.6408535982432828,
+              -0.9864241884355901
+            ],
+            "obstacle": [
+              4.9,
+              -0.9421147533682596,
+              0.0
+            ],
+            "gap_m": 0.04397126736964134
+          }
+        },
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 602,
+      "prediction_consumption_log_samples": [
+        {
+          "age_s": 0.087,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 1
+        },
+        {
+          "age_s": 0.083,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 16
+        },
+        {
+          "age_s": 0.087,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 31
+        },
+        {
+          "age_s": 0.048,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 46
+        },
+        {
+          "age_s": 0.032,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 61
+        },
+        {
+          "age_s": 0.032,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 76
+        },
+        {
+          "age_s": 0.103,
+          "tracks": 1,
+          "collision_trajectories": 7,
+          "trajectory_count": 300,
+          "near_samples": 7,
+          "accepted_cycles_total": 91
+        },
+        {
+          "age_s": 0.054,
+          "tracks": 1,
+          "collision_trajectories": 299,
+          "trajectory_count": 300,
+          "near_samples": 75,
+          "accepted_cycles_total": 106
+        },
+        {
+          "age_s": 0.078,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 122
+        },
+        {
+          "age_s": 0.032,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 137
+        },
+        {
+          "age_s": 0.08,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 141
+        },
+        {
+          "age_s": 0.04,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 157
+        },
+        {
+          "age_s": 0.065,
+          "tracks": 1,
+          "collision_trajectories": 299,
+          "trajectory_count": 300,
+          "near_samples": 71,
+          "accepted_cycles_total": 172
+        },
+        {
+          "age_s": 0.054,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 188
+        },
+        {
+          "age_s": 0.082,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 203
+        },
+        {
+          "age_s": 0.072,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 219
+        }
+      ],
+      "prediction_skips_logged": 3,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/metadata.json": "6c90ac19f162d3d292da55061a7f2507ff1c3c8f2243043497f134607302dcff",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/profile.yaml": "4dd877afd4d85a88c702e3cdb8a6d38534524a4ef7b04ea246f3ed1c2bdaccbe",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/observation/summary.json": "36d0f5e0ec88cffce27eb6f5816dd1aa5be6734f9e03ec8ce26c5c5c5ce25812",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/observation/events.jsonl": "f228feb31502fa966c5e37a7a0f134c47c0b95dab1d0089326d1f089bba5da45",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/observation/trajectory.jsonl": "d53e7106320a06cd5427ba302cecde77084f5dacf536cf9e732e45bec478764a",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/gazebo_poses.jsonl": "354da0167042e34cbd216948882c584aaa1e96886178a585cdeb8cc5f457e3e7",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/launch.log": "19a4c93bbccfb2fff9c68880d86a072c05e671c3871d2068fb1017d889a9a8d2"
+      },
+      "phase_seconds": 0
+    },
+    {
+      "mode": "baseline",
+      "planner": "tdt_astar",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "c3a3ce2c6f5493d3b538866f94f173409fb4b6edfe5ca371fdf5f2d0c8bf95a8",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 6,
+      "final_xy_error_m": 0.13382263480587062,
+      "final_yaw_error_rad": 0.17578958366102965,
+      "navigation_interval_sim_s": [
+        16.023,
+        41.763
+      ],
+      "navigation_duration_sim_s": 25.74,
+      "traveled_m": 8.33575138528189,
+      "cross_track_rms_m": 0.04799772487348552,
+      "stall": {
+        "low_speed_time_s": 6.32,
+        "episodes_at_least_030s": [
+          [
+            29.44,
+            35.64
+          ]
+        ],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.6460344144971686,
+          "moving_sample_min_m": 0.049273095550284474,
+          "static_interpolation_bound_m": 0.641702534728235,
+          "moving_interpolation_bound_m": 0.046081025354882954,
+          "overall_interpolation_bound_m": 0.046081025354882954,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 30.802,
+            "robot": [
+              5.158802284593087,
+              -1.2249077843875522,
+              -1.6932683546088834
+            ],
+            "obstacle": [
+              4.9,
+              -0.5993035184996519,
+              0.0
+            ],
+            "gap_m": 0.049273095550284474
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.6051363074602134,
+          "moving_sample_min_m": 0.015832822740137753,
+          "static_interpolation_bound_m": 0.6007807202670665,
+          "moving_interpolation_bound_m": 0.009401171462301686,
+          "overall_interpolation_bound_m": 0.009401171462301686,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 30.802,
+            "robot": [
+              5.158802284593087,
+              -1.2249077843875522,
+              -1.6932683546088834
+            ],
+            "obstacle": [
+              4.9,
+              -0.5993035184996519,
+              0.0
+            ],
+            "gap_m": 0.015832822740137753
+          }
+        },
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": true
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": false,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 0,
+      "prediction_consumption_log_samples": [],
+      "prediction_skips_logged": 0,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_astar_1/metadata.json": "8996f13d5f7a0c63f7ff6718524f81242ac2a3c7d252e79ac00d3f64468bb278",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_astar_1/profile.yaml": "c3a3ce2c6f5493d3b538866f94f173409fb4b6edfe5ca371fdf5f2d0c8bf95a8",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_astar_1/observation/summary.json": "5066168e15b098c98f02f72359e9a0a8d65c49848d0fd25dc027cb4043b6823b",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_astar_1/observation/events.jsonl": "2dda033ba161ce36484030bf4e5f9f7ecff2f8b627fb4630d5727593d26212d8",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_astar_1/observation/trajectory.jsonl": "7458554eb9946e4415f804f08d99dcc56d6e0e6f163e7b122a5aaa58b4c0621a",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_astar_1/gazebo_poses.jsonl": "b90cd460b11fe1b2e07769ccda7de9f494de4d295e90c53a793e3e17682ef6b3",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/baseline_tdt_astar_1/launch.log": "25ea02af78cec16b0d90630458c77429ea92034d5ba2f4348431087e9b7f4147"
+      },
+      "phase_seconds": 0
+    },
+    {
+      "mode": "candidate",
+      "planner": "tdt_astar",
+      "source_commit": "6f6a6fcb8800bf0423f6432c9a9e3a0fbb3e7e42",
+      "profile_sha256": "00b3feb7e1dded57ea0f475cebc6d0028827d215f560af47ae13835aba0d7ad1",
+      "raw_summary_matches_events": true,
+      "evidence_valid": true,
+      "preflight_status": 4,
+      "action_status": 4,
+      "recoveries": 1,
+      "final_xy_error_m": 0.02757238992469498,
+      "final_yaw_error_rad": 0.15997550781105643,
+      "navigation_interval_sim_s": [
+        24.029,
+        49.899
+      ],
+      "navigation_duration_sim_s": 25.87,
+      "traveled_m": 11.346899741923103,
+      "cross_track_rms_m": 0.08195281980574368,
+      "stall": {
+        "low_speed_time_s": 0.16000000000000725,
+        "episodes_at_least_030s": [],
+        "rule": "odom planar speed <=0.03 m/s while >0.3m from goal; episodes >=0.3s"
+      },
+      "geometry": {
+        "body": {
+          "static_sample_min_m": 0.6772195907261402,
+          "moving_sample_min_m": 0.21367909760318246,
+          "static_interpolation_bound_m": 0.6739862106032445,
+          "moving_interpolation_bound_m": 0.207027483540064,
+          "overall_interpolation_bound_m": 0.207027483540064,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 48.402,
+            "robot": [
+              5.67687991759413,
+              -0.05540769209286794,
+              -0.6297417634166254
+            ],
+            "obstacle": [
+              4.9,
+              0.2468859983092112,
+              0.0
+            ],
+            "gap_m": 0.21367909760318246
+          }
+        },
+        "padded": {
+          "static_sample_min_m": 0.6352705267895613,
+          "moving_sample_min_m": 0.17240042480123716,
+          "static_interpolation_bound_m": 0.6319393068186423,
+          "moving_interpolation_bound_m": 0.1652689637488322,
+          "overall_interpolation_bound_m": 0.1652689637488322,
+          "sampled_moving_overlap": false,
+          "moving_min_witness": {
+            "t": 48.391,
+            "robot": [
+              5.677641866933526,
+              -0.05636498336154193,
+              -0.6381949440343465
+            ],
+            "obstacle": [
+              4.9,
+              0.2387105030885653,
+              0.0
+            ],
+            "gap_m": 0.17240042480123716
+          }
+        },
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true
+      },
+      "checks": {
+        "action_succeeded": true,
+        "body_clearance_at_least_005m": true,
+        "padded_footprint_no_contact": true,
+        "final_position_within_015m": true,
+        "final_yaw_within_020rad": true,
+        "no_recovery": false,
+        "fresh_stopped_command": true
+      },
+      "limited_dynamic_gate_pass": false,
+      "prediction_messages": 760,
+      "prediction_consumption_log_samples": [
+        {
+          "age_s": 0.071,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 1
+        },
+        {
+          "age_s": 0.06,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 20
+        },
+        {
+          "age_s": 0.064,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 38
+        },
+        {
+          "age_s": 0.079,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 53
+        },
+        {
+          "age_s": 0.071,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 69
+        },
+        {
+          "age_s": 0.091,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 85
+        },
+        {
+          "age_s": 0.037,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 101
+        },
+        {
+          "age_s": 0.059,
+          "tracks": 1,
+          "collision_trajectories": 294,
+          "trajectory_count": 300,
+          "near_samples": 42,
+          "accepted_cycles_total": 116
+        },
+        {
+          "age_s": 0.051,
+          "tracks": 1,
+          "collision_trajectories": 268,
+          "trajectory_count": 300,
+          "near_samples": 48,
+          "accepted_cycles_total": 131
+        },
+        {
+          "age_s": 0.09,
+          "tracks": 1,
+          "collision_trajectories": 244,
+          "trajectory_count": 300,
+          "near_samples": 43,
+          "accepted_cycles_total": 146
+        },
+        {
+          "age_s": 0.075,
+          "tracks": 1,
+          "collision_trajectories": 1,
+          "trajectory_count": 300,
+          "near_samples": 8,
+          "accepted_cycles_total": 161
+        },
+        {
+          "age_s": 0.088,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 175
+        },
+        {
+          "age_s": 0.109,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 190
+        },
+        {
+          "age_s": 0.054,
+          "tracks": 1,
+          "collision_trajectories": 0,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 204
+        },
+        {
+          "age_s": 0.089,
+          "tracks": 1,
+          "collision_trajectories": 270,
+          "trajectory_count": 300,
+          "near_samples": 57,
+          "accepted_cycles_total": 218
+        },
+        {
+          "age_s": 0.059,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 63,
+          "accepted_cycles_total": 233
+        },
+        {
+          "age_s": 0.065,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 248
+        },
+        {
+          "age_s": 0.088,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 263
+        },
+        {
+          "age_s": 0.09,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 278
+        },
+        {
+          "age_s": 0.053,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 292
+        },
+        {
+          "age_s": 0.063,
+          "tracks": 1,
+          "collision_trajectories": 300,
+          "trajectory_count": 300,
+          "near_samples": 0,
+          "accepted_cycles_total": 306
+        }
+      ],
+      "prediction_skips_logged": 3,
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/metadata.json": "f8094b081283568930a3acf1296e5fa49f0ecf6c0bf8ce1ac704a74687e87dd5",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/profile.yaml": "00b3feb7e1dded57ea0f475cebc6d0028827d215f560af47ae13835aba0d7ad1",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/observation/summary.json": "95005f8863babc5c3e60c6921c65243795d11916cb409398104494494eaefdcb",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/observation/events.jsonl": "2bb4ef0dff2aa046b6d0a53ce386ad10a2ec559040683578e3090e02f5dad36a",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/observation/trajectory.jsonl": "c3dd36d1ff0a90d0cc7ce97eddc437605710ab6f1143eb7d0107321f23965eef",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/gazebo_poses.jsonl": "9aee27d505fa090270cba55c21da3e750763c4dca38f3994c93798bd44704af0",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/launch.log": "a1637f62b34706ad36353cd84d278251d5b82e0b9727f87dd3d6bfdd322ddced"
+      },
+      "phase_seconds": 0
+    }
+  ],
+  "matrix_complete": false,
+  "stopped_groups": {
+    "tdt_qp": {
+      "first_failed_candidate_phase_seconds": 0,
+      "reason": "Existing zero-recovery gate failed despite positive dynamic clearance"
+    },
+    "tdt_astar": {
+      "first_failed_candidate_phase_seconds": 0,
+      "reason": "Existing zero-recovery gate failed despite positive dynamic clearance"
+    }
+  },
+  "invalid_earlier_repeat": {
+    "trial": "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v1/phase_0/baseline_tdt_qp_1",
+    "reason": "Existing 2D oracle raised nonplanar pose requires 3D projection audit",
+    "first_nonplanar_sim_s": 36.522,
+    "source_sha256": {
+      "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v1/phase_0/baseline_tdt_qp_1/gazebo_poses.jsonl": "770bd32668c252647543b23d27a65a699f5eb2ee7390e992e2d15ca4f627b2ff",
+      "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v1/phase_0/baseline_tdt_qp_1/observation/summary.json": "21bf59712f437d914fca0c81c3009ea3225fc9bb82663092ee5a89babe553691",
+      "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v1/phase_0/baseline_tdt_qp_1/observation/events.jsonl": "f56dfd72ba70cbbe410b68e42008d98274bef4eb773b7477308312578869e984"
+    },
+    "counted_in_v2_matrix": false
+  },
+  "scope": "Fixed phase first trials and one prespecified phase-0 repeat per planner; no phase selection and no dynamic acceptance claim."
+}
