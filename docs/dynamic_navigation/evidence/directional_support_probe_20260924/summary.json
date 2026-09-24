@@ -1,0 +1,185 @@
+{
+  "schema": "rm_dynamic_prediction_directional_oracle_feasibility/v1",
+  "scope": "Single phase-4 trial, original accepted predictions, exact V1 effective horizon. Gazebo truth determines residual bounds and evaluation in the same trial; no independent validation or online candidate.",
+  "trial": "build/dynamic_prediction_runs/rank_phase4_20260924_02/candidate_navfn_1",
+  "source_sha256": {
+    "plan": "d3ea0c869d3d5545a02d52faac8b0f207e05deb35d01298e140a82ecbf8d6463",
+    "profile": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+    "truth": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4",
+    "runtime_audit": "477304389e472ad3a738d7fcf27f2c951ee30693d04850b42113a0a6f0084b51",
+    "probe_script": "3d149fa72d66cd7a6380802080835b757f6bce1988e214cd3e3f53516f1ca055"
+  },
+  "east_west_threshold_m": 0.6,
+  "residual_by_side": {
+    "west": {
+      "cycles": 59,
+      "future_samples": 531,
+      "residual_xy_min_m": [
+        -0.07431858729346086,
+        -0.5922393251712309
+      ],
+      "residual_xy_max_m": [
+        0.4004174354838348,
+        0.49390730927922044
+      ],
+      "positive_x_residual_samples": 483,
+      "current_v1_uncovered_future_samples": 0,
+      "current_v1_max_uncovered_edge_m": 0.0
+    },
+    "middle": {
+      "cycles": 88,
+      "future_samples": 792,
+      "residual_xy_min_m": [
+        -0.09579181107273893,
+        -0.9267232504487176
+      ],
+      "residual_xy_max_m": [
+        0.04822176572610637,
+        0.43039500108380346
+      ],
+      "positive_x_residual_samples": 75,
+      "current_v1_uncovered_future_samples": 190,
+      "current_v1_max_uncovered_edge_m": 0.28295214108514066
+    },
+    "east": {
+      "cycles": 708,
+      "future_samples": 6369,
+      "residual_xy_min_m": [
+        -0.32678603676390416,
+        -0.6485588681791754
+      ],
+      "residual_xy_max_m": [
+        -0.07723134639342355,
+        0.4729092765680184
+      ],
+      "positive_x_residual_samples": 0,
+      "current_v1_uncovered_future_samples": 0,
+      "current_v1_max_uncovered_edge_m": 0.0
+    }
+  },
+  "current_v1_coverage": {
+    "future_samples": 7692,
+    "uncovered_future_samples": 190,
+    "uncovered_cycles": 26,
+    "uncovered_cycle_id_range": [
+      129,
+      154
+    ],
+    "uncovered_future_time_range_s": [
+      33.522000005960464,
+      36.299000013411046
+    ],
+    "maximum_uncovered_edge_m": 0.28295214108514066,
+    "worst_witness": {
+      "cycle_id": 140,
+      "future_step": 9,
+      "future_sim_s": 34.909000013411045,
+      "uncovered_edge_m": 0.28295214108514066,
+      "robot_pose": [
+        5.158317928365332,
+        2.5662388988267124,
+        3.1074734132695303
+      ],
+      "prediction_source_age_s": 0.084,
+      "track_xy": [
+        4.904907782107949,
+        1.2984678099085036
+      ],
+      "track_vxy": [
+        0.006223805844512503,
+        0.39634836310614185
+      ],
+      "visible_size_xy": [
+        0.44002103797712755,
+        0.20000012213202142
+      ],
+      "predicted_box": [
+        3.972250439856287,
+        0.7697034951568159,
+        5.849813574428547,
+        2.60724571388397
+      ],
+      "actual_box": [
+        4.675000000000001,
+        0.48675135407167525,
+        5.125,
+        1.0367513540716753
+      ]
+    }
+  },
+  "east_oracle_center_residual_min_m": [
+    -0.32678603676390416,
+    -0.6485588681791754
+  ],
+  "east_oracle_center_residual_max_m": [
+    -0.07723134639342355,
+    0.4729092765680184
+  ],
+  "late_east_cycle_count": 639,
+  "late_east_goal_overlap": {
+    "current": {
+      "overlap_cycles": 638,
+      "minimum_gap_m": 0.0,
+      "median_gap_m": 0.0,
+      "at_least_0_02m_gap_cycles": 0
+    },
+    "oracle_margin_0.00": {
+      "overlap_cycles": 45,
+      "minimum_gap_m": 0.0,
+      "median_gap_m": 0.08639047200382688,
+      "at_least_0_02m_gap_cycles": 450
+    },
+    "oracle_margin_0.02": {
+      "overlap_cycles": 189,
+      "minimum_gap_m": 0.0,
+      "median_gap_m": 0.0663904720038273,
+      "at_least_0_02m_gap_cycles": 401
+    },
+    "oracle_margin_0.05": {
+      "overlap_cycles": 254,
+      "minimum_gap_m": 0.0,
+      "median_gap_m": 0.03639047200382706,
+      "at_least_0_02m_gap_cycles": 349
+    },
+    "actual": {
+      "overlap_cycles": 0,
+      "minimum_gap_m": 0.16490454263985121,
+      "median_gap_m": 0.24463953681513093,
+      "at_least_0_02m_gap_cycles": 639
+    }
+  },
+  "first_near_goal_cycle": {
+    "cycle_id": 263,
+    "current_goal_gap_m": 0.0,
+    "actual_goal_gap_m": 0.4098320740244401,
+    "oracle_margin_0.00_goal_gap_m": 0.12414098182343292,
+    "oracle_margin_0.02_goal_gap_m": 0.10414098182343334,
+    "oracle_margin_0.05_goal_gap_m": 0.0741409818234331
+  },
+  "selected_cycle_fixed_rollout_counterfactual": {
+    "fixed_rollout_count": 300,
+    "oracle_0_05m_support_rollouts_with_predicted_gap_at_least_0_02m": 300,
+    "baseline_filter_replay_max_error": 5.960464477539063e-08,
+    "baseline": {
+      "returned_control": [
+        0.15186120569705963,
+        0.13387086987495422,
+        -0.1607886552810669
+      ],
+      "open_loop_endpoint_goal_distance_m": 0.3585282845303077,
+      "open_loop_truth_body_min_gap_m": 0.2331782407006191,
+      "goal_position_rollout_probability_mass": 0.0
+    },
+    "oracle_input_zero_v1_score": {
+      "returned_control": [
+        0.04807698726654053,
+        0.16204926371574402,
+        -0.16425003111362457
+      ],
+      "open_loop_endpoint_goal_distance_m": 0.2398986370906854,
+      "open_loop_truth_body_min_gap_m": 0.22152827667166256,
+      "goal_position_rollout_probability_mass": 0.20309704542160034
+    }
+  },
+  "limits": "An empirical residual interval fitted to future truth has no safety guarantee for unseen views, occlusions, target shapes, or motion. Shrinking V1's hard envelope from these numbers is not authorized by this probe. Robot footprint, padding, and 0.05 m gate are unchanged."
+}
