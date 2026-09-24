@@ -1,0 +1,26 @@
+{
+  "schema": "rm_dynamic_prediction_uniform_rank_trial/v1",
+  "scope": "One phase-4 runtime integration trial. Different phase from frozen phase-0 evidence; not a paired or multi-phase safety claim.",
+  "source_branch": "experiment/dynamic-prediction-v1",
+  "source_commit": "e88f85718797dee53c9580956d1c334a79112f8d",
+  "image_tag": "rm2027_navigation:dynamic-prediction-20260924",
+  "image_id": "sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6",
+  "historical_profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+  "derived_profile_sha256": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+  "only_profile_change": "FollowPath.PredictionV1Critic.collision_rank_mode=uniform_center_overlap",
+  "phase_s": 4,
+  "batch_size": 300,
+  "no_repeat_for_favorable_phase": true,
+  "accepted_for_deployment": false,
+  "file_sha256": {
+    "run_rank_trial.sh": "123c268405ece82c6386a822f03327dc9c5311d2665b49cee57a351a52b06d8a",
+    "prediction_critic.cpp": "767ffc49d8740d1c30f53d84d783b9e51331cf94e9b863781ae3666d44b2ff1f",
+    "geometry.hpp": "774194cc31c59ff7a7fbcbe46ada8fa7b3ad983670aa9f92c79143dfcf795d4d",
+    "docker/Dockerfile.humble": "4fd1999353e9bc447cba7997f757491f6b97b71652e25c311d3936cdd1b6199e",
+    "trace_source_manifest": "8996a90c21d4b571c260ab111a89f49ddb1e3a81f3f9fe62ddaf22aa93b4d4f8",
+    "rank_trace_source_manifest": "5b172004c82a3cdb07f6cb32b38eb9547977fd7c9df57110c38a18bcfe03de99",
+    "nav2_mppi_controller": "9c3b4dfc1e3082d4191d933d3bdfa375ac79e32b86dd961a8650b72515479fc0",
+    "nav2_mppi_critics": "87838c555190fba035bb6977f5301afedf587f70a769e00468282bfd51dc18f0",
+    "uniform_rank_plugin": "17c8ac8495d37c2ccbca752e57d2905f7563f6605db6d87c663653e40375c7b7"
+  }
+}

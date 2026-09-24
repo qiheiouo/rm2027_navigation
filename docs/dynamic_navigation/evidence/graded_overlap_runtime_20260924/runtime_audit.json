@@ -1,0 +1,154 @@
+{
+  "schema": "rm_dynamic_prediction_uniform_rank_runtime_audit/v1",
+  "trial": "build/dynamic_prediction_runs/rank_phase4_20260924_02/candidate_navfn_1",
+  "plan_sha256": "d3ea0c869d3d5545a02d52faac8b0f207e05deb35d01298e140a82ecbf8d6463",
+  "profile_sha256": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+  "truth_sha256": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4",
+  "writer_status": {
+    "attempted": 902,
+    "closed": true,
+    "dropped": 0,
+    "errors": 0,
+    "written": 902
+  },
+  "loaded_libraries_verified": true,
+  "observer": {
+    "schema": "rm_tdt_planner/static_simulation/v1",
+    "evidence_valid": true,
+    "checks": {
+      "action_succeeded": false,
+      "body_clearance_at_least_005m": true,
+      "padded_footprint_no_contact": true,
+      "final_position_within_015m": false,
+      "final_yaw_within_020rad": false,
+      "no_recovery": true,
+      "fresh_stopped_command": true
+    },
+    "static_geometry_and_goal_pass": false,
+    "action_status": 5,
+    "timed_out": true,
+    "recoveries": 0,
+    "goal": [
+      5.6,
+      0.0,
+      0.0
+    ],
+    "final_pose": [
+      5.985761148772088,
+      0.3222036830674525,
+      0.8679488055931978
+    ],
+    "final_xy_error_m": 0.5026200128170313,
+    "final_yaw_error_rad": 0.8679488055931978,
+    "trajectory_samples": 2263,
+    "max_sample_gap_sim_s": 0.04000000000000625,
+    "min_body_clearance_m": 0.28774586142587316,
+    "min_padded_clearance_m": 0.24546723557049965,
+    "linear_pose_interpolation_body_bound_m": 0.27648926315735173,
+    "linear_pose_interpolation_padded_bound_m": 0.2340638491745488,
+    "cross_track_rms_m": 0.18223622179934099,
+    "cross_track_max_m": 0.742505390327164,
+    "traveled_m": 32.82795720209124,
+    "max_command_acceleration_m_s2": 1.6070608663329158,
+    "warning_counts": {},
+    "snapshot_rejection_observed": false,
+    "algorithm_rejected": false,
+    "scope": "Static fixture, sampled poses and linear pose interpolation; manual review still required.",
+    "performance_policy": "Record current-device limits; no performance patches or algorithm rejection.",
+    "preflight": {
+      "status": 4,
+      "wall_ms": 10.441739999805577,
+      "samples": 256
+    },
+    "sim_seconds": 90.529,
+    "wall_seconds": 90.6789522099998,
+    "plan_messages": 89,
+    "max_scan_gap_sim_s": 0.067,
+    "max_odom_gap_sim_s": 0.020000000000010232,
+    "clock_reversed": false,
+    "fixture_spawn_verified": true
+  },
+  "navigation_result": {
+    "t": 110.532,
+    "event": "navigation_result",
+    "status": 5,
+    "timed_out": true,
+    "recoveries": 0,
+    "goal": [
+      5.6,
+      0.0,
+      0.0
+    ]
+  },
+  "dynamic_geometry": {
+    "body": {
+      "static_sample_min_m": 0.33646416662261663,
+      "moving_sample_min_m": 0.7524251430584518,
+      "static_interpolation_bound_m": 0.3318308747941454,
+      "moving_interpolation_bound_m": 0.7383022955088,
+      "overall_interpolation_bound_m": 0.3318308747941454,
+      "sampled_moving_overlap": false,
+      "moving_min_witness": {
+        "t": 80.009,
+        "robot": [
+          5.831680466733203,
+          1.0503004357239383,
+          -0.10018586295934247
+        ],
+        "obstacle": [
+          4.9,
+          -0.05646760074450962,
+          0.0
+        ],
+        "gap_m": 0.7524251430584518
+      }
+    },
+    "padded": {
+      "static_sample_min_m": 0.29406096098953055,
+      "moving_sample_min_m": 0.7107150909839282,
+      "static_interpolation_bound_m": 0.28932692181491615,
+      "moving_interpolation_bound_m": 0.6962892401877349,
+      "overall_interpolation_bound_m": 0.28932692181491615,
+      "sampled_moving_overlap": false,
+      "moving_min_witness": {
+        "t": 80.009,
+        "robot": [
+          5.831680466733203,
+          1.0503004357239383,
+          -0.10018586295934247
+        ],
+        "obstacle": [
+          4.9,
+          -0.05646760074450962,
+          0.0
+        ],
+        "gap_m": 0.7107150909839282
+      }
+    },
+    "body_clearance_at_least_005m": true,
+    "padded_footprint_no_contact": true
+  },
+  "prediction_status_counts": {
+    "missing": 47,
+    "accepted": 855
+  },
+  "all_300_hard_predicted_collision_cycles": 92,
+  "full_compute_cycle_ms": {
+    "p50": 5.340323,
+    "p95": 14.201614449999996,
+    "p99": 20.58949932,
+    "max": 28.204715,
+    "over_100ms": 0
+  },
+  "first_cycle_within_0_5m_goal": {
+    "cycle_id": 263,
+    "sim_s": 46.296,
+    "goal_distance_m": 0.4988288140388567
+  },
+  "t_ge_40s_goal_distance_min_m": 0.4637036370791813,
+  "t_ge_40s_goal_padded_footprint_intersects_first_predicted_box": {
+    "count": 701,
+    "accepted_cycles": 702
+  },
+  "limits": "One phase-4 trial; geometry uses sampled planar poses and a linear interpolation bound. This trial cannot establish phase-independent success or attribute the goal timeout to one critic."
+}

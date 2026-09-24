@@ -1,0 +1,36 @@
+{
+  "schema": "rm_dynamic_prediction_uniform_rank_runtime_evidence/v1",
+  "scope": "One phase-4 trial timed out. Selected cycle is the first captured pose within 0.5 m of the goal, chosen to diagnose the timeout.",
+  "diagnostic_cycle_id": 263,
+  "truth_window_lines": 200,
+  "all_rollouts_reproduced": 300,
+  "metrics_reproduced_from_export": true,
+  "goal_reachability": {
+    "criterion": "rollout final position within 0.15 m of goal; yaw assessed separately",
+    "goal_position_rollouts": 30,
+    "goal_position_and_yaw_0_2rad_rollouts": 0,
+    "goal_position_truth_safe_rollouts": 29,
+    "goal_position_predicted_collision_rollouts": 30,
+    "goal_position_probability_mass": 0.0,
+    "best_goal_position_total_score": 1671.25634765625,
+    "best_all_total_score": 4.936354160308838
+  },
+  "files_sha256": {
+    "cycle_263.bin": "900990dee9c21a9c32587e38daeb70be614e7279d0e4e97e620bdcb53e86ae20",
+    "cycle_263.json": "4e331d38e65ecbee38962d485601500f8e4d27509958d3273f8b1a75114f6223",
+    "gazebo_poses_window.jsonl": "5a59de9d4e99a7d36acf5f4927d6fdacfd9d5599d87a6bed1dba38215a88cd3d",
+    "loaded_maps.txt": "314a46f93ae8cff4c37922a574da524b5c0dfc79581ec618ba94419940ca0777",
+    "observer_summary.json": "f391fddbde053a3b97abc3ebc6f7f04b89c1168c764921df26e017966d0be52e",
+    "plan.json": "d3ea0c869d3d5545a02d52faac8b0f207e05deb35d01298e140a82ecbf8d6463",
+    "profile.yaml": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+    "rollouts.csv": "25d9afc703dfdf8c044893288ea76db150862029f33f73135cd742476b29ad32",
+    "runtime_audit.json": "477304389e472ad3a738d7fcf27f2c951ee30693d04850b42113a0a6f0084b51",
+    "summary.json": "b297ad41c6488c5ae72907c69da603dd8f108763e4f1877872b27513509003a9",
+    "writer_status.json": "73c4ff182b66a1c60c7925228d3b1fc4f35755f2bf93622362fe6e1939f4dac4"
+  },
+  "analysis_code_sha256": {
+    "experiments/dynamic_prediction_v1/frozen_cycle/analyze.py": "8798eefba8ce898a9d924c2b11f0d87bf7272a0e63497735f0efd6d0d1c93df0",
+    "experiments/dynamic_prediction_v1/frozen_cycle/runtime_audit.py": "a25304cd8853db4f6fd10c47faf675d6b5bf2540399a553a250fb55ec0a4f9ad",
+    "experiments/dynamic_prediction_v1/frozen_cycle/export_rank_evidence.py": "ab62ac34928df5980c5e65662ed29cba0cffded7517f73dba9fd3d1df7204328"
+  }
+}

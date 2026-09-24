@@ -271,6 +271,20 @@ def analyze(cycle_path, profile_path, truth_path):
                "mppi_probability": float(weights[i])}
         rec.update({"critic_" + name: float(term[i]) for name, term in terms.items()})
         records.append(rec)
+    rank_mode = params.get("collision_rank_mode", "legacy")
+    if rank_mode == "uniform_center_overlap":
+        # Import here to avoid a module cycle: the independent geometry probe
+        # reuses this trace reader. Only hard-envelope collisions get the
+        # additional continuous rank; noncolliding rollouts retain V1 scores.
+        from occupancy_rank_probe import expected_overlap
+        overlap = expected_overlap(meta, arrays, params)
+        for rec, fraction in zip(records, overlap):
+            if rec["first_predicted_conflict_s"] is not None:
+                rec["prediction_score_recomputed"] += (
+                    (3.81 / 254.) * 1_000_000. * float(fraction) / horizon_steps)
+            rec["uniform_center_overlap_fraction"] = float(fraction)
+    elif rank_mode != "legacy":
+        raise ValueError(f"unsupported rank mode: {rank_mode}")
     score_errors = [abs(r["prediction_score_captured"] - r["prediction_score_recomputed"])
                     for r in records]
     if max(score_errors) > .05:
