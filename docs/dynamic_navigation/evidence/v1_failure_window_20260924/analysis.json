@@ -1,0 +1,692 @@
+{
+  "schema": "rm_dynamic_prediction_v1_failure_window/v1",
+  "accepted_for_deployment": false,
+  "new_navigation_trials": 0,
+  "old_manifest_entries_verified": 543,
+  "old_manifest_sha256": "57a81b6582557c61623d8eb5c0b924004d2679b8fa55bfe5cd4161567ca0140c",
+  "time_mapping_note": "INFO logs mapped to nearest prediction receiver wall timestamp; approximate only, not a same-cycle score trace.",
+  "coverage_note": "Compare recorded prediction at receive_ros_t+h against linearly interpolated Gazebo box; truth assists track pairing only for audit. Finite samples do not certify future coverage.",
+  "trials": [
+    {
+      "planner": "tdt_qp",
+      "navigation_sim_s": [
+        16.028,
+        39.51
+      ],
+      "action_status": 4,
+      "recoveries": 5,
+      "failure_events": [
+        {
+          "sim_s": 30.193,
+          "robot_pose": [
+            5.159127871439958,
+            -1.6251331018524067,
+            -1.0479771972399337
+          ],
+          "actual_obstacle_pose": [
+            4.9,
+            -0.9347345555352761,
+            0.0
+          ],
+          "actual_body_to_box_gap_m": 0.09685294959727744,
+          "latest_prediction_source_age_s": 0.09600000000000009,
+          "latest_prediction_confirmed_near_box": true,
+          "latest_prediction_box": [
+            4.250799304464998,
+            -1.9913984172985004,
+            5.601115245725197,
+            -0.6855652824034094
+          ],
+          "latest_prediction_full_box_miss_m": 0.02583072686813337,
+          "kind": "start_blocked_conservative_circle",
+          "witness": {
+            "origin": [
+              -1.3500000000000127,
+              -7.649999999999994
+            ],
+            "size": [
+              260,
+              240
+            ],
+            "resolution": 0.05,
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "guard": 1e-07,
+            "start": {
+              "status": "blocked",
+              "local": [
+                6.492222813433712,
+                6.018076117198781
+              ],
+              "collision": {
+                "cell": [
+                  127,
+                  128
+                ],
+                "cost": 254,
+                "boundary": false,
+                "distance": 0.3929006230226527,
+                "required": 0.4007889076915766
+              }
+            },
+            "goal": {
+              "status": "free",
+              "local": [
+                6.950000000000013,
+                7.649999999999994
+              ],
+              "collision": null
+            }
+          },
+          "logged_planner_start_pose": [
+            5.142222813433699,
+            -1.6319238828012128,
+            -1.0214348019849866
+          ],
+          "body_polygon_to_witness_cell_gap_m": 0.09378489023804479
+        },
+        {
+          "sim_s": 30.309,
+          "robot_pose": [
+            5.210475932040564,
+            -1.5980334284155693,
+            -1.1250501664665458
+          ],
+          "actual_obstacle_pose": [
+            4.9,
+            -0.9204731954578405,
+            0.0
+          ],
+          "actual_body_to_box_gap_m": 0.11998165128854826,
+          "latest_prediction_source_age_s": 0.08000000000000185,
+          "latest_prediction_confirmed_near_box": true,
+          "latest_prediction_box": [
+            4.264323232625143,
+            -2.00543559040548,
+            5.6136476075583275,
+            -0.6190097646994769
+          ],
+          "latest_prediction_full_box_miss_m": 0.0,
+          "kind": "start_blocked_conservative_circle",
+          "witness": {
+            "origin": [
+              -1.3000000000000127,
+              -7.599999999999994
+            ],
+            "size": [
+              260,
+              240
+            ],
+            "resolution": 0.05,
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "guard": 1e-07,
+            "start": {
+              "status": "blocked",
+              "local": [
+                6.504875577170285,
+                5.998616139923846
+              ],
+              "collision": {
+                "cell": [
+                  126,
+                  127
+                ],
+                "cost": 254,
+                "boundary": false,
+                "distance": 0.38400138219262603,
+                "required": 0.4007889076915766
+              }
+            },
+            "goal": {
+              "status": "free",
+              "local": [
+                6.900000000000013,
+                7.599999999999994
+              ],
+              "collision": null
+            }
+          },
+          "logged_planner_start_pose": [
+            5.204875577170272,
+            -1.6013838600761485,
+            -1.1170647086247343
+          ],
+          "body_polygon_to_witness_cell_gap_m": 0.10362005173508748
+        },
+        {
+          "sim_s": 30.441,
+          "robot_pose": [
+            5.264129844342417,
+            -1.571227040870606,
+            -1.1953305392344027
+          ],
+          "actual_obstacle_pose": [
+            4.9,
+            -0.8983267437679117,
+            0.0
+          ],
+          "actual_body_to_box_gap_m": 0.14110561672757566,
+          "latest_prediction_source_age_s": 0.0799999999999983,
+          "latest_prediction_confirmed_near_box": true,
+          "latest_prediction_box": [
+            4.2808559444451415,
+            -2.0300677014980675,
+            5.636059430383471,
+            -0.5142507500711938
+          ],
+          "latest_prediction_full_box_miss_m": 0.0,
+          "kind": "start_blocked_conservative_circle",
+          "witness": {
+            "origin": [
+              -1.2500000000000127,
+              -7.599999999999994
+            ],
+            "size": [
+              260,
+              240
+            ],
+            "resolution": 0.05,
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "guard": 1e-07,
+            "start": {
+              "status": "blocked",
+              "local": [
+                6.506641351308573,
+                6.025782458228177
+              ],
+              "collision": {
+                "cell": [
+                  125,
+                  127
+                ],
+                "cost": 254,
+                "boundary": false,
+                "distance": 0.38447062626837597,
+                "required": 0.4007889076915766
+              }
+            },
+            "goal": {
+              "status": "free",
+              "local": [
+                6.850000000000012,
+                7.599999999999994
+              ],
+              "collision": null
+            }
+          },
+          "logged_planner_start_pose": [
+            5.25664135130856,
+            -1.574217541771818,
+            -1.1862239855185692
+          ],
+          "body_polygon_to_witness_cell_gap_m": 0.09796503803910317
+        },
+        {
+          "sim_s": 30.588,
+          "robot_pose": [
+            5.30016625554211,
+            -1.5578651399940047,
+            -1.2346264176195518
+          ],
+          "actual_obstacle_pose": [
+            4.9,
+            -0.8654820038163484,
+            0.0
+          ],
+          "actual_body_to_box_gap_m": 0.17170743631127894,
+          "latest_prediction_source_age_s": 0.028999999999999915,
+          "latest_prediction_confirmed_near_box": true,
+          "latest_prediction_box": [
+            4.308998253183693,
+            -1.9932550948241685,
+            5.658385700691425,
+            -0.39295312414726447
+          ],
+          "latest_prediction_full_box_miss_m": 0.0,
+          "kind": "start_blocked_conservative_circle",
+          "witness": {
+            "origin": [
+              -1.2000000000000126,
+              -7.5499999999999945
+            ],
+            "size": [
+              260,
+              240
+            ],
+            "resolution": 0.05,
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "guard": 1e-07,
+            "start": {
+              "status": "blocked",
+              "local": [
+                6.497127458660274,
+                5.9910668796690345
+              ],
+              "collision": {
+                "cell": [
+                  126,
+                  127
+                ],
+                "cost": 254,
+                "boundary": false,
+                "distance": 0.38791683897757545,
+                "required": 0.4007889076915766
+              }
+            },
+            "goal": {
+              "status": "free",
+              "local": [
+                6.800000000000012,
+                7.5499999999999945
+              ],
+              "collision": null
+            }
+          },
+          "logged_planner_start_pose": [
+            5.2971274586602615,
+            -1.55893312033096,
+            -1.23190029699541
+          ],
+          "body_polygon_to_witness_cell_gap_m": 0.10733431012380737
+        }
+      ],
+      "prediction_full_box_coverage": {
+        "0.0": {
+          "checked": 289,
+          "not_fully_covered": 1,
+          "maximum_uncovered_extent_m": 5.5548109679448565e-05,
+          "uncovered_when_realized_robot_within_05m": 1,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 2.942774289355745,
+          "first_uncovered_receive_sim_s": 30.122
+        },
+        "0.2": {
+          "checked": 286,
+          "not_fully_covered": 13,
+          "maximum_uncovered_extent_m": 0.07298232307402164,
+          "uncovered_when_realized_robot_within_05m": 13,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 2.9951524400539107,
+          "first_uncovered_receive_sim_s": 29.463
+        },
+        "0.4": {
+          "checked": 282,
+          "not_fully_covered": 17,
+          "maximum_uncovered_extent_m": 0.13941892036118642,
+          "uncovered_when_realized_robot_within_05m": 17,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 3.1276154840330657,
+          "first_uncovered_receive_sim_s": 29.27
+        },
+        "0.6": {
+          "checked": 280,
+          "not_fully_covered": 19,
+          "maximum_uncovered_extent_m": 0.20113893209904665,
+          "uncovered_when_realized_robot_within_05m": 19,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 3.341448987596282,
+          "first_uncovered_receive_sim_s": 29.193
+        },
+        "0.8": {
+          "checked": 277,
+          "not_fully_covered": 21,
+          "maximum_uncovered_extent_m": 0.25929635898711345,
+          "uncovered_when_realized_robot_within_05m": 21,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 3.636550742527532,
+          "first_uncovered_receive_sim_s": 29.135
+        },
+        "1.0": {
+          "checked": 261,
+          "not_fully_covered": 22,
+          "maximum_uncovered_extent_m": 0.31518805925967663,
+          "uncovered_when_realized_robot_within_05m": 19,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 4.008117230129159,
+          "first_uncovered_receive_sim_s": 29.135
+        }
+      },
+      "critic_sampled_logs_approx_sim_time": [
+        {
+          "approx_sim_s": 20.554,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.006346464157104492
+        },
+        {
+          "approx_sim_s": 21.612,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.0025277137756347656
+        },
+        {
+          "approx_sim_s": 22.671,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 4.291534423828125e-05
+        },
+        {
+          "approx_sim_s": 23.728,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.04741477966308594
+        },
+        {
+          "approx_sim_s": 24.776,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.03130316734313965
+        },
+        {
+          "approx_sim_s": 25.835,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.03334784507751465
+        },
+        {
+          "approx_sim_s": 26.904,
+          "collision_rollouts": 7,
+          "rollouts": 300,
+          "wall_match_error_s": 0.014301061630249023
+        },
+        {
+          "approx_sim_s": 27.947,
+          "collision_rollouts": 299,
+          "rollouts": 300,
+          "wall_match_error_s": 0.053307533264160156
+        },
+        {
+          "approx_sim_s": 29.082,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.042763471603393555
+        },
+        {
+          "approx_sim_s": 30.061,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.004792213439941406
+        },
+        {
+          "approx_sim_s": 33.357,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.007392406463623047
+        },
+        {
+          "approx_sim_s": 34.361,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.02218031883239746
+        },
+        {
+          "approx_sim_s": 35.399,
+          "collision_rollouts": 299,
+          "rollouts": 300,
+          "wall_match_error_s": 0.020468473434448242
+        },
+        {
+          "approx_sim_s": 36.393,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.034975290298461914
+        },
+        {
+          "approx_sim_s": 37.449,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.024837732315063477
+        },
+        {
+          "approx_sim_s": 38.507,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.03231000900268555
+        }
+      ],
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/predictions.jsonl": "279415ea9ef31017dcf71612b189bb33c5103f08d4228d5d0602473098fc8a16",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/gazebo_poses.jsonl": "354da0167042e34cbd216948882c584aaa1e96886178a585cdeb8cc5f457e3e7",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/observation/events.jsonl": "f228feb31502fa966c5e37a7a0f134c47c0b95dab1d0089326d1f089bba5da45",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/observation/summary.json": "36d0f5e0ec88cffce27eb6f5816dd1aa5be6734f9e03ec8ce26c5c5c5ce25812",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1/launch.log": "19a4c93bbccfb2fff9c68880d86a072c05e671c3871d2068fb1017d889a9a8d2"
+      }
+    },
+    {
+      "planner": "tdt_astar",
+      "navigation_sim_s": [
+        24.029,
+        49.899
+      ],
+      "action_status": 4,
+      "recoveries": 1,
+      "failure_events": [
+        {
+          "sim_s": 28.45,
+          "robot_pose": [
+            0.8560015249882208,
+            -1.6346250537331324,
+            -0.005634070698089424
+          ],
+          "actual_obstacle_pose": [
+            4.9,
+            -0.28237356955280346,
+            0.0
+          ],
+          "actual_body_to_box_gap_m": 3.6475330650830626,
+          "latest_prediction_source_age_s": 0.06899999999999906,
+          "latest_prediction_confirmed_near_box": false,
+          "kind": "unsafe_latest_path",
+          "snapshot_admission": {
+            "decision": "unsafe_latest_path",
+            "old_origin": [
+              -5.750000000000003,
+              -7.499999999999995
+            ],
+            "latest_origin": [
+              -5.650000000000003,
+              -7.599999999999994
+            ],
+            "radius": 0.3807889076915766,
+            "clearance": 0.02,
+            "validation_seconds": 0.000412366
+          }
+        }
+      ],
+      "prediction_full_box_coverage": {
+        "0.0": {
+          "checked": 325,
+          "not_fully_covered": 3,
+          "maximum_uncovered_extent_m": 0.001515306094704516,
+          "uncovered_when_realized_robot_within_05m": 0,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 2.926508778167629,
+          "first_uncovered_receive_sim_s": 38.124
+        },
+        "0.2": {
+          "checked": 322,
+          "not_fully_covered": 35,
+          "maximum_uncovered_extent_m": 0.06872430582345546,
+          "uncovered_when_realized_robot_within_05m": 0,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 2.976652770880152,
+          "first_uncovered_receive_sim_s": 37.45
+        },
+        "0.4": {
+          "checked": 319,
+          "not_fully_covered": 41,
+          "maximum_uncovered_extent_m": 0.12844426697889022,
+          "uncovered_when_realized_robot_within_05m": 0,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 3.105319443483256,
+          "first_uncovered_receive_sim_s": 37.121
+        },
+        "0.6": {
+          "checked": 316,
+          "not_fully_covered": 42,
+          "maximum_uncovered_extent_m": 0.18539227487955234,
+          "uncovered_when_realized_robot_within_05m": 0,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 3.315248497675399,
+          "first_uncovered_receive_sim_s": 37.005
+        },
+        "0.8": {
+          "checked": 313,
+          "not_fully_covered": 41,
+          "maximum_uncovered_extent_m": 0.24010927768015888,
+          "uncovered_when_realized_robot_within_05m": 0,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 3.60749256022184,
+          "first_uncovered_receive_sim_s": 36.943
+        },
+        "1.0": {
+          "checked": 292,
+          "not_fully_covered": 31,
+          "maximum_uncovered_extent_m": 0.29224084681362117,
+          "uncovered_when_realized_robot_within_05m": 0,
+          "realized_robot_false_safe_samples": 0,
+          "median_predicted_to_true_y_width_ratio": 3.9984307678235282,
+          "first_uncovered_receive_sim_s": 36.943
+        }
+      },
+      "critic_sampled_logs_approx_sim_time": [
+        {
+          "approx_sim_s": 28.541,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.013457536697387695
+        },
+        {
+          "approx_sim_s": 29.594,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.04526400566101074
+        },
+        {
+          "approx_sim_s": 30.668,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.03273439407348633
+        },
+        {
+          "approx_sim_s": 31.644,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.002587556838989258
+        },
+        {
+          "approx_sim_s": 32.7,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.012225866317749023
+        },
+        {
+          "approx_sim_s": 33.758,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.008837223052978516
+        },
+        {
+          "approx_sim_s": 34.747,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.03185129165649414
+        },
+        {
+          "approx_sim_s": 35.802,
+          "collision_rollouts": 294,
+          "rollouts": 300,
+          "wall_match_error_s": 0.029985904693603516
+        },
+        {
+          "approx_sim_s": 36.807,
+          "collision_rollouts": 268,
+          "rollouts": 300,
+          "wall_match_error_s": 0.048815250396728516
+        },
+        {
+          "approx_sim_s": 37.849,
+          "collision_rollouts": 244,
+          "rollouts": 300,
+          "wall_match_error_s": 0.016948699951171875
+        },
+        {
+          "approx_sim_s": 38.901,
+          "collision_rollouts": 1,
+          "rollouts": 300,
+          "wall_match_error_s": 0.0026137828826904297
+        },
+        {
+          "approx_sim_s": 39.896,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.01006460189819336
+        },
+        {
+          "approx_sim_s": 40.967,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.02108454704284668
+        },
+        {
+          "approx_sim_s": 42.006,
+          "collision_rollouts": 0,
+          "rollouts": 300,
+          "wall_match_error_s": 0.03594088554382324
+        },
+        {
+          "approx_sim_s": 42.994,
+          "collision_rollouts": 270,
+          "rollouts": 300,
+          "wall_match_error_s": 0.016640901565551758
+        },
+        {
+          "approx_sim_s": 43.983,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.06289410591125488
+        },
+        {
+          "approx_sim_s": 45.099,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.034864187240600586
+        },
+        {
+          "approx_sim_s": 46.159,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.0030393600463867188
+        },
+        {
+          "approx_sim_s": 47.217,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.0003330707550048828
+        },
+        {
+          "approx_sim_s": 48.224,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.01394963264465332
+        },
+        {
+          "approx_sim_s": 49.264,
+          "collision_rollouts": 300,
+          "rollouts": 300,
+          "wall_match_error_s": 0.05000424385070801
+        }
+      ],
+      "source_sha256": {
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/predictions.jsonl": "da67ddb91a3534766494b0ed66af1d627ce1dd0ed39c5b24ba771fd3d658b13c",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/gazebo_poses.jsonl": "9aee27d505fa090270cba55c21da3e750763c4dca38f3994c93798bd44704af0",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/observation/events.jsonl": "2bb4ef0dff2aa046b6d0a53ce386ad10a2ec559040683578e3090e02f5dad36a",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/observation/summary.json": "95005f8863babc5c3e60c6921c65243795d11916cb409398104494494eaefdcb",
+        "build/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1/launch.log": "a1637f62b34706ad36353cd84d278251d5b82e0b9727f87dd3d6bfdd322ddced"
+      }
+    }
+  ]
+}
