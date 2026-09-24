@@ -1,0 +1,412 @@
+{
+  "schema": "rm_dynamic_prediction_navfn_repeatability/v1",
+  "accepted_for_deployment": false,
+  "source_manifest_sha256": "bffa80ecacf15d93cc293a7a586a10b4eaf19ed23c3b4cc40c7a3e9cf0bb7f88",
+  "source_files_verified": 155,
+  "scope": "Frozen phase-0 trials only; no new navigation run or same-cycle MPPI trace.",
+  "first": {
+    "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "navigation_start_sim_s": 16.008,
+    "body_sampled_overlap": true,
+    "body_interpolation_bound_m": -0.008800967354137067,
+    "initial_plan_xy_sha256": "bbe9fb0ea9a51fb2c22e2fe30ed89b139edee9eeaedbd3b4160b24c32a3f1d1c",
+    "initial_plan_points": 256,
+    "checkpoints": {
+      "24.0": {
+        "pose_t": 23.98,
+        "robot_xy": [
+          3.1129239082585296,
+          1.4223833121099625
+        ],
+        "command_t": 23.997,
+        "command_vx_vy_wz": [
+          0.08922673016786575,
+          0.4830802083015442,
+          -0.2477424144744873
+        ],
+        "prediction": {
+          "source_t": 23.959,
+          "source_age_s": 0.04100000000000037,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.88189921771674,
+            0.11309576864241759
+          ],
+          "track_vxy": [
+            -0.2511419844961621,
+            0.26466506969975045
+          ],
+          "visible_size_xy": [
+            0.3748432851911853,
+            0.19999999999999998
+          ]
+        }
+      },
+      "24.5": {
+        "pose_t": 24.5,
+        "robot_xy": [
+          3.231588351758579,
+          1.4548616505879022
+        ],
+        "command_t": 24.508,
+        "command_vx_vy_wz": [
+          -0.18278683722019196,
+          -0.16691979169845575,
+          -0.139727383852005
+        ],
+        "prediction": {
+          "source_t": 24.421,
+          "source_age_s": 0.07900000000000063,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.715817489898687,
+            0.35468618382266454
+          ],
+          "track_vxy": [
+            -0.309652460275649,
+            0.44333770156093427
+          ],
+          "visible_size_xy": [
+            0.45163494160051576,
+            0.44979958012946475
+          ]
+        }
+      },
+      "25.0": {
+        "pose_t": 24.98,
+        "robot_xy": [
+          3.1709380421540847,
+          1.4695934945503646
+        ],
+        "command_t": 24.994,
+        "command_vx_vy_wz": [
+          0.07212845981121063,
+          -0.036343399435281754,
+          -0.0739762768149376
+        ],
+        "prediction": {
+          "source_t": 24.949,
+          "source_age_s": 0.05099999999999838,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.686537691315064,
+            0.6677708611588654
+          ],
+          "track_vxy": [
+            -0.14253827946735179,
+            0.5406188780161462
+          ],
+          "visible_size_xy": [
+            0.43453342363930936,
+            0.5418678421368444
+          ]
+        }
+      },
+      "26.0": {
+        "pose_t": 25.98,
+        "robot_xy": [
+          3.195626943635424,
+          1.4608967779727131
+        ],
+        "command_t": 25.996,
+        "command_vx_vy_wz": [
+          -0.09029530733823776,
+          0.045503586530685425,
+          -0.5079296469688416
+        ],
+        "prediction": {
+          "source_t": 25.939,
+          "source_age_s": 0.06099999999999994,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.6845165854453334,
+            1.0465169805932655
+          ],
+          "track_vxy": [
+            -0.022124724682094775,
+            0.3485915662962636
+          ],
+          "visible_size_xy": [
+            0.3624775619832413,
+            0.5497911510484838
+          ]
+        }
+      },
+      "27.0": {
+        "pose_t": 26.98,
+        "robot_xy": [
+          3.260813876790863,
+          1.506953013742333
+        ],
+        "command_t": 27.006,
+        "command_vx_vy_wz": [
+          -0.09718899428844452,
+          0.01979300007224083,
+          -0.2663038969039917
+        ],
+        "prediction": {
+          "source_t": 26.929,
+          "source_age_s": 0.0710000000000015,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.709678702071855,
+            0.8784690738150249
+          ],
+          "track_vxy": [
+            0.01732875765820314,
+            -0.14266150151706058
+          ],
+          "visible_size_xy": [
+            0.41519195688132077,
+            0.5458017706028282
+          ]
+        }
+      }
+    },
+    "throttled_critic_samples": [
+      {
+        "approx_sim_s": 23.797,
+        "colliding_rollouts": 0,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.031070709228515625
+      },
+      {
+        "approx_sim_s": 24.85,
+        "colliding_rollouts": 186,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.031585693359375
+      },
+      {
+        "approx_sim_s": 25.9,
+        "colliding_rollouts": 191,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.0004074573516845703
+      },
+      {
+        "approx_sim_s": 26.894,
+        "colliding_rollouts": 106,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.030689001083374023
+      },
+      {
+        "approx_sim_s": 27.95,
+        "colliding_rollouts": 0,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.009044885635375977
+      }
+    ]
+  },
+  "reproduction": {
+    "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "navigation_start_sim_s": 16.008,
+    "body_sampled_overlap": false,
+    "body_interpolation_bound_m": 0.22015136402148666,
+    "initial_plan_xy_sha256": "bbe9fb0ea9a51fb2c22e2fe30ed89b139edee9eeaedbd3b4160b24c32a3f1d1c",
+    "initial_plan_points": 256,
+    "checkpoints": {
+      "24.0": {
+        "pose_t": 23.98,
+        "robot_xy": [
+          3.074747069323744,
+          1.4340427330792715
+        ],
+        "command_t": 24.004,
+        "command_vx_vy_wz": [
+          0.023182744160294533,
+          0.4895583987236023,
+          -0.25875425338745117
+        ],
+        "prediction": {
+          "source_t": 23.959,
+          "source_age_s": 0.04100000000000037,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.888490331613023,
+            0.11550058029355698
+          ],
+          "track_vxy": [
+            -0.2583710461896685,
+            0.2719560990240691
+          ],
+          "visible_size_xy": [
+            0.36643068082529384,
+            0.19999999999999998
+          ]
+        }
+      },
+      "24.5": {
+        "pose_t": 24.5,
+        "robot_xy": [
+          3.3308916702148026,
+          1.4452900179252546
+        ],
+        "command_t": 24.517,
+        "command_vx_vy_wz": [
+          -0.05323178693652153,
+          0.49628347158432007,
+          -0.3280067443847656
+        ],
+        "prediction": {
+          "source_t": 24.421,
+          "source_age_s": 0.07900000000000063,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.716241808610847,
+            0.35735018730801005
+          ],
+          "track_vxy": [
+            -0.3194213777059902,
+            0.44511018495784394
+          ],
+          "visible_size_xy": [
+            0.44186534226908114,
+            0.4526809746907359
+          ]
+        }
+      },
+      "25.0": {
+        "pose_t": 24.98,
+        "robot_xy": [
+          3.572325773760638,
+          1.4683377411340337
+        ],
+        "command_t": 25.017,
+        "command_vx_vy_wz": [
+          -0.15011388063430786,
+          0.47855284810066223,
+          -0.44482600688934326
+        ],
+        "prediction": {
+          "source_t": 24.949,
+          "source_age_s": 0.05099999999999838,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.694388202126513,
+            0.6841192131468181
+          ],
+          "track_vxy": [
+            -0.13643679084983965,
+            0.5600884585151936
+          ],
+          "visible_size_xy": [
+            0.4381239729260534,
+            0.5467788647665384
+          ]
+        }
+      },
+      "26.0": {
+        "pose_t": 25.98,
+        "robot_xy": [
+          4.079568416974225,
+          1.532774217369264
+        ],
+        "command_t": 25.987000000000002,
+        "command_vx_vy_wz": [
+          -0.4862825572490692,
+          0.21651597023010255,
+          -0.14663559198379517
+        ],
+        "prediction": {
+          "source_t": 25.939,
+          "source_age_s": 0.06099999999999994,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.7131818862848975,
+            1.1064673289956435
+          ],
+          "track_vxy": [
+            -0.005472771693160894,
+            0.38928117798614015
+          ],
+          "visible_size_xy": [
+            0.4418374686521482,
+            0.546413000461786
+          ]
+        }
+      },
+      "27.0": {
+        "pose_t": 26.98,
+        "robot_xy": [
+          4.540410847997662,
+          1.8027600991261472
+        ],
+        "command_t": 27.013,
+        "command_vx_vy_wz": [
+          -0.4603891372680664,
+          0.3078746199607849,
+          -0.18554717302322388
+        ],
+        "prediction": {
+          "source_t": 26.929,
+          "source_age_s": 0.0710000000000015,
+          "confirmed_tracks": 1,
+          "track_xy": [
+            4.834465596468102,
+            1.0540708383203716
+          ],
+          "track_vxy": [
+            0.11809359138273784,
+            -0.03552499845970389
+          ],
+          "visible_size_xy": [
+            0.44916617852536017,
+            0.5441168746531284
+          ]
+        }
+      }
+    },
+    "throttled_critic_samples": [
+      {
+        "approx_sim_s": 23.925,
+        "colliding_rollouts": 0,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.013234376907348633
+      },
+      {
+        "approx_sim_s": 24.918,
+        "colliding_rollouts": 300,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.02187633514404297
+      },
+      {
+        "approx_sim_s": 25.97,
+        "colliding_rollouts": 300,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.010811567306518555
+      },
+      {
+        "approx_sim_s": 27.021,
+        "colliding_rollouts": 300,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.024049043655395508
+      },
+      {
+        "approx_sim_s": 28.035,
+        "colliding_rollouts": 0,
+        "total_rollouts": 300,
+        "nearest_recorder_wall_error_s": 0.01678299903869629
+      }
+    ]
+  },
+  "first_pose_separation_threshold_crossings": {
+    "0.05": {
+      "nominal_sim_s": 19.76,
+      "first_pose_sim_s": 19.78,
+      "reproduction_pose_sim_s": 19.78,
+      "xy_separation_m": 0.05023080990441229
+    },
+    "0.1": {
+      "nominal_sim_s": 24.560000000000002,
+      "first_pose_sim_s": 24.58,
+      "reproduction_pose_sim_s": 24.58,
+      "xy_separation_m": 0.15435407453745906
+    },
+    "0.5": {
+      "nominal_sim_s": 25.2,
+      "first_pose_sim_s": 25.18,
+      "reproduction_pose_sim_s": 25.18,
+      "xy_separation_m": 0.5068445769860329
+    }
+  },
+  "limitation": "Throttled critic logs use nearest recorder wall timestamp, not a synchronized MPPI cycle. This audit establishes divergence, not its unique cause."
+}
