@@ -77,7 +77,7 @@ def fitted_velocity(history):
                  for axis in (0, 1))
 
 
-def one_trial(trial, messages, occupancy):
+def one_trial(trial, messages, occupancy, return_source_rows=False):
     rows = rows_from_transport(trial / "gazebo_poses.jsonl")
     times = [row["t"] for row in rows]
     at = interpolator(rows)
@@ -172,7 +172,7 @@ def one_trial(trial, messages, occupancy):
             future_samples += 1
             future_misses += future_deficit > 1e-9
             future_max_deficit = max(future_max_deficit, future_deficit)
-        row = {"source_t": t, "point_count": len(observed),
+        row = {"source_t": t, "side": group, "point_count": len(observed),
                "detection_to_track_m": math.hypot(
                    detection.centroid.x - track["xy"][0],
                    detection.centroid.y - track["xy"][1]),
@@ -202,6 +202,8 @@ def one_trial(trial, messages, occupancy):
               "by_side": {}, "selected_examples": examples}
     if (trial / "predictions.jsonl").exists():
         output["source_sha256"]["predictions"] = digest(trial / "predictions.jsonl")
+    if (trial / "profile.yaml").exists():
+        output["source_sha256"]["profile"] = digest(trial / "profile.yaml")
     recent = []
     for row in sorted(all_samples, key=lambda item: item["source_t"]):
         if not near_full_span(row):
@@ -305,7 +307,7 @@ def one_trial(trial, messages, occupancy):
             stats["worst_support_miss"] = max(
                 samples, key=lambda sample: sample["support_uncovered_edge_m"])
         output["by_side"][group] = stats
-    return output
+    return (output, all_samples) if return_source_rows else output
 
 
 def main():
