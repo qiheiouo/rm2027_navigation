@@ -30,14 +30,14 @@ candidate, not an accepted competition capability. It does not change any
 default listed above. Offline algorithm/plugin results and the unimplemented
 timed-controller/localization follow-up gates are recorded separately in
 `docs/tdt_migration/assessment_and_plan.md`.
-P2A now includes 3,200 shared-footprint snapshot comparisons and Smac2D as a
-baseline (`docs/tdt_migration/validation_20260913.md`). This establishes neither
-moving-obstacle safety nor MPPI tracking or field acceptance. P2B static
-simulation at e85b076 passed 39 tests and both baseline groups achieved 5/5 limited static passes.
-Both T-DT first trials failed. The 74f68e2 costmap fix passed 45 ordinary tests, but
-static_v3 ran no navigation trials after a repeatable ASan failure. A fix for the
-mixed Release/sanitized Eigen allocation boundary awaits validation in static_v4;
-preserve static_v1/v2/v3. See `docs/tdt_migration/p2b_sanitizer_chain_handoff.md`.
+P2A includes 3,200 shared-footprint snapshot comparisons and Smac2D as a
+baseline (`docs/tdt_migration/validation_20260913.md`). Later P2B snapshot
+revalidation passed A*/QP 5/5 static trials each with zero recoveries, but the
+first moving-obstacle trials had real reference-body overlap. The final CAD,
+full-load and new-car field gates remain open; T-DT is not selected by a
+deployment YAML (`docs/tdt_migration/p2b_work_status.md`). Dynamic-prediction
+V1 research is separately frozen and not accepted for deployment
+(`docs/dynamic_navigation/v1_research_freeze_20260925.md`).
 
 1. Real lower-controller competition-state decoding is implemented from the
    confirmed currently flashed firmware, but no live serial acceptance was run

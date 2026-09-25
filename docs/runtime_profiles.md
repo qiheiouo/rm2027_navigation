@@ -1,6 +1,6 @@
 # Runtime Profiles
 
-## Isolated T-DT planning candidate (2026-09-12)
+## Isolated T-DT planning candidate (status updated 2026-09-25)
 
 The experimental package at `experiments/tdt_planner/rm_tdt_planner` is excluded
 from routine colcon discovery and every supported deployment launch. Its
@@ -23,12 +23,24 @@ The P2B `simulation_comparison.launch.py` is a separate experiment-only entry
 point invoked by `p2b_validation.sh`. It reuses the existing Phase 1.5 world,
 static course, MPPI and chassis stub. The observer is the sole test action
 client inside the isolated simulation domain; it never publishes velocity or
-TF and never co-launches competition mission or real hardware. The e85b076 validation
-passed 39 tests, and both baseline groups achieved 5/5 limited static passes.
-Both T-DT first trials failed. The 74f68e2 costmap fix passed 45 ordinary tests, but
-static_v3 ran no navigation trials after a repeatable ASan failure. A fix for the
-mixed Release/sanitized Eigen allocation boundary awaits validation in static_v4;
-preserve static_v1/v2/v3. See `docs/tdt_migration/p2b_sanitizer_chain_handoff.md`.
+TF and never co-launches competition mission or real hardware. Later P2B
+snapshot revalidation at `a419654` passed A*/QP 5/5 static trials each with
+zero recoveries using a reference eight-sided body. The first moving-obstacle
+trials still had real reference-body overlap, and final CAD, full-load and
+new-car hardware acceptance remain open. See
+`docs/tdt_migration/p2b_work_status.md` for the dated evidence. No supported
+deployment launch selects T-DT.
+
+## Frozen dynamic-prediction V1 research (2026-09-25)
+
+`experiments/dynamic_prediction_v1` and its captured trials are retained for
+research. `PredictionV1Critic` and the scan-support occupancy probes are not
+part of any supported deployment parameter file. The current Navfn + local
+costmap + MPPI profiles remain as configured; the explicitly selected old-car
+dual-STVL profile retains STVL. Freezing this
+research does not switch the global planner. The rationale, evidence inventory
+and raw-trial preservation limits are in
+`docs/dynamic_navigation/v1_research_freeze_20260925.md`.
 
 ## Principle
 

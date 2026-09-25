@@ -116,12 +116,20 @@ for the pinned intake and local patches. It has no localization TF, goal or
 velocity ownership. Offline results do not grant hardware acceptance.
 The optional four-planner snapshot benchmark and its 2026-09-13 results are
 documented in `docs/tdt_migration/validation_20260913.md`; the package README
-contains explicit build and static-input comparison commands. The P2B static
-simulation at e85b076 passed 39 tests and both baseline groups achieved 5/5 limited static passes.
-Both T-DT first trials failed. The 74f68e2 costmap fix passed 45 ordinary tests, but
-static_v3 ran no navigation trials after a repeatable ASan failure. A fix for the
-mixed Release/sanitized Eigen allocation boundary awaits validation in static_v4;
-preserve static_v1/v2/v3. See `docs/tdt_migration/p2b_sanitizer_chain_handoff.md`.
+contains explicit build and static-input comparison commands. Subsequent P2B
+snapshot revalidation passed A*/QP 5/5 static trials each with zero recoveries,
+while the first moving-obstacle trials had reference-body overlap. Final CAD,
+full-load and new-car hardware gates remain open. The current summary is
+`docs/tdt_migration/p2b_work_status.md`.
+
+## Frozen Dynamic-Prediction Research
+
+`experiments/dynamic_prediction_v1` contains the isolated tracker-to-MPPI
+prediction critic and offline probes. The 2026-09-25 freeze decision and raw
+evidence paths are in `docs/dynamic_navigation/v1_research_freeze_20260925.md`.
+The research is not accepted for deployment. Supported Nav2 configurations
+retain their existing planner and MPPI critic lists; the freeze does not
+promote T-DT or prediction into a default launch.
 
 ## Documentation Maintenance Rule
 
