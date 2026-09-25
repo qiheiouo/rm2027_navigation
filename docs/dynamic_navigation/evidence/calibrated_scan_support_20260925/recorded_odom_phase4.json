@@ -13,28 +13,28 @@
       "phase4_heldout": {
         "first_miss": {
           "residual_xy_m": [
-            -0.007346340825049147,
-            0.36936935333630583
+            -0.007583470347392485,
+            0.36922805164381356
           ],
           "side": "east",
           "source_t": 53.725,
           "step": 9,
-          "uncovered_edge_m": 0.0016044449554704077
+          "uncovered_edge_m": 0.0014631432629781393
         },
         "future_samples": 4823,
-        "maximum_uncovered_edge_m": 0.005095292595714174,
+        "maximum_uncovered_edge_m": 0.004938545165750208,
         "sources": 439,
         "uncovered_samples": 4,
         "uncovered_sources": 2,
         "worst_miss": {
           "residual_xy_m": [
-            -0.007052592847700545,
-            0.43269252634649313
+            -0.007314949399255255,
+            0.43253577891652917
           ],
           "side": "east",
           "source_t": 53.725,
           "step": 10,
-          "uncovered_edge_m": 0.005095292595714174
+          "uncovered_edge_m": 0.004938545165750208
         }
       }
     },
@@ -308,8 +308,8 @@
     "cycle_json_sha256": "4e331d38e65ecbee38962d485601500f8e4d27509958d3273f8b1a75114f6223",
     "original_first_step_goal_padded_gap_m": 0.0,
     "raw_span_xy_m": [
-      0.46142286373773356,
-      0.5670928621455931
+      0.46142286373711716,
+      0.5670928621460999
     ],
     "source_age_s": 0.096,
     "source_t": 46.201,
@@ -317,7 +317,7 @@
       "east": {
         "actual_box_uncovered_steps": [],
         "candidate_prediction_score_max": 0.0,
-        "first_step_goal_padded_gap_m": 0.28685891352997744,
+        "first_step_goal_padded_gap_m": 0.2868408891176526,
         "fixed_rollout_replay": {
           "goal_position_rollout_probability_mass": 0.20309704542160034,
           "open_loop_endpoint_goal_distance_m": 0.2398986370906854,
@@ -336,7 +336,7 @@
       "global": {
         "actual_box_uncovered_steps": [],
         "candidate_prediction_score_max": 0.5,
-        "first_step_goal_padded_gap_m": 0.26133992633244796,
+        "first_step_goal_padded_gap_m": 0.2613205116669259,
         "fixed_rollout_replay": {
           "goal_position_rollout_probability_mass": 0.20314712822437286,
           "open_loop_endpoint_goal_distance_m": 0.2399202647193827,
@@ -384,15 +384,16 @@
   },
   "phase4": {
     "pose_source_vs_gazebo": {
-      "max_translation_m": 0.0,
-      "max_yaw_rad": 0.0,
+      "max_translation_m": 0.00042408557268474353,
+      "max_yaw_rad": 0.0003909999549294163,
       "sample_count": 855
     },
-    "scan_pose_source": "gazebo",
+    "scan_pose_source": "recorded_odom",
     "source_sha256": {
       "gazebo_poses": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4",
       "predictions": "4c64561b2906a7120122ae552dd450ffd100a65d07b8f3e9ea0b8484d551b254",
       "profile": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+      "recorded_odom_trajectory": "2ffb4d8a6cb6557469b3a019105097b17c5e9c6b88fb8ee4a9820175b339bd5f",
       "scans": "94a1a6a9d73df800d2fef9db9079a013404732b606a38f110e4117425040d122"
     },
     "trial": "build/dynamic_prediction_runs/rank_phase4_20260924_02/candidate_navfn_1"
@@ -405,9 +406,9 @@
         "future_t": 54.662000013411046,
         "source_t": 53.725,
         "step": 9,
-        "uncovered_edge_m": 0.0030408503898422534
+        "uncovered_edge_m": 0.002893833772414256
       },
-      "maximum_uncovered_edge_m": 0.0030408503898422534,
+      "maximum_uncovered_edge_m": 0.002893833772414256,
       "samples": 3948,
       "uncovered_cycles": 2,
       "uncovered_samples": 2

@@ -25,6 +25,12 @@ E(t) = E_source + E_velocity × t + 0.5 × 0.555165 × t²
 
 全方位版本也不是可靠硬界。对六组旧试次逐个留出、其余五组重新拟合时，T-DT QP AB v2 的独立留出数据漏 **2/1,741** 个样本，最大 **0.0087 m**；其它五组为零。历史拟合集为同一仿真夹具的相关闭环轨迹，该箱体的真实 x 坐标固定，因而拟合出的 x 速度误差系数为零，不能用于一般移动物体。`0.01 m` 标准差的激光高斯噪声没有有限硬上界，当前数据也不覆盖任意障碍物运动或真实设备 TF/传感器误差。不能因为新 phase 4 无漏包，就把经验极值称为安全保证。
 
+### 仿真中的扫描坐标来源复核
+
+当前仿真[启动配置](../../src/rm_simulation/launch/phase1_5_gazebo.launch.py)将 `/simulation/ground_truth/odom` 交给定位适配器；[适配器](../../src/rm_localization_adapters/src/lio_adapter.cpp)以该里程计姿态发布 `odom → base_link`，`map → odom` 是[恒等占位变换](../../src/rm_localization_adapters/src/map_odom_stub.cpp)。归档的 `observation/trajectory.jsonl` 来自[观测器订阅同一个 ground_truth/odom 话题](../../experiments/tdt_planner/rm_tdt_planner/tools/observe_simulation.py)，是实际可订阅的仿真定位源的抽样记录；它不是独立真实定位器。
+
+保持六组历史试次拟合出的**同一组全方位参数**，仅将 phase 4 源激光的坐标投影从 Gazebo 模型位姿改用上述归档里程计插值。855 个确认源帧的两种机器人位姿最大平面差 **0.000424 m**、最大 yaw 差 **0.000391 rad**；460 个合格控制周期的 4,137 个实际评分步仍 **0 漏包**。周期 263 的首步目标 padded 间隙由 0.261340 m 变为 **0.261321 m**，固定 rollout 重放的控制输出保持一致。[归档里程计重放结果与输入哈希](evidence/calibrated_scan_support_20260925/recorded_odom_phase4.json)单独保存。这排除了本仿真结果主要由“直接读取 Gazebo 模型位姿、绕过仿真定位输入”造成的解释；真实比赛设备的定位与外参误差仍未验证。本核查不涉及毫秒级 DDS 或 TF 到达时序。
+
 ## 冻结周期 263 的 MPPI 反事实
 
 周期 263 的 robot pose、速度、raw local costmap、global path、原 tracker 消息、全部 **300 条 rollout**、其它 critic 得分和控制滤波历史保持原样。仅离线替换预测占用和其 V1 得分：同一控制周期的候选扫描外廓满足近完整条件，历史拟合的全方位包络在九个未来评分步均覆盖该试次真实箱体。原 V1 框与目标 padded 足迹间隙为 **0**，候选框首步间隙为 **0.261 m**。候选框与 300 条 rollout 均无相交，其中 299 条保持至少 0.02 m 预测间隙；剩余一条只承担原 critic 的 near penalty。按原温度重算 MPPI 权重并执行原滤波，基线重放控制误差小于 `6e-8`。
@@ -45,6 +51,12 @@ python3 experiments/dynamic_prediction_v1/frozen_cycle/calibrated_scan_support_p
   --historical-root /home/wpie/tdt_p2b/runs \
   --phase-trial build/dynamic_prediction_runs/rank_phase4_20260924_02/candidate_navfn_1 \
   --output docs/dynamic_navigation/evidence/calibrated_scan_support_20260925/summary.json
+
+python3 experiments/dynamic_prediction_v1/frozen_cycle/calibrated_scan_support_probe.py \
+  --historical-root /home/wpie/tdt_p2b/runs \
+  --phase-trial build/dynamic_prediction_runs/rank_phase4_20260924_02/candidate_navfn_1 \
+  --phase-pose-source recorded_odom \
+  --output docs/dynamic_navigation/evidence/calibrated_scan_support_20260925/recorded_odom_phase4.json
 ```
 
-下一步应把这个探针拆成两项可检验约束：从**实际可获得的 scan/TF**推导簇关联与测量误差，及从可观测历史和障碍物运动能力推导换向时速度/加速度范围。若仍只能得到经验界，必须保留它的非安全性质，并重新验证相应安全门。未经这些验证，不将本候选写入线上 critic。
+后续的[过去扫描条件运动界实验](causal_scan_bound_probe_20260925.md)用两个过去源时刻扫描中点估计速度，并以经验源误差及夹具加速度计算未来误差范围。它在留出数据中零漏包，却使固定周期 263 的 300 条 rollout 全部被预测为相交，不能取代当前 V1 输入。仍需从可部署传感器与障碍物运动能力验证误差界；未经这些验证，不将本候选写入线上 critic。

@@ -2,10 +2,12 @@
 """Reconstruct source-scan clusters and audit geometry on the known fixture.
 
 Uses the existing static map and candidate/cluster filters. Gazebo robot pose
-transforms raw scan rays; box truth is used only to score selected clusters.
+or the recorded simulation odometry transforms raw scan rays; box truth is
+used only to score selected clusters.
 No tracker/KF update is implemented or changed.
 """
 import argparse
+import bisect
 from collections import defaultdict
 import json
 import math
@@ -77,10 +79,30 @@ def fitted_velocity(history):
                  for axis in (0, 1))
 
 
-def one_trial(trial, messages, occupancy, return_source_rows=False):
+def trajectory_pose(rows, times, t):
+    index = bisect.bisect_right(times, t)
+    if index == 0 or index == len(times):
+        return None
+    a, b = rows[index - 1], rows[index]
+    fraction = (t - a["t"]) / (b["t"] - a["t"])
+    yaw_delta = math.remainder(b["yaw"] - a["yaw"], 2 * math.pi)
+    return (a["x"] + fraction * (b["x"] - a["x"]),
+            a["y"] + fraction * (b["y"] - a["y"]),
+            a["yaw"] + fraction * yaw_delta)
+
+
+def one_trial(trial, messages, occupancy, return_source_rows=False,
+              pose_source="gazebo"):
+    if pose_source not in ("gazebo", "recorded_odom"):
+        raise ValueError("unknown scan pose source")
     rows = rows_from_transport(trial / "gazebo_poses.jsonl")
     times = [row["t"] for row in rows]
     at = interpolator(rows)
+    trajectory = ([json.loads(line) for line in
+                   (trial / "observation/trajectory.jsonl").open()]
+                  if pose_source == "recorded_odom" else None)
+    trajectory_times = ([row["t"] for row in trajectory]
+                        if trajectory is not None else None)
     scans = {round(scan["t"], 6): scan for line in
              (trial / "observation/scans.jsonl").open()
              if (scan := json.loads(line))}
@@ -89,6 +111,8 @@ def one_trial(trial, messages, occupancy, return_source_rows=False):
     seen = set()
     counts = defaultdict(int)
     examples = {}
+    pose_translation_differences = []
+    pose_yaw_differences = []
     for message in messages:
         confirmed = [track for track in message["tracks"] if track["state"] == 2]
         if len(confirmed) != 1 or not message.get("complete"):
@@ -113,7 +137,17 @@ def one_trial(trial, messages, occupancy, return_source_rows=False):
         if scan["frame"] != "sim_lidar_link":
             raise ValueError("scan frame requires an explicit calibrated transform")
         pose = at(t)
-        endpoints = scan_points(scan, pose["robot"])
+        robot = (trajectory_pose(trajectory, trajectory_times, t)
+                 if trajectory is not None else pose["robot"])
+        if robot is None:
+            counts["recorded_odom_time_missing"] += 1
+            continue
+        pose_translation_differences.append(math.hypot(
+            robot[0] - pose["robot"][0],
+            robot[1] - pose["robot"][1]))
+        pose_yaw_differences.append(abs(math.remainder(
+            robot[2] - pose["robot"][2], 2 * math.pi)))
+        endpoints = scan_points(scan, robot)
         candidates = dynamic_candidates(endpoints, occupancy, .25, True)
         detections = filter_detections_near_static(
             cluster_points(candidates, .20, 3, 1.5), occupancy, .35)
@@ -136,7 +170,7 @@ def one_trial(trial, messages, occupancy, return_source_rows=False):
         if len(matches) != 1:
             raise ValueError("could not uniquely recover existing core cluster")
         observed = [(point.x, point.y) for point in matches[0]]
-        group = side(pose["robot"][0], track["xy"][0])
+        group = side(robot[0], track["xy"][0])
         raw_mean = tuple(sum(point[axis] for point in observed) / len(observed)
                          for axis in (0, 1))
         if (abs(raw_mean[0] - detection.centroid.x) > 1e-6 or
@@ -196,7 +230,13 @@ def one_trial(trial, messages, occupancy, return_source_rows=False):
         all_samples.append(row)
         if t in (46.201, 49.633):
             examples[str(t)] = row
-    output = {"trial": str(trial), "counts": dict(counts),
+    output = {"trial": str(trial), "pose_source": pose_source,
+              "counts": dict(counts),
+              "pose_source_vs_gazebo": {
+                  "sample_count": len(pose_translation_differences),
+                  "max_translation_m": max(pose_translation_differences,
+                                           default=None),
+                  "max_yaw_rad": max(pose_yaw_differences, default=None)},
               "source_sha256": {"gazebo_poses": digest(trial / "gazebo_poses.jsonl"),
                                 "scans": digest(trial / "observation/scans.jsonl")},
               "by_side": {}, "selected_examples": examples}
@@ -204,6 +244,9 @@ def one_trial(trial, messages, occupancy, return_source_rows=False):
         output["source_sha256"]["predictions"] = digest(trial / "predictions.jsonl")
     if (trial / "profile.yaml").exists():
         output["source_sha256"]["profile"] = digest(trial / "profile.yaml")
+    if trajectory is not None:
+        output["source_sha256"]["recorded_odom_trajectory"] = digest(
+            trial / "observation/trajectory.jsonl")
     recent = []
     for row in sorted(all_samples, key=lambda item: item["source_t"]):
         if not near_full_span(row):

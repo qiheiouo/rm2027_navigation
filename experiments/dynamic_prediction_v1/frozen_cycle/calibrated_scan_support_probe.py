@@ -294,7 +294,7 @@ def key_cycle(trial, phase_rows, models):
             "variants": variants}
 
 
-def run(historical_root, phase_trial):
+def run(historical_root, phase_trial, phase_pose_source="gazebo"):
     occupancy, _ = static_map()
     historical = []
     historical_records = []
@@ -323,7 +323,8 @@ def run(historical_root, phase_trial):
     models = {"global": global_model, "east": east_model}
     phase_audit, phase_rows = one_trial(phase_trial,
                                         training_messages(phase_trial),
-                                        occupancy, return_source_rows=True)
+                                        occupancy, return_source_rows=True,
+                                        pose_source=phase_pose_source)
     phase_truth = rows_from_transport(phase_trial / "gazebo_poses.jsonl")
     phase_records = list(samples(phase_rows, phase_truth))
     evaluations = {
@@ -343,9 +344,12 @@ def run(historical_root, phase_trial):
         leave_one_trial_out.append({"trial": name, "model": model,
                                     "heldout": evaluate(model, test_records)})
     return {"schema": "rm_historical_scan_support_phase4_holdout/v1",
-            "scope": "Old trials only fit empirical center/velocity error envelopes; phase-4 trial is held out. Truth transforms source scans and validates future coverage. Not a runtime safety bound.",
+            "scope": "Old trials only fit empirical center/velocity error envelopes using Gazebo robot pose. Phase-4 trial is held out and its scan pose source is selected explicitly. Gazebo obstacle truth only validates future coverage. Not a runtime safety bound.",
             "historical": historical,
             "phase4": {"trial": str(phase_trial),
+                       "scan_pose_source": phase_pose_source,
+                       "pose_source_vs_gazebo": phase_audit[
+                           "pose_source_vs_gazebo"],
                        "source_sha256": phase_audit["source_sha256"]},
             "models": models, "evaluations": evaluations,
             "historical_leave_one_trial_out": leave_one_trial_out,
@@ -358,9 +362,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--historical-root", type=Path, required=True)
     parser.add_argument("--phase-trial", type=Path, required=True)
+    parser.add_argument("--phase-pose-source", choices=("gazebo", "recorded_odom"),
+                        default="gazebo")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    result = run(args.historical_root, args.phase_trial)
+    result = run(args.historical_root, args.phase_trial,
+                 args.phase_pose_source)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"models": result["models"],
