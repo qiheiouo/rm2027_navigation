@@ -58,6 +58,30 @@
       "truth_safe_within_prediction_horizon": 16,
       "truth_unsafe_within_horizon_and_predicted_gap_at_least_0_02m": 0
     },
+    "score_replay": {
+      "baseline": {
+        "full_3s_open_loop_truth_body_min_gap_m": 0.009435515466096334,
+        "full_3s_truth_safe_rollout_probability_mass": 0.03140811249613762,
+        "returned_control_vx_vy_wz": [
+          -0.3785583972930908,
+          0.14060921967029572,
+          -0.14525827765464783
+        ]
+      },
+      "baseline_replay_max_control_error": 1.1920928955078125e-07,
+      "candidate": {
+        "full_3s_open_loop_truth_body_min_gap_m": 0.009435515466096334,
+        "full_3s_truth_safe_rollout_probability_mass": 0.03140810877084732,
+        "returned_control_vx_vy_wz": [
+          -0.37855836749076843,
+          0.14060921967029572,
+          -0.14525829255580902
+        ]
+      },
+      "candidate_hard_collision_rollouts": 300,
+      "cycle_id": 162,
+      "maximum_prediction_score_change": 0.0001220703125
+    },
     "source_anchored": {
       "empty_source_sets": 0,
       "future_samples": 660,
@@ -406,6 +430,34 @@
       "truth_safe_within_horizon_and_predicted_gap_at_least_0_02m": 145,
       "truth_safe_within_prediction_horizon": 300,
       "truth_unsafe_within_horizon_and_predicted_gap_at_least_0_02m": 0
+    },
+    "score_replay": {
+      "baseline": {
+        "full_3s_open_loop_endpoint_goal_distance_m": 0.3585282845303077,
+        "full_3s_open_loop_truth_body_min_gap_m": 0.2331782407006191,
+        "full_3s_truth_safe_rollout_probability_mass": 0.8997135758399963,
+        "goal_position_rollout_probability_mass": 0.0,
+        "returned_control_vx_vy_wz": [
+          0.15186120569705963,
+          0.13387086987495422,
+          -0.1607886552810669
+        ]
+      },
+      "baseline_replay_max_control_error": 5.960464477539063e-08,
+      "candidate": {
+        "full_3s_open_loop_endpoint_goal_distance_m": 0.2795288363941165,
+        "full_3s_open_loop_truth_body_min_gap_m": 0.21863445784629965,
+        "full_3s_truth_safe_rollout_probability_mass": 0.9214196801185608,
+        "goal_position_rollout_probability_mass": 0.06809885799884796,
+        "returned_control_vx_vy_wz": [
+          0.0856756865978241,
+          0.161624938249588,
+          -0.190721794962883
+        ]
+      },
+      "candidate_hard_collision_rollouts": 123,
+      "cycle_id": 263,
+      "maximum_prediction_score_change": 1666.6666259765625
     },
     "source_anchored": {
       "empty_source_sets": 0,

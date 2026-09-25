@@ -5,14 +5,17 @@ import json
 import math
 from pathlib import Path
 
+import numpy as np
 import yaml
 
 import analyze
-from analyze import event, interpolated_pose, last, placed, polygon_distance, read_cycle, rows_from_transport
+from analyze import (critic_deltas, event, interpolated_pose, last, placed,
+                     polygon_distance, read_cycle, rows_from_transport)
 from causal_scan_bound_probe import fit_source_error, deficit
 from envelope import AxisBox
 from heldout_geometry_audit import digest, recorded_messages
 from raw_scan_support_audit import EXTENT, near_full_span, one_trial, static_map, training_messages
+import replay_ranking
 
 
 def clip_polygon(vertices, a, b, limit):
@@ -282,6 +285,111 @@ def key_cycle(model, trial, sources, cycle_id):
     return output
 
 
+
+
+def score_replay(model, trial, sources, cycle_id):
+    cycle_path = trial / f"mppi_cycles/cycle_{cycle_id}.json"
+    meta, arrays = read_cycle(cycle_path)
+    prediction = event(meta, "prediction.input")
+    settings = event(meta, "settings")
+    row = next(row for row in sources if
+               row["source_t"] == prediction["source_stamp_ns"] / 1e9)
+    profile = yaml.safe_load((trial / "profile.yaml").read_text())
+    params = profile["controller_server"]["ros__parameters"]["FollowPath"][
+        "PredictionV1Critic"]
+    dt = settings["dt"]
+    age = prediction["source_age_s"]
+    x, y, yaw = (last(arrays, f"rollout.{axis}")
+                 for axis in ("x", "y", "yaw"))
+    steps = min(x.shape[1], int(float(params["horizon"]) / dt + 1e-9))
+    _, truth_records = analyze.analyze(
+        cycle_path, trial / "profile.yaml", trial / "gazebo_poses.jsonl")
+    terms, _ = critic_deltas(arrays)
+    original_term = terms["FollowPath.PredictionV1Critic"].astype(np.float32)
+    old_weights = last(arrays, "weighted.probability")
+    old_costs = last(arrays, "weighted.costs")
+    history = replay_ranking.history_from_trial(
+        trial / "mppi_cycles", cycle_id, arrays)
+    old_control = replay_ranking.aggregate(
+        arrays, settings, history, old_weights)
+    baseline_error = max(float(np.max(np.abs(
+        old_control[axis] - last(arrays, f"after_filter.{axis}"))))
+        for axis in ("vx", "vy", "wz"))
+    if baseline_error > 1e-5:
+        raise ValueError("baseline control sequence did not replay")
+    new_scores = np.empty(x.shape[0], dtype=np.float32)
+    new_collisions = 0
+    for i in range(x.shape[0]):
+        near = 0
+        collision = False
+        for j in range(steps):
+            footprint = placed(meta["padded_footprint"],
+                               (float(x[i, j]), float(y[i, j]),
+                                float(yaw[i, j])))
+            gap = polygon_distance(
+                footprint, box(model, row, age + (j + 1) * dt).polygon())
+            if gap <= 1e-9:
+                collision = True
+                break
+            if gap < .02:
+                near += 1
+        if collision:
+            new_collisions += 1
+            repulsive = 1e6
+            if params.get("collision_rank_mode", "legacy") == "uniform_center_overlap":
+                repulsive *= 1. + truth_records[i][
+                    "uniform_center_overlap_fraction"]
+        else:
+            repulsive = 300. * near
+        new_scores[i] = np.float32((3.81 / 254.) * repulsive / steps)
+    new_weights = replay_ranking.probabilities(
+        old_costs.astype(np.float32) - original_term + new_scores,
+        settings["temperature"])
+    new_control = replay_ranking.aggregate(
+        arrays, settings, history, new_weights)
+    truth = rows_from_transport(trial / "gazebo_poses.jsonl")
+    truth_times = [entry["t"] for entry in truth]
+    body = yaml.safe_load(profile["local_costmap"]["local_costmap"][
+        "ros__parameters"]["footprint"])
+    physical_box = analyze.obstacle_polygon()
+    truth_safe = np.asarray([
+        record["truth_dynamic_safe"] and
+        not record["costcritic_collision"] for record in truth_records])
+    goal_path = trial / "runtime_audit.json"
+    goal = (tuple(json.loads(goal_path.read_text())["navigation_result"]["goal"])
+            if goal_path.exists() else None)
+    goal_rollouts = (np.hypot(x[:, -1] - goal[0], y[:, -1] - goal[1]) <= .15
+                     if goal else None)
+
+    def metrics(control, weights):
+        gap, _ = replay_ranking.open_loop_gap(
+            control, meta, settings, truth, truth_times, body,
+            physical_box, prediction["consumer_sim_s"])
+        result = {
+            "returned_control_vx_vy_wz": [
+                float(control[axis][settings["offset"]])
+                for axis in ("vx", "vy", "wz")],
+            "full_3s_truth_safe_rollout_probability_mass": float(
+                np.sum(weights[truth_safe])),
+            "full_3s_open_loop_truth_body_min_gap_m": gap}
+        if goal_rollouts is not None:
+            result["goal_position_rollout_probability_mass"] = float(
+                np.sum(weights[goal_rollouts]))
+            path = analyze.integrate_omni(
+                *(control[axis] for axis in ("vx", "vy", "wz")),
+                meta["pose"], dt)
+            result["full_3s_open_loop_endpoint_goal_distance_m"] = math.hypot(
+                float(path[0][-1]) - goal[0], float(path[1][-1]) - goal[1])
+        return result
+
+    return {"cycle_id": cycle_id,
+            "baseline_replay_max_control_error": baseline_error,
+            "candidate_hard_collision_rollouts": new_collisions,
+            "maximum_prediction_score_change": float(np.max(np.abs(
+                original_term - new_scores))),
+            "baseline": metrics(old_control, old_weights),
+            "candidate": metrics(new_control, new_weights)}
+
 def run(historical_root, phase_trial, collision_trial=None):
     occupancy, _ = static_map()
     trials = []
@@ -316,7 +424,8 @@ def run(historical_root, phase_trial, collision_trial=None):
             "phase4": {"source_sha256": phase_audit["source_sha256"],
                        "source_anchored": evaluate(model, sources, rows_from_transport(phase_trial / "gazebo_poses.jsonl")),
                        "actual_consumer": consumed_coverage(model, phase_trial, sources),
-                       "key_cycle": key_cycle(model, phase_trial, sources, 263)}}
+                       "key_cycle": key_cycle(model, phase_trial, sources, 263),
+                       "score_replay": score_replay(model, phase_trial, sources, 263)}}
     if collision_trial is not None:
         collision_audit, collision_rows = one_trial(
             collision_trial, training_messages(collision_trial), occupancy,
@@ -328,7 +437,9 @@ def run(historical_root, phase_trial, collision_trial=None):
                                         rows_from_transport(collision_trial / "gazebo_poses.jsonl")),
             "actual_consumer": consumed_coverage(model, collision_trial,
                                                   collision_sources),
-            "key_cycle": key_cycle(model, collision_trial, collision_sources, 162)}
+            "key_cycle": key_cycle(model, collision_trial, collision_sources, 162),
+            "score_replay": score_replay(model, collision_trial,
+                                         collision_sources, 162)}
     return result
 
 
