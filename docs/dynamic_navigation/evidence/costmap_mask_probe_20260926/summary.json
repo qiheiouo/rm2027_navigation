@@ -1,15 +1,28 @@
 {
-  "captured_costcritic_collisions": 44,
-  "captured_mask_mismatch_count": 0,
-  "captured_mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
-  "fixture_exporter_sha256": "ef4e6a9d813654f438eb8b8a9f4b3b63fd6afe503fef281d78146f4f3652f58b",
+  "captured_baseline": {
+    "captured_costcritic_collisions": 44,
+    "cycle_bin_sha256": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+    "cycle_json_sha256": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+    "mask_mismatch_count": 0,
+    "mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
+    "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640"
+  },
+  "captured_holdout": {
+    "captured_costcritic_collisions": 29,
+    "cycle_bin_sha256": "e2687293de2d04f6bc4ed7992ca1fe8a33b30c276bb48901e63ea855ba3336fb",
+    "cycle_json_sha256": "6630ab2706d6a63aceaf7ac6eedfcbcaee80ac1531dadac30d73e8a01c0454db",
+    "mask_mismatch_count": 0,
+    "mask_sha256": "2e440ee7a478443e0f61a3f8ed17d4656f980ee58b968b4316c3962334795b2f",
+    "profile_sha256": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178"
+  },
+  "fixture_exporter_sha256": "6baa44b0f1878dd0dfa309598342745f15425de4a55fb11887f4c29d4b0aa758",
   "image_id": "sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6",
   "native_executable_sha256": "b529048e2b06b635432e695df5f9fdb7780643f97ab066db04f5a8ede4aa2df3",
   "native_source_sha256": "d76a37036dda13e7738fddead5563d74a8ea678c840556e2c17ee400b18db0fc",
   "raw_cycle_sha256": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
   "sampling_evidence_sha256": "b898485c82ef6ffd3f812eafb4ec2334b02b4b2b4f97f2eb1a90dca6b6927a1b",
   "schema": "rm_dynamic_prediction_native_costmap_mask_audit/v1",
-  "scope": "Frozen raw costmap, padded footprint and 30-step trajectories. Installed Nav2 FootprintCollisionChecker with source-matched CostCritic inflation shortcut. Baseline 300 collision marks must match the captured mask exactly. New sampled trajectories are truth-labeled offline; no other critic or final control is run. This is not a full MPPI replay or control-cycle timing.",
+  "scope": "Frozen raw costmap, padded footprint and 30-step trajectories. Installed Nav2 FootprintCollisionChecker with source-matched CostCritic inflation shortcut. Baseline and independent phase-4 holdout 300-row collision masks must match capture exactly. New sampled trajectories are truth-labeled offline; no other critic or final control is run. This is not a full MPPI replay or control-cycle timing.",
   "trials": [
     {
       "mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",

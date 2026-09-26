@@ -11,18 +11,31 @@ import analyze
 from batch_sampling_probe import BATCHES, digest, geometry_labels, sample_omni
 
 
-def run(trial, cycle_id, mask_dir, sampling_evidence, executable, image_id):
+def verify_mask(cycle, mask_path):
+    _, arrays = analyze.read_cycle(cycle)
+    captured = np.asarray(analyze.last(arrays, "cost_critic.collisions"),
+                          dtype=bool)
+    mirrored = np.loadtxt(mask_path, dtype=bool)
+    if mirrored.shape != captured.shape:
+        raise ValueError(f"native mask length differs: {cycle}")
+    mismatch = np.flatnonzero(mirrored != captured)
+    if len(mismatch):
+        raise ValueError(f"native mask differs at {mismatch.tolist()}: {cycle}")
+    return {"cycle_json_sha256": digest(cycle),
+            "cycle_bin_sha256": digest(cycle.with_suffix(".bin")),
+            "profile_sha256": digest(cycle.parent.parent / "profile.yaml"),
+            "mask_sha256": digest(mask_path),
+            "captured_costcritic_collisions": int(captured.sum()),
+            "mask_mismatch_count": 0}
+
+
+def run(trial, cycle_id, mask_dir, sampling_evidence, executable, image_id,
+        holdout_cycle, holdout_mask):
     cycle = trial / "mppi_cycles" / f"cycle_{cycle_id}.json"
     meta, arrays = analyze.read_cycle(cycle)
-    original = np.asarray(analyze.last(arrays, "cost_critic.collisions"),
-                          dtype=bool)
     captured_path = mask_dir / "captured_mask.txt"
-    mirrored = np.loadtxt(captured_path, dtype=bool)
-    if mirrored.shape != original.shape:
-        raise ValueError("native baseline mask length differs")
-    mismatches = np.flatnonzero(mirrored != original)
-    if len(mismatches):
-        raise ValueError(f"native mask differs at {mismatches.tolist()}")
+    baseline = verify_mask(cycle, captured_path)
+    holdout = verify_mask(holdout_cycle, holdout_mask)
     sampling = json.loads(sampling_evidence.read_text())
     if sampling["input_sha256"]["cycle_json"] != digest(cycle):
         raise ValueError("sampling evidence uses another frozen cycle")
@@ -70,7 +83,7 @@ def run(trial, cycle_id, mask_dir, sampling_evidence, executable, image_id):
                        "prefixes": prefixes})
     return {
         "schema": "rm_dynamic_prediction_native_costmap_mask_audit/v1",
-        "scope": "Frozen raw costmap, padded footprint and 30-step trajectories. Installed Nav2 FootprintCollisionChecker with source-matched CostCritic inflation shortcut. Baseline 300 collision marks must match the captured mask exactly. New sampled trajectories are truth-labeled offline; no other critic or final control is run. This is not a full MPPI replay or control-cycle timing.",
+        "scope": "Frozen raw costmap, padded footprint and 30-step trajectories. Installed Nav2 FootprintCollisionChecker with source-matched CostCritic inflation shortcut. Baseline and independent phase-4 holdout 300-row collision masks must match capture exactly. New sampled trajectories are truth-labeled offline; no other critic or final control is run. This is not a full MPPI replay or control-cycle timing.",
         "image_id": image_id,
         "native_executable_sha256": digest(executable),
         "native_source_sha256": digest(Path(__file__).parent /
@@ -79,9 +92,8 @@ def run(trial, cycle_id, mask_dir, sampling_evidence, executable, image_id):
                                            "costmap_mask_fixture.py"),
         "sampling_evidence_sha256": digest(sampling_evidence),
         "raw_cycle_sha256": digest(cycle),
-        "captured_mask_sha256": digest(captured_path),
-        "captured_costcritic_collisions": int(original.sum()),
-        "captured_mask_mismatch_count": int(len(mismatches)),
+        "captured_baseline": baseline,
+        "captured_holdout": holdout,
         "trials": trials,
     }
 
@@ -94,13 +106,18 @@ if __name__ == "__main__":
     parser.add_argument("--sampling-evidence", type=Path, required=True)
     parser.add_argument("--native-executable", type=Path, required=True)
     parser.add_argument("--image-id", required=True)
+    parser.add_argument("--holdout-cycle", type=Path, required=True)
+    parser.add_argument("--holdout-mask", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(args.output)
     result = run(args.trial, args.cycle_id, args.mask_dir,
-                 args.sampling_evidence, args.native_executable, args.image_id)
+                 args.sampling_evidence, args.native_executable, args.image_id,
+                 args.holdout_cycle, args.holdout_mask)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"captured_mismatches": result[
-        "captured_mask_mismatch_count"], "output": str(args.output)}))
+    print(json.dumps({"baseline_mismatches": result[
+        "captured_baseline"]["mask_mismatch_count"],
+        "holdout_mismatches": result["captured_holdout"][
+            "mask_mismatch_count"], "output": str(args.output)}))

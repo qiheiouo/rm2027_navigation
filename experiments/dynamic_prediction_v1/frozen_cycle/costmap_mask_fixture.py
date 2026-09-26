@@ -57,7 +57,7 @@ def run(cycle, output_dir, seeds):
         export(output_dir / f"seed_{seed}.bin", meta, raw, sampled, threshold)
     return {"cycle": str(cycle), "seeds": seeds,
             "captured_count": captured[0].shape[0],
-            "sampled_count": 2000,
+            "sampled_count": 2000 if seeds else 0,
             "footprint_vertices": len(footprint),
             "possibly_inscribed_cost_threshold": threshold}
 

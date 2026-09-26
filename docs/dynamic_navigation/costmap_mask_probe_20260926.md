@@ -4,9 +4,9 @@
 
 ## 原生判据一致性
 
-[输入导出器](../../experiments/dynamic_prediction_v1/frozen_cycle/costmap_mask_fixture.py)只取周期 162 的持锁 raw local costmap、padded 八边形及捕获/新采样的 30 步位姿。[隔离 C++ 工具](../../experiments/dynamic_prediction_v1/frozen_cycle/costmap_mask_probe_cpp/src/costmap_mask_probe.cpp)链接镜像中已安装的 Nav2 `FootprintCollisionChecker`，并沿用 CostCritic 的中心点成本检查、局部 inflation layer 在外接半径处的快捷阈值与未知空间判据。当前冻结配置算得快捷阈值为 **203**。先复算原始 300 条：**44 条 CostCritic 碰撞，工具也为 44 条，逐条 mismatch 0/300**。若此对齐失败，审计脚本拒绝报告新增 batch 的联合可行数。
+[输入导出器](../../experiments/dynamic_prediction_v1/frozen_cycle/costmap_mask_fixture.py)只取周期 162 的持锁 raw local costmap、padded 八边形及捕获/新采样的 30 步位姿。[隔离 C++ 工具](../../experiments/dynamic_prediction_v1/frozen_cycle/costmap_mask_probe_cpp/src/costmap_mask_probe.cpp)链接镜像中已安装的 Nav2 `FootprintCollisionChecker`，并沿用 CostCritic 的中心点成本检查、局部 inflation layer 在外接半径处的快捷阈值与未知空间判据。当前冻结配置算得快捷阈值为 **203**。先复算原始 300 条：**44 条 CostCritic 碰撞，工具也为 44 条，逐条 mismatch 0/300**。再在另一条归档的 phase 4 试次中按“首个 CostCritic 碰撞数不少于 20 的周期”选 ID 31：**29 条碰撞，逐条 mismatch 0/300**。两个校验中任一失败，审计脚本拒绝报告新增 batch 的联合可行数；目标附近 ID 263 也曾只读核对为双方 0/300，但不作为有碰撞的交叉门。
 
-工具在 ID `sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6` 的隔离镜像中以 `--parallel-workers 1`、`MAKEFLAGS=-j1`、`CMAKE_BUILD_PARALLEL_LEVEL=1` 构建。镜像及可执行文件、源码、导出器、采样证据和原始周期的摘要在[结果](evidence/costmap_mask_probe_20260926/summary.json)。该工具只复刻**碰撞标记**，没有重算 CostCritic 连续代价、其它 critic、softmax、滤波或命令，也没有增加运行时依赖或替换正式控制器。
+工具在 ID `sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6` 的隔离镜像中以 `--parallel-workers 1`、`MAKEFLAGS=-j1`、`CMAKE_BUILD_PARALLEL_LEVEL=1` 构建。镜像及可执行文件、源码、导出器、采样证据和两个原始周期的摘要在[结果](evidence/costmap_mask_probe_20260926/summary.json)；phase 4 的[周期 31 原始文件和 profile](evidence/costmap_mask_probe_20260926/holdout_trial/profile.yaml)随结果保存。该工具只复刻**碰撞标记**，没有重算 CostCritic 连续代价、其它 critic、softmax、滤波或命令，也没有增加运行时依赖或替换正式控制器。
 
 ## 四组固定随机前缀
 
@@ -26,7 +26,7 @@
 ## 复算与边界
 
 1. 在工作分支的 Docker 镜像中对 `costmap_mask_probe_cpp` 单任务构建；不使用旧已构建插件得出新结论。
-2. 用导出器生成 `captured.bin` 和四个种子的冻结位姿文件，再在同一镜像中逐个运行 `costmap_mask_probe`。
-3. 用[审计器](../../experiments/dynamic_prediction_v1/frozen_cycle/costmap_mask_audit.py)核对捕获 300 行 mask 完全一致，并计算四组交集；生成结果为上述 JSON。
+2. 用导出器生成周期 162 的 `captured.bin`、四个种子的冻结位姿文件及 phase 4 周期 31 的捕获文件，再在同一镜像中逐个运行 `costmap_mask_probe`。
+3. 用[审计器](../../experiments/dynamic_prediction_v1/frozen_cycle/costmap_mask_audit.py)核对两条捕获的 300 行 mask 完全一致，并计算四组交集；生成结果为上述 JSON。
 
 当前证据足以决定先研究预测评分与滤波后控制对齐，不支持改大默认 batch 或宣布 V1 可部署。完整本机性能上限还需同输入的原生 MPPI 全 critic 回放，随后才能讨论更大 batch 的控制与耗时。
