@@ -1,0 +1,114 @@
+{
+  "checks": {
+    "collision_147": {
+      "conditional_history_count": 2,
+      "cycle_bin_sha256": "2995497fb50ef401e6e976ceaaa9781c5db48435dd2cdddc37878883e2bad2d1",
+      "cycle_id": 147,
+      "cycle_json_sha256": "b5b06b67e2dc568a95bcda7d7affe6b9d33c311eb6a394c1fafd85b484704e86",
+      "inputs": {
+        "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "truth_sha256": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      },
+      "raw_safe_rollouts": 104,
+      "source_stamp_ns": 30691000000,
+      "variants": {
+        "uniform_feasible_polygon_marginal": {
+          "effective_sample_size": 30.180063247680664,
+          "filtered_aggregate_gap": {
+            "body_min_clearance_m": 0.03257096410719029,
+            "step": 17
+          },
+          "raw_safe_rollout_weight": 0.21090289950370789,
+          "risk_span": 0.005675699887951675,
+          "top_rollout": 252
+        },
+        "uniform_projected_interval": {
+          "effective_sample_size": 1.0622557401657104,
+          "filtered_aggregate_gap": {
+            "body_min_clearance_m": 0.11655275067543852,
+            "step": 19
+          },
+          "raw_safe_rollout_weight": 0.9993458986282349,
+          "risk_span": 0.041893552429339065,
+          "top_rollout": 143
+        }
+      }
+    },
+    "collision_162": {
+      "conditional_history_count": 14,
+      "cycle_bin_sha256": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+      "cycle_id": 162,
+      "cycle_json_sha256": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+      "inputs": {
+        "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "truth_sha256": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      },
+      "raw_safe_rollouts": 16,
+      "source_stamp_ns": 32209000000,
+      "variants": {
+        "uniform_feasible_polygon_marginal": {
+          "effective_sample_size": 1.0,
+          "filtered_aggregate_gap": {
+            "body_min_clearance_m": 0.09453696811270286,
+            "step": 4
+          },
+          "raw_safe_rollout_weight": 0.0,
+          "risk_span": 0.8997009061405101,
+          "top_rollout": 176
+        },
+        "uniform_projected_interval": {
+          "effective_sample_size": 1.0,
+          "filtered_aggregate_gap": {
+            "body_min_clearance_m": 0.09453696811270286,
+            "step": 4
+          },
+          "raw_safe_rollout_weight": 0.0,
+          "risk_span": 0.6392618103792999,
+          "top_rollout": 176
+        }
+      }
+    },
+    "goal_263": {
+      "conditional_history_count": 15,
+      "cycle_bin_sha256": "900990dee9c21a9c32587e38daeb70be614e7279d0e4e97e620bdcb53e86ae20",
+      "cycle_id": 263,
+      "cycle_json_sha256": "4e331d38e65ecbee38962d485601500f8e4d27509958d3273f8b1a75114f6223",
+      "inputs": {
+        "profile_sha256": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+        "truth_sha256": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4"
+      },
+      "raw_safe_rollouts": 288,
+      "source_stamp_ns": 46201000000,
+      "variants": {
+        "uniform_feasible_polygon_marginal": {
+          "effective_sample_size": 90.299072265625,
+          "endpoint_goal_position_distance_m": 0.23989679928830537,
+          "filtered_aggregate_gap": {
+            "body_min_clearance_m": 0.22152648901236105,
+            "step": 24
+          },
+          "goal_position_rollout_weight": 0.20310190320014954,
+          "raw_safe_rollout_weight": 0.8914318084716797,
+          "risk_span": 0.0,
+          "top_rollout": 225
+        },
+        "uniform_projected_interval": {
+          "effective_sample_size": 24.49704933166504,
+          "endpoint_goal_position_distance_m": 0.35390709423931244,
+          "filtered_aggregate_gap": {
+            "body_min_clearance_m": 0.23832165307680092,
+            "step": 27
+          },
+          "goal_position_rollout_weight": 0.008654652163386345,
+          "raw_safe_rollout_weight": 0.9572158455848694,
+          "risk_span": 0.008243631557772035,
+          "top_rollout": 18
+        }
+      }
+    }
+  },
+  "margin_m": 0.15,
+  "model_evidence_sha256": "e87c6f9477ea755b02b8359e43ef346d02f91d2760113bbbec41714d44004c00",
+  "schema": "rm_dynamic_prediction_polygon_marginal_probe/v1",
+  "scope": "Fixed three previously identified diagnostic cycles; no score parameter fitted to truth. Uniform feasible-polygon and acceleration assumptions are uncalibrated."
+}
