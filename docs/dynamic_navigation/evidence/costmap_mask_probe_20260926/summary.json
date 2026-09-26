@@ -1,0 +1,119 @@
+{
+  "captured_costcritic_collisions": 44,
+  "captured_mask_mismatch_count": 0,
+  "captured_mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
+  "fixture_exporter_sha256": "ef4e6a9d813654f438eb8b8a9f4b3b63fd6afe503fef281d78146f4f3652f58b",
+  "image_id": "sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6",
+  "native_executable_sha256": "b529048e2b06b635432e695df5f9fdb7780643f97ab066db04f5a8ede4aa2df3",
+  "native_source_sha256": "d76a37036dda13e7738fddead5563d74a8ea678c840556e2c17ee400b18db0fc",
+  "raw_cycle_sha256": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+  "sampling_evidence_sha256": "b898485c82ef6ffd3f812eafb4ec2334b02b4b2b4f97f2eb1a90dca6b6927a1b",
+  "schema": "rm_dynamic_prediction_native_costmap_mask_audit/v1",
+  "scope": "Frozen raw costmap, padded footprint and 30-step trajectories. Installed Nav2 FootprintCollisionChecker with source-matched CostCritic inflation shortcut. Baseline 300 collision marks must match the captured mask exactly. New sampled trajectories are truth-labeled offline; no other critic or final control is run. This is not a full MPPI replay or control-cycle timing.",
+  "trials": [
+    {
+      "mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "prefixes": {
+        "1000": {
+          "costcritic_collision": 155,
+          "dynamic_safe": 41,
+          "dynamic_safe_and_costcritic_clear": 40
+        },
+        "2000": {
+          "costcritic_collision": 306,
+          "dynamic_safe": 94,
+          "dynamic_safe_and_costcritic_clear": 93
+        },
+        "300": {
+          "costcritic_collision": 41,
+          "dynamic_safe": 10,
+          "dynamic_safe_and_costcritic_clear": 10
+        },
+        "600": {
+          "costcritic_collision": 86,
+          "dynamic_safe": 24,
+          "dynamic_safe_and_costcritic_clear": 24
+        }
+      },
+      "seed": 0
+    },
+    {
+      "mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "prefixes": {
+        "1000": {
+          "costcritic_collision": 137,
+          "dynamic_safe": 41,
+          "dynamic_safe_and_costcritic_clear": 40
+        },
+        "2000": {
+          "costcritic_collision": 284,
+          "dynamic_safe": 91,
+          "dynamic_safe_and_costcritic_clear": 89
+        },
+        "300": {
+          "costcritic_collision": 44,
+          "dynamic_safe": 13,
+          "dynamic_safe_and_costcritic_clear": 13
+        },
+        "600": {
+          "costcritic_collision": 88,
+          "dynamic_safe": 20,
+          "dynamic_safe_and_costcritic_clear": 20
+        }
+      },
+      "seed": 1
+    },
+    {
+      "mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "prefixes": {
+        "1000": {
+          "costcritic_collision": 156,
+          "dynamic_safe": 35,
+          "dynamic_safe_and_costcritic_clear": 34
+        },
+        "2000": {
+          "costcritic_collision": 278,
+          "dynamic_safe": 83,
+          "dynamic_safe_and_costcritic_clear": 82
+        },
+        "300": {
+          "costcritic_collision": 41,
+          "dynamic_safe": 15,
+          "dynamic_safe_and_costcritic_clear": 15
+        },
+        "600": {
+          "costcritic_collision": 88,
+          "dynamic_safe": 24,
+          "dynamic_safe_and_costcritic_clear": 24
+        }
+      },
+      "seed": 2
+    },
+    {
+      "mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "prefixes": {
+        "1000": {
+          "costcritic_collision": 148,
+          "dynamic_safe": 38,
+          "dynamic_safe_and_costcritic_clear": 38
+        },
+        "2000": {
+          "costcritic_collision": 289,
+          "dynamic_safe": 83,
+          "dynamic_safe_and_costcritic_clear": 79
+        },
+        "300": {
+          "costcritic_collision": 43,
+          "dynamic_safe": 7,
+          "dynamic_safe_and_costcritic_clear": 7
+        },
+        "600": {
+          "costcritic_collision": 78,
+          "dynamic_safe": 18,
+          "dynamic_safe_and_costcritic_clear": 18
+        }
+      },
+      "seed": 3
+    }
+  ]
+}
