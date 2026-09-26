@@ -1,0 +1,163 @@
+{
+  "batches": [
+    300,
+    600,
+    1000,
+    2000
+  ],
+  "captured_dynamic_and_costcritic_safe_count": 16,
+  "captured_dynamic_safe_count": 16,
+  "captured_v1_predicted_collision_count": 300,
+  "cycle_id": 162,
+  "frozen_settings": {
+    "batch": 300,
+    "dt": 0.10000000149011612,
+    "gamma": 0.014999999664723873,
+    "iterations": 1,
+    "offset": 1,
+    "steps": 30,
+    "temperature": 0.30000001192092896,
+    "vx_max": 0.800000011920929,
+    "vx_min": -0.5,
+    "vx_std": 0.20000000298023224,
+    "vy_max": 0.5,
+    "vy_std": 0.20000000298023224,
+    "wz_max": 1.2000000476837158,
+    "wz_std": 0.4000000059604645
+  },
+  "input_sha256": {
+    "cycle_bin": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+    "cycle_json": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+    "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "truth": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+  },
+  "schema": "rm_dynamic_prediction_batch_sampling_probe/v1",
+  "scope": "Nested independent Gaussian control samples around the frozen Nav2 initial sequence, with the recorded pose/speed and Omni law. Ground truth labels dynamic geometry only. New samples do not have CostCritic/other critic scores or final control. Timing excludes ROS, critics and MPPI aggregation; not a control-cycle benchmark.",
+  "trials": [
+    {
+      "prefixes": {
+        "1000": {
+          "best_true_body_gap_m": 0.08782071339017337,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.041,
+          "true_dynamic_safe_count": 41
+        },
+        "2000": {
+          "best_true_body_gap_m": 0.1035877991311718,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.047,
+          "true_dynamic_safe_count": 94
+        },
+        "300": {
+          "best_true_body_gap_m": 0.08782071339017337,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.03333333333333333,
+          "true_dynamic_safe_count": 10
+        },
+        "600": {
+          "best_true_body_gap_m": 0.08782071339017337,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.04,
+          "true_dynamic_safe_count": 24
+        }
+      },
+      "sampling_seconds_for_2000": 0.0062444870000035735,
+      "seed": 0,
+      "truth_geometry_seconds_for_2000": 2.4054481260009197
+    },
+    {
+      "prefixes": {
+        "1000": {
+          "best_true_body_gap_m": 0.09517720204220124,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.041,
+          "true_dynamic_safe_count": 41
+        },
+        "2000": {
+          "best_true_body_gap_m": 0.10058742669247221,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.0455,
+          "true_dynamic_safe_count": 91
+        },
+        "300": {
+          "best_true_body_gap_m": 0.07516870035654853,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.043333333333333335,
+          "true_dynamic_safe_count": 13
+        },
+        "600": {
+          "best_true_body_gap_m": 0.09517720204220124,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.03333333333333333,
+          "true_dynamic_safe_count": 20
+        }
+      },
+      "sampling_seconds_for_2000": 0.0028383949993440183,
+      "seed": 1,
+      "truth_geometry_seconds_for_2000": 2.4043632299999445
+    },
+    {
+      "prefixes": {
+        "1000": {
+          "best_true_body_gap_m": 0.07889979463965248,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.035,
+          "true_dynamic_safe_count": 35
+        },
+        "2000": {
+          "best_true_body_gap_m": 0.08262661363832227,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.0415,
+          "true_dynamic_safe_count": 83
+        },
+        "300": {
+          "best_true_body_gap_m": 0.07889979463965248,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.05,
+          "true_dynamic_safe_count": 15
+        },
+        "600": {
+          "best_true_body_gap_m": 0.07889979463965248,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.04,
+          "true_dynamic_safe_count": 24
+        }
+      },
+      "sampling_seconds_for_2000": 0.0023394329982693307,
+      "seed": 2,
+      "truth_geometry_seconds_for_2000": 2.3832511810014694
+    },
+    {
+      "prefixes": {
+        "1000": {
+          "best_true_body_gap_m": 0.09995066361168349,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.038,
+          "true_dynamic_safe_count": 38
+        },
+        "2000": {
+          "best_true_body_gap_m": 0.11210712958165955,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.0415,
+          "true_dynamic_safe_count": 83
+        },
+        "300": {
+          "best_true_body_gap_m": 0.05934762383126824,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.023333333333333334,
+          "true_dynamic_safe_count": 7
+        },
+        "600": {
+          "best_true_body_gap_m": 0.09995066361168349,
+          "median_true_body_gap_m": 0.0,
+          "safe_fraction": 0.03,
+          "true_dynamic_safe_count": 18
+        }
+      },
+      "sampling_seconds_for_2000": 0.0022460159998445306,
+      "seed": 3,
+      "truth_geometry_seconds_for_2000": 2.389482037999187
+    }
+  ],
+  "v1_predicted_collision_invariant_at_first_step": true
+}
