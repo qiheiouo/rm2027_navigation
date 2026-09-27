@@ -155,6 +155,10 @@ def run(cycle, profile_path, truth_path, history_path, score_root, mask_dir):
             order = np.argsort(weighted)
             safe_indices = np.flatnonzero(joint[:batch])
             safe_ranks = np.flatnonzero(np.isin(order, safe_indices)) + 1
+            best_safe_minus_unsafe = (float(
+                np.min(weighted[safe_indices]) -
+                np.min(weighted[~joint[:batch]]))
+                if len(safe_indices) and len(safe_indices) < batch else None)
             elapsed_ns = [int(value) for value in
                           (base / "time_ns.txt").read_text().split()]
             score_match = re.search(r"^score_eval_ms=([0-9.]+)$",
@@ -167,6 +171,7 @@ def run(cycle, profile_path, truth_path, history_path, score_root, mask_dir):
                 "joint_safe_count": int(len(safe_indices)),
                 "best_true_body_gap_m": float(np.max(body_gaps[:batch])),
                 "best_joint_safe_rank": int(safe_ranks[0]) if len(safe_ranks) else None,
+                "best_safe_minus_unsafe_weighted_score": best_safe_minus_unsafe,
                 "minimum_score_rollout_joint_safe": bool(joint[order[0]]),
                 "top_10_joint_safe_count": int(np.sum(joint[order[:10]])),
                 "joint_safe_probability_mass": float(np.sum(
