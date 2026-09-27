@@ -31,12 +31,14 @@ def export(path, meta, raw, trajectory, footprint_threshold):
         output.write(poses.tobytes())
 
 
-def run(cycle, output_dir, seeds):
+def run(cycle, output_dir, seeds, profile=None):
     if output_dir.exists():
         raise FileExistsError(output_dir)
     meta, arrays = analyze.read_cycle(cycle)
     raw = analyze.last(arrays, "locked.raw_map")
-    local = yaml.safe_load((cycle.parent.parent / "profile.yaml").read_text())[
+    if profile is None:
+        profile = cycle.parent.parent / "profile.yaml"
+    local = yaml.safe_load(profile.read_text())[
         "local_costmap"]["local_costmap"]["ros__parameters"]
     footprint = meta["padded_footprint"]
     circumscribed = max(math.hypot(*point) for point in footprint)
