@@ -1,5 +1,7 @@
 # 冻结周期原生 critic 与 batch 敏感性（2026-09-28）
 
+后续[有界 PathAlign 回放](guarded_path_align_replay_20260928.md)给路径末端查找定义确定行为，并对同一 16 组重新评分：最低分轨迹有 7 组改变，滤波后聚合仍 0/16 达动态间隙门。本页下方原生排序数字保留为当时的记录，不能作为有界算法的排序基准。
+
 ## 范围与输入
 
 本轮只使用 Navfn+V1 碰撞首例的周期 162。原始周期、profile 与真值窗口已存于[冻结证据](evidence/frozen_cycle_probe_20260924/summary.json)；前四周期的输出及原文件哈希另存于[控制历史](evidence/native_critic_sensitivity_20260926/control_history_158_161.json)。地图、路径、机器人位姿/速度、初始控制序列、tracker 输入和 source stamp 均来自同一周期。四个固定随机种子分别生成 2000 条 Omni 控制样本，每个种子的 300/600/1000/2000 条是同一序列的前缀。没有运行新仿真相位，也没有更改正式 Nav2 配置、tracker 或安全门。

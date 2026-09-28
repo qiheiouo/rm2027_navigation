@@ -2,6 +2,8 @@
 
 状态：**离线真值上界诊断完成；未形成可部署的预测 critic 或安全策略。** 本实验接续[原生 critic 和 batch 敏感性](native_critic_batch_sensitivity_20260928.md)，只复用 Navfn+V1 碰撞首例周期 162 的原始捕获、同一地图/路径/tracker 输入、四个固定种子及 300/600/1000/2000 的嵌套样本。没有重跑仿真相位，也没有修改 T-DT、tracker、MPPI 运行配置、footprint、padding 或 0.05 m 本体间隙门。
 
+新增 batch 的原 softmax 与条件 softmax 数字受当时 PathAlign 末路径点越界影响；[后续有界回放](guarded_path_align_replay_20260928.md)已重新核对原 softmax 的全部 16 组，仍均低于动态间隙门。本页的真值均分是原权重分配之外的离线上界，不应与有界回放的原 softmax 混作同一评分实验。
+
 ## 实验定义与复核
 
 [探针](../../experiments/dynamic_prediction_v1/frozen_cycle/oracle_aggregation_probe.py)先按真实箱体、原生 CostCritic 和原 0.05 m 门给**原始采样轨迹**离线贴标签。对原始联合安全样本执行 Nav2 的限速与 30 步 Savitzky–Golay 滤波，按输出控制序列重新积分；再在完全相同的采样控制、标准 critic 得分、gamma、temperature 和四周期滤波历史下比较三种分布：
