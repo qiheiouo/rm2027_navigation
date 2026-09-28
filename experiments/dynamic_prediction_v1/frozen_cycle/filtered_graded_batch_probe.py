@@ -33,8 +33,13 @@ def filtered_poses(controls, meta, settings, history):
         filtered = np.stack([replay_ranking.smooth_axis(
             np.clip(sampled[:, axis], *limits[axis]), history[:, axis])
             for axis in range(3)], axis=-1)
+        # Match Optimizer::updateInitialStateVelocities: the first trajectory
+        # step uses current robot speed, then prior filtered controls.
+        velocities = np.empty_like(filtered)
+        velocities[0] = np.asarray(meta["speed"], dtype=np.float32)
+        velocities[1:] = filtered[:-1]
         trajectory = analyze.integrate_omni(
-            *(filtered[:, axis] for axis in range(3)),
+            *(velocities[:, axis] for axis in range(3)),
             meta["pose"], settings["dt"])
         for axis in range(3):
             poses[index, :, axis] = trajectory[axis]
@@ -124,7 +129,7 @@ def run(args):
            tuple(np.stack([pose[i] for pose in aggregate_poses])
                  for i in range(3)), shortcut_threshold(meta, args.profile))
     report = {"schema": "rm_dynamic_prediction/filtered_graded_batch/v1",
-              "scope": "Diagnostic only: existing V1 graded overlap evaluated on each individually output-filtered control sequence; native standard critics remain scores of original raw sampled trajectories. Original hard V1 term remains tied in all 17 batches. Fixed samples, temperature, final aggregate filter. Future Gazebo truth evaluates only.",
+              "scope": "Diagnostic only: existing V1 graded overlap evaluated on each individually output-filtered control sequence with native current-speed first-step integration; native standard critics remain scores of original raw sampled trajectories. Original hard V1 term remains tied in all 17 batches. Fixed samples, temperature, final aggregate filter. Future Gazebo truth evaluates only.",
               "input_sha256": {"cycle": digest(args.cycle),
                                "profile": digest(args.profile),
                                "truth": digest(args.truth),
