@@ -16,6 +16,8 @@
 
 [七项标准 critic 在同一滤波候选上的原生重评分](filtered_all_critic_replay_20260928.md)继续保持 17/17 组通过冻结图的动态与静态门，最小动态间隙约 0.068 m；前轮成功不单是标准 critic 与 V1 评分轨迹不一致的产物。控制聚合仍回到原采样序列并最终滤波，且中心分布未校准、跨周期/目标/闭环/完整负载尚未通过，本研究门继续保持部分实现。
 
+[147/162/263 三个预选周期筛查](filtered_graded_cross_cycle_20260928.md)随后复用同一滤波候选 V1 规则：147 动态间隙从 0.0918 m 略降至 0.0891 m，162 升至 0.0945 m，但目标附近 263 的目标位置候选权重仍为 0、3 s 终点距目标从 0.359 m 增至 0.384 m。该筛查尚未重算其它周期的七项原生 critic 与静态输出碰撞，但已明确当前连续评分和原硬占用**没有同时解决避障与目标推进**，不能把周期 162 的 17/17 视为整体算法通过。
+
 ## 目标与固定输入
 
 主输入为 Navfn+V1 的预选周期 **162**。使用[周期证据](evidence/frozen_cycle_probe_20260924/manifest.json)及原试次中的原始持锁局部图、机器人 pose/velocity、变换后 path、padded 八边形、实际消费的 prediction message 与 source stamp、MPPI 初始控制序列、前四周期输出滤波历史和原 profile。未来 Gazebo 箱体位姿只用于**回放完成后的**动态间隙标签。对照 batch 为 **300/600/1000/2000**；其余 noise std、30 步、float `model_dt`、一次迭代、MPPI temperature/gamma、运动模型、全部 critic、footprint/padding 与 0.05 m 门保持不变。
