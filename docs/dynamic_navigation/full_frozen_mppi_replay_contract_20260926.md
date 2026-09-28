@@ -14,6 +14,8 @@
 
 [单条滤波轨迹评分诊断](filtered_graded_batch_20260928.md)把该连续 V1 几何项移到每条采样控制独立滤波后的重积分轨迹，17/17 组在冻结图的动态与原生静态门下都过门，seed 2 的后滤波反例消失。但标准 critic 仍评分原始轨迹，且未来预测中心分布未校准；此结果只支持继续研究评分对象一致性，不能补签阶段 1 的完整算法门、阶段 3 的负载门或跨周期闭环门。
 
+[七项标准 critic 在同一滤波候选上的原生重评分](filtered_all_critic_replay_20260928.md)继续保持 17/17 组通过冻结图的动态与静态门，最小动态间隙约 0.068 m；前轮成功不单是标准 critic 与 V1 评分轨迹不一致的产物。控制聚合仍回到原采样序列并最终滤波，且中心分布未校准、跨周期/目标/闭环/完整负载尚未通过，本研究门继续保持部分实现。
+
 ## 目标与固定输入
 
 主输入为 Navfn+V1 的预选周期 **162**。使用[周期证据](evidence/frozen_cycle_probe_20260924/manifest.json)及原试次中的原始持锁局部图、机器人 pose/velocity、变换后 path、padded 八边形、实际消费的 prediction message 与 source stamp、MPPI 初始控制序列、前四周期输出滤波历史和原 profile。未来 Gazebo 箱体位姿只用于**回放完成后的**动态间隙标签。对照 batch 为 **300/600/1000/2000**；其余 noise std、30 步、float `model_dt`、一次迭代、MPPI temperature/gamma、运动模型、全部 critic、footprint/padding 与 0.05 m 门保持不变。
