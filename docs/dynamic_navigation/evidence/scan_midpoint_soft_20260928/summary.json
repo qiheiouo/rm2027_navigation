@@ -1,0 +1,521 @@
+{
+  "cases": [
+    {
+      "baseline_control_max_abs_error": 0.0,
+      "cycle_id": 147,
+      "file_sha256": {
+        "output_controls.bin": "4ea22233fc78146e74b8639023cac9e2be9e416a8a99dc6ac2b19ea13a6b6de4",
+        "output_poses.bin": "96452f7cb5880d9339dc4b5e0b1034a55715e4b00a2f0cd2297e60794b0bb78c",
+        "point_overlap.bin": "a0ee989ed2a0a2e3626520afa4032e06144865c8c8f6357293c9f4cd2069eaf2",
+        "static.bin": "300bde5263412f31702e8b31c452477b1b9378a7436a1f4f8e28a99633d86674"
+      },
+      "hard_collision_rollouts": 295,
+      "hard_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        57,
+        228,
+        295
+      ],
+      "input_sha256": {
+        "cycle": "b5b06b67e2dc568a95bcda7d7affe6b9d33c311eb6a394c1fafd85b484704e86",
+        "cycle_bin": "2995497fb50ef401e6e976ceaaa9781c5db48435dd2cdddc37878883e2bad2d1",
+        "labels": "d43c2e0bff675af4212a383821a81f7c4e7c6c5c048b78831945ac9782ead3e2",
+        "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "raw_controls": null,
+        "reconstructed_scan_sources": {
+          "gazebo_poses": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227",
+          "predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+          "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+          "recorded_odom_trajectory": "3219c492e5b1f19d5578d5496f9bdb71ac56f591346f4e515a4d50a7fc6387ca",
+          "scans": "a2593a6faf8e39dc6e5df80c1e32949d7639ed33db97490da9963f08afd57ffc"
+        },
+        "reference_controls": "ea31b6739b35135bd9a57a9d221ea9d51dbaa5f9796e8de4ee93f5bffe25ac82",
+        "standard": "472bacb4e1b56b1b1df3d0115a20b2bf8148995b7a410006521b6df96b01880c",
+        "truth": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      },
+      "joint_safe_filtered_candidates": 106,
+      "name": "early_147",
+      "outputs": [
+        {
+          "body_min_gap_m": 0.05220840046720024,
+          "body_min_gap_step": 17,
+          "costcritic_collision": false,
+          "effective_sample_size": 2.1545286178588867,
+          "joint_gate_met": true,
+          "name": "uniform",
+          "padded_min_gap_m": 0.021527543421851526,
+          "returned_control": [
+            0.04528136923909187,
+            -0.05541306361556053,
+            -0.09536999464035034
+          ],
+          "safe_probability_mass": 0.7867659330368042,
+          "top_candidate_joint_safe": true,
+          "total_safe_auc": 0.45239253063606305,
+          "v1_safe_auc": 0.5154396031900409
+        },
+        {
+          "body_min_gap_m": 0.05220840046720024,
+          "body_min_gap_step": 17,
+          "costcritic_collision": false,
+          "effective_sample_size": 2.1545286178588867,
+          "joint_gate_met": true,
+          "name": "scan_point",
+          "padded_min_gap_m": 0.021527543421851526,
+          "returned_control": [
+            0.04528136923909187,
+            -0.05541306361556053,
+            -0.09536999464035034
+          ],
+          "safe_probability_mass": 0.7867659330368042,
+          "top_candidate_joint_safe": true,
+          "total_safe_auc": 0.45973546002723203,
+          "v1_safe_auc": 0.5308792063800817
+        }
+      ],
+      "point_overlap_max": 0.0,
+      "point_overlap_min": 0.0,
+      "scan_fitted_velocity_xy_mps": [
+        0.030765469077829215,
+        0.014310332336718946
+      ],
+      "scan_raw_mid_xy_m": [
+        4.899904288617723,
+        -0.8073911180143448
+      ],
+      "scan_raw_span_xy_m": [
+        0.4551932319276233,
+        0.5258919962536057
+      ],
+      "scan_recent_count": 2,
+      "scan_source_stamp_s": 30.691,
+      "scan_source_truth_error_xy_m_for_audit_only": [
+        -9.571138227748577e-05,
+        0.030856278458590847
+      ],
+      "scan_velocity_track_fallback": true,
+      "seed": null,
+      "static_mask_sha256": "52f96c26a39ed25108a6db43d6e11c6051eba8a498a5baab1891adfa7ac7c262"
+    },
+    {
+      "baseline_control_max_abs_error": 0.0,
+      "cycle_id": 162,
+      "file_sha256": {
+        "output_controls.bin": "09d3ab075265d15fc70a62a2effd407ee8e243f7d5cf2188e3db1192337d702f",
+        "output_poses.bin": "b21681209d1c40d53e74f69358e653aa79e8c6898d6b505bc54a749bec9c589d",
+        "point_overlap.bin": "86530aced569ac66eef95a2bdc73d82f4600a4060549912b3d5b76c6322f7cbf",
+        "static.bin": "4db10822d1270bfee27e1ebbbbf747dc39c939ba1d42dca62de9d85c4fd5b031"
+      },
+      "hard_collision_rollouts": 300,
+      "hard_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "input_sha256": {
+        "cycle": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+        "cycle_bin": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+        "labels": "a0e6b990bd58611a60f6f51e1eacc262a6cb1322ce10f210f976636d6318e47a",
+        "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "raw_controls": null,
+        "reconstructed_scan_sources": {
+          "gazebo_poses": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227",
+          "predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+          "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+          "recorded_odom_trajectory": "3219c492e5b1f19d5578d5496f9bdb71ac56f591346f4e515a4d50a7fc6387ca",
+          "scans": "a2593a6faf8e39dc6e5df80c1e32949d7639ed33db97490da9963f08afd57ffc"
+        },
+        "reference_controls": "4e6ce4a8677a44ea0347f945e0968d9717e0250967bb16d23c649775b2ef9d28",
+        "standard": "3b6a69a465a492f2c4b1206073a298ae26cf3c4914a82ad2d786b9f608bb5f37",
+        "truth": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      },
+      "joint_safe_filtered_candidates": 4,
+      "name": "intrusion_162",
+      "outputs": [
+        {
+          "body_min_gap_m": 0.05714527937508954,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 1.0,
+          "joint_gate_met": true,
+          "name": "uniform",
+          "padded_min_gap_m": 0.023138180226850182,
+          "returned_control": [
+            -0.4255739450454712,
+            -0.16892138123512268,
+            -0.154069721698761
+          ],
+          "safe_probability_mass": 1.0,
+          "top_candidate_joint_safe": true,
+          "total_safe_auc": 0.9940878378378378,
+          "v1_safe_auc": 0.9949324324324325
+        },
+        {
+          "body_min_gap_m": 0.03791448714714661,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 8.124316215515137,
+          "joint_gate_met": false,
+          "name": "scan_point",
+          "padded_min_gap_m": 0.004884585572794269,
+          "returned_control": [
+            -0.40716955065727234,
+            -0.025080984458327293,
+            -0.19083979725837708
+          ],
+          "safe_probability_mass": 0.3149575889110565,
+          "top_candidate_joint_safe": true,
+          "total_safe_auc": 0.8581081081081081,
+          "v1_safe_auc": 0.9940878378378378
+        }
+      ],
+      "point_overlap_max": 0.028406433015314956,
+      "point_overlap_min": 0.0,
+      "scan_fitted_velocity_xy_mps": [
+        -0.013071678342430122,
+        0.7306009999246321
+      ],
+      "scan_raw_mid_xy_m": [
+        4.904784355056089,
+        0.1035313375132135
+      ],
+      "scan_raw_span_xy_m": [
+        0.4676448353435534,
+        0.5660740679203258
+      ],
+      "scan_recent_count": 4,
+      "scan_source_stamp_s": 32.209,
+      "scan_source_truth_error_xy_m_for_audit_only": [
+        0.00478435505608843,
+        0.005748768101796101
+      ],
+      "scan_velocity_track_fallback": false,
+      "seed": null,
+      "static_mask_sha256": "52f96c26a39ed25108a6db43d6e11c6051eba8a498a5baab1891adfa7ac7c262"
+    },
+    {
+      "baseline_control_max_abs_error": 0.0,
+      "cycle_id": 263,
+      "file_sha256": {
+        "output_controls.bin": "c873adf6902e84d3aa637be7caf871e8a55e4fcebf7b31d210a58f9fa13d527d",
+        "output_poses.bin": "dfcc5407288c5c6646edf00a298a221fbe76cb1a1c8e8207f3c15446db71f7bb",
+        "point_overlap.bin": "a0ee989ed2a0a2e3626520afa4032e06144865c8c8f6357293c9f4cd2069eaf2",
+        "static.bin": "de5b5daca2319cf98eea9b795abcb1e3f01ff71e6c2fb7d6afca738712418297"
+      },
+      "hard_collision_rollouts": 246,
+      "hard_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        8,
+        20,
+        68,
+        147,
+        246
+      ],
+      "input_sha256": {
+        "cycle": "4e331d38e65ecbee38962d485601500f8e4d27509958d3273f8b1a75114f6223",
+        "cycle_bin": "900990dee9c21a9c32587e38daeb70be614e7279d0e4e97e620bdcb53e86ae20",
+        "labels": "867133f5417f16b0f0f5b6ff46ad792fd6b740a8b76c18aceda77628aa8868f8",
+        "profile": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+        "raw_controls": null,
+        "reconstructed_scan_sources": {
+          "gazebo_poses": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4",
+          "predictions": "4c64561b2906a7120122ae552dd450ffd100a65d07b8f3e9ea0b8484d551b254",
+          "profile": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+          "recorded_odom_trajectory": "2ffb4d8a6cb6557469b3a019105097b17c5e9c6b88fb8ee4a9820175b339bd5f",
+          "scans": "94a1a6a9d73df800d2fef9db9079a013404732b606a38f110e4117425040d122"
+        },
+        "reference_controls": "b6a59883fb06597debf1676b4c28bea44661beea79f1bb6858c4e3e3e5746dd5",
+        "standard": "b2f1b69d6c9c4242c28e73074335f45834c68026c6136d7ae5cc61d4c160a7e4",
+        "truth": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4"
+      },
+      "joint_safe_filtered_candidates": 292,
+      "name": "goal_263",
+      "outputs": [
+        {
+          "body_min_gap_m": 0.22280945101068017,
+          "body_min_gap_step": 23,
+          "costcritic_collision": false,
+          "effective_sample_size": 10.507357597351074,
+          "endpoint_goal_distance_m": 0.36171936988830566,
+          "joint_gate_met": true,
+          "name": "uniform",
+          "padded_min_gap_m": 0.1814124135671129,
+          "returned_control": [
+            0.15025916695594788,
+            0.12390484660863876,
+            -0.19597923755645752
+          ],
+          "safe_probability_mass": 0.9337954521179199,
+          "top_candidate_joint_safe": true,
+          "total_safe_auc": 0.273972602739726,
+          "v1_safe_auc": 0.2773972602739726
+        },
+        {
+          "body_min_gap_m": 0.22280945101068017,
+          "body_min_gap_step": 23,
+          "costcritic_collision": false,
+          "effective_sample_size": 10.507357597351074,
+          "endpoint_goal_distance_m": 0.36171936988830566,
+          "joint_gate_met": true,
+          "name": "scan_point",
+          "padded_min_gap_m": 0.1814124135671129,
+          "returned_control": [
+            0.15025916695594788,
+            0.12390484660863876,
+            -0.19597923755645752
+          ],
+          "safe_probability_mass": 0.9337954521179199,
+          "top_candidate_joint_safe": true,
+          "total_safe_auc": 0.2773972602739726,
+          "v1_safe_auc": 0.3176369863013699
+        }
+      ],
+      "point_overlap_max": 0.0,
+      "point_overlap_min": 0.0,
+      "scan_fitted_velocity_xy_mps": [
+        -0.004145450638565849,
+        0.007936090742061455
+      ],
+      "scan_raw_mid_xy_m": [
+        4.904771917963503,
+        -0.9256917108273877
+      ],
+      "scan_raw_span_xy_m": [
+        0.46142286373711716,
+        0.5670928621460999
+      ],
+      "scan_recent_count": 5,
+      "scan_source_stamp_s": 46.201,
+      "scan_source_truth_error_xy_m_for_audit_only": [
+        0.004771917963502403,
+        0.008087320045338298
+      ],
+      "scan_velocity_track_fallback": false,
+      "seed": null,
+      "static_mask_sha256": "52f96c26a39ed25108a6db43d6e11c6051eba8a498a5baab1891adfa7ac7c262"
+    },
+    {
+      "baseline_control_max_abs_error": 1.0192394256591797e-05,
+      "cycle_id": 162,
+      "file_sha256": {
+        "output_controls.bin": "1457039a9cd3474f3a8a22b83d8c92b2f3acc28067841051b46b6b1af7b61845",
+        "output_poses.bin": "86ce0f3f95cf6cf901d7eccbfd37bf1ee86a44124013a9f627511355349144f4",
+        "point_overlap.bin": "098ec43de0e630a8085a23e264f0630b0db6899ec3ab7c9b39d2903fbe80843f",
+        "static.bin": "ddd3dbcbc3326483a7142382c7611f88f9e0667bd97e50bbfa94707e4ec05514"
+      },
+      "hard_collision_rollouts": 300,
+      "hard_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "input_sha256": {
+        "cycle": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+        "cycle_bin": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+        "labels": "cac8473d07e6c543951de7b0bca010e5c270424fb9c3b596b2d7c1f00649d7ee",
+        "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "raw_controls": "8e333ea426720e31e021ca4944fddfecaaae9caeabe001ddf03f2e5d0b1af5ff",
+        "reconstructed_scan_sources": {
+          "gazebo_poses": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227",
+          "predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+          "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+          "recorded_odom_trajectory": "3219c492e5b1f19d5578d5496f9bdb71ac56f591346f4e515a4d50a7fc6387ca",
+          "scans": "a2593a6faf8e39dc6e5df80c1e32949d7639ed33db97490da9963f08afd57ffc"
+        },
+        "reference_controls": "4e6ce4a8677a44ea0347f945e0968d9717e0250967bb16d23c649775b2ef9d28",
+        "standard": "849ce06a105947538db9be5dd9d36241756ea04ad8a5d775ac171d8ef1910f28",
+        "truth": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      },
+      "joint_safe_filtered_candidates": 3,
+      "name": "seed_2_batch300",
+      "outputs": [
+        {
+          "body_min_gap_m": 0.04707307800552381,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 1.1820454597473145,
+          "joint_gate_met": false,
+          "name": "uniform",
+          "padded_min_gap_m": 0.01707307490877779,
+          "returned_control": [
+            -0.37433069944381714,
+            -0.0460757315158844,
+            -0.3338731527328491
+          ],
+          "safe_probability_mass": 2.208713340223767e-06,
+          "top_candidate_joint_safe": false,
+          "total_safe_auc": 0.936026936026936,
+          "v1_safe_auc": 0.9315375982042648
+        },
+        {
+          "body_min_gap_m": 0.03476511429162596,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 12.666061401367188,
+          "joint_gate_met": false,
+          "name": "scan_point",
+          "padded_min_gap_m": 0.004073833756716797,
+          "returned_control": [
+            -0.40366074442863464,
+            0.0071440571919083595,
+            -0.30201199650764465
+          ],
+          "safe_probability_mass": 0.0222015343606472,
+          "top_candidate_joint_safe": false,
+          "total_safe_auc": 0.8765432098765432,
+          "v1_safe_auc": 0.9943883277216611
+        }
+      ],
+      "point_overlap_max": 0.047367221522279554,
+      "point_overlap_min": 0.0,
+      "scan_fitted_velocity_xy_mps": [
+        -0.013071678342430122,
+        0.7306009999246321
+      ],
+      "scan_raw_mid_xy_m": [
+        4.904784355056089,
+        0.1035313375132135
+      ],
+      "scan_raw_span_xy_m": [
+        0.4676448353435534,
+        0.5660740679203258
+      ],
+      "scan_recent_count": 4,
+      "scan_source_stamp_s": 32.209,
+      "scan_source_truth_error_xy_m_for_audit_only": [
+        0.00478435505608843,
+        0.005748768101796101
+      ],
+      "scan_velocity_track_fallback": false,
+      "seed": 2,
+      "static_mask_sha256": "52f96c26a39ed25108a6db43d6e11c6051eba8a498a5baab1891adfa7ac7c262"
+    },
+    {
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_id": 162,
+      "file_sha256": {
+        "output_controls.bin": "65929378a26906845a347c4fe678ce46835cb0a2f91b866045aa91bd380b8c43",
+        "output_poses.bin": "9caf9f157ae9af79d582679fa25e9dcbb7a060e36acc1d0422746638fc75f1fc",
+        "point_overlap.bin": "4cbc683bfde1f37fe09c78e7cda34fe6a75193b161df2ba54d92593486184023",
+        "static.bin": "f880136cdd27604b2883d5a992843ff87d4ba6af005c5c7a8da6caa9363a389b"
+      },
+      "hard_collision_rollouts": 300,
+      "hard_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "input_sha256": {
+        "cycle": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+        "cycle_bin": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+        "labels": "a78046dc825ede7fbe487b4154a662075926855b25d970f5c1aeb2cecd11f0a7",
+        "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "raw_controls": "959bb8e18944b493eef37e630ea0c3d51570be277a986a58a28bd846ea1acdf9",
+        "reconstructed_scan_sources": {
+          "gazebo_poses": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227",
+          "predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+          "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+          "recorded_odom_trajectory": "3219c492e5b1f19d5578d5496f9bdb71ac56f591346f4e515a4d50a7fc6387ca",
+          "scans": "a2593a6faf8e39dc6e5df80c1e32949d7639ed33db97490da9963f08afd57ffc"
+        },
+        "reference_controls": "4e6ce4a8677a44ea0347f945e0968d9717e0250967bb16d23c649775b2ef9d28",
+        "standard": "7f648332dfc169d4b6d0bcccb817dff52f486f334cafafed4c66ce9c724abefe",
+        "truth": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      },
+      "joint_safe_filtered_candidates": 1,
+      "name": "seed_3_batch300",
+      "outputs": [
+        {
+          "body_min_gap_m": 0.04680592567304931,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 1.0013620853424072,
+          "joint_gate_met": false,
+          "name": "uniform",
+          "padded_min_gap_m": 0.005105554350271824,
+          "returned_control": [
+            -0.4187960922718048,
+            0.020382225513458252,
+            -0.05726924538612366
+          ],
+          "safe_probability_mass": 1.0432933949264603e-13,
+          "top_candidate_joint_safe": false,
+          "total_safe_auc": 0.9632107023411371,
+          "v1_safe_auc": 0.9565217391304348
+        },
+        {
+          "body_min_gap_m": 0.033858884182773455,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 12.194401741027832,
+          "joint_gate_met": false,
+          "name": "scan_point",
+          "padded_min_gap_m": 0.0,
+          "returned_control": [
+            -0.4400174021720886,
+            -0.00827297568321228,
+            -0.23479056358337402
+          ],
+          "safe_probability_mass": 0.09323099255561829,
+          "top_candidate_joint_safe": false,
+          "total_safe_auc": 0.9933110367892977,
+          "v1_safe_auc": 0.9966555183946488
+        }
+      ],
+      "point_overlap_max": 0.035496216550516727,
+      "point_overlap_min": 0.0,
+      "scan_fitted_velocity_xy_mps": [
+        -0.013071678342430122,
+        0.7306009999246321
+      ],
+      "scan_raw_mid_xy_m": [
+        4.904784355056089,
+        0.1035313375132135
+      ],
+      "scan_raw_span_xy_m": [
+        0.4676448353435534,
+        0.5660740679203258
+      ],
+      "scan_recent_count": 4,
+      "scan_source_stamp_s": 32.209,
+      "scan_source_truth_error_xy_m_for_audit_only": [
+        0.00478435505608843,
+        0.005748768101796101
+      ],
+      "scan_velocity_track_fallback": false,
+      "seed": 3,
+      "static_mask_sha256": "52f96c26a39ed25108a6db43d6e11c6051eba8a498a5baab1891adfa7ac7c262"
+    }
+  ],
+  "native_mask_binary_sha256": "37671b08cd8248f336703d79da4b5dd73fd7677999d24706f4955b7b6f6c059a",
+  "prepared_sha256": "421d87f45424b43466e2367dcc0be5c7daf09cd26e39bb996e191c1e5db31b0e",
+  "raw_inputs_sha256": "7d951d60368d0e7c4c7d461fa7b2c9847fb1b1e74851b164ee9aa520f55321ea",
+  "schema": "rm_dynamic_prediction/scan_midpoint_soft_probe/v1",
+  "scope": "Five preselected frozen 300-rollout inputs. Causally reconstructed near-full raw scan midpoint and recent <=0.4s last-five midpoint velocity (>=3 frames, otherwise captured track velocity) replace only the soft center distribution with a point estimate. Original hard conservative V1 envelope and near term, seven native standard critics, MPPI aggregation/filter, controls and safety thresholds remain. Recorded simulation odometry is used to project scan, not future box truth; future truth labels only. Point estimate is not a safety bound or calibrated distribution. Original raw-costmap native static mask checked."
+}
