@@ -1,0 +1,81 @@
+{
+  "evaluated_sha256": "3041f64a3f64c7e846d4d6e8b5d0c69c3304cf958f32ba12b69c76e7e0b14d46",
+  "inputs_sha256": "db2d33a5011c7d7b6449b21f5995b8cb2392c5a58ea43a2a731aa241e47dddb0",
+  "mask_binary_sha256": "37671b08cd8248f336703d79da4b5dd73fd7677999d24706f4955b7b6f6c059a",
+  "native_binary_sha256": "d964a87392504ab84805b5f93d03111c916099d70b369ca53aa085f3d01a8ca4",
+  "rows": [
+    {
+      "cycle_id": 147,
+      "name": "early_147",
+      "native_pose_sha256": "3dc1352455f9a04ad1564060eeb830787c8e014887b3a8098736cc22744c4a41",
+      "native_python_pose_max_abs_error": 4.76837158203125e-07,
+      "outputs": [
+        {
+          "body_min_gap_m": 0.07408053143959463,
+          "costcritic_collision": false,
+          "dynamic_gate_met": true,
+          "joint_gate_met": true,
+          "name": "baseline",
+          "padded_min_gap_m": 0.03895259708098432
+        },
+        {
+          "body_min_gap_m": 0.052208408439083906,
+          "costcritic_collision": false,
+          "dynamic_gate_met": true,
+          "joint_gate_met": true,
+          "name": "mixed",
+          "padded_min_gap_m": 0.02152755591230044
+        },
+        {
+          "body_min_gap_m": 0.04825245137882138,
+          "costcritic_collision": false,
+          "dynamic_gate_met": false,
+          "joint_gate_met": false,
+          "name": "aligned",
+          "padded_min_gap_m": 0.01722470788908481
+        }
+      ],
+      "static_fixture_sha256": "f471bbe1ac323cdf993fbf5e52a4ccf7404998200fc7091bd776518f5a5edf8d",
+      "static_mask_sha256": "f456c1ffc6a33cd5dae1ca90cf499aadeabb167b9e687175a8fc62476833374c"
+    },
+    {
+      "cycle_id": 263,
+      "name": "goal_263",
+      "native_pose_sha256": "72bef79d19fc4663e482e866c8f16a8eadad8e1abc05505d6c1e2f53fc5150f9",
+      "native_python_pose_max_abs_error": 4.76837158203125e-07,
+      "outputs": [
+        {
+          "body_min_gap_m": 0.215793830281358,
+          "costcritic_collision": false,
+          "dynamic_gate_met": true,
+          "endpoint_goal_position_distance_m": 0.3422466218471527,
+          "joint_gate_met": true,
+          "name": "baseline",
+          "padded_min_gap_m": 0.17436789310145695
+        },
+        {
+          "body_min_gap_m": 0.22280897417352197,
+          "costcritic_collision": false,
+          "dynamic_gate_met": true,
+          "endpoint_goal_position_distance_m": 0.3617193102836609,
+          "joint_gate_met": true,
+          "name": "mixed",
+          "padded_min_gap_m": 0.1814119367299547
+        },
+        {
+          "body_min_gap_m": 0.22839160696687877,
+          "costcritic_collision": false,
+          "dynamic_gate_met": true,
+          "endpoint_goal_position_distance_m": 0.36794790625572205,
+          "joint_gate_met": true,
+          "name": "aligned",
+          "padded_min_gap_m": 0.18701511560758988
+        }
+      ],
+      "static_fixture_sha256": "713a2ba4a34702233b69ee2111e0e670125607355caf0f70a23854e7c0cb0a8c",
+      "static_mask_sha256": "f456c1ffc6a33cd5dae1ca90cf499aadeabb167b9e687175a8fc62476833374c"
+    }
+  ],
+  "schema": "rm_dynamic_prediction/cross_cycle_first_step_audit/v1",
+  "scope": "Preselected cycles 147 and 263; baseline, filtered-candidate mixed aggregation and aligned aggregation. Same frozen candidate scores/controls; native C++ MPPI current-speed first-step pose integration checked against Python. The native replay scorer is forced to legacy mode solely to obtain poses; its scores are unused, and cycle 263 candidate scoring retains its recorded graded mode. Future truth labels only. Original raw-costmap native CostCritic checked on all six outputs."
+}

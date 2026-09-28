@@ -1,0 +1,571 @@
+{
+  "batch": 3,
+  "costmap_parameters": {
+    "always_send_full_costmap": true,
+    "footprint": "[[0.2800954544, 0.191], [0.191, 0.2800954544], [-0.191, 0.2800954544], [-0.2800954544, 0.191], [-0.2800954544, -0.191], [-0.191, -0.2800954544], [0.191, -0.2800954544], [0.2800954544, -0.191]]",
+    "footprint_padding": 0.03,
+    "global_frame": "odom",
+    "height": 5,
+    "inflation_layer.cost_scaling_factor": 3.0,
+    "inflation_layer.inflation_radius": 0.45,
+    "inflation_layer.plugin": "nav2_costmap_2d::InflationLayer",
+    "obstacle_layer.enabled": true,
+    "obstacle_layer.observation_sources": "scan",
+    "obstacle_layer.plugin": "nav2_costmap_2d::ObstacleLayer",
+    "plugins": [
+      "obstacle_layer",
+      "inflation_layer"
+    ],
+    "publish_frequency": 5.0,
+    "resolution": 0.05,
+    "robot_base_frame": "base_link",
+    "rolling_window": true,
+    "update_frequency": 10.0,
+    "use_sim_time": false,
+    "width": 5
+  },
+  "history_controls": [
+    [
+      -0.34649530053138733,
+      0.35087329149246216,
+      -0.1667218655347824
+    ],
+    [
+      -0.3131367564201355,
+      0.32459285855293274,
+      -0.12880972027778625
+    ],
+    [
+      -0.24381153285503387,
+      0.21311968564987183,
+      -0.14585795998573303
+    ],
+    [
+      -0.13967067003250122,
+      0.03308580815792084,
+      -0.2237745076417923
+    ]
+  ],
+  "initial_controls": [
+    [
+      -0.13967067003250122,
+      0.03308580815792084,
+      -0.2237745076417923
+    ],
+    [
+      -0.09086920320987701,
+      -0.020343689247965813,
+      -0.2229880541563034
+    ],
+    [
+      -0.06406478583812714,
+      -0.04039708524942398,
+      -0.23520591855049133
+    ],
+    [
+      -0.08732515573501587,
+      0.015858151018619537,
+      -0.23037436604499817
+    ],
+    [
+      -0.10688938200473785,
+      0.050975002348423004,
+      -0.24717523157596588
+    ],
+    [
+      -0.15748536586761475,
+      0.10992458462715149,
+      -0.27331751585006714
+    ],
+    [
+      -0.216805100440979,
+      0.1495126336812973,
+      -0.32578200101852417
+    ],
+    [
+      -0.3061128258705139,
+      0.17828115820884705,
+      -0.3343662619590759
+    ],
+    [
+      -0.3141944408416748,
+      0.21158473193645477,
+      -0.31928008794784546
+    ],
+    [
+      -0.29451292753219604,
+      0.1897810995578766,
+      -0.3330901265144348
+    ],
+    [
+      -0.2663002610206604,
+      0.15531671047210693,
+      -0.33612892031669617
+    ],
+    [
+      -0.19977770745754242,
+      0.14504261314868927,
+      -0.360654354095459
+    ],
+    [
+      -0.18190458416938782,
+      0.11351090669631958,
+      -0.39603808522224426
+    ],
+    [
+      -0.16720335185527802,
+      0.1217462345957756,
+      -0.490108847618103
+    ],
+    [
+      -0.17099326848983765,
+      0.09389417618513107,
+      -0.631903886795044
+    ],
+    [
+      -0.1825273633003235,
+      0.08117641508579254,
+      -0.7556553483009338
+    ],
+    [
+      -0.16284772753715515,
+      0.06684797257184982,
+      -0.7854201793670654
+    ],
+    [
+      -0.13337117433547974,
+      0.056216683238744736,
+      -0.7954660654067993
+    ],
+    [
+      -0.12178349494934082,
+      0.03593415394425392,
+      -0.8409467935562134
+    ],
+    [
+      -0.10410957783460617,
+      -0.007685186341404915,
+      -0.7885164618492126
+    ],
+    [
+      -0.15070301294326782,
+      -0.06235424801707268,
+      -0.8532097339630127
+    ],
+    [
+      -0.15886996686458588,
+      -0.05095793306827545,
+      -0.8684353232383728
+    ],
+    [
+      -0.1905229687690735,
+      -0.024063559249043465,
+      -0.9647922515869141
+    ],
+    [
+      -0.21945405006408691,
+      0.02168961614370346,
+      -1.1188008785247803
+    ],
+    [
+      -0.21645960211753845,
+      0.125285342335701,
+      -1.2000000476837158
+    ],
+    [
+      -0.25369930267333984,
+      0.0524987168610096,
+      -1.1793452501296997
+    ],
+    [
+      -0.28030601143836975,
+      0.05285404250025749,
+      -1.1511975526809692
+    ],
+    [
+      -0.3353354334831238,
+      0.047017816454172134,
+      -1.0928303003311157
+    ],
+    [
+      -0.36832889914512634,
+      0.06816833466291428,
+      -1.0632110834121704
+    ],
+    [
+      -0.36832889914512634,
+      0.06816833466291428,
+      -1.0632110834121704
+    ]
+  ],
+  "map_data_file": "map_and_poses.bin",
+  "map_frame": "odom",
+  "parameters": {
+    "FollowPath.ConstraintCritic.cost_power": 1,
+    "FollowPath.ConstraintCritic.cost_weight": 4.0,
+    "FollowPath.ConstraintCritic.enabled": true,
+    "FollowPath.CostCritic.collision_cost": 1000000.0,
+    "FollowPath.CostCritic.consider_footprint": true,
+    "FollowPath.CostCritic.cost_power": 1,
+    "FollowPath.CostCritic.cost_weight": 3.81,
+    "FollowPath.CostCritic.critical_cost": 300.0,
+    "FollowPath.CostCritic.enabled": true,
+    "FollowPath.CostCritic.near_goal_distance": 0.5,
+    "FollowPath.GoalAngleCritic.cost_power": 1,
+    "FollowPath.GoalAngleCritic.cost_weight": 3.0,
+    "FollowPath.GoalAngleCritic.enabled": true,
+    "FollowPath.GoalAngleCritic.threshold_to_consider": 0.5,
+    "FollowPath.GoalCritic.cost_power": 1,
+    "FollowPath.GoalCritic.cost_weight": 5.0,
+    "FollowPath.GoalCritic.enabled": true,
+    "FollowPath.GoalCritic.threshold_to_consider": 1.4,
+    "FollowPath.PathAlignCritic.cost_power": 1,
+    "FollowPath.PathAlignCritic.cost_weight": 10.0,
+    "FollowPath.PathAlignCritic.enabled": true,
+    "FollowPath.PathAlignCritic.max_path_occupancy_ratio": 0.07,
+    "FollowPath.PathAlignCritic.offset_from_furthest": 20,
+    "FollowPath.PathAlignCritic.threshold_to_consider": 0.5,
+    "FollowPath.PathAlignCritic.trajectory_point_step": 4,
+    "FollowPath.PathAlignCritic.use_path_orientations": false,
+    "FollowPath.PathAngleCritic.cost_power": 1,
+    "FollowPath.PathAngleCritic.cost_weight": 2.0,
+    "FollowPath.PathAngleCritic.enabled": true,
+    "FollowPath.PathAngleCritic.forward_preference": false,
+    "FollowPath.PathAngleCritic.max_angle_to_furthest": 1.2,
+    "FollowPath.PathAngleCritic.offset_from_furthest": 4,
+    "FollowPath.PathAngleCritic.threshold_to_consider": 0.5,
+    "FollowPath.PathFollowCritic.cost_power": 1,
+    "FollowPath.PathFollowCritic.cost_weight": 5.0,
+    "FollowPath.PathFollowCritic.enabled": true,
+    "FollowPath.PathFollowCritic.offset_from_furthest": 6,
+    "FollowPath.PathFollowCritic.threshold_to_consider": 1.4,
+    "FollowPath.batch_size": 3,
+    "FollowPath.critics": [
+      "ConstraintCritic",
+      "CostCritic",
+      "GoalCritic",
+      "GoalAngleCritic",
+      "PathAlignCritic",
+      "PathFollowCritic",
+      "PathAngleCritic"
+    ],
+    "FollowPath.gamma": 0.015,
+    "FollowPath.iteration_count": 1,
+    "FollowPath.model_dt": 0.1,
+    "FollowPath.motion_model": "Omni",
+    "FollowPath.plugin": "nav2_mppi_controller::MPPIController",
+    "FollowPath.prune_distance": 1.5,
+    "FollowPath.regenerate_noises": false,
+    "FollowPath.retry_attempt_limit": 1,
+    "FollowPath.temperature": 0.3,
+    "FollowPath.time_steps": 30,
+    "FollowPath.transform_tolerance": 0.3,
+    "FollowPath.visualize": false,
+    "FollowPath.vx_max": 0.8,
+    "FollowPath.vx_min": -0.5,
+    "FollowPath.vx_std": 0.2,
+    "FollowPath.vy_max": 0.5,
+    "FollowPath.vy_std": 0.2,
+    "FollowPath.wz_max": 1.2,
+    "FollowPath.wz_std": 0.4,
+    "controller_frequency": 10.0
+  },
+  "path": [
+    [
+      5.399626922607416,
+      0.7555793762206999,
+      0.0
+    ],
+    [
+      5.399511718749993,
+      0.7305793762207005,
+      0.0
+    ],
+    [
+      5.399374389648431,
+      0.705579757690427,
+      0.0
+    ],
+    [
+      5.399212646484369,
+      0.6805805206298796,
+      0.0
+    ],
+    [
+      5.399024200439447,
+      0.6555812835693331,
+      0.0
+    ],
+    [
+      5.3988067626953065,
+      0.6305820465087857,
+      0.0
+    ],
+    [
+      5.404724121093745,
+      0.6062923431396454,
+      0.0
+    ],
+    [
+      5.410599517822259,
+      0.5819927215576142,
+      0.0
+    ],
+    [
+      5.416438293457025,
+      0.5576839447021458,
+      0.0
+    ],
+    [
+      5.422270965576166,
+      0.5333740234374966,
+      0.0
+    ],
+    [
+      5.42810440063476,
+      0.5090641021728484,
+      0.0
+    ],
+    [
+      5.433957672119135,
+      0.4847587585449187,
+      0.0
+    ],
+    [
+      5.439835357666009,
+      0.46045951843261435,
+      0.0
+    ],
+    [
+      5.445748901367182,
+      0.43616905212402024,
+      0.0
+    ],
+    [
+      5.45214004516601,
+      0.4119998931884732,
+      0.0
+    ],
+    [
+      5.458513641357415,
+      0.38782615661620756,
+      0.0
+    ],
+    [
+      5.464878845214837,
+      0.3636497497558562,
+      0.0
+    ],
+    [
+      5.471240234374994,
+      0.3394729614257779,
+      0.0
+    ],
+    [
+      5.477608489990228,
+      0.31529769897460636,
+      0.0
+    ],
+    [
+      5.483985900878901,
+      0.29112434387206765,
+      0.0
+    ],
+    [
+      5.4903800964355405,
+      0.26695594787597354,
+      0.0
+    ],
+    [
+      5.49679107666015,
+      0.2427921295165989,
+      0.0
+    ],
+    [
+      5.503437805175775,
+      0.21869201660155912,
+      0.0
+    ],
+    [
+      5.51007461547851,
+      0.19458885192870756,
+      0.0
+    ],
+    [
+      5.516713714599604,
+      0.17048645019530984,
+      0.0
+    ],
+    [
+      5.523351287841791,
+      0.14638404846191122,
+      0.0
+    ],
+    [
+      5.52999877929687,
+      0.12228393554687234,
+      0.0
+    ],
+    [
+      5.53665161132812,
+      0.09818534851073935,
+      0.0
+    ],
+    [
+      5.543320465087884,
+      0.07409133911132493,
+      0.0
+    ],
+    [
+      5.549999999999994,
+      0.04999999999999716,
+      0.0
+    ],
+    [
+      5.599999999999994,
+      -2.6645352591003757e-15,
+      0.0
+    ],
+    [
+      5.6,
+      0.0,
+      0.0
+    ]
+  ],
+  "pose": [
+    5.435456174968476,
+    0.7628087565192316,
+    2.493253997412513
+  ],
+  "pose_replay_original_collision_rank_mode": "legacy",
+  "prediction_input": {
+    "authority": "shadow_only",
+    "complete": true,
+    "consumer_sim_s": 30.73,
+    "frame": "odom",
+    "prediction_dt": 0.1,
+    "prediction_steps": 15,
+    "processing_stamp_ns": 30700000000,
+    "schema": "rm_dynamic_obstacle_predictions/v1",
+    "source_age_s": 0.039,
+    "source_stamp_ns": 30691000000,
+    "status": "accepted",
+    "total_track_count": 1,
+    "tracks": [
+      {
+        "id": 2,
+        "last_observation_stamp_ns": 30691000000,
+        "miss_count": 0,
+        "observation_count": 107,
+        "position_z": 0.0,
+        "prediction_xyz": [
+          [
+            4.951187571575695,
+            -0.6818491467893505,
+            0.0
+          ],
+          [
+            4.954264118483478,
+            -0.6804181135556786,
+            0.0
+          ],
+          [
+            4.957340665391261,
+            -0.6789870803220067,
+            0.0
+          ],
+          [
+            4.960417212299044,
+            -0.6775560470883348,
+            0.0
+          ],
+          [
+            4.963493759206827,
+            -0.676125013854663,
+            0.0
+          ],
+          [
+            4.96657030611461,
+            -0.6746939806209911,
+            0.0
+          ],
+          [
+            4.969646853022392,
+            -0.6732629473873191,
+            0.0
+          ],
+          [
+            4.972723399930175,
+            -0.6718319141536472,
+            0.0
+          ],
+          [
+            4.975799946837959,
+            -0.6704008809199753,
+            0.0
+          ],
+          [
+            4.978876493745742,
+            -0.6689698476863034,
+            0.0
+          ],
+          [
+            4.981953040653524,
+            -0.6675388144526315,
+            0.0
+          ],
+          [
+            4.985029587561307,
+            -0.6661077812189596,
+            0.0
+          ],
+          [
+            4.98810613446909,
+            -0.6646767479852878,
+            0.0
+          ],
+          [
+            4.991182681376873,
+            -0.6632457147516159,
+            0.0
+          ],
+          [
+            4.994259228284656,
+            -0.661814681517944,
+            0.0
+          ]
+        ],
+        "size_xy": [
+          0.447780844023864,
+          0.47286866080616896
+        ],
+        "size_z": 0.0,
+        "state": 2,
+        "velocity_z": 0.0,
+        "vxy": [
+          0.030765469077829215,
+          0.014310332336718946
+        ],
+        "xy": [
+          4.948111024667912,
+          -0.6832801800230224
+        ]
+      }
+    ]
+  },
+  "prediction_parameters": {
+    "collision_rank_mode": "legacy",
+    "enabled": true,
+    "horizon": 1.0,
+    "max_age": 0.4,
+    "object_height": 0.55,
+    "object_width": 0.45,
+    "reference_acceleration": 0.5551652475612764,
+    "topic": "/perception/dynamic_obstacles_shadow/predictions"
+  },
+  "speed": [
+    -0.20104622783598708,
+    0.18175530222310735,
+    -0.18885781755670905
+  ]
+}
