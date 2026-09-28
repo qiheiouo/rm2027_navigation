@@ -19,17 +19,18 @@ def run(args):
     if mask.shape != (len(report["rows"]),):
         raise ValueError("native CostCritic mask row count differs")
     for row, collision in zip(report["rows"], mask):
-        geometry = row["graded_geometry"]
+        geometry = row[args.geometry_key]
         geometry["costcritic_collision"] = bool(collision)
         geometry["joint_clearance_gate_met"] = bool(
             geometry["dynamic_clearance_gate_met"] and not collision)
     report["native_static_check"] = {
+        "geometry_key": args.geometry_key,
         "checker_sha256": digest(args.checker),
         "fixture_sha256": digest(args.fixture),
         "mask_sha256": digest(args.mask),
         "costcritic_collision_count": int(mask.sum()),
         "joint_clearance_gate_pass_count": sum(
-            row["graded_geometry"]["joint_clearance_gate_met"]
+            row[args.geometry_key]["joint_clearance_gate_met"]
             for row in report["rows"]),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -41,4 +42,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("summary", "fixture", "mask", "checker", "output"):
         parser.add_argument("--" + name, type=Path, required=True)
+    parser.add_argument("--geometry-key", default="graded_geometry")
     run(parser.parse_args())
