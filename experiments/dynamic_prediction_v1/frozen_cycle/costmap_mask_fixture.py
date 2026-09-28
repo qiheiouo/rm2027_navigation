@@ -31,13 +31,7 @@ def export(path, meta, raw, trajectory, footprint_threshold):
         output.write(poses.tobytes())
 
 
-def run(cycle, output_dir, seeds, profile=None):
-    if output_dir.exists():
-        raise FileExistsError(output_dir)
-    meta, arrays = analyze.read_cycle(cycle)
-    raw = analyze.last(arrays, "locked.raw_map")
-    if profile is None:
-        profile = cycle.parent.parent / "profile.yaml"
+def shortcut_threshold(meta, profile):
     local = yaml.safe_load(profile.read_text())[
         "local_costmap"]["local_costmap"]["ros__parameters"]
     footprint = meta["padded_footprint"]
@@ -48,8 +42,17 @@ def run(cycle, output_dir, seeds, profile=None):
                         footprint, footprint[1:] + footprint[:1]))
     scaling = float(local["inflation_layer"]["cost_scaling_factor"])
     # Nav2's InflationLayer::computeCost(circumscribed_radius/resolution).
-    threshold = int(252 * math.exp(-scaling *
-                                   (circumscribed - inscribed)))
+    return int(252 * math.exp(-scaling * (circumscribed - inscribed)))
+
+
+def run(cycle, output_dir, seeds, profile=None):
+    if output_dir.exists():
+        raise FileExistsError(output_dir)
+    meta, arrays = analyze.read_cycle(cycle)
+    raw = analyze.last(arrays, "locked.raw_map")
+    if profile is None:
+        profile = cycle.parent.parent / "profile.yaml"
+    threshold = shortcut_threshold(meta, profile)
     output_dir.mkdir(parents=True)
     captured = tuple(analyze.last(arrays, "rollout." + axis)
                      for axis in ("x", "y", "yaw"))
@@ -60,7 +63,7 @@ def run(cycle, output_dir, seeds, profile=None):
     return {"cycle": str(cycle), "seeds": seeds,
             "captured_count": captured[0].shape[0],
             "sampled_count": 2000 if seeds else 0,
-            "footprint_vertices": len(footprint),
+            "footprint_vertices": len(meta["padded_footprint"]),
             "possibly_inscribed_cost_threshold": threshold}
 
 
@@ -69,5 +72,6 @@ if __name__ == "__main__":
     parser.add_argument("--cycle", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2, 3])
+    parser.add_argument("--profile", type=Path)
     args = parser.parse_args()
-    print(json.dumps(run(args.cycle, args.output_dir, args.seeds)))
+    print(json.dumps(run(args.cycle, args.output_dir, args.seeds, args.profile)))
