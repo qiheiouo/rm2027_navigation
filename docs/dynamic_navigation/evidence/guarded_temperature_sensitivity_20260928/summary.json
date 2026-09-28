@@ -1,0 +1,2293 @@
+{
+  "dynamic_gate_pass_by_factor": {
+    "0.25": 0,
+    "0.5": 0,
+    "1.0": 0,
+    "2.0": 0,
+    "4.0": 0,
+    "8.0": 0
+  },
+  "factors": [
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0,
+    8.0
+  ],
+  "input_sha256": {
+    "cycle_bin": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+    "cycle_json": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+    "guarded_summary": "78bb2c1c5c334b0b326df77eac66b95a4bbc80efcd803297a2dae7af8e75604a",
+    "history": "625a5c549b91bbd703caed93aaa2ea917f009ee080ef7053c7408ed8297d149f",
+    "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "scores": {
+      "captured_batch300": "e7dc6afb4b1b2da8704ad233acbe7af582a16e79dc92609d2a2aece4f38cf45b",
+      "seed_0_batch1000": "282bb11216b64ad1317f4971caa7d302cc32f20f4469b1579ad51a36ab636019",
+      "seed_0_batch2000": "55567c9736c7c9221350832d60443226b0b1c4ae61ee668e2b9a0e6361301d15",
+      "seed_0_batch300": "c2c0257515aa3155381fff64ddfc488fc22835789bcf9291ceff38fc56159a1f",
+      "seed_0_batch600": "d9b2264462ca37bce43bf330a7f0e24eea6a796754c64a1e7c000390f578fb54",
+      "seed_1_batch1000": "ff328e1f8e2e02edc98ca3834dfc5eee589cfe968d0121e72b7144958b4637ff",
+      "seed_1_batch2000": "538733ea24b859e3a9e8f3a581abe6a696adcac38b99fb258713d7d09e45091f",
+      "seed_1_batch300": "ea85c9ffb2ee4369670327fb6b8072da923a47d39f1db25ca06904c4c65b9784",
+      "seed_1_batch600": "43fb32d536b78cf127ec1dcbdfc1c305ec6dca4c5ea274e2dfa2e6e09e46551c",
+      "seed_2_batch1000": "1c7b18c8deae68a53da1c875035c9f3b351f34da14a52b40c104ba1828a85760",
+      "seed_2_batch2000": "27ef7ff4897693955230793c94786093ded7bdd746e4b23d51f89cf844f0c543",
+      "seed_2_batch300": "f83eef2eb8481534f6662a97e53d66b52d3c25060148d385813abd0298190414",
+      "seed_2_batch600": "97073a706d78a8a1c58b1441ceca038e2fdf9081e7eba7db808738e46bcbe6f3",
+      "seed_3_batch1000": "71c567216c9cc9d97b77ef3a8c906e9411648da2aed5e90b187fc57039de7e25",
+      "seed_3_batch2000": "7a120bb0fcf825a8cbac470a4e0622e57df132eecc40698836e282d8d0495da1",
+      "seed_3_batch300": "60e495d2f2f1c603c22d0d89631e53360e3164ba55465d086132b489f3b66d56",
+      "seed_3_batch600": "ad74f8ccf7f3eb926b8e42b62e0fa362dfa00e63ae3c3aa14f150e2cc9f29d42"
+    },
+    "truth": "df9d475d66982804aa08918cc9cfa3f41b408337506e991f8e7206a6cca3256f"
+  },
+  "rows": [
+    {
+      "batch": 300,
+      "case": "captured_batch300",
+      "effective_sample_size": 4.511806011199951,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.0,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07025330513715744,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 16,
+      "raw_joint_safe_probability_mass": 0.0015025719767436385,
+      "returned_control": [
+        -0.3485543727874756,
+        0.1938788890838623,
+        -0.13859722018241882
+      ],
+      "static_mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 300,
+      "case": "captured_batch300",
+      "effective_sample_size": 21.659440994262695,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.005651178142701774,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07294974476099014,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 16,
+      "raw_joint_safe_probability_mass": 0.014280252158641815,
+      "returned_control": [
+        -0.36965930461883545,
+        0.15639127790927887,
+        -0.14250057935714722
+      ],
+      "static_mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 300,
+      "case": "captured_batch300",
+      "effective_sample_size": 80.73751831054688,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010186956661575763,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08131873607635498,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 16,
+      "raw_joint_safe_probability_mass": 0.030168278142809868,
+      "returned_control": [
+        -0.3818236291408539,
+        0.1416899859905243,
+        -0.14862436056137085
+      ],
+      "static_mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 300,
+      "case": "captured_batch300",
+      "effective_sample_size": 157.50250244140625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010325334588167756,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08899404108524323,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 16,
+      "raw_joint_safe_probability_mass": 0.039874348789453506,
+      "returned_control": [
+        -0.3865545988082886,
+        0.13903369009494781,
+        -0.15014398097991943
+      ],
+      "static_mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 300,
+      "case": "captured_batch300",
+      "effective_sample_size": 214.2109375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010194319938002572,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09683000296354294,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 16,
+      "raw_joint_safe_probability_mass": 0.04755996912717819,
+      "returned_control": [
+        -0.3875923454761505,
+        0.1384674459695816,
+        -0.14926184713840485
+      ],
+      "static_mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 300,
+      "case": "captured_batch300",
+      "effective_sample_size": 242.06686401367188,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010278873895161134,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10306092351675034,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 16,
+      "raw_joint_safe_probability_mass": 0.05369013547897339,
+      "returned_control": [
+        -0.38786691427230835,
+        0.13799597322940826,
+        -0.1478366106748581
+      ],
+      "static_mask_sha256": "5346b8bfdd2e359567c2613dc61c937507ef8d0a8148d19d025954bea65841bd",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_0_batch300",
+      "effective_sample_size": 3.306777238845825,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.023662963175706153,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09958645701408386,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 10,
+      "raw_joint_safe_probability_mass": 0.15996235609054565,
+      "returned_control": [
+        -0.41667813062667847,
+        0.16825100779533386,
+        -0.05082208663225174
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 300,
+      "case": "seed_0_batch300",
+      "effective_sample_size": 15.178001403808594,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.021063832237074642,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10492990911006927,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 10,
+      "raw_joint_safe_probability_mass": 0.10592488944530487,
+      "returned_control": [
+        -0.4145825505256653,
+        0.15275591611862183,
+        -0.08657906949520111
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 300,
+      "case": "seed_0_batch300",
+      "effective_sample_size": 70.15882110595703,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.013255771344656608,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10057473927736282,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 10,
+      "raw_joint_safe_probability_mass": 0.04954663664102554,
+      "returned_control": [
+        -0.3882251977920532,
+        0.142165869474411,
+        -0.1122514009475708
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_0_batch300",
+      "effective_sample_size": 154.22808837890625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009680201609138628,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10085483640432358,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 10,
+      "raw_joint_safe_probability_mass": 0.034014925360679626,
+      "returned_control": [
+        -0.37921783328056335,
+        0.13856226205825806,
+        -0.1276002675294876
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_0_batch300",
+      "effective_sample_size": 215.0115203857422,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008819340074346371,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10416471213102341,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 10,
+      "raw_joint_safe_probability_mass": 0.03266754001379013,
+      "returned_control": [
+        -0.37692326307296753,
+        0.1366148144006729,
+        -0.13291294872760773
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_0_batch300",
+      "effective_sample_size": 244.2517852783203,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008871424651480275,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10719738155603409,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 10,
+      "raw_joint_safe_probability_mass": 0.034437429159879684,
+      "returned_control": [
+        -0.37686556577682495,
+        0.13529041409492493,
+        -0.13367420434951782
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_0_batch600",
+      "effective_sample_size": 6.034567356109619,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.020536191410180926,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08915803581476212,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.1093243956565857,
+      "returned_control": [
+        -0.4209405183792114,
+        0.1722528338432312,
+        -0.06615368276834488
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 600,
+      "case": "seed_0_batch600",
+      "effective_sample_size": 29.899049758911133,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01470612066755983,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09358123689889908,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.0630207359790802,
+      "returned_control": [
+        -0.396234393119812,
+        0.1554233878850937,
+        -0.10132063180208206
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 600,
+      "case": "seed_0_batch600",
+      "effective_sample_size": 135.73922729492188,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.011361483447460685,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09257887303829193,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.03191988915205002,
+      "returned_control": [
+        -0.3835165202617645,
+        0.14333400130271912,
+        -0.12293024361133575
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_0_batch600",
+      "effective_sample_size": 302.0069580078125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009870520357880608,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09565068036317825,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.02836950123310089,
+      "returned_control": [
+        -0.3806130588054657,
+        0.13892762362957,
+        -0.13548699021339417
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_0_batch600",
+      "effective_sample_size": 425.7657165527344,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.00948927840174818,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10021016001701355,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.03288379684090614,
+      "returned_control": [
+        -0.38057607412338257,
+        0.13718196749687195,
+        -0.1390777826309204
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_0_batch600",
+      "effective_sample_size": 484.8623352050781,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009550880707021925,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10385563224554062,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.038154102861881256,
+      "returned_control": [
+        -0.38126590847969055,
+        0.1363227516412735,
+        -0.13885796070098877
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_0_batch1000",
+      "effective_sample_size": 9.665291786193848,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.02681968641505872,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08699949085712433,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.0817059874534607,
+      "returned_control": [
+        -0.4235002398490906,
+        0.1473996788263321,
+        -0.048116572201251984
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 1000,
+      "case": "seed_0_batch1000",
+      "effective_sample_size": 50.30705261230469,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.019422020006595986,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08721935749053955,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.04910104721784592,
+      "returned_control": [
+        -0.4047773778438568,
+        0.13986866176128387,
+        -0.09209630638360977
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 1000,
+      "case": "seed_0_batch1000",
+      "effective_sample_size": 227.95465087890625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.013049353821467768,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08746377378702164,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.0316312350332737,
+      "returned_control": [
+        -0.38922253251075745,
+        0.13777361810207367,
+        -0.12210813909769058
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_0_batch1000",
+      "effective_sample_size": 506.0443420410156,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010212595024451154,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.0929240733385086,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.03157467022538185,
+      "returned_control": [
+        -0.38285109400749207,
+        0.13756035268306732,
+        -0.1355993151664734
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_0_batch1000",
+      "effective_sample_size": 708.08056640625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009217030498994028,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09842020273208618,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.03624458611011505,
+      "returned_control": [
+        -0.3809528946876526,
+        0.1374616026878357,
+        -0.13900673389434814
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_0_batch1000",
+      "effective_sample_size": 800.6459350585938,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.00896886372763639,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10236794501543045,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.04071293771266937,
+      "returned_control": [
+        -0.38068851828575134,
+        0.13730299472808838,
+        -0.13881617784500122
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_0_batch2000",
+      "effective_sample_size": 15.0336275100708,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.02554631525483675,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08456513285636902,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 93,
+      "raw_joint_safe_probability_mass": 0.06355585157871246,
+      "returned_control": [
+        -0.4248650074005127,
+        0.13973917067050934,
+        -0.08623938262462616
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 2000,
+      "case": "seed_0_batch2000",
+      "effective_sample_size": 106.66922760009766,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01631668415342613,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.0833229273557663,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 93,
+      "raw_joint_safe_probability_mass": 0.037299152463674545,
+      "returned_control": [
+        -0.40048331022262573,
+        0.13578516244888306,
+        -0.12246181815862656
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 2000,
+      "case": "seed_0_batch2000",
+      "effective_sample_size": 490.59442138671875,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.011075240097478734,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.0853390172123909,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 93,
+      "raw_joint_safe_probability_mass": 0.032824933528900146,
+      "returned_control": [
+        -0.38678818941116333,
+        0.1365756243467331,
+        -0.1377858966588974
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_0_batch2000",
+      "effective_sample_size": 1037.4434814453125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009285739421230232,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09161222726106644,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 93,
+      "raw_joint_safe_probability_mass": 0.038226138800382614,
+      "returned_control": [
+        -0.3826710879802704,
+        0.1370953768491745,
+        -0.1421089768409729
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_0_batch2000",
+      "effective_sample_size": 1427.703125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008691831750858192,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09724454581737518,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 93,
+      "raw_joint_safe_probability_mass": 0.044511258602142334,
+      "returned_control": [
+        -0.3816627860069275,
+        0.13729701936244965,
+        -0.14217408001422882
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_0_batch2000",
+      "effective_sample_size": 1607.5372314453125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008503622696092172,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10086315125226974,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 93,
+      "raw_joint_safe_probability_mass": 0.049077607691287994,
+      "returned_control": [
+        -0.3815406858921051,
+        0.13740290701389313,
+        -0.14123672246932983
+      ],
+      "static_mask_sha256": "9b1d89f195a05a2e9f7989640eaea8a0bc175f1b0a2ff5adfae9710b26652902",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_1_batch300",
+      "effective_sample_size": 2.018629550933838,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.030988146786254944,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06500332802534103,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 13,
+      "raw_joint_safe_probability_mass": 0.0017998662078753114,
+      "returned_control": [
+        -0.47305554151535034,
+        0.11435997486114502,
+        -0.23102165758609772
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 300,
+      "case": "seed_1_batch300",
+      "effective_sample_size": 11.280184745788574,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.02269564531228685,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06413350254297256,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 13,
+      "raw_joint_safe_probability_mass": 0.018367471173405647,
+      "returned_control": [
+        -0.4166419208049774,
+        0.10509416460990906,
+        -0.1927187293767929
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 300,
+      "case": "seed_1_batch300",
+      "effective_sample_size": 64.62237548828125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.016509405137004052,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.0749417319893837,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 13,
+      "raw_joint_safe_probability_mass": 0.03552280366420746,
+      "returned_control": [
+        -0.3931593596935272,
+        0.11572897434234619,
+        -0.15715424716472626
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_1_batch300",
+      "effective_sample_size": 148.42977905273438,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01287185926367762,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08845584094524384,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 13,
+      "raw_joint_safe_probability_mass": 0.04306495934724808,
+      "returned_control": [
+        -0.38652586936950684,
+        0.1258203238248825,
+        -0.14357580244541168
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_1_batch300",
+      "effective_sample_size": 210.79991149902344,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010808456757279039,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09821626543998718,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 13,
+      "raw_joint_safe_probability_mass": 0.04685726389288902,
+      "returned_control": [
+        -0.38333287835121155,
+        0.13177815079689026,
+        -0.1368306428194046
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_1_batch300",
+      "effective_sample_size": 241.03697204589844,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.00981151387620649,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10352622717618942,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 13,
+      "raw_joint_safe_probability_mass": 0.04887314885854721,
+      "returned_control": [
+        -0.3816491365432739,
+        0.1347179263830185,
+        -0.13261179625988007
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_1_batch600",
+      "effective_sample_size": 3.9577176570892334,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.029814553408251676,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06629534810781479,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 20,
+      "raw_joint_safe_probability_mass": 0.053139813244342804,
+      "returned_control": [
+        -0.4549906849861145,
+        0.11309631913900375,
+        -0.2040456384420395
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 600,
+      "case": "seed_1_batch600",
+      "effective_sample_size": 30.178695678710938,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.020397596955355368,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07125193625688553,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 20,
+      "raw_joint_safe_probability_mass": 0.058506034314632416,
+      "returned_control": [
+        -0.41007229685783386,
+        0.11337315291166306,
+        -0.17061299085617065
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 600,
+      "case": "seed_1_batch600",
+      "effective_sample_size": 137.92051696777344,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.014490757066878857,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.0799972265958786,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 20,
+      "raw_joint_safe_probability_mass": 0.04556472599506378,
+      "returned_control": [
+        -0.3938579261302948,
+        0.12220153957605362,
+        -0.15241028368473053
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_1_batch600",
+      "effective_sample_size": 298.37237548828125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.011160977485134005,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09030742198228836,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 20,
+      "raw_joint_safe_probability_mass": 0.041050951927900314,
+      "returned_control": [
+        -0.38663020730018616,
+        0.1287330538034439,
+        -0.14331266283988953
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_1_batch600",
+      "effective_sample_size": 422.5501708984375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009357267994772656,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09831186383962631,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 20,
+      "raw_joint_safe_probability_mass": 0.04002011939883232,
+      "returned_control": [
+        -0.38274720311164856,
+        0.13239030539989471,
+        -0.13752244412899017
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_1_batch600",
+      "effective_sample_size": 482.60693359375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008460313575685774,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10297125577926636,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 20,
+      "raw_joint_safe_probability_mass": 0.03963055461645126,
+      "returned_control": [
+        -0.38073793053627014,
+        0.1342090368270874,
+        -0.13378289341926575
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_1_batch1000",
+      "effective_sample_size": 8.544629096984863,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01523783666503764,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06978974491357803,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.02307421900331974,
+      "returned_control": [
+        -0.42821288108825684,
+        0.1569894403219223,
+        -0.13011159002780914
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 1000,
+      "case": "seed_1_batch1000",
+      "effective_sample_size": 50.9979133605957,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01655990771456306,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07384220510721207,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.04274410009384155,
+      "returned_control": [
+        -0.4177805781364441,
+        0.1416507214307785,
+        -0.14894910156726837
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 1000,
+      "case": "seed_1_batch1000",
+      "effective_sample_size": 226.79168701171875,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01348630616438129,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07928308099508286,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.04474084824323654,
+      "returned_control": [
+        -0.3986305296421051,
+        0.1338772028684616,
+        -0.14995719492435455
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_1_batch1000",
+      "effective_sample_size": 498.73919677734375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010983662621336876,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08876933157444,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.044241763651371,
+      "returned_control": [
+        -0.3899115324020386,
+        0.13386434316635132,
+        -0.14585991203784943
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_1_batch1000",
+      "effective_sample_size": 710.1752319335938,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009564426227345102,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09687071293592453,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.0448075495660305,
+      "returned_control": [
+        -0.3858864903450012,
+        0.13487017154693604,
+        -0.14149531722068787
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_1_batch1000",
+      "effective_sample_size": 812.517333984375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008920695082330177,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10203367471694946,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 40,
+      "raw_joint_safe_probability_mass": 0.04544523358345032,
+      "returned_control": [
+        -0.384063184261322,
+        0.13536396622657776,
+        -0.13854262232780457
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_1_batch2000",
+      "effective_sample_size": 8.143416404724121,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.021574229826144098,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06419564038515091,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 89,
+      "raw_joint_safe_probability_mass": 0.031563665717840195,
+      "returned_control": [
+        -0.4399355351924896,
+        0.1363912969827652,
+        -0.2098904401063919
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 2000,
+      "case": "seed_1_batch2000",
+      "effective_sample_size": 89.62632751464844,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01569630109105269,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07272444665431976,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 89,
+      "raw_joint_safe_probability_mass": 0.0546443872153759,
+      "returned_control": [
+        -0.40773138403892517,
+        0.13259071111679077,
+        -0.18145664036273956
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 2000,
+      "case": "seed_1_batch2000",
+      "effective_sample_size": 456.205078125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.012626226583089206,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08035904914140701,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 89,
+      "raw_joint_safe_probability_mass": 0.050973452627658844,
+      "returned_control": [
+        -0.3935829699039459,
+        0.13146504759788513,
+        -0.16488765180110931
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_1_batch2000",
+      "effective_sample_size": 997.4093627929688,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010730282831207916,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09043639898300171,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 89,
+      "raw_joint_safe_probability_mass": 0.048313505947589874,
+      "returned_control": [
+        -0.3872029781341553,
+        0.13296592235565186,
+        -0.15223316848278046
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_1_batch2000",
+      "effective_sample_size": 1415.736328125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009663143956688103,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09827014803886414,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 89,
+      "raw_joint_safe_probability_mass": 0.04880482703447342,
+      "returned_control": [
+        -0.3840624690055847,
+        0.13418510556221008,
+        -0.14426203072071075
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_1_batch2000",
+      "effective_sample_size": 1617.47998046875,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009153944248338597,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10291237384080887,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 89,
+      "raw_joint_safe_probability_mass": 0.049910519272089005,
+      "returned_control": [
+        -0.38264966011047363,
+        0.13480059802532196,
+        -0.1399926394224167
+      ],
+      "static_mask_sha256": "e6a8f607703e8d7ff5f620eddf1165a000edc643b7af58c3f0ca37fbe6226893",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_2_batch300",
+      "effective_sample_size": 1.103908658027649,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.0034565914320499047,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07215209305286407,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 15,
+      "raw_joint_safe_probability_mass": 6.730453605996445e-05,
+      "returned_control": [
+        -0.3327564299106598,
+        0.1458670049905777,
+        -0.11482901871204376
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 300,
+      "case": "seed_2_batch300",
+      "effective_sample_size": 4.264405727386475,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.011017586235642085,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07009493559598923,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 15,
+      "raw_joint_safe_probability_mass": 0.007026000414043665,
+      "returned_control": [
+        -0.37158524990081787,
+        0.13259653747081757,
+        -0.13546548783779144
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 300,
+      "case": "seed_2_batch300",
+      "effective_sample_size": 55.22199630737305,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01044461968212218,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07131136953830719,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 15,
+      "raw_joint_safe_probability_mass": 0.02666361816227436,
+      "returned_control": [
+        -0.38197779655456543,
+        0.12981273233890533,
+        -0.13634590804576874
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_2_batch300",
+      "effective_sample_size": 159.2525634765625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009087772987050435,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08161672204732895,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 15,
+      "raw_joint_safe_probability_mass": 0.03957130014896393,
+      "returned_control": [
+        -0.3786703646183014,
+        0.13203980028629303,
+        -0.1355169415473938
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_2_batch300",
+      "effective_sample_size": 220.59234619140625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008665411106817622,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08935221284627914,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 15,
+      "raw_joint_safe_probability_mass": 0.04711397737264633,
+      "returned_control": [
+        -0.37631160020828247,
+        0.1325203776359558,
+        -0.13616523146629333
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_2_batch300",
+      "effective_sample_size": 246.5058135986328,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008628990571549089,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09476311504840851,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 15,
+      "raw_joint_safe_probability_mass": 0.051822297275066376,
+      "returned_control": [
+        -0.3751524090766907,
+        0.13234256207942963,
+        -0.1363164335489273
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_2_batch600",
+      "effective_sample_size": 1.330133080482483,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.005086386534887133,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06953149288892746,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.010285327211022377,
+      "returned_control": [
+        -0.3394741415977478,
+        0.1439463198184967,
+        -0.12210369110107422
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 600,
+      "case": "seed_2_batch600",
+      "effective_sample_size": 13.194785118103027,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.013517432336964674,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06978100538253784,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.036610882729291916,
+      "returned_control": [
+        -0.3800815939903259,
+        0.1252017319202423,
+        -0.1567351073026657
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 600,
+      "case": "seed_2_batch600",
+      "effective_sample_size": 132.48550415039062,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.0119944602028621,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08047362416982651,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.0392223596572876,
+      "returned_control": [
+        -0.3826199769973755,
+        0.12325701117515564,
+        -0.1505759060382843
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_2_batch600",
+      "effective_sample_size": 311.3068542480469,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010200599113803221,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09075826406478882,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.04109992831945419,
+      "returned_control": [
+        -0.37921255826950073,
+        0.12705542147159576,
+        -0.14327120780944824
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_2_batch600",
+      "effective_sample_size": 431.2827453613281,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009237162244569497,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09772985428571701,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.043096259236335754,
+      "returned_control": [
+        -0.3769385516643524,
+        0.1293480396270752,
+        -0.1399761289358139
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_2_batch600",
+      "effective_sample_size": 485.6653747558594,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008793167937493074,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10187509655952454,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 24,
+      "raw_joint_safe_probability_mass": 0.04463287442922592,
+      "returned_control": [
+        -0.37586745619773865,
+        0.13045097887516022,
+        -0.13847868144512177
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_2_batch1000",
+      "effective_sample_size": 1.68156898021698,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.006757888629259412,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06197905167937279,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 34,
+      "raw_joint_safe_probability_mass": 0.009247573092579842,
+      "returned_control": [
+        -0.3512273132801056,
+        0.1456972062587738,
+        -0.12997689843177795
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 1000,
+      "case": "seed_2_batch1000",
+      "effective_sample_size": 26.108320236206055,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.013247823895821575,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06522226333618164,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 34,
+      "raw_joint_safe_probability_mass": 0.02807525545358658,
+      "returned_control": [
+        -0.3884674310684204,
+        0.13455769419670105,
+        -0.14956924319267273
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 1000,
+      "case": "seed_2_batch1000",
+      "effective_sample_size": 239.0568084716797,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010751394237227707,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07615141570568085,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 34,
+      "raw_joint_safe_probability_mass": 0.03174390643835068,
+      "returned_control": [
+        -0.38580581545829773,
+        0.13308027386665344,
+        -0.14460578560829163
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_2_batch1000",
+      "effective_sample_size": 528.468017578125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009304710728143206,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08759602904319763,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 34,
+      "raw_joint_safe_probability_mass": 0.03469535708427429,
+      "returned_control": [
+        -0.38255971670150757,
+        0.13469761610031128,
+        -0.14015476405620575
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_2_batch1000",
+      "effective_sample_size": 718.172607421875,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008648203353121886,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09582731127738953,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 34,
+      "raw_joint_safe_probability_mass": 0.037031978368759155,
+      "returned_control": [
+        -0.38061293959617615,
+        0.13563300669193268,
+        -0.13778182864189148
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_2_batch1000",
+      "effective_sample_size": 803.130615234375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008369177079583068,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.1007901281118393,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 34,
+      "raw_joint_safe_probability_mass": 0.038505371659994125,
+      "returned_control": [
+        -0.37969186902046204,
+        0.13607236742973328,
+        -0.13668575882911682
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_2_batch2000",
+      "effective_sample_size": 4.371265888214111,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.00869793534472052,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.05253440514206886,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 82,
+      "raw_joint_safe_probability_mass": 0.044846586883068085,
+      "returned_control": [
+        -0.3603278398513794,
+        0.14533092081546783,
+        -0.13234946131706238
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 2000,
+      "case": "seed_2_batch2000",
+      "effective_sample_size": 78.83757781982422,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.011870691115578147,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06273333728313446,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 82,
+      "raw_joint_safe_probability_mass": 0.059143975377082825,
+      "returned_control": [
+        -0.38198789954185486,
+        0.13514061272144318,
+        -0.14278830587863922
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 2000,
+      "case": "seed_2_batch2000",
+      "effective_sample_size": 463.76898193359375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010775345912088952,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07592086493968964,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 82,
+      "raw_joint_safe_probability_mass": 0.046947550028562546,
+      "returned_control": [
+        -0.38374799489974976,
+        0.13333281874656677,
+        -0.1423964947462082
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_2_batch2000",
+      "effective_sample_size": 1030.6781005859375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009575120508714008,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08705203235149384,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 82,
+      "raw_joint_safe_probability_mass": 0.04450294002890587,
+      "returned_control": [
+        -0.38224372267723083,
+        0.13485534489154816,
+        -0.14044615626335144
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_2_batch2000",
+      "effective_sample_size": 1442.3870849609375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008837121118040692,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09489604085683823,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 82,
+      "raw_joint_safe_probability_mass": 0.045344579964876175,
+      "returned_control": [
+        -0.3809683620929718,
+        0.13627319037914276,
+        -0.13876649737358093
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_2_batch2000",
+      "effective_sample_size": 1631.4921875,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008442892712005268,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09943699091672897,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 82,
+      "raw_joint_safe_probability_mass": 0.046323034912347794,
+      "returned_control": [
+        -0.38031071424484253,
+        0.13718171417713165,
+        -0.13780108094215393
+      ],
+      "static_mask_sha256": "1bcf2f209f64a801cb3894d5a85c73f7267ef14245732843ee2cf692bc2ce134",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_3_batch300",
+      "effective_sample_size": 4.170499801635742,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010614914955047416,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.11199623346328735,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 7,
+      "raw_joint_safe_probability_mass": 1.2593731298693456e-05,
+      "returned_control": [
+        -0.284610390663147,
+        0.06707356870174408,
+        -0.07286418229341507
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 300,
+      "case": "seed_3_batch300",
+      "effective_sample_size": 19.51968002319336,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010909711431797753,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.06760043650865555,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 7,
+      "raw_joint_safe_probability_mass": 0.0011972988722845912,
+      "returned_control": [
+        -0.3531371057033539,
+        0.10680888593196869,
+        -0.13946709036827087
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 300,
+      "case": "seed_3_batch300",
+      "effective_sample_size": 72.78076934814453,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009820602648940913,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07149079442024231,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 7,
+      "raw_joint_safe_probability_mass": 0.007097820285707712,
+      "returned_control": [
+        -0.37026435136795044,
+        0.12092053145170212,
+        -0.1559469848871231
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_3_batch300",
+      "effective_sample_size": 150.19293212890625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008742429848954458,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08188282698392868,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 7,
+      "raw_joint_safe_probability_mass": 0.01426017191261053,
+      "returned_control": [
+        -0.3753165006637573,
+        0.12759390473365784,
+        -0.14834833145141602
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_3_batch300",
+      "effective_sample_size": 211.91644287109375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008147678296501759,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08981474488973618,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 7,
+      "raw_joint_safe_probability_mass": 0.019430773332715034,
+      "returned_control": [
+        -0.3772358000278473,
+        0.1315188705921173,
+        -0.1382887065410614
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 300,
+      "case": "seed_3_batch300",
+      "effective_sample_size": 242.2299346923828,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.007850646811562001,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09469450265169144,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 7,
+      "raw_joint_safe_probability_mass": 0.022805536165833473,
+      "returned_control": [
+        -0.3779226243495941,
+        0.13355250656604767,
+        -0.13188596069812775
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_3_batch600",
+      "effective_sample_size": 9.075844764709473,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.015616526506871509,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.11129450052976608,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 18,
+      "raw_joint_safe_probability_mass": 0.1775278002023697,
+      "returned_control": [
+        -0.35359495878219604,
+        0.07971173524856567,
+        -0.10031282901763916
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 600,
+      "case": "seed_3_batch600",
+      "effective_sample_size": 39.93437194824219,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.011768718720854388,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08790913969278336,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 18,
+      "raw_joint_safe_probability_mass": 0.08980817347764969,
+      "returned_control": [
+        -0.3742726445198059,
+        0.11330053210258484,
+        -0.13084664940834045
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 600,
+      "case": "seed_3_batch600",
+      "effective_sample_size": 147.18434143066406,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.00924052502563022,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08302336186170578,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 18,
+      "raw_joint_safe_probability_mass": 0.04334307461977005,
+      "returned_control": [
+        -0.3772927522659302,
+        0.12688574194908142,
+        -0.1399601548910141
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_3_batch600",
+      "effective_sample_size": 307.95257568359375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.00790571322565814,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08765652030706406,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 18,
+      "raw_joint_safe_probability_mass": 0.031798720359802246,
+      "returned_control": [
+        -0.377611368894577,
+        0.13203218579292297,
+        -0.13883312046527863
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_3_batch600",
+      "effective_sample_size": 432.97686767578125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.007242937391699122,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09299345314502716,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 18,
+      "raw_joint_safe_probability_mass": 0.03083297796547413,
+      "returned_control": [
+        -0.37827518582344055,
+        0.13478244841098785,
+        -0.13534942269325256
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 600,
+      "case": "seed_3_batch600",
+      "effective_sample_size": 493.01239013671875,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.006914825767447397,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09656862169504166,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 18,
+      "raw_joint_safe_probability_mass": 0.031968485563993454,
+      "returned_control": [
+        -0.3788091540336609,
+        0.13631752133369446,
+        -0.1327345073223114
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_3_batch1000",
+      "effective_sample_size": 14.075357437133789,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01848950448444775,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10906418412923813,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 38,
+      "raw_joint_safe_probability_mass": 0.1896364837884903,
+      "returned_control": [
+        -0.3772527575492859,
+        0.09055967628955841,
+        -0.12017996609210968
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 1000,
+      "case": "seed_3_batch1000",
+      "effective_sample_size": 64.35039520263672,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.01468140708331589,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08267287164926529,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 38,
+      "raw_joint_safe_probability_mass": 0.10979776084423065,
+      "returned_control": [
+        -0.3861696422100067,
+        0.1153394803404808,
+        -0.134151890873909
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 1000,
+      "case": "seed_3_batch1000",
+      "effective_sample_size": 238.06309509277344,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.011595312878055708,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08013992011547089,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 38,
+      "raw_joint_safe_probability_mass": 0.05932588502764702,
+      "returned_control": [
+        -0.3843817710876465,
+        0.1263210028409958,
+        -0.1404382288455963
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_3_batch1000",
+      "effective_sample_size": 503.2265625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.010032850972578444,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08759335428476334,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 38,
+      "raw_joint_safe_probability_mass": 0.044434335082769394,
+      "returned_control": [
+        -0.3830969035625458,
+        0.13059838116168976,
+        -0.14075550436973572
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_3_batch1000",
+      "effective_sample_size": 708.8153686523438,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.00932435121895292,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09453605860471725,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 38,
+      "raw_joint_safe_probability_mass": 0.042113784700632095,
+      "returned_control": [
+        -0.3828662931919098,
+        0.13264113664627075,
+        -0.1388094127178192
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 1000,
+      "case": "seed_3_batch1000",
+      "effective_sample_size": 805.8233642578125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008989389796061786,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09883884340524673,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 38,
+      "raw_joint_safe_probability_mass": 0.04270534589886665,
+      "returned_control": [
+        -0.3828488886356354,
+        0.13367542624473572,
+        -0.1370527595281601
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_3_batch2000",
+      "effective_sample_size": 17.080629348754883,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.019072685889939045,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07478892058134079,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 79,
+      "raw_joint_safe_probability_mass": 0.08422856032848358,
+      "returned_control": [
+        -0.44298407435417175,
+        0.14263135194778442,
+        -0.17175355553627014
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.07500000298023224,
+      "temperature_factor": 0.25
+    },
+    {
+      "batch": 2000,
+      "case": "seed_3_batch2000",
+      "effective_sample_size": 112.36592864990234,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.015815102285323235,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.07434201240539551,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 79,
+      "raw_joint_safe_probability_mass": 0.06659005582332611,
+      "returned_control": [
+        -0.4090054929256439,
+        0.12899692356586456,
+        -0.14628148078918457
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.15000000596046448,
+      "temperature_factor": 0.5
+    },
+    {
+      "batch": 2000,
+      "case": "seed_3_batch2000",
+      "effective_sample_size": 486.32611083984375,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.011387559453236662,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08055640012025833,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 79,
+      "raw_joint_safe_probability_mass": 0.04567129537463188,
+      "returned_control": [
+        -0.389973908662796,
+        0.13095098733901978,
+        -0.13889336585998535
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.30000001192092896,
+      "temperature_factor": 1.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_3_batch2000",
+      "effective_sample_size": 1031.2169189453125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.009321620283365029,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.08967967331409454,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 79,
+      "raw_joint_safe_probability_mass": 0.04032444953918457,
+      "returned_control": [
+        -0.38318851590156555,
+        0.1327958106994629,
+        -0.13672155141830444
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 0.6000000238418579,
+      "temperature_factor": 2.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_3_batch2000",
+      "effective_sample_size": 1432.811767578125,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008687671764522342,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.09718292206525803,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 79,
+      "raw_joint_safe_probability_mass": 0.041077520698308945,
+      "returned_control": [
+        -0.38155949115753174,
+        0.13372428715229034,
+        -0.13450616598129272
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 1.2000000476837158,
+      "temperature_factor": 4.0
+    },
+    {
+      "batch": 2000,
+      "case": "seed_3_batch2000",
+      "effective_sample_size": 1620.804931640625,
+      "filtered_open_loop": {
+        "body_min_gap_m": 0.008551731243085392,
+        "body_min_gap_step": 4,
+        "dynamic_clearance_gate_met": false,
+        "endpoint_path_goal_distance_m": 0.10185064375400543,
+        "padded_min_gap_m": 0.0
+      },
+      "raw_joint_safe_count": 79,
+      "raw_joint_safe_probability_mass": 0.0429457351565361,
+      "returned_control": [
+        -0.3813539743423462,
+        0.1341468095779419,
+        -0.13277460634708405
+      ],
+      "static_mask_sha256": "6bf92c9f689c01939a934d94986071e4f207926d5520eb909bf42082e6f52e41",
+      "temperature": 2.4000000953674316,
+      "temperature_factor": 8.0
+    }
+  ],
+  "schema": "rm_dynamic_prediction/guarded_temperature_sensitivity/v1",
+  "scope": "Frozen cycle 162, guarded C++ seven-critic scores, original sampled controls, constant V1 first-step penalty omitted from ranking. Truth only labels trajectories and evaluated filtered outputs. No new static CostCritic check on temperature-changed aggregates."
+}
