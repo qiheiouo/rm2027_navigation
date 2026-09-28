@@ -6,6 +6,8 @@
 
 [原生冻结控制核心回放](native_full_cycle_replay_20260928.md)随后在 17 组重建了 Omni 动力学、七项标准 critic、冻结 V1 几何算术、MPPI 聚合及滤波；轨迹与分数达到 `4.77×10⁻⁷`、`3.05×10⁻⁵` 的最大误差，17/17 组滤波后控制仍未达到动态门。V1 此处由冻结消息与现有几何代码镜像计算，未直接触发 ROS 订阅插件；噪声生成也被已冻结控制替代，因此阶段 1 是**同输入核心校验通过、端到端插件校验未通过**。单次核心计算时间不能填入阶段 3 的完整 ROS 周期性能栏。
 
+[同一核心的重复测量](native_core_benchmark_20260928.md)对四种 batch 各顺序预热 2 次、测量 20 次，2000 条时核心 p95 为 8.05 ms、回放子进程峰值 RSS 最大约 37.1 MiB，80/80 次控制哈希一致。它仍排除噪声生成与完整控制器，阶段 3 的周期性能栏继续空缺；这些数字也不能说明 2000 条能够解决本周期的预测同分和聚合间隙问题。
+
 ## 目标与固定输入
 
 主输入为 Navfn+V1 的预选周期 **162**。使用[周期证据](evidence/frozen_cycle_probe_20260924/manifest.json)及原试次中的原始持锁局部图、机器人 pose/velocity、变换后 path、padded 八边形、实际消费的 prediction message 与 source stamp、MPPI 初始控制序列、前四周期输出滤波历史和原 profile。未来 Gazebo 箱体位姿只用于**回放完成后的**动态间隙标签。对照 batch 为 **300/600/1000/2000**；其余 noise std、30 步、float `model_dt`、一次迭代、MPPI temperature/gamma、运动模型、全部 critic、footprint/padding 与 0.05 m 门保持不变。
