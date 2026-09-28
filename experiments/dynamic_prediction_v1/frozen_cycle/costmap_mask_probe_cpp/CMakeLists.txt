@@ -11,6 +11,12 @@ ament_target_dependencies(costmap_mask_probe nav2_costmap_2d geometry_msgs)
 add_executable(frozen_critic_score src/frozen_critic_score.cpp)
 ament_target_dependencies(frozen_critic_score
   nav2_mppi_controller nav2_costmap_2d geometry_msgs nav_msgs rclcpp_lifecycle)
+add_executable(frozen_cycle_replay src/frozen_cycle_replay.cpp)
+target_include_directories(frozen_cycle_replay PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/../../rm_dynamic_prediction_critic/include)
+ament_target_dependencies(frozen_cycle_replay
+  nav2_mppi_controller nav2_costmap_2d geometry_msgs nav_msgs rclcpp_lifecycle)
 install(TARGETS costmap_mask_probe DESTINATION lib/${PROJECT_NAME})
 install(TARGETS frozen_critic_score DESTINATION lib/${PROJECT_NAME})
+install(TARGETS frozen_cycle_replay DESTINATION lib/${PROJECT_NAME})
 ament_package()
