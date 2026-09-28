@@ -1,0 +1,70 @@
+{
+  "inputs_sha256": "d99779cd2d1eb87a614f64d51d05f3900eb015cc527e48c6dcfba0a1041c5ef5",
+  "native_binary_sha256": "6d243002735e96d9a99104934b5b7284483a2542037c8761c34718831eef5aeb",
+  "rows": [
+    {
+      "cycle_id": 147,
+      "effective_sample_size": 2.1545286178588867,
+      "name": "early_147",
+      "native_all_critic_body_min_gap_m": 0.07035645952228434,
+      "native_all_critic_body_min_gap_step": 17,
+      "prediction_score_sha256": "937acc14a267be1c79a2984ad384739a8f99da4d339fd0bafdc8d0c01ad8a978",
+      "raw_critic_mixed_screen": {
+        "effective_sample_size": 2.427694797515869,
+        "filtered_body_min_gap_m": 0.08909342896701909,
+        "filtered_body_min_gap_step": 18,
+        "raw_joint_safe_rollout_weight": 0.8639819622039795,
+        "returned_vx_vy_wz": [
+          0.011189639568328857,
+          -0.09504018723964691,
+          -0.1465529054403305
+        ]
+      },
+      "returned_vx_vy_wz": [
+        0.04528136923909187,
+        -0.05541306361556053,
+        -0.09536999464035034
+      ],
+      "standard_score_sha256": "472bacb4e1b56b1b1df3d0115a20b2bf8148995b7a410006521b6df96b01880c",
+      "truth_sha256": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+    },
+    {
+      "baseline_filtered_goal_candidate_weight": 0.003734307363629341,
+      "cycle_id": 263,
+      "effective_sample_size": 10.507357597351074,
+      "endpoint_goal_position_distance_m": 0.37792372703552246,
+      "filtered_goal_candidate_count": 31,
+      "filtered_goal_candidate_weight": 0.011318291537463665,
+      "filtered_goal_candidates_without_v1_penalty": 1,
+      "goal_position_rollout_weight": 0.0,
+      "name": "goal_263",
+      "native_all_critic_body_min_gap_m": 0.24015703993596826,
+      "native_all_critic_body_min_gap_step": 22,
+      "prediction_score_sha256": "3b4361269b5261257fd62eb4b5690fd6dc2de73d2e97d59125704111bc9d610e",
+      "raw_critic_mixed_screen": {
+        "effective_sample_size": 8.392345428466797,
+        "endpoint_goal_position_distance_m": 0.3843635563939147,
+        "filtered_body_min_gap_m": 0.2410297069408358,
+        "filtered_body_min_gap_step": 22,
+        "goal_position_rollout_weight": 0.0,
+        "raw_joint_safe_rollout_weight": 0.9284363985061646,
+        "returned_vx_vy_wz": [
+          0.15273800492286682,
+          0.11627304553985596,
+          -0.2041722983121872
+        ]
+      },
+      "raw_goal_candidate_count": 30,
+      "returned_vx_vy_wz": [
+        0.15025916695594788,
+        0.12390484660863876,
+        -0.19597923755645752
+      ],
+      "standard_score_sha256": "b2f1b69d6c9c4242c28e73074335f45834c68026c6136d7ae5cc61d4c160a7e4",
+      "truth_sha256": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4"
+    }
+  ],
+  "schema": "rm_dynamic_prediction/filtered_cross_cycle_native/v2",
+  "scope": "Preselected cycles 147 and 263. Each filtered candidate pose/control receives seven guarded native standard critic scores and a frozen V1 hard/graded prediction term. MPPI aggregates original sampled controls and applies the original final filter. Offline truth only evaluates output; static aggregate map check not included.",
+  "screen_sha256": "24894980e540d8aaf6bbd400ec49f36ad075cdc98a726742b79f7d69719d2057"
+}
