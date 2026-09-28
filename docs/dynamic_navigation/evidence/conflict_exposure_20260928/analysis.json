@@ -1,0 +1,1032 @@
+{
+  "collision_trial_inputs": {
+    "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "truth_sha256": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+  },
+  "goal_cycle_263": {
+    "baseline": {
+      "effective_sample_size": 11.77668571472168,
+      "endpoint_goal_position_distance_m": 0.3585282845303077,
+      "filtered_body_min_gap_m": 0.2331782407006191,
+      "filtered_body_min_gap_step": 22,
+      "goal_position_rollout_weight": 0.0,
+      "returned_vx_vy_wz": [
+        0.15186120569705963,
+        0.13387086987495422,
+        -0.1607886552810669
+      ],
+      "top_rollout": 18,
+      "top_rollout_truth_safe": true,
+      "truth_safe_rollout_weight": 0.8997135758399963
+    },
+    "baseline_control_max_abs_error": 5.960464477539063e-08,
+    "cycle_bin_sha256": "900990dee9c21a9c32587e38daeb70be614e7279d0e4e97e620bdcb53e86ae20",
+    "cycle_id": 263,
+    "cycle_json_sha256": "4e331d38e65ecbee38962d485601500f8e4d27509958d3273f8b1a75114f6223",
+    "exposure_max": 0.8888888888888888,
+    "exposure_min": 0.0,
+    "exposure_safe_mean": 0.19560185185185183,
+    "exposure_tie_break": {
+      "effective_sample_size": 11.776683807373047,
+      "endpoint_goal_position_distance_m": 0.35852831360133935,
+      "filtered_body_min_gap_m": 0.23317823933773862,
+      "filtered_body_min_gap_step": 22,
+      "goal_position_rollout_weight": 0.0,
+      "returned_vx_vy_wz": [
+        0.15186120569705963,
+        0.13387086987495422,
+        -0.1607886552810669
+      ],
+      "top_rollout": 18,
+      "top_rollout_truth_safe": true,
+      "truth_safe_rollout_weight": 0.8997136354446411
+    },
+    "exposure_unsafe_mean": 0.10185185185185186,
+    "prediction_hits_by_step": [
+      0,
+      1,
+      3,
+      8,
+      17,
+      33,
+      69,
+      145,
+      242
+    ],
+    "truth_safe_rollouts": 288
+  },
+  "goal_trial_inputs": {
+    "profile_sha256": "7ba1c498890175c7aa0db1b34db1194fe4c9881c954d85a79493e47f88f00178",
+    "truth_sha256": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4"
+  },
+  "schema": "rm_dynamic_prediction/conflict_exposure_probe/v1",
+  "scope": "Fixed V1 hard score plus original collision unit times fraction of nine conservative predicted-occupancy steps intersecting the padded robot. Same frozen controls, other critics, temperature and filter. Future Gazebo poses evaluate only.",
+  "selected_cycle_id": 162,
+  "selection_sha256": "980fe2a6dd127f82c0ed18b98aaa94f03d21a06adebc172e4b0a00e012b6ebbb",
+  "window_cycles": [
+    {
+      "baseline": {
+        "effective_sample_size": 7.427438259124756,
+        "filtered_body_min_gap_m": 0.07673541642581955,
+        "filtered_body_min_gap_step": 17,
+        "returned_vx_vy_wz": [
+          -0.24381153285503387,
+          0.21311968564987183,
+          -0.14585795998573303
+        ],
+        "top_rollout": 270,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.5837109684944153
+      },
+      "baseline_control_max_abs_error": 2.384185791015625e-07,
+      "cycle_bin_sha256": "31f62be0d4a0274c0271f1a56954820bec9622e96559bad0edd8b2dc9aa9f6cd",
+      "cycle_id": 145,
+      "cycle_json_sha256": "bd200a0511c75707185dbce7464d074837c3f308bbac91f6992acb9231f9d6cb",
+      "exposure_max": 0.3333333333333333,
+      "exposure_min": 0.0,
+      "exposure_safe_mean": 0.17592592592592596,
+      "exposure_tie_break": {
+        "effective_sample_size": 7.427441596984863,
+        "filtered_body_min_gap_m": 0.07673545173571325,
+        "filtered_body_min_gap_step": 17,
+        "returned_vx_vy_wz": [
+          -0.2438115030527115,
+          0.21311965584754944,
+          -0.14585794508457184
+        ],
+        "top_rollout": 270,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.5837108492851257
+      },
+      "exposure_unsafe_mean": 0.18106995884773663,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        171,
+        280
+      ],
+      "truth_safe_rollouts": 192
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 6.346157550811768,
+        "filtered_body_min_gap_m": 0.03629566043877633,
+        "filtered_body_min_gap_step": 26,
+        "returned_vx_vy_wz": [
+          -0.13967067003250122,
+          0.03308580815792084,
+          -0.2237745076417923
+        ],
+        "top_rollout": 86,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.4106627106666565
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "8f1056a57981302c98a05b8efe0611b16dfdc869bc696ce253f6aa874bde7f70",
+      "cycle_id": 146,
+      "cycle_json_sha256": "27363eed390c2aa774d91360ff14e748e24afb08ea4def68fce4e0d19b7f7fa5",
+      "exposure_max": 0.3333333333333333,
+      "exposure_min": 0.0,
+      "exposure_safe_mean": 0.18243243243243243,
+      "exposure_tie_break": {
+        "effective_sample_size": 6.346157550811768,
+        "filtered_body_min_gap_m": 0.0362956874945671,
+        "filtered_body_min_gap_step": 26,
+        "returned_vx_vy_wz": [
+          -0.13967065513134003,
+          0.03308580815792084,
+          -0.2237745076417923
+        ],
+        "top_rollout": 86,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.4106627106666565
+      },
+      "exposure_unsafe_mean": 0.19883040935672514,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        42,
+        188,
+        285
+      ],
+      "truth_safe_rollouts": 148
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 1.991132140159607,
+        "filtered_body_min_gap_m": 0.09182642879432101,
+        "filtered_body_min_gap_step": 17,
+        "returned_vx_vy_wz": [
+          0.04101306572556496,
+          -0.07101769745349884,
+          -0.0913684070110321
+        ],
+        "top_rollout": 35,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.9062567353248596
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "2995497fb50ef401e6e976ceaaa9781c5db48435dd2cdddc37878883e2bad2d1",
+      "cycle_id": 147,
+      "cycle_json_sha256": "b5b06b67e2dc568a95bcda7d7affe6b9d33c311eb6a394c1fafd85b484704e86",
+      "exposure_max": 0.4444444444444444,
+      "exposure_min": 0.0,
+      "exposure_safe_mean": 0.20619658119658124,
+      "exposure_tie_break": {
+        "effective_sample_size": 1.991132140159607,
+        "filtered_body_min_gap_m": 0.09182642879432101,
+        "filtered_body_min_gap_step": 17,
+        "returned_vx_vy_wz": [
+          0.04101306572556496,
+          -0.07101769745349884,
+          -0.0913684070110321
+        ],
+        "top_rollout": 35,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.9062567353248596
+      },
+      "exposure_unsafe_mean": 0.22845804988662133,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        73,
+        224,
+        293
+      ],
+      "truth_safe_rollouts": 104
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 2.2332286834716797,
+        "filtered_body_min_gap_m": 0.12077720865528697,
+        "filtered_body_min_gap_step": 17,
+        "returned_vx_vy_wz": [
+          0.11197531968355179,
+          -0.14329472184181213,
+          -0.2737627923488617
+        ],
+        "top_rollout": 270,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.9284976720809937
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "648641a6f457b8bc88052f3e9b726ffa92304d93c2633940a2d3af774263f0f9",
+      "cycle_id": 148,
+      "cycle_json_sha256": "d3b501f52611da6a1e892506c43bac205a7dae5e7df75cfa899e7b8df22b4b3f",
+      "exposure_max": 0.4444444444444444,
+      "exposure_min": 0.0,
+      "exposure_safe_mean": 0.18706047819971872,
+      "exposure_tie_break": {
+        "effective_sample_size": 2.2332282066345215,
+        "filtered_body_min_gap_m": 0.12077722519969797,
+        "filtered_body_min_gap_step": 17,
+        "returned_vx_vy_wz": [
+          0.11197532713413239,
+          -0.14329472184181213,
+          -0.27376285195350647
+        ],
+        "top_rollout": 270,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.9284977912902832
+      },
+      "exposure_unsafe_mean": 0.202660406885759,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        48,
+        185,
+        287
+      ],
+      "truth_safe_rollouts": 158
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 2.3551042079925537,
+        "filtered_body_min_gap_m": 0.12348505665304813,
+        "filtered_body_min_gap_step": 16,
+        "returned_vx_vy_wz": [
+          0.2280046045780182,
+          -0.26081740856170654,
+          -0.15479768812656403
+        ],
+        "top_rollout": 35,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.646643340587616
+      },
+      "baseline_control_max_abs_error": 5.960464477539063e-08,
+      "cycle_bin_sha256": "3b14892baa1b2ec5b2ece768462bac592c1e015bfc3b27c2d52b928af038a15d",
+      "cycle_id": 149,
+      "cycle_json_sha256": "c922c65155f237952c5ef279461e41c8f807ff5442fd5812563eb9342aac0293",
+      "exposure_max": 0.5555555555555556,
+      "exposure_min": 0.0,
+      "exposure_safe_mean": 0.2536585365853659,
+      "exposure_tie_break": {
+        "effective_sample_size": 2.3551042079925537,
+        "filtered_body_min_gap_m": 0.12348505665304813,
+        "filtered_body_min_gap_step": 16,
+        "returned_vx_vy_wz": [
+          0.2280046045780182,
+          -0.26081740856170654,
+          -0.15479768812656403
+        ],
+        "top_rollout": 35,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.646643340587616
+      },
+      "exposure_unsafe_mean": 0.2725146198830409,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        19,
+        117,
+        266,
+        297
+      ],
+      "truth_safe_rollouts": 205
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 3.402635097503662,
+        "filtered_body_min_gap_m": 0.10829691361931797,
+        "filtered_body_min_gap_step": 16,
+        "returned_vx_vy_wz": [
+          0.35362502932548523,
+          -0.3311522901058197,
+          -0.05826728418469429
+        ],
+        "top_rollout": 74,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.6447980403900146
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "5abc18b1de39e0c5e145cdd74d17470a8e1fdb767f741c2e0ef254f833a4ce7b",
+      "cycle_id": 150,
+      "cycle_json_sha256": "6b763893f8c29dbb3a7f2ecab5b2a083b31b7c396dca0cac40071024bfee205f",
+      "exposure_max": 0.4444444444444444,
+      "exposure_min": 0.0,
+      "exposure_safe_mean": 0.215962441314554,
+      "exposure_tie_break": {
+        "effective_sample_size": 3.402635097503662,
+        "filtered_body_min_gap_m": 0.10829691361931797,
+        "filtered_body_min_gap_step": 16,
+        "returned_vx_vy_wz": [
+          0.35362502932548523,
+          -0.3311522901058197,
+          -0.05826728418469429
+        ],
+        "top_rollout": 74,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.6447980403900146
+      },
+      "exposure_unsafe_mean": 0.2452107279693486,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        12,
+        75,
+        223,
+        296
+      ],
+      "truth_safe_rollouts": 213
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 1.9802206754684448,
+        "filtered_body_min_gap_m": 0.09317963971301517,
+        "filtered_body_min_gap_step": 15,
+        "returned_vx_vy_wz": [
+          0.498800665140152,
+          -0.3621915578842163,
+          0.14946222305297852
+        ],
+        "top_rollout": 35,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.5499712228775024
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "f30c2ffcc49abc725b8c94a9474a884f6ec590f1a2a7dfe2e699f810d5a1259b",
+      "cycle_id": 151,
+      "cycle_json_sha256": "09ba5c4600ee7b2f94cbf949d223dffd55ed24630ae2dd79a0ec4092d4d55f0a",
+      "exposure_max": 0.4444444444444444,
+      "exposure_min": 0.0,
+      "exposure_safe_mean": 0.22560631697687533,
+      "exposure_tie_break": {
+        "effective_sample_size": 1.9802206754684448,
+        "filtered_body_min_gap_m": 0.09317963971301517,
+        "filtered_body_min_gap_step": 15,
+        "returned_vx_vy_wz": [
+          0.498800665140152,
+          -0.3621915578842163,
+          0.14946220815181732
+        ],
+        "top_rollout": 35,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.5499712228775024
+      },
+      "exposure_unsafe_mean": 0.25242718446601936,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        78,
+        248,
+        298
+      ],
+      "truth_safe_rollouts": 197
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 8.847246170043945,
+        "filtered_body_min_gap_m": 0.0633863280075479,
+        "filtered_body_min_gap_step": 14,
+        "returned_vx_vy_wz": [
+          0.38790711760520935,
+          -0.22668150067329407,
+          0.1884525567293167
+        ],
+        "top_rollout": 38,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.4330424666404724
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "c86b37683fa696c6fcb6af402dc8624218adff5e4d796fd018b598229ee6dbbb",
+      "cycle_id": 152,
+      "cycle_json_sha256": "2450752e177be05a1434f6a5ebbcd2ee010c04cdd5cb05caea3151abdfb5af31",
+      "exposure_max": 0.5555555555555556,
+      "exposure_min": 0.1111111111111111,
+      "exposure_safe_mean": 0.25584045584045584,
+      "exposure_tie_break": {
+        "effective_sample_size": 5.870888710021973,
+        "filtered_body_min_gap_m": 0.12166336483629381,
+        "filtered_body_min_gap_step": 14,
+        "returned_vx_vy_wz": [
+          0.537123441696167,
+          -0.41067785024642944,
+          0.08087655901908875
+        ],
+        "top_rollout": 170,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.8773845434188843
+      },
+      "exposure_unsafe_mean": 0.27301587301587305,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        17,
+        114,
+        275,
+        300
+      ],
+      "truth_safe_rollouts": 195
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 3.5255117416381836,
+        "filtered_body_min_gap_m": 0.058260064769973856,
+        "filtered_body_min_gap_step": 13,
+        "returned_vx_vy_wz": [
+          0.17661263048648834,
+          -0.073656365275383,
+          0.19997097551822662
+        ],
+        "top_rollout": 146,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.08301611244678497
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "da84931f4d1db0f1a64b54b8836d24384a08664d073e9e8d1e10a249313456b3",
+      "cycle_id": 153,
+      "cycle_json_sha256": "5f6047ee6857f4c590a3b83bd5a4bebd9c507260be54db64cafce42041f2ce93",
+      "exposure_max": 0.7777777777777778,
+      "exposure_min": 0.3333333333333333,
+      "exposure_safe_mean": 0.5013227513227514,
+      "exposure_tie_break": {
+        "effective_sample_size": 5.202634334564209,
+        "filtered_body_min_gap_m": 0.08966853465605854,
+        "filtered_body_min_gap_step": 13,
+        "returned_vx_vy_wz": [
+          0.3381543755531311,
+          -0.342742919921875,
+          -0.04218490049242973
+        ],
+        "top_rollout": 267,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.9357810616493225
+      },
+      "exposure_unsafe_mean": 0.5168350168350168,
+      "prediction_hits_by_step": [
+        0,
+        0,
+        5,
+        30,
+        160,
+        277,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 168
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 40.50065994262695,
+        "filtered_body_min_gap_m": 0.04373574564488901,
+        "filtered_body_min_gap_step": 12,
+        "returned_vx_vy_wz": [
+          -0.015549696981906891,
+          -0.006243614479899406,
+          -0.10638676583766937
+        ],
+        "top_rollout": 235,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.22749005258083344
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "1f07cc4d6166d70eb6782455785820899c08c6ee742ec223eee78a565141b73a",
+      "cycle_id": 154,
+      "cycle_json_sha256": "2586139db2ffc449f74ddf56a13f8b81a2a4dfda3de2311874ffdc287417010d",
+      "exposure_max": 0.8888888888888888,
+      "exposure_min": 0.5555555555555556,
+      "exposure_safe_mean": 0.7675925925925927,
+      "exposure_tie_break": {
+        "effective_sample_size": 1.4734432697296143,
+        "filtered_body_min_gap_m": 0.10617784081709143,
+        "filtered_body_min_gap_step": 12,
+        "returned_vx_vy_wz": [
+          0.12453317642211914,
+          -0.17629769444465637,
+          -0.33917057514190674
+        ],
+        "top_rollout": 168,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.9999999403953552
+      },
+      "exposure_unsafe_mean": 0.7808641975308641,
+      "prediction_hits_by_step": [
+        0,
+        47,
+        250,
+        297,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 120
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 33.25306701660156,
+        "filtered_body_min_gap_m": 0.03314955988541179,
+        "filtered_body_min_gap_step": 12,
+        "returned_vx_vy_wz": [
+          -0.14829221367835999,
+          0.08258943259716034,
+          -0.27246788144111633
+        ],
+        "top_rollout": 172,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.25784215331077576
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "8c7140d48a57398f7a4ef720125dcd733c5d62c3956be791d97c887b360b2b5b",
+      "cycle_id": 155,
+      "cycle_json_sha256": "c4136e60408d799de84b14a460b2259c7b4078931ec3a3477139df7f2978404c",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 33.257957458496094,
+        "filtered_body_min_gap_m": 0.03314657792065005,
+        "filtered_body_min_gap_step": 12,
+        "returned_vx_vy_wz": [
+          -0.14829637110233307,
+          0.08258816599845886,
+          -0.2724684774875641
+        ],
+        "top_rollout": 172,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.2578028738498688
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 90
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 52.85857391357422,
+        "filtered_body_min_gap_m": 0.027443885820401092,
+        "filtered_body_min_gap_step": 10,
+        "returned_vx_vy_wz": [
+          -0.21062642335891724,
+          0.13606031239032745,
+          -0.35717663168907166
+        ],
+        "top_rollout": 172,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.2392999678850174
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "ea6a90e6784b5687e4df3034aa357a61a027dbd0238b9fa549d971f99bdb6874",
+      "cycle_id": 156,
+      "cycle_json_sha256": "35914ada1f8371c1ce9340b75aae34253d66403047c6ad8c0f84214450ff58eb",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 52.859588623046875,
+        "filtered_body_min_gap_m": 0.027441930619229733,
+        "filtered_body_min_gap_step": 10,
+        "returned_vx_vy_wz": [
+          -0.21062645316123962,
+          0.13606195151805878,
+          -0.3571798503398895
+        ],
+        "top_rollout": 172,
+        "top_rollout_truth_safe": true,
+        "truth_safe_rollout_weight": 0.2392919659614563
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 79
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 61.179500579833984,
+        "filtered_body_min_gap_m": 0.019131406390372245,
+        "filtered_body_min_gap_step": 9,
+        "returned_vx_vy_wz": [
+          -0.24004991352558136,
+          0.1638392060995102,
+          -0.33389103412628174
+        ],
+        "top_rollout": 172,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.14150258898735046
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "e5ca37da3191a0d654425ee80b95d35bd63a2a660c35b52db4cf3e6bc4b5c17c",
+      "cycle_id": 157,
+      "cycle_json_sha256": "2b4d36d2ab2c49b88b7d706f84165d7abbdddbb422390543436fc883fe8da0c5",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 61.17660140991211,
+        "filtered_body_min_gap_m": 0.01913120027928772,
+        "filtered_body_min_gap_step": 9,
+        "returned_vx_vy_wz": [
+          -0.24004942178726196,
+          0.16384057700634003,
+          -0.33388763666152954
+        ],
+        "top_rollout": 172,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.14148935675621033
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 53
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 63.74285888671875,
+        "filtered_body_min_gap_m": 0.008757596934613383,
+        "filtered_body_min_gap_step": 8,
+        "returned_vx_vy_wz": [
+          -0.2585856318473816,
+          0.17211851477622986,
+          -0.28711581230163574
+        ],
+        "top_rollout": 22,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.06881414353847504
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "c5f9486ed0d9e89e89e981b1dce278c466a8c4dcd45c8e80998b5a92c30ae8f3",
+      "cycle_id": 158,
+      "cycle_json_sha256": "ab1974287212400c8cc26f2738b985c77293cff87b322e986cca580826f5b139",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 63.740943908691406,
+        "filtered_body_min_gap_m": 0.008755910261461134,
+        "filtered_body_min_gap_step": 8,
+        "returned_vx_vy_wz": [
+          -0.258585125207901,
+          0.17212137579917908,
+          -0.2871209979057312
+        ],
+        "top_rollout": 22,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.068802610039711
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 32
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 73.22894287109375,
+        "filtered_body_min_gap_m": 0.0,
+        "filtered_body_min_gap_step": 7,
+        "returned_vx_vy_wz": [
+          -0.2834380567073822,
+          0.17573611438274384,
+          -0.2294197380542755
+        ],
+        "top_rollout": 235,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.03241483122110367
+      },
+      "baseline_control_max_abs_error": 5.960464477539063e-08,
+      "cycle_bin_sha256": "0505b03c0e8414662940a4a1d23f17c5b9206770d7ab7dc96a1c52827fdab802",
+      "cycle_id": 159,
+      "cycle_json_sha256": "f96e812ed68aea336e0b7d4a46cb4a9d8cfa06858288e82e7a9a00152374b184",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 73.22441101074219,
+        "filtered_body_min_gap_m": 0.0,
+        "filtered_body_min_gap_step": 7,
+        "returned_vx_vy_wz": [
+          -0.2834370732307434,
+          0.17573952674865723,
+          -0.22941255569458008
+        ],
+        "top_rollout": 235,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.03241477906703949
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 27
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 78.85308837890625,
+        "filtered_body_min_gap_m": 0.0,
+        "filtered_body_min_gap_step": 6,
+        "returned_vx_vy_wz": [
+          -0.31169185042381287,
+          0.17113137245178223,
+          -0.19904284179210663
+        ],
+        "top_rollout": 207,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.04961506277322769
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "84583828e89bea5ddee7694b0ce3dd431a662bfc473ef45687ed3c588977e695",
+      "cycle_id": 160,
+      "cycle_json_sha256": "4690ff95b75f8268ccd7ccd1926f10c03263b5efdedb204f08c201ce3952008a",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 78.85425567626953,
+        "filtered_body_min_gap_m": 0.0,
+        "filtered_body_min_gap_step": 6,
+        "returned_vx_vy_wz": [
+          -0.3116883337497711,
+          0.17113158106803894,
+          -0.19904428720474243
+        ],
+        "top_rollout": 207,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.049626827239990234
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 24
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 75.55829620361328,
+        "filtered_body_min_gap_m": 0.0011073972082877859,
+        "filtered_body_min_gap_step": 5,
+        "returned_vx_vy_wz": [
+          -0.34630054235458374,
+          0.1642964631319046,
+          -0.17567618191242218
+        ],
+        "top_rollout": 131,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.04128432273864746
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "ebb61250346c18d629b9525b45684b8899240d42d6e8b64d29eeaadec5a6d0a2",
+      "cycle_id": 161,
+      "cycle_json_sha256": "6c2dad9d748189dbce7c66e65fbfcd4489d897d2591b23c6523c4f495a43f816",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 75.55599975585938,
+        "filtered_body_min_gap_m": 0.0011069128977068132,
+        "filtered_body_min_gap_step": 5,
+        "returned_vx_vy_wz": [
+          -0.34629693627357483,
+          0.1642945259809494,
+          -0.17567196488380432
+        ],
+        "top_rollout": 131,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.04128069058060646
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 23
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 74.00518798828125,
+        "filtered_body_min_gap_m": 0.009435515466096334,
+        "filtered_body_min_gap_step": 4,
+        "returned_vx_vy_wz": [
+          -0.3785583972930908,
+          0.14060921967029572,
+          -0.14525827765464783
+        ],
+        "top_rollout": 189,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.03140811249613762
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+      "cycle_id": 162,
+      "cycle_json_sha256": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 74.00669860839844,
+        "filtered_body_min_gap_m": 0.009436066491877781,
+        "filtered_body_min_gap_step": 4,
+        "returned_vx_vy_wz": [
+          -0.37855765223503113,
+          0.14060986042022705,
+          -0.1452556550502777
+        ],
+        "top_rollout": 189,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.03140436112880707
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 16
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 49.28762435913086,
+        "filtered_body_min_gap_m": 0.016477425972710513,
+        "filtered_body_min_gap_step": 3,
+        "returned_vx_vy_wz": [
+          -0.4154306650161743,
+          0.09934407472610474,
+          -0.11951249837875366
+        ],
+        "top_rollout": 269,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.027362406253814697
+      },
+      "baseline_control_max_abs_error": 5.960464477539063e-08,
+      "cycle_bin_sha256": "51a8e1cbc912e11ddd1f8409f5e9f42b50e1c0a5c44ccaec663853659cc84d24",
+      "cycle_id": 163,
+      "cycle_json_sha256": "fa444f7d4ec719aaf3ccd249f12723405ff28458936bb44dd7b9a8e79eab410b",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": 1.0,
+      "exposure_tie_break": {
+        "effective_sample_size": 49.29652404785156,
+        "filtered_body_min_gap_m": 0.016476923753173445,
+        "filtered_body_min_gap_step": 3,
+        "returned_vx_vy_wz": [
+          -0.41543054580688477,
+          0.09934597462415695,
+          -0.11951353400945663
+        ],
+        "top_rollout": 269,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.027367286384105682
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 9
+    },
+    {
+      "baseline": {
+        "effective_sample_size": 38.52348709106445,
+        "filtered_body_min_gap_m": 0.015931281584924406,
+        "filtered_body_min_gap_step": 2,
+        "returned_vx_vy_wz": [
+          -0.4396264851093292,
+          0.07693452388048172,
+          -0.0918918251991272
+        ],
+        "top_rollout": 62,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.0
+      },
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_bin_sha256": "ee3575fa5eef7737751107cc4bd447e28384a22519c9e97c0fd4b31d314f5d1c",
+      "cycle_id": 164,
+      "cycle_json_sha256": "3f9f21f9c0e97844baa6308bed98fe7e536c0460b780216fd770962dde219b51",
+      "exposure_max": 1.0,
+      "exposure_min": 1.0,
+      "exposure_safe_mean": null,
+      "exposure_tie_break": {
+        "effective_sample_size": 38.52378845214844,
+        "filtered_body_min_gap_m": 0.015931385734596404,
+        "filtered_body_min_gap_step": 2,
+        "returned_vx_vy_wz": [
+          -0.43963146209716797,
+          0.076939657330513,
+          -0.09188041090965271
+        ],
+        "top_rollout": 62,
+        "top_rollout_truth_safe": false,
+        "truth_safe_rollout_weight": 0.0
+      },
+      "exposure_unsafe_mean": 1.0,
+      "prediction_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "truth_safe_rollouts": 0
+    }
+  ],
+  "window_sim_s": [
+    30.503999999999998,
+    32.504
+  ]
+}

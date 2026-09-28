@@ -8,6 +8,8 @@
 
 [同一核心的重复测量](native_core_benchmark_20260928.md)对四种 batch 各顺序预热 2 次、测量 20 次，2000 条时核心 p95 为 8.05 ms、回放子进程峰值 RSS 最大约 37.1 MiB，80/80 次控制哈希一致。它仍排除噪声生成与完整控制器，阶段 3 的周期性能栏继续空缺；这些数字也不能说明 2000 条能够解决本周期的预测同分和聚合间隙问题。
 
+[相交时长反事实](conflict_exposure_probe_20260928.md)在原 20 周期窗口确认，155–164 每个周期的 300 条 rollout 于 V1 九个预测步**全部**与原保守框相交。因而保留硬项、只加“相交步数/9”的单一差异项在关键周期 162 仍全体同分，滤波后间隙仍约 0.00944 m；目标附近周期 263 的目标位置候选权重仍为零。这个负结果排除了同一保守框的二值相交时长作为当前排序解法，不能被局部早期周期改善所覆盖。
+
 ## 目标与固定输入
 
 主输入为 Navfn+V1 的预选周期 **162**。使用[周期证据](evidence/frozen_cycle_probe_20260924/manifest.json)及原试次中的原始持锁局部图、机器人 pose/velocity、变换后 path、padded 八边形、实际消费的 prediction message 与 source stamp、MPPI 初始控制序列、前四周期输出滤波历史和原 profile。未来 Gazebo 箱体位姿只用于**回放完成后的**动态间隙标签。对照 batch 为 **300/600/1000/2000**；其余 noise std、30 步、float `model_dt`、一次迭代、MPPI temperature/gamma、运动模型、全部 critic、footprint/padding 与 0.05 m 门保持不变。
