@@ -1,0 +1,140 @@
+{
+  "schema": "rm_dynamic_prediction_paired_view_audit/v1",
+  "scope": "Descriptive two-run, same-box input audit. Gazebo and physical velocity are offline labels; no prediction model was fit. Adjacent frames are correlated.",
+  "plan_sha256": "cd08040ad2e23bd790aab301f4496721483acbb59ad1aca6fb77af12996406e9",
+  "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+  "results": {
+    "south": {
+      "side": "south",
+      "observation": {
+        "schema": "paired_view_observation/v1",
+        "stop_sim_s": 44.0,
+        "actual_stop_sim_s": 44.0,
+        "clock_count": 43994,
+        "scan_count": 0,
+        "odom_count": 0,
+        "target_count": 1531
+      },
+      "physical_pose_rows": 3046,
+      "source_messages_in_window": 423,
+      "rejected_non_unique_or_unconfirmed_messages": 0,
+      "unique_confirmed_source_stamps": 423,
+      "repeated_source_messages": 0,
+      "view_side_mismatches": 0,
+      "signed_bias": {
+        "n": 423,
+        "median_m": 0.2601224241925624,
+        "p10_m": 0.19698620690565713,
+        "p90_m": 0.34775656820119377,
+        "min_m": 0.18556043644974918,
+        "max_m": 0.36403657750170393
+      },
+      "raw_tracker_minus_box_y": {
+        "n": 423,
+        "median_m": -0.2601224241925624,
+        "p10_m": -0.34775656820119377,
+        "p90_m": -0.19698620690565713,
+        "min_m": -0.36403657750170393,
+        "max_m": -0.18556043644974918
+      },
+      "narrow_signed_bias": {
+        "n": 423,
+        "median_m": 0.2601224241925624,
+        "p10_m": 0.19698620690565713,
+        "p90_m": 0.34775656820119377,
+        "min_m": 0.18556043644974918,
+        "max_m": 0.36403657750170393
+      },
+      "wide_signed_bias": {
+        "n": 0
+      },
+      "physical_velocity_coverage": {
+        "positive_gt_0_3": 154,
+        "negative_lt_minus_0_3": 148,
+        "turn_abs_le_0_2": 77
+      },
+      "physical_body_gap": {
+        "sample_min_m": 0.1449045455998914,
+        "interpolation_lower_bound_m": 0.14412776792727788,
+        "at_least_0_05_m": true,
+        "box_y_range_m": [
+          -0.9500000000001083,
+          0.9500000000000445
+        ],
+        "robot_y_range_m": [
+          -1.65,
+          -1.65
+        ]
+      },
+      "track_geometry_gate": true,
+      "full_preregistered_coverage_gate": false
+    },
+    "north": {
+      "side": "north",
+      "observation": {
+        "schema": "paired_view_observation/v1",
+        "stop_sim_s": 44.0,
+        "actual_stop_sim_s": 44.0,
+        "clock_count": 43994,
+        "scan_count": 0,
+        "odom_count": 0,
+        "target_count": 1556
+      },
+      "physical_pose_rows": 3052,
+      "source_messages_in_window": 423,
+      "rejected_non_unique_or_unconfirmed_messages": 0,
+      "unique_confirmed_source_stamps": 423,
+      "repeated_source_messages": 0,
+      "view_side_mismatches": 0,
+      "signed_bias": {
+        "n": 423,
+        "median_m": 0.2905395203457145,
+        "p10_m": 0.20220645008154717,
+        "p90_m": 0.35259185117051445,
+        "min_m": 0.1848108635471185,
+        "max_m": 0.36430405891897044
+      },
+      "raw_tracker_minus_box_y": {
+        "n": 423,
+        "median_m": 0.2905395203457145,
+        "p10_m": 0.20220645008154717,
+        "p90_m": 0.35259185117051445,
+        "min_m": 0.1848108635471185,
+        "max_m": 0.36430405891897044
+      },
+      "narrow_signed_bias": {
+        "n": 423,
+        "median_m": 0.2905395203457145,
+        "p10_m": 0.20220645008154717,
+        "p90_m": 0.35259185117051445,
+        "min_m": 0.1848108635471185,
+        "max_m": 0.36430405891897044
+      },
+      "wide_signed_bias": {
+        "n": 0
+      },
+      "physical_velocity_coverage": {
+        "positive_gt_0_3": 154,
+        "negative_lt_minus_0_3": 148,
+        "turn_abs_le_0_2": 77
+      },
+      "physical_body_gap": {
+        "sample_min_m": 0.1449060020555608,
+        "interpolation_lower_bound_m": 0.14096338338133757,
+        "at_least_0_05_m": true,
+        "box_y_range_m": [
+          -0.9500000000000374,
+          0.9499985435444391
+        ],
+        "robot_y_range_m": [
+          1.65,
+          1.65
+        ]
+      },
+      "track_geometry_gate": true,
+      "full_preregistered_coverage_gate": false
+    }
+  },
+  "pair_track_geometry_gate": true,
+  "pair_full_preregistered_coverage_gate": false
+}
