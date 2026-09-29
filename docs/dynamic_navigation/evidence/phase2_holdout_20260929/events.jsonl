@@ -1,0 +1,48 @@
+{"t": 0.0, "node": "scan_frame_adapter", "level": 30, "message": "Simulation-only scan adapter: /simulation/scan_raw -> /scan with frame_id=sim_lidar_link. No TF is published."}
+{"t": 0.0, "node": "chassis_interface_stub", "level": 30, "message": "Phase 1 chassis stub only: no TF, no odom, no nav goals, no real serial."}
+{"t": 0.0, "node": "imu_frame_adapter", "level": 30, "message": "Phase 1 IMU frame adapter: /livox/lio_imu_raw -> /livox/lio_imu, output frame_id=lio_imu_link. This node only rewrites header.frame_id; it does not publish TF, filter IMU data, or modify measurements."}
+{"t": 0.0, "node": "lio_adapter", "level": 30, "message": "Canonical LIO adapter: adapting /simulation/ground_truth/odom to /odometry/lio through TF base_link->sensor with gimbal frame gimbal_yaw_link. raw_odom_parent_frame_mode=canonical_odom. twist_mode=passthrough. Real hardware still requires calibrated and timestamped gimbal yaw. input_health=disabled."}
+{"t": 0.0, "node": "gimbal_state_adapter", "level": 30, "message": "Phase 1 skeleton: publishing gimbal_yaw_joint on /joint_states. Real hardware must provide timestamped gimbal yaw before rotating-gimbal localization is accepted."}
+{"t": 0.0, "node": "map_odom_stub", "level": 30, "message": "Phase 1 placeholder: publishing dynamic identity map -> odom. Remove this node when real global localization is connected."}
+{"t": 0.076, "node": "dynamic_obstacle_tracker_shadow", "level": 30, "message": "drop scan without timestamped TF: Lookup would require extrapolation into the past.  Requested time 0.002000 but the earliest data is at time 0.020000, when looking up transform from frame [sim_lidar_link] to frame [odom]"}
+{"t": 0.21300000000000002, "node": "controller_server", "level": 30, "message": "Parameter controller_server.verbose not found"}
+{"event": "prespecified_phase", "t": 16.0, "period_s": 8.0, "phase_s": 2.0, "release_sim_t": 18.0}
+{"t": 18.005, "event": "preflight", "result": {"status": 4, "wall_ms": 14.241597999898659, "samples": 256}}
+{"t": 18.024, "node": "controller_server", "level": 30, "message": "No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once."}
+{"t": 18.024, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 18.025, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Node timed out while executing service call to local_costmap/clear_entirely_local_costmap."}
+{"t": 18.037, "node": "controller_server", "level": 30, "message": "PredictionV1Critic skipped prediction (no confirmed track); baseline CostCritic remains active"}
+{"t": 20.049, "node": "controller_server", "level": 30, "message": "PredictionV1Critic skipped prediction (no confirmed track); baseline CostCritic remains active"}
+{"t": 20.438, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose"}
+{"t": 20.463, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 20.463, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Node timed out while executing service call to local_costmap/clear_entirely_local_costmap."}
+{"t": 22.05, "node": "controller_server", "level": 30, "message": "PredictionV1Critic skipped prediction (no confirmed track); baseline CostCritic remains active"}
+{"t": 22.878, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 22.879, "node": "controller_server", "level": 30, "message": "[follow_path] [ActionServer] Aborting handle."}
+{"t": 24.048, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose"}
+{"t": 24.058, "node": "controller_server", "level": 30, "message": "PredictionV1Critic skipped prediction (no confirmed track); baseline CostCritic remains active"}
+{"t": 28.734, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 28.734, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for wait"}
+{"t": 36.797, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 36.798, "node": "controller_server", "level": 30, "message": "[follow_path] [ActionServer] Aborting handle."}
+{"t": 37.148, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose"}
+{"t": 38.773, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 38.847, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 38.849, "node": "controller_server", "level": 30, "message": "[follow_path] [ActionServer] Aborting handle."}
+{"t": 39.216, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose"}
+{"t": 40.895, "node": "controller_server", "level": 40, "message": "Optimizer fail to compute path"}
+{"t": 40.895, "node": "controller_server", "level": 30, "message": "[follow_path] [ActionServer] Aborting handle."}
+{"t": 42.109, "node": "behavior_server", "level": 30, "message": "Collision Ahead - Exiting Spin"}
+{"t": 42.11, "node": "behavior_server", "level": 30, "message": "spin failed"}
+{"t": 42.111, "node": "behavior_server", "level": 30, "message": "[spin] [ActionServer] Aborting handle."}
+{"t": 42.121, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for wait"}
+{"t": 42.124, "node": "behavior_server", "level": 30, "message": "Collision Ahead - Exiting DriveOnHeading"}
+{"t": 42.124, "node": "behavior_server", "level": 30, "message": "backup failed"}
+{"t": 42.124, "node": "behavior_server", "level": 30, "message": "[backup] [ActionServer] Aborting handle."}
+{"t": 42.234, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 43.028, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for follow_path"}
+{"t": 45.039, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Timed out while waiting for action server to acknowledge goal request for compute_path_to_pose"}
+{"t": 45.039, "node": "bt_navigator_navigate_to_pose_rclcpp_node", "level": 30, "message": "Node timed out while executing service call to global_costmap/clear_entirely_global_costmap."}
+{"t": 45.039, "node": "bt_navigator", "level": 30, "message": "[navigate_to_pose] [ActionServer] Aborting handle."}
+{"t": 45.039, "node": "bt_navigator", "level": 40, "message": "Goal failed"}
+{"t": 45.532, "event": "navigation_result", "status": 6, "timed_out": false, "recoveries": 23, "goal": [5.6, 0.0, 0.0]}

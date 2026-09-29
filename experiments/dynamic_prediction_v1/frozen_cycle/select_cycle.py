@@ -10,17 +10,16 @@ from analyze import event, sha, rows_from_transport, placed, obstacle_polygon, p
 from read_trace import read_cycle
 
 
-def select(trial):
+def select(trial, expected_prefix="/work/dynamic_prediction_trace_v3/install/"):
     cycle_dir = trial / "mppi_cycles"
     status = json.loads((cycle_dir / "writer_status.json").read_text())
     if not status["closed"] or status["dropped"] or status["errors"] or \
             status["attempted"] != status["written"]:
         raise ValueError(f"incomplete cycle writer: {status}")
     maps = (cycle_dir / "loaded_maps.txt").read_text()
-    prefix = "/work/dynamic_prediction_trace_v3/install/"
     for library in ("libmppi_controller.so", "libmppi_critics.so",
                     "librm_dynamic_prediction_critic.so"):
-        if not any(prefix in line and library in line for line in maps.splitlines()):
+        if not any(expected_prefix in line and library in line for line in maps.splitlines()):
             raise ValueError(f"wrong diagnostic library mapping: {library}")
     profile = yaml.safe_load((trial / "profile.yaml").read_text())
     local = profile["local_costmap"]["local_costmap"]["ros__parameters"]
@@ -76,8 +75,9 @@ def select(trial):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("trial", type=Path)
+    parser.add_argument("--expected-prefix", default="/work/dynamic_prediction_trace_v3/install/")
     args = parser.parse_args()
-    result = select(args.trial)
+    result = select(args.trial, args.expected_prefix)
     path = args.trial / "selection.json"
     with path.open("x") as stream:
         json.dump(result, stream, indent=2)
