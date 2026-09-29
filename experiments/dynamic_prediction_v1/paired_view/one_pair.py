@@ -16,7 +16,10 @@ IMAGE_TAG = "rm2027_navigation:dynamic-prediction-20260924"
 IMAGE_ID = "sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6"
 COMPILED_SOURCE_COMMIT = "148a3a59e0f7936a5c06bd65a8ec2309306c0aef"
 BRANCH = "codex/dynamic-differential-risk"
-Y = {"south": -1.65, "north": 1.65}
+VIEW_SETS = {
+    "axial": {"south": (4.9, -1.65), "north": (4.9, 1.65)},
+    "offset": {"south": (5.25, -1.8), "north": (5.25, 1.8)},
+}
 INPUTS = {
     "source_world": ROOT / "src/rm_simulation/worlds/phase1_omni.sdf",
     "moving_model": ROOT / "src/rm_simulation/models/moving_obstacle.sdf",
@@ -61,11 +64,11 @@ def current_source_check():
         raise ValueError("Docker image changed")
 
 
-def render_world(source, side):
+def render_world(source, xy):
     old = ('<model name="rm_sentry_2027" xmlns:ignition="http://ignitionrobotics.org/schema">\n'
            '      <pose>0 0 0 0 0 0</pose>')
     new = old.replace('<pose>0 0 0 0 0 0</pose>',
-                      f'<pose>4.9 {Y[side]:.2f} 0 0 0 0</pose>')
+                      f'<pose>{xy[0]:.2f} {xy[1]:.2f} 0 0 0 0</pose>')
     if source.count(old) != 1:
         raise ValueError("expected one original robot model and pose")
     result = source.replace(old, new)
@@ -73,25 +76,27 @@ def render_world(source, side):
         raise ValueError("world changed beyond robot pose")
     root = ET.fromstring(result)
     robot = root.find(".//model[@name='rm_sentry_2027']")
-    if robot is None or [float(x) for x in robot.find("pose").text.split()][:2] != [4.9, Y[side]]:
+    if robot is None or [float(x) for x in robot.find("pose").text.split()][:2] != list(xy):
         raise ValueError("derived robot pose invalid")
     return result
 
 
-def prepare(series):
+def prepare(series, view_set):
     if series.exists():
         raise FileExistsError("pair already exists")
     if not series.is_relative_to(WORK) or series == WORK:
         raise ValueError("pair must be a new directory under this worktree build/")
     current_source_check()
     source = INPUTS["source_world"].read_text()
-    derived = {side: render_world(source, side) for side in Y}
+    poses = VIEW_SETS[view_set]
+    derived = {side: render_world(source, xy) for side, xy in poses.items()}
     plan = {"schema": "rm_dynamic_prediction_paired_view/v1",
             "scope": "Two stationary simulation-only viewpoints, no Nav2, no robot commands; each is attempted once regardless of observation outcome",
             "branch": BRANCH, "run_commit": git("rev-parse", "HEAD"),
             "compiled_source_commit": COMPILED_SOURCE_COMMIT,
+            "view_set": view_set,
             "image_tag": IMAGE_TAG, "image_id": IMAGE_ID,
-            "robot_pose_xy": {side: [4.9, y] for side, y in Y.items()},
+            "robot_pose_xy": {side: list(xy) for side, xy in poses.items()},
             "moving_box_amplitude_m": .9, "moving_box_period_s": 8.0,
             "stop_sim_s": 44.0, "no_repeat_for_favorable_observation": True,
             "accepted_for_deployment": False,
@@ -120,7 +125,8 @@ def run(series, side):
             raise ValueError(f"frozen input changed: {name}")
     world = series / "worlds" / f"{side}.sdf"
     if sha(world) != plan["derived_world_sha256"][side] or \
-            world.read_text() != render_world(INPUTS["source_world"].read_text(), side):
+            world.read_text() != render_world(INPUTS["source_world"].read_text(),
+                                             tuple(plan["robot_pose_xy"][side])):
         raise ValueError("derived world changed")
     (WORK / "tmp").mkdir(exist_ok=True)
     mount_trial = "/work/" + str(trial.relative_to(WORK))
@@ -148,12 +154,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("prepare", "run"))
     parser.add_argument("series", type=Path)
-    parser.add_argument("side", nargs="?", choices=tuple(Y))
+    parser.add_argument("side", nargs="?", choices=("south", "north"))
+    parser.add_argument("--view-set", choices=tuple(VIEW_SETS), default="offset")
     args = parser.parse_args()
     if args.command == "prepare":
         if args.side is not None:
             parser.error("prepare does not accept a side")
-        prepare(args.series.resolve())
+        prepare(args.series.resolve(), args.view_set)
     else:
         if args.side is None:
             parser.error("run requires one side")

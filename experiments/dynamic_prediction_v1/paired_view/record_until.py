@@ -9,6 +9,7 @@ import time
 
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from rclpy.utilities import remove_ros_args
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
@@ -32,8 +33,10 @@ class Recorder(Node):
         self.clock_count = 0
         self.clock_t = None
         self.create_subscription(Clock, "/clock", self.on_clock, 10)
-        self.create_subscription(LaserScan, "/scan", self.on_scan, 10)
-        self.create_subscription(Odometry, "/odom", self.on_odometry, 10)
+        self.create_subscription(LaserScan, "/scan", self.on_scan,
+                                 qos_profile_sensor_data)
+        self.create_subscription(Odometry, "/odometry/lio", self.on_odometry,
+                                 qos_profile_sensor_data)
         self.create_subscription(Float64, "/simulation/moving_obstacle/target",
                                  self.on_target, 10)
 

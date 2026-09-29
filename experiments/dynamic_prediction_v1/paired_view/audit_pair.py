@@ -73,12 +73,16 @@ def geometry(poses, body, box):
                                 max(p["robot"][1] for p in poses)]}
 
 
-def audit_side(path, side, body, box):
+def audit_side(path, side, known_robot_y, body, box):
     observation = json.loads((path / "observation_summary.json").read_text())
     if observation["actual_stop_sim_s"] < 44 or (path / "docker_exit.txt").read_text().strip() != "0":
         raise ValueError(f"incomplete fixed observation: {side}")
     poses = rows_from_transport(path / "gazebo_poses.jsonl")
     times = [row["t"] for row in poses]
+    odometry = [json.loads(line) for line in (path / "odometry.jsonl").open()]
+    odom_times = [row["t"] for row in odometry]
+    if any(b <= a for a, b in zip(odom_times, odom_times[1:])):
+        raise ValueError(f"nonmonotonic online odometry: {side}")
     seen = {}
     source_messages = 0
     rejected_multiple_confirmed = 0
@@ -102,6 +106,14 @@ def audit_side(path, side, body, box):
         physical = at(poses, times, stamp)
         y = physical["obstacle"][1]
         robot_y = physical["robot"][1]
+        odom_index = bisect.bisect_right(odom_times, stamp)
+        online_odom = None
+        if 0 < odom_index < len(odometry):
+            before, after = odometry[odom_index - 1], odometry[odom_index]
+            if after["t"] - before["t"] <= 0.2:
+                fraction = (stamp - before["t"]) / (after["t"] - before["t"])
+                online_odom = (before["x"] + fraction * (after["x"] - before["x"]),
+                               before["y"] + fraction * (after["y"] - before["y"]))
         velocity = (at(poses, times, stamp + 0.1)["obstacle"][1] -
                     at(poses, times, stamp - 0.1)["obstacle"][1]) / 0.2
         tracker_y = track["xy"][1]
@@ -112,10 +124,18 @@ def audit_side(path, side, body, box):
                        "visible_span_y_m": track["size_xy"][1],
                        "physical_box_y_m": y, "physical_vy_mps": velocity,
                        "robot_y_m": robot_y,
+                       "online_odom_x_m": online_odom[0] if online_odom else None,
+                       "online_odom_y_m": online_odom[1] if online_odom else None,
+                       "online_odom_truth_position_error_m":
+                           math.hypot(online_odom[0] - physical["robot"][0],
+                                      online_odom[1] - robot_y) if online_odom else None,
                        "tracker_minus_box_y_m": tracker_y - y,
                        "signed_visible_bias_m": (tracker_y - y) * (1 if side == "north" else -1),
-                       "online_view_side_from_fixed_pose_and_track":
-                           "north" if (1.65 if side == "north" else -1.65) > tracker_y else "south",
+                       "view_side_from_planned_pose_and_track":
+                           "north" if known_robot_y > tracker_y else "south",
+                       "view_side_from_online_odom_and_track":
+                           ("north" if online_odom[1] > tracker_y else "south")
+                           if online_odom else None,
                        "truth_view_side": "north" if robot_y > y else "south",
                        "repeat_count": 1, "signature": signature}
     details = [seen[t] for t in sorted(seen)]
@@ -127,14 +147,21 @@ def audit_side(path, side, body, box):
               "negative_lt_minus_0_3": sum(row["physical_vy_mps"] < -0.3 for row in details),
               "turn_abs_le_0_2": sum(abs(row["physical_vy_mps"]) <= 0.2 for row in details)}
     physical_gap = geometry(poses, body, box)
-    view_mismatches = sum(row["online_view_side_from_fixed_pose_and_track"] !=
+    view_mismatches = sum(row["view_side_from_planned_pose_and_track"] !=
                           row["truth_view_side"] for row in details)
+    odom_matched = [row for row in details if row["online_odom_x_m"] is not None]
+    odom_errors = [row["online_odom_truth_position_error_m"] for row in odom_matched]
+    odom_view_mismatches = sum(row["view_side_from_online_odom_and_track"] !=
+                               row["truth_view_side"] for row in odom_matched)
     summary = {"side": side, "observation": observation,
                "physical_pose_rows": len(poses), "source_messages_in_window": source_messages,
                "rejected_non_unique_or_unconfirmed_messages": rejected_multiple_confirmed,
                "unique_confirmed_source_stamps": len(details),
                "repeated_source_messages": sum(row["repeat_count"] - 1 for row in details),
                "view_side_mismatches": view_mismatches,
+               "online_odom_matched_sources": len(odom_matched),
+               "online_odom_position_error": describe(odom_errors),
+               "online_odom_view_side_mismatches": odom_view_mismatches,
                "signed_bias": describe([row["signed_visible_bias_m"] for row in details]),
                "raw_tracker_minus_box_y": describe([row["tracker_minus_box_y_m"] for row in details]),
                "narrow_signed_bias": describe([row["signed_visible_bias_m"] for row in narrow]),
@@ -144,8 +171,11 @@ def audit_side(path, side, body, box):
         all(value > 0 for value in phases.values()) and view_mismatches == 0 and
         physical_gap["at_least_0_05_m"] and
         summary["signed_bias"]["median_m"] > 0.10)
+    summary["online_pose_gate"] = (len(odom_matched) >= 40 and
+        max(odom_errors, default=float("inf")) <= 0.03 and odom_view_mismatches == 0)
     summary["full_preregistered_coverage_gate"] = (summary["track_geometry_gate"] and
-        observation["scan_count"] > 0 and len(poses) > 0)
+        observation["scan_count"] >= 100 and observation["odom_count"] >= 100 and
+        summary["online_pose_gate"] and len(poses) > 0)
     return summary, details
 
 
@@ -181,7 +211,7 @@ def main():
     results = {}
     for side in ("south", "north"):
         trial = series / side
-        result, details = audit_side(trial, side, body, box)
+        result, details = audit_side(trial, side, plan["robot_pose_xy"][side][1], body, box)
         results[side] = result
         with (output / f"{side}_sources.csv").open("x", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(details[0]), lineterminator="\n")
