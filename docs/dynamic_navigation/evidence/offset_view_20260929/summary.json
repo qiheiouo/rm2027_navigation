@@ -1,0 +1,172 @@
+{
+  "schema": "rm_dynamic_prediction_paired_view_audit/v1",
+  "scope": "Descriptive two-run, same-box input audit. Gazebo and physical velocity are offline labels; no prediction model was fit. Adjacent frames are correlated.",
+  "plan_sha256": "0e4605c603c3c18ebda60d105d966e5df1f9f253c2ef8a50a6d026eb3a3fd916",
+  "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+  "results": {
+    "south": {
+      "side": "south",
+      "observation": {
+        "schema": "paired_view_observation/v1",
+        "stop_sim_s": 44.0,
+        "actual_stop_sim_s": 44.0,
+        "clock_count": 43981,
+        "scan_count": 667,
+        "odom_count": 2199,
+        "target_count": 1532
+      },
+      "physical_pose_rows": 3022,
+      "source_messages_in_window": 423,
+      "rejected_non_unique_or_unconfirmed_messages": 0,
+      "unique_confirmed_source_stamps": 423,
+      "repeated_source_messages": 0,
+      "view_side_mismatches": 0,
+      "online_odom_matched_sources": 423,
+      "online_odom_position_error": {
+        "n": 423,
+        "median_m": 0.0,
+        "p10_m": 0.0,
+        "p90_m": 0.0,
+        "min_m": 0.0,
+        "max_m": 0.0
+      },
+      "online_odom_view_side_mismatches": 0,
+      "signed_bias": {
+        "n": 423,
+        "median_m": 0.2558045866191543,
+        "p10_m": 0.1955576959692299,
+        "p90_m": 0.323238639488974,
+        "min_m": 0.1857923283340418,
+        "max_m": 0.33703832095490455
+      },
+      "raw_tracker_minus_box_y": {
+        "n": 423,
+        "median_m": -0.2558045866191543,
+        "p10_m": -0.323238639488974,
+        "p90_m": -0.1955576959692299,
+        "min_m": -0.33703832095490455,
+        "max_m": -0.1857923283340418
+      },
+      "narrow_signed_bias": {
+        "n": 256,
+        "median_m": 0.21052436961813248,
+        "p10_m": 0.1907082414968333,
+        "p90_m": 0.2832343780893359,
+        "min_m": 0.1857923283340418,
+        "max_m": 0.33703832095490455
+      },
+      "wide_signed_bias": {
+        "n": 167,
+        "median_m": 0.3136590975706488,
+        "p10_m": 0.24430453362677793,
+        "p90_m": 0.32544808990684987,
+        "min_m": 0.2184429260307367,
+        "max_m": 0.3323859427451655
+      },
+      "physical_velocity_coverage": {
+        "positive_gt_0_3": 154,
+        "negative_lt_minus_0_3": 148,
+        "turn_abs_le_0_2": 77
+      },
+      "physical_body_gap": {
+        "sample_min_m": 0.2949045455999173,
+        "interpolation_lower_bound_m": 0.2939283668696907,
+        "at_least_0_05_m": true,
+        "box_y_range_m": [
+          -0.9500000000000827,
+          0.9500000000000798
+        ],
+        "robot_y_range_m": [
+          -1.8,
+          -1.8
+        ]
+      },
+      "track_geometry_gate": true,
+      "online_pose_gate": true,
+      "full_preregistered_coverage_gate": true
+    },
+    "north": {
+      "side": "north",
+      "observation": {
+        "schema": "paired_view_observation/v1",
+        "stop_sim_s": 44.0,
+        "actual_stop_sim_s": 44.0,
+        "clock_count": 43992,
+        "scan_count": 667,
+        "odom_count": 2199,
+        "target_count": 1526
+      },
+      "physical_pose_rows": 3036,
+      "source_messages_in_window": 423,
+      "rejected_non_unique_or_unconfirmed_messages": 0,
+      "unique_confirmed_source_stamps": 423,
+      "repeated_source_messages": 0,
+      "view_side_mismatches": 0,
+      "online_odom_matched_sources": 423,
+      "online_odom_position_error": {
+        "n": 423,
+        "median_m": 0.0,
+        "p10_m": 0.0,
+        "p90_m": 0.0,
+        "min_m": 0.0,
+        "max_m": 0.0
+      },
+      "online_odom_view_side_mismatches": 0,
+      "signed_bias": {
+        "n": 423,
+        "median_m": 0.28299570194466683,
+        "p10_m": 0.19761790194276102,
+        "p90_m": 0.3251837175648832,
+        "min_m": 0.1847649270182241,
+        "max_m": 0.336461282223247
+      },
+      "raw_tracker_minus_box_y": {
+        "n": 423,
+        "median_m": 0.28299570194466683,
+        "p10_m": 0.19761790194276102,
+        "p90_m": 0.3251837175648832,
+        "min_m": 0.1847649270182241,
+        "max_m": 0.336461282223247
+      },
+      "narrow_signed_bias": {
+        "n": 217,
+        "median_m": 0.21551957345278405,
+        "p10_m": 0.1913036634738262,
+        "p90_m": 0.2950584117162136,
+        "min_m": 0.1847649270182241,
+        "max_m": 0.336461282223247
+      },
+      "wide_signed_bias": {
+        "n": 206,
+        "median_m": 0.31473429675122144,
+        "p10_m": 0.24504567834763527,
+        "p90_m": 0.3253282245038827,
+        "min_m": 0.21942146504684787,
+        "max_m": 0.3326024385850629
+      },
+      "physical_velocity_coverage": {
+        "positive_gt_0_3": 154,
+        "negative_lt_minus_0_3": 148,
+        "turn_abs_le_0_2": 77
+      },
+      "physical_body_gap": {
+        "sample_min_m": 0.2949045455993464,
+        "interpolation_lower_bound_m": 0.2870053990337647,
+        "at_least_0_05_m": true,
+        "box_y_range_m": [
+          -0.9499985557395736,
+          0.9500000000006535
+        ],
+        "robot_y_range_m": [
+          1.8,
+          1.8
+        ]
+      },
+      "track_geometry_gate": true,
+      "online_pose_gate": true,
+      "full_preregistered_coverage_gate": true
+    }
+  },
+  "pair_track_geometry_gate": true,
+  "pair_full_preregistered_coverage_gate": true
+}

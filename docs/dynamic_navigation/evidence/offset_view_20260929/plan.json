@@ -1,0 +1,40 @@
+{
+  "schema": "rm_dynamic_prediction_paired_view/v1",
+  "scope": "Two stationary simulation-only viewpoints, no Nav2, no robot commands; each is attempted once regardless of observation outcome",
+  "branch": "codex/dynamic-differential-risk",
+  "run_commit": "0574183d1d664c9db5b821a9019a1f0043f54b7f",
+  "compiled_source_commit": "148a3a59e0f7936a5c06bd65a8ec2309306c0aef",
+  "view_set": "offset",
+  "image_tag": "rm2027_navigation:dynamic-prediction-20260924",
+  "image_id": "sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6",
+  "robot_pose_xy": {
+    "south": [
+      5.25,
+      -1.8
+    ],
+    "north": [
+      5.25,
+      1.8
+    ]
+  },
+  "moving_box_amplitude_m": 0.9,
+  "moving_box_period_s": 8.0,
+  "stop_sim_s": 44.0,
+  "no_repeat_for_favorable_observation": true,
+  "accepted_for_deployment": false,
+  "file_sha256": {
+    "source_world": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3",
+    "moving_model": "ac489655001736911da1dce5bd46f6a3d559e364c65542cdcc9eb75510e2d8cc",
+    "wall_model": "8dd4d62b879626a206936f939e5212609da89a0f483ed0a394bb7df20f2c9c81",
+    "tracker_config": "bff48a224494814295a21d1d7481d2635b51f5896fd2f769a15b5dcf40fa63f1",
+    "observation.launch.py": "f2372e9f43c0572cedd0f48c43e0839c26ebd4ff76bfb7b9f60dfbfe19cd2a01",
+    "record_until.py": "60e8dc406b5307179780abb05f413ff80895c99414d53f04bd1618f8db0908b3",
+    "run_observation.sh": "8ee29bae2fda176649acea303247391cb36dd6f84be18346264f40299a9239b6",
+    "tracker_binary": "9099ea0b3c3a83e2a70b146bc6f1457f8a9de2a3dd5e9055b76cb96b8b4e901c",
+    "simulation_binary": "26adab36a356c136c6f796a74521df1d880d2d45d69e746a86282d72cd11563b"
+  },
+  "derived_world_sha256": {
+    "south": "4b47de56e2dec7c8c896ff07830d346453f22fc8a6d0bf008d173a095da5fd61",
+    "north": "9658c4e7894e5332bdcfbedcaa09e886edbc16544d4db1499023e24cd6f044e8"
+  }
+}
