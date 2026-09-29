@@ -27,6 +27,7 @@ from native_critic_sensitivity import AXES, aggregate
 from output_first_step_audit import actual, pose_array
 from peak_temporal_rank_probe import CASES, reference_controls, safe_labels
 from raw_scan_support_audit import static_map, trajectory_pose
+from scan_phase_view_support_audit import source_records
 from scan_midpoint_soft_probe import estimate_at_source, scan_sources
 from view_reflection_calibration import reflected
 import replay_ranking
@@ -35,18 +36,32 @@ import replay_ranking
 HEADER = struct.Struct("<3I")
 
 
-def historical_clouds(paths, occupancy, durations, training_message_source):
+def historical_clouds(paths, occupancy, durations, training_message_source,
+                      condition=None):
     clouds = []
     counts = []
     for path in paths:
+        selected = None
+        if condition is not None:
+            if training_message_source != "recorded_odom":
+                raise ValueError("phase conditioning requires recorded odometry")
+            target_y, target_vy, target_view_y, band = condition
+            _, source_rows = source_records(path, occupancy)
+            selected = {round(row["source_t"], 6) for row in source_rows
+                        if row["view_y"] == target_view_y and
+                        abs(row["center_y_m"] - target_y) <= band and
+                        abs(row["velocity_y_mps"] - target_vy) <= band}
         observations = reflected(residual_rows(
             path, occupancy, training_message_source, durations))
         by_step = []
         for duration in durations:
             residual = np.asarray([
                 row["residual_xy_m"] for row in observations["rows"]
-                if row["horizon_s"] == duration], dtype=np.float64)
-            if residual.ndim != 2 or residual.shape[1] != 2 or len(residual) < 10:
+                if row["horizon_s"] == duration and
+                (selected is None or round(row["source_t"], 6) in selected)],
+                dtype=np.float64)
+            minimum = 5 if selected is not None else 10
+            if residual.ndim != 2 or residual.shape[1] != 2 or len(residual) < minimum:
                 raise ValueError(f"historical residual support too small: {path}")
             by_step.append(residual)
         clouds.append(by_step)
@@ -114,16 +129,21 @@ def prepare(args):
     paths = [Path(row["trial"]) for row in model["historical_leave_one_trial_out"]]
     if len(paths) != 6 or any("tdt_" not in path.name for path in paths[:4]):
         raise ValueError("four old T-DT fit trials are required")
-    training = paths[:4]
-    if any(path in (args.collision_trial, args.goal_trial) for path in training):
+    training = args.training_trials if args.training_trials else paths[:4]
+    selected_cases = [case for case in CASES
+                      if args.case_names is None or case[0] in args.case_names]
+    if not selected_cases:
+        raise ValueError("no frozen cases selected")
+    evaluated_trials = {getattr(args, case[2]) for case in selected_cases}
+    if any(path in evaluated_trials for path in training):
         raise ValueError("frozen target trial must not train residual model")
     occupancy, _ = static_map()
     scan_data = {trial: scan_sources(trial, occupancy)
-                 for trial in (args.collision_trial, args.goal_trial)}
+                 for trial in evaluated_trials}
     raw = json.loads(args.raw_inputs.read_text())
     cloud_cache = {}
     rows = []
-    for name, cycle_id, trial_key, seed, score_key in CASES:
+    for name, cycle_id, trial_key, seed, score_key in selected_cases:
         trial, score_path = getattr(args, trial_key), getattr(args, score_key)
         directory = args.work_dir / name
         directory.mkdir()
@@ -172,11 +192,14 @@ def prepare(args):
             durations = tuple(prediction["source_age_s"] +
                               (step + 1) * settings["dt"]
                               for step in range(steps))
-            if durations not in cloud_cache:
-                cloud_cache[durations] = historical_clouds(
+            condition = ((float(center[1]), float(velocity[1]), view,
+                          args.phase_band) if args.phase_band is not None else None)
+            cache_key = (durations, condition)
+            if cache_key not in cloud_cache:
+                cloud_cache[cache_key] = historical_clouds(
                     training, occupancy, durations,
-                    args.training_message_source)
-            clouds, counts = cloud_cache[durations]
+                    args.training_message_source, condition)
+            clouds, counts = cloud_cache[cache_key]
             predicted_near = expected_near(
                 meta, poses, params, center, velocity,
                 prediction["source_age_s"], view, clouds)
@@ -302,10 +325,25 @@ def prepare(args):
                      "hard_hits_by_step": hits,
                      "joint_safe_filtered_candidates": int(safe.sum()),
                      "outputs": outputs})
+    training_description = (
+        f"{len(training)} selected recorded trials fit joint xy future-center "
+        "residual clouds at each exact source-age-adjusted V1 time step. "
+        if args.training_trials else
+        "Four old T-DT trials only fit joint xy future-center residual clouds "
+        "at each exact source-age-adjusted V1 time step. ")
+    phase_description = (
+        f"Training sources match target observer view and source center y "
+        f"and fitted velocity y within {args.phase_band} m and m/s respectively. "
+        if args.phase_band is not None else "")
     report = {"schema": "rm_dynamic_prediction/reflected_residual_rank_probe/v1",
-              "scope": "Five preselected frozen 300-rollout inputs. Four old T-DT trials only fit joint xy future-center residual clouds at each exact source-age-adjusted V1 time step. Training scan projection uses " + args.training_message_source + ". Mirror historical y residual by observer side and unmirror at target side; equal mass per training trial. Target source scan midpoint and past <=0.4s fitted velocity use recorded scans and odometry. If fewer than three source scans (147), retain original V1. Only the continuous term for candidates already in original hard branch is replaced by expected true-size-box padded-near (<0.02m) count with existing 300-unit near scale; original hard envelope, non-hard branch, seven standard critics, controls, temperature, filter and safety gates unchanged. The scan reconstruction helper computes separate target truth audit fields but these are excluded from scoring; target future truth labels and output geometry are evaluated afterward. No runtime probability or safety claim. Native output masks pending.",
+              "scope": f"{len(selected_cases)} preselected frozen 300-rollout inputs. " +
+              training_description + "Training scan projection uses " +
+              args.training_message_source + ". " + phase_description +
+              "Mirror historical y residual by observer side and unmirror at target side; equal mass per training trial. Target source scan midpoint and past <=0.4s fitted velocity use recorded scans and odometry. If fewer than three source scans (147), retain original V1. Only the continuous term for candidates already in original hard branch is replaced by expected true-size-box padded-near (<0.02m) count with existing 300-unit near scale; original hard envelope, non-hard branch, seven standard critics, controls, temperature, filter and safety gates unchanged. The scan reconstruction helper computes separate target truth audit fields but these are excluded from scoring; target future truth labels and output geometry are evaluated afterward. No runtime probability or safety claim. Native output masks pending.",
               "model_evidence_sha256": digest(args.model_evidence),
               "training_message_source": args.training_message_source,
+              "training_trials": [str(path) for path in training],
+              "phase_band_y_m_and_vy_mps": args.phase_band,
               "raw_inputs_sha256": digest(args.raw_inputs),
               "cases": rows}
     (args.work_dir / "prepared.json").write_text(
@@ -359,6 +397,9 @@ if __name__ == "__main__":
         p.add_argument("--" + field, type=Path, required=True)
     p.add_argument("--training-message-source", choices=("recorded", "recorded_odom"),
                    default="recorded")
+    p.add_argument("--training-trials", type=Path, nargs="+")
+    p.add_argument("--case-names", choices=[case[0] for case in CASES], nargs="+")
+    p.add_argument("--phase-band", type=float)
     p = sub.add_parser("finalize")
     for field in ("prepared", "mask-dir", "mask-binary", "output-dir"):
         p.add_argument("--" + field, type=Path, required=True)

@@ -1,0 +1,376 @@
+{
+  "cases": [
+    {
+      "baseline_control_max_abs_error": 0.0,
+      "cycle_id": 162,
+      "file_sha256": {
+        "candidates.csv": "1f86ac156a67b6fce19bb869a3d3bc5a0fa7beba5965b5bc8aa36a4f466ebcef",
+        "expected_near_f64.bin": "f4f092b74b32c9f4075f8d27751929ad4711c35b82375d571ccfa7c330a9d36e",
+        "output_controls.bin": "be27bdde7fb26be3d96f57aec87195c8fc5ef3bea21f48bd74a12620f776199e",
+        "output_poses.bin": "36ccfc102bf92985da6b747d64faeb132f7d04de3d55f90ef1f0571fcda965d2",
+        "static.bin": "bc81ed494ac164358c89adb949188fa9b48c2201d51a2c1678de41386acccb6f"
+      },
+      "hard_collision_rollouts": 300,
+      "hard_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "historical_cloud_counts_by_trial_and_step": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70
+        ]
+      ],
+      "joint_safe_filtered_candidates": 4,
+      "name": "intrusion_162",
+      "native_static_mask_sha256": "52f96c26a39ed25108a6db43d6e11c6051eba8a498a5baab1891adfa7ac7c262",
+      "observer_view_y": "north",
+      "outputs": [
+        {
+          "body_min_gap_m": 0.05714527937508954,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 1.0,
+          "joint_gate_met": true,
+          "name": "baseline",
+          "padded_min_gap_m": 0.023138180226850182,
+          "returned_control": [
+            -0.4255739450454712,
+            -0.16892138123512268,
+            -0.154069721698761
+          ],
+          "safe_probability_mass": 1.0,
+          "top_candidate_joint_safe_3s": true,
+          "top_index": 176,
+          "total_safe_auc_3s": 0.9940878378378378,
+          "v1_safe_auc_3s": 0.9949324324324325
+        },
+        {
+          "body_min_gap_m": 0.044496499964547236,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 2.4748761653900146,
+          "joint_gate_met": false,
+          "name": "reflected_residual_near",
+          "padded_min_gap_m": 0.013770895611471063,
+          "returned_control": [
+            -0.36624887585639954,
+            -0.06345276534557343,
+            -0.13667525351047516
+          ],
+          "safe_probability_mass": 0.6340106725692749,
+          "top_candidate_joint_safe_3s": true,
+          "top_index": 194,
+          "total_safe_auc_3s": 0.8513513513513513,
+          "v1_safe_auc_3s": 1.0
+        }
+      ],
+      "scan_center_xy": [
+        4.904784355056089,
+        0.1035313375132135
+      ],
+      "scan_recent_count": 4,
+      "scan_source_t": 32.209,
+      "scan_velocity_fallback": false,
+      "scan_velocity_xy": [
+        -0.013071678342430122,
+        0.7306009999246321
+      ],
+      "seed": null,
+      "source_sha256": {
+        "cycle": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+        "cycle_bin": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+        "labels": "a0e6b990bd58611a60f6f51e1eacc262a6cb1322ce10f210f976636d6318e47a",
+        "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "raw_controls": null,
+        "reference_controls": "4e6ce4a8677a44ea0347f945e0968d9717e0250967bb16d23c649775b2ef9d28",
+        "scans": {
+          "gazebo_poses": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227",
+          "predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+          "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+          "recorded_odom_trajectory": "3219c492e5b1f19d5578d5496f9bdb71ac56f591346f4e515a4d50a7fc6387ca",
+          "scans": "a2593a6faf8e39dc6e5df80c1e32949d7639ed33db97490da9963f08afd57ffc"
+        },
+        "standard": "3b6a69a465a492f2c4b1206073a298ae26cf3c4914a82ad2d786b9f608bb5f37",
+        "truth": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      }
+    },
+    {
+      "baseline_control_max_abs_error": 1.0192394256591797e-05,
+      "cycle_id": 162,
+      "file_sha256": {
+        "candidates.csv": "14240be8fc3156b08d203494a6137f88fece084560f5c5d0c12f9f4f5d7dc48f",
+        "expected_near_f64.bin": "5db9281865e447b9cf4ac3f7535f6333de636489da7f9be9fd0c00e7621f0149",
+        "output_controls.bin": "24a3cb8435679e1f78744b18e5871baca93df51f192e8dbd189bbbd9abbeefab",
+        "output_poses.bin": "74a5bf5d226c24b8c8685e1aa7b8325b70753b5ce6c3724af4f0725d093f7098",
+        "static.bin": "a2eeb9091fa69bdf2b5a9693b2fa6ac7d1f69f25e9830af75f14578cabcae9cc"
+      },
+      "hard_collision_rollouts": 300,
+      "hard_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "historical_cloud_counts_by_trial_and_step": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70
+        ]
+      ],
+      "joint_safe_filtered_candidates": 3,
+      "name": "seed_2_batch300",
+      "native_static_mask_sha256": "52f96c26a39ed25108a6db43d6e11c6051eba8a498a5baab1891adfa7ac7c262",
+      "observer_view_y": "north",
+      "outputs": [
+        {
+          "body_min_gap_m": 0.04707307800552381,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 1.1820454597473145,
+          "joint_gate_met": false,
+          "name": "baseline",
+          "padded_min_gap_m": 0.01707307490877779,
+          "returned_control": [
+            -0.37433069944381714,
+            -0.0460757315158844,
+            -0.3338731527328491
+          ],
+          "safe_probability_mass": 2.208713340223767e-06,
+          "top_candidate_joint_safe_3s": false,
+          "top_index": 72,
+          "total_safe_auc_3s": 0.936026936026936,
+          "v1_safe_auc_3s": 0.9315375982042648
+        },
+        {
+          "body_min_gap_m": 0.034474853120337885,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 16.20274543762207,
+          "joint_gate_met": false,
+          "name": "reflected_residual_near",
+          "padded_min_gap_m": 0.0,
+          "returned_control": [
+            -0.421314537525177,
+            0.007946907542645931,
+            -0.21631628274917603
+          ],
+          "safe_probability_mass": 0.04800304025411606,
+          "top_candidate_joint_safe_3s": false,
+          "top_index": 72,
+          "total_safe_auc_3s": 0.9001122334455668,
+          "v1_safe_auc_3s": 0.9753086419753086
+        }
+      ],
+      "scan_center_xy": [
+        4.904784355056089,
+        0.1035313375132135
+      ],
+      "scan_recent_count": 4,
+      "scan_source_t": 32.209,
+      "scan_velocity_fallback": false,
+      "scan_velocity_xy": [
+        -0.013071678342430122,
+        0.7306009999246321
+      ],
+      "seed": 2,
+      "source_sha256": {
+        "cycle": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+        "cycle_bin": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+        "labels": "cac8473d07e6c543951de7b0bca010e5c270424fb9c3b596b2d7c1f00649d7ee",
+        "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "raw_controls": "8e333ea426720e31e021ca4944fddfecaaae9caeabe001ddf03f2e5d0b1af5ff",
+        "reference_controls": "4e6ce4a8677a44ea0347f945e0968d9717e0250967bb16d23c649775b2ef9d28",
+        "scans": {
+          "gazebo_poses": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227",
+          "predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+          "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+          "recorded_odom_trajectory": "3219c492e5b1f19d5578d5496f9bdb71ac56f591346f4e515a4d50a7fc6387ca",
+          "scans": "a2593a6faf8e39dc6e5df80c1e32949d7639ed33db97490da9963f08afd57ffc"
+        },
+        "standard": "849ce06a105947538db9be5dd9d36241756ea04ad8a5d775ac171d8ef1910f28",
+        "truth": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      }
+    },
+    {
+      "baseline_control_max_abs_error": 1.1920928955078125e-07,
+      "cycle_id": 162,
+      "file_sha256": {
+        "candidates.csv": "175c5689e2f5690d0104998c1a281c43de1c8b0c30c63de3660e204cafe04527",
+        "expected_near_f64.bin": "a56eaa3bc23fe53dc01c63e90cc34c8e26af1aace41e0b54f8f77a046779b99e",
+        "output_controls.bin": "b33cf89c3894ecf44148e3a0ce9e4cee680aeb01d61849c3fba4c4e8dee21ba3",
+        "output_poses.bin": "7e8127c0e6b37de16679d2b7945e16799950c36a4d239801df6e98df3e282ec9",
+        "static.bin": "202ff1c0c12bf0819d8141870e03e2286c1e5f6cd9478c2b964fe2dac9664228"
+      },
+      "hard_collision_rollouts": 300,
+      "hard_hits_by_step": [
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300,
+        300
+      ],
+      "historical_cloud_counts_by_trial_and_step": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70
+        ]
+      ],
+      "joint_safe_filtered_candidates": 1,
+      "name": "seed_3_batch300",
+      "native_static_mask_sha256": "52f96c26a39ed25108a6db43d6e11c6051eba8a498a5baab1891adfa7ac7c262",
+      "observer_view_y": "north",
+      "outputs": [
+        {
+          "body_min_gap_m": 0.04680592567304931,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 1.0013620853424072,
+          "joint_gate_met": false,
+          "name": "baseline",
+          "padded_min_gap_m": 0.005105554350271824,
+          "returned_control": [
+            -0.4187960922718048,
+            0.020382225513458252,
+            -0.05726924538612366
+          ],
+          "safe_probability_mass": 1.0432933949264603e-13,
+          "top_candidate_joint_safe_3s": false,
+          "top_index": 31,
+          "total_safe_auc_3s": 0.9632107023411371,
+          "v1_safe_auc_3s": 0.9565217391304348
+        },
+        {
+          "body_min_gap_m": 0.03652064898222041,
+          "body_min_gap_step": 4,
+          "costcritic_collision": false,
+          "effective_sample_size": 5.851165771484375,
+          "joint_gate_met": false,
+          "name": "reflected_residual_near",
+          "padded_min_gap_m": 0.0,
+          "returned_control": [
+            -0.4487989842891693,
+            -0.013881076127290726,
+            -0.2552277147769928
+          ],
+          "safe_probability_mass": 0.1252448856830597,
+          "top_candidate_joint_safe_3s": false,
+          "top_index": 134,
+          "total_safe_auc_3s": 0.9966555183946488,
+          "v1_safe_auc_3s": 0.9899665551839465
+        }
+      ],
+      "scan_center_xy": [
+        4.904784355056089,
+        0.1035313375132135
+      ],
+      "scan_recent_count": 4,
+      "scan_source_t": 32.209,
+      "scan_velocity_fallback": false,
+      "scan_velocity_xy": [
+        -0.013071678342430122,
+        0.7306009999246321
+      ],
+      "seed": 3,
+      "source_sha256": {
+        "cycle": "bf619562000972504dc5d7932b9a67ea9c4041aada44780e66f6b31df3bea519",
+        "cycle_bin": "0e6f3e4790401ce56d0aaaa5e3bfaa27b8df1a7ede877459cd1aeeb1dc99c173",
+        "labels": "a78046dc825ede7fbe487b4154a662075926855b25d970f5c1aeb2cecd11f0a7",
+        "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+        "raw_controls": "959bb8e18944b493eef37e630ea0c3d51570be277a986a58a28bd846ea1acdf9",
+        "reference_controls": "4e6ce4a8677a44ea0347f945e0968d9717e0250967bb16d23c649775b2ef9d28",
+        "scans": {
+          "gazebo_poses": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227",
+          "predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+          "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+          "recorded_odom_trajectory": "3219c492e5b1f19d5578d5496f9bdb71ac56f591346f4e515a4d50a7fc6387ca",
+          "scans": "a2593a6faf8e39dc6e5df80c1e32949d7639ed33db97490da9963f08afd57ffc"
+        },
+        "standard": "7f648332dfc169d4b6d0bcccb817dff52f486f334cafafed4c66ce9c724abefe",
+        "truth": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227"
+      }
+    }
+  ],
+  "mask_binary_sha256": "37671b08cd8248f336703d79da4b5dd73fd7677999d24706f4955b7b6f6c059a",
+  "model_evidence_sha256": "e87c6f9477ea755b02b8359e43ef346d02f91d2760113bbbec41714d44004c00",
+  "phase_band_y_m_and_vy_mps": 0.2,
+  "prepared_sha256": "01ea9039fcc224c063abfe5b7d593daa0e71f7fb4103f4bda3410e067718eb48",
+  "raw_inputs_sha256": "7d951d60368d0e7c4c7d461fa7b2c9847fb1b1e74851b164ee9aa520f55321ea",
+  "schema": "rm_dynamic_prediction/reflected_residual_rank_probe/v1",
+  "scope": "3 preselected frozen 300-rollout inputs. 2 selected recorded trials fit joint xy future-center residual clouds at each exact source-age-adjusted V1 time step. Training scan projection uses recorded_odom. Training sources match target observer view and source center y and fitted velocity y within 0.2 m and m/s respectively. Mirror historical y residual by observer side and unmirror at target side; equal mass per training trial. Target source scan midpoint and past <=0.4s fitted velocity use recorded scans and odometry. If fewer than three source scans (147), retain original V1. Only the continuous term for candidates already in original hard branch is replaced by expected true-size-box padded-near (<0.02m) count with existing 300-unit near scale; original hard envelope, non-hard branch, seven standard critics, controls, temperature, filter and safety gates unchanged. The scan reconstruction helper computes separate target truth audit fields but these are excluded from scoring; target future truth labels and output geometry are evaluated afterward. No runtime probability or safety claim. Original raw-costmap native CostCritic output masks checked.",
+  "training_message_source": "recorded_odom",
+  "training_trials": [
+    "/home/wpie/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1",
+    "/home/wpie/rm2027_navigation/build/dynamic_prediction_worktree/build/dynamic_prediction_runs/rank_phase4_20260924_02/candidate_navfn_1"
+  ]
+}
