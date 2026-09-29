@@ -6,7 +6,7 @@
 
 固定使用历史 `candidate_navfn_1/profile.yaml`（SHA256 `d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640`）：Navfn、原 V1 Prediction critic、MPPI batch 300、30 步、0.1 s 步长及原噪声、温度、足迹、padding 和其余安全门。仿真为现有 Phase 1.5D 的 0.45×0.55 m 移动箱体与参考八边形机器人；不连接实车。旧归档的 52 个文件在准备阶段按原 manifest 重验。保留 tracker 与 T-DT 源码、原运行插件及比赛配置不变。
 
-运行镜像固定 `rm2027_navigation:dynamic-prediction-20260924`，镜像 ID 为 `sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6`。这不是旧试次已遗失的原镜像，而是当前设备已核对的镜像。运行时将当前工作树只读挂载，采集输出单独写入忽略的 `build/`，禁网、限制 2 CPU、6 GiB RAM、8 GiB RAM+swap、256 进程、关闭额外权限；`ROS_DOMAIN_ID=176`，`IGN_PARTITION=dynamic_prediction_phase2_holdout_20260929`。单线程构建，未用多线程编译。
+运行镜像固定 `rm2027_navigation:dynamic-prediction-20260924`，镜像 ID 为 `sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6`。这不是旧试次已遗失的原镜像，而是当前设备已核对的镜像。运行时将当前工作树只读挂载，采集输出单独写入忽略的 `build/`，禁网、限制 2 CPU、6 GiB RAM、8 GiB RAM+swap、1024 进程、关闭额外权限；`ROS_DOMAIN_ID=174`，`IGN_PARTITION=dynamic_prediction_phase2_holdout_20260929`。单线程构建，未用多线程编译。
 
 ## 当前构建和验证基线
 
@@ -23,3 +23,9 @@ MPPI 和 V1 critic 的 76 项 gtest 均通过。测试套件整体不能标成�
 5. 此次不改 batch、noise、horizon 或 critic 参数。只有该独立输入完成验收审计后，才对其冻结周期按 300/600/1000/2000 做离线同周期敏感性；结果仍需区分逐条安全候选与最终聚合控制，不能当四次独立闭环。
 
 入口为 [phase2_holdout.py](../../experiments/dynamic_prediction_v1/frozen_cycle/phase2_holdout.py) 与 [run_phase2_holdout.sh](../../experiments/dynamic_prediction_v1/frozen_cycle/run_phase2_holdout.sh)。运行前还需提交此预登记和入口，随后将精确运行提交与所有哈希写入忽略的 `build/dynamic_prediction_phase2_holdout_20260929/plan.json`。原始大数据只在该 `build/` 目录，不进入 Git；结果摘要与核验哈希提交到 `docs/dynamic_navigation/`。
+
+## 首次启动失败及预登记修正
+
+提交 `1f7309f3cd77beda97818b2a6302c5f81829f680` 的首次容器已经按计划启动并保留在 `build/dynamic_prediction_phase2_holdout_20260929/`，退出码 2。旧观测器在创建目标前拒绝 `ROS_DOMAIN_ID=176`，明确要求其已记录的 localhost 域 174；同时 `--pids-limit 256` 使 Gazebo 及 controller 创建线程时报 `Resource temporarily unavailable`。原始 Gazebo pose 和 tracker prediction 文件均为 **0 行**，没有 observation 目录、没有导航目标或可分析周期。此失败不能视作相位 2 的闭环结果，也不覆盖、不删除。
+
+修正仅为运行隔离参数：域改回 174，仍保持 Docker 禁网、ROS localhost、独立 IGN partition；进程上限提高到 1024，CPU/内存限制及算法 profile 全部不变。新计划写入另一个全新 `build/dynamic_prediction_phase2_holdout_20260929_setupfix/`，保留第一次失败记录。若再次未产生完整闭环输入，应记为采集失败，不据此挑选相位或修改算法结论。

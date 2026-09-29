@@ -139,11 +139,11 @@ def run(series):
     (WORK / "tmp").mkdir(exist_ok=True)
     args = ["docker", "run", "--rm", "--init", "--network", "none",
             "--cpus", "2", "--memory", "6g", "--memory-swap", "8g",
-            "--pids-limit", "256", "--security-opt", "no-new-privileges", "--cap-drop", "ALL",
+            "--pids-limit", "1024", "--security-opt", "no-new-privileges", "--cap-drop", "ALL",
             "--user", f"{os.getuid()}:{os.getgid()}", "--entrypoint", "bash",
             "-v", f"{ROOT}:/ws:ro", "-v", f"{WORK}:/work:rw",
             "--cidfile", str(trial / "container_id")]
-    for value in ("HOME=/work/tmp", "ROS_DOMAIN_ID=176", "ROS_LOCALHOST_ONLY=1",
+    for value in ("HOME=/work/tmp", "ROS_DOMAIN_ID=174", "ROS_LOCALHOST_ONLY=1",
                   "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=1", "OPENBLAS_NUM_THREADS=1",
                   "TMPDIR=/work/tmp", "LIBGL_ALWAYS_SOFTWARE=true", "QT_QPA_PLATFORM=offscreen",
                   "TDT_PHASE_SECONDS=2", "IGN_PARTITION=dynamic_prediction_phase2_holdout_20260929"):
