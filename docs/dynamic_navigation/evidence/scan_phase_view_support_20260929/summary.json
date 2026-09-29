@@ -1,0 +1,588 @@
+{
+  "model_evidence_sha256": "e87c6f9477ea755b02b8359e43ef346d02f91d2760113bbbec41714d44004c00",
+  "schema": "rm_dynamic_prediction/scan_phase_view_support_audit/v1",
+  "scope": "Causal support diagnostic only: source scan midpoint y, up to 0.4s fitted scan velocity y, and recorded-odometry observer view. Four old T-DT trials compared with two fixed Navfn source scans. All bands apply the same numeric value to y meters and vy meters/second, solely as an audit tolerance. No future obstacle truth or MPPI safety labels enter selection; no model fit or controller change.",
+  "target_cases": [
+    {
+      "bands": {
+        "0.1": [
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.6205716576116946,
+                "nearest_joint_max_component_delta": 0.7241029951249082,
+                "nearest_source_t": 47.191,
+                "nearest_velocity_y_mps": 0.4595276346850067,
+                "total_source_scans": 13,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.0762556718845806,
+                "nearest_joint_max_component_delta": 0.04513973180024755,
+                "nearest_source_t": 32.209,
+                "nearest_velocity_y_mps": 0.7757407317248797,
+                "total_source_scans": 131,
+                "within_joint_band": 2
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.4873452826692645,
+                "nearest_joint_max_component_delta": 0.590876620182478,
+                "nearest_source_t": 39.403,
+                "nearest_velocity_y_mps": 0.5632273068981677,
+                "total_source_scans": 33,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.01217806063166893,
+                "nearest_joint_max_component_delta": 0.09135327688154457,
+                "nearest_source_t": 32.143,
+                "nearest_velocity_y_mps": 0.7386931157036973,
+                "total_source_scans": 129,
+                "within_joint_band": 1
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.6122029204250327,
+                "nearest_joint_max_component_delta": 0.7157342579382462,
+                "nearest_source_t": 47.191,
+                "nearest_velocity_y_mps": 0.4835836892356555,
+                "total_source_scans": 6,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.09491153541600994,
+                "nearest_joint_max_component_delta": 0.00861980209720356,
+                "nearest_source_t": 32.209,
+                "nearest_velocity_y_mps": 0.733509063157266,
+                "total_source_scans": 113,
+                "within_joint_band": 4
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.4832332976764843,
+                "nearest_joint_max_component_delta": 0.5867646351896978,
+                "nearest_source_t": 39.403,
+                "nearest_velocity_y_mps": 0.605586033353287,
+                "total_source_scans": 27,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": -0.08046385773232523,
+                "nearest_joint_max_component_delta": 0.18399519524553873,
+                "nearest_source_t": 32.011,
+                "nearest_velocity_y_mps": 0.7183234012272983,
+                "total_source_scans": 107,
+                "within_joint_band": 0
+              }
+            }
+          }
+        ],
+        "0.2": [
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.6205716576116946,
+                "nearest_joint_max_component_delta": 0.7241029951249082,
+                "nearest_source_t": 47.191,
+                "nearest_velocity_y_mps": 0.4595276346850067,
+                "total_source_scans": 13,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.0762556718845806,
+                "nearest_joint_max_component_delta": 0.04513973180024755,
+                "nearest_source_t": 32.209,
+                "nearest_velocity_y_mps": 0.7757407317248797,
+                "total_source_scans": 131,
+                "within_joint_band": 4
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.4873452826692645,
+                "nearest_joint_max_component_delta": 0.590876620182478,
+                "nearest_source_t": 39.403,
+                "nearest_velocity_y_mps": 0.5632273068981677,
+                "total_source_scans": 33,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.01217806063166893,
+                "nearest_joint_max_component_delta": 0.09135327688154457,
+                "nearest_source_t": 32.143,
+                "nearest_velocity_y_mps": 0.7386931157036973,
+                "total_source_scans": 129,
+                "within_joint_band": 3
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.6122029204250327,
+                "nearest_joint_max_component_delta": 0.7157342579382462,
+                "nearest_source_t": 47.191,
+                "nearest_velocity_y_mps": 0.4835836892356555,
+                "total_source_scans": 6,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.09491153541600994,
+                "nearest_joint_max_component_delta": 0.00861980209720356,
+                "nearest_source_t": 32.209,
+                "nearest_velocity_y_mps": 0.733509063157266,
+                "total_source_scans": 113,
+                "within_joint_band": 6
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.4832332976764843,
+                "nearest_joint_max_component_delta": 0.5867646351896978,
+                "nearest_source_t": 39.403,
+                "nearest_velocity_y_mps": 0.605586033353287,
+                "total_source_scans": 27,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": -0.08046385773232523,
+                "nearest_joint_max_component_delta": 0.18399519524553873,
+                "nearest_source_t": 32.011,
+                "nearest_velocity_y_mps": 0.7183234012272983,
+                "total_source_scans": 107,
+                "within_joint_band": 1
+              }
+            }
+          }
+        ],
+        "0.3": [
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.6205716576116946,
+                "nearest_joint_max_component_delta": 0.7241029951249082,
+                "nearest_source_t": 47.191,
+                "nearest_velocity_y_mps": 0.4595276346850067,
+                "total_source_scans": 13,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.0762556718845806,
+                "nearest_joint_max_component_delta": 0.04513973180024755,
+                "nearest_source_t": 32.209,
+                "nearest_velocity_y_mps": 0.7757407317248797,
+                "total_source_scans": 131,
+                "within_joint_band": 10
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.4873452826692645,
+                "nearest_joint_max_component_delta": 0.590876620182478,
+                "nearest_source_t": 39.403,
+                "nearest_velocity_y_mps": 0.5632273068981677,
+                "total_source_scans": 33,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.01217806063166893,
+                "nearest_joint_max_component_delta": 0.09135327688154457,
+                "nearest_source_t": 32.143,
+                "nearest_velocity_y_mps": 0.7386931157036973,
+                "total_source_scans": 129,
+                "within_joint_band": 7
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.6122029204250327,
+                "nearest_joint_max_component_delta": 0.7157342579382462,
+                "nearest_source_t": 47.191,
+                "nearest_velocity_y_mps": 0.4835836892356555,
+                "total_source_scans": 6,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": 0.09491153541600994,
+                "nearest_joint_max_component_delta": 0.00861980209720356,
+                "nearest_source_t": 32.209,
+                "nearest_velocity_y_mps": 0.733509063157266,
+                "total_source_scans": 113,
+                "within_joint_band": 8
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.4832332976764843,
+                "nearest_joint_max_component_delta": 0.5867646351896978,
+                "nearest_source_t": 39.403,
+                "nearest_velocity_y_mps": 0.605586033353287,
+                "total_source_scans": 27,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": -0.08046385773232523,
+                "nearest_joint_max_component_delta": 0.18399519524553873,
+                "nearest_source_t": 32.011,
+                "nearest_velocity_y_mps": 0.7183234012272983,
+                "total_source_scans": 107,
+                "within_joint_band": 4
+              }
+            }
+          }
+        ]
+      },
+      "name": "intrusion_162",
+      "scan_center_y_m": 0.1035313375132135,
+      "scan_velocity_y_mps": 0.7306009999246321,
+      "source_t": 32.209,
+      "view_y": "north"
+    },
+    {
+      "bands": {
+        "0.1": [
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9043972563762503,
+                "nearest_joint_max_component_delta": 0.11091882637789428,
+                "nearest_source_t": 46.399,
+                "nearest_velocity_y_mps": 0.11885491711995574,
+                "total_source_scans": 13,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": -0.9553744830358053,
+                "nearest_joint_max_component_delta": 0.02968277220841764,
+                "nearest_source_t": 30.163,
+                "nearest_velocity_y_mps": 0.01156344794201937,
+                "total_source_scans": 131,
+                "within_joint_band": 3
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9262723156857035,
+                "nearest_joint_max_component_delta": 0.0008555147028233446,
+                "nearest_source_t": 38.149,
+                "nearest_velocity_y_mps": 0.0087916054448848,
+                "total_source_scans": 33,
+                "within_joint_band": 5
+              },
+              "south": {
+                "nearest_center_y_m": -0.8847432092713529,
+                "nearest_joint_max_component_delta": 0.12538709546889842,
+                "nearest_source_t": 22.573,
+                "nearest_velocity_y_mps": 0.13332318621095987,
+                "total_source_scans": 129,
+                "within_joint_band": 0
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.8243549447700331,
+                "nearest_joint_max_component_delta": 0.234153380223036,
+                "nearest_source_t": 46.729,
+                "nearest_velocity_y_mps": 0.24208947096509745,
+                "total_source_scans": 6,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": -0.9403269344775338,
+                "nearest_joint_max_component_delta": 0.029481981399802383,
+                "nearest_source_t": 30.229,
+                "nearest_velocity_y_mps": 0.03741807214186384,
+                "total_source_scans": 113,
+                "within_joint_band": 4
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9419221128978608,
+                "nearest_joint_max_component_delta": 0.016230402070473104,
+                "nearest_source_t": 38.083,
+                "nearest_velocity_y_mps": 0.016256002070647018,
+                "total_source_scans": 27,
+                "within_joint_band": 4
+              },
+              "south": {
+                "nearest_center_y_m": -0.9012901427886285,
+                "nearest_joint_max_component_delta": 0.10653815295028,
+                "nearest_source_t": 22.507,
+                "nearest_velocity_y_mps": 0.11447424369234147,
+                "total_source_scans": 107,
+                "within_joint_band": 0
+              }
+            }
+          }
+        ],
+        "0.2": [
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9043972563762503,
+                "nearest_joint_max_component_delta": 0.11091882637789428,
+                "nearest_source_t": 46.399,
+                "nearest_velocity_y_mps": 0.11885491711995574,
+                "total_source_scans": 13,
+                "within_joint_band": 5
+              },
+              "south": {
+                "nearest_center_y_m": -0.9553744830358053,
+                "nearest_joint_max_component_delta": 0.02968277220841764,
+                "nearest_source_t": 30.163,
+                "nearest_velocity_y_mps": 0.01156344794201937,
+                "total_source_scans": 131,
+                "within_joint_band": 5
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9262723156857035,
+                "nearest_joint_max_component_delta": 0.0008555147028233446,
+                "nearest_source_t": 38.149,
+                "nearest_velocity_y_mps": 0.0087916054448848,
+                "total_source_scans": 33,
+                "within_joint_band": 12
+              },
+              "south": {
+                "nearest_center_y_m": -0.8847432092713529,
+                "nearest_joint_max_component_delta": 0.12538709546889842,
+                "nearest_source_t": 22.573,
+                "nearest_velocity_y_mps": 0.13332318621095987,
+                "total_source_scans": 129,
+                "within_joint_band": 2
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.8243549447700331,
+                "nearest_joint_max_component_delta": 0.234153380223036,
+                "nearest_source_t": 46.729,
+                "nearest_velocity_y_mps": 0.24208947096509745,
+                "total_source_scans": 6,
+                "within_joint_band": 0
+              },
+              "south": {
+                "nearest_center_y_m": -0.9403269344775338,
+                "nearest_joint_max_component_delta": 0.029481981399802383,
+                "nearest_source_t": 30.229,
+                "nearest_velocity_y_mps": 0.03741807214186384,
+                "total_source_scans": 113,
+                "within_joint_band": 9
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9419221128978608,
+                "nearest_joint_max_component_delta": 0.016230402070473104,
+                "nearest_source_t": 38.083,
+                "nearest_velocity_y_mps": 0.016256002070647018,
+                "total_source_scans": 27,
+                "within_joint_band": 13
+              },
+              "south": {
+                "nearest_center_y_m": -0.9012901427886285,
+                "nearest_joint_max_component_delta": 0.10653815295028,
+                "nearest_source_t": 22.507,
+                "nearest_velocity_y_mps": 0.11447424369234147,
+                "total_source_scans": 107,
+                "within_joint_band": 3
+              }
+            }
+          }
+        ],
+        "0.3": [
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9043972563762503,
+                "nearest_joint_max_component_delta": 0.11091882637789428,
+                "nearest_source_t": 46.399,
+                "nearest_velocity_y_mps": 0.11885491711995574,
+                "total_source_scans": 13,
+                "within_joint_band": 7
+              },
+              "south": {
+                "nearest_center_y_m": -0.9553744830358053,
+                "nearest_joint_max_component_delta": 0.02968277220841764,
+                "nearest_source_t": 30.163,
+                "nearest_velocity_y_mps": 0.01156344794201937,
+                "total_source_scans": 131,
+                "within_joint_band": 9
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9262723156857035,
+                "nearest_joint_max_component_delta": 0.0008555147028233446,
+                "nearest_source_t": 38.149,
+                "nearest_velocity_y_mps": 0.0087916054448848,
+                "total_source_scans": 33,
+                "within_joint_band": 17
+              },
+              "south": {
+                "nearest_center_y_m": -0.8847432092713529,
+                "nearest_joint_max_component_delta": 0.12538709546889842,
+                "nearest_source_t": 22.573,
+                "nearest_velocity_y_mps": 0.13332318621095987,
+                "total_source_scans": 129,
+                "within_joint_band": 4
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.8243549447700331,
+                "nearest_joint_max_component_delta": 0.234153380223036,
+                "nearest_source_t": 46.729,
+                "nearest_velocity_y_mps": 0.24208947096509745,
+                "total_source_scans": 6,
+                "within_joint_band": 2
+              },
+              "south": {
+                "nearest_center_y_m": -0.9403269344775338,
+                "nearest_joint_max_component_delta": 0.029481981399802383,
+                "nearest_source_t": 30.229,
+                "nearest_velocity_y_mps": 0.03741807214186384,
+                "total_source_scans": 113,
+                "within_joint_band": 17
+              }
+            }
+          },
+          {
+            "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1",
+            "views": {
+              "north": {
+                "nearest_center_y_m": -0.9419221128978608,
+                "nearest_joint_max_component_delta": 0.016230402070473104,
+                "nearest_source_t": 38.083,
+                "nearest_velocity_y_mps": 0.016256002070647018,
+                "total_source_scans": 27,
+                "within_joint_band": 17
+              },
+              "south": {
+                "nearest_center_y_m": -0.9012901427886285,
+                "nearest_joint_max_component_delta": 0.10653815295028,
+                "nearest_source_t": 22.507,
+                "nearest_velocity_y_mps": 0.11447424369234147,
+                "total_source_scans": 107,
+                "within_joint_band": 11
+              }
+            }
+          }
+        ]
+      },
+      "name": "goal_263",
+      "scan_center_y_m": -0.9256917108273877,
+      "scan_velocity_y_mps": 0.007936090742061455,
+      "source_t": 46.201,
+      "view_y": "north"
+    }
+  ],
+  "target_evidence_sha256": "30566bec503a2c8ef66c5d9a194a7b6d19cdff51271ecc6d262e3b86755ace4d",
+  "training": [
+    {
+      "eligible_source_scans": 144,
+      "source_sha256": {
+        "gazebo_poses": "93bd3a8da89d68b1f725d6d3254d7e930a49d1fab813b6d5512b064cb812a836",
+        "predictions": "a2ac0db4b42608952c95911eaeaae3464d9bdd5e69481f157d7d78585eca1b69",
+        "profile": "00b3feb7e1dded57ea0f475cebc6d0028827d215f560af47ae13835aba0d7ad1",
+        "recorded_odom_trajectory": "a76205b96ea12ff3d1f86da30da98d8f5f686932bce934794c374db0ac2e2ba6",
+        "scans": "d8a81546e0a2a076fa0879d723529ccf5bb0c2d3afcc03010fef3cc08d50d5f2"
+      },
+      "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_astar_1"
+    },
+    {
+      "eligible_source_scans": 162,
+      "source_sha256": {
+        "gazebo_poses": "6cc58deec6eb3089f63f22f558b3696eecf611da37533d7c56197bbd6629aeef",
+        "predictions": "aaacb9d3f3f5873412dc0e85016dea75cabe1b5203385a1768ebef0f25f2009f",
+        "profile": "4dd877afd4d85a88c702e3cdb8a6d38534524a4ef7b04ea246f3ed1c2bdaccbe",
+        "recorded_odom_trajectory": "5c501a7aaba183c28531c201fd3e25625eaa9c72bf4d5e81574b795e2bed0a98",
+        "scans": "15805e196e4fb216852682dcb32f35fc5f55caf2659dca1cf33506c4959bce89"
+      },
+      "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_ab_v2/candidate_tdt_qp_1"
+    },
+    {
+      "eligible_source_scans": 119,
+      "source_sha256": {
+        "gazebo_poses": "9aee27d505fa090270cba55c21da3e750763c4dca38f3994c93798bd44704af0",
+        "predictions": "da67ddb91a3534766494b0ed66af1d627ce1dd0ed39c5b24ba771fd3d658b13c",
+        "profile": "00b3feb7e1dded57ea0f475cebc6d0028827d215f560af47ae13835aba0d7ad1",
+        "recorded_odom_trajectory": "c3dd36d1ff0a90d0cc7ce97eddc437605710ab6f1143eb7d0107321f23965eef",
+        "scans": "5f55aa9a7927a8d1419fa70e41ecb9141bd1e959fded271f1388aebc78004a49"
+      },
+      "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_astar_1"
+    },
+    {
+      "eligible_source_scans": 134,
+      "source_sha256": {
+        "gazebo_poses": "354da0167042e34cbd216948882c584aaa1e96886178a585cdeb8cc5f457e3e7",
+        "predictions": "279415ea9ef31017dcf71612b189bb33c5103f08d4228d5d0602473098fc8a16",
+        "profile": "4dd877afd4d85a88c702e3cdb8a6d38534524a4ef7b04ea246f3ed1c2bdaccbe",
+        "recorded_odom_trajectory": "d53e7106320a06cd5427ba302cecde77084f5dacf536cf9e732e45bec478764a",
+        "scans": "09938625ebdb6cd1eb5a5fdf971d8eea7504c47dc907fd942f5d0713980d99c6"
+      },
+      "trial": "/home/wpie/tdt_p2b/runs/dynamic_prediction_mppi_multiphase_v2/phase_0/candidate_tdt_qp_1"
+    }
+  ]
+}
