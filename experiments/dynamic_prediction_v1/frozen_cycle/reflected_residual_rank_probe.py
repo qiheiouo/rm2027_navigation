@@ -35,12 +35,12 @@ import replay_ranking
 HEADER = struct.Struct("<3I")
 
 
-def historical_clouds(paths, occupancy, durations):
+def historical_clouds(paths, occupancy, durations, training_message_source):
     clouds = []
     counts = []
     for path in paths:
         observations = reflected(residual_rows(
-            path, occupancy, "recorded", durations))
+            path, occupancy, training_message_source, durations))
         by_step = []
         for duration in durations:
             residual = np.asarray([
@@ -174,7 +174,8 @@ def prepare(args):
                               for step in range(steps))
             if durations not in cloud_cache:
                 cloud_cache[durations] = historical_clouds(
-                    training, occupancy, durations)
+                    training, occupancy, durations,
+                    args.training_message_source)
             clouds, counts = cloud_cache[durations]
             predicted_near = expected_near(
                 meta, poses, params, center, velocity,
@@ -302,8 +303,9 @@ def prepare(args):
                      "joint_safe_filtered_candidates": int(safe.sum()),
                      "outputs": outputs})
     report = {"schema": "rm_dynamic_prediction/reflected_residual_rank_probe/v1",
-              "scope": "Five preselected frozen 300-rollout inputs. Four old T-DT trials only fit joint xy future-center residual clouds at each exact source-age-adjusted V1 time step. Mirror historical y residual by observer side and unmirror at target side; equal mass per training trial. Target source scan midpoint and past <=0.4s fitted velocity use recorded scans and odometry. If fewer than three source scans (147), retain original V1. Only the continuous term for candidates already in original hard branch is replaced by expected true-size-box padded-near (<0.02m) count with existing 300-unit near scale; original hard envelope, non-hard branch, seven standard critics, controls, temperature, filter and safety gates unchanged. The scan reconstruction helper computes separate target truth audit fields but these are excluded from scoring; target future truth labels and output geometry are evaluated afterward. No runtime probability or safety claim. Native output masks pending.",
+              "scope": "Five preselected frozen 300-rollout inputs. Four old T-DT trials only fit joint xy future-center residual clouds at each exact source-age-adjusted V1 time step. Training scan projection uses " + args.training_message_source + ". Mirror historical y residual by observer side and unmirror at target side; equal mass per training trial. Target source scan midpoint and past <=0.4s fitted velocity use recorded scans and odometry. If fewer than three source scans (147), retain original V1. Only the continuous term for candidates already in original hard branch is replaced by expected true-size-box padded-near (<0.02m) count with existing 300-unit near scale; original hard envelope, non-hard branch, seven standard critics, controls, temperature, filter and safety gates unchanged. The scan reconstruction helper computes separate target truth audit fields but these are excluded from scoring; target future truth labels and output geometry are evaluated afterward. No runtime probability or safety claim. Native output masks pending.",
               "model_evidence_sha256": digest(args.model_evidence),
+              "training_message_source": args.training_message_source,
               "raw_inputs_sha256": digest(args.raw_inputs),
               "cases": rows}
     (args.work_dir / "prepared.json").write_text(
@@ -355,6 +357,8 @@ if __name__ == "__main__":
                   "raw-inputs", "score147", "score162", "score263",
                   "seed2-score", "seed3-score", "work-dir"):
         p.add_argument("--" + field, type=Path, required=True)
+    p.add_argument("--training-message-source", choices=("recorded", "recorded_odom"),
+                   default="recorded")
     p = sub.add_parser("finalize")
     for field in ("prepared", "mask-dir", "mask-binary", "output-dir"):
         p.add_argument("--" + field, type=Path, required=True)
