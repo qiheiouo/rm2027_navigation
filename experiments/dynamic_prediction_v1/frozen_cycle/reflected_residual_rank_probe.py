@@ -123,6 +123,9 @@ def expected_near(meta, poses, params, source_center, velocity,
 def prepare(args):
     if args.work_dir.exists():
         raise FileExistsError(args.work_dir)
+    if args.phase_band is not None and (
+            not np.isfinite(args.phase_band) or args.phase_band <= 0):
+        raise ValueError("phase support band must be positive and finite")
     args.work_dir.mkdir(parents=True)
     evidence = Path("docs/dynamic_navigation/evidence")
     model = json.loads(args.model_evidence.read_text())
@@ -130,6 +133,8 @@ def prepare(args):
     if len(paths) != 6 or any("tdt_" not in path.name for path in paths[:4]):
         raise ValueError("four old T-DT fit trials are required")
     training = args.training_trials if args.training_trials else paths[:4]
+    if len(set(training)) != len(training):
+        raise ValueError("training trials must be distinct")
     selected_cases = [case for case in CASES
                       if args.case_names is None or case[0] in args.case_names]
     if not selected_cases:
@@ -343,6 +348,11 @@ def prepare(args):
               "model_evidence_sha256": digest(args.model_evidence),
               "training_message_source": args.training_message_source,
               "training_trials": [str(path) for path in training],
+              "training_source_sha256": {
+                  str(path): {name: digest(path / name) for name in (
+                      "gazebo_poses.jsonl", "observation/scans.jsonl",
+                      "observation/trajectory.jsonl", "predictions.jsonl")}
+                  for path in training},
               "phase_band_y_m_and_vy_mps": args.phase_band,
               "raw_inputs_sha256": digest(args.raw_inputs),
               "cases": rows}

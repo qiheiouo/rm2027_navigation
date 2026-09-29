@@ -364,11 +364,25 @@
   "mask_binary_sha256": "37671b08cd8248f336703d79da4b5dd73fd7677999d24706f4955b7b6f6c059a",
   "model_evidence_sha256": "e87c6f9477ea755b02b8359e43ef346d02f91d2760113bbbec41714d44004c00",
   "phase_band_y_m_and_vy_mps": 0.2,
-  "prepared_sha256": "01ea9039fcc224c063abfe5b7d593daa0e71f7fb4103f4bda3410e067718eb48",
+  "prepared_sha256": "6339296480edfa433fed06a898b16b4fbe6d262c83819e2c5bbeb5839ef9cacb",
   "raw_inputs_sha256": "7d951d60368d0e7c4c7d461fa7b2c9847fb1b1e74851b164ee9aa520f55321ea",
   "schema": "rm_dynamic_prediction/reflected_residual_rank_probe/v1",
   "scope": "3 preselected frozen 300-rollout inputs. 2 selected recorded trials fit joint xy future-center residual clouds at each exact source-age-adjusted V1 time step. Training scan projection uses recorded_odom. Training sources match target observer view and source center y and fitted velocity y within 0.2 m and m/s respectively. Mirror historical y residual by observer side and unmirror at target side; equal mass per training trial. Target source scan midpoint and past <=0.4s fitted velocity use recorded scans and odometry. If fewer than three source scans (147), retain original V1. Only the continuous term for candidates already in original hard branch is replaced by expected true-size-box padded-near (<0.02m) count with existing 300-unit near scale; original hard envelope, non-hard branch, seven standard critics, controls, temperature, filter and safety gates unchanged. The scan reconstruction helper computes separate target truth audit fields but these are excluded from scoring; target future truth labels and output geometry are evaluated afterward. No runtime probability or safety claim. Original raw-costmap native CostCritic output masks checked.",
   "training_message_source": "recorded_odom",
+  "training_source_sha256": {
+    "/home/wpie/rm2027_navigation/build/dynamic_prediction_worktree/build/dynamic_prediction_runs/rank_phase4_20260924_02/candidate_navfn_1": {
+      "gazebo_poses.jsonl": "92a2ecb3126ce3ad2cf791048a2349d4bb29e1dbb8b2b533560892c66d590ae4",
+      "observation/scans.jsonl": "94a1a6a9d73df800d2fef9db9079a013404732b606a38f110e4117425040d122",
+      "observation/trajectory.jsonl": "2ffb4d8a6cb6557469b3a019105097b17c5e9c6b88fb8ee4a9820175b339bd5f",
+      "predictions.jsonl": "4c64561b2906a7120122ae552dd450ffd100a65d07b8f3e9ea0b8484d551b254"
+    },
+    "/home/wpie/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1": {
+      "gazebo_poses.jsonl": "4d4021bc8780416934ac918d52b14dc6e380b0a2277030caac23917afd999222",
+      "observation/scans.jsonl": "e37db38d7ef0bb2ed09d52668d85185d5c0154296dfc3061d879b81267e2bd4e",
+      "observation/trajectory.jsonl": "ca1410222e31b6683fb44175863b4cf4de5477f6c31d9a1c5589795f749957df",
+      "predictions.jsonl": "78b4dd993d952a5fdc836fddaad37c3075463b4e78a66300d319e855b847834a"
+    }
+  },
   "training_trials": [
     "/home/wpie/tdt_p2b/runs/dynamic_prediction_navfn_repro_v1/candidate_navfn_1",
     "/home/wpie/rm2027_navigation/build/dynamic_prediction_worktree/build/dynamic_prediction_runs/rank_phase4_20260924_02/candidate_navfn_1"
