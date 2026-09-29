@@ -20,7 +20,7 @@ from raw_scan_support_audit import (near_full_span, one_trial, static_map,
 HORIZONS = (.1, .3, .6, .9)
 
 
-def residual_rows(trial, occupancy, message_source):
+def residual_rows(trial, occupancy, message_source, horizons=HORIZONS):
     messages = (training_messages(trial) if message_source == "consumed"
                 else recorded_messages(trial))
     audit, rows = one_trial(trial, messages, occupancy,
@@ -51,7 +51,7 @@ def residual_rows(trial, occupancy, message_source):
         source_observations.append({
             "source_t": row["source_t"], "view_y": view_y,
             "source_y_residual_m": -row["raw_bbox_mid_error"][1]})
-        for horizon in HORIZONS:
+        for horizon in horizons:
             future_t = row["source_t"] + horizon
             if future_t >= times[-1]:
                 continue
