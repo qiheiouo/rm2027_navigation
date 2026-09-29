@@ -1,0 +1,129 @@
+{
+  "causal": {
+    "observer_view_y": "north",
+    "scan_history": [
+      {
+        "midpoint_y_m": -0.14572974993003363,
+        "source_t": 31.879
+      },
+      {
+        "midpoint_y_m": -0.07302181153065535,
+        "source_t": 31.945
+      },
+      {
+        "midpoint_y_m": -0.05323024477106769,
+        "source_t": 32.011
+      },
+      {
+        "midpoint_y_m": 0.1035313375132135,
+        "source_t": 32.209
+      }
+    ],
+    "scan_linear_velocity_y_mps": 0.7306009999246297,
+    "scan_quadratic_acceleration_y_mps2": -0.045033071021680915,
+    "scan_quadratic_source_center_y_m": 0.10238524604403033,
+    "scan_quadratic_tangent_velocity_y_mps": 0.7235951407328282,
+    "source_t": 32.209,
+    "tracker_history": [
+      {
+        "source_t": 31.813,
+        "velocity_y_mps": 0.5739322928766168
+      },
+      {
+        "source_t": 31.879,
+        "velocity_y_mps": 0.5993053833623795
+      },
+      {
+        "source_t": 31.945,
+        "velocity_y_mps": 0.6249904771849772
+      },
+      {
+        "source_t": 32.011,
+        "velocity_y_mps": 0.6453332565624156
+      },
+      {
+        "source_t": 32.077,
+        "velocity_y_mps": 0.6639806348945254
+      },
+      {
+        "source_t": 32.143,
+        "velocity_y_mps": 0.6784395220948218
+      },
+      {
+        "source_t": 32.209,
+        "velocity_y_mps": 0.6882079354300632
+      }
+    ],
+    "tracker_velocity_y_trend_mps2": 0.29225398421794924
+  },
+  "future_label_comparison": [
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.002437382633413712,
+      "source_horizon_s": 0.13000000149011612,
+      "step": 1,
+      "true_canonical_y_residual_m": 0.002543289908449209
+    },
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.003948563863568122,
+      "source_horizon_s": 0.23000000298023224,
+      "step": 2,
+      "true_canonical_y_residual_m": 0.0017527107228059169
+    },
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.005910075817360333,
+      "source_horizon_s": 0.3300000044703484,
+      "step": 3,
+      "true_canonical_y_residual_m": 0.003075487739006122
+    },
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.008321918494790193,
+      "source_horizon_s": 0.4300000059604645,
+      "step": 4,
+      "true_canonical_y_residual_m": 0.030682422656260422
+    },
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.011184091895857784,
+      "source_horizon_s": 0.5300000074505806,
+      "step": 5,
+      "true_canonical_y_residual_m": 0.10353876070426132
+    },
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.014496596020562968,
+      "source_horizon_s": 0.6300000089406967,
+      "step": 6,
+      "true_canonical_y_residual_m": 0.1672823524987742
+    },
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.018259430868906024,
+      "source_horizon_s": 0.7300000104308129,
+      "step": 7,
+      "true_canonical_y_residual_m": 0.2143928147777313
+    },
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.022472596440886727,
+      "source_horizon_s": 0.830000011920929,
+      "step": 8,
+      "true_canonical_y_residual_m": 0.24541467883651247
+    },
+    {
+      "quadratic_vs_source_anchored_linear_y_shift_m": 0.02713609273650508,
+      "source_horizon_s": 0.9300000134110451,
+      "step": 9,
+      "true_canonical_y_residual_m": 0.2624246125520392
+    }
+  ],
+  "schema": "rm_dynamic_prediction/causal_turn_signal_audit/v1",
+  "scope": "One frozen source at cycle 162. Fit a quadratic to only the last four eligible source-scan midpoints and a line to recent confirmed tracker vy, without future obstacle truth. Compare the quadratic displacement with previously frozen future truth residual labels afterward. This is a local observability diagnostic, not a calibrated acceleration predictor or runtime proposal.",
+  "source_sha256": {
+    "recorded_predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+    "residual_evidence": "2814f0f0a60abcf5ff39d2321565fcb8bdb39dc982b17a40d433409278307677",
+    "scans": {
+      "gazebo_poses": "17f7994b6908475c0ccece43a14fdc0e30d435cd866fab2aa67cbaee2890a227",
+      "predictions": "79e9cd12fe211c53ee470b9cde54fcf7de18c4b52b02ed130b322992474f62fd",
+      "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+      "recorded_odom_trajectory": "3219c492e5b1f19d5578d5496f9bdb71ac56f591346f4e515a4d50a7fc6387ca",
+      "scans": "a2593a6faf8e39dc6e5df80c1e32949d7639ed33db97490da9963f08afd57ffc"
+    },
+    "score_evidence": "bc0d20a90d8794fe1df7d48bcb8acce90921fb71a1f75ff46048570eb02d3622"
+  }
+}
