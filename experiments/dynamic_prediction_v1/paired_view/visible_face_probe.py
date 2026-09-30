@@ -177,7 +177,7 @@ def main():
                   "dynamic_static_distance_m": 0.25, "gate_x_m": GATE_X_M,
                   "gate_y_m": GATE_Y_M, "known_half_box_height_m": HALF_BOX_HEIGHT_M},
               "groups": groups,
-              "safe_source_occupancy_guarantee_rejected": any(
+              "sampled_y_source_gate_failed": any(
                   groups[side]["all"]["near_face"]["missing_sources"] > 0 or
                   groups[side]["all"]["near_face"]["max_abs_error_m"] > 0.05
                   for side in ("south", "north")),
