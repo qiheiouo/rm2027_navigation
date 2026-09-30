@@ -261,7 +261,7 @@ def main():
                                    for step in range(1, 10)},
               "sources_sha256": digest(output / "sources.csv"),
               "source_steps_sha256": digest(output / "source_steps.csv")}
-    result["input_gate_failed"] = (
+    result["y_only_prebreach_gate_failed"] = (
         result["near_face_point_available"] < result["confirmed_sources"] or
         result["source_y_error"]["within_0_05_m"] < len(source_errors) or
         result["steps_all"]["interval_covered_all"] <
@@ -271,7 +271,7 @@ def main():
         "confirmed_sources", "exact_scan_matches", "online_pose_available",
         "near_face_point_available", "four_source_velocity_available",
         "view_side_mismatches", "source_y_error", "tracker_x_error",
-        "steps_all", "input_gate_failed")}, indent=2))
+        "steps_all", "y_only_prebreach_gate_failed")}, indent=2))
 
 
 if __name__ == "__main__":
