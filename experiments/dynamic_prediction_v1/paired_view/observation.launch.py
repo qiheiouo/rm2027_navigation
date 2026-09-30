@@ -10,6 +10,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     world = LaunchConfiguration("world_file")
     simulation = FindPackageShare("rm_simulation")
+    moving_model = LaunchConfiguration("moving_model_file")
     gz_launch = PathJoinSubstitution([FindPackageShare("ros_gz_sim"), "launch", "gz_sim.launch.py"])
     description = PathJoinSubstitution([FindPackageShare("rm_description"), "launch", "description.launch.py"])
     localization = PathJoinSubstitution([
@@ -22,11 +23,13 @@ def generate_launch_description():
              for side, y in (("north", "0.525"), ("south", "-0.525"))]
     moving = Node(package="ros_gz_sim", executable="create", name="spawn_moving_obstacle",
                   arguments=["-world", "phase1_omni", "-file",
-                             PathJoinSubstitution([simulation, "models", "moving_obstacle.sdf"]),
+                             moving_model,
                              "-name", "moving_obstacle", "-x", "4.9", "-y", "0.0",
                              "-z", "0.0"], output="screen")
     return LaunchDescription([
         DeclareLaunchArgument("world_file"),
+        DeclareLaunchArgument("moving_model_file", default_value=PathJoinSubstitution([
+            simulation, "models", "moving_obstacle.sdf"])),
         IncludeLaunchDescription(PythonLaunchDescriptionSource(gz_launch),
                                  launch_arguments={"gz_args": ["-r -s --headless-rendering ", world]}.items()),
         Node(package="ros_gz_bridge", executable="parameter_bridge", name="simulation_bridge",

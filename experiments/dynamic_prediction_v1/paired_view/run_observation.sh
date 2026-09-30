@@ -3,6 +3,7 @@
 set -eo pipefail
 out=${1:?trial directory}
 world=${2:?derived world file}
+moving_model=${3:-}
 source /opt/ros/humble/setup.bash
 source /work/dynamic_prediction_runtime_head_20260929/install/setup.bash
 export PYTHONDONTWRITEBYTECODE=1
@@ -24,8 +25,10 @@ finish() {
 trap finish EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
+launch_args=(world_file:="$world")
+if [[ -n "$moving_model" ]]; then launch_args+=(moving_model_file:="$moving_model"); fi
 setsid ros2 launch /ws/experiments/dynamic_prediction_v1/paired_view/observation.launch.py \
-  world_file:="$world" > "$out/launch.log" 2>&1 & pids+=($!)
+  "${launch_args[@]}" > "$out/launch.log" 2>&1 & pids+=($!)
 setsid ign topic -e --json-output -t /world/phase1_omni/pose/info \
   > "$out/gazebo_poses.jsonl" 2> "$out/pose_stderr.log" & pids+=($!)
 setsid python3 /ws/docs/dynamic_navigation/evidence/v1_mppi_ab_20260924/static_map.py \
