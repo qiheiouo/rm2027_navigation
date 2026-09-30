@@ -1,0 +1,110 @@
+{
+  "evaluation_commit": "1df7b3f635f5e7076ac08abacb9a71cec4394b95",
+  "pair_full_nine_step_gate_passed": false,
+  "pair_input_gate_passed": true,
+  "plan_sha256": "5fc6c489f70427da34de1d1139c109037c839682f8b4388f5eb71e02f62df854",
+  "results": {
+    "north": {
+      "confirmed_sources_in_window": 423,
+      "diagnostic_early_history_valid_sources": 409,
+      "diagnostic_early_source_count": 409,
+      "diagnostic_valid_step_count": 3681,
+      "diagnostic_x_covered_valid_steps": 3681,
+      "diagnostic_x_excess_max_m": 0.0,
+      "diagnostic_xy_covered_valid_steps": 3681,
+      "diagnostic_y_covered_valid_steps": 3681,
+      "diagnostic_y_excess_max_m": 0.0,
+      "exact_scan_sources": 423,
+      "full_preregistered_nine_step_gate_passed": false,
+      "future_label_available_sources": 412,
+      "future_label_missing_sources": 11,
+      "history_valid_sources": 423,
+      "input_gate_passed": true,
+      "observation": {
+        "actual_stop_sim_s": 44.0,
+        "clock_count": 43986,
+        "odom_count": 2199,
+        "scan_count": 667,
+        "schema": "paired_view_observation/v1",
+        "stop_sim_s": 44.0,
+        "target_count": 1532
+      },
+      "online_pose_sources": 423,
+      "phase_counts": {
+        "negative_lt_minus_0_3": 149,
+        "positive_gt_0_3": 153,
+        "turn_abs_le_0_2": 77
+      },
+      "physical_body_gap": {
+        "at_least_0_05_m": true,
+        "box_y_range_m": [
+          0.0,
+          0.0
+        ],
+        "interpolation_lower_bound_m": 1.2325031008860012,
+        "robot_y_range_m": [
+          1.8,
+          1.8
+        ],
+        "sample_min_m": 1.2449045455999999
+      },
+      "physical_pose_rows": 3037,
+      "side": "north",
+      "source_x_center_covered": 423,
+      "source_x_valid": 423,
+      "source_y_center_abs_error_max_m": 0.0420506455534998
+    },
+    "south": {
+      "confirmed_sources_in_window": 423,
+      "diagnostic_early_history_valid_sources": 409,
+      "diagnostic_early_source_count": 409,
+      "diagnostic_valid_step_count": 3681,
+      "diagnostic_x_covered_valid_steps": 3681,
+      "diagnostic_x_excess_max_m": 0.0,
+      "diagnostic_xy_covered_valid_steps": 3681,
+      "diagnostic_y_covered_valid_steps": 3681,
+      "diagnostic_y_excess_max_m": 0.0,
+      "exact_scan_sources": 423,
+      "full_preregistered_nine_step_gate_passed": false,
+      "future_label_available_sources": 412,
+      "future_label_missing_sources": 11,
+      "history_valid_sources": 423,
+      "input_gate_passed": true,
+      "observation": {
+        "actual_stop_sim_s": 44.0,
+        "clock_count": 43983,
+        "odom_count": 2199,
+        "scan_count": 667,
+        "schema": "paired_view_observation/v1",
+        "stop_sim_s": 44.0,
+        "target_count": 1516
+      },
+      "online_pose_sources": 423,
+      "phase_counts": {
+        "negative_lt_minus_0_3": 148,
+        "positive_gt_0_3": 155,
+        "turn_abs_le_0_2": 77
+      },
+      "physical_body_gap": {
+        "at_least_0_05_m": true,
+        "box_y_range_m": [
+          0.0,
+          0.0
+        ],
+        "interpolation_lower_bound_m": 1.2330925066974505,
+        "robot_y_range_m": [
+          -1.8,
+          -1.8
+        ],
+        "sample_min_m": 1.2449045455999999
+      },
+      "physical_pose_rows": 3052,
+      "side": "south",
+      "source_x_center_covered": 423,
+      "source_x_valid": 423,
+      "source_y_center_abs_error_max_m": 0.039344354750115884
+    }
+  },
+  "schema": "rm_dynamic_prediction_x_axis_pair_audit/v1",
+  "scope": "Independent X-motion simulator observation. Last 0.9 s of preregistered source window cannot be fully labeled; full nine-step gate fails, early subset is diagnostic only. No runtime critic change."
+}
