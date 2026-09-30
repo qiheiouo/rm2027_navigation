@@ -1,0 +1,55 @@
+{
+  "schema": "rm_dynamic_prediction_source_x_interval_probe/v1",
+  "scope": "Known-width scan point X-center interval on already inspected moving and static fixture data. No future X dynamics or runtime claim.",
+  "evaluation_commit": "06628dbfc35ba0671767525151fac3d3368d180c",
+  "point_allowance_m": 0.05,
+  "known_half_box_width_m": 0.225,
+  "input_sha256": {
+    "moving_window_sources": "97e470bdc14056d1d8001c737e8140a749d83fe2e82ab94ef6dd215df77e6ada",
+    "south/scans.jsonl": "aa35a14a0a767aef8601b5462b7865a5e989c21c16606341a09a69c1bee17ce5",
+    "south/odometry.jsonl": "2b531167a8f86d8e006ecf21dd527cfdce80f17fdf71aef80b166f200a68dedf",
+    "south/predictions.jsonl": "341ef838e03a03339a335a50e24d79ff6b5e63291ca13a8a194e75287219d28b",
+    "south/gazebo_poses.jsonl": "0afc4ef0a2250ce596121b9a5f104c3ca73ca905d3d513654460abc79022b9f2",
+    "north/scans.jsonl": "24ffcb1050c5659eca1d14666f682181f474cbc5944a32643165e45b6b731a23",
+    "north/odometry.jsonl": "310febe6788852743ab9667e7627d88991ca85daa270c886326d3f38c7777e97",
+    "north/predictions.jsonl": "ecca3f018962caaa7939a1cca0228aec0dcab1d5cddf3b328cbf41789caa735b",
+    "north/gazebo_poses.jsonl": "6da6c1118fac1352d5c19a490c0b2ebe5e85100ce5133de37ef3dcdc4b15e516",
+    "phase2/scans.jsonl": "ae053a8d0e3254ba335a0b2b5b0592f4b467736dd66922bebb674724309d5b42",
+    "phase2/trajectory.jsonl": "67eb034d70bcba2da9b6de0390e26bc10a2625d2852fa23e3f877d5cf7f2199a",
+    "phase2/predictions.jsonl": "76be98173f653c4bedf52484528ff76f66f1a18f865f600124eba599b03ac4db"
+  },
+  "groups": {
+    "moving_prebreach": {
+      "sources": 60,
+      "valid_intervals": 60,
+      "physical_center_covered": 60,
+      "tracker_x_error_gt_0_05_m": 14,
+      "tracker_x_error_max_m": 0.10625006087701294,
+      "union_width_median_m": 0.5544395422305086,
+      "original_v1_x_width_median_m": 1.3438399869917315,
+      "first_invalid_or_missed": null
+    },
+    "offset_south": {
+      "sources": 423,
+      "valid_intervals": 423,
+      "physical_center_covered": 423,
+      "tracker_x_error_gt_0_05_m": 56,
+      "tracker_x_error_max_m": 0.05990681153273414,
+      "union_width_median_m": 0.555655507753851,
+      "original_v1_x_width_median_m": 1.3419507495921859,
+      "first_invalid_or_missed": null
+    },
+    "offset_north": {
+      "sources": 423,
+      "valid_intervals": 423,
+      "physical_center_covered": 423,
+      "tracker_x_error_gt_0_05_m": 75,
+      "tracker_x_error_max_m": 0.06006404883807548,
+      "union_width_median_m": 0.5550892995343168,
+      "original_v1_x_width_median_m": 1.3435745156208494,
+      "first_invalid_or_missed": null
+    }
+  },
+  "moving_source_x_gate_failed": false,
+  "details_sha256": "c1f10f6023675f5c6f10fc9e83fbcab4815d7dd850ba372fb4fb7a3e5ebc2df1"
+}
