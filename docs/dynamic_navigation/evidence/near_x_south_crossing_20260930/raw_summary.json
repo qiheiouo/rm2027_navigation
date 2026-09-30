@@ -1,0 +1,46 @@
+{
+  "schema": "rm_dynamic_prediction_frozen_cycle_analysis/v1",
+  "source": {
+    "cycle_json": "build/dynamic_prediction_near_x_south_crossing_20260930/candidate_navfn_1/mppi_cycles/cycle_65.json",
+    "cycle_sha256": "cf62847bc075612b793594cbe6c18c9b33db11a69f051aa68e02a551d83f68c1",
+    "binary_sha256": "e334200fdb92c56d149ec949750be07190104ee57962ec59ec02ae38be09621a",
+    "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "gazebo_truth_sha256": "1762eaf96807d1de58c2e2a4567bf38f0eeabcb8fb7145eecd111acac4ddf173"
+  },
+  "cycle_id": 65,
+  "consumer_sim_s": 24.381,
+  "prediction_source_age_s": 0.026,
+  "batch_size": 300,
+  "steps": 30,
+  "prediction_steps": 9,
+  "safe_truth_and_costmap_rollouts": 0,
+  "predicted_margin_safe_rollouts": 0,
+  "predicted_collision_rollouts": 300,
+  "prediction_truth_uncovered_times_s": [
+    0.7000000104308128,
+    0.800000011920929,
+    0.9000000134110451
+  ],
+  "best_truth_body_clearance_m": 0.014483769553801373,
+  "safe_probability_mass": 0.0,
+  "prediction_score_span": 0.000244140625,
+  "sampled_dynamics_replay_max_abs_error_m_or_rad": 4.76837158203125e-07,
+  "first_step_sampled_state_max_spread_m_or_rad_or_mps": 0.0,
+  "first_step_predicted_padded_gap_m": 0.0,
+  "first_step_truth_body_gap_m": 0.19622125519567746,
+  "all_batches_prediction_collision_invariant_at_first_step": true,
+  "optimized_filtered_sequence_truth_body_min_gap_m": 0.0,
+  "optimized_filtered_sequence_truth_body_min_gap_step": 4,
+  "best_safe_total_rank": null,
+  "minimum_total_score_rollout": 275,
+  "maximum_probability_rollout": 275,
+  "returned_control": [
+    0.5623829364776611,
+    0.32997792959213257,
+    -0.7227348685264587
+  ],
+  "full_compute_cycle_ms": 1.56285,
+  "observer_copy_ms": 0.113713,
+  "prediction_score_max_abs_error": 0.0001627604167424579,
+  "limits": "Sampled planar geometry; future Gazebo motion is an offline oracle, not online input. Instrumentation alters timing. The optimized filtered sequence is open-loop intent, not the actual later closed-loop path."
+}

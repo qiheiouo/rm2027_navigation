@@ -1,0 +1,26 @@
+[INFO] [1790761132.238382736] [costmap]: 
+	costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790761132.238781442] [costmap]: Creating Costmap
+[INFO] [1790761132.238879948] [costmap]: Configuring
+[INFO] [1790761132.240268084] [costmap]: Using plugin "obstacle_layer"
+[INFO] [1790761132.241896331] [costmap]: Subscribed to Topics: scan
+[INFO] [1790761132.242678613] [costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1790761132.242691573] [costmap]: Using plugin "inflation_layer"
+[INFO] [1790761132.242826248] [costmap]: Initialized plugin "inflation_layer"
+[INFO] [1790761132.247671312] [frozen_replay]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1790761132.248281037] [frozen_replay]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1790761132.248298163] [frozen_replay]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1790761132.248365155] [frozen_replay]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1790761132.248374115] [frozen_replay]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1790761132.248407682] [frozen_replay]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1790761132.248412398] [frozen_replay]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1790761132.248441896] [frozen_replay]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1790761132.248447390] [frozen_replay]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1790761132.248973029] [frozen_replay]: Optimizer reset
+[INFO] [1790761132.252663080] [costmap]: Cleaning up
+[INFO] [1790761132.253592585] [costmap]: Running Nav2 LifecycleNode rcl preshutdown (costmap)
+[INFO] [1790761132.253624484] [costmap]: Destroying bond (costmap) to lifecycle manager.
+[INFO] [1790761132.253765411] [costmap]: Destroying
+score_eval_ms=2.37094

@@ -1,0 +1,29 @@
+[INFO] [1790761132.516941529] [costmap]: 
+	costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790761132.517442373] [costmap]: Creating Costmap
+[INFO] [1790761132.517568232] [costmap]: Configuring
+[INFO] [1790761132.519284625] [costmap]: Using plugin "obstacle_layer"
+[INFO] [1790761132.521106314] [costmap]: Subscribed to Topics: scan
+[INFO] [1790761132.521950694] [costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1790761132.521964946] [costmap]: Using plugin "inflation_layer"
+[INFO] [1790761132.522107040] [costmap]: Initialized plugin "inflation_layer"
+[INFO] [1790761132.526418455] [frozen_replay]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1790761132.526990410] [frozen_replay]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1790761132.527005911] [frozen_replay]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1790761132.527080133] [frozen_replay]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1790761132.527089699] [frozen_replay]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1790761132.527126447] [frozen_replay]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1790761132.527131465] [frozen_replay]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1790761132.527165463] [frozen_replay]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1790761132.527171283] [frozen_replay]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1790761132.527229319] [frozen_replay]: ReferenceTrajectoryCritic instantiated with 1 power and 10.000000 weight
+[INFO] [1790761132.527236919] [frozen_replay]: Critic loaded : mppi::critics::PathAlignCritic
+[INFO] [1790761132.527289719] [frozen_replay]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1790761132.527883812] [frozen_replay]: Optimizer reset
+[INFO] [1790761132.532121692] [costmap]: Cleaning up
+[INFO] [1790761132.533279451] [costmap]: Running Nav2 LifecycleNode rcl preshutdown (costmap)
+[INFO] [1790761132.533320864] [costmap]: Destroying bond (costmap) to lifecycle manager.
+[INFO] [1790761132.533496213] [costmap]: Destroying
+score_eval_ms=2.52628

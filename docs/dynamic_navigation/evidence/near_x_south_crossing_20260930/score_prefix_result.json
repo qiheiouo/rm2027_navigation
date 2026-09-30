@@ -1,0 +1,96 @@
+{
+  "first_changed_critic_by_rollout": {
+    "237": "PathAlignCritic",
+    "74": "PathAlignCritic"
+  },
+  "inputs_sha256": "bdd72c2993147868979f3d5c2407b22b3034a4d62970f0e9165661738964cf87",
+  "rows": [
+    {
+      "critic": "ConstraintCritic",
+      "cumulative_max_abs_error": 0.0,
+      "cumulative_mismatch_count_gt_1e_3": 0,
+      "cumulative_mismatch_rollouts": [],
+      "increment_max_abs_error": 0.0,
+      "increment_mismatch_rollouts": [],
+      "native_scores_sha256": "c4620df260826fcd013d309f6eb05a7c3ff3bb2d67408919fa02e65e365da470",
+      "prefix": 1
+    },
+    {
+      "critic": "CostCritic",
+      "cumulative_max_abs_error": 0.0,
+      "cumulative_mismatch_count_gt_1e_3": 0,
+      "cumulative_mismatch_rollouts": [],
+      "increment_max_abs_error": 0.0,
+      "increment_mismatch_rollouts": [],
+      "native_scores_sha256": "ae773389dd99e5cec2a04dcaac64387ef8dfb06d10fb140b09893c66af027013",
+      "prefix": 2
+    },
+    {
+      "critic": "GoalCritic",
+      "cumulative_max_abs_error": 0.0,
+      "cumulative_mismatch_count_gt_1e_3": 0,
+      "cumulative_mismatch_rollouts": [],
+      "increment_max_abs_error": 0.0,
+      "increment_mismatch_rollouts": [],
+      "native_scores_sha256": "7645d377dfe42bcf4f99e8caefb3147ecff936340311e2876d5f39a4702efa2a",
+      "prefix": 3
+    },
+    {
+      "critic": "GoalAngleCritic",
+      "cumulative_max_abs_error": 0.0,
+      "cumulative_mismatch_count_gt_1e_3": 0,
+      "cumulative_mismatch_rollouts": [],
+      "increment_max_abs_error": 0.0,
+      "increment_mismatch_rollouts": [],
+      "native_scores_sha256": "7645d377dfe42bcf4f99e8caefb3147ecff936340311e2876d5f39a4702efa2a",
+      "prefix": 4
+    },
+    {
+      "critic": "PathAlignCritic",
+      "cumulative_max_abs_error": 0.25689029693603516,
+      "cumulative_mismatch_count_gt_1e_3": 2,
+      "cumulative_mismatch_rollouts": [
+        74,
+        237
+      ],
+      "increment_max_abs_error": 0.25689029693603516,
+      "increment_mismatch_rollouts": [
+        74,
+        237
+      ],
+      "native_scores_sha256": "dda08e5e393a270f62cbdb91d59f2d1166d21276b9528c6acc36c4a417e144fa",
+      "prefix": 5
+    },
+    {
+      "critic": "PathFollowCritic",
+      "cumulative_max_abs_error": 0.0,
+      "cumulative_mismatch_count_gt_1e_3": 0,
+      "cumulative_mismatch_rollouts": [],
+      "increment_max_abs_error": 0.25689029693603516,
+      "increment_mismatch_rollouts": [
+        74,
+        237
+      ],
+      "native_scores_sha256": "1388eee2740b0009a94f438c2e85918f4610d0585bd2c60665225694b43ba86b",
+      "prefix": 6
+    },
+    {
+      "critic": "PathAngleCritic",
+      "cumulative_max_abs_error": 0.25689029693603516,
+      "cumulative_mismatch_count_gt_1e_3": 2,
+      "cumulative_mismatch_rollouts": [
+        74,
+        237
+      ],
+      "increment_max_abs_error": 0.25689029693603516,
+      "increment_mismatch_rollouts": [
+        74,
+        237
+      ],
+      "native_scores_sha256": "dda08e5e393a270f62cbdb91d59f2d1166d21276b9528c6acc36c4a417e144fa",
+      "prefix": 7
+    }
+  ],
+  "schema": "rm_dynamic_prediction_south_native_prefix/v1",
+  "scope": "Sequential original seven critic prefixes on captured controls and raw costmap; diagnose scorer parity only, not a safety or ranking adjustment."
+}
