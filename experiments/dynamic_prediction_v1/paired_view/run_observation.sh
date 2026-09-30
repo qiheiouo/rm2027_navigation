@@ -4,6 +4,7 @@ set -eo pipefail
 out=${1:?trial directory}
 world=${2:?derived world file}
 moving_model=${3:-}
+stop_sim_s=${4:-44.0}
 source /opt/ros/humble/setup.bash
 source /work/dynamic_prediction_runtime_head_20260929/install/setup.bash
 export PYTHONDONTWRITEBYTECODE=1
@@ -41,4 +42,4 @@ setsid ros2 run rm_dynamic_obstacle_tracking dynamic_obstacle_tracker_node \
   -p scan_topic:=/scan -p prediction.velocity_decay_tau:=0.0 \
   > "$out/tracker.log" 2>&1 & pids+=($!)
 python3 /ws/experiments/dynamic_prediction_v1/paired_view/record_until.py "$out" \
-  --ros-args -p use_sim_time:=true > "$out/observer.log" 2>&1
+  --stop-sim-s "$stop_sim_s" --ros-args -p use_sim_time:=true > "$out/observer.log" 2>&1

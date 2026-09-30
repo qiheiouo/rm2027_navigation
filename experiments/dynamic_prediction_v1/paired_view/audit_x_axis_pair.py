@@ -68,9 +68,10 @@ def physical_box_at(poses, times, t):
     return at(poses, times, t)["obstacle"]
 
 
-def audit_side(trial, side, body, box):
+def audit_side(trial, side, body, box, full_future_end=FULL_FUTURE_END,
+               min_stop_sim_s=44.0):
     observation = json.loads((trial / "observation_summary.json").read_text())
-    if observation["actual_stop_sim_s"] < 44.0 or \
+    if observation["actual_stop_sim_s"] < min_stop_sim_s or \
             (trial / "docker_exit.txt").read_text().strip() != "0":
         raise ValueError(f"incomplete one-shot capture: {side}")
     poses = rows_from_transport(trial / "gazebo_poses.jsonl")
@@ -138,7 +139,7 @@ def audit_side(trial, side, body, box):
                   "velocity_halfwidth_x_mps": ux, "velocity_halfwidth_y_mps": uy,
                   "future_nine_step_label_available": future_available}
         source_rows.append(source)
-        if not future_available or stamp > FULL_FUTURE_END:
+        if not future_available or stamp > full_future_end:
             continue
         for step in range(1, 10):
             h = round(step * .1, 1)
@@ -189,7 +190,7 @@ def audit_side(trial, side, body, box):
                       r["online_side"] == r["truth_side"] == side
                       for r in source_rows))
     valid_steps = [r for r in step_rows if r["history_valid"]]
-    early = [r for r in source_rows if r["source_t"] <= FULL_FUTURE_END]
+    early = [r for r in source_rows if r["source_t"] <= full_future_end]
     return {"side": side, "observation": observation,
             "physical_pose_rows": len(poses), "confirmed_sources_in_window": len(source_rows),
             "phase_counts": phase, "physical_body_gap": body_gap,
