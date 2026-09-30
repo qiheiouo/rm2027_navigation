@@ -1,0 +1,42 @@
+{
+  "schema": "rm_dynamic_prediction_frozen_cycle_analysis/v1",
+  "source": {
+    "cycle_json": "build/dynamic_prediction_near_x_fast_motion_20260930/candidate_navfn_1/mppi_cycles/cycle_47.json",
+    "cycle_sha256": "b31352dcf763fbec0f05b8a092a32237c8b7c5a3d076e9b8e1b46139a501aec6",
+    "binary_sha256": "9a21c928a1a89a7c73320de890bebfd2e259dd4d2f74452ee06c5523ee1eff51",
+    "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "gazebo_truth_sha256": "b5de3aaa439d999b4eec1ab2b142a1bb26516dd00703c218d2044342547c902f"
+  },
+  "cycle_id": 47,
+  "consumer_sim_s": 23.772000000000002,
+  "prediction_source_age_s": 0.077,
+  "batch_size": 300,
+  "steps": 30,
+  "prediction_steps": 9,
+  "safe_truth_and_costmap_rollouts": 0,
+  "predicted_margin_safe_rollouts": 0,
+  "predicted_collision_rollouts": 300,
+  "prediction_truth_uncovered_times_s": [],
+  "best_truth_body_clearance_m": 0.0,
+  "safe_probability_mass": 0.0,
+  "prediction_score_span": 0.000244140625,
+  "sampled_dynamics_replay_max_abs_error_m_or_rad": 4.76837158203125e-07,
+  "first_step_sampled_state_max_spread_m_or_rad_or_mps": 0.0,
+  "first_step_predicted_padded_gap_m": 0.0,
+  "first_step_truth_body_gap_m": 0.20025837553009784,
+  "all_batches_prediction_collision_invariant_at_first_step": true,
+  "optimized_filtered_sequence_truth_body_min_gap_m": 0.0,
+  "optimized_filtered_sequence_truth_body_min_gap_step": 3,
+  "best_safe_total_rank": null,
+  "minimum_total_score_rollout": 294,
+  "maximum_probability_rollout": 117,
+  "returned_control": [
+    -0.36266735196113586,
+    -0.33487051725387573,
+    -0.34536901116371155
+  ],
+  "full_compute_cycle_ms": 2.059103,
+  "observer_copy_ms": 0.129383,
+  "prediction_score_max_abs_error": 0.0001627604167424579,
+  "limits": "Sampled planar geometry; future Gazebo motion is an offline oracle, not online input. Instrumentation alters timing. The optimized filtered sequence is open-loop intent, not the actual later closed-loop path."
+}
