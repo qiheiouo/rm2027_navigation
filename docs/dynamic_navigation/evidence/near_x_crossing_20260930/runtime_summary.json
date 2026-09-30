@@ -1,0 +1,58 @@
+{
+  "schema": "rm_tdt_planner/static_simulation/v1",
+  "evidence_valid": true,
+  "checks": {
+    "action_succeeded": true,
+    "body_clearance_at_least_005m": true,
+    "padded_footprint_no_contact": true,
+    "final_position_within_015m": true,
+    "final_yaw_within_020rad": true,
+    "no_recovery": false,
+    "fresh_stopped_command": true
+  },
+  "static_geometry_and_goal_pass": false,
+  "action_status": 4,
+  "timed_out": false,
+  "recoveries": 6,
+  "goal": [
+    5.25,
+    -1.1,
+    0.0
+  ],
+  "final_pose": [
+    5.3851340235245395,
+    -1.0949582208620625,
+    0.1000115503467496
+  ],
+  "final_xy_error_m": 0.13522804387702478,
+  "final_yaw_error_rad": 0.1000115503467496,
+  "trajectory_samples": 220,
+  "max_sample_gap_sim_s": 0.0400000000000027,
+  "min_body_clearance_m": 0.9707590058530827,
+  "min_padded_clearance_m": 0.9355746896961247,
+  "linear_pose_interpolation_body_bound_m": 0.9604652134467565,
+  "linear_pose_interpolation_padded_bound_m": 0.9267132205294993,
+  "cross_track_rms_m": 0.10221065757431719,
+  "cross_track_max_m": 0.3228194112111957,
+  "traveled_m": 3.607946470273516,
+  "max_command_acceleration_m_s2": 250.7526523440883,
+  "warning_counts": {
+    "Control loop missed": 5
+  },
+  "snapshot_rejection_observed": false,
+  "algorithm_rejected": false,
+  "scope": "Static fixture, sampled poses and linear pose interpolation; manual review still required.",
+  "performance_policy": "Record current-device limits; no performance patches or algorithm rejection.",
+  "preflight": {
+    "status": 4,
+    "wall_ms": 5.51219100009348,
+    "samples": 87
+  },
+  "sim_seconds": 8.811999999999998,
+  "wall_seconds": 23.405067620999944,
+  "plan_messages": 11,
+  "max_scan_gap_sim_s": 0.067,
+  "max_odom_gap_sim_s": 0.020000000000003126,
+  "clock_reversed": false,
+  "fixture_spawn_verified": true
+}

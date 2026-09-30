@@ -1,0 +1,44 @@
+{
+  "captured_probability_on_filtered_joint_safe": 0.0,
+  "captured_softmax_max_abs_replay_error": 1.1097639799118042e-05,
+  "captured_top_candidate_filtered_joint_safe": false,
+  "captured_v1_score_span": 0.000244140625,
+  "consumer_sim_s": 24.8,
+  "cycle_id": 73,
+  "detail_sha256": "d5725e2d4e6743bccdc9671c22f99f9e3e1248f0c5fe01e50335910df088318e",
+  "filtered_best_true_body_gap_m": 0.0,
+  "filtered_dynamic_safe_count": 0,
+  "filtered_joint_safe_count": 0,
+  "filtered_native_standard_rank": {
+    "best_joint_safe_rank": null,
+    "joint_safe_top_10": 0
+  },
+  "filtered_static_collision_count": 137,
+  "input_sha256": {
+    "filtered_native_scores": "88c8d6589561ed41da4d74d4ea89ddb731512c4843b2e3a518e9434babf216eb",
+    "filtered_static_mask": "0734f7c0e73e969591d671de79b5a20810c2a447de49a6c06cea929d1b3aedb0",
+    "inputs": "3989b51aacebfeffb6afb75ab6457b04477005a464c877d3ab913dac70559c96",
+    "native_binary": "1046705dfdbe4e7a4996c23c0999d1988d06c775f058425fe46df34a18dee118",
+    "raw_native_scores": "2149f6e78852267aabdda7d33294a22721de98f36f4c8f45f3b4e70649dcd257"
+  },
+  "native_raw_score_max_abs_capture_error": 0.0,
+  "prediction_hits_by_step": [
+    300,
+    300,
+    300,
+    300,
+    300,
+    300,
+    300,
+    300,
+    300
+  ],
+  "rescored_probability_on_filtered_joint_safe": 0.0,
+  "rescored_top_candidate_filtered_joint_safe": false,
+  "rescored_total_rank": {
+    "best_joint_safe_rank": null,
+    "joint_safe_top_10": 0
+  },
+  "schema": "rm_dynamic_prediction_phase2_filtered_audit/v1",
+  "scope": "Preselected held-out cycle; per-candidate clipped and Savitzky-Golay filtered controls with Nav2 current-speed first step. Native standard critic is rescored on each filtered candidate. V1 hard collision and native static CostCritic are separate; aggregation reweights original sampled controls, so its output is a diagnostic, not a runtime policy."
+}
