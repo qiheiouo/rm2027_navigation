@@ -71,7 +71,11 @@ def validate_inputs(trial, evidence):
 def four_sources(paths, stamp, consumed_track):
     sources = confirmed_predictions(paths["predictions.jsonl"])
     key = round(stamp, 6)
-    if key not in sources or sources[key] != consumed_track:
+    recorded = sources.get(key)
+    if recorded is None or any(recorded[field] != consumed_track[field]
+                               for field in ("id", "state", "xy", "vxy", "size_xy")) or \
+            abs(recorded["last_observation_t"] - stamp) > 1e-9 or \
+            [point[:2] for point in consumed_track["prediction_xyz"]] != recorded["future_xy"]:
         raise ValueError("critic-consumed track differs from recorded source")
     prior = sorted(t for t in sources if t <= key)[-4:]
     if len(prior) != 4 or prior[-1] != key or not .15 <= prior[-1] - prior[0] <= .30:
