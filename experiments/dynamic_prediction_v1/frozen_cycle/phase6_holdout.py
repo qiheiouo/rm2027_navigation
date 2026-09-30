@@ -76,7 +76,7 @@ def run(series):
             "--cap-drop", "ALL", "--user", f"{os.getuid()}:{os.getgid()}",
             "--entrypoint", "bash", "-v", f"{ROOT}:/ws:ro", "-v", f"{WORK}:/work:rw",
             "--cidfile", str(trial / "container_id")]
-    for value in ("HOME=/work/tmp", "ROS_DOMAIN_ID=178", "ROS_LOCALHOST_ONLY=1",
+    for value in ("HOME=/work/tmp", "ROS_DOMAIN_ID=174", "ROS_LOCALHOST_ONLY=1",
                   "PYTHONDONTWRITEBYTECODE=1", "OMP_NUM_THREADS=1", "OPENBLAS_NUM_THREADS=1",
                   "TMPDIR=/work/tmp", "LIBGL_ALWAYS_SOFTWARE=true", "QT_QPA_PLATFORM=offscreen",
                   "TDT_PHASE_SECONDS=6", "IGN_PARTITION=dynamic_prediction_phase6_holdout_20260930"):

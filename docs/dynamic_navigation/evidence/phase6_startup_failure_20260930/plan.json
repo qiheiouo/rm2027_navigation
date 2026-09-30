@@ -1,0 +1,28 @@
+{
+  "accepted_for_deployment": false,
+  "batch_size": 300,
+  "branch": "codex/dynamic-differential-risk",
+  "compiled_source_commit": "148a3a59e0f7936a5c06bd65a8ec2309306c0aef",
+  "file_sha256": {
+    "docker/Dockerfile.humble": "4fd1999353e9bc447cba7997f757491f6b97b71652e25c311d3936cdd1b6199e",
+    "nav2_mppi_controller": "df4020e3a4d7cbe1c9dfcb22e1c81d09797b0a870887bb0bbe1289c44ded563f",
+    "nav2_mppi_critics": "d9fb105d743c1edcff568ec52bebc1211c56ec6d4b4663e43e8116f2071764e3",
+    "phase6_holdout.py": "e31198ec5ef579f283c0a663c0672686247d46e28506c11143589495b3a165e1",
+    "prediction_v1_critic": "e2c173561f08ce099d43874c28ae83853d52d2924cdf0434f197261b75a6d062",
+    "run_phase2_holdout.sh": "b5e8c77899abc82ce3367adb88646eb0cec541a3932bff0f2303562422d087d7",
+    "shadow_tracker": "9099ea0b3c3a83e2a70b146bc6f1457f8a9de2a3dd5e9055b76cb96b8b4e901c",
+    "simulation_moving_obstacle_controller": "26adab36a356c136c6f796a74521df1d880d2d45d69e746a86282d72cd11563b",
+    "trace_source_manifest": "5b172004c82a3cdb07f6cb32b38eb9547977fd7c9df57110c38a18bcfe03de99"
+  },
+  "historical_candidate_manifest_entries_verified": 52,
+  "historical_profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+  "image_id": "sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6",
+  "image_tag": "rm2027_navigation:dynamic-prediction-20260924",
+  "instrumented_source_files_verified": 82,
+  "no_repeat_for_favorable_phase": true,
+  "phase_s": 6,
+  "run_commit": "d8e2765b6f13189008e68f6b3fae1fe1d2d98fcb",
+  "schema": "rm_dynamic_prediction_phase6_holdout/v1",
+  "scope": "One fresh simulation-only instrumented Navfn+V1 phase-6 capture, no runtime algorithm or safety changes.",
+  "selection_rule": "First sampled physical octagon-to-box clearance <0.05 m; otherwise sampled minimum. Select latest complete accepted MPPI cycle at least 0.25 s earlier. Keep one attempt regardless of result."
+}
