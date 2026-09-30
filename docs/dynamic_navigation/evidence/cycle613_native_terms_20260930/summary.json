@@ -1,0 +1,87 @@
+{
+  "detail_sha256": "8d8d6553c8121e8a293ec532d7fa52edbacf1c437cea3ef940fab0a799189c73",
+  "dynamic_unsafe_static_clear_count": 281,
+  "evaluation_commit": "9867ac59e98419fffd7f3fb55282f118c9d5ea1a",
+  "fixed_safe_rollout": 176,
+  "fixed_unsafe_top_rollout": 190,
+  "input_sha256": {
+    "filtered_candidates.csv": "e6843129500be964b778bfc3716aa71101ce6b93875d2ea6913bc0e0d2e59d14",
+    "filtered_controls.bin": "124936673a06c897d36ba45945c8922820e5ab2b21ce26fa7f4fddd8b3e13db1",
+    "filtered_map_and_poses.bin": "2fd7f5d7949583bdd28cce218bafc5f6bb022da6f5ce9ee3b1b63ae48b628f56",
+    "filtered_meta.json": "5e9f14bd12b67c23c29f5bd275778f4557068f559b4bc7b856844b46920321c9",
+    "filtered_native_scores.bin": "f2a65b7901aabb093c0556e346c502e4c0505654fbc0909fa06cf96d66fef78c",
+    "native_binary": "1046705dfdbe4e7a4996c23c0999d1988d06c775f058425fe46df34a18dee118",
+    "overlap_candidates.csv": "2aaeb476128b75bd3505b60ebda028fc79772b95b76a9cfb158309b523e64d41",
+    "overlap_summary.json": "fa737cddb0476480f8e687d22296183a5d3c96f839a504fefdc6c3a54d6001fd",
+    "plan": "e1012a1616349b772291f198f4fa4d41d5df006c0ceb4b5639183feb103e5f97",
+    "prefix_1": "563069d2f5d7161fb84740c9087172b981f8df91362dcd955703bbe27c301cd1",
+    "prefix_2": "a9beaf011bb8102c69cab04c0691be08c1eccc993e8df7529f259c2daec4d21a",
+    "prefix_3": "ac7f8622aeecef16a0c87ad6b7e071c480a9ee4d9f6616bf6e42cd3855ce7aa6",
+    "prefix_4": "ac7f8622aeecef16a0c87ad6b7e071c480a9ee4d9f6616bf6e42cd3855ce7aa6",
+    "prefix_5": "f2a65b7901aabb093c0556e346c502e4c0505654fbc0909fa06cf96d66fef78c",
+    "prefix_6": "f2a65b7901aabb093c0556e346c502e4c0505654fbc0909fa06cf96d66fef78c",
+    "prefix_7": "f2a65b7901aabb093c0556e346c502e4c0505654fbc0909fa06cf96d66fef78c"
+  },
+  "native_total_max_abs_parity_error": 0.0,
+  "prior_overlap_candidate_truth": {
+    "body_min_gap_m": 0.0,
+    "body_min_gap_step": 4,
+    "dynamic_clearance_gate_met": false,
+    "endpoint_path_goal_distance_m": 0.20301397144794464,
+    "padded_min_gap_m": 0.0
+  },
+  "safe_count": 3,
+  "safe_minus_unsafe_pair": {
+    "ConstraintCritic": 0.0,
+    "ControlRegularizer": -0.12999200592047466,
+    "CostCritic": 0.0,
+    "GoalAngleCritic": 0.0,
+    "GoalCritic": 0.7079570293426514,
+    "NativeTotal": 1.7320795059204102,
+    "PathAlignCritic": 1.0241224765777588,
+    "PathAngleCritic": 0.0,
+    "PathFollowCritic": 0.0,
+    "PredictionOverlapGrade": -0.06378749999999989,
+    "WeightedTotal": 1.5382999999999356
+  },
+  "schema": "rm_dynamic_prediction_cycle613_native_terms/v1",
+  "scope": "Operational differences of sequential native critic prefixes on fixed individually filtered trajectories. Already inspected one cycle; no weight changes.",
+  "terms": {
+    "ConstraintCritic": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.501779359430605,
+      "score_span": 0.006115246098488569
+    },
+    "ControlRegularizer": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.5468564650059312,
+      "score_span": 1.278680871459858
+    },
+    "CostCritic": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.5854092526690391,
+      "score_span": 500.0
+    },
+    "GoalAngleCritic": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.5,
+      "score_span": 0.0
+    },
+    "GoalCritic": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.05812574139976275,
+      "score_span": 1.5678382813930511
+    },
+    "PathAlignCritic": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.4347568208778173,
+      "score_span": 2.0246262550354004
+    },
+    "PathAngleCritic": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.5,
+      "score_span": 0.0
+    },
+    "PathFollowCritic": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.5,
+      "score_span": 0.0
+    },
+    "PredictionOverlapGrade": {
+      "safe_lower_than_dynamic_unsafe_auc": 0.8398576512455516,
+      "score_span": 0.774718
+    }
+  }
+}

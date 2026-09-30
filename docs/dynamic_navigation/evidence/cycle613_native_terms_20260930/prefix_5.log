@@ -1,0 +1,28 @@
+[INFO] [1790735898.961295521] [costmap]: 
+	costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790735898.961874392] [costmap]: Creating Costmap
+[INFO] [1790735898.961981907] [costmap]: Configuring
+[INFO] [1790735898.963715784] [costmap]: Using plugin "obstacle_layer"
+[INFO] [1790735898.965878716] [costmap]: Subscribed to Topics: scan
+[INFO] [1790735898.966750222] [costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1790735898.966762390] [costmap]: Using plugin "inflation_layer"
+[INFO] [1790735898.966913453] [costmap]: Initialized plugin "inflation_layer"
+[INFO] [1790735898.971163127] [frozen_replay]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1790735898.971995425] [frozen_replay]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1790735898.972012536] [frozen_replay]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1790735898.972081897] [frozen_replay]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1790735898.972090094] [frozen_replay]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1790735898.972127521] [frozen_replay]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1790735898.972132473] [frozen_replay]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1790735898.972166513] [frozen_replay]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1790735898.972171992] [frozen_replay]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1790735898.972232096] [frozen_replay]: ReferenceTrajectoryCritic instantiated with 1 power and 10.000000 weight
+[INFO] [1790735898.972239219] [frozen_replay]: Critic loaded : mppi::critics::PathAlignCritic
+[INFO] [1790735898.972799545] [frozen_replay]: Optimizer reset
+[INFO] [1790735898.976562254] [costmap]: Cleaning up
+[INFO] [1790735898.977654030] [costmap]: Running Nav2 LifecycleNode rcl preshutdown (costmap)
+[INFO] [1790735898.977677489] [costmap]: Destroying bond (costmap) to lifecycle manager.
+[INFO] [1790735898.977967838] [costmap]: Destroying
+score_eval_ms=2.42583

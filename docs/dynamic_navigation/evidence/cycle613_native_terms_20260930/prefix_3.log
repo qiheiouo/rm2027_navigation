@@ -1,0 +1,24 @@
+[INFO] [1790735897.962371159] [costmap]: 
+	costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790735897.963074604] [costmap]: Creating Costmap
+[INFO] [1790735897.963230149] [costmap]: Configuring
+[INFO] [1790735897.965157547] [costmap]: Using plugin "obstacle_layer"
+[INFO] [1790735897.967077445] [costmap]: Subscribed to Topics: scan
+[INFO] [1790735897.967974954] [costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1790735897.967987178] [costmap]: Using plugin "inflation_layer"
+[INFO] [1790735897.968138959] [costmap]: Initialized plugin "inflation_layer"
+[INFO] [1790735897.972593533] [frozen_replay]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1790735897.973457281] [frozen_replay]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1790735897.973474477] [frozen_replay]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1790735897.973547439] [frozen_replay]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1790735897.973555927] [frozen_replay]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1790735897.974014461] [frozen_replay]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1790735897.974027223] [frozen_replay]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1790735897.974576256] [frozen_replay]: Optimizer reset
+[INFO] [1790735897.978431209] [costmap]: Cleaning up
+[INFO] [1790735897.979497280] [costmap]: Running Nav2 LifecycleNode rcl preshutdown (costmap)
+[INFO] [1790735897.979554212] [costmap]: Destroying bond (costmap) to lifecycle manager.
+[INFO] [1790735897.979942911] [costmap]: Destroying
+score_eval_ms=2.36353

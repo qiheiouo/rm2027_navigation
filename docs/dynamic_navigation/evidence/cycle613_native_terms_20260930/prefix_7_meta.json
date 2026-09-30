@@ -1,0 +1,416 @@
+{
+  "batch": 300,
+  "costmap_parameters": {
+    "always_send_full_costmap": true,
+    "footprint": "[[0.2800954544, 0.191], [0.191, 0.2800954544], [-0.191, 0.2800954544], [-0.2800954544, 0.191], [-0.2800954544, -0.191], [-0.191, -0.2800954544], [0.191, -0.2800954544], [0.2800954544, -0.191]]",
+    "footprint_padding": 0.03,
+    "global_frame": "odom",
+    "height": 5,
+    "inflation_layer.cost_scaling_factor": 3.0,
+    "inflation_layer.inflation_radius": 0.45,
+    "inflation_layer.plugin": "nav2_costmap_2d::InflationLayer",
+    "obstacle_layer.enabled": true,
+    "obstacle_layer.observation_sources": "scan",
+    "obstacle_layer.plugin": "nav2_costmap_2d::ObstacleLayer",
+    "plugins": [
+      "obstacle_layer",
+      "inflation_layer"
+    ],
+    "publish_frequency": 5.0,
+    "resolution": 0.05,
+    "robot_base_frame": "base_link",
+    "rolling_window": true,
+    "update_frequency": 10.0,
+    "use_sim_time": false,
+    "width": 5
+  },
+  "map_data_file": "filtered_map_and_poses.bin",
+  "map_frame": "odom",
+  "parameters": {
+    "FollowPath.ConstraintCritic.cost_power": 1,
+    "FollowPath.ConstraintCritic.cost_weight": 4.0,
+    "FollowPath.ConstraintCritic.enabled": true,
+    "FollowPath.CostCritic.collision_cost": 1000000.0,
+    "FollowPath.CostCritic.consider_footprint": true,
+    "FollowPath.CostCritic.cost_power": 1,
+    "FollowPath.CostCritic.cost_weight": 3.81,
+    "FollowPath.CostCritic.critical_cost": 300.0,
+    "FollowPath.CostCritic.enabled": true,
+    "FollowPath.CostCritic.near_goal_distance": 0.5,
+    "FollowPath.GoalAngleCritic.cost_power": 1,
+    "FollowPath.GoalAngleCritic.cost_weight": 3.0,
+    "FollowPath.GoalAngleCritic.enabled": true,
+    "FollowPath.GoalAngleCritic.threshold_to_consider": 0.5,
+    "FollowPath.GoalCritic.cost_power": 1,
+    "FollowPath.GoalCritic.cost_weight": 5.0,
+    "FollowPath.GoalCritic.enabled": true,
+    "FollowPath.GoalCritic.threshold_to_consider": 1.4,
+    "FollowPath.PathAlignCritic.cost_power": 1,
+    "FollowPath.PathAlignCritic.cost_weight": 10.0,
+    "FollowPath.PathAlignCritic.enabled": true,
+    "FollowPath.PathAlignCritic.max_path_occupancy_ratio": 0.07,
+    "FollowPath.PathAlignCritic.offset_from_furthest": 20,
+    "FollowPath.PathAlignCritic.threshold_to_consider": 0.5,
+    "FollowPath.PathAlignCritic.trajectory_point_step": 4,
+    "FollowPath.PathAlignCritic.use_path_orientations": false,
+    "FollowPath.PathAngleCritic.cost_power": 1,
+    "FollowPath.PathAngleCritic.cost_weight": 2.0,
+    "FollowPath.PathAngleCritic.enabled": true,
+    "FollowPath.PathAngleCritic.forward_preference": false,
+    "FollowPath.PathAngleCritic.max_angle_to_furthest": 1.2,
+    "FollowPath.PathAngleCritic.offset_from_furthest": 4,
+    "FollowPath.PathAngleCritic.threshold_to_consider": 0.5,
+    "FollowPath.PathFollowCritic.cost_power": 1,
+    "FollowPath.PathFollowCritic.cost_weight": 5.0,
+    "FollowPath.PathFollowCritic.enabled": true,
+    "FollowPath.PathFollowCritic.offset_from_furthest": 6,
+    "FollowPath.PathFollowCritic.threshold_to_consider": 1.4,
+    "FollowPath.batch_size": 300,
+    "FollowPath.critics": [
+      "ConstraintCritic",
+      "CostCritic",
+      "GoalCritic",
+      "GoalAngleCritic",
+      "PathAlignCritic",
+      "PathFollowCritic",
+      "PathAngleCritic"
+    ],
+    "FollowPath.gamma": 0.015,
+    "FollowPath.iteration_count": 1,
+    "FollowPath.model_dt": 0.1,
+    "FollowPath.motion_model": "Omni",
+    "FollowPath.plugin": "nav2_mppi_controller::MPPIController",
+    "FollowPath.prune_distance": 1.5,
+    "FollowPath.regenerate_noises": false,
+    "FollowPath.retry_attempt_limit": 1,
+    "FollowPath.temperature": 0.3,
+    "FollowPath.time_steps": 30,
+    "FollowPath.transform_tolerance": 0.3,
+    "FollowPath.visualize": false,
+    "FollowPath.vx_max": 0.8,
+    "FollowPath.vx_min": -0.5,
+    "FollowPath.vx_std": 0.2,
+    "FollowPath.vy_max": 0.5,
+    "FollowPath.vy_std": 0.2,
+    "FollowPath.wz_max": 1.2,
+    "FollowPath.wz_std": 0.4,
+    "controller_frequency": 10.0
+  },
+  "path": [
+    [
+      5.096877288818344,
+      1.2735065460205037,
+      0.0
+    ],
+    [
+      5.119735717773422,
+      1.263382720947261,
+      0.0
+    ],
+    [
+      5.141374206542953,
+      1.2508621215820268,
+      0.0
+    ],
+    [
+      5.163037109374985,
+      1.2383834838867145,
+      0.0
+    ],
+    [
+      5.184555816650375,
+      1.2256572723388626,
+      0.0
+    ],
+    [
+      5.206087493896469,
+      1.2129543304443313,
+      0.0
+    ],
+    [
+      5.2274421691894375,
+      1.1999546051025343,
+      0.0
+    ],
+    [
+      5.248740386962875,
+      1.1868637084960891,
+      0.0
+    ],
+    [
+      5.270068359374984,
+      1.1738204956054643,
+      0.0
+    ],
+    [
+      5.29131240844725,
+      1.1606410980224569,
+      0.0
+    ],
+    [
+      5.312374114990219,
+      1.1471729278564409,
+      0.0
+    ],
+    [
+      5.333480834960922,
+      1.133775329589839,
+      0.0
+    ],
+    [
+      5.354530334472641,
+      1.120286560058589,
+      0.0
+    ],
+    [
+      5.375524902343734,
+      1.1067138671874952,
+      0.0
+    ],
+    [
+      5.396362304687485,
+      1.092900466918941,
+      0.0
+    ],
+    [
+      5.417157745361313,
+      1.0790241241455032,
+      0.0
+    ],
+    [
+      5.437641143798813,
+      1.0646915435790971,
+      0.0
+    ],
+    [
+      5.4581237792968595,
+      1.0503574371337843,
+      0.0
+    ],
+    [
+      5.47805557250975,
+      1.0352672576904256,
+      0.0
+    ],
+    [
+      5.497506713867172,
+      1.0195617675781206,
+      0.0
+    ],
+    [
+      5.516934204101547,
+      1.0038276672363233,
+      0.0
+    ],
+    [
+      5.535691070556625,
+      0.9872997283935501,
+      0.0
+    ],
+    [
+      5.554327392578109,
+      0.9706356048583942,
+      0.0
+    ],
+    [
+      5.572424316406234,
+      0.9533870697021438,
+      0.0
+    ],
+    [
+      5.58962554931639,
+      0.9352458953857381,
+      0.0
+    ],
+    [
+      5.606743621826157,
+      0.9170257568359332,
+      0.0
+    ],
+    [
+      5.623136901855453,
+      0.8981502532958938,
+      0.0
+    ],
+    [
+      5.638643646240219,
+      0.8785408020019485,
+      0.0
+    ],
+    [
+      5.654304504394516,
+      0.8590541839599561,
+      0.0
+    ],
+    [
+      5.669265747070297,
+      0.839024734497066,
+      0.0
+    ],
+    [
+      5.683568572998031,
+      0.8185207366943317,
+      0.0
+    ],
+    [
+      5.697328948974594,
+      0.7976482391357376,
+      0.0
+    ],
+    [
+      5.7115730285644375,
+      0.7771030426025343,
+      0.0
+    ],
+    [
+      5.7254882812499845,
+      0.756333923339839,
+      0.0
+    ],
+    [
+      5.738906860351547,
+      0.7352401733398395,
+      0.0
+    ],
+    [
+      5.751828002929672,
+      0.7138385772705034,
+      0.0
+    ],
+    [
+      5.761718749999985,
+      0.6908779144287065,
+      0.0
+    ],
+    [
+      5.761364746093735,
+      0.6658805847167928,
+      0.0
+    ],
+    [
+      5.747998809814438,
+      0.6447532653808548,
+      0.0
+    ],
+    [
+      5.75752334594725,
+      0.621638870239253,
+      0.0
+    ],
+    [
+      5.7666969299316255,
+      0.5983829498290971,
+      0.0
+    ],
+    [
+      5.775735473632797,
+      0.5750736236572225,
+      0.0
+    ],
+    [
+      5.7846321105956875,
+      0.5517105102539022,
+      0.0
+    ],
+    [
+      5.79350967407225,
+      0.5283397674560506,
+      0.0
+    ],
+    [
+      5.802368164062485,
+      0.5049617767333938,
+      0.0
+    ],
+    [
+      5.811237335205063,
+      0.4815879821777296,
+      0.0
+    ],
+    [
+      5.820125579833969,
+      0.45822143554687056,
+      0.0
+    ],
+    [
+      5.825846862792953,
+      0.4338848114013629,
+      0.0
+    ],
+    [
+      5.825205230712875,
+      0.40889320373534677,
+      0.0
+    ],
+    [
+      5.821426391601547,
+      0.38418045043944904,
+      0.0
+    ],
+    [
+      5.818364715576156,
+      0.3593685150146442,
+      0.0
+    ],
+    [
+      5.815736389160141,
+      0.3345069885253862,
+      0.0
+    ],
+    [
+      5.813312530517563,
+      0.3096248626708942,
+      0.0
+    ],
+    [
+      5.810977172851547,
+      0.28473396301269105,
+      0.0
+    ],
+    [
+      5.808654022216781,
+      0.259842300415035,
+      0.0
+    ],
+    [
+      5.806285858154282,
+      0.23495483398437056,
+      0.0
+    ],
+    [
+      5.8038375854492035,
+      0.2100749969482374,
+      0.0
+    ],
+    [
+      5.801275634765609,
+      0.185206604003902,
+      0.0
+    ],
+    [
+      5.797972106933578,
+      0.16042556762694904,
+      0.0
+    ],
+    [
+      5.792598724365219,
+      0.13600997924804226,
+      0.0
+    ],
+    [
+      5.783018493652328,
+      0.11291847229003427,
+      0.0
+    ]
+  ],
+  "pose": [
+    5.08499248128675,
+    1.2539193961812516,
+    -3.0855225288528594
+  ],
+  "speed": [
+    -0.4456836700578319,
+    0.24382796822738798,
+    -0.3201508749043569
+  ]
+}
