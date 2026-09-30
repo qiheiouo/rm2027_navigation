@@ -1,0 +1,36 @@
+{
+  "accepted_for_deployment": false,
+  "batch_size": 300,
+  "branch": "codex/dynamic-differential-risk",
+  "compiled_source_commit": "148a3a59e0f7936a5c06bd65a8ec2309306c0aef",
+  "derived_sha256": {
+    "launch": "781d8cf65e07a0dc0533483824d40e51db9a0406e83601b9a81eb3d08c4bb31f",
+    "model": "63ae456988ac0d2355a58e7216305d12b74b522ef30d2dafe417c6c096e3d71e",
+    "runner": "fc06ac846cb05bb72bcdf532206344a642abbba415fba69ecf720b94416e90e2"
+  },
+  "file_sha256": {
+    "docker/Dockerfile.humble": "4fd1999353e9bc447cba7997f757491f6b97b71652e25c311d3936cdd1b6199e",
+    "dynamic.launch.py": "0647031e50ec042961f51f09ec73316a39d49fc5c112ffcdf5102ef9b0d2a527",
+    "moving_model": "ac489655001736911da1dce5bd46f6a3d559e364c65542cdcc9eb75510e2d8cc",
+    "nav2_mppi_controller": "df4020e3a4d7cbe1c9dfcb22e1c81d09797b0a870887bb0bbe1289c44ded563f",
+    "nav2_mppi_critics": "d9fb105d743c1edcff568ec52bebc1211c56ec6d4b4663e43e8116f2071764e3",
+    "prediction_v1_critic": "e2c173561f08ce099d43874c28ae83853d52d2924cdf0434f197261b75a6d062",
+    "run_phase2_holdout.sh": "b5e8c77899abc82ce3367adb88646eb0cec541a3932bff0f2303562422d087d7",
+    "shadow_tracker": "9099ea0b3c3a83e2a70b146bc6f1457f8a9de2a3dd5e9055b76cb96b8b4e901c",
+    "simulation_moving_obstacle_controller": "26adab36a356c136c6f796a74521df1d880d2d45d69e746a86282d72cd11563b",
+    "trace_source_manifest": "5b172004c82a3cdb07f6cb32b38eb9547977fd7c9df57110c38a18bcfe03de99",
+    "x_motion_control_holdout.py": "71538a2234e4fa3db7eb229549628cf40410d569fecb7d1b94db572a9b2853d9"
+  },
+  "historical_candidate_manifest_entries_verified": 52,
+  "image_id": "sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6",
+  "image_tag": "rm2027_navigation:dynamic-prediction-20260924",
+  "instrumented_source_files_verified": 82,
+  "moving_axis": "x",
+  "no_repeat_for_favorable_result": true,
+  "phase_s": 6,
+  "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+  "run_commit": "e20a7257af6d54692f7ac251a3fdee90aa361cf1",
+  "schema": "rm_dynamic_prediction_x_motion_control_holdout/v1",
+  "scope": "One new simulation-only X-slider control capture at phase 6; Navfn+V1 profile and running nodes unchanged.",
+  "selection_rule": "First sampled physical body-to-box gap <0.05 m, else sampled minimum; latest complete accepted cycle >=0.25 s before event."
+}

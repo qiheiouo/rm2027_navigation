@@ -13,7 +13,7 @@
 | 计划和环境 | [相位 6 预登记](phase6_control_holdout_preregistration_20260930.md)；Navfn+V1 原 profile SHA256 `d00f722e...`，batch 300，相位 6 s；运行提交 `bea89ba5982e9694cfb29000a904c219b083d111`；编译相关源码仍为 `148a3a59...`，镜像 `sha256:0aa16ce3...`；先核对 52 个旧归档条目、82 个 instrumented source、五个运行二进制与当前 HEAD。没有重新编译，也没有使用与 HEAD 不符的旧插件。 |
 | 环境失败 | 首次容器因观察器要求 ROS 域 174 而误设 178，在发目标前退出；物理/预测数据均空、周期 0。原证据见[失败记录](phase6_control_holdout_setup_failure_20260930.md)，未作为导航试次或有利结果挑选。仅修正该环境变量后，新目录运行一次。 |
 | 有效运行 | 物理 pose、tracker prediction、扫描、在线位姿、目标事件及原 raw local costmap 都存在；MPPI writer `1021/1021`，0 dropped/errors，loaded maps 指向已校验的 MPPI/V1 库。仿真无网络，`2 CPU / 6 GiB` 限制，无硬件接口。 |
-| 闭环 | 目标 action status 6，24 次 recovery，未达目标。原 Gazebo pose 流计算的全试次采样最小本体间隙 **`0.10202 m`**（`57.901 s`），没有 `<0.05 m`；在线观察器自身 trajectory 口径最小 `0.15361 m`，两者不是同一采样/位姿流，周期选择只使用前者。此处仅说明采样平面几何，没有证明连续时间绝对安全。 |
+| 闭环 | 目标 action status 6，24 次 recovery，未达目标。原 Gazebo pose 流计算的**动态箱体**全试次采样最小本体间隙 **`0.10202 m`**（`57.901 s`），没有 `<0.05 m`；在线观察器的 `0.15361 m` 是**静态墙体**间隙，不能与动态箱体间隙直接比较。周期选择只使用前者。此处仅说明采样平面几何，没有证明连续时间绝对安全。 |
 | 固定周期 | 按计划选事件前至少 `0.25 s` 最后一个完整接受周期 **816**，周期起始及 prediction 消费 `57.611 s`、source `57.553 s`、age `0.058 s`；周期 JSON SHA256 `4a2123d3320be24abc570348414cfc8b590f39f064bed7d1e0761df6ae528d89`。 |
 
 ## 候选、评分和输出
