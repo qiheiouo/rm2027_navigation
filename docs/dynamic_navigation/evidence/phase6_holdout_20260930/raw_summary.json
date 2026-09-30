@@ -1,0 +1,52 @@
+{
+  "schema": "rm_dynamic_prediction_frozen_cycle_analysis/v1",
+  "source": {
+    "cycle_json": "build/dynamic_prediction_phase6_holdout_20260930_setupfix/candidate_navfn_1/mppi_cycles/cycle_816.json",
+    "cycle_sha256": "4a2123d3320be24abc570348414cfc8b590f39f064bed7d1e0761df6ae528d89",
+    "binary_sha256": "695738e5e7210510d11745d89192639015710e767bdcc36dcce623572be3d0c8",
+    "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+    "gazebo_truth_sha256": "06c86ed95c8a431a5619fa6918351bef0a0eae3398f2f5fe7b1bffc405242733"
+  },
+  "cycle_id": 816,
+  "consumer_sim_s": 57.611,
+  "prediction_source_age_s": 0.058,
+  "batch_size": 300,
+  "steps": 30,
+  "prediction_steps": 9,
+  "safe_truth_and_costmap_rollouts": 226,
+  "predicted_margin_safe_rollouts": 0,
+  "predicted_collision_rollouts": 300,
+  "prediction_truth_uncovered_times_s": [
+    0.10000000149011612,
+    0.20000000298023224,
+    0.30000000447034836,
+    0.4000000059604645,
+    0.5000000074505806,
+    0.6000000089406967,
+    0.7000000104308128,
+    0.800000011920929,
+    0.9000000134110451
+  ],
+  "best_truth_body_clearance_m": 0.11592238198230387,
+  "safe_probability_mass": 0.9402275085449219,
+  "prediction_score_span": 0.000213623046875,
+  "sampled_dynamics_replay_max_abs_error_m_or_rad": 4.76837158203125e-07,
+  "first_step_sampled_state_max_spread_m_or_rad_or_mps": 0.0,
+  "first_step_predicted_padded_gap_m": 0.0,
+  "first_step_truth_body_gap_m": 0.11592238198230387,
+  "all_batches_prediction_collision_invariant_at_first_step": true,
+  "optimized_filtered_sequence_truth_body_min_gap_m": 0.0933710307391982,
+  "optimized_filtered_sequence_truth_body_min_gap_step": 5,
+  "best_safe_total_rank": 1,
+  "minimum_total_score_rollout": 216,
+  "maximum_probability_rollout": 216,
+  "returned_control": [
+    0.611905038356781,
+    0.022284530103206635,
+    0.09884508699178696
+  ],
+  "full_compute_cycle_ms": 1.950061,
+  "observer_copy_ms": 0.138068,
+  "prediction_score_max_abs_error": 0.0001627604167424579,
+  "limits": "Sampled planar geometry; future Gazebo motion is an offline oracle, not online input. Instrumentation alters timing. The optimized filtered sequence is open-loop intent, not the actual later closed-loop path."
+}
