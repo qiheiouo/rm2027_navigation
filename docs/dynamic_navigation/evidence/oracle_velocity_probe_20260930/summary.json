@@ -1,0 +1,727 @@
+{
+  "schema": "rm_dynamic_prediction_oracle_velocity_probe/v1",
+  "scope": "Offline physical source velocity oracle only. Already inspected same-box Y-only fixture; never a runtime input or MPPI safety claim.",
+  "evaluation_commit": "2ad543afc43481789c3ae6827ee84e833ed5ef67",
+  "source_run_commit": "0574183d1d664c9db5b821a9019a1f0043f54b7f",
+  "input_sha256": {
+    "source_steps.csv": "f48dbc921446c99b0c6fbfb52129e3566f7dc8ad0a9a7e9c49ddab94c5389f20",
+    "south_sources.csv": "86383427529941de19a914db88420785c57e4131090c77c13aa7842f948f9bf7",
+    "north_sources.csv": "2c5c60253c32c5755dbb1ae574db41b5200af74ae1383d30b250cd8bf117e929"
+  },
+  "results": {
+    "south": {
+      "unique_sources": 409,
+      "source_velocity_error_mps": {
+        "n": 409,
+        "median_abs_mps": 0.24609505439723,
+        "p90_abs_mps": 0.3186517227262846,
+        "max_abs_mps": 0.38649209052154043
+      },
+      "all": {
+        "source_steps": 3681,
+        "tracker_y_covered": 1543,
+        "oracle_y_covered": 3652,
+        "oracle_excess_max_m": 0.008850781534971597,
+        "source_component": {
+          "n": 3681,
+          "median_abs_m": 0.019761802842859,
+          "p90_abs_m": 0.026244009028714266,
+          "max_abs_m": 0.036657360441857245
+        },
+        "tracker_velocity_component": {
+          "n": 3681,
+          "median_abs_m": 0.09155330025818947,
+          "p90_abs_m": 0.2159947766699189,
+          "max_abs_m": 0.3478428814693864
+        },
+        "oracle_motion_component": {
+          "n": 3681,
+          "median_abs_m": 0.03959053906447585,
+          "p90_abs_m": 0.15843679271711042,
+          "max_abs_m": 0.25527291368089344
+        },
+        "first_oracle_miss": {
+          "side": "south",
+          "source_t": 21.517,
+          "step": 8,
+          "horizon_s": 0.8,
+          "oracle_excess_m": 0.003058287763529288
+        }
+      },
+      "turn_window": {
+        "source_steps": 639,
+        "tracker_y_covered": 117,
+        "oracle_y_covered": 610,
+        "oracle_excess_max_m": 0.008850781534971597,
+        "source_component": {
+          "n": 639,
+          "median_abs_m": 0.019470644907657375,
+          "p90_abs_m": 0.026360738166111397,
+          "max_abs_m": 0.03205365017599293
+        },
+        "tracker_velocity_component": {
+          "n": 639,
+          "median_abs_m": 0.11918176425853033,
+          "p90_abs_m": 0.2118838739438215,
+          "max_abs_m": 0.2849758694387398
+        },
+        "oracle_motion_component": {
+          "n": 639,
+          "median_abs_m": 0.08014570455796799,
+          "p90_abs_m": 0.2290874260507385,
+          "max_abs_m": 0.25527291368089344
+        },
+        "first_oracle_miss": {
+          "side": "south",
+          "source_t": 21.517,
+          "step": 8,
+          "horizon_s": 0.8,
+          "oracle_excess_m": 0.003058287763529288
+        }
+      },
+      "no_turn_window": {
+        "source_steps": 3042,
+        "tracker_y_covered": 1426,
+        "oracle_y_covered": 3042,
+        "oracle_excess_max_m": 0.0,
+        "source_component": {
+          "n": 3042,
+          "median_abs_m": 0.01977755379006084,
+          "p90_abs_m": 0.026129480850330844,
+          "max_abs_m": 0.036657360441857245
+        },
+        "tracker_velocity_component": {
+          "n": 3042,
+          "median_abs_m": 0.0823589401181763,
+          "p90_abs_m": 0.21764795406599796,
+          "max_abs_m": 0.3478428814693864
+        },
+        "oracle_motion_component": {
+          "n": 3042,
+          "median_abs_m": 0.03468215539452024,
+          "p90_abs_m": 0.14217279336315727,
+          "max_abs_m": 0.22318060256688288
+        },
+        "first_oracle_miss": null
+      },
+      "steps": {
+        "1": {
+          "source_steps": 409,
+          "tracker_y_covered": 368,
+          "oracle_y_covered": 409,
+          "oracle_excess_max_m": 0.0,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.019761802842859,
+            "p90_abs_m": 0.02615238648600755,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.024609505439723,
+            "p90_abs_m": 0.031865172272628466,
+            "max_abs_m": 0.03864920905215405
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.0019505770713624804,
+            "p90_abs_m": 0.0026771212147786104,
+            "max_abs_m": 0.007480454501658018
+          },
+          "first_oracle_miss": null
+        },
+        "2": {
+          "source_steps": 409,
+          "tracker_y_covered": 270,
+          "oracle_y_covered": 409,
+          "oracle_excess_max_m": 0.0,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.019761802842859,
+            "p90_abs_m": 0.026152386486007637,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.049219010879446,
+            "p90_abs_m": 0.06373034454525693,
+            "max_abs_m": 0.0772984181043081
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.007952135178570796,
+            "p90_abs_m": 0.01083943968227139,
+            "max_abs_m": 0.021188761090040864
+          },
+          "first_oracle_miss": null
+        },
+        "3": {
+          "source_steps": 409,
+          "tracker_y_covered": 159,
+          "oracle_y_covered": 409,
+          "oracle_excess_max_m": 0.0,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01976180284285889,
+            "p90_abs_m": 0.026152386486007727,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.073828516319169,
+            "p90_abs_m": 0.09559551681788539,
+            "max_abs_m": 0.11594762715646212
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.017911114702829134,
+            "p90_abs_m": 0.02449839255231103,
+            "max_abs_m": 0.04327153433168851
+          },
+          "first_oracle_miss": null
+        },
+        "4": {
+          "source_steps": 409,
+          "tracker_y_covered": 134,
+          "oracle_y_covered": 409,
+          "oracle_excess_max_m": 0.0,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01976180284285911,
+            "p90_abs_m": 0.026152386486007727,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.098438021758892,
+            "p90_abs_m": 0.12746068909051386,
+            "max_abs_m": 0.1545968362086162
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.03232627702687241,
+            "p90_abs_m": 0.04682449628349752,
+            "max_abs_m": 0.06878014679420819
+          },
+          "first_oracle_miss": null
+        },
+        "5": {
+          "source_steps": 409,
+          "tracker_y_covered": 122,
+          "oracle_y_covered": 406,
+          "oracle_excess_max_m": 0.00281866488422311,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.019761802842859,
+            "p90_abs_m": 0.02615238648600755,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.123047527198615,
+            "p90_abs_m": 0.1593258613631423,
+            "max_abs_m": 0.19324604526077022
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.050875373595381745,
+            "p90_abs_m": 0.07736165563289198,
+            "max_abs_m": 0.09794067296913245
+          },
+          "first_oracle_miss": {
+            "side": "south",
+            "source_t": 21.781,
+            "step": 5,
+            "horizon_s": 0.5,
+            "oracle_excess_m": 0.0010325976641071266
+          }
+        },
+        "6": {
+          "source_steps": 409,
+          "tracker_y_covered": 121,
+          "oracle_y_covered": 405,
+          "oracle_excess_max_m": 0.006818298175538529,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.019761802842859,
+            "p90_abs_m": 0.026152386486007637,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.147657032638338,
+            "p90_abs_m": 0.19119103363577078,
+            "max_abs_m": 0.23189525431292424
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.07390041322207602,
+            "p90_abs_m": 0.11287409931216481,
+            "max_abs_m": 0.1305172927889542
+          },
+          "first_oracle_miss": {
+            "side": "south",
+            "source_t": 21.649,
+            "step": 6,
+            "horizon_s": 0.6,
+            "oracle_excess_m": 0.0018429100494881667
+          }
+        },
+        "7": {
+          "source_steps": 409,
+          "tracker_y_covered": 121,
+          "oracle_y_covered": 403,
+          "oracle_excess_max_m": 0.008727110161825702,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01976180284285889,
+            "p90_abs_m": 0.026152386486007706,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.172266538078061,
+            "p90_abs_m": 0.22305620590839922,
+            "max_abs_m": 0.27054446336507826
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.10095860255897415,
+            "p90_abs_m": 0.15313702803198642,
+            "max_abs_m": 0.16706779198682453
+          },
+          "first_oracle_miss": {
+            "side": "south",
+            "source_t": 21.649,
+            "step": 7,
+            "horizon_s": 0.7,
+            "oracle_excess_m": 0.004573234831670825
+          }
+        },
+        "8": {
+          "source_steps": 409,
+          "tracker_y_covered": 121,
+          "oracle_y_covered": 400,
+          "oracle_excess_max_m": 0.008850781534971597,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01976180284285911,
+            "p90_abs_m": 0.026152386486007526,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.196876043517784,
+            "p90_abs_m": 0.2549213781810277,
+            "max_abs_m": 0.3091936724172324
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.13284995821875084,
+            "p90_abs_m": 0.1983220784664389,
+            "max_abs_m": 0.20873107791660261
+          },
+          "first_oracle_miss": {
+            "side": "south",
+            "source_t": 21.517,
+            "step": 8,
+            "horizon_s": 0.8,
+            "oracle_excess_m": 0.003058287763529288
+          }
+        },
+        "9": {
+          "source_steps": 409,
+          "tracker_y_covered": 127,
+          "oracle_y_covered": 402,
+          "oracle_excess_max_m": 0.007515784258545766,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.019761802842859,
+            "p90_abs_m": 0.026152386486007526,
+            "max_abs_m": 0.036657360441857245
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.22148554895750702,
+            "p90_abs_m": 0.2867865504536562,
+            "max_abs_m": 0.3478428814693864
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.16948519667091877,
+            "p90_abs_m": 0.24762069381483756,
+            "max_abs_m": 0.25527291368089344
+          },
+          "first_oracle_miss": {
+            "side": "south",
+            "source_t": 21.517,
+            "step": 9,
+            "horizon_s": 0.9,
+            "oracle_excess_m": 0.004199583495083481
+          }
+        }
+      }
+    },
+    "north": {
+      "unique_sources": 409,
+      "source_velocity_error_mps": {
+        "n": 409,
+        "median_abs_mps": 0.24525306122610557,
+        "p90_abs_mps": 0.31522147988712546,
+        "max_abs_mps": 0.3828441984519386
+      },
+      "all": {
+        "source_steps": 3681,
+        "tracker_y_covered": 1475,
+        "oracle_y_covered": 3646,
+        "oracle_excess_max_m": 0.007855675691250952,
+        "source_component": {
+          "n": 3681,
+          "median_abs_m": 0.01962465949115,
+          "p90_abs_m": 0.02614290781815609,
+          "max_abs_m": 0.03525089769913059
+        },
+        "tracker_velocity_component": {
+          "n": 3681,
+          "median_abs_m": 0.09151645140256194,
+          "p90_abs_m": 0.21538324989977042,
+          "max_abs_m": 0.34455977860674475
+        },
+        "oracle_motion_component": {
+          "n": 3681,
+          "median_abs_m": 0.039679660963556795,
+          "p90_abs_m": 0.15824961472617283,
+          "max_abs_m": 0.2556454603103543
+        },
+        "first_oracle_miss": {
+          "side": "north",
+          "source_t": 17.623,
+          "step": 8,
+          "horizon_s": 0.8,
+          "oracle_excess_m": 0.0006140210712443639
+        }
+      },
+      "turn_window": {
+        "source_steps": 648,
+        "tracker_y_covered": 102,
+        "oracle_y_covered": 613,
+        "oracle_excess_max_m": 0.007855675691250952,
+        "source_component": {
+          "n": 648,
+          "median_abs_m": 0.019617370047327665,
+          "p90_abs_m": 0.02657649597331302,
+          "max_abs_m": 0.03525089769913059
+        },
+        "tracker_velocity_component": {
+          "n": 648,
+          "median_abs_m": 0.11870742404524773,
+          "p90_abs_m": 0.20996272130603655,
+          "max_abs_m": 0.29074083885963486
+        },
+        "oracle_motion_component": {
+          "n": 648,
+          "median_abs_m": 0.08018842728658776,
+          "p90_abs_m": 0.2280131681751307,
+          "max_abs_m": 0.2556454603103543
+        },
+        "first_oracle_miss": {
+          "side": "north",
+          "source_t": 17.623,
+          "step": 8,
+          "horizon_s": 0.8,
+          "oracle_excess_m": 0.0006140210712443639
+        }
+      },
+      "no_turn_window": {
+        "source_steps": 3033,
+        "tracker_y_covered": 1373,
+        "oracle_y_covered": 3033,
+        "oracle_excess_max_m": 0.0,
+        "source_component": {
+          "n": 3033,
+          "median_abs_m": 0.01962465949115,
+          "p90_abs_m": 0.02599850148541194,
+          "max_abs_m": 0.03445330219534315
+        },
+        "tracker_velocity_component": {
+          "n": 3033,
+          "median_abs_m": 0.08219761970759434,
+          "p90_abs_m": 0.21718650016066596,
+          "max_abs_m": 0.34455977860674475
+        },
+        "oracle_motion_component": {
+          "n": 3033,
+          "median_abs_m": 0.034645660496003705,
+          "p90_abs_m": 0.14152711550556946,
+          "max_abs_m": 0.22062840314755083
+        },
+        "first_oracle_miss": null
+      },
+      "steps": {
+        "1": {
+          "source_steps": 409,
+          "tracker_y_covered": 372,
+          "oracle_y_covered": 409,
+          "oracle_excess_max_m": 0.0,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01962465949115,
+            "p90_abs_m": 0.026027785182029927,
+            "max_abs_m": 0.03525089769913048
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.024525306122610557,
+            "p90_abs_m": 0.03152214798871254,
+            "max_abs_m": 0.038284419845193866
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.001955947622369225,
+            "p90_abs_m": 0.002668931764675419,
+            "max_abs_m": 0.007478866688410357
+          },
+          "first_oracle_miss": null
+        },
+        "2": {
+          "source_steps": 409,
+          "tracker_y_covered": 236,
+          "oracle_y_covered": 409,
+          "oracle_excess_max_m": 0.0,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01962465949115,
+            "p90_abs_m": 0.026027785182029903,
+            "max_abs_m": 0.03525089769913048
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.049050612245221115,
+            "p90_abs_m": 0.06304429597742509,
+            "max_abs_m": 0.07656883969038773
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.007910597282851373,
+            "p90_abs_m": 0.01079932804761312,
+            "max_abs_m": 0.021294435509442544
+          },
+          "first_oracle_miss": null
+        },
+        "3": {
+          "source_steps": 409,
+          "tracker_y_covered": 147,
+          "oracle_y_covered": 409,
+          "oracle_excess_max_m": 0.0,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01962465949115,
+            "p90_abs_m": 0.026027785182029903,
+            "max_abs_m": 0.03525089769913059
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.07357591836783167,
+            "p90_abs_m": 0.09456644396613763,
+            "max_abs_m": 0.11485325953558158
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.01797558643622299,
+            "p90_abs_m": 0.024450307330329976,
+            "max_abs_m": 0.04345620747596379
+          },
+          "first_oracle_miss": null
+        },
+        "4": {
+          "source_steps": 409,
+          "tracker_y_covered": 124,
+          "oracle_y_covered": 408,
+          "oracle_excess_max_m": 0.0013235543111783793,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.019624659491149887,
+            "p90_abs_m": 0.026027785182029927,
+            "max_abs_m": 0.03525089769913048
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.09810122449044223,
+            "p90_abs_m": 0.12608859195485017,
+            "max_abs_m": 0.15313767938077547
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.03200003520576977,
+            "p90_abs_m": 0.047054589496345355,
+            "max_abs_m": 0.06897052854113961
+          },
+          "first_oracle_miss": {
+            "side": "north",
+            "source_t": 33.793,
+            "step": 4,
+            "horizon_s": 0.4,
+            "oracle_excess_m": 0.0013235543111783793
+          }
+        },
+        "5": {
+          "source_steps": 409,
+          "tracker_y_covered": 116,
+          "oracle_y_covered": 407,
+          "oracle_excess_max_m": 0.005195866231709312,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01962465949115,
+            "p90_abs_m": 0.026027785182029882,
+            "max_abs_m": 0.03525089769913037
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.12262653061305279,
+            "p90_abs_m": 0.15761073994356273,
+            "max_abs_m": 0.1914220992259693
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.05087680997568389,
+            "p90_abs_m": 0.07714628752038442,
+            "max_abs_m": 0.09782527660192797
+          },
+          "first_oracle_miss": {
+            "side": "north",
+            "source_t": 25.675,
+            "step": 5,
+            "horizon_s": 0.5,
+            "oracle_excess_m": 6.315835984949114e-05
+          }
+        },
+        "6": {
+          "source_steps": 409,
+          "tracker_y_covered": 114,
+          "oracle_y_covered": 404,
+          "oracle_excess_max_m": 0.007043905484519886,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01962465949115011,
+            "p90_abs_m": 0.026027785182029993,
+            "max_abs_m": 0.03525089769913059
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.14715183673566334,
+            "p90_abs_m": 0.18913288793227526,
+            "max_abs_m": 0.22970651907116316
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.07368701320196963,
+            "p90_abs_m": 0.11298981600392538,
+            "max_abs_m": 0.1304510430939293
+          },
+          "first_oracle_miss": {
+            "side": "north",
+            "source_t": 25.675,
+            "step": 6,
+            "horizon_s": 0.6,
+            "oracle_excess_m": 0.004298490051334258
+          }
+        },
+        "7": {
+          "source_steps": 409,
+          "tracker_y_covered": 120,
+          "oracle_y_covered": 401,
+          "oracle_excess_max_m": 0.007190387918358243,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01962465949115011,
+            "p90_abs_m": 0.026027785182029927,
+            "max_abs_m": 0.03525089769913048
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.1716771428582739,
+            "p90_abs_m": 0.22065503592098779,
+            "max_abs_m": 0.267990938916357
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.1012654077962889,
+            "p90_abs_m": 0.1532763096800179,
+            "max_abs_m": 0.1674898680907082
+          },
+          "first_oracle_miss": {
+            "side": "north",
+            "source_t": 25.543,
+            "step": 7,
+            "horizon_s": 0.7,
+            "oracle_excess_m": 0.0003694217845073844
+          }
+        },
+        "8": {
+          "source_steps": 409,
+          "tracker_y_covered": 121,
+          "oracle_y_covered": 399,
+          "oracle_excess_max_m": 0.007855675691250952,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.01962465949115,
+            "p90_abs_m": 0.026027785182029927,
+            "max_abs_m": 0.03525089769913037
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.19620244898088446,
+            "p90_abs_m": 0.25217718390970034,
+            "max_abs_m": 0.30627535876155093
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.1328755783562151,
+            "p90_abs_m": 0.19817875715547498,
+            "max_abs_m": 0.2091111612408585
+          },
+          "first_oracle_miss": {
+            "side": "north",
+            "source_t": 17.623,
+            "step": 8,
+            "horizon_s": 0.8,
+            "oracle_excess_m": 0.0006140210712443639
+          }
+        },
+        "9": {
+          "source_steps": 409,
+          "tracker_y_covered": 125,
+          "oracle_y_covered": 400,
+          "oracle_excess_max_m": 0.006986687595561258,
+          "source_component": {
+            "n": 409,
+            "median_abs_m": 0.019624659491149887,
+            "p90_abs_m": 0.026027785182029927,
+            "max_abs_m": 0.03525089769913059
+          },
+          "tracker_velocity_component": {
+            "n": 409,
+            "median_abs_m": 0.22072775510349502,
+            "p90_abs_m": 0.2836993318984129,
+            "max_abs_m": 0.34455977860674475
+          },
+          "oracle_motion_component": {
+            "n": 409,
+            "median_abs_m": 0.16913646540752203,
+            "p90_abs_m": 0.2470363963036694,
+            "max_abs_m": 0.2556454603103543
+          },
+          "first_oracle_miss": {
+            "side": "north",
+            "source_t": 17.623,
+            "step": 9,
+            "horizon_s": 0.9,
+            "oracle_excess_m": 9.119304406629558e-05
+          }
+        }
+      }
+    }
+  },
+  "oracle_still_misses": true,
+  "details_sha256": "a085ffca37029d21cc36456d3739210f6dd5a4e4252e6cf1ff85bf6c723dff18"
+}
