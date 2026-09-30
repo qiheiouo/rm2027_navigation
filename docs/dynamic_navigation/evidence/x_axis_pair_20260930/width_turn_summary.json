@@ -1,0 +1,87 @@
+{
+  "evaluation_commit": "e1e2356dfa16b74ad0b12466867eda0c0b73320b",
+  "groups": {
+    "north": {
+      "all_early": {
+        "source_steps": 3681,
+        "sources": 409,
+        "x_covered": 3681,
+        "x_width_step1_median_m": 0.6176915934485336,
+        "x_width_step9_median_m": 1.4750082179839623,
+        "xy_covered": 3681,
+        "y_covered": 3681,
+        "y_width_step1_median_m": 0.7071997057864131,
+        "y_width_step9_median_m": 1.5645163303218372
+      },
+      "no_turn_window": {
+        "source_steps": 3051,
+        "sources": 339,
+        "x_covered": 3051,
+        "x_width_step1_median_m": 0.6172353261278296,
+        "x_width_step9_median_m": 1.474551950663253,
+        "xy_covered": 3051,
+        "y_covered": 3051,
+        "y_width_step1_median_m": 0.7071997057864131,
+        "y_width_step9_median_m": 1.5645163303218372
+      },
+      "turn_window": {
+        "source_steps": 630,
+        "sources": 70,
+        "x_covered": 630,
+        "x_width_step1_median_m": 0.6218501330975541,
+        "x_width_step9_median_m": 1.4791667576329766,
+        "xy_covered": 630,
+        "y_covered": 630,
+        "y_width_step1_median_m": 0.7071997057864131,
+        "y_width_step9_median_m": 1.5645163303218372
+      }
+    },
+    "south": {
+      "all_early": {
+        "source_steps": 3681,
+        "sources": 409,
+        "x_covered": 3681,
+        "x_width_step1_median_m": 0.6182271308453631,
+        "x_width_step9_median_m": 1.4755437553807864,
+        "xy_covered": 3681,
+        "y_covered": 3681,
+        "y_width_step1_median_m": 0.7071997057864131,
+        "y_width_step9_median_m": 1.5645163303218372
+      },
+      "no_turn_window": {
+        "source_steps": 3051,
+        "sources": 339,
+        "x_covered": 3051,
+        "x_width_step1_median_m": 0.6174230533812892,
+        "x_width_step9_median_m": 1.4747396779167108,
+        "xy_covered": 3051,
+        "y_covered": 3051,
+        "y_width_step1_median_m": 0.7071997057864131,
+        "y_width_step9_median_m": 1.5645163303218372
+      },
+      "turn_window": {
+        "source_steps": 630,
+        "sources": 70,
+        "x_covered": 630,
+        "x_width_step1_median_m": 0.6197561880306814,
+        "x_width_step9_median_m": 1.477072812566104,
+        "xy_covered": 630,
+        "y_covered": 630,
+        "y_width_step1_median_m": 0.7071997057864131,
+        "y_width_step9_median_m": 1.5645163303218372
+      }
+    }
+  },
+  "input_sha256": {
+    "manifest": "53749400d3fc33f81064f81dfa85d19b3d640eef7f3719be59f94f0ff51e98c1",
+    "north_source_steps.csv": "b0fd28541b99a52767439f41393ddcafa166db1bffa0b4ac4807cad4d6a2537b",
+    "north_sources.csv": "f6a3c2ab32304ee8753e885df95b2d2610555d2da7867507f1c1eb216053d4a7",
+    "primary_summary": "c08bf64663942f23b514b9ea58fda70eda4d9f027e8bf3b3ff6d1fa56c580ce1",
+    "south_source_steps.csv": "b4ce7e993552bdea204706f965f328ae39240fe77fd7cab469ac45aa6745a743",
+    "south_sources.csv": "241526733decca00e89bbd40a71b70cfd0bb8ceefee2c9e1b5bc37fc73f0e8b3"
+  },
+  "primary_full_nine_step_gate_passed": false,
+  "schema": "rm_dynamic_prediction_x_axis_width_turn_summary/v1",
+  "scope": "Post-capture descriptive widths and truth-labeled turn split on predeclared early subset only. Primary full-window nine-step gate remains failed; no model fitting.",
+  "turn_rule": "Among physical X positions at source and steps 1..9, adjacent 0.1-s velocities include both >+0.05 and <-0.05 m/s; same rule as previous Y-motion probe."
+}
