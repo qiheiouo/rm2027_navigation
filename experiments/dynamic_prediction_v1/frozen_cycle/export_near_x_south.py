@@ -53,7 +53,10 @@ def export(trial, output):
            "batch_result.json": trial / "batch_result_65.json",
            "noise_result.json": trial / "noise_result_65.json",
            "scale4_v1_hits.json": trial / "scale4_v1_hits_65.json",
-           "score_prefix_result.json": trial / "score_prefix_result_65.json"}
+           "score_prefix_result.json": trial / "score_prefix_result_65.json",
+           "path_align_bound.json": trial / "path_align_bound_65.json",
+           "guarded_score_summary.json": trial / "guarded_score_result_65/summary.json",
+           "guarded_parity_result.json": trial / "guarded_parity_result_65.json"}
     for name, source in top.items():
         add(source, name)
     for index in range(61, 66):
@@ -77,7 +80,10 @@ def export(trial, output):
         add(root / name, "scenario/" + name)
     for directory in ("native_raw_cycle_65", "filtered_fixture_65",
                       "batch_inputs_65", "batch_masks_65",
-                      "noise_inputs_65", "noise_masks_65", "score_prefix_65"):
+                      "noise_inputs_65", "noise_masks_65", "score_prefix_65",
+                      "guarded_score_inputs_65", "guarded_scores_65",
+                      "guarded_scores_65_verified", "guarded_score_result_65",
+                      "guarded_parity_65"):
         for source in sorted((trial / directory).rglob("*")):
             if source.is_file():
                 add(source, "derived/" + str(source.relative_to(trial)),
@@ -85,6 +91,12 @@ def export(trial, output):
     native = root.parent / "phase2_native_mask_head_20260929/install/costmap_mask_probe_cpp/lib/costmap_mask_probe_cpp"
     for name in ("costmap_mask_probe", "frozen_critic_score"):
         add(native / name, "native/" + name, True)
+    add(root.parent / "path_align_guard_cpp_20260928/source/source_manifest.json",
+        "native_guarded/source_manifest.json")
+    add(root.parent / "path_align_guard_cpp_20260928/install/nav2_mppi_controller/lib/libmppi_critics.so",
+        "native_guarded/libmppi_critics.so", True)
+    add(root.parent / "path_align_guard_scorer_20260928/install/costmap_mask_probe_cpp/lib/costmap_mask_probe_cpp/frozen_critic_score",
+        "native_guarded/frozen_critic_score", True)
     with tempfile.TemporaryDirectory() as temp:
         cycle = Path(temp) / "cycle_65.json"
         shutil.copyfile(output / "cycles/cycle_65.json", cycle)

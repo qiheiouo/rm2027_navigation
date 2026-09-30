@@ -1,0 +1,31 @@
+[INFO] [1790762327.340843026] [costmap]: 
+	costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790762327.341290294] [costmap]: Creating Costmap
+[INFO] [1790762327.341392751] [costmap]: Configuring
+[INFO] [1790762327.342798307] [costmap]: Using plugin "obstacle_layer"
+[INFO] [1790762327.344506445] [costmap]: Subscribed to Topics: scan
+[INFO] [1790762327.345305350] [costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1790762327.345319644] [costmap]: Using plugin "inflation_layer"
+[INFO] [1790762327.345454296] [costmap]: Initialized plugin "inflation_layer"
+[INFO] [1790762327.349895743] [frozen_replay]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1790762327.350619386] [frozen_replay]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1790762327.350637302] [frozen_replay]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1790762327.350706396] [frozen_replay]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1790762327.350714895] [frozen_replay]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1790762327.350751140] [frozen_replay]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1790762327.350755708] [frozen_replay]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1790762327.350789505] [frozen_replay]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1790762327.350794824] [frozen_replay]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1790762327.350855751] [frozen_replay]: ReferenceTrajectoryCritic instantiated with 1 power and 10.000000 weight
+[INFO] [1790762327.350861257] [frozen_replay]: Critic loaded : mppi::critics::PathAlignCritic
+[INFO] [1790762327.350907729] [frozen_replay]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1790762327.350964812] [frozen_replay]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Reversing allowed.
+[INFO] [1790762327.350969841] [frozen_replay]: Critic loaded : mppi::critics::PathAngleCritic
+[INFO] [1790762327.355101291] [frozen_replay]: Optimizer reset
+[INFO] [1790762327.372830627] [costmap]: Cleaning up
+[INFO] [1790762327.373709691] [costmap]: Running Nav2 LifecycleNode rcl preshutdown (costmap)
+[INFO] [1790762327.373746596] [costmap]: Destroying bond (costmap) to lifecycle manager.
+[INFO] [1790762327.373892772] [costmap]: Destroying
+score_eval_ms=15.6871

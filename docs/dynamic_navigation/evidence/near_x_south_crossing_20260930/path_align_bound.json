@@ -1,0 +1,57 @@
+{
+  "cases": [
+    {
+      "batch": 300,
+      "cycle_id": 65,
+      "exposed_indices": [
+        74,
+        237
+      ],
+      "first_exposed_step_counts": {
+        "12": 0,
+        "16": 0,
+        "20": 0,
+        "24": 0,
+        "28": 2,
+        "4": 0,
+        "8": 0
+      },
+      "furthest_reached_path_point": 59,
+      "goal_distance_m": 1.344469428062439,
+      "input_sha256": {
+        "cycle_bin": "e334200fdb92c56d149ec949750be07190104ee57962ec59ec02ae38be09621a",
+        "cycle_json": "cf62847bc075612b793594cbe6c18c9b33db11a69f051aa68e02a551d83f68c1",
+        "native_scores": "dda08e5e393a270f62cbdb91d59f2d1166d21276b9528c6acc36c4a417e144fa",
+        "profile": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640"
+      },
+      "integrated_path_limit_m": 1.4556586742401123,
+      "integrated_path_vector_size": 59,
+      "mismatched_indices": [
+        74,
+        237
+      ],
+      "name": "south_cycle65",
+      "native_pre_v1_residual_gt_1e_3_count": 2,
+      "path_align_goal_threshold_m": 0.5,
+      "path_align_nonzero_score_count": 300,
+      "path_align_offset_from_furthest": 20,
+      "path_points": 60,
+      "potential_end_iterator_exposure_count": 2,
+      "residual_gt_1e_3_and_exposed_count": 2,
+      "residual_gt_1e_3_without_exposure_count": 0,
+      "residual_max_abs": 0.25689029693603516,
+      "sampled_trajectory_steps_zero_based": [
+        4,
+        8,
+        12,
+        16,
+        20,
+        24,
+        28
+      ],
+      "trajectory_point_step": 4
+    }
+  ],
+  "schema": "rm_dynamic_prediction_path_align_bound_audit/v1",
+  "scope": "Read-only frozen-cycle analysis of the installed Nav2 1.1.20 PathAlign end-iterator precondition. Exposure indicates a source-level undefined-behavior branch, not proof that the unavailable original-image binary took a particular numerical result."
+}

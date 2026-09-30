@@ -1,0 +1,29 @@
+[INFO] [1790762871.922721709] [costmap]: 
+	costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790762871.923222060] [costmap]: Creating Costmap
+[INFO] [1790762871.923331898] [costmap]: Configuring
+[INFO] [1790762871.924828160] [costmap]: Using plugin "obstacle_layer"
+[INFO] [1790762871.927197349] [costmap]: Subscribed to Topics: scan
+[INFO] [1790762871.927977294] [costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1790762871.927991092] [costmap]: Using plugin "inflation_layer"
+[INFO] [1790762871.928132911] [costmap]: Initialized plugin "inflation_layer"
+[INFO] [1790762871.932322787] [frozen_replay]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1790762871.932995900] [frozen_replay]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1790762871.933011121] [frozen_replay]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1790762871.933077906] [frozen_replay]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1790762871.933087051] [frozen_replay]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1790762871.933123019] [frozen_replay]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1790762871.933127598] [frozen_replay]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1790762871.933160845] [frozen_replay]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1790762871.933166098] [frozen_replay]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1790762871.933208685] [frozen_replay]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1790762871.933274669] [frozen_replay]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Reversing allowed.
+[INFO] [1790762871.933281798] [frozen_replay]: Critic loaded : mppi::critics::PathAngleCritic
+[INFO] [1790762871.936839836] [frozen_replay]: Optimizer reset
+[INFO] [1790762871.955758078] [costmap]: Cleaning up
+[INFO] [1790762871.957128777] [costmap]: Running Nav2 LifecycleNode rcl preshutdown (costmap)
+[INFO] [1790762871.957179143] [costmap]: Destroying bond (costmap) to lifecycle manager.
+[INFO] [1790762871.957373217] [costmap]: Destroying
+score_eval_ms=16.1879
