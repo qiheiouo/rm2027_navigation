@@ -1,0 +1,420 @@
+{
+  "schema": "rm_dynamic_prediction_causal_face_velocity_probe/v1",
+  "scope": "Four-source past-only OLS on already inspected same-box Y data. No tracker modification, future input, runtime or MPPI claim.",
+  "evaluation_commit": "cc57422cec2a5968ff42e7d1a65d32e33a20a756",
+  "source_run_commit": "0574183d1d664c9db5b821a9019a1f0043f54b7f",
+  "history_sources": 4,
+  "history_span_s": [
+    0.15,
+    0.3
+  ],
+  "input_sha256": {
+    "face_sources": "1327a4e6dd2f6706b3980e8dcfd739493bdceec46348e967573148bd6d0c0b05",
+    "nine_steps": "f48dbc921446c99b0c6fbfb52129e3566f7dc8ad0a9a7e9c49ddab94c5389f20",
+    "oracle_steps": "a085ffca37029d21cc36456d3739210f6dd5a4e4252e6cf1ff85bf6c723dff18",
+    "south_sources.csv": "86383427529941de19a914db88420785c57e4131090c77c13aa7842f948f9bf7",
+    "north_sources.csv": "2c5c60253c32c5755dbb1ae574db41b5200af74ae1383d30b250cd8bf117e929"
+  },
+  "results": {
+    "south": {
+      "total_sources": 409,
+      "valid_sources": 406,
+      "missing_sources": 3,
+      "velocity_error_mps": {
+        "n": 406,
+        "median_abs_mps": 0.038527338626486864,
+        "p90_abs_mps": 0.08427096216908317,
+        "max_abs_mps": 0.16181976587010075
+      },
+      "all": {
+        "source_steps": 3681,
+        "causal_velocity_available_steps": 3654,
+        "causal_y_covered_all": 3343,
+        "causal_y_covered_valid": 3343,
+        "tracker_y_covered_valid": 1516,
+        "oracle_y_covered_valid": 3625,
+        "causal_excess_max_m": 0.09130886095864871,
+        "first_causal_miss": {
+          "side": "south",
+          "source_t": 17.227,
+          "step": 9,
+          "horizon_s": 0.9,
+          "causal_excess_m": 0.004171856571604959
+        }
+      },
+      "turn_window": {
+        "source_steps": 639,
+        "causal_velocity_available_steps": 639,
+        "causal_y_covered_all": 439,
+        "causal_y_covered_valid": 439,
+        "tracker_y_covered_valid": 117,
+        "oracle_y_covered_valid": 610,
+        "causal_excess_max_m": 0.09130886095864871,
+        "first_causal_miss": {
+          "side": "south",
+          "source_t": 17.227,
+          "step": 9,
+          "horizon_s": 0.9,
+          "causal_excess_m": 0.004171856571604959
+        }
+      },
+      "no_turn_window": {
+        "source_steps": 3042,
+        "causal_velocity_available_steps": 3015,
+        "causal_y_covered_all": 2904,
+        "causal_y_covered_valid": 2904,
+        "tracker_y_covered_valid": 1399,
+        "oracle_y_covered_valid": 3015,
+        "causal_excess_max_m": 0.06491660348515566,
+        "first_causal_miss": {
+          "side": "south",
+          "source_t": 17.953,
+          "step": 5,
+          "horizon_s": 0.5,
+          "causal_excess_m": 0.003893788395614828
+        }
+      },
+      "steps": {
+        "1": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 406,
+          "causal_y_covered_valid": 406,
+          "tracker_y_covered_valid": 365,
+          "oracle_y_covered_valid": 406,
+          "causal_excess_max_m": 0.0,
+          "first_causal_miss": null
+        },
+        "2": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 403,
+          "causal_y_covered_valid": 403,
+          "tracker_y_covered_valid": 267,
+          "oracle_y_covered_valid": 406,
+          "causal_excess_max_m": 0.011575163078886931,
+          "first_causal_miss": {
+            "side": "south",
+            "source_t": 37.357,
+            "step": 2,
+            "horizon_s": 0.2,
+            "causal_excess_m": 0.0001322518376492901
+          }
+        },
+        "3": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 391,
+          "causal_y_covered_valid": 391,
+          "tracker_y_covered_valid": 156,
+          "oracle_y_covered_valid": 406,
+          "causal_excess_max_m": 0.024186384995365198,
+          "first_causal_miss": {
+            "side": "south",
+            "source_t": 21.649,
+            "step": 3,
+            "horizon_s": 0.3,
+            "causal_excess_m": 0.0035996048047454293
+          }
+        },
+        "4": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 378,
+          "causal_y_covered_valid": 378,
+          "tracker_y_covered_valid": 131,
+          "oracle_y_covered_valid": 406,
+          "causal_excess_max_m": 0.0346342477581353,
+          "first_causal_miss": {
+            "side": "south",
+            "source_t": 21.319,
+            "step": 4,
+            "horizon_s": 0.4,
+            "causal_excess_m": 0.0047704210418647724
+          }
+        },
+        "5": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 367,
+          "causal_y_covered_valid": 367,
+          "tracker_y_covered_valid": 119,
+          "oracle_y_covered_valid": 403,
+          "causal_excess_max_m": 0.04318689299891321,
+          "first_causal_miss": {
+            "side": "south",
+            "source_t": 17.821,
+            "step": 5,
+            "horizon_s": 0.5,
+            "causal_excess_m": 0.0001099339507024677
+          }
+        },
+        "6": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 362,
+          "causal_y_covered_valid": 362,
+          "tracker_y_covered_valid": 118,
+          "oracle_y_covered_valid": 402,
+          "causal_excess_max_m": 0.052014113231718395,
+          "first_causal_miss": {
+            "side": "south",
+            "source_t": 17.821,
+            "step": 6,
+            "horizon_s": 0.6,
+            "causal_excess_m": 0.00965815574364487
+          }
+        },
+        "7": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 351,
+          "causal_y_covered_valid": 351,
+          "tracker_y_covered_valid": 118,
+          "oracle_y_covered_valid": 400,
+          "causal_excess_max_m": 0.06603854990485414,
+          "first_causal_miss": {
+            "side": "south",
+            "source_t": 17.293,
+            "step": 7,
+            "horizon_s": 0.7,
+            "causal_excess_m": 0.012784139372920222
+          }
+        },
+        "8": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 346,
+          "causal_y_covered_valid": 346,
+          "tracker_y_covered_valid": 118,
+          "oracle_y_covered_valid": 397,
+          "causal_excess_max_m": 0.07934958696563427,
+          "first_causal_miss": {
+            "side": "south",
+            "source_t": 17.293,
+            "step": 8,
+            "horizon_s": 0.8,
+            "causal_excess_m": 0.029982315626822797
+          }
+        },
+        "9": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 339,
+          "causal_y_covered_valid": 339,
+          "tracker_y_covered_valid": 124,
+          "oracle_y_covered_valid": 399,
+          "causal_excess_max_m": 0.09130886095864871,
+          "first_causal_miss": {
+            "side": "south",
+            "source_t": 17.227,
+            "step": 9,
+            "horizon_s": 0.9,
+            "causal_excess_m": 0.004171856571604959
+          }
+        }
+      }
+    },
+    "north": {
+      "total_sources": 409,
+      "valid_sources": 406,
+      "missing_sources": 3,
+      "velocity_error_mps": {
+        "n": 406,
+        "median_abs_mps": 0.039910792911794946,
+        "p90_abs_mps": 0.08329744989741177,
+        "max_abs_mps": 0.21741926841298204
+      },
+      "all": {
+        "source_steps": 3681,
+        "causal_velocity_available_steps": 3654,
+        "causal_y_covered_all": 3250,
+        "causal_y_covered_valid": 3250,
+        "tracker_y_covered_valid": 1448,
+        "oracle_y_covered_valid": 3619,
+        "causal_excess_max_m": 0.1360280713669147,
+        "first_causal_miss": {
+          "side": "north",
+          "source_t": 17.161,
+          "step": 8,
+          "horizon_s": 0.8,
+          "causal_excess_m": 0.0006627696704104014
+        }
+      },
+      "turn_window": {
+        "source_steps": 648,
+        "causal_velocity_available_steps": 648,
+        "causal_y_covered_all": 408,
+        "causal_y_covered_valid": 408,
+        "tracker_y_covered_valid": 102,
+        "oracle_y_covered_valid": 613,
+        "causal_excess_max_m": 0.1360280713669147,
+        "first_causal_miss": {
+          "side": "north",
+          "source_t": 17.227,
+          "step": 4,
+          "horizon_s": 0.4,
+          "causal_excess_m": 0.003861023660246224
+        }
+      },
+      "no_turn_window": {
+        "source_steps": 3033,
+        "causal_velocity_available_steps": 3006,
+        "causal_y_covered_all": 2842,
+        "causal_y_covered_valid": 2842,
+        "tracker_y_covered_valid": 1346,
+        "oracle_y_covered_valid": 3006,
+        "causal_excess_max_m": 0.05543959338158028,
+        "first_causal_miss": {
+          "side": "north",
+          "source_t": 17.161,
+          "step": 8,
+          "horizon_s": 0.8,
+          "causal_excess_m": 0.0006627696704104014
+        }
+      },
+      "steps": {
+        "1": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 406,
+          "causal_y_covered_valid": 406,
+          "tracker_y_covered_valid": 369,
+          "oracle_y_covered_valid": 406,
+          "causal_excess_max_m": 0.0,
+          "first_causal_miss": null
+        },
+        "2": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 404,
+          "causal_y_covered_valid": 404,
+          "tracker_y_covered_valid": 233,
+          "oracle_y_covered_valid": 406,
+          "causal_excess_max_m": 0.0011729447019170683,
+          "first_causal_miss": {
+            "side": "north",
+            "source_t": 33.793,
+            "step": 2,
+            "horizon_s": 0.2,
+            "causal_excess_m": 0.0011729447019170683
+          }
+        },
+        "3": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 384,
+          "causal_y_covered_valid": 384,
+          "tracker_y_covered_valid": 144,
+          "oracle_y_covered_valid": 406,
+          "causal_excess_max_m": 0.020454275361745725,
+          "first_causal_miss": {
+            "side": "north",
+            "source_t": 17.359,
+            "step": 3,
+            "horizon_s": 0.3,
+            "causal_excess_m": 0.0021686402673489896
+          }
+        },
+        "4": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 367,
+          "causal_y_covered_valid": 367,
+          "tracker_y_covered_valid": 121,
+          "oracle_y_covered_valid": 405,
+          "causal_excess_max_m": 0.044135075187490394,
+          "first_causal_miss": {
+            "side": "north",
+            "source_t": 17.227,
+            "step": 4,
+            "horizon_s": 0.4,
+            "causal_excess_m": 0.003861023660246224
+          }
+        },
+        "5": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 355,
+          "causal_y_covered_valid": 355,
+          "tracker_y_covered_valid": 113,
+          "oracle_y_covered_valid": 404,
+          "causal_excess_max_m": 0.0656698242751167,
+          "first_causal_miss": {
+            "side": "north",
+            "source_t": 17.227,
+            "step": 5,
+            "horizon_s": 0.5,
+            "causal_excess_m": 0.0099314696692554
+          }
+        },
+        "6": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 346,
+          "causal_y_covered_valid": 346,
+          "tracker_y_covered_valid": 111,
+          "oracle_y_covered_valid": 401,
+          "causal_excess_max_m": 0.08530358648904673,
+          "first_causal_miss": {
+            "side": "north",
+            "source_t": 17.227,
+            "step": 6,
+            "horizon_s": 0.6,
+            "causal_excess_m": 0.01603419242873777
+          }
+        },
+        "7": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 337,
+          "causal_y_covered_valid": 337,
+          "tracker_y_covered_valid": 117,
+          "oracle_y_covered_valid": 398,
+          "causal_excess_max_m": 0.1032927792577526,
+          "first_causal_miss": {
+            "side": "north",
+            "source_t": 17.227,
+            "step": 7,
+            "horizon_s": 0.7,
+            "causal_excess_m": 0.025471938035835806
+          }
+        },
+        "8": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 330,
+          "causal_y_covered_valid": 330,
+          "tracker_y_covered_valid": 118,
+          "oracle_y_covered_valid": 396,
+          "causal_excess_max_m": 0.12009812714718665,
+          "first_causal_miss": {
+            "side": "north",
+            "source_t": 17.161,
+            "step": 8,
+            "horizon_s": 0.8,
+            "causal_excess_m": 0.0006627696704104014
+          }
+        },
+        "9": {
+          "source_steps": 409,
+          "causal_velocity_available_steps": 406,
+          "causal_y_covered_all": 321,
+          "causal_y_covered_valid": 321,
+          "tracker_y_covered_valid": 122,
+          "oracle_y_covered_valid": 397,
+          "causal_excess_max_m": 0.1360280713669147,
+          "first_causal_miss": {
+            "side": "north",
+            "source_t": 17.161,
+            "step": 9,
+            "horizon_s": 0.9,
+            "causal_excess_m": 0.01171463059201655
+          }
+        }
+      }
+    }
+  },
+  "nine_step_y_coverage_failed": true,
+  "details_sha256": "bb143b5687590ab254033277db5dce9a3a25f20ccfb0b9fb3f540b5430c465ef"
+}
