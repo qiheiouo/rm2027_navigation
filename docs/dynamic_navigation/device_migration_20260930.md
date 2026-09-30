@@ -12,6 +12,7 @@
 2. 本机隔离工作树下 `build/dynamic_prediction_near_x_fast_motion_20260930/`：一次仿真的完整 538 周期归档，约 234 MB。其独立 `tar.zst` 副本和 Git bundle 放在本机 `/home/wpie/rm2027_navigation/build/dynamic_differential_risk_worktree/build/migration/`，均被 `.gitignore` 排除，**不会随着 Git 推送上传**。完整仿真压缩包 SHA256 为 `063f643161c408fb3bd043da91a25bd59484bd1e5458f91512267fb02b7c3343`；Git bundle 的最新 SHA256 在同目录 `SHA256SUMS`。搬新设备时若需要完整时间序列，须另行拷贝压缩包并按 SHA256 核对。
 3. `/home/wpie/tdt_p2b`：用户提供的约 5 GB 历史原始归档，仍只在本机。Git 中有从它导出的选择性证据和哈希，不能声称整个目录已云备份。需要重新分析未导出的原始日志时，应另外传输此目录。
 4. Docker 镜像 `sha256:0aa16ce3fd9c78d5d3bdab4873a51d077ea9dc637578091c860ad2b326d1b0a6` 是本机运行身份记录，**不是 Git 文件**。新设备须按当前分支 Dockerfile/依赖重新建环境；检查镜像、代码、插件和运行 profile 与目标 HEAD 一致，不能直接复用旧镜像 ID 或旧编译产物。
+5. 主工作树 `/home/wpie/rm2027_navigation` 的 `main` 还留有一处**未提交的用户修改**：`docker/Dockerfile.humble` 去掉 STVL 包的精确版本号。它未包含在本研究分支，也不属于本次已验证运行环境。为防换机遗漏，其原始 diff 另存同一 `build/migration/root-main-Dockerfile.patch`，SHA256 `b114e093a91e1d1463453702ab0df56efc2256b8e2f539813495c6d5d579f2f7`；只有确认新环境确实需要时才单独审核并应用，不能把它默认为已推送代码。
 
 ## 新设备核验
 
