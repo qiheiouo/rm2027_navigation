@@ -1,0 +1,94 @@
+{
+  "evaluation_commit": "df5576979d8dfe37f299f8e7e61b61a6b62e1af3",
+  "full_nine_step_gate_passed": true,
+  "groups": {
+    "all": {
+      "sources": 423,
+      "steps": 3807,
+      "x_covered": 3807,
+      "x_width_step1_median_m": 0.6139969361509019,
+      "x_width_step9_median_m": 1.4713135606863252,
+      "xy_covered": 3807,
+      "y_covered": 3807,
+      "y_width_step1_median_m": 0.7071997057864131,
+      "y_width_step9_median_m": 1.5645163303218372
+    },
+    "no_turn": {
+      "sources": 353,
+      "steps": 3177,
+      "x_covered": 3177,
+      "x_width_step1_median_m": 0.6138859548900406,
+      "x_width_step9_median_m": 1.4712025794254693,
+      "xy_covered": 3177,
+      "y_covered": 3177,
+      "y_width_step1_median_m": 0.7071997057864131,
+      "y_width_step9_median_m": 1.5645163303218372
+    },
+    "turn": {
+      "sources": 70,
+      "steps": 630,
+      "x_covered": 630,
+      "x_width_step1_median_m": 0.6168450005898674,
+      "x_width_step9_median_m": 1.4741616251252925,
+      "xy_covered": 630,
+      "y_covered": 630,
+      "y_width_step1_median_m": 0.7071997057864131,
+      "y_width_step9_median_m": 1.5645163303218372
+    }
+  },
+  "input_gate_passed": true,
+  "observation": {
+    "confirmed_sources_in_window": 423,
+    "diagnostic_early_history_valid_sources": 423,
+    "diagnostic_early_source_count": 423,
+    "diagnostic_valid_step_count": 3807,
+    "diagnostic_x_covered_valid_steps": 3807,
+    "diagnostic_x_excess_max_m": 0.0,
+    "diagnostic_xy_covered_valid_steps": 3807,
+    "diagnostic_y_covered_valid_steps": 3807,
+    "diagnostic_y_excess_max_m": 0.0,
+    "exact_scan_sources": 423,
+    "full_preregistered_nine_step_gate_passed": true,
+    "future_label_available_sources": 423,
+    "future_label_missing_sources": 0,
+    "history_valid_sources": 423,
+    "input_gate_passed": true,
+    "observation": {
+      "actual_stop_sim_s": 45.0,
+      "clock_count": 44997,
+      "odom_count": 2249,
+      "scan_count": 682,
+      "schema": "paired_view_observation/v1",
+      "stop_sim_s": 45.0,
+      "target_count": 1570
+    },
+    "online_pose_sources": 423,
+    "phase_counts": {
+      "negative_lt_minus_0_3": 149,
+      "positive_gt_0_3": 155,
+      "turn_abs_le_0_2": 76
+    },
+    "physical_body_gap": {
+      "at_least_0_05_m": true,
+      "box_y_range_m": [
+        0.0,
+        0.0
+      ],
+      "interpolation_lower_bound_m": 0.5320432803374014,
+      "robot_y_range_m": [
+        1.1,
+        1.1
+      ],
+      "sample_min_m": 0.5449045456
+    },
+    "physical_pose_rows": 3129,
+    "side": "north",
+    "source_x_center_covered": 423,
+    "source_x_valid": 423,
+    "source_y_center_abs_error_max_m": 0.03815540376364912
+  },
+  "plan_sha256": "192468113d841fb503861d60344e0f0ebcc0a07ddc12c8947b3908c21e967929",
+  "profile_sha256": "d00f722e64db8b4228ad0e9a3a0fcca4f33dcb9e744da67129d75fce59cd4640",
+  "schema": "rm_dynamic_prediction_x_axis_near_audit/v1",
+  "scope": "One new near static X-motion view with complete 0.9-s future labels, same preregistered scan interval rule. No MPPI/control claim."
+}
