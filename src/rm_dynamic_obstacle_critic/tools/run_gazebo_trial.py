@@ -18,6 +18,7 @@ from rclpy.qos import qos_profile_sensor_data, QoSProfile, DurabilityPolicy
 from nav2_msgs.action import NavigateToPose
 from nav_msgs.msg import Odometry
 from nav2_msgs.msg import Costmap
+from nav2_msgs.srv import ManageLifecycleNodes
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 from diagnostic_msgs.msg import DiagnosticArray
@@ -50,11 +51,12 @@ def main():
     params=args.output/"profile.yaml";params.write_text(yaml.safe_dump(profile,sort_keys=False))
     policy={"mode":args.mode,"goal":[5.6,0.,0.],"start_phase":2.,"period":8.,"earliest_start":16.,"phase_tolerance":.06,
             "window":35.,"tail":3.5,"wall_timeout":150.,"body_clearance":.05,"padded_clearance_strict":0.,"raw_costmap_threshold":203,"bounds_tolerance":5e-5,
+            "startup":"explicit lifecycle STARTUP after positive sim clock, scan, canonical odometry and tracker receipt",
             "scope":"one fixed Phase1.5 fixture; not independent field acceptance"}
     (args.output/"policy.json").write_text(json.dumps(policy,indent=2)+"\n")
     env=os.environ.copy();env["ROS_LOG_DIR"]=str(args.output/"ros");env["XDG_RUNTIME_DIR"]=str(args.output/"xdg");Path(env["XDG_RUNTIME_DIR"]).mkdir(mode=0o700)
     log=(args.output/"launch.log").open("w");pose_log=(args.output/"gazebo_poses.jsonl").open("w");pose_err=(args.output/"pose_stderr.log").open("w")
-    launch=subprocess.Popen(["ros2","launch","rm_dynamic_obstacle_critic","cv_course.launch.py","enabled:=true","params_file:="+str(params),"guard_enabled:="+("true" if args.mode=="guard" else "false")],stdout=log,stderr=subprocess.STDOUT,env=env,start_new_session=True)
+    launch=subprocess.Popen(["ros2","launch","rm_dynamic_obstacle_critic","cv_course.launch.py","enabled:=true","nav2_autostart:=false","params_file:="+str(params),"guard_enabled:="+("true" if args.mode=="guard" else "false")],stdout=log,stderr=subprocess.STDOUT,env=env,start_new_session=True)
     transport=subprocess.Popen(["ign","topic","-e","--json-output","-t","/world/phase1_omni/pose/info"],stdout=pose_log,stderr=pose_err,env=env,start_new_session=True)
     rclpy.init();node=rclpy.create_node("cv_trial_observer",parameter_overrides=[rclpy.parameter.Parameter("use_sim_time",value=True)])
     stream=(args.output/"observations.jsonl").open("w",buffering=1);last={};counts={};subs=[]
@@ -69,6 +71,7 @@ def main():
         write(kind,{"velocity":[m.linear.x,m.linear.y,m.angular.z]})
     subs.append(node.create_subscription(Odometry,"/simulation/ground_truth/odom",odom,10))
     def canonical_odom(m):
+        last["canonical_odom"]=m
         p=m.pose.pose.position;q=m.pose.pose.orientation
         write("canonical_odom",{"stamp":m.header.stamp.sec+m.header.stamp.nanosec*1e-9,"frame":m.header.frame_id,"child_frame":m.child_frame_id,
             "pose":[p.x,p.y,q.x,q.y,q.z,q.w],"velocity":[m.twist.twist.linear.x,m.twist.twist.linear.y,m.twist.twist.angular.z]})
@@ -90,11 +93,19 @@ def main():
         write("obstacles",{"stamp":m.header.stamp.sec+m.header.stamp.nanosec*1e-9,"frame":m.header.frame_id,"complete":m.complete,
             "tracks":[{"id":t.track_id,"state":t.state,"xy":[t.position.x,t.position.y],"vxy":[t.velocity.x,t.velocity.y],"size":[t.size.x,t.size.y],"observed":t.last_observation_stamp.sec+t.last_observation_stamp.nanosec*1e-9} for t in m.tracks]})
     subs.append(node.create_subscription(DynamicObstaclePredictionArray,"/perception/dynamic_obstacles_shadow/predictions",obstacle,10))
+    startup_client=node.create_client(ManageLifecycleNodes,"/lifecycle_manager_navigation/manage_nodes")
+    startup_future=None;startup_ok=False
     action=ActionClient(node,NavigateToPose,"/navigate_to_pose");started=time.monotonic();goal_future=None;result_future=None;handle=None;start_sim=None;end_sim=None;status=None;graph=None;cancelled=False;error=None
     try:
         while time.monotonic()-started<policy["wall_timeout"]:
             if launch.poll() is not None:raise RuntimeError("launch exited before trial completion")
             rclpy.spin_once(node,timeout_sec=.02);now=node.get_clock().now().nanoseconds*1e-9
+            if startup_future is None and now>2 and all(k in last for k in ("scan","canonical_odom","obstacles")) and startup_client.service_is_ready():
+                request=ManageLifecycleNodes.Request();request.command=request.STARTUP
+                startup_future=startup_client.call_async(request);write("event",{"event":"nav2_startup_requested"})
+            if startup_future is not None and startup_future.done() and not startup_ok:
+                if not startup_future.result().success:raise RuntimeError("Nav2 explicit startup failed")
+                startup_ok=True;write("event",{"event":"nav2_startup_succeeded"})
             if start_sim is None and now>=policy["earliest_start"] and abs(now%8-policy["start_phase"])<=policy["phase_tolerance"] and "odom" in last and "scan" in last and "obstacles" in last and action.server_is_ready():
                 graph={t:[i.node_name for i in node.get_publishers_info_by_topic(t)] for t in ["/cmd_vel","/cmd_vel_nav","/dynamic_test/cmd_vel_smoothed"]}
                 expected=["dynamic_safety_guard"] if args.mode=="guard" else ["velocity_smoother"]

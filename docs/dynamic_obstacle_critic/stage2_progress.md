@@ -16,3 +16,11 @@
   也通过检查；最终编译无警告。YAML 契约与 diff 检查通过。
 - 预运行结果保存于 `stage2_evidence/preflight/`。固定物理诊断试次随后运行，
   将按同一 policy 保存 FAILED/PASS，不替换第一阶段失败。
+
+### 启动基础设施修复
+
+首次诊断试次 `gazebo_guard_diagnostics` 在 Nav2 的 get_state 回复超时后
+未激活；没有发送目标，没有算法试验结果。完整记录保留。
+试次工具随后改为等待正仿真时间、scan、canonical odometry 和 tracker
+receipt，再对原 lifecycle manager 请求 STARTUP。标准 manager 继续拥有
+Nav2 生命周期；观察器只控制隔离试验的启动。场景/目标/安全门不变。

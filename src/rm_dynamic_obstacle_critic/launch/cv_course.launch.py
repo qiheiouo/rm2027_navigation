@@ -20,6 +20,7 @@ def generate_launch_description():
         DeclareLaunchArgument("enabled", default_value="false"),
         DeclareLaunchArgument("params_file", default_value=PathJoinSubstitution([pkg, "config", "nav2_cv_experiment.yaml"])),
         DeclareLaunchArgument("guard_enabled", default_value="true"),
+        DeclareLaunchArgument("nav2_autostart", default_value="true"),
         DeclareLaunchArgument("moving_period", default_value="8.0"),
         DeclareLaunchArgument("moving_amplitude", default_value="0.9"),
         IncludeLaunchDescription(
@@ -32,7 +33,7 @@ def generate_launch_description():
             SetRemap(src="behavior_server:cmd_vel", dst="/cmd_vel_nav"),
             SetRemap(src="velocity_smoother:cmd_vel_smoothed", dst=PythonExpression(["'/dynamic_test/cmd_vel_smoothed' if '", use_guard, "' == 'true' else '/cmd_vel'"])),
             IncludeLaunchDescription(PythonLaunchDescriptionSource(PathJoinSubstitution([nav, "launch", "navigation_launch.py"])),
-                launch_arguments={"use_sim_time": "true", "params_file": params, "autostart": "true", "use_composition": "False"}.items()),
+                launch_arguments={"use_sim_time": "true", "params_file": params, "autostart": LaunchConfiguration("nav2_autostart"), "use_composition": "False"}.items()),
         ]),
         Node(condition=IfCondition(enabled), package="nav2_map_server", executable="map_server", name="map_server",
             parameters=[{"use_sim_time": True, "yaml_filename": PathJoinSubstitution([pkg, "config", "course_static.yaml"])}]),
