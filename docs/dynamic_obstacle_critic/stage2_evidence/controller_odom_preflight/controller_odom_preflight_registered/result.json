@@ -1,0 +1,103 @@
+{
+  "verdict": "PASS",
+  "cases": [
+    {
+      "profile": "legacy",
+      "configured": true,
+      "verdict": "REJECTED",
+      "readback": {
+        "required_topic": "/odometry/lio",
+        "configured_odom_topic": "odom",
+        "controller_subscriptions": [
+          [
+            "/odom",
+            [
+              "nav_msgs/msg/Odometry"
+            ]
+          ],
+          [
+            "/parameter_events",
+            [
+              "rcl_interfaces/msg/ParameterEvent"
+            ]
+          ],
+          [
+            "/perception/dynamic_obstacles_shadow/predictions",
+            [
+              "rm_competition_interfaces/msg/DynamicObstaclePredictionArray"
+            ]
+          ],
+          [
+            "/speed_limit",
+            [
+              "nav2_msgs/msg/SpeedLimit"
+            ]
+          ]
+        ],
+        "canonical_publishers": [
+          {
+            "node_name": "controller_odom_fixture",
+            "namespace": "/",
+            "topic_type": "nav_msgs/msg/Odometry"
+          }
+        ],
+        "stage": "configured parameter read"
+      },
+      "error": "configured controller odom_topic mismatch: odom",
+      "lifecycle": "inactive, never activated",
+      "goals_sent": 0,
+      "commands_published": 0,
+      "odometry_messages_published": 0
+    },
+    {
+      "profile": "canonical",
+      "configured": true,
+      "verdict": "PASS",
+      "readback": {
+        "scope": "public readback after lifecycle configure; endpoint route only, not an effective-speed/freshness certificate",
+        "required_topic": "/odometry/lio",
+        "configured_odom_topic": "/odometry/lio",
+        "controller_subscriptions": [
+          [
+            "/odometry/lio",
+            [
+              "nav_msgs/msg/Odometry"
+            ]
+          ],
+          [
+            "/parameter_events",
+            [
+              "rcl_interfaces/msg/ParameterEvent"
+            ]
+          ],
+          [
+            "/perception/dynamic_obstacles_shadow/predictions",
+            [
+              "rm_competition_interfaces/msg/DynamicObstaclePredictionArray"
+            ]
+          ],
+          [
+            "/speed_limit",
+            [
+              "nav2_msgs/msg/SpeedLimit"
+            ]
+          ]
+        ],
+        "canonical_publishers": [
+          {
+            "node_name": "controller_odom_fixture",
+            "namespace": "/",
+            "topic_type": "nav_msgs/msg/Odometry"
+          }
+        ],
+        "verdict": "ROUTE PASS"
+      },
+      "error": null,
+      "lifecycle": "inactive, never activated",
+      "goals_sent": 0,
+      "commands_published": 0,
+      "odometry_messages_published": 0
+    }
+  ],
+  "scope": "actual pinned controller lifecycle configure, parameter and subscriber checks; effective speed requires physical capture"
+}

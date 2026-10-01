@@ -119,6 +119,15 @@ safe control. The isolated next step is an explicit controller-level odometry
 parameter and actual input verification. See
 [the full-horizon witness experiment](../../docs/dynamic_obstacle_critic/native_safe_control_witness_experiment.md).
 
+`nav2_cv_controller_odom.yaml` isolates this parameter repair. The trial runner
+reads the configured controller parameter and actual subscription after explicit
+lifecycle startup, requires one canonical Odometry publisher, and saves the
+readback before sending a goal. `test_controller_odom_preflight.py NEW_OUTPUT`
+exercises the legacy rejection and canonical acceptance against the installed
+inactive controller without publishing messages or activating it. Route checks
+do not certify effective native speed or physical safety. See
+[the controller odometry experiment](../../docs/dynamic_obstacle_critic/controller_odom_contract_experiment.md).
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.

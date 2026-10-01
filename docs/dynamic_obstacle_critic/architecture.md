@@ -100,6 +100,7 @@ flowchart LR
 | 动态状态 | `/perception/dynamic_obstacles_shadow/predictions` DynamicObstaclePredictionArray | schema v1 / authority shadow_only，固定 map 世界 frame。试验消费者显式接受 shadow 消息，不代表 tracker 获比赛授权 |
 | 当前环境 | `/local_costmap/costmap_raw` nav2_msgs/Costmap | odom，原 0..255 raw cost，不使用未来轨迹烘焙地图 |
 | MPPI内部评分 | 原 `CriticData.trajectories` 与 `costs` | local_costmap global_frame=odom；无 wrapper、无 upstream patch |
+| MPPI里程计输入修复profile | controller_server参数`odom_topic=/odometry/lio` | 仅`nav2_cv_controller_odom.yaml`显式选择；STARTUP后实际读回/订阅检查，不增加publisher或TF owner |
 | 平滑后提案 | `/dynamic_test/cmd_vel_smoothed` geometry_msgs/Twist | base_link body-frame twist，仅 experimental Nav2 范围 remap |
 | guard pose/speed | `/odometry/lio` nav_msgs/Odometry | odom / child=base_link；新鲜源时间和真实测量速度 |
 | guard输出 | 默认 `/dynamic_test/cmd_vel_guarded` Twist；显式仿真 launch输出 `/cmd_vel` | 最后安全层；Nav2和recovery输出先经过原 smoother，底盘只订阅 guard输出 |
@@ -141,4 +142,4 @@ guard仅pass/brake，不找路径、缩放命令或选择candidate。两个响�
 
 critic日志中的minimum clearance/TTC属于**动态cost最低的rollout**，不是MPPI综合分首选，也不是加权/滤波后实际输出。dynamic_cost_min/max为该batch的新增贡献范围。guard诊断检查的是实际最终提案。两者不混称控制证明。预测markers只是可视化，绝不写未来路径到costmap。
 
-旧研究 late cycle40 有三秒、实测首速度和SG历史下的零控制安全见证而原300条全不安全，仍为历史 sampler覆盖失败证据。新原生证据分支已记录完整raw控制，并数值验证固定trace的SG/均值重建；尚未完成新版本完整三秒独立安全控制见证，因此不能仅凭停顿归因sampler或optimizer。新guard零命令测试是短时模型测试，不冒称取代旧三秒native见证。原研究证据通过封存tag完整可恢复，不需移入新产品包。
+旧研究 late cycle40 有三秒、实测首速度和SG历史下的零控制安全见证而原300条全不安全，仍为历史 sampler覆盖失败证据。新原生证据分支已记录完整raw控制，并数值验证固定trace的SG/均值重建；三秒反事实审计发现349个native速度全0、295个canonical样本有运动。条件见证仅对原生零输入上下文有效，物理实测首速度契约失败，不能归因sampler或optimizer。独立controller里程计profile先修复参数路由，再采集有效速度输入与完整三秒证据。新guard零命令测试是短时模型测试，不冒称取代旧三秒native见证。原研究证据通过封存tag完整可恢复，不需移入新产品包。

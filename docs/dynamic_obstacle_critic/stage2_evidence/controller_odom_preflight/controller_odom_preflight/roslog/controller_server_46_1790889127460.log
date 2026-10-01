@@ -1,0 +1,46 @@
+[INFO] [1790889127.471094646] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790889127.475479165] [controller_server]: Creating controller server
+[INFO] [1790889127.478389496] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790889127.478985492] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1790889127.616975067] [controller_server]: Configuring controller interface
+[INFO] [1790889127.617059301] [controller_server]: getting goal checker plugins..
+[INFO] [1790889127.617081679] [controller_server]: Controller frequency set to 10.0000Hz
+[INFO] [1790889127.617100390] [local_costmap.local_costmap]: Configuring
+[INFO] [1790889127.619953606] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[INFO] [1790889127.622867983] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[INFO] [1790889127.624188624] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1790889127.624213126] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1790889127.624443793] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1790889127.628976533] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1790889127.629394848] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1790889127.629471389] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1790889127.630288032] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[INFO] [1790889127.630587544] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1790889127.631662817] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1790889127.631686800] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1790889127.631830305] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1790889127.631842656] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1790889127.631907227] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1790889127.631913626] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1790889127.631978492] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1790889127.631986094] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1790889127.632094436] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 10.000000 weight
+[INFO] [1790889127.632101177] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[INFO] [1790889127.632171791] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1790889127.632273629] [controller_server]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Reversing allowed.
+[INFO] [1790889127.632280303] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[INFO] [1790889127.636635727] [controller_server]: Critic loaded : mppi::critics::DynamicObstacleCritic
+[INFO] [1790889127.637017382] [controller_server]: Critic loaded : mppi::critics::StaticStoppingCritic
+[INFO] [1790889127.637111170] [controller_server]: Critic loaded : mppi::critics::NativeCycleSnapshotCritic
+[INFO] [1790889127.638028919] [controller_server]: Optimizer reset
+[INFO] [1790889127.638612716] [MPPIController]: Configured MPPI Controller: FollowPath
+[INFO] [1790889127.638632741] [controller_server]: Controller Server has FollowPath  controllers available.
+[WARN] [1790889128.653129457] [rcl_lifecycle]: No transition matching 1 found for current state inactive
+[WARN] [1790889128.653170032] [rcl_lifecycle]: No transition matching 1 found for current state inactive
+[ERROR] [1790889128.653181539] [controller_server]: Unable to start transition 1 from current state inactive: Transition is not registered., at ./src/rcl_lifecycle.c:355

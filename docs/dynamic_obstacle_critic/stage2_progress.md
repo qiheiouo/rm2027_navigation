@@ -257,3 +257,13 @@ payload检查通过。207–208个时间点覆盖每个完整3s，保留线性�
 后续需独立profile显式设置controller层`/odometry/lio`，核对实际
 速度输入后再重复完整严格试次。main、feature、TF及原算法未改。
 见[三秒见证实验](native_safe_control_witness_experiment.md)。
+
+### Controller里程计路由预运行（2026-10-02）
+
+从b89eb1d建立`experiment/controller-odom-contract`，1d6f2c3预登记
+仅controller层odom_topic的配置变化。实际Humble inactive正反测试
+通过：原profile订阅`/odom`被拒，新profile订阅`/odometry/lio`通过。
+夹具未发布消息/TF/命令/目标，保留进程隔离初版失败与修复后重执行。
+安装后七个runtime ELF与前序一致；新增driver目标前public路由检查，
+不改原算法/TF/公共tracker契约。新物理试次和有效速度见证仍待验证。
+见[输入契约实验](controller_odom_contract_experiment.md)。

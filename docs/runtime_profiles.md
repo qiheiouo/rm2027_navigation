@@ -13,6 +13,14 @@ or real-car session. It is not accepted for deployment; see the
 [failed stage-one report](dynamic_obstacle_critic/validation.md) and
 [ongoing stage-two plan](dynamic_obstacle_critic/stage2_plan.md).
 
+The explicit `nav2_cv_controller_odom.yaml` experiment selects
+`controller_server.ros__parameters.odom_topic: /odometry/lio`. The bounded trial
+runner checks this configured parameter, the controller subscription and one
+canonical publisher after lifecycle startup and before its goal. The existing
+profiles retain their recorded inputs. This repair adds no odometry or TF owner;
+effective native speed and all safety/task gates require fresh physical evidence.
+See [the input contract experiment](dynamic_obstacle_critic/controller_odom_contract_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not
