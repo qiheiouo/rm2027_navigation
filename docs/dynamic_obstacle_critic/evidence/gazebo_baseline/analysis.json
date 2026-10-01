@@ -1,0 +1,91 @@
+{
+  "verdict": "FAILED",
+  "scope": "single full physical trial; no deployment acceptance",
+  "gates": {
+    "body_clearance": false,
+    "padded_no_contact": false,
+    "output_bounds": true,
+    "goal_success": true,
+    "strict_positive_progress": true
+  },
+  "geometry": {
+    "body": {
+      "dynamic_sample_min": 0.0,
+      "dynamic_linear_interpolation_bound": -0.013172845640951029,
+      "static_sample_min": 0.27420273613763596,
+      "static_linear_interpolation_bound": 0.26951138142621656,
+      "witness": {
+        "t": 32.813,
+        "robot": [
+          5.243153717997102,
+          0.41514187427428784,
+          2.2825239215068547
+        ],
+        "obstacle": [
+          4.9,
+          -0.10520601628571197,
+          0.0
+        ]
+      },
+      "sampled_overlap": true
+    },
+    "padded": {
+      "dynamic_sample_min": 0.0,
+      "dynamic_linear_interpolation_bound": -0.014037037363641692,
+      "static_sample_min": 0.23243844081954768,
+      "static_linear_interpolation_bound": 0.22760200890733076,
+      "witness": {
+        "t": 31.385,
+        "robot": [
+          4.8310623317849455,
+          0.19425956887279994,
+          2.3278177665266235
+        ],
+        "obstacle": [
+          4.9,
+          -0.5101958471762281,
+          0.0
+        ]
+      },
+      "sampled_overlap": true
+    }
+  },
+  "truth_rows": 1305,
+  "max_truth_interval": 0.018000000000000682,
+  "commands": 393,
+  "bounds_violations": 0,
+  "goal_progress_x": 5.639114462565001,
+  "guard_reasons": {},
+  "critic_statuses": {},
+  "execution": {
+    "mode": "baseline",
+    "execution": "PASS",
+    "error": null,
+    "goal_status": 4,
+    "cancelled": false,
+    "start_sim": 17.94,
+    "end_sim": 36.632000000000005,
+    "last_sim": 40.132000000000005,
+    "graph": {
+      "/cmd_vel": [
+        "velocity_smoother"
+      ],
+      "/cmd_vel_nav": [
+        "controller_server",
+        "behavior_server",
+        "behavior_server",
+        "behavior_server",
+        "behavior_server"
+      ],
+      "/dynamic_test/cmd_vel_smoothed": []
+    },
+    "message_counts": {
+      "odom": 2006,
+      "tracker": 608,
+      "obstacles": 604,
+      "event": 2,
+      "final_cmd": 393
+    }
+  },
+  "limits": "Interpolation bounds assume linear pose interpolation. No per-candidate coverage/SG history capture; cannot attribute sampler or optimizer from closed loop alone."
+}

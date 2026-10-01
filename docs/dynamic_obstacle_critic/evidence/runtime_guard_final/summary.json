@@ -1,0 +1,233 @@
+{
+  "verdict": "PASS",
+  "cases": [
+    {
+      "case": "missing_input_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "command_watchdog",
+        "command_watchdog",
+        "command_watchdog",
+        "command_watchdog",
+        "command_watchdog"
+      ]
+    },
+    {
+      "case": "fresh_clear_command_passes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "clear",
+        "clear",
+        "clear",
+        "clear",
+        "clear"
+      ]
+    },
+    {
+      "case": "future_collision_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "dynamic_collision",
+        "dynamic_collision",
+        "dynamic_collision",
+        "dynamic_collision",
+        "dynamic_collision"
+      ]
+    },
+    {
+      "case": "stale_tracker_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "stale_or_future_source",
+        "stale_or_future_source",
+        "stale_or_future_source",
+        "stale_or_future_source",
+        "stale_or_future_source"
+      ]
+    },
+    {
+      "case": "odometry_watchdog_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "odom_watchdog",
+        "odom_watchdog",
+        "odom_watchdog",
+        "odom_watchdog",
+        "odom_watchdog"
+      ]
+    },
+    {
+      "case": "unknown_static_cell_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "static_collision_or_unknown",
+        "static_collision_or_unknown",
+        "static_collision_or_unknown",
+        "static_collision_or_unknown",
+        "static_collision_or_unknown"
+      ]
+    }
+  ]
+}

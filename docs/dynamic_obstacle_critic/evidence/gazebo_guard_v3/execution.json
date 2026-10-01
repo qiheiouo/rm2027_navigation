@@ -1,0 +1,31 @@
+{
+  "mode": "guard",
+  "execution": "FAILED",
+  "error": "command publisher identity mismatch: {'/cmd_vel': ['velocity_smoother', 'dynamic_safety_guard'], '/cmd_vel_nav': [], '/dynamic_test/cmd_vel_smoothed': ['controller_server', 'behavior_server', 'behavior_server', 'behavior_server', 'behavior_server']}",
+  "goal_status": null,
+  "cancelled": false,
+  "start_sim": null,
+  "end_sim": null,
+  "last_sim": 17.94,
+  "graph": {
+    "/cmd_vel": [
+      "velocity_smoother",
+      "dynamic_safety_guard"
+    ],
+    "/cmd_vel_nav": [],
+    "/dynamic_test/cmd_vel_smoothed": [
+      "controller_server",
+      "behavior_server",
+      "behavior_server",
+      "behavior_server",
+      "behavior_server"
+    ]
+  },
+  "message_counts": {
+    "final_cmd": 1063,
+    "guard": 1064,
+    "odom": 896,
+    "tracker": 272,
+    "obstacles": 271
+  }
+}

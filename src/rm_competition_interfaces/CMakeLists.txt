@@ -8,6 +8,8 @@ find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ChassisMode.msg"
+  "msg/DynamicObstaclePrediction.msg"
+  "msg/DynamicObstaclePredictionArray.msg"
   "msg/MissionState.msg"
   "msg/RefereeState.msg"
   "msg/SystemReadiness.msg"
