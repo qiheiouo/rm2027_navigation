@@ -44,6 +44,15 @@ matching and the limits of a pass/brake layer are recorded in [the near-field re
 `tools/plot_contact_witness.py` is an optional offline Matplotlib tool; it adds
 no ROS runtime dependency. The archived figure used host Matplotlib 3.6.3.
 
+`experiment/soft-clearance-performance` skips polygon-box `hypot` terms whose
+L-infinity lower bound cannot improve the current minimum. Exact frozen-distance
+and full-map witnesses, plus 21,600 native cost values across old/new/old library
+loads, agree. The offline benchmark is built only with `BUILD_TESTING`; it does
+not link this package's plugin, allowing the same ELF to load either version.
+Its synthetic controls are neither historical MPPI rollouts nor SG/coverage
+witnesses. Microtimings and independent physical gates are documented in
+[the performance experiment](../../docs/dynamic_obstacle_critic/soft_clearance_performance_experiment.md).
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.

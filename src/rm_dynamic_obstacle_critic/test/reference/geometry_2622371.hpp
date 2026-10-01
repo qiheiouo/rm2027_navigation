@@ -32,21 +32,6 @@ inline double segment_distance(Point a, Point b, Point p) {
           : 0;
   return std::hypot(p.x - a.x - u * dx, p.y - a.y - u * dy);
 }
-inline double closer_segment_distance(Point a, Point b, Point p,
-                                      double current) {
-  const double dx = b.x - a.x, dy = b.y - a.y;
-  const double len2 = dx * dx + dy * dy;
-  const double u =
-      len2 > 0
-          ? std::clamp(((p.x - a.x) * dx + (p.y - a.y) * dy) / len2, 0.0, 1.0)
-          : 0;
-  const double rx = p.x - a.x - u * dx, ry = p.y - a.y - u * dy;
-  // L-infinity is a lower bound on hypot. Keep the original residual and
-  // hypot arithmetic for every term which can improve the exact minimum.
-  if (std::max(std::abs(rx), std::abs(ry)) >= current)
-    return current;
-  return std::min(current, std::hypot(rx, ry));
-}
 inline bool separated_on_axis(const std::vector<Point> &poly,
                               const std::vector<Point> &box, double ax,
                               double ay) {
@@ -87,13 +72,13 @@ inline double polygon_box_distance(const std::vector<Point> &poly,
     const auto &a = poly[i];
     const auto &c = poly[(i + 1) % poly.size()];
     for (const auto &p : box)
-      distance = closer_segment_distance(a, c, p, distance);
+      distance = std::min(distance, segment_distance(a, c, p));
   }
   for (size_t i = 0; i < box.size(); ++i) {
     const auto &a = box[i];
     const auto &c = box[(i + 1) % box.size()];
     for (const auto &p : poly)
-      distance = closer_segment_distance(a, c, p, distance);
+      distance = std::min(distance, segment_distance(a, c, p));
   }
   return distance;
 }

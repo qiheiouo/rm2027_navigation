@@ -41,6 +41,11 @@ TF所有权不变。观察器记录源时间扫描供离线核对，运行模型
 继续表示可见质心/extent。运行critic不依赖此原型或tracker内部类；TF
 唯一所有者与source-time契约不变。见[几何实验](visible_box_geometry_experiment.md)。
 
+`experiment/soft-clearance-performance` 仅减少polygon-box距离内部不能
+改进最小值的hypot调用；原distance/first/nearest witness、成本、参数、
+TF和guard接受域保留。BUILD_TESTING微基准以同一ELF加载冻结/新原生
+plugin比较完整成本，独立于运行控制。见[性能实验](soft_clearance_performance_experiment.md)。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid

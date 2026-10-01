@@ -155,3 +155,15 @@ base矩形审计分开保存，未改线上足迹。7项离线解析射线/时�
 没有消除噪声错误确认；即使理想观测，假想filtered CV三秒覆盖仍可失败。
 全结果、初版失败、配置/源码身份及运行限制见
 [可见几何实验](visible_box_geometry_experiment.md)。不新增v2，不放宽安全门。
+
+### 连续目标等价性能预运行
+
+从几何离线节点5b5f654另建 `experiment/soft-clearance-performance`；几何
+原型继续不进入node。只在polygon-box距离归约中用L∞下界跳过不能
+改进当前最小值的hypot，其余原算式不变。17项模型/几何、9项原生plugin、
+7项实际guard DDS通过。50000个距离与4000个完整map witness精确相等。
+
+同一ELF加载旧/新/旧三个实际库，72组全部21600个float成本精确一致；
+24组soft累计用时约降低26%，这是微基准，不能代替原整链31次超时问题。
+全部成本/时间/身份和预运行源码保留，接下来按同policy做物理对照。
+见[等价性能实验](soft_clearance_performance_experiment.md)。

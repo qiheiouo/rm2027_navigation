@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="9" failures="0" disabled="0" errors="0" time="0.402" timestamp="2026-10-01T17:00:15" name="AllTests">
+  <testsuite name="PluginTest" tests="2" failures="0" disabled="0" errors="0" time="0.304" timestamp="2026-10-01T17:00:15">
+    <testcase name="NativePluginScoresFutureAndWaitAndRejectsStale" status="run" result="completed" time="0.202" timestamp="2026-10-01T17:00:15" classname="rm_dynamic_obstacle_critic.PluginTest" />
+    <testcase name="GridMismatchFailsInsteadOfTruncating" status="run" result="completed" time="0.102" timestamp="2026-10-01T17:00:16" classname="rm_dynamic_obstacle_critic.PluginTest" />
+  </testsuite>
+  <testsuite name="SoftStoppingPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.016" timestamp="2026-10-01T17:00:16">
+    <testcase name="EscapeWaitApproachStayDistinctInsidePlanningBand" status="run" result="completed" time="0.016" timestamp="2026-10-01T17:00:16" classname="rm_dynamic_obstacle_critic.SoftStoppingPluginTest" />
+  </testsuite>
+  <testsuite name="StoppingPluginTest" tests="5" failures="0" disabled="0" errors="0" time="0.068" timestamp="2026-10-01T17:00:16">
+    <testcase name="UnsupportedSoftModeParametersRejectInitialization" status="run" result="completed" time="0.014" timestamp="2026-10-01T17:00:16" classname="rm_dynamic_obstacle_critic.StoppingPluginTest" />
+    <testcase name="DefaultMarginPreservesNearCellDecision" status="run" result="completed" time="0.014" timestamp="2026-10-01T17:00:16" classname="rm_dynamic_obstacle_critic.StoppingPluginTest" />
+    <testcase name="InvalidPlanningAllowancesRejectInitialization" status="run" result="completed" time="0.013" timestamp="2026-10-01T17:00:16" classname="rm_dynamic_obstacle_critic.StoppingPluginTest" />
+    <testcase name="ScoresNativeOffsetOneWithUnchangedRaw203Gate" status="run" result="completed" time="0.014" timestamp="2026-10-01T17:00:16" classname="rm_dynamic_obstacle_critic.StoppingPluginTest" />
+    <testcase name="MeasuredStoppingTailAndMalformedGrid" status="run" result="completed" time="0.013" timestamp="2026-10-01T17:00:16" classname="rm_dynamic_obstacle_critic.StoppingPluginTest" />
+  </testsuite>
+  <testsuite name="BufferedStoppingPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.014" timestamp="2026-10-01T17:00:16">
+    <testcase name="PlanningAllowanceRejectsNearCellProposal" status="run" result="completed" time="0.014" timestamp="2026-10-01T17:00:16" classname="rm_dynamic_obstacle_critic.BufferedStoppingPluginTest" />
+  </testsuite>
+</testsuites>
