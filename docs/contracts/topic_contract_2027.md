@@ -80,6 +80,13 @@ The tracker is consumed through the existing message only; critic/guard must
 not import its perception implementation. See
 [the time/geometry contract](../dynamic_obstacle_critic/architecture.md).
 
+The separate `experiment/native-cycle-evidence` command observer only subscribes
+to the existing `/cmd_vel_nav` and records DDS publisher GIDs with graph endpoint
+identities. It publishes no commands, targets or TF. The optional final snapshot
+critic writes bounded local files without changing the topic interface or tracker
+message. GID identifies the publisher, not the exact optimizer/SG cycle; see
+[the evidence boundary](../dynamic_obstacle_critic/native_cycle_evidence_experiment.md).
+
 ### Established Simulation Interfaces
 
 | Topic | Type | Producer | Consumer | Meaning |

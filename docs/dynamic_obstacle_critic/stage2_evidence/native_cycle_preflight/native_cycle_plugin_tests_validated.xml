@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="14" failures="0" disabled="0" errors="0" time="0.475" timestamp="2026-10-01T18:58:22" name="AllTests">
+  <testsuite name="PluginTest" tests="2" failures="0" disabled="0" errors="0" time="0.309" timestamp="2026-10-01T18:58:22">
+    <testcase name="NativePluginScoresFutureAndWaitAndRejectsStale" status="run" result="completed" time="0.207" timestamp="2026-10-01T18:58:22" classname="PluginTest" />
+    <testcase name="GridMismatchFailsInsteadOfTruncating" status="run" result="completed" time="0.102" timestamp="2026-10-01T18:58:22" classname="PluginTest" />
+  </testsuite>
+  <testsuite name="SoftStoppingPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.015" timestamp="2026-10-01T18:58:22">
+    <testcase name="EscapeWaitApproachStayDistinctInsidePlanningBand" status="run" result="completed" time="0.015" timestamp="2026-10-01T18:58:22" classname="SoftStoppingPluginTest" />
+  </testsuite>
+  <testsuite name="StoppingPluginTest" tests="5" failures="0" disabled="0" errors="0" time="0.069" timestamp="2026-10-01T18:58:22">
+    <testcase name="UnsupportedSoftModeParametersRejectInitialization" status="run" result="completed" time="0.014" timestamp="2026-10-01T18:58:22" classname="StoppingPluginTest" />
+    <testcase name="DefaultMarginPreservesNearCellDecision" status="run" result="completed" time="0.014" timestamp="2026-10-01T18:58:22" classname="StoppingPluginTest" />
+    <testcase name="InvalidPlanningAllowancesRejectInitialization" status="run" result="completed" time="0.014" timestamp="2026-10-01T18:58:22" classname="StoppingPluginTest" />
+    <testcase name="ScoresNativeOffsetOneWithUnchangedRaw203Gate" status="run" result="completed" time="0.013" timestamp="2026-10-01T18:58:22" classname="StoppingPluginTest" />
+    <testcase name="MeasuredStoppingTailAndMalformedGrid" status="run" result="completed" time="0.014" timestamp="2026-10-01T18:58:22" classname="StoppingPluginTest" />
+  </testsuite>
+  <testsuite name="BufferedStoppingPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.014" timestamp="2026-10-01T18:58:22">
+    <testcase name="PlanningAllowanceRejectsNearCellProposal" status="run" result="completed" time="0.014" timestamp="2026-10-01T18:58:22" classname="BufferedStoppingPluginTest" />
+  </testsuite>
+  <testsuite name="SnapshotPluginTest" tests="4" failures="0" disabled="0" errors="0" time="0.055" timestamp="2026-10-01T18:58:22">
+    <testcase name="CompleteNativeDataAndCostsPreservedBitwise" status="run" result="completed" time="0.014" timestamp="2026-10-01T18:58:22" classname="SnapshotPluginTest" />
+    <testcase name="MalformedStateOnlyStopsEvidence" status="run" result="completed" time="0.014" timestamp="2026-10-01T18:58:22" classname="SnapshotPluginTest" />
+    <testcase name="ExistingFailureFlagIsNeverCleared" status="run" result="completed" time="0.013" timestamp="2026-10-01T18:58:22" classname="SnapshotPluginTest" />
+    <testcase name="ExistingEvidenceIsNeverOverwrittenAndControlUnchanged" status="run" result="completed" time="0.014" timestamp="2026-10-01T18:58:22" classname="SnapshotPluginTest" />
+  </testsuite>
+  <testsuite name="DisabledSnapshotPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.013" timestamp="2026-10-01T18:58:22">
+    <testcase name="DisabledCaptureHasNoSideEffects" status="run" result="completed" time="0.013" timestamp="2026-10-01T18:58:22" classname="DisabledSnapshotPluginTest" />
+  </testsuite>
+</testsuites>

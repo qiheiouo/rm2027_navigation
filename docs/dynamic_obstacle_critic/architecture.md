@@ -54,6 +54,14 @@ base及4轮投影的包络半长宽0.325/0.300m，原padding0.03m不变，guard
 作为感知先验；公共v1/TF所有权/原生MPPI及guard权限不变。详见
 [足迹契约实验](mechanical_footprint_experiment.md)。
 
+后续 `experiment/native-cycle-evidence` 通过默认不加载的末尾原生plugin
+只读记录实际候选完整tensor、测量pose/speed、所有critic累计成本及
+当前native grid/footprint。无TF/目标/命令发布，不改costs/fail_flag。
+独立rclcpp command observer按DDS GID识别原`/cmd_vel_nav`发布者；无
+命令路由变更。SG历史/控制均值/精确动态消费输入仍未开放，成本位于
+gamma/softmax/聚合之前，不能说成完整控制/coverage证书。见
+[原生证据实验](native_cycle_evidence_experiment.md)。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid

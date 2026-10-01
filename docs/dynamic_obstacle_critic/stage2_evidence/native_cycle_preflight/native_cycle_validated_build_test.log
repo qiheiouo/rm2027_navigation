@@ -1,0 +1,236 @@
+Starting >>> rm_dynamic_obstacle_critic
+Finished <<< rm_dynamic_obstacle_critic [25.8s]
+
+Summary: 1 package finished [26.0s]
+Running main() from /opt/ros/humble/src/gtest_vendor/src/gtest_main.cc
+[==========] Running 14 tests from 6 test suites.
+[----------] Global test environment set-up.
+[----------] 2 tests from PluginTest
+[ RUN      ] PluginTest.NativePluginScoresFutureAndWaitAndRejectsStale
+[INFO] [1790881102.200187895] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.200921288] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.201147987] [test_costmap.test_costmap]: Configuring
+[WARN] [1790881102.212640689] [critic_test]: DynamicObstacleCritic fails closed: missing_input
+[INFO] [1790881102.377261821] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.381643207] [test_costmap.test_costmap]: Destroying
+[       OK ] PluginTest.NativePluginScoresFutureAndWaitAndRejectsStale (207 ms)
+[ RUN      ] PluginTest.GridMismatchFailsInsteadOfTruncating
+[INFO] [1790881102.394029555] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.394554325] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.394757300] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.480335691] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.484012911] [test_costmap.test_costmap]: Destroying
+[       OK ] PluginTest.GridMismatchFailsInsteadOfTruncating (102 ms)
+[----------] 2 tests from PluginTest (309 ms total)
+
+[----------] 1 test from SoftStoppingPluginTest
+[ RUN      ] SoftStoppingPluginTest.EscapeWaitApproachStayDistinctInsidePlanningBand
+[INFO] [1790881102.496085987] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.496645405] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.496851618] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.499697766] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.501946930] [test_costmap.test_costmap]: Destroying
+[       OK ] SoftStoppingPluginTest.EscapeWaitApproachStayDistinctInsidePlanningBand (15 ms)
+[----------] 1 test from SoftStoppingPluginTest (15 ms total)
+
+[----------] 5 tests from StoppingPluginTest
+[ RUN      ] StoppingPluginTest.UnsupportedSoftModeParametersRejectInitialization
+[INFO] [1790881102.510596598] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.511079799] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.511262134] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.514180800] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.516160595] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.UnsupportedSoftModeParametersRejectInitialization (14 ms)
+[ RUN      ] StoppingPluginTest.DefaultMarginPreservesNearCellDecision
+[INFO] [1790881102.524397923] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.524876794] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.525061993] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.527676986] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.529693498] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.DefaultMarginPreservesNearCellDecision (14 ms)
+[ RUN      ] StoppingPluginTest.InvalidPlanningAllowancesRejectInitialization
+[INFO] [1790881102.537942986] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.538413596] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.538595226] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.541515761] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.543482522] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.InvalidPlanningAllowancesRejectInitialization (14 ms)
+[ RUN      ] StoppingPluginTest.ScoresNativeOffsetOneWithUnchangedRaw203Gate
+[INFO] [1790881102.551951121] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.552422787] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.552604962] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.555302737] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.557324674] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.ScoresNativeOffsetOneWithUnchangedRaw203Gate (13 ms)
+[ RUN      ] StoppingPluginTest.MeasuredStoppingTailAndMalformedGrid
+[INFO] [1790881102.565540725] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.566033902] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.566216895] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.568852142] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.570814977] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.MeasuredStoppingTailAndMalformedGrid (14 ms)
+[----------] 5 tests from StoppingPluginTest (69 ms total)
+
+[----------] 1 test from BufferedStoppingPluginTest
+[ RUN      ] BufferedStoppingPluginTest.PlanningAllowanceRejectsNearCellProposal
+[INFO] [1790881102.579232822] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.579712362] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.579894760] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.582468541] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.584383410] [test_costmap.test_costmap]: Destroying
+[       OK ] BufferedStoppingPluginTest.PlanningAllowanceRejectsNearCellProposal (14 ms)
+[----------] 1 test from BufferedStoppingPluginTest (14 ms total)
+
+[----------] 4 tests from SnapshotPluginTest
+[ RUN      ] SnapshotPluginTest.CompleteNativeDataAndCostsPreservedBitwise
+[INFO] [1790881102.592718085] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.593184439] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.593366596] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.595923972] [critic_test]: NativeSnapshot ordinal=0 capture_ms=0.195891000
+[INFO] [1790881102.595949923] [critic_test]: Native snapshot capture budget exhausted (1)
+[INFO] [1790881102.596113516] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.598186804] [test_costmap.test_costmap]: Destroying
+[       OK ] SnapshotPluginTest.CompleteNativeDataAndCostsPreservedBitwise (14 ms)
+[ RUN      ] SnapshotPluginTest.MalformedStateOnlyStopsEvidence
+[INFO] [1790881102.607019865] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.607495783] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.607684487] [test_costmap.test_costmap]: Configuring
+[ERROR] [1790881102.609988505] [critic_test]: Native evidence capture stopped: snapshot state shape mismatch
+[INFO] [1790881102.610054747] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.612193060] [test_costmap.test_costmap]: Destroying
+[       OK ] SnapshotPluginTest.MalformedStateOnlyStopsEvidence (14 ms)
+[ RUN      ] SnapshotPluginTest.ExistingFailureFlagIsNeverCleared
+[INFO] [1790881102.620894304] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.621367000] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.621549093] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.623979297] [critic_test]: Native snapshot capture budget exhausted (1)
+[INFO] [1790881102.624021866] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.626078676] [test_costmap.test_costmap]: Destroying
+[       OK ] SnapshotPluginTest.ExistingFailureFlagIsNeverCleared (13 ms)
+[ RUN      ] SnapshotPluginTest.ExistingEvidenceIsNeverOverwrittenAndControlUnchanged
+[INFO] [1790881102.634639508] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.635109788] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.635293710] [test_costmap.test_costmap]: Configuring
+[ERROR] [1790881102.637700814] [critic_test]: Native evidence capture stopped: refusing to overwrite native snapshot
+[INFO] [1790881102.637759619] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.639709547] [test_costmap.test_costmap]: Destroying
+[       OK ] SnapshotPluginTest.ExistingEvidenceIsNeverOverwrittenAndControlUnchanged (14 ms)
+[----------] 4 tests from SnapshotPluginTest (55 ms total)
+
+[----------] 1 test from DisabledSnapshotPluginTest
+[ RUN      ] DisabledSnapshotPluginTest.DisabledCaptureHasNoSideEffects
+[INFO] [1790881102.648108691] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790881102.648575022] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1790881102.648768015] [test_costmap.test_costmap]: Configuring
+[INFO] [1790881102.651000962] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1790881102.652922481] [test_costmap.test_costmap]: Destroying
+[       OK ] DisabledSnapshotPluginTest.DisabledCaptureHasNoSideEffects (13 ms)
+[----------] 1 test from DisabledSnapshotPluginTest (13 ms total)
+
+[----------] Global test environment tear-down
+[==========] 14 tests from 6 test suites ran. (475 ms total)
+[  PASSED  ] 14 tests.
+Running main() from /opt/ros/humble/src/gtest_vendor/src/gtest_main.cc
+[==========] Running 17 tests from 6 test suites.
+[----------] Global test environment set-up.
+[----------] 5 tests from Geometry
+[ RUN      ] Geometry.HypotPruningPreservesFrozenDistanceExactly
+[       OK ] Geometry.HypotPruningPreservesFrozenDistanceExactly (83 ms)
+[ RUN      ] Geometry.ConvexValidationAndRotation
+[       OK ] Geometry.ConvexValidationAndRotation (0 ms)
+[ RUN      ] Geometry.SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons
+[       OK ] Geometry.SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons (1 ms)
+[ RUN      ] Geometry.OptionalNearestMapQueryPreservesFirstWitnessAndExactDistance
+[       OK ] Geometry.OptionalNearestMapQueryPreservesFirstWitnessAndExactDistance (0 ms)
+[ RUN      ] Geometry.BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate
+[       OK ] Geometry.BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate (15 ms)
+[----------] 5 tests from Geometry (99 ms total)
+
+[----------] 5 tests from Guard
+[ RUN      ] Guard.HypotPruningPreservesFrozenMapWitnessExactly
+[       OK ] Guard.HypotPruningPreservesFrozenMapWitnessExactly (132 ms)
+[ RUN      ] Guard.PassBrakeAndMeasuredStoppingTail
+[       OK ] Guard.PassBrakeAndMeasuredStoppingTail (0 ms)
+[ RUN      ] Guard.StaticInteriorUnknownAndBounds
+[       OK ] Guard.StaticInteriorUnknownAndBounds (0 ms)
+[ RUN      ] Guard.StaticWitnessInRotatedMapAndFutureCommandBranch
+[       OK ] Guard.StaticWitnessInRotatedMapAndFutureCommandBranch (0 ms)
+[ RUN      ] Guard.CachedStaticMeasuredBranchMatchesOriginalUnion
+[       OK ] Guard.CachedStaticMeasuredBranchMatchesOriginalUnion (7 ms)
+[----------] 5 tests from Guard (139 ms total)
+
+[----------] 4 tests from CV
+[ RUN      ] CV.FutureConflictAndCrossing
+[       OK ] CV.FutureConflictAndCrossing (0 ms)
+[ RUN      ] CV.CurrentOccupancyFutureRelease
+[       OK ] CV.CurrentOccupancyFutureRelease (0 ms)
+[ RUN      ] CV.StationaryMatchesGeometryAndAll30Steps
+[       OK ] CV.StationaryMatchesGeometryAndAll30Steps (0 ms)
+[ RUN      ] CV.SourceAgeAndRotatedFrame
+[       OK ] CV.SourceAgeAndRotatedFrame (0 ms)
+[----------] 4 tests from CV (1 ms total)
+
+[----------] 1 test from Cost
+[ RUN      ] Cost.ContinuousMarginsAndContact
+[       OK ] Cost.ContinuousMarginsAndContact (0 ms)
+[----------] 1 test from Cost (0 ms total)
+
+[----------] 1 test from Input
+[ RUN      ] Input.StaleInvalidIncompleteCoastAndJump
+[       OK ] Input.StaleInvalidIncompleteCoastAndJump (0 ms)
+[----------] 1 test from Input (0 ms total)
+
+[----------] 1 test from Frame
+[ RUN      ] Frame.BoundedWorldCorrectionAndNoMovingFrameInput
+[ERROR] [1790881103.016725914] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+[ERROR] [1790881103.016824744] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+[ERROR] [1790881103.016853254] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+[       OK ] Frame.BoundedWorldCorrectionAndNoMovingFrameInput (5 ms)
+[----------] 1 test from Frame (5 ms total)
+
+[----------] Global test environment tear-down
+[==========] 17 tests from 6 test suites ran. (244 ms total)
+[  PASSED  ] 17 tests.
+{"verdict": "PASS", "gates": {"all_16_records": true, "ordinals_contiguous": true, "known_publisher_identities": true, "distinct_exact_gids": true, "controller_values": true, "behavior_values": true, "invalid_payload_explicit": true, "budget_holds": true, "existing_evidence_preserved": true}}

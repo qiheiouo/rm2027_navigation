@@ -211,3 +211,18 @@ e3f9b4a完整物理试次仍FAILED：推进4.928579m、未到目标；base动态
 新压缩archive冻结实际选择的guard/config/scene及全部独立报告；11份
 报告与PNG/SVG均逐字节复现。后续仍需精确native候选/SG/最终输出，
 动态隐藏几何输入尚未获得完整尺寸边界；旧sampler/CA/ranking继续冻结。
+
+### 原生周期证据预运行（2026-10-02）
+
+从a407602建立 `experiment/native-cycle-evidence`。新增默认不加载的末尾
+noop critic只读完整native候选/测量/grid/累计成本；不修改upstream或
+任何cost/state/fail_flag。固定成本位置在gamma/softmax/聚合/SG之前，
+控制均值、SG历史和精确动态消费仍缺，不能归因sampler或称完整见证。
+独立command observer以DDS GID识别controller/behavior，保持原路由。
+
+31项新执行C++（17模型、14plugin）、8解析器场景及实际双publisher
+DDS序列通过；人工夹具不冒作实际sampler。仅追加末尾plugin配置，
+Dynamic/Static/guard源码与机械节点精确一致；guard二进制未变。
+初次Docker审批超时没有执行，允许一次重试后完成。先冻结预运行
+代码/配置/身份/实际消息，再采集原完整场景，所有安全/任务门保留。
+详见[原生证据实验](native_cycle_evidence_experiment.md)。
