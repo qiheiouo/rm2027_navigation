@@ -128,6 +128,15 @@ inactive controller without publishing messages or activating it. Route checks
 do not certify effective native speed or physical safety. See
 [the controller odometry experiment](../../docs/dynamic_obstacle_critic/controller_odom_contract_experiment.md).
 
+The c775723 trial recovered nonzero native speed in all 253 source-aligned
+canonical motion cycles; all 350 speed values matched thresholded canonical
+measurements in the frozen 0.15 s window. The actual native subscriber source
+stamp remains unavailable. Full native inputs and actual SG outputs reproduced
+bit for bit, including independent negative controls. Physical acceptance still
+failed: base minimum 0.004790 m, mechanical/padded contact, 736 raw203
+violations and no goal completion. The trial archive and input contract report
+preserve every failed gate. Full-horizon offline witnesses remain separate.
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.

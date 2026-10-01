@@ -1,0 +1,10 @@
+{
+  "required_topic": "/odometry/lio",
+  "check_stage": "after explicit lifecycle startup, before goal",
+  "checks": [
+    "configured parameter",
+    "actual controller Odometry subscription",
+    "single canonical publisher"
+  ],
+  "limits": "Route does not prove effective native speed; full trial captures must validate it."
+}

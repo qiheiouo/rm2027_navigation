@@ -1,0 +1,565 @@
+00000000000953f0 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base>:
+   953f0:	f3 0f 1e fa          	endbr64 
+   953f4:	41 57                	push   %r15
+   953f6:	45 31 c0             	xor    %r8d,%r8d
+   953f9:	31 d2                	xor    %edx,%edx
+   953fb:	31 f6                	xor    %esi,%esi
+   953fd:	41 56                	push   %r14
+   953ff:	41 55                	push   %r13
+   95401:	4c 8d 2d 55 c0 05 00 	lea    0x5c055(%rip),%r13        # f145d <std::__detail::__variant::__gen_vtable_impl<std::__detail::__variant::_Multi_array<std::__detail::__variant::__deduce_visit_result<void> (*)(rclcpp::AnySubscriptionCallback<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::dispatch_intra_process(std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)::{lambda(auto:1&&)#1}&&, std::variant<std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&)>, std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&, rclcpp::MessageInfo const&)>, std::function<void (rclcpp::SerializedMessage const&)>, std::function<void (rclcpp::SerializedMessage const&, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>, rclcpp::MessageInfo const&)> >&)>, std::integer_sequence<unsigned long, 5ul> >::__visit_invoke(rclcpp::AnySubscriptionCallback<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::dispatch_intra_process(std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)::{lambda(auto:1&&)#1}&&, std::variant<std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&)>, std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&, rclcpp::MessageInfo const&)>, std::function<void (rclcpp::SerializedMessage const&)>, std::function<void (rclcpp::SerializedMessage const&, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>, rclcpp::MessageInfo const&)> >&)@@Base+0x10a1d>
+   95408:	41 54                	push   %r12
+   9540a:	4c 89 e9             	mov    %r13,%rcx
+   9540d:	55                   	push   %rbp
+   9540e:	48 89 fd             	mov    %rdi,%rbp
+   95411:	53                   	push   %rbx
+   95412:	48 81 ec f8 09 00 00 	sub    $0x9f8,%rsp
+   95419:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+   95420:	00 00 
+   95422:	48 89 84 24 e8 09 00 	mov    %rax,0x9e8(%rsp)
+   95429:	00 
+   9542a:	31 c0                	xor    %eax,%eax
+   9542c:	48 8d 84 24 98 01 00 	lea    0x198(%rsp),%rax
+   95433:	00 
+   95434:	48 c7 84 24 80 01 00 	movq   $0x0,0x180(%rsp)
+   9543b:	00 00 00 00 00 
+   95440:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+   95445:	48 89 84 24 88 01 00 	mov    %rax,0x188(%rsp)
+   9544c:	00 
+   9544d:	48 8d 84 24 88 01 00 	lea    0x188(%rsp),%rax
+   95454:	00 
+   95455:	48 89 c7             	mov    %rax,%rdi
+   95458:	c6 84 24 98 01 00 00 	movb   $0x0,0x198(%rsp)
+   9545f:	00 
+   95460:	48 c7 84 24 90 01 00 	movq   $0x0,0x190(%rsp)
+   95467:	00 00 00 00 00 
+   9546c:	48 89 44 24 58       	mov    %rax,0x58(%rsp)
+   95471:	e8 4a d4 fd ff       	call   728c0 <std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_replace(unsigned long, unsigned long, char const*, unsigned long)@plt>
+   95476:	48 8b 05 8b db 05 00 	mov    0x5db8b(%rip),%rax        # f3008 <typeinfo name for rclcpp::detail::create_subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::allocator<void>, rclcpp::Subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void>, nav_msgs::msg::Odometry_<std::allocator<void> >, nav_msgs::msg::Odometry_<std::allocator<void> >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> > >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >, rclcpp_lifecycle::LifecycleNode, rclcpp_lifecycle::LifecycleNode, nav_msgs::msg::Odometry_<std::allocator<void> > >(rclcpp_lifecycle::LifecycleNode&, rclcpp_lifecycle::LifecycleNode&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, rclcpp::QoS const&, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>&&, rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void> > const&, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::SharedPtr)::{lambda()#1}@@Base+0x328>
+   9547d:	48 89 ef             	mov    %rbp,%rdi
+   95480:	4c 8d a4 24 80 01 00 	lea    0x180(%rsp),%r12
+   95487:	00 
+   95488:	48 c7 84 24 a8 01 00 	movq   $0x0,0x1a8(%rsp)
+   9548f:	00 00 00 00 00 
+   95494:	48 c7 84 24 b0 01 00 	movq   $0x0,0x1b0(%rsp)
+   9549b:	00 00 00 00 00 
+   954a0:	4c 89 e6             	mov    %r12,%rsi
+   954a3:	48 c7 84 24 b8 01 00 	movq   $0x0,0x1b8(%rsp)
+   954aa:	00 00 00 00 00 
+   954af:	48 c7 84 24 c0 01 00 	movq   $0x0,0x1c0(%rsp)
+   954b6:	00 00 00 00 00 
+   954bb:	48 c7 84 24 c8 01 00 	movq   $0x0,0x1c8(%rsp)
+   954c2:	00 00 00 00 00 
+   954c7:	48 c7 84 24 d0 01 00 	movq   $0x0,0x1d0(%rsp)
+   954ce:	00 00 00 00 00 
+   954d3:	48 89 84 24 d8 01 00 	mov    %rax,0x1d8(%rsp)
+   954da:	00 
+   954db:	e8 10 cc fd ff       	call   720f0 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@plt>
+   954e0:	84 c0                	test   %al,%al
+   954e2:	0f 84 28 08 00 00    	je     95d10 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x920>
+   954e8:	48 8b bd 98 04 00 00 	mov    0x498(%rbp),%rdi
+   954ef:	4c 89 e6             	mov    %r12,%rsi
+   954f2:	48 8b 07             	mov    (%rdi),%rax
+   954f5:	ff 50 18             	call   *0x18(%rax)
+   954f8:	89 c3                	mov    %eax,%ebx
+   954fa:	84 c0                	test   %al,%al
+   954fc:	0f 84 52 1c fe ff    	je     77154 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x4374>
+   95502:	48 8b 85 b0 03 00 00 	mov    0x3b0(%rbp),%rax
+   95509:	f3 0f 7e 05 af ee 05 	movq   0x5eeaf(%rip),%xmm0        # f43c0 <typeinfo name for std::_Sp_counted_ptr_inplace<nav2_msgs::action::FollowPath_Result_<std::allocator<void> >, std::allocator<nav2_msgs::action::FollowPath_Result_<std::allocator<void> > >, (__gnu_cxx::_Lock_policy)2>@@Base+0x80>
+   95510:	00 
+   95511:	f2 0f 10 58 38       	movsd  0x38(%rax),%xmm3
+   95516:	f2 0f 10 50 40       	movsd  0x40(%rax),%xmm2
+   9551b:	f2 0f 10 48 48       	movsd  0x48(%rax),%xmm1
+   95520:	66 0f 28 e3          	movapd %xmm3,%xmm4
+   95524:	66 0f 54 e0          	andpd  %xmm0,%xmm4
+   95528:	66 0f 2f a5 60 08 00 	comisd 0x860(%rbp),%xmm4
+   9552f:	00 
+   95530:	77 04                	ja     95536 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x146>
+   95532:	66 0f ef db          	pxor   %xmm3,%xmm3
+   95536:	f2 0f 11 5c 24 70    	movsd  %xmm3,0x70(%rsp)
+   9553c:	66 0f 28 da          	movapd %xmm2,%xmm3
+   95540:	66 0f 54 d8          	andpd  %xmm0,%xmm3
+   95544:	66 0f 2f 9d 68 08 00 	comisd 0x868(%rbp),%xmm3
+   9554b:	00 
+   9554c:	77 04                	ja     95552 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x162>
+   9554e:	66 0f ef d2          	pxor   %xmm2,%xmm2
+   95552:	66 0f 54 c1          	andpd  %xmm1,%xmm0
+   95556:	66 0f 2f 85 70 08 00 	comisd 0x870(%rbp),%xmm0
+   9555d:	00 
+   9555e:	f2 0f 11 54 24 78    	movsd  %xmm2,0x78(%rsp)
+   95564:	77 04                	ja     9556a <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x17a>
+   95566:	66 0f ef c9          	pxor   %xmm1,%xmm1
+   9556a:	48 8d 84 24 d8 00 00 	lea    0xd8(%rsp),%rax
+   95571:	00 
+   95572:	45 31 c0             	xor    %r8d,%r8d
+   95575:	4c 89 e9             	mov    %r13,%rcx
+   95578:	31 d2                	xor    %edx,%edx
+   9557a:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+   9557f:	31 f6                	xor    %esi,%esi
+   95581:	48 89 84 24 c8 00 00 	mov    %rax,0xc8(%rsp)
+   95588:	00 
+   95589:	48 8d 84 24 c8 00 00 	lea    0xc8(%rsp),%rax
+   95590:	00 
+   95591:	48 89 c7             	mov    %rax,%rdi
+   95594:	c6 84 24 d8 00 00 00 	movb   $0x0,0xd8(%rsp)
+   9559b:	00 
+   9559c:	48 c7 84 24 c0 00 00 	movq   $0x0,0xc0(%rsp)
+   955a3:	00 00 00 00 00 
+   955a8:	48 c7 84 24 d0 00 00 	movq   $0x0,0xd0(%rsp)
+   955af:	00 00 00 00 00 
+   955b4:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+   955b9:	f2 0f 11 8c 24 80 00 	movsd  %xmm1,0x80(%rsp)
+   955c0:	00 00 
+   955c2:	e8 f9 d2 fd ff       	call   728c0 <std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_replace(unsigned long, unsigned long, char const*, unsigned long)@plt>
+   955c7:	48 8d b5 38 08 00 00 	lea    0x838(%rbp),%rsi
+   955ce:	48 8d bd 80 07 00 00 	lea    0x780(%rbp),%rdi
+   955d5:	48 c7 84 24 e8 00 00 	movq   $0x0,0xe8(%rsp)
+   955dc:	00 00 00 00 00 
+   955e1:	48 c7 84 24 f0 00 00 	movq   $0x0,0xf0(%rsp)
+   955e8:	00 00 00 00 00 
+   955ed:	48 c7 84 24 f8 00 00 	movq   $0x0,0xf8(%rsp)
+   955f4:	00 00 00 00 00 
+   955f9:	48 c7 84 24 00 01 00 	movq   $0x0,0x100(%rsp)
+   95600:	00 00 00 00 00 
+   95605:	48 c7 84 24 08 01 00 	movq   $0x0,0x108(%rsp)
+   9560c:	00 00 00 00 00 
+   95611:	48 c7 84 24 10 01 00 	movq   $0x0,0x110(%rsp)
+   95618:	00 00 00 00 00 
+   9561d:	e8 2e 70 00 00       	call   9c650 <std::_Function_handler<void (unsigned long), rclcpp::experimental::SubscriptionIntraProcessBase::set_on_ready_callback(std::function<void (unsigned long, int)>)::{lambda(unsigned long)#1}>::_M_invoke(std::_Any_data const&, unsigned long&&)@@Base+0x2bd0>
+   95622:	4c 8b 28             	mov    (%rax),%r13
+   95625:	48 8d b5 a0 06 00 00 	lea    0x6a0(%rbp),%rsi
+   9562c:	48 8d bd e8 05 00 00 	lea    0x5e8(%rbp),%rdi
+   95633:	49 8b 45 00          	mov    0x0(%r13),%rax
+   95637:	48 8b 40 38          	mov    0x38(%rax),%rax
+   9563b:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+   95640:	e8 1b 71 00 00       	call   9c760 <std::_Function_handler<void (unsigned long), rclcpp::experimental::SubscriptionIntraProcessBase::set_on_ready_callback(std::function<void (unsigned long, int)>)::{lambda(unsigned long)#1}>::_M_invoke(std::_Any_data const&, unsigned long&&)@@Base+0x2ce0>
+   95645:	4c 8d bc 24 90 00 00 	lea    0x90(%rsp),%r15
+   9564c:	00 
+   9564d:	48 8d 74 24 70       	lea    0x70(%rsp),%rsi
+   95652:	4c 8b 30             	mov    (%rax),%r14
+   95655:	4c 89 ff             	mov    %r15,%rdi
+   95658:	e8 33 d7 fd ff       	call   72d90 <nav_2d_utils::twist2Dto3D(nav_2d_msgs::msg::Twist2D_<std::allocator<void> > const&)@plt>
+   9565d:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+   95662:	4d 89 f0             	mov    %r14,%r8
+   95665:	4c 89 f9             	mov    %r15,%rcx
+   95668:	4c 89 e2             	mov    %r12,%rdx
+   9566b:	48 8d bc 24 20 01 00 	lea    0x120(%rsp),%rdi
+   95672:	00 
+   95673:	4c 89 ee             	mov    %r13,%rsi
+   95676:	ff d0                	call   *%rax
+   95678:	48 8b 84 24 20 01 00 	mov    0x120(%rsp),%rax
+   9567f:	00 
+   95680:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+   95685:	48 8d b4 24 28 01 00 	lea    0x128(%rsp),%rsi
+   9568c:	00 
+   9568d:	48 89 84 24 c0 00 00 	mov    %rax,0xc0(%rsp)
+   95694:	00 
+   95695:	e8 c6 ce fd ff       	call   72560 <std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&)@plt>
+   9569a:	48 8b bc 24 28 01 00 	mov    0x128(%rsp),%rdi
+   956a1:	00 
+   956a2:	f3 0f 6f ac 24 48 01 	movdqu 0x148(%rsp),%xmm5
+   956a9:	00 00 
+   956ab:	48 8d 84 24 38 01 00 	lea    0x138(%rsp),%rax
+   956b2:	00 
+   956b3:	f3 0f 6f b4 24 58 01 	movdqu 0x158(%rsp),%xmm6
+   956ba:	00 00 
+   956bc:	f3 0f 6f bc 24 68 01 	movdqu 0x168(%rsp),%xmm7
+   956c3:	00 00 
+   956c5:	0f 11 ac 24 e8 00 00 	movups %xmm5,0xe8(%rsp)
+   956cc:	00 
+   956cd:	0f 11 b4 24 f8 00 00 	movups %xmm6,0xf8(%rsp)
+   956d4:	00 
+   956d5:	0f 11 bc 24 08 01 00 	movups %xmm7,0x108(%rsp)
+   956dc:	00 
+   956dd:	48 39 c7             	cmp    %rax,%rdi
+   956e0:	74 11                	je     956f3 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x303>
+   956e2:	48 8b 84 24 38 01 00 	mov    0x138(%rsp),%rax
+   956e9:	00 
+   956ea:	48 8d 70 01          	lea    0x1(%rax),%rsi
+   956ee:	e8 bd cb fd ff       	call   722b0 <operator delete(void*, unsigned long)@plt>
+   956f3:	48 89 ee             	mov    %rbp,%rsi
+   956f6:	4c 89 ff             	mov    %r15,%rdi
+   956f9:	e8 02 d0 fd ff       	call   72700 <rclcpp_lifecycle::LifecycleNode::now() const@plt>
+   956fe:	48 8d bd e8 08 00 00 	lea    0x8e8(%rbp),%rdi
+   95705:	4c 89 fe             	mov    %r15,%rsi
+   95708:	e8 f3 ca fd ff       	call   72200 <rclcpp::Time::operator=(rclcpp::Time const&)@plt>
+   9570d:	4c 89 ff             	mov    %r15,%rdi
+   95710:	e8 0b cc fd ff       	call   72320 <rclcpp::Time::~Time()@plt>
+   95715:	bf 18 00 00 00       	mov    $0x18,%edi
+   9571a:	e8 61 cb fd ff       	call   72280 <operator new(unsigned long)@plt>
+   9571f:	f2 0f 10 8c 24 f0 00 	movsd  0xf0(%rsp),%xmm1
+   95726:	00 00 
+   95728:	49 89 c4             	mov    %rax,%r12
+   9572b:	48 8d 05 16 93 08 00 	lea    0x89316(%rip),%rax        # 11ea48 <std::__detail::_Executor<__gnu_cxx::__normal_iterator<char const*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::sub_match<__gnu_cxx::__normal_iterator<char const*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::regex_traits<char>, true>::_M_is_word(char) const::__s@@Base+0x1d9de>
+   95732:	f2 0f 10 84 24 e8 00 	movsd  0xe8(%rsp),%xmm0
+   95739:	00 00 
+   9573b:	49 89 04 24          	mov    %rax,(%r12)
+   9573f:	48 b8 01 00 00 00 01 	movabs $0x100000001,%rax
+   95746:	00 00 00 
+   95749:	49 89 44 24 08       	mov    %rax,0x8(%r12)
+   9574e:	41 c7 44 24 10 00 00 	movl   $0x0,0x10(%r12)
+   95755:	00 00 
+   95757:	e8 94 c2 fd ff       	call   719f0 <hypot@plt>
+   9575c:	48 8b 8d 28 09 00 00 	mov    0x928(%rbp),%rcx
+   95763:	48 8b 9d 30 09 00 00 	mov    0x930(%rbp),%rbx
+   9576a:	48 b8 ab aa aa aa aa 	movabs $0xaaaaaaaaaaaaaaab,%rax
+   95771:	aa aa aa 
+   95774:	f2 0f 5a c0          	cvtsd2ss %xmm0,%xmm0
+   95778:	f3 41 0f 11 44 24 14 	movss  %xmm0,0x14(%r12)
+   9577f:	48 29 cb             	sub    %rcx,%rbx
+   95782:	48 89 4c 24 30       	mov    %rcx,0x30(%rsp)
+   95787:	48 c1 fb 05          	sar    $0x5,%rbx
+   9578b:	48 0f af d8          	imul   %rax,%rbx
+   9578f:	48 89 5c 24 28       	mov    %rbx,0x28(%rsp)
+   95794:	48 89 d8             	mov    %rbx,%rax
+   95797:	48 85 db             	test   %rbx,%rbx
+   9579a:	0f 84 40 04 00 00    	je     95be0 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x7f0>
+   957a0:	48 8d 51 28          	lea    0x28(%rcx),%rdx
+   957a4:	45 31 f6             	xor    %r14d,%r14d
+   957a7:	4c 89 64 24 48       	mov    %r12,0x48(%rsp)
+   957ac:	45 31 ed             	xor    %r13d,%r13d
+   957af:	f2 0f 10 ac 24 a8 01 	movsd  0x1a8(%rsp),%xmm5
+   957b6:	00 00 
+   957b8:	4d 89 f4             	mov    %r14,%r12
+   957bb:	48 89 54 24 50       	mov    %rdx,0x50(%rsp)
+   957c0:	49 89 ee             	mov    %rbp,%r14
+   957c3:	f2 0f 10 b4 24 b0 01 	movsd  0x1b0(%rsp),%xmm6
+   957ca:	00 00 
+   957cc:	f2 0f 10 15 1c d8 05 	movsd  0x5d81c(%rip),%xmm2        # f2ff0 <typeinfo name for rclcpp::detail::create_subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::allocator<void>, rclcpp::Subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void>, nav_msgs::msg::Odometry_<std::allocator<void> >, nav_msgs::msg::Odometry_<std::allocator<void> >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> > >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >, rclcpp_lifecycle::LifecycleNode, rclcpp_lifecycle::LifecycleNode, nav_msgs::msg::Odometry_<std::allocator<void> > >(rclcpp_lifecycle::LifecycleNode&, rclcpp_lifecycle::LifecycleNode&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, rclcpp::QoS const&, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>&&, rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void> > const&, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::SharedPtr)::{lambda()#1}@@Base+0x310>
+   957d3:	00 
+   957d4:	48 89 d3             	mov    %rdx,%rbx
+   957d7:	48 89 c5             	mov    %rax,%rbp
+   957da:	f2 0f 11 6c 24 18    	movsd  %xmm5,0x18(%rsp)
+   957e0:	f2 0f 11 74 24 10    	movsd  %xmm6,0x10(%rsp)
+   957e6:	eb 0b                	jmp    957f3 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x403>
+   957e8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+   957ef:	00 
+   957f0:	49 89 c5             	mov    %rax,%r13
+   957f3:	f2 0f 10 44 24 18    	movsd  0x18(%rsp),%xmm0
+   957f9:	f2 0f 5c 03          	subsd  (%rbx),%xmm0
+   957fd:	f2 0f 11 54 24 08    	movsd  %xmm2,0x8(%rsp)
+   95803:	f2 0f 10 4c 24 10    	movsd  0x10(%rsp),%xmm1
+   95809:	f2 0f 5c 4b 08       	subsd  0x8(%rbx),%xmm1
+   9580e:	e8 dd c1 fd ff       	call   719f0 <hypot@plt>
+   95813:	f2 0f 10 54 24 08    	movsd  0x8(%rsp),%xmm2
+   95819:	49 8d 45 01          	lea    0x1(%r13),%rax
+   9581d:	66 0f 2f d0          	comisd %xmm0,%xmm2
+   95821:	f2 0f 5d c2          	minsd  %xmm2,%xmm0
+   95825:	4d 0f 47 e5          	cmova  %r13,%r12
+   95829:	66 0f 28 d0          	movapd %xmm0,%xmm2
+   9582d:	48 83 c3 60          	add    $0x60,%rbx
+   95831:	48 39 c5             	cmp    %rax,%rbp
+   95834:	75 ba                	jne    957f0 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x400>
+   95836:	4c 89 f5             	mov    %r14,%rbp
+   95839:	48 8b 4c 24 28       	mov    0x28(%rsp),%rcx
+   9583e:	4d 89 e6             	mov    %r12,%r14
+   95841:	4c 8b 64 24 48       	mov    0x48(%rsp),%r12
+   95846:	49 8d 46 01          	lea    0x1(%r14),%rax
+   9584a:	48 39 c8             	cmp    %rcx,%rax
+   9584d:	0f 83 8d 03 00 00    	jae    95be0 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x7f0>
+   95853:	4d 39 ee             	cmp    %r13,%r14
+   95856:	0f 83 84 03 00 00    	jae    95be0 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x7f0>
+   9585c:	48 8b 74 24 30       	mov    0x30(%rsp),%rsi
+   95861:	4b 8d 04 76          	lea    (%r14,%r14,2),%rax
+   95865:	48 8d 1c 49          	lea    (%rcx,%rcx,2),%rbx
+   95869:	66 0f ef e4          	pxor   %xmm4,%xmm4
+   9586d:	48 c1 e0 05          	shl    $0x5,%rax
+   95871:	48 c1 e3 05          	shl    $0x5,%rbx
+   95875:	48 03 5c 24 50       	add    0x50(%rsp),%rbx
+   9587a:	48 8d 14 06          	lea    (%rsi,%rax,1),%rdx
+   9587e:	4c 8d ac 06 88 00 00 	lea    0x88(%rsi,%rax,1),%r13
+   95885:	00 
+   95886:	f2 0f 10 5a 28       	movsd  0x28(%rdx),%xmm3
+   9588b:	f2 0f 10 52 30       	movsd  0x30(%rdx),%xmm2
+   95890:	66 0f 28 c3          	movapd %xmm3,%xmm0
+   95894:	66 0f 28 ca          	movapd %xmm2,%xmm1
+   95898:	f2 41 0f 10 5d 00    	movsd  0x0(%r13),%xmm3
+   9589e:	49 83 c5 60          	add    $0x60,%r13
+   958a2:	f2 41 0f 10 55 a8    	movsd  -0x58(%r13),%xmm2
+   958a8:	f2 0f 11 64 24 18    	movsd  %xmm4,0x18(%rsp)
+   958ae:	f2 0f 5c c3          	subsd  %xmm3,%xmm0
+   958b2:	f2 0f 11 5c 24 10    	movsd  %xmm3,0x10(%rsp)
+   958b8:	f2 0f 5c ca          	subsd  %xmm2,%xmm1
+   958bc:	f2 0f 11 54 24 08    	movsd  %xmm2,0x8(%rsp)
+   958c2:	e8 29 c1 fd ff       	call   719f0 <hypot@plt>
+   958c7:	f2 0f 10 64 24 18    	movsd  0x18(%rsp),%xmm4
+   958cd:	49 39 dd             	cmp    %rbx,%r13
+   958d0:	f2 0f 10 54 24 08    	movsd  0x8(%rsp),%xmm2
+   958d6:	f2 0f 10 5c 24 10    	movsd  0x10(%rsp),%xmm3
+   958dc:	f2 0f 58 e0          	addsd  %xmm0,%xmm4
+   958e0:	75 ae                	jne    95890 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x4a0>
+   958e2:	f2 0f 5a e4          	cvtsd2ss %xmm4,%xmm4
+   958e6:	4c 8b b5 58 03 00 00 	mov    0x358(%rbp),%r14
+   958ed:	4c 89 e7             	mov    %r12,%rdi
+   958f0:	f3 41 0f 11 64 24 10 	movss  %xmm4,0x10(%r12)
+   958f7:	e8 d4 be ff ff       	call   917d0 <void rclcpp::detail::cpp_callback_trampoline<void const*, unsigned long, void>(void const*, unsigned long)@@Base+0xa0>
+   958fc:	4d 8b ae f8 00 00 00 	mov    0xf8(%r14),%r13
+   95903:	49 8b be f0 00 00 00 	mov    0xf0(%r14),%rdi
+   9590a:	4d 85 ed             	test   %r13,%r13
+   9590d:	0f 84 bd 02 00 00    	je     95bd0 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x7e0>
+   95913:	48 8b 05 1e e2 08 00 	mov    0x8e21e(%rip),%rax        # 123b38 <__libc_single_threaded@GLIBC_2.32>
+   9591a:	80 38 00             	cmpb   $0x0,(%rax)
+   9591d:	0f 84 45 02 00 00    	je     95b68 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x778>
+   95923:	41 83 45 08 01       	addl   $0x1,0x8(%r13)
+   95928:	48 85 ff             	test   %rdi,%rdi
+   9592b:	0f 84 46 02 00 00    	je     95b77 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x787>
+   95931:	e8 ca c4 fd ff       	call   71e00 <rclcpp_action::ServerGoalHandleBase::is_active() const@plt>
+   95936:	89 c3                	mov    %eax,%ebx
+   95938:	4d 85 ed             	test   %r13,%r13
+   9593b:	74 08                	je     95945 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x555>
+   9593d:	4c 89 ef             	mov    %r13,%rdi
+   95940:	e8 2b cb ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95945:	84 db                	test   %bl,%bl
+   95947:	0f 84 32 02 00 00    	je     95b7f <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x78f>
+   9594d:	49 8b 9e f0 00 00 00 	mov    0xf0(%r14),%rbx
+   95954:	4c 8b 35 dd e1 08 00 	mov    0x8e1dd(%rip),%r14        # 123b38 <__libc_single_threaded@GLIBC_2.32>
+   9595b:	41 80 3e 00          	cmpb   $0x0,(%r14)
+   9595f:	0f 84 8b 02 00 00    	je     95bf0 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x800>
+   95965:	41 83 44 24 08 01    	addl   $0x1,0x8(%r12)
+   9596b:	bf 28 00 00 00       	mov    $0x28,%edi
+   95970:	e8 0b c9 fd ff       	call   72280 <operator new(unsigned long)@plt>
+   95975:	49 89 c5             	mov    %rax,%r13
+   95978:	31 f6                	xor    %esi,%esi
+   9597a:	ba 10 00 00 00       	mov    $0x10,%edx
+   9597f:	48 b8 01 00 00 00 01 	movabs $0x100000001,%rax
+   95986:	00 00 00 
+   95989:	49 89 45 08          	mov    %rax,0x8(%r13)
+   9598d:	48 8d 05 ec 90 08 00 	lea    0x890ec(%rip),%rax        # 11ea80 <std::__detail::_Executor<__gnu_cxx::__normal_iterator<char const*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::sub_match<__gnu_cxx::__normal_iterator<char const*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::regex_traits<char>, true>::_M_is_word(char) const::__s@@Base+0x1da16>
+   95994:	49 8d 4d 10          	lea    0x10(%r13),%rcx
+   95998:	49 89 45 00          	mov    %rax,0x0(%r13)
+   9599c:	48 89 cf             	mov    %rcx,%rdi
+   9599f:	e8 bc c3 fd ff       	call   71d60 <memset@plt>
+   959a4:	49 c7 45 20 00 00 00 	movq   $0x0,0x20(%r13)
+   959ab:	00 
+   959ac:	f3 0f 6f 7b 50       	movdqu 0x50(%rbx),%xmm7
+   959b1:	48 89 c1             	mov    %rax,%rcx
+   959b4:	49 8b 44 24 10       	mov    0x10(%r12),%rax
+   959b9:	41 80 3e 00          	cmpb   $0x0,(%r14)
+   959bd:	4c 89 ac 24 98 00 00 	mov    %r13,0x98(%rsp)
+   959c4:	00 
+   959c5:	48 89 8c 24 90 00 00 	mov    %rcx,0x90(%rsp)
+   959cc:	00 
+   959cd:	49 89 45 20          	mov    %rax,0x20(%r13)
+   959d1:	41 0f 11 7d 10       	movups %xmm7,0x10(%r13)
+   959d6:	0f 84 24 02 00 00    	je     95c00 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x810>
+   959dc:	41 c7 45 08 02 00 00 	movl   $0x2,0x8(%r13)
+   959e3:	00 
+   959e4:	48 83 bb b0 00 00 00 	cmpq   $0x0,0xb0(%rbx)
+   959eb:	00 
+   959ec:	0f 84 b6 02 00 00    	je     95ca8 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x8b8>
+   959f2:	48 8d bb a0 00 00 00 	lea    0xa0(%rbx),%rdi
+   959f9:	4c 89 fe             	mov    %r15,%rsi
+   959fc:	ff 93 b8 00 00 00    	call   *0xb8(%rbx)
+   95a02:	48 8b bc 24 98 00 00 	mov    0x98(%rsp),%rdi
+   95a09:	00 
+   95a0a:	48 85 ff             	test   %rdi,%rdi
+   95a0d:	74 05                	je     95a14 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x624>
+   95a0f:	e8 5c ca ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95a14:	4c 89 ef             	mov    %r13,%rdi
+   95a17:	e8 54 ca ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95a1c:	4c 89 e7             	mov    %r12,%rdi
+   95a1f:	e8 4c ca ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95a24:	4c 89 e7             	mov    %r12,%rdi
+   95a27:	e8 44 ca ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95a2c:	48 8b 05 c5 d8 08 00 	mov    0x8d8c5(%rip),%rax        # 1232f8 <g_rcutils_logging_initialized@Base>
+   95a33:	80 38 00             	cmpb   $0x0,(%rax)
+   95a36:	0f 84 cf 01 00 00    	je     95c0b <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x81b>
+   95a3c:	48 89 ee             	mov    %rbp,%rsi
+   95a3f:	4c 89 ff             	mov    %r15,%rdi
+   95a42:	e8 99 cd fd ff       	call   727e0 <rclcpp_lifecycle::LifecycleNode::get_logger() const@plt>
+   95a47:	48 8b bc 24 90 00 00 	mov    0x90(%rsp),%rdi
+   95a4e:	00 
+   95a4f:	48 85 ff             	test   %rdi,%rdi
+   95a52:	74 03                	je     95a57 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x667>
+   95a54:	48 8b 3f             	mov    (%rdi),%rdi
+   95a57:	be 0a 00 00 00       	mov    $0xa,%esi
+   95a5c:	e8 4f c6 fd ff       	call   720b0 <rcutils_logging_logger_is_enabled_for@plt>
+   95a61:	48 8b bc 24 98 00 00 	mov    0x98(%rsp),%rdi
+   95a68:	00 
+   95a69:	89 c3                	mov    %eax,%ebx
+   95a6b:	48 85 ff             	test   %rdi,%rdi
+   95a6e:	74 05                	je     95a75 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x685>
+   95a70:	e8 fb c9 ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95a75:	84 db                	test   %bl,%bl
+   95a77:	74 6b                	je     95ae4 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x6f4>
+   95a79:	48 89 ee             	mov    %rbp,%rsi
+   95a7c:	4c 89 ff             	mov    %r15,%rdi
+   95a7f:	e8 7c cc fd ff       	call   72700 <rclcpp_lifecycle::LifecycleNode::now() const@plt>
+   95a84:	4c 89 ff             	mov    %r15,%rdi
+   95a87:	e8 64 cb fd ff       	call   725f0 <rclcpp::Time::seconds() const@plt>
+   95a8c:	48 8d 7c 24 60       	lea    0x60(%rsp),%rdi
+   95a91:	48 89 ee             	mov    %rbp,%rsi
+   95a94:	66 48 0f 7e c3       	movq   %xmm0,%rbx
+   95a99:	e8 42 cd fd ff       	call   727e0 <rclcpp_lifecycle::LifecycleNode::get_logger() const@plt>
+   95a9e:	48 8b 54 24 60       	mov    0x60(%rsp),%rdx
+   95aa3:	48 85 d2             	test   %rdx,%rdx
+   95aa6:	74 03                	je     95aab <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x6bb>
+   95aa8:	48 8b 12             	mov    (%rdx),%rdx
+   95aab:	66 48 0f 6e c3       	movq   %rbx,%xmm0
+   95ab0:	48 8d 0d f1 de 05 00 	lea    0x5def1(%rip),%rcx        # f39a8 <typeinfo name for rclcpp::detail::create_subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::allocator<void>, rclcpp::Subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void>, nav_msgs::msg::Odometry_<std::allocator<void> >, nav_msgs::msg::Odometry_<std::allocator<void> >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> > >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >, rclcpp_lifecycle::LifecycleNode, rclcpp_lifecycle::LifecycleNode, nav_msgs::msg::Odometry_<std::allocator<void> > >(rclcpp_lifecycle::LifecycleNode&, rclcpp_lifecycle::LifecycleNode&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, rclcpp::QoS const&, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>&&, rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void> > const&, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::SharedPtr)::{lambda()#1}@@Base+0xcc8>
+   95ab7:	be 0a 00 00 00       	mov    $0xa,%esi
+   95abc:	b8 01 00 00 00       	mov    $0x1,%eax
+   95ac1:	48 8d 3d 98 f5 08 00 	lea    0x8f598(%rip),%rdi        # 125060 <pluginlib::ClassLoader<nav2_core::ProgressChecker>::~ClassLoader()::__rcutils_logging_location@@Base+0xc0>
+   95ac8:	e8 03 c8 fd ff       	call   722d0 <rcutils_log@plt>
+   95acd:	48 8b 7c 24 68       	mov    0x68(%rsp),%rdi
+   95ad2:	48 85 ff             	test   %rdi,%rdi
+   95ad5:	74 05                	je     95adc <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x6ec>
+   95ad7:	e8 94 c9 ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95adc:	4c 89 ff             	mov    %r15,%rdi
+   95adf:	e8 3c c8 fd ff       	call   72320 <rclcpp::Time::~Time()@plt>
+   95ae4:	48 8d b4 24 c0 00 00 	lea    0xc0(%rsp),%rsi
+   95aeb:	00 
+   95aec:	48 89 ef             	mov    %rbp,%rdi
+   95aef:	e8 5c be fd ff       	call   71950 <nav2_controller::ControllerServer::publishVelocity(geometry_msgs::msg::TwistStamped_<std::allocator<void> > const&)@plt>
+   95af4:	4c 89 e7             	mov    %r12,%rdi
+   95af7:	e8 74 c9 ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95afc:	48 8b bc 24 c8 00 00 	mov    0xc8(%rsp),%rdi
+   95b03:	00 
+   95b04:	48 3b 7c 24 38       	cmp    0x38(%rsp),%rdi
+   95b09:	74 11                	je     95b1c <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x72c>
+   95b0b:	48 8b 84 24 d8 00 00 	mov    0xd8(%rsp),%rax
+   95b12:	00 
+   95b13:	48 8d 70 01          	lea    0x1(%rax),%rsi
+   95b17:	e8 94 c7 fd ff       	call   722b0 <operator delete(void*, unsigned long)@plt>
+   95b1c:	48 8b bc 24 88 01 00 	mov    0x188(%rsp),%rdi
+   95b23:	00 
+   95b24:	48 3b 7c 24 40       	cmp    0x40(%rsp),%rdi
+   95b29:	74 11                	je     95b3c <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x74c>
+   95b2b:	48 8b 84 24 98 01 00 	mov    0x198(%rsp),%rax
+   95b32:	00 
+   95b33:	48 8d 70 01          	lea    0x1(%rax),%rsi
+   95b37:	e8 74 c7 fd ff       	call   722b0 <operator delete(void*, unsigned long)@plt>
+   95b3c:	48 8b 84 24 e8 09 00 	mov    0x9e8(%rsp),%rax
+   95b43:	00 
+   95b44:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax
+   95b4b:	00 00 
+   95b4d:	0f 85 50 01 00 00    	jne    95ca3 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x8b3>
+   95b53:	48 81 c4 f8 09 00 00 	add    $0x9f8,%rsp
+   95b5a:	5b                   	pop    %rbx
+   95b5b:	5d                   	pop    %rbp
+   95b5c:	41 5c                	pop    %r12
+   95b5e:	41 5d                	pop    %r13
+   95b60:	41 5e                	pop    %r14
+   95b62:	41 5f                	pop    %r15
+   95b64:	c3                   	ret    
+   95b65:	0f 1f 00             	nopl   (%rax)
+   95b68:	f0 41 83 45 08 01    	lock addl $0x1,0x8(%r13)
+   95b6e:	48 85 ff             	test   %rdi,%rdi
+   95b71:	0f 85 ba fd ff ff    	jne    95931 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x541>
+   95b77:	4c 89 ef             	mov    %r13,%rdi
+   95b7a:	e8 f1 c8 ff ff       	call   92470 <nav2_controller::ControllerServer::getRobotPose(geometry_msgs::msg::PoseStamped_<std::allocator<void> >&)@@Base+0xa00>
+   95b7f:	4c 8d ac 24 e0 05 00 	lea    0x5e0(%rsp),%r13
+   95b86:	00 
+   95b87:	48 8d 35 8a dd 05 00 	lea    0x5dd8a(%rip),%rsi        # f3918 <typeinfo name for rclcpp::detail::create_subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::allocator<void>, rclcpp::Subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void>, nav_msgs::msg::Odometry_<std::allocator<void> >, nav_msgs::msg::Odometry_<std::allocator<void> >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> > >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >, rclcpp_lifecycle::LifecycleNode, rclcpp_lifecycle::LifecycleNode, nav_msgs::msg::Odometry_<std::allocator<void> > >(rclcpp_lifecycle::LifecycleNode&, rclcpp_lifecycle::LifecycleNode&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, rclcpp::QoS const&, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>&&, rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void> > const&, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::SharedPtr)::{lambda()#1}@@Base+0xc38>
+   95b8e:	4c 89 ef             	mov    %r13,%rdi
+   95b91:	e8 9a 51 05 00       	call   ead30 <std::__detail::__variant::__gen_vtable_impl<std::__detail::__variant::_Multi_array<std::__detail::__variant::__deduce_visit_result<void> (*)(rclcpp::AnySubscriptionCallback<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::dispatch_intra_process(std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)::{lambda(auto:1&&)#1}&&, std::variant<std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&)>, std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&, rclcpp::MessageInfo const&)>, std::function<void (rclcpp::SerializedMessage const&)>, std::function<void (rclcpp::SerializedMessage const&, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>, rclcpp::MessageInfo const&)> >&)>, std::integer_sequence<unsigned long, 5ul> >::__visit_invoke(rclcpp::AnySubscriptionCallback<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::dispatch_intra_process(std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)::{lambda(auto:1&&)#1}&&, std::variant<std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&)>, std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&, rclcpp::MessageInfo const&)>, std::function<void (rclcpp::SerializedMessage const&)>, std::function<void (rclcpp::SerializedMessage const&, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>, rclcpp::MessageInfo const&)> >&)@@Base+0xa2f0>
+   95b96:	4c 89 ee             	mov    %r13,%rsi
+   95b99:	4c 89 f7             	mov    %r14,%rdi
+   95b9c:	e8 9f 65 00 00       	call   9c140 <std::_Function_handler<void (unsigned long), rclcpp::experimental::SubscriptionIntraProcessBase::set_on_ready_callback(std::function<void (unsigned long, int)>)::{lambda(unsigned long)#1}>::_M_invoke(std::_Any_data const&, unsigned long&&)@@Base+0x26c0>
+   95ba1:	48 8b bc 24 e0 05 00 	mov    0x5e0(%rsp),%rdi
+   95ba8:	00 
+   95ba9:	48 8d 84 24 f0 05 00 	lea    0x5f0(%rsp),%rax
+   95bb0:	00 
+   95bb1:	48 39 c7             	cmp    %rax,%rdi
+   95bb4:	0f 84 6a fe ff ff    	je     95a24 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x634>
+   95bba:	48 8b 84 24 f0 05 00 	mov    0x5f0(%rsp),%rax
+   95bc1:	00 
+   95bc2:	48 8d 70 01          	lea    0x1(%rax),%rsi
+   95bc6:	e8 e5 c6 fd ff       	call   722b0 <operator delete(void*, unsigned long)@plt>
+   95bcb:	e9 54 fe ff ff       	jmp    95a24 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x634>
+   95bd0:	48 85 ff             	test   %rdi,%rdi
+   95bd3:	0f 85 58 fd ff ff    	jne    95931 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x541>
+   95bd9:	eb a4                	jmp    95b7f <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x78f>
+   95bdb:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   95be0:	66 0f ef e4          	pxor   %xmm4,%xmm4
+   95be4:	e9 fd fc ff ff       	jmp    958e6 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x4f6>
+   95be9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+   95bf0:	f0 41 83 44 24 08 01 	lock addl $0x1,0x8(%r12)
+   95bf7:	e9 6f fd ff ff       	jmp    9596b <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x57b>
+   95bfc:	0f 1f 40 00          	nopl   0x0(%rax)
+   95c00:	f0 41 83 45 08 01    	lock addl $0x1,0x8(%r13)
+   95c06:	e9 d9 fd ff ff       	jmp    959e4 <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x5f4>
+   95c0b:	e8 20 be fd ff       	call   71a30 <rcutils_logging_initialize@plt>
+   95c10:	85 c0                	test   %eax,%eax
+   95c12:	0f 84 24 fe ff ff    	je     95a3c <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x64c>
+   95c18:	4c 8b 35 81 df 08 00 	mov    0x8df81(%rip),%r14        # 123ba0 <stderr@GLIBC_2.2.5>
+   95c1f:	ba 46 00 00 00       	mov    $0x46,%edx
+   95c24:	be 01 00 00 00       	mov    $0x1,%esi
+   95c29:	48 8d 3d 30 dd 05 00 	lea    0x5dd30(%rip),%rdi        # f3960 <typeinfo name for rclcpp::detail::create_subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::allocator<void>, rclcpp::Subscription<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void>, nav_msgs::msg::Odometry_<std::allocator<void> >, nav_msgs::msg::Odometry_<std::allocator<void> >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> > >, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >, rclcpp_lifecycle::LifecycleNode, rclcpp_lifecycle::LifecycleNode, nav_msgs::msg::Odometry_<std::allocator<void> > >(rclcpp_lifecycle::LifecycleNode&, rclcpp_lifecycle::LifecycleNode&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, rclcpp::QoS const&, std::_Bind<void (nav_2d_utils::OdomSubscriber::*(nav_2d_utils::OdomSubscriber*, std::_Placeholder<1>))(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>&&, rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void> > const&, rclcpp::message_memory_strategy::MessageMemoryStrategy<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::SharedPtr)::{lambda()#1}@@Base+0xc80>
+   95c30:	49 8b 0e             	mov    (%r14),%rcx
+   95c33:	e8 38 d1 fd ff       	call   72d70 <fwrite@plt>
+   95c38:	49 8b 06             	mov    (%r14),%rax
+   95c3b:	4c 8d ac 24 e0 01 00 	lea    0x1e0(%rsp),%r13
+   95c42:	00 
+   95c43:	4c 89 ef             	mov    %r13,%rdi
+   95c46:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+   95c4b:	e8 70 c2 fd ff       	call   71ec0 <rcutils_get_error_string@plt>
+   95c50:	4c 89 ef             	mov    %r13,%rdi
+   95c53:	4c 8d ac 24 e0 05 00 	lea    0x5e0(%rsp),%r13
+   95c5a:	00 
+   95c5b:	e8 b0 bf fd ff       	call   71c10 <strlen@plt>
+   95c60:	4c 89 ef             	mov    %r13,%rdi
+   95c63:	48 89 c3             	mov    %rax,%rbx
+   95c66:	e8 55 c2 fd ff       	call   71ec0 <rcutils_get_error_string@plt>
+   95c6b:	48 8b 4c 24 08       	mov    0x8(%rsp),%rcx
+   95c70:	48 89 da             	mov    %rbx,%rdx
+   95c73:	be 01 00 00 00       	mov    $0x1,%esi
+   95c78:	4c 89 ef             	mov    %r13,%rdi
+   95c7b:	e8 f0 d0 fd ff       	call   72d70 <fwrite@plt>
+   95c80:	49 8b 0e             	mov    (%r14),%rcx
+   95c83:	ba 01 00 00 00       	mov    $0x1,%edx
+   95c88:	be 01 00 00 00       	mov    $0x1,%esi
+   95c8d:	48 8d 3d c8 b7 05 00 	lea    0x5b7c8(%rip),%rdi        # f145c <std::__detail::__variant::__gen_vtable_impl<std::__detail::__variant::_Multi_array<std::__detail::__variant::__deduce_visit_result<void> (*)(rclcpp::AnySubscriptionCallback<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::dispatch_intra_process(std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)::{lambda(auto:1&&)#1}&&, std::variant<std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&)>, std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&, rclcpp::MessageInfo const&)>, std::function<void (rclcpp::SerializedMessage const&)>, std::function<void (rclcpp::SerializedMessage const&, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>, rclcpp::MessageInfo const&)> >&)>, std::integer_sequence<unsigned long, 5ul> >::__visit_invoke(rclcpp::AnySubscriptionCallback<nav_msgs::msg::Odometry_<std::allocator<void> >, std::allocator<void> >::dispatch_intra_process(std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)::{lambda(auto:1&&)#1}&&, std::variant<std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&)>, std::function<void (nav_msgs::msg::Odometry_<std::allocator<void> > const&, rclcpp::MessageInfo const&)>, std::function<void (rclcpp::SerializedMessage const&)>, std::function<void (rclcpp::SerializedMessage const&, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >)>, std::function<void (std::unique_ptr<nav_msgs::msg::Odometry_<std::allocator<void> >, std::default_delete<nav_msgs::msg::Odometry_<std::allocator<void> > > >, rclcpp::MessageInfo const&)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >)>, std::function<void (std::unique_ptr<rclcpp::SerializedMessage, std::default_delete<rclcpp::SerializedMessage> >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const>, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage const> const&, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)>, std::function<void (std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >, rclcpp::MessageInfo const&)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>)>, std::function<void (std::shared_ptr<rclcpp::SerializedMessage>, rclcpp::MessageInfo const&)> >&)@@Base+0x10a1c>
+   95c94:	e8 d7 d0 fd ff       	call   72d70 <fwrite@plt>
+   95c99:	e8 62 ba fd ff       	call   71700 <rcutils_reset_error@plt>
+   95c9e:	e9 99 fd ff ff       	jmp    95a3c <nav2_controller::ControllerServer::computeAndPublishVelocity()@@Base+0x64c>
+   95ca3:	e8 08 c7 fd ff       	call   723b0 <__stack_chk_fail@plt>
+   95ca8:	e8 83 be fd ff       	call   71b30 <std::__throw_bad_function_call()@plt>
+   95cad:	f3 0f 1e fa          	endbr64 
+   95cb1:	48 89 c3             	mov    %rax,%rbx
+   95cb4:	e9 0c 15 fe ff       	jmp    771c5 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x43e5>
+   95cb9:	f3 0f 1e fa          	endbr64 
+   95cbd:	48 89 c3             	mov    %rax,%rbx
+   95cc0:	e9 d7 18 fe ff       	jmp    7759c <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x47bc>
+   95cc5:	f3 0f 1e fa          	endbr64 
+   95cc9:	48 89 c3             	mov    %rax,%rbx
+   95ccc:	e9 0e 19 fe ff       	jmp    775df <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x47ff>
+   95cd1:	f3 0f 1e fa          	endbr64 
+   95cd5:	48 89 c3             	mov    %rax,%rbx
+   95cd8:	e9 cf 14 fe ff       	jmp    771ac <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x43cc>
+   95cdd:	f3 0f 1e fa          	endbr64 
+   95ce1:	48 89 c5             	mov    %rax,%rbp
+   95ce4:	e9 15 19 fe ff       	jmp    775fe <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x481e>
+   95ce9:	f3 0f 1e fa          	endbr64 
+   95ced:	48 89 c3             	mov    %rax,%rbx
+   95cf0:	e9 40 19 fe ff       	jmp    77635 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x4855>
+   95cf5:	f3 0f 1e fa          	endbr64 
+   95cf9:	49 89 c4             	mov    %rax,%r12
+   95cfc:	49 89 d5             	mov    %rdx,%r13
+   95cff:	e9 50 15 fe ff       	jmp    77254 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x4474>
+   95d04:	f3 0f 1e fa          	endbr64 
+   95d08:	48 89 c3             	mov    %rax,%rbx
+   95d0b:	e9 b3 18 fe ff       	jmp    775c3 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x47e3>
+   95d10:	e9 e7 14 fe ff       	jmp    771fc <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x441c>
+   95d15:	f3 0f 1e fa          	endbr64 
+   95d19:	48 89 c3             	mov    %rax,%rbx
+   95d1c:	e9 b4 14 fe ff       	jmp    771d5 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x43f5>
+   95d21:	f3 0f 1e fa          	endbr64 
+   95d25:	48 89 c5             	mov    %rax,%rbp
+   95d28:	e9 bf 18 fe ff       	jmp    775ec <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x480c>
+   95d2d:	f3 0f 1e fa          	endbr64 
+   95d31:	48 89 c3             	mov    %rax,%rbx
+   95d34:	e9 94 14 fe ff       	jmp    771cd <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x43ed>
+   95d39:	f3 0f 1e fa          	endbr64 
+   95d3d:	48 89 c7             	mov    %rax,%rdi
+   95d40:	49 89 d5             	mov    %rdx,%r13
+   95d43:	e9 17 15 fe ff       	jmp    7725f <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x447f>
+   95d48:	f3 0f 1e fa          	endbr64 
+   95d4c:	e9 6a 18 fe ff       	jmp    775bb <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x47db>
+   95d51:	f3 0f 1e fa          	endbr64 
+   95d55:	48 89 c3             	mov    %rax,%rbx
+   95d58:	e9 75 18 fe ff       	jmp    775d2 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x47f2>
+   95d5d:	f3 0f 1e fa          	endbr64 
+   95d61:	e9 bd 18 fe ff       	jmp    77623 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x4843>
+   95d66:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+   95d6d:	00 00 00 
+

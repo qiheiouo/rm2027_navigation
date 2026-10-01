@@ -1,0 +1,127 @@
+
+/opt/ros/humble/lib/libcontroller_server_core.so:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000086230 <nav_2d_utils::OdomSubscriber::odomCallback(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)@@Base>:
+   86230:	f3 0f 1e fa          	endbr64 
+   86234:	41 54                	push   %r12
+   86236:	4c 8d 67 50          	lea    0x50(%rdi),%r12
+   8623a:	55                   	push   %rbp
+   8623b:	48 89 f5             	mov    %rsi,%rbp
+   8623e:	53                   	push   %rbx
+   8623f:	48 89 fb             	mov    %rdi,%rbx
+   86242:	4c 89 e7             	mov    %r12,%rdi
+   86245:	e8 06 c6 fe ff       	call   72850 <pthread_mutex_lock@plt>
+   8624a:	85 c0                	test   %eax,%eax
+   8624c:	75 4f                	jne    8629d <nav_2d_utils::OdomSubscriber::odomCallback(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)@@Base+0x6d>
+   8624e:	48 8b 75 00          	mov    0x0(%rbp),%rsi
+   86252:	48 8d 7b 18          	lea    0x18(%rbx),%rdi
+   86256:	48 8b 06             	mov    (%rsi),%rax
+   86259:	48 83 c6 08          	add    $0x8,%rsi
+   8625d:	48 89 43 10          	mov    %rax,0x10(%rbx)
+   86261:	e8 da ba fe ff       	call   71d40 <std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt>
+   86266:	48 8b 45 00          	mov    0x0(%rbp),%rax
+   8626a:	4c 89 e7             	mov    %r12,%rdi
+   8626d:	f2 0f 10 80 a0 01 00 	movsd  0x1a0(%rax),%xmm0
+   86274:	00 
+   86275:	f2 0f 11 43 38       	movsd  %xmm0,0x38(%rbx)
+   8627a:	f2 0f 10 80 a8 01 00 	movsd  0x1a8(%rax),%xmm0
+   86281:	00 
+   86282:	f2 0f 11 43 40       	movsd  %xmm0,0x40(%rbx)
+   86287:	f2 0f 10 80 c8 01 00 	movsd  0x1c8(%rax),%xmm0
+   8628e:	00 
+   8628f:	f2 0f 11 43 48       	movsd  %xmm0,0x48(%rbx)
+   86294:	5b                   	pop    %rbx
+   86295:	5d                   	pop    %rbp
+   86296:	41 5c                	pop    %r12
+   86298:	e9 f3 bc fe ff       	jmp    71f90 <pthread_mutex_unlock@plt>
+   8629d:	89 c7                	mov    %eax,%edi
+   8629f:	e8 bc bb fe ff       	call   71e60 <std::__throw_system_error(int)@plt>
+   862a4:	f3 0f 1e fa          	endbr64 
+   862a8:	48 89 c5             	mov    %rax,%rbp
+   862ab:	e9 b4 cb fe ff       	jmp    72e64 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x84>
+   862b0:	f3 0f 1e fa          	endbr64 
+   862b4:	48 8b 47 10          	mov    0x10(%rdi),%rax
+   862b8:	48 85 c0             	test   %rax,%rax
+   862bb:	74 13                	je     862d0 <nav_2d_utils::OdomSubscriber::odomCallback(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)@@Base+0xa0>
+   862bd:	48 83 ec 08          	sub    $0x8,%rsp
+   862c1:	ba 03 00 00 00       	mov    $0x3,%edx
+   862c6:	48 89 fe             	mov    %rdi,%rsi
+   862c9:	ff d0                	call   *%rax
+   862cb:	48 83 c4 08          	add    $0x8,%rsp
+   862cf:	c3                   	ret    
+   862d0:	c3                   	ret    
+   862d1:	90                   	nop
+   862d2:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+   862d9:	00 00 00 00 
+   862dd:	0f 1f 00             	nopl   (%rax)
+   862e0:	f3 0f 1e fa          	endbr64 
+   862e4:	41 57                	push   %r15
+   862e6:	41 56                	push   %r14
+   862e8:	41 55                	push   %r13
+   862ea:	41 54                	push   %r12
+   862ec:	55                   	push   %rbp
+   862ed:	53                   	push   %rbx
+   862ee:	48 83 ec 58          	sub    $0x58,%rsp
+   862f2:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+   862f9:	00 00 
+   862fb:	48 89 44 24 48       	mov    %rax,0x48(%rsp)
+   86300:	48 8b 46 10          	mov    0x10(%rsi),%rax
+   86304:	48 85 c0             	test   %rax,%rax
+   86307:	0f 84 95 cd fe ff    	je     730a2 <std::logic_error::logic_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@plt+0x2c2>
+   8630d:	66 0f ef c0          	pxor   %xmm0,%xmm0
+   86311:	4c 8d 6c 24 20       	lea    0x20(%rsp),%r13
+   86316:	48 89 fd             	mov    %rdi,%rbp
+   86319:	49 89 f4             	mov    %rsi,%r12
+   8631c:	0f 29 44 24 20       	movaps %xmm0,0x20(%rsp)
+   86321:	ba 02 00 00 00       	mov    $0x2,%edx
+   86326:	4c 89 ef             	mov    %r13,%rdi
+   86329:	48 c7 44 24 30 00 00 	movq   $0x0,0x30(%rsp)
+   86330:	00 00 
+   86332:	48 c7 44 24 38 00 00 	movq   $0x0,0x38(%rsp)
+   86339:	00 00 
+   8633b:	ff d0                	call   *%rax
+   8633d:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+   86342:	4c 8d 75 20          	lea    0x20(%rbp),%r14
+   86346:	48 89 6c 24 40       	mov    %rbp,0x40(%rsp)
+   8634b:	4c 89 f7             	mov    %r14,%rdi
+   8634e:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+   86353:	49 8b 44 24 10       	mov    0x10(%r12),%rax
+   86358:	48 89 44 24 30       	mov    %rax,0x30(%rsp)
+   8635d:	e8 ee c4 fe ff       	call   72850 <pthread_mutex_lock@plt>
+   86362:	85 c0                	test   %eax,%eax
+   86364:	0f 85 28 01 00 00    	jne    86492 <nav_2d_utils::OdomSubscriber::odomCallback(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)@@Base+0x262>
+   8636a:	4c 8b 3d 97 d5 09 00 	mov    0x9d597(%rip),%r15        # 123908 <void rclcpp::detail::cpp_callback_trampoline<void const*, unsigned long, void>(void const*, unsigned long)@@Base+0x921d8>
+   86371:	4c 89 ea             	mov    %r13,%rdx
+   86374:	48 89 ef             	mov    %rbp,%rdi
+   86377:	4c 89 fe             	mov    %r15,%rsi
+   8637a:	e8 21 bf fe ff       	call   722a0 <rclcpp::QOSEventHandlerBase::set_on_new_event_callback(void (*)(void const*, unsigned long), void const*)@plt>
+   8637f:	66 0f ef c0          	pxor   %xmm0,%xmm0
+   86383:	bf 28 00 00 00       	mov    $0x28,%edi
+   86388:	48 c7 44 24 10 00 00 	movq   $0x0,0x10(%rsp)
+   8638f:	00 00 
+   86391:	48 8d 5d 48          	lea    0x48(%rbp),%rbx
+   86395:	48 c7 44 24 18 00 00 	movq   $0x0,0x18(%rsp)
+   8639c:	00 00 
+   8639e:	0f 29 04 24          	movaps %xmm0,(%rsp)
+   863a2:	e8 d9 be fe ff       	call   72280 <operator new(unsigned long)@plt>
+   863a7:	66 0f ef c0          	pxor   %xmm0,%xmm0
+   863ab:	48 c7 40 10 00 00 00 	movq   $0x0,0x10(%rax)
+   863b2:	00 
+   863b3:	49 89 c4             	mov    %rax,%r12
+   863b6:	48 c7 40 18 00 00 00 	movq   $0x0,0x18(%rax)
+   863bd:	00 
+   863be:	0f 11 00             	movups %xmm0,(%rax)
+   863c1:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
+   863c6:	48 85 c0             	test   %rax,%rax
+   863c9:	74 21                	je     863ec <nav_2d_utils::OdomSubscriber::odomCallback(std::shared_ptr<nav_msgs::msg::Odometry_<std::allocator<void> > >)@@Base+0x1bc>
+   863cb:	ba 02 00 00 00       	mov    $0x2,%edx
+   863d0:	4c 89 ee             	mov    %r13,%rsi
+   863d3:	4c 89 e7             	mov    %r12,%rdi
+   863d6:	ff d0                	call   *%rax
+   863d8:	48 8b 44 24 38       	mov    0x38(%rsp),%rax
+   863dd:	49                   	rex.WB
+   863de:	89                   	.byte 0x89
+   863df:	44                   	rex.R
