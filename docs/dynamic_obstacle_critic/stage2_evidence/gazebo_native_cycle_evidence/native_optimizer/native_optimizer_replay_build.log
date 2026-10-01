@@ -1,0 +1,21 @@
+Starting >>> rm_dynamic_obstacle_critic
+--- stderr: rm_dynamic_obstacle_critic
+/repo/src/rm_dynamic_obstacle_critic/tools/replay_native_optimizer.cpp: In member function ‘void NativeReplay::emit_cycle(std::ostream&, uint32_t, bool)’:
+/repo/src/rm_dynamic_obstacle_critic/tools/replay_native_optimizer.cpp:54:7: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   54 |       if(comma)out<<',';out<<v;comma=true;
+      |       ^~
+/repo/src/rm_dynamic_obstacle_critic/tools/replay_native_optimizer.cpp:54:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   54 |       if(comma)out<<',';out<<v;comma=true;
+      |                         ^~~
+/repo/src/rm_dynamic_obstacle_critic/tools/replay_native_optimizer.cpp: In lambda function:
+/repo/src/rm_dynamic_obstacle_critic/tools/replay_native_optimizer.cpp:59:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   59 |         if(separator)out<<',';out<<value;separator=true;
+      |         ^~
+/repo/src/rm_dynamic_obstacle_critic/tools/replay_native_optimizer.cpp:59:31: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   59 |         if(separator)out<<',';out<<value;separator=true;
+      |                               ^~~
+---
+Finished <<< rm_dynamic_obstacle_critic [13.8s]
+
+Summary: 1 package finished [14.0s]
+  1 package had stderr output: rm_dynamic_obstacle_critic

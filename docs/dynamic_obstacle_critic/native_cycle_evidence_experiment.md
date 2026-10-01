@@ -70,3 +70,81 @@ C++夹具保存在 `stage2_evidence/native_cycle_preflight/`。
 Docker首次自动审批超时未执行；一次允许重试完成。未将此基础设施
 超时当作算法失败或安全拒绝。之后记录格式/边界更新都分别重新构建
 对应测试；未重复物理调参选结果。下一项固定试次只采集证据。
+
+## 固定完整物理试次：1339803
+
+同一场景、目标、相位和35s运行窗口，17.940→52.941s取消，观察至
+56.441s；取消没有action完成确认，goal_status为null。基础设施执行
+PASS，安全与任务验收FAILED。推进4.331231m，2264条物理真值、1925条
+最终命令，bounds违规0。真实base最小样本距0.048945m，线性插值条件
+下界0.041630m；最小值发生于56.161s尾段，仍纳入验收。完整机械投影
+与padded样本距均0，下界分别−0.007456/−0.007828m；raw203违规392/2264，
+地图均新鲜。静态base/完整机械/padded下界0.541987/0.519536/0.472626m。
+
+47.692s后左轮先违反0.05m门，此时base仍0.095364m；此前0.2s的12个
+物理位姿和10条最终命令均为零。47.760s轮投影零距，base距0.049475m。
+最近guard已拒绝，不从零命令或静止状态反推未来安全。运行窗口guard
+6 watchdog、1283 clear、177 static、284 dynamic；尾段114 watchdog、
+54 clear、7 static。完整控制周期deadline警告38；停止critic 34个1Hz
+样本中位54.935998ms、最大92.294457ms，不能当成每周期耗时证书。
+
+421个可用公开CV样本在0/1/2/3s完整actor支持均0/421，109个时刻无可用
+actor track；源中心误差中位0.211374m，3s中心误差中位1.565572m。
+576个scan通过源时刻对齐，7个world/odom失配、1个缺bracket跳过；
+应有有限返回却缺失209条、无预期箱体却有限150条，全部保留。
+没有把actor SDF完整尺寸作为在线先验，也没有放宽任何验收门。
+
+349个实际native batch完整保留300×30；全部实测首速度与原生速度/控制
+移位逐位一致，capture ordinal连续，预算400未耗尽。1Hz记录的34个
+capture耗时中位0.378733ms、最大0.709983ms；不能覆盖整个控制链。
+352条原始命令均由同一实际controller_server GID发布，三条零命令的
+observer ordinal为298/322/351。GID、时间邻近和数量本身不能证明SG。
+
+## 不改运行核心的离线 SG 重建
+
+测试专用 `replay_native_optimizer` 在自己的Optimizer/NoiseGenerator
+对象上调用现有安装库的setNoisedControls、updateControlSequence及
+shiftControlSequence，SG调用固定SDK公开内联函数。它没有ROS节点或
+publisher，不读取/写入正在运行的controller私有对象，也不链接本包
+critic库。原生源码、采样器、评分、优化器和运行二进制未改。
+
+本试次Omni、一次iteration、固定noise、offset=1；利用完整候选控制
+矩阵、critic累计成本和已记录reset wall时间建立可检验关联假设。
+零命令只作为本trace假设排除，不能作为一般stop分类器。reset anchors
+为capture 0/298/321，逐步重建gamma、softmax、均值、四项SG历史及shift。
+349/349个完整控制张量和349/349条实际三轴命令最终逐位相同，最大误差0。
+因此这些历史是经实际输入与输出验证的重建状态，仍不是直接实时快照。
+
+首版默认标量内联SG仅24/349输出匹配，最大误差5.07e−7，失败记录保留；
+不接受容差替代。按已冻结本地Nav2 1.1.20 CMake的SIMD/FMA及fast-math
+选项构建离线target后才精确匹配，这些选项不作用于runtime target。
+负对照每周期清空历史仅3/349输出、6/349完整输入匹配；遗漏两次reset
+仅299/349输出、298/349输入匹配。15项解析/比较场景通过，包括一ulp
+差异必须失败、错误输入即使输出相同仍失败、NaN/shape/ordinal拒绝。
+
+这一步没有产生完整三秒安全控制见证，也没有证明任何候选的未来物理
+安全或采样coverage。实际动态消费输入、native地图源时间仍未直接
+采集；pose时间与读取时间不相同。后续须保留实测首速度和本次验证过
+的SG历史，使用完整3s、所有独立几何/raw/bounds/progress门进行见证。
+CV支持仍失败，旧CA/sampler/ranking继续冻结，main与feature不提升。
+
+## 冻结与复算
+
+`stage2_evidence/gazebo_native_cycle_evidence/`保留847个初始文件：全部
+349个实际tensor payload、命令、物理真值、观察流、运行配置与场景、
+1339803运行源文件、运行ELF身份、独立auditors、SDK重建和全部失败。
+二进制只无损gzip存储，logical payload hash与压缩存储hash分别保留。
+图示检查没有裁掉actor/CV边界；此前归档保持原hash不动。
+
+`replay_native_trial.py ARCHIVE NEW_OUTPUT`先验manifest，在私有副本
+复算13份报告和PNG/SVG、重建input与schedule、核对四份重建比较报告，
+共20个产物逐字节相同。默认对保存的C++输出做独立数值核对；实际
+C++重执行须使用固定Humble库，然后以`--native-outputs DIRECTORY`
+再次复算，不能把仅检查保存输出称成原生重执行。原始输入sha256为
+`cf7f67a59f1d44771bac3e5554a29c50041a1e540a3eeec3e0e02d28589fdedb`。
+
+压缩归档输入随后在固定Humble库中真正重执行，正向及两组负对照的
+C++输出也逐字节相同；`--native-outputs`20项复算全部PASS。补齐与SDK
+一致的编译器支持检查后，离线工具ELF仍7550ffdd…；不支持的SIMD选项
+不会阻止其他架构构建，其他平台须重新证明数值匹配。最终manifest还
+纳入两次复算及最后编译验证，原847个文件的hash保持。未推送或合并。

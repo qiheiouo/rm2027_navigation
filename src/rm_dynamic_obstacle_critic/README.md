@@ -92,6 +92,22 @@ dynamic consumer input. Pre-regularization costs are not final MPPI weights.
 GID identifies a command publisher, not the optimizer cycle that produced it.
 See [the native evidence experiment](../../docs/dynamic_obstacle_critic/native_cycle_evidence_experiment.md).
 
+The checkpoint `1339803` full trial remains FAILED: mechanical/padded contact,
+392/2264 raw203 violations, base gap below 0.05 m and no goal acknowledgement.
+All 349 captured native batches retain the full 300 × 30 grid and measured first
+velocity. A BUILD_TESTING-only native optimizer replay reconstructs the mean and
+four SG history entries under the recorded fixed-noise/reset trace. All 349 full
+control inputs and actual command outputs match bit for bit; clearing history or
+omitting resets fails. Its pinned SDK SIMD/FMA flags apply only to the offline
+target. Runtime binaries and the upstream optimizer remain unchanged. These are
+numerically verified reconstructed states, not direct live snapshots or a full
+three-second safe-control/coverage certificate.
+
+`replay_native_trial.py ARCHIVE NEW_OUTPUT` verifies archive hashes, regenerates
+the complete replay input and checks frozen reports and saved native outputs.
+`--native-outputs DIRECTORY` additionally checks outputs independently re-executed
+against the pinned Humble library. Exact comparisons never substitute tolerances.
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.

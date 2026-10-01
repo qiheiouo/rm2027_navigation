@@ -1,0 +1,222 @@
+{
+  "verdict": "FAILED",
+  "scope": "single full physical trial; no deployment acceptance",
+  "gates": {
+    "body_clearance": false,
+    "padded_no_contact": false,
+    "output_bounds": true,
+    "goal_success": false,
+    "strict_positive_progress": true,
+    "full_mechanical_body_clearance": false
+  },
+  "geometry": {
+    "body": {
+      "dynamic_sample_min": 0.04894497223909739,
+      "dynamic_linear_interpolation_bound": 0.041630113076183896,
+      "static_sample_min": 0.5438153889582634,
+      "static_linear_interpolation_bound": 0.5419873910663175,
+      "witness": {
+        "t": 56.161,
+        "robot": [
+          4.334131519491105,
+          0.5238753478753068,
+          -2.8090213708304432
+        ],
+        "obstacle": [
+          4.9,
+          0.05033650616738168,
+          0.0
+        ]
+      },
+      "sampled_overlap": false
+    },
+    "padded": {
+      "dynamic_sample_min": 0.0,
+      "dynamic_linear_interpolation_bound": -0.007827968244542929,
+      "static_sample_min": 0.4771240460718917,
+      "static_linear_interpolation_bound": 0.4726259527148508,
+      "witness": {
+        "t": 47.726,
+        "robot": [
+          4.420214466935658,
+          0.32360543034378375,
+          -3.1404243095811917
+        ],
+        "obstacle": [
+          4.9,
+          -0.2713517950895579,
+          0.0
+        ]
+      },
+      "sampled_overlap": true
+    }
+  },
+  "truth_rows": 2264,
+  "max_truth_interval": 0.018000000000000682,
+  "commands": 1925,
+  "bounds_violations": 0,
+  "goal_progress_x": 4.331230938769506,
+  "guard_reasons": {
+    "command_watchdog": 120,
+    "clear": 1337,
+    "static_collision_or_unknown": 184,
+    "dynamic_collision": 284
+  },
+  "critic_statuses": {
+    "ok": 33
+  },
+  "execution": {
+    "mode": "guard",
+    "execution": "PASS",
+    "error": null,
+    "goal_status": null,
+    "cancelled": true,
+    "start_sim": 17.94,
+    "end_sim": 52.941,
+    "last_sim": 56.441,
+    "graph": {
+      "/cmd_vel": [
+        "dynamic_safety_guard"
+      ],
+      "/cmd_vel_nav": [
+        "controller_server",
+        "behavior_server",
+        "behavior_server",
+        "behavior_server",
+        "behavior_server"
+      ],
+      "/dynamic_test/cmd_vel_smoothed": [
+        "velocity_smoother"
+      ]
+    },
+    "message_counts": {
+      "final_cmd": 2969,
+      "guard": 2972,
+      "scan": 856,
+      "odom": 2821,
+      "canonical_odom": 2821,
+      "tracker": 855,
+      "obstacles": 853,
+      "event": 4,
+      "costmap": 304,
+      "critic": 33,
+      "stopping": 34,
+      "raw_smoothed": 720
+    }
+  },
+  "limits": "Interpolation bounds assume linear pose interpolation. No per-candidate coverage/SG history capture; cannot attribute sampler or optimizer from closed loop alone.",
+  "mechanical_geometry": {
+    "scope": "offline planar union of frozen fixture collision projections; not 3D contacts or hardware",
+    "verdict": "FAILED",
+    "collision_components": [
+      {
+        "name": "base_link/base_collision",
+        "kind": "polygon",
+        "points": [
+          [
+            -0.3,
+            -0.25
+          ],
+          [
+            0.3,
+            -0.25
+          ],
+          [
+            0.3,
+            0.25
+          ],
+          [
+            -0.3,
+            0.25
+          ]
+        ]
+      },
+      {
+        "name": "front_left_wheel/collision",
+        "kind": "circle",
+        "center": [
+          0.25,
+          0.225
+        ],
+        "radius": 0.075
+      },
+      {
+        "name": "front_right_wheel/collision",
+        "kind": "circle",
+        "center": [
+          0.25,
+          -0.225
+        ],
+        "radius": 0.075
+      },
+      {
+        "name": "rear_left_wheel/collision",
+        "kind": "circle",
+        "center": [
+          -0.25,
+          0.225
+        ],
+        "radius": 0.075
+      },
+      {
+        "name": "rear_right_wheel/collision",
+        "kind": "circle",
+        "center": [
+          -0.25,
+          -0.225
+        ],
+        "radius": 0.075
+      }
+    ],
+    "projected_union_xy_bounds": [
+      -0.325,
+      0.325,
+      -0.3,
+      0.3
+    ],
+    "configured_padded_xy_bounds": [
+      -0.355,
+      0.355,
+      -0.32999999999999996,
+      0.32999999999999996
+    ],
+    "dynamic_sample_min": 0.0,
+    "dynamic_linear_interpolation_bound": -0.007456247475412859,
+    "first_margin_violation": {
+      "time": 47.692,
+      "gap": 0.045444183498632204,
+      "component": "rear_left_wheel/collision"
+    },
+    "first_projected_contact": {
+      "time": 47.76,
+      "gap": 0.0,
+      "component": "rear_left_wheel/collision"
+    },
+    "limits": "Exact circle/box distances under fixed planar poses. Projection is conservative in height; does not reconstruct engine contacts. Linear interpolation bounds are conditional. Static/raw/task gates remain separate; no earlier archive verdict is overwritten.",
+    "static_sample_min": 0.5213399885722769,
+    "static_linear_interpolation_bound": 0.519535503024626
+  },
+  "geometry_contract": {
+    "body": "frozen SDF base_collision, not configured envelope",
+    "padded": "configured planning/guard footprint plus padding",
+    "full_mechanical_body": "frozen SDF collision projection union; height/linear-interpolation assumptions remain",
+    "configured_body": [
+      [
+        -0.325,
+        -0.3
+      ],
+      [
+        0.325,
+        -0.3
+      ],
+      [
+        0.325,
+        0.3
+      ],
+      [
+        -0.325,
+        0.3
+      ]
+    ]
+  }
+}

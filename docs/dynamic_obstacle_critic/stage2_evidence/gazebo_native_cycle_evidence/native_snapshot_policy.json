@@ -1,0 +1,16 @@
+{
+  "parameters": {
+    "enabled": true,
+    "output_directory": "/out/gazebo_native_cycle_evidence/native_cycles",
+    "capture_period": 0.0,
+    "max_snapshots": 400
+  },
+  "scope": "read-only post-critic candidate data; before gamma/softmax/aggregation/SG",
+  "unavailable": [
+    "control_sequence_mean",
+    "SG_history",
+    "exact_dynamic_consumer_input",
+    "returned_control"
+  ],
+  "runtime_output_directory": "/out/gazebo_native_cycle_evidence/native_cycles"
+}

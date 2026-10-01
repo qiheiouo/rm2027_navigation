@@ -92,6 +92,13 @@ TF仍由原链唯一所有者发布，tracker使用scan源时间变换，critic/
 新图见[性能实验](soft_clearance_performance_experiment.md)，旧报告保持原样。
 机械足迹的运行契约与进入停止位置前的候选/最终输出仍须继续修复核对。
 
+原生证据阶段补充：1339803的349个完整batch已采集，并用未修改安装
+库数值验证固定trace的控制均值/四项SG历史重建；349次输入/输出均
+逐位一致，清空历史和遗漏reset负对照失败。它补齐了后续完整三秒
+见证所需的状态证据，但尚未证明安全控制或coverage，也未修复CV支持。
+该物理试次仍FAILED，含取消后尾段base距小于0.05m、运行中机械/padded
+零距及raw203违规。见[原生周期实验](native_cycle_evidence_experiment.md)。
+
 ## 完整自身包络后续试次
 
 e3f9b4a的新planning/guard足迹已包含四轮全投影，原门不变。新单次

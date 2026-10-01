@@ -58,8 +58,10 @@ base及4轮投影的包络半长宽0.325/0.300m，原padding0.03m不变，guard
 只读记录实际候选完整tensor、测量pose/speed、所有critic累计成本及
 当前native grid/footprint。无TF/目标/命令发布，不改costs/fail_flag。
 独立rclcpp command observer按DDS GID识别原`/cmd_vel_nav`发布者；无
-命令路由变更。SG历史/控制均值/精确动态消费输入仍未开放，成本位于
-gamma/softmax/聚合之前，不能说成完整控制/coverage证书。见
+命令路由变更。SG历史/控制均值未直接采集；固定trace的离线原生SDK
+重建经349次完整输入与实际输出逐位验证，负对照清空历史/遗漏reset
+失败。精确动态消费输入仍缺，成本位于gamma/softmax/聚合之前；重建
+状态不能说成完整三秒安全控制/coverage证书。原生物理试次仍FAILED。见
 [原生证据实验](native_cycle_evidence_experiment.md)。
 
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
@@ -132,4 +134,4 @@ guard仅pass/brake，不找路径、缩放命令或选择candidate。两个响�
 
 critic日志中的minimum clearance/TTC属于**动态cost最低的rollout**，不是MPPI综合分首选，也不是加权/滤波后实际输出。dynamic_cost_min/max为该batch的新增贡献范围。guard诊断检查的是实际最终提案。两者不混称控制证明。预测markers只是可视化，绝不写未来路径到costmap。
 
-旧研究 late cycle40 有三秒、实测首速度和SG历史下的零控制安全见证而原300条全不安全，仍为历史 sampler覆盖失败证据；新代码没有采集完整raw控制/SG历史，因此新闭环不能仅凭停顿就归因sampler或optimizer。新guard零命令测试是短时模型测试，不冒称取代旧三秒native见证。原研究证据通过封存tag完整可恢复，不需移入新产品包。
+旧研究 late cycle40 有三秒、实测首速度和SG历史下的零控制安全见证而原300条全不安全，仍为历史 sampler覆盖失败证据。新原生证据分支已记录完整raw控制，并数值验证固定trace的SG/均值重建；尚未完成新版本完整三秒独立安全控制见证，因此不能仅凭停顿归因sampler或optimizer。新guard零命令测试是短时模型测试，不冒称取代旧三秒native见证。原研究证据通过封存tag完整可恢复，不需移入新产品包。
