@@ -28,6 +28,7 @@ public:
     parent_get(vy_max_, "vy_max", .5, ParameterType::Static);
     parent_get(wz_max_, "wz_max", 1.2, ParameterType::Static);
     get(rejection_cost_, "rejection_cost", 10000., ParameterType::Static);
+    get(map_margin_, "map_uncertainty_margin", 0., ParameterType::Static);
     get(cfg_.horizon, "horizon", .5, ParameterType::Static);
     get(cfg_.dt, "simulation_dt", .02, ParameterType::Static);
     get(cfg_.response_delay, "response_delay", .1, ParameterType::Static);
@@ -43,7 +44,8 @@ public:
         std::abs(1. / frequency - dt_) > 1e-6 || steps_ < 2 || threshold_ < 1 ||
         threshold_ > 254 || budget < 1 || budget > 4096 ||
         !std::isfinite(cfg_.response_delay) || cfg_.response_delay < 0 ||
-        !std::isfinite(vx_min_) || vx_min_ > 0)
+        !std::isfinite(vx_min_) || vx_min_ > 0 || !std::isfinite(map_margin_) ||
+        map_margin_ < 0)
       throw std::invalid_argument(
           "unsupported stopping proxy grid/model or parameters");
     for (double p : {cfg_.horizon, cfg_.dt, cfg_.linear_deceleration,
@@ -126,7 +128,10 @@ public:
     dyn::Array no_dynamic_obstacles;
     size_t passing = 0, measured_rejected = 0, proposed_rejected = 0;
     auto static_clear = [&](const auto &poly, double reserve) {
-      return dyn::static_map_clear(snapshot, poly, reserve, threshold_);
+      // Planning allowance only. The independent runtime guard retains its
+      // original footprint, raw threshold and motion reserve.
+      return dyn::static_map_clear(snapshot, poly, reserve + map_margin_,
+                                   threshold_);
     };
     // For a fixed map and no dynamic obstacles, the measured stopping path is
     // identical for all candidates. Additional time after it stops repeats the
@@ -178,6 +183,7 @@ public:
       status.values.push_back(kv);
     };
     add("candidate_command_offset", 1);
+    add("map_uncertainty_margin", map_margin_);
     add("passing_proxies", passing);
     add("batch", data.costs.size());
     add("measured_path_rejections", measured_rejected);
@@ -191,7 +197,7 @@ public:
 
 private:
   dyn::GuardParameters cfg_;
-  double dt_, vx_min_, vx_max_, vy_max_, wz_max_, rejection_cost_,
+  double dt_, vx_min_, vx_max_, vy_max_, wz_max_, rejection_cost_, map_margin_,
       last_report_{0};
   int steps_, threshold_;
   rclcpp_lifecycle::LifecyclePublisher<

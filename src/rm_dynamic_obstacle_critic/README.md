@@ -21,6 +21,12 @@ SG/smoother command; the final guard remains mandatory. The original profile
 does not load it. Hypothesis, version assumptions, acceptance and rollback are
 recorded in [the experiment plan](../../docs/dynamic_obstacle_critic/static_stopping_experiment.md).
 
+`experiment/map-uncertainty-stopping` separately tests a 0.11 m planning
+allowance in `nav2_cv_map_uncertainty.yaml`. The new critic parameter defaults
+to zero; the final guard retains its original raw203 and footprint checks.
+The observer also records source-time scans. Evidence, limits and fixed gates
+are preregistered in [the map uncertainty experiment](../../docs/dynamic_obstacle_critic/map_uncertainty_experiment.md).
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.

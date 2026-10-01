@@ -8,6 +8,7 @@
 class PluginTest : public ::testing::Test {
 protected:
   virtual std::string plugin_name() const { return "DynamicObstacleCritic"; }
+  virtual void prepare_parameters() {}
   void SetUp() override {
     if (!rclcpp::ok())
       rclcpp::init(0, nullptr);
@@ -27,6 +28,7 @@ protected:
     fp[3].x = -.25;
     fp[3].y = .2;
     costmap->setRobotFootprint(fp);
+    prepare_parameters();
     handler = std::make_unique<mppi::ParametersHandler>(node);
     loader =
         std::make_unique<pluginlib::ClassLoader<mppi::critics::CriticFunction>>(
@@ -145,7 +147,58 @@ TEST_F(PluginTest, GridMismatchFailsInsteadOfTruncating) {
 class StoppingPluginTest : public PluginTest {
 protected:
   std::string plugin_name() const override { return "StaticStoppingCritic"; }
+  void check_near_cell(float moving_cost) {
+    auto grid = costmap->getCostmap();
+    grid->resizeMap(120, 120, .05, -3, -3);
+    std::fill(grid->getCharMap(), grid->getCharMap() + 120 * 120, 0);
+    unsigned int x, y;
+    ASSERT_TRUE(grid->worldToMap(.45, 0, x, y));
+    grid->setCost(x, y, 203);
+    mppi::models::State state;
+    state.reset(2, 30);
+    state.pose.header.frame_id = "map";
+    state.pose.pose.orientation.w = 1;
+    state.cvx(0, 1) = .2;
+    mppi::models::Trajectories tr;
+    tr.reset(2, 30);
+    mppi::models::Path path;
+    path.reset(2);
+    xt::xtensor<float, 1> costs = xt::zeros<float>({2});
+    float dt = .1;
+    mppi::CriticData data{state, tr,      path,    costs,        dt,
+                          false, nullptr, nullptr, std::nullopt, std::nullopt};
+    critic->score(data);
+    EXPECT_FALSE(data.fail_flag);
+    EXPECT_EQ(costs(0), moving_cost);
+    EXPECT_EQ(costs(1), 0); // A stopped proposal retains sufficient clearance.
+  }
 };
+class BufferedStoppingPluginTest : public StoppingPluginTest {
+protected:
+  void prepare_parameters() override {
+    node->declare_parameter(
+        "FollowPath.StaticStoppingCritic.map_uncertainty_margin", .11);
+  }
+};
+TEST_F(StoppingPluginTest, DefaultMarginPreservesNearCellDecision) {
+  check_near_cell(0);
+}
+TEST_F(BufferedStoppingPluginTest, PlanningAllowanceRejectsNearCellProposal) {
+  check_near_cell(10000);
+}
+TEST_F(StoppingPluginTest, InvalidPlanningAllowancesRejectInitialization) {
+  size_t i = 0;
+  for (double margin : {-1., std::numeric_limits<double>::infinity(),
+                        std::numeric_limits<double>::quiet_NaN()}) {
+    const auto name = "FollowPath.InvalidMargin" + std::to_string(i++);
+    node->declare_parameter(name + ".map_uncertainty_margin", margin);
+    auto invalid =
+        loader->createSharedInstance("mppi::critics::StaticStoppingCritic");
+    EXPECT_THROW(
+        invalid->on_configure(node, "FollowPath", name, costmap, handler.get()),
+        std::invalid_argument);
+  }
+}
 TEST_F(StoppingPluginTest, ScoresNativeOffsetOneWithUnchangedRaw203Gate) {
   auto grid = costmap->getCostmap();
   grid->resizeMap(120, 120, .05, -3, -3);

@@ -83,7 +83,16 @@ def main():
             "origin":[p.x,p.y,q.x,q.y,q.z,q.w],"data":list(m.data)})
     subs.append(node.create_subscription(Costmap,"/local_costmap/costmap_raw",costmap,
         QoSProfile(depth=10,durability=DurabilityPolicy.TRANSIENT_LOCAL)))
-    subs.append(node.create_subscription(LaserScan,"/scan",lambda m:last.update(scan=m),qos_profile_sensor_data))
+    def scan(m):
+        last["scan"]=m
+        # Keep source-time sensor data for offline audits; never publish TF or
+        # transform measurements using latest robot/gimbal orientation.
+        write("scan",{"stamp":m.header.stamp.sec+m.header.stamp.nanosec*1e-9,"frame":m.header.frame_id,
+            "angle_min":m.angle_min,"angle_max":m.angle_max,"angle_increment":m.angle_increment,
+            "time_increment":m.time_increment,"scan_time":m.scan_time,
+            "range_min":m.range_min,"range_max":m.range_max,
+            "ranges":[r if math.isfinite(r) else "nan" if math.isnan(r) else "inf" if r>0 else "-inf" for r in m.ranges]})
+    subs.append(node.create_subscription(LaserScan,"/scan",scan,qos_profile_sensor_data))
     for kind,topic in [("critic","/dynamic_critic/diagnostics"),("guard","/dynamic_guard/diagnostics"),("tracker","/perception/dynamic_obstacles_shadow/diagnostics"),("stopping","/static_stopping/diagnostics")]:
         subs.append(node.create_subscription(DiagnosticArray,topic,lambda m,k=kind:diagnostic(k,m),10))
     for kind,topic in [("final_cmd","/cmd_vel"),("raw_smoothed","/dynamic_test/cmd_vel_smoothed")]:

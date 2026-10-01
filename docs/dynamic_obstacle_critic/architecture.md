@@ -25,6 +25,11 @@ SG/smoother发生在评分之后，所以候选代理不是最终命令安全证
 完整假设、失败试次、性能优化和回滚见
 [静态停止实验](static_stopping_experiment.md)。
 
+后续独立 `experiment/map-uncertainty-stopping` 只在停止critic当前地图
+检查中增加可选规划预留（默认0），新配置选择0.11m。独立guard原判据和
+TF所有权不变。观察器记录源时间扫描供离线核对，运行模型不读真值。
+其依据、边界和验收见[地图不确定性实验](map_uncertainty_experiment.md)。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid
