@@ -1,0 +1,53 @@
+{
+  "verdict": "PASS",
+  "cases": [
+    {
+      "name": "empty_directory",
+      "configured": true,
+      "readback": {
+        "verdict": "CONFIGURED PARAMETER PASS",
+        "requested_directory": "/out/dynamic_consumption_preflight/empty_directory/scores",
+        "requested_maximum": 400,
+        "names": [
+          "FollowPath.DynamicObstacleCritic.consumption_evidence_directory",
+          "FollowPath.DynamicObstacleCritic.consumption_evidence_max_records",
+          "FollowPath.DynamicObstacleCritic.enabled"
+        ],
+        "configured": [
+          "/out/dynamic_consumption_preflight/empty_directory/scores",
+          400,
+          true
+        ],
+        "scope": "Readback only. Exact cost replay, native join and physical gates remain independent."
+      },
+      "verdict": "PASS",
+      "lifecycle": "inactive, never activated",
+      "goals_sent": 0,
+      "commands_published": 0,
+      "odometry_messages_published": 0,
+      "TF_published": 0
+    },
+    {
+      "name": "existing_directory",
+      "configured": false,
+      "readback": null,
+      "verdict": "REJECTED AS REGISTERED",
+      "lifecycle": "inactive, never activated",
+      "goals_sent": 0,
+      "commands_published": 0,
+      "odometry_messages_published": 0,
+      "TF_published": 0
+    },
+    {
+      "name": "invalid_budget",
+      "configured": false,
+      "readback": null,
+      "verdict": "REJECTED AS REGISTERED",
+      "lifecycle": "inactive, never activated",
+      "goals_sent": 0,
+      "commands_published": 0,
+      "odometry_messages_published": 0,
+      "TF_published": 0
+    }
+  ]
+}

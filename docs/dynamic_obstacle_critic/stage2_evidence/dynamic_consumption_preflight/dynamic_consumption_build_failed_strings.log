@@ -1,0 +1,14 @@
+Consolidate compiler generated dependencies of target rm_dynamic_obstacle_critic
+[ 25%] Building CXX object CMakeFiles/rm_dynamic_obstacle_critic.dir/src/dynamic_obstacle_critic.cpp.o
+In file included from /repo/src/rm_dynamic_obstacle_critic/src/dynamic_obstacle_critic.cpp:5:
+/repo/src/rm_dynamic_obstacle_critic/include/rm_dynamic_obstacle_critic/dynamic_consumption_evidence.hpp: In member function ‘void rm_dynamic_obstacle_critic::DynamicConsumptionEvidence::record(const mppi::CriticData&, const Array&, const std::vector<rm_dynamic_obstacle_critic::Point>&, const rm_dynamic_obstacle_critic::Rigid2D&, const rm_dynamic_obstacle_critic::Limits&, const rm_dynamic_obstacle_critic::CostParameters&, double, double, const string&, const string&, const std::vector<float>&, const std::vector<double, std::allocator<double> >&)’:
+/repo/src/rm_dynamic_obstacle_critic/include/rm_dynamic_obstacle_critic/dynamic_consumption_evidence.hpp:86:27: error: invalid cast from type ‘const _schema_type’ {aka ‘const std::__cxx11::basic_string<char>’} to type ‘unsigned int’
+   86 |         <<",\"schema\":"<<unsigned(message.schema)<<",\"authority\":"<<unsigned(message.authority)
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~
+/repo/src/rm_dynamic_obstacle_critic/include/rm_dynamic_obstacle_critic/dynamic_consumption_evidence.hpp:86:72: error: invalid cast from type ‘const _authority_type’ {aka ‘const std::__cxx11::basic_string<char>’} to type ‘unsigned int’
+   86 |         <<",\"schema\":"<<unsigned(message.schema)<<",\"authority\":"<<unsigned(message.authority)
+      |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+gmake[3]: *** [CMakeFiles/rm_dynamic_obstacle_critic.dir/build.make:76: CMakeFiles/rm_dynamic_obstacle_critic.dir/src/dynamic_obstacle_critic.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/Makefile2:169: CMakeFiles/rm_dynamic_obstacle_critic.dir/all] Error 2
+gmake[1]: *** [CMakeFiles/Makefile2:176: CMakeFiles/rm_dynamic_obstacle_critic.dir/rule] Error 2
+gmake: *** [Makefile:205: rm_dynamic_obstacle_critic] Error 2

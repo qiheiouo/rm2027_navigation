@@ -148,6 +148,23 @@ weight. Raw-control costs and these filtered labels have distinct semantics;
 per-critic causality still requires exact dynamic consumer evidence. See
 [the weight attribution experiment](../../docs/dynamic_obstacle_critic/native_weight_attribution_experiment.md).
 
+The default-off `DynamicObstacleCritic.consumption_evidence_directory` records
+only fields actually consumed in successful scores, the score clock and used
+transform/footprint, native rollouts, before/after float costs and double risk.
+`consumption_evidence_max_records` defaults to 400 and is bounded at 1000.
+`nav2_cv_dynamic_consumption.yaml` and runner options
+`--dynamic-consumption-evidence --native-snapshots` enable it explicitly. Empty
+absolute directories have exclusive writer ownership; runtime I/O failures stop
+evidence without changing scores. Initialization rejects busy directories and
+invalid budgets before a goal. `test_dynamic_consumption_preflight.py NEW_OUTPUT`
+checks the actual inactive controller with no goal, command or TF publication.
+The BUILD_TESTING-only `replay_dynamic_consumption` recomputes existing pure CV
+scores using runtime arithmetic; it does not use the SG tool's fast-math flags.
+`prepare_dynamic_consumption_replay.py SCORES NEW_OUTPUT` preserves exact input
+bytes and identities. Separate native snapshots must match full rollout and
+pose/speed identities, and recording I/O requires new physical evidence.
+See [the consumption experiment](../../docs/dynamic_obstacle_critic/dynamic_consumption_evidence_experiment.md).
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.

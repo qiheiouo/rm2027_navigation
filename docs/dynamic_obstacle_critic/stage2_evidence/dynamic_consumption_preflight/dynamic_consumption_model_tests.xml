@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="17" failures="0" disabled="0" errors="0" time="0.236" timestamp="2026-10-01T22:50:18" name="AllTests">
+  <testsuite name="Geometry" tests="5" failures="0" disabled="0" errors="0" time="0.09" timestamp="2026-10-01T22:50:18">
+    <testcase name="HypotPruningPreservesFrozenDistanceExactly" status="run" result="completed" time="0.074" timestamp="2026-10-01T22:50:18" classname="Geometry" />
+    <testcase name="ConvexValidationAndRotation" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="Geometry" />
+    <testcase name="SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons" status="run" result="completed" time="0.001" timestamp="2026-10-01T22:50:18" classname="Geometry" />
+    <testcase name="OptionalNearestMapQueryPreservesFirstWitnessAndExactDistance" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="Geometry" />
+    <testcase name="BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate" status="run" result="completed" time="0.015" timestamp="2026-10-01T22:50:18" classname="Geometry" />
+  </testsuite>
+  <testsuite name="Guard" tests="5" failures="0" disabled="0" errors="0" time="0.141" timestamp="2026-10-01T22:50:18">
+    <testcase name="HypotPruningPreservesFrozenMapWitnessExactly" status="run" result="completed" time="0.133" timestamp="2026-10-01T22:50:18" classname="Guard" />
+    <testcase name="PassBrakeAndMeasuredStoppingTail" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="Guard" />
+    <testcase name="StaticInteriorUnknownAndBounds" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="Guard" />
+    <testcase name="StaticWitnessInRotatedMapAndFutureCommandBranch" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="Guard" />
+    <testcase name="CachedStaticMeasuredBranchMatchesOriginalUnion" status="run" result="completed" time="0.007" timestamp="2026-10-01T22:50:18" classname="Guard" />
+  </testsuite>
+  <testsuite name="CV" tests="4" failures="0" disabled="0" errors="0" time="0" timestamp="2026-10-01T22:50:18">
+    <testcase name="FutureConflictAndCrossing" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="CV" />
+    <testcase name="CurrentOccupancyFutureRelease" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="CV" />
+    <testcase name="StationaryMatchesGeometryAndAll30Steps" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="CV" />
+    <testcase name="SourceAgeAndRotatedFrame" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="CV" />
+  </testsuite>
+  <testsuite name="Cost" tests="1" failures="0" disabled="0" errors="0" time="0" timestamp="2026-10-01T22:50:18">
+    <testcase name="ContinuousMarginsAndContact" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="Cost" />
+  </testsuite>
+  <testsuite name="Input" tests="1" failures="0" disabled="0" errors="0" time="0" timestamp="2026-10-01T22:50:18">
+    <testcase name="StaleInvalidIncompleteCoastAndJump" status="run" result="completed" time="0" timestamp="2026-10-01T22:50:18" classname="Input" />
+  </testsuite>
+  <testsuite name="Frame" tests="1" failures="0" disabled="0" errors="0" time="0.005" timestamp="2026-10-01T22:50:18">
+    <testcase name="BoundedWorldCorrectionAndNoMovingFrameInput" status="run" result="completed" time="0.005" timestamp="2026-10-01T22:50:18" classname="Frame" />
+  </testsuite>
+</testsuites>

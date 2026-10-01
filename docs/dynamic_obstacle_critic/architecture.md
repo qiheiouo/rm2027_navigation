@@ -140,6 +140,13 @@ guard仅pass/brake，不找路径、缩放命令或选择candidate。两个响�
 
 ## 诊断解释与原研究关系
 
+显式消费证据profile仅在自有DynamicObstacleCritic中记录实际输入字段、
+score时刻/source_age、使用的世界修正与足迹、全rollout及before/double-risk/
+after位型。默认关闭；记录失败只停证据，不改评分。私有文件格式不增加
+public tracker结构、ROS订阅/发布或TF所有者；安装Nav2保持原生。另一个
+末尾snapshot提供全batch匹配与总成本证据，两者不能按最近receipt代替精确
+身份核对。IO开销需真实试次验证。见[消费证据实验](dynamic_consumption_evidence_experiment.md)。
+
 critic日志中的minimum clearance/TTC属于**动态cost最低的rollout**，不是MPPI综合分首选，也不是加权/滤波后实际输出。dynamic_cost_min/max为该batch的新增贡献范围。guard诊断检查的是实际最终提案。两者不混称控制证明。预测markers只是可视化，绝不写未来路径到costmap。
 
 旧研究 late cycle40 有三秒、实测首速度和SG历史下的零控制安全见证而原300条全不安全，仍为历史 sampler覆盖失败证据。新原生证据分支已记录完整raw控制，并数值验证固定trace的SG/均值重建；三秒反事实审计发现349个native速度全0、295个canonical样本有运动。条件见证仅对原生零输入上下文有效，物理实测首速度契约失败，不能归因sampler或optimizer。独立controller里程计profile先修复参数路由，再采集有效速度输入与完整三秒证据。新guard零命令测试是短时模型测试，不冒称取代旧三秒native见证。原研究证据通过封存tag完整可恢复，不需移入新产品包。

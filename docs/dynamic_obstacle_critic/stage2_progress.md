@@ -301,3 +301,17 @@ source196中239个单条约束/SG安全推进标签仅获0.04066043%权重，
 或指定某critic责任，后续需要精确Dynamic消费与分项成本。27文件
 独立archive/复算工具/图示保存，当前物理/任务和CV支持FAILED。
 见[权重归因实验](native_weight_attribution_experiment.md)。
+
+### 精确Dynamic消费证据预运行（2026-10-02）
+
+从fea7bf9建立`experiment/dynamic-consumption-evidence`，5e8f25b预登记。
+默认关闭的自有critic文件证据与原评分独立；17模型/19插件/20读取用例
+及4实际score的逐位风险重算通过，one-ULP负probe失败。实际inactive
+controller读回新参数，已有目录与非法预算拒绝初始化。两次编译失败
+日志保留。准备同条件新物理试次，记录I/O不能免除deadline/物理门。
+见[实验记录](dynamic_consumption_evidence_experiment.md)。
+
+用户提供2026制作手册并指定覆盖全部地面机器人；步兵/哨兵800mm
+上限不能涵盖英雄/工程展开范围，收纳尺寸也不能代替伸展尺寸。逐页
+核对及原文件身份独立归档；现有滤波可见质心仍不等于完整矩形中心，
+未改在线模型或安全门。见[尺寸契约参考](robot_extent_manual_review.md)。

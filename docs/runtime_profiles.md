@@ -21,6 +21,14 @@ profiles retain their recorded inputs. This repair adds no odometry or TF owner;
 effective native speed and all safety/task gates require fresh physical evidence.
 See [the input contract experiment](dynamic_obstacle_critic/controller_odom_contract_experiment.md).
 
+`nav2_cv_dynamic_consumption.yaml` adds only two default-off evidence parameters
+to the canonical controller profile. The isolated runner requires
+`--dynamic-consumption-evidence --native-snapshots` to assign separate exclusive
+output directories and verifies the actual configured dynamic evidence values
+before sending its goal. Recording preserves consumed CV fields and score bits;
+it adds no ROS topics or TF owner. Its I/O needs fresh deadline and physical
+validation. See [the consumption evidence experiment](dynamic_obstacle_critic/dynamic_consumption_evidence_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not
