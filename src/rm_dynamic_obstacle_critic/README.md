@@ -137,6 +137,17 @@ failed: base minimum 0.004790 m, mechanical/padded contact, 736 raw203
 violations and no goal completion. The trial archive and input contract report
 preserve every failed gate. Full-horizon offline witnesses remain separate.
 
+`replay_native_optimizer --weights-audit` additionally reconstructs the pinned
+SDK softmax from installed post-gamma costs and verifies the entire bounded mean
+bit for bit; it restores the installed mean before the unchanged SG chain.
+The explicit `--uniform-weight-probe` is an offline negative test. Across 350
+cycles, native reaggregation passed 350/350 and the uniform probe 0/350, while
+all actual SG output chains stayed byte exact. At selected cycle 196, the 239
+individually bounded/SG safe-progress labels received only 0.04066% of total
+weight. Raw-control costs and these filtered labels have distinct semantics;
+per-critic causality still requires exact dynamic consumer evidence. See
+[the weight attribution experiment](../../docs/dynamic_obstacle_critic/native_weight_attribution_experiment.md).
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.
