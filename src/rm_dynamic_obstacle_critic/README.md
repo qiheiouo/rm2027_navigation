@@ -37,6 +37,12 @@ scene files before launch. The documented trial's scene snapshot was post-run.
 band in `nav2_cv_soft_map_clearance.yaml`, preserving the original hard stopping
 check. The optional nearest-map query belongs to this objective; guard witnesses
 retain first-rejection semantics. See [the continuous clearance experiment](../../docs/dynamic_obstacle_critic/soft_map_clearance_experiment.md).
+Its full trial reached 4.638 m but failed physical body/padded, raw203 and task
+gates, with 31 controller deadline warnings. Guard was already braking before
+an approaching actor made contact with the stationary robot. Offline source
+matching and the limits of a pass/brake layer are recorded in [the near-field review](../../docs/dynamic_obstacle_critic/nearfield_failure_review.md).
+`tools/plot_contact_witness.py` is an optional offline Matplotlib tool; it adds
+no ROS runtime dependency. The archived figure used host Matplotlib 3.6.3.
 
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,

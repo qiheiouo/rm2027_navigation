@@ -75,3 +75,15 @@ metadata运算，出现约1e-9至1e-7m差异。修正参考的cell表示，未�
 本次guard模式行为不受该baseline修复影响。
 
 预运行证据在 `stage2_evidence/soft_map_clearance_preflight/`。物理结果待运行。
+
+## 物理对照（234f896）
+
+完整试次仍 **FAILED**：推进4.638371m、未到目标；动态body和padded均有
+采样接触，raw203有755/2265次违规。静态body下界0.454572m，输出越界0。
+19/23批次连续成本有差别，但不能据此证明最终SG输出或全安全控制覆盖。
+评分中位数53.533705ms、最大93.896106ms，完整日志31次10Hz超时。
+
+首次body<0.05m的39.689s之前0.2s，机器人真值姿态完全静止、命令全0；
+guard已经dynamic_collision、TTC=0。停止层不能单独保障外物进入停止位置
+后的安全。完整物理/model/CPU复盘见[近场失败记录](nearfield_failure_review.md)。
+本试次在启动前冻结实际world/model，源时间扫描及所有失败证据完整保存。
