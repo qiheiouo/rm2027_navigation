@@ -84,7 +84,7 @@ def main():
     subs.append(node.create_subscription(Costmap,"/local_costmap/costmap_raw",costmap,
         QoSProfile(depth=10,durability=DurabilityPolicy.TRANSIENT_LOCAL)))
     subs.append(node.create_subscription(LaserScan,"/scan",lambda m:last.update(scan=m),qos_profile_sensor_data))
-    for kind,topic in [("critic","/dynamic_critic/diagnostics"),("guard","/dynamic_guard/diagnostics"),("tracker","/perception/dynamic_obstacles_shadow/diagnostics")]:
+    for kind,topic in [("critic","/dynamic_critic/diagnostics"),("guard","/dynamic_guard/diagnostics"),("tracker","/perception/dynamic_obstacles_shadow/diagnostics"),("stopping","/static_stopping/diagnostics")]:
         subs.append(node.create_subscription(DiagnosticArray,topic,lambda m,k=kind:diagnostic(k,m),10))
     for kind,topic in [("final_cmd","/cmd_vel"),("raw_smoothed","/dynamic_test/cmd_vel_smoothed")]:
         subs.append(node.create_subscription(Twist,topic,lambda m,k=kind:command(k,m),10))

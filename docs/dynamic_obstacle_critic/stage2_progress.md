@@ -60,3 +60,10 @@ Nav2 生命周期；观察器只控制隔离试验的启动。场景/目标/安�
 该试验只提供理想可见面测量模型标签，不是Gazebo/实车验收。源码工具
 归属tracker包；critic运行时不引入tracker内部依赖。结果见
 [离线summary](stage2_evidence/viewpoint_bias/summary.json)。
+
+### 下一项对照
+
+从feature节点91d7eda建立 `experiment/static-stopping-critic`；在原生
+critic API中增加静态刹停目标，复用guard检查逻辑和raw203硬门。
+完整预登记、SG/候选索引限制和回滚入口见
+[实验计划](static_stopping_experiment.md)。此项尚在验证，不代表问题解决。

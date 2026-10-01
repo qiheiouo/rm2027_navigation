@@ -7,6 +7,7 @@
 
 class PluginTest : public ::testing::Test {
 protected:
+  virtual std::string plugin_name() const { return "DynamicObstacleCritic"; }
   void SetUp() override {
     if (!rclcpp::ok())
       rclcpp::init(0, nullptr);
@@ -30,9 +31,8 @@ protected:
     loader =
         std::make_unique<pluginlib::ClassLoader<mppi::critics::CriticFunction>>(
             "nav2_mppi_controller", "mppi::critics::CriticFunction");
-    critic =
-        loader->createSharedInstance("mppi::critics::DynamicObstacleCritic");
-    critic->on_configure(node, "FollowPath", "FollowPath.DynamicObstacleCritic",
+    critic = loader->createSharedInstance("mppi::critics::" + plugin_name());
+    critic->on_configure(node, "FollowPath", "FollowPath." + plugin_name(),
                          costmap, handler.get());
     pub = node->create_publisher<rm_dynamic_obstacle_critic::Array>(
         "/perception/dynamic_obstacles_shadow/predictions", 1);
@@ -138,6 +138,77 @@ TEST_F(PluginTest, GridMismatchFailsInsteadOfTruncating) {
   float dt = .1;
   mppi::CriticData data{state, tr,      path,    costs,        dt,
                         false, nullptr, nullptr, std::nullopt, std::nullopt};
+  critic->score(data);
+  EXPECT_TRUE(data.fail_flag);
+}
+
+class StoppingPluginTest : public PluginTest {
+protected:
+  std::string plugin_name() const override { return "StaticStoppingCritic"; }
+};
+TEST_F(StoppingPluginTest, ScoresNativeOffsetOneWithUnchangedRaw203Gate) {
+  auto grid = costmap->getCostmap();
+  grid->resizeMap(120, 120, .05, -3, -3);
+  std::fill(grid->getCharMap(), grid->getCharMap() + 120 * 120, 0);
+  unsigned int x, y;
+  ASSERT_TRUE(grid->worldToMap(.9, 0, x, y));
+  grid->setCost(x, y, 203);
+  mppi::models::State state;
+  state.reset(2, 30);
+  state.pose.header.frame_id = "map";
+  state.pose.pose.orientation.w = 1;
+  // Index zero is deliberately the opposite of the actual output proxy index.
+  state.cvx(0, 0) = 0;
+  state.cvx(0, 1) = .8;
+  state.cvx(1, 0) = .8;
+  state.cvx(1, 1) = .2;
+  mppi::models::Trajectories tr;
+  tr.reset(2, 30);
+  mppi::models::Path path;
+  path.reset(2);
+  xt::xtensor<float, 1> costs = xt::zeros<float>({2});
+  float dt = .1;
+  mppi::CriticData data{state, tr,      path,    costs,        dt,
+                        false, nullptr, nullptr, std::nullopt, std::nullopt};
+  critic->score(data);
+  EXPECT_FALSE(data.fail_flag);
+  EXPECT_EQ(costs(0), 10000);
+  EXPECT_EQ(costs(1), 0);
+  grid->setCost(x, y, 255);
+  costs.fill(0);
+  critic->score(data);
+  EXPECT_EQ(costs(0), 10000);
+  state.cvx(1, 1) = NAN;
+  costs.fill(12);
+  critic->score(data);
+  EXPECT_TRUE(data.fail_flag);
+  EXPECT_EQ(costs(0), 12); // No partial writes on a malformed batch.
+  EXPECT_EQ(costs(1), 12);
+}
+TEST_F(StoppingPluginTest, MeasuredStoppingTailAndMalformedGrid) {
+  auto grid = costmap->getCostmap();
+  grid->resizeMap(120, 120, .05, -3, -3);
+  std::fill(grid->getCharMap(), grid->getCharMap() + 120 * 120, 0);
+  unsigned int x, y;
+  ASSERT_TRUE(grid->worldToMap(.6, 0, x, y));
+  grid->setCost(x, y, 203);
+  mppi::models::State state;
+  state.reset(1, 30);
+  state.pose.header.frame_id = "map";
+  state.pose.pose.orientation.w = 1;
+  state.speed.linear.x = .8;
+  mppi::models::Trajectories tr;
+  tr.reset(1, 30);
+  mppi::models::Path path;
+  path.reset(2);
+  xt::xtensor<float, 1> costs = xt::zeros<float>({1});
+  float dt = .1;
+  mppi::CriticData data{state, tr,      path,    costs,        dt,
+                        false, nullptr, nullptr, std::nullopt, std::nullopt};
+  critic->score(data);
+  EXPECT_FALSE(data.fail_flag);
+  EXPECT_EQ(costs(0), 10000); // Zero proposal does not erase measured momentum.
+  dt = .2;
   critic->score(data);
   EXPECT_TRUE(data.fail_flag);
 }

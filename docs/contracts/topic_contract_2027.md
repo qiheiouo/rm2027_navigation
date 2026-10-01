@@ -64,6 +64,7 @@ ongoing work follows [the stage-two plan](../dynamic_obstacle_critic/stage2_plan
 | `/dynamic_critic/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | native critic | evidence observer | dynamic cost range and lowest-dynamic-cost rollout witness; not the optimizer's final command |
 | `/dynamic_critic/predictions` | `visualization_msgs/msg/MarkerArray` | native critic | RViz | CV future markers in `odom`; never written as future occupancy into costmap |
 | `/dynamic_guard/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | guard | evidence observer | final pass/brake, source stamps, rejected response branch/time/pose, first rejecting raw cell |
+| `/static_stopping/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | optional experimental StaticStoppingCritic | evidence observer | count of passing unsmoothed candidate proxies and score timing; experiment branch only, no final-command certificate |
 
 Only the explicit isolated `cv_course.launch.py enabled:=true` composition
 routes guard output to `/cmd_vel` for the simulation chassis stub. It must

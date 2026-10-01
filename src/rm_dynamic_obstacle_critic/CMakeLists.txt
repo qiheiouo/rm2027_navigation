@@ -8,7 +8,7 @@ foreach(dep nav2_mppi_controller nav2_costmap_2d nav2_msgs pluginlib rclcpp rclc
   find_package(${dep} REQUIRED)
 endforeach()
 set(deps nav2_mppi_controller nav2_costmap_2d nav2_msgs pluginlib rclcpp rclcpp_lifecycle tf2_ros tf2 geometry_msgs nav_msgs diagnostic_msgs visualization_msgs rm_competition_interfaces)
-add_library(${PROJECT_NAME} SHARED src/dynamic_obstacle_critic.cpp)
+add_library(${PROJECT_NAME} SHARED src/dynamic_obstacle_critic.cpp src/static_stopping_critic.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
 ament_target_dependencies(${PROJECT_NAME} ${deps})
 pluginlib_export_plugin_description_file(nav2_mppi_controller critics.xml)

@@ -14,6 +14,13 @@ reserve and first raw-costmap cell, without changing the acceptance check.
 `tools/audit_guard_rejections.py` cross-checks those witnesses with saved raw map
 receipts. Trial readers accept original JSONL and archived JSONL.gz.
 
+`experiment/static-stopping-critic` adds a separately configured native
+`StaticStoppingCritic` to convey the unchanged guard's static stopping objective
+to MPPI. Its offset-one candidate command is an unsmoothed proxy, not the final
+SG/smoother command; the final guard remains mandatory. The original profile
+does not load it. Hypothesis, version assumptions, acceptance and rollback are
+recorded in [the experiment plan](../../docs/dynamic_obstacle_critic/static_stopping_experiment.md).
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.
