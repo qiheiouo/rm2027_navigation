@@ -1,0 +1,66 @@
+{
+  "verdict": "PHYSICAL SAFE CONTROL WITNESS NOT ESTABLISHED",
+  "scope": "model/SG reconstruction is exact; source measurement validity is a separate required gate",
+  "native_numerical_cycles": 349,
+  "velocity_contract": "VELOCITY CONTRACT FAILED",
+  "all_native_inputs_zero": true,
+  "moving_canonical_source_cycles": 295,
+  "configured_controller_odom_topic": "odom",
+  "configured_controller_subscriptions": [
+    [
+      "/odom",
+      [
+        "nav_msgs/msg/Odometry"
+      ]
+    ],
+    [
+      "/parameter_events",
+      [
+        "rcl_interfaces/msg/ParameterEvent"
+      ]
+    ],
+    [
+      "/perception/dynamic_obstacles_shadow/predictions",
+      [
+        "rm_competition_interfaces/msg/DynamicObstaclePredictionArray"
+      ]
+    ],
+    [
+      "/speed_limit",
+      [
+        "nav2_msgs/msg/SpeedLimit"
+      ]
+    ]
+  ],
+  "native_input_context_fixed_counts": {
+    "actual_aggregate:safe_context": 39,
+    "actual_aggregate:safe_progress": 37,
+    "zero:safe_context": 287,
+    "zero:safe_progress": 227,
+    "hold_measured:safe_context": 287,
+    "hold_measured:safe_progress": 227,
+    "initial_world_x02_y0:safe_context": 105,
+    "initial_world_x02_y0:safe_progress": 105,
+    "initial_world_x02_yp03:safe_context": 206,
+    "initial_world_x02_yp03:safe_progress": 206,
+    "initial_world_x02_ym03:safe_context": 23,
+    "initial_world_x02_ym03:safe_progress": 23,
+    "initial_world_x04_y0:safe_context": 101,
+    "initial_world_x04_y0:safe_progress": 101,
+    "initial_world_x04_yp03:safe_context": 112,
+    "initial_world_x04_yp03:safe_progress": 112,
+    "initial_world_x04_ym03:safe_context": 21,
+    "initial_world_x04_ym03:safe_progress": 21,
+    "initial_world_x0_yp03:safe_context": 292,
+    "initial_world_x0_yp03:safe_progress": 229,
+    "initial_world_x0_ym03:safe_context": 154,
+    "initial_world_x0_ym03:safe_progress": 69
+  },
+  "selected_source_ordinal": 223,
+  "selected_native_input_context_sampler_safe_progress": 13,
+  "sampler_rows": 300,
+  "sampler_conclusion": "This recorded zero-native-input context contains safe individual bounded/SG proposals; it is not evidence that all 300 lack coverage. Valid physically measured-speed coverage remains unproved.",
+  "next_required_change": "isolate controller_server.ros__parameters.odom_topic=/odometry/lio, verify configured parameter/subscription and actual nonzero native input during canonical motion, then repeat full strict trial and native witnesses",
+  "original_physical_trial": "FAILED",
+  "main_feature_or_hardware_acceptance": false
+}

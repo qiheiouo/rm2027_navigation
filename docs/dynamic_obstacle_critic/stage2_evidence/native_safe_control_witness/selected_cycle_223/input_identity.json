@@ -1,0 +1,49 @@
+{
+  "scope": "offline frozen fixture and numerically verified actual history; native model check before safety analysis",
+  "cycles": 1,
+  "source_cycles": 349,
+  "selected_source_ordinals": [
+    223
+  ],
+  "original_grid": [
+    300,
+    30
+  ],
+  "input_sha256": "289073e80737fddc2a4736bb7524a37f67d0fc14b8665d715a33e00a890c17d5",
+  "source_manifest_sha256": "05da9d3ad6606b7150d6dbafb72226643f6bbb2888041aea791808ed3fca5b8d",
+  "parameters": [
+    0.1,
+    -0.5,
+    0.8,
+    0.5,
+    1.2
+  ],
+  "records": [
+    {
+      "ordinal": 0,
+      "source_ordinal": 223,
+      "pose_stamp": 40.26,
+      "capture_stamp": 40.316,
+      "capture_minus_pose_stamp": 0.05600000000000449,
+      "actual_command": [
+        0.25748661160469055,
+        0.4234004318714142,
+        0.4098702669143677
+      ]
+    }
+  ],
+  "proposal_names": [
+    "actual_aggregate",
+    "zero",
+    "hold_measured",
+    "initial_world_x02_y0",
+    "initial_world_x02_yp03",
+    "initial_world_x02_ym03",
+    "initial_world_x04_y0",
+    "initial_world_x04_yp03",
+    "initial_world_x04_ym03",
+    "initial_world_x0_yp03",
+    "initial_world_x0_ym03"
+  ],
+  "limits": "SG history is verified reconstruction, not direct live capture; source pose epoch differs from capture; actual measured twist source time unavailable; no safety or coverage verdict."
+}

@@ -1,0 +1,67 @@
+{
+  "scope": "actual pinned controller configured but never activated; no goals or commands",
+  "configured": true,
+  "parameters": {
+    "odom_topic": [
+      {
+        "type": 4,
+        "string": "odom",
+        "double": 0.0
+      }
+    ],
+    "controller_frequency": [
+      {
+        "type": 3,
+        "string": "",
+        "double": 10.0
+      }
+    ],
+    "min_x_velocity_threshold": [
+      {
+        "type": 3,
+        "string": "",
+        "double": 0.001
+      }
+    ],
+    "min_y_velocity_threshold": [
+      {
+        "type": 3,
+        "string": "",
+        "double": 0.001
+      }
+    ],
+    "min_theta_velocity_threshold": [
+      {
+        "type": 3,
+        "string": "",
+        "double": 0.001
+      }
+    ]
+  },
+  "subscriptions": [
+    [
+      "/odom",
+      [
+        "nav_msgs/msg/Odometry"
+      ]
+    ],
+    [
+      "/parameter_events",
+      [
+        "rcl_interfaces/msg/ParameterEvent"
+      ]
+    ],
+    [
+      "/perception/dynamic_obstacles_shadow/predictions",
+      [
+        "rm_competition_interfaces/msg/DynamicObstaclePredictionArray"
+      ]
+    ],
+    [
+      "/speed_limit",
+      [
+        "nav2_msgs/msg/SpeedLimit"
+      ]
+    ]
+  ]
+}

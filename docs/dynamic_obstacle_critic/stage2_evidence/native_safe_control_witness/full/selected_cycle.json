@@ -1,0 +1,66 @@
+{
+  "selection_rule": "earliest actual aggregate dynamic geometry violation with a registered full safe-progress proposal",
+  "eligible_cycles": 16,
+  "source_ordinal": 223,
+  "source_pose_stamp": 40.26,
+  "passing_registered_names": [
+    "zero",
+    "hold_measured",
+    "initial_world_x02_y0",
+    "initial_world_x02_yp03",
+    "initial_world_x02_ym03",
+    "initial_world_x04_yp03",
+    "initial_world_x0_yp03",
+    "initial_world_x0_ym03"
+  ],
+  "actual_aggregate": {
+    "name": "actual_aggregate",
+    "gates": {
+      "body_clearance": false,
+      "full_mechanical_clearance": false,
+      "padded_no_contact": false,
+      "frozen_native_raw203_with_interval_reserve": false,
+      "SG_full_sequence_and_return_bounds": true,
+      "strict_positive_progress": true,
+      "progress_beyond_source_float_rounding": true
+    },
+    "conditional_safe_control_with_progress": false,
+    "progress_x": 1.1730282405579846,
+    "geometry": {
+      "body": {
+        "dynamic_sample_min": 0.05133813292430034,
+        "static_sample_min": 1.3144522970098227,
+        "dynamic_lower": 0.04299806188703759,
+        "static_lower": 1.3094951004116864
+      },
+      "padded_configured": {
+        "dynamic_sample_min": 0.0,
+        "static_sample_min": 1.2344522970098228,
+        "dynamic_lower": -0.008794098591957917,
+        "static_lower": 1.229150518734948
+      },
+      "padded_native": {
+        "dynamic_sample_min": 0.0,
+        "static_sample_min": 1.2344522857594458,
+        "dynamic_lower": -0.008794098586256693,
+        "static_lower": 1.2291505074902884
+      },
+      "mechanical": {
+        "dynamic_sample_min": 0.019265328378109278,
+        "static_sample_min": 1.2644663684430695,
+        "dynamic_lower": 0.010956666415715537,
+        "static_lower": 1.2594258845675173
+      }
+    },
+    "raw_interval_margin_lower": -0.004266572707409976,
+    "returned_control": [
+      0.25748661160469055,
+      0.4234004318714142,
+      0.4098702669143677
+    ]
+  },
+  "source_pose_xy_error_max": 9.808011179267014e-05,
+  "geometry_samples_min": 207,
+  "geometry_samples_max": 208,
+  "max_geometry_interval": 0.018000000000000682
+}

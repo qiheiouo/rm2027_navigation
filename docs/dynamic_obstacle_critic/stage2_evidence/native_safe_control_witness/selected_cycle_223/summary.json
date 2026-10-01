@@ -1,0 +1,126 @@
+{
+  "source_ordinal": 223,
+  "source_pose_stamp": 40.26,
+  "horizon": 3.0000000447034836,
+  "actual_measured_prefix_exact": true,
+  "actual_aggregate": {
+    "name": "actual_aggregate",
+    "gates": {
+      "body_clearance": false,
+      "full_mechanical_clearance": false,
+      "padded_no_contact": false,
+      "frozen_native_raw203_with_interval_reserve": false,
+      "SG_full_sequence_and_return_bounds": true,
+      "strict_positive_progress": true,
+      "progress_beyond_source_float_rounding": true
+    },
+    "conditional_safe_control_with_progress": false,
+    "progress_x": 1.1730282405579846,
+    "geometry": {
+      "body": {
+        "dynamic_sample_min": 0.05133813292430034,
+        "static_sample_min": 1.3144522970098227,
+        "dynamic_lower": 0.04299806188703759,
+        "static_lower": 1.3094951004116864
+      },
+      "padded_configured": {
+        "dynamic_sample_min": 0.0,
+        "static_sample_min": 1.2344522970098228,
+        "dynamic_lower": -0.008794098591957917,
+        "static_lower": 1.229150518734948
+      },
+      "padded_native": {
+        "dynamic_sample_min": 0.0,
+        "static_sample_min": 1.2344522857594458,
+        "dynamic_lower": -0.008794098586256693,
+        "static_lower": 1.2291505074902884
+      },
+      "mechanical": {
+        "dynamic_sample_min": 0.019265328378109278,
+        "static_sample_min": 1.2644663684430695,
+        "dynamic_lower": 0.010956666415715537,
+        "static_lower": 1.2594258845675173
+      }
+    },
+    "raw_interval_margin_lower": -0.004266572707409976,
+    "returned_control": [
+      0.25748661160469055,
+      0.4234004318714142,
+      0.4098702669143677
+    ]
+  },
+  "zero": {
+    "name": "zero",
+    "gates": {
+      "body_clearance": true,
+      "full_mechanical_clearance": true,
+      "padded_no_contact": true,
+      "frozen_native_raw203_with_interval_reserve": true,
+      "SG_full_sequence_and_return_bounds": true,
+      "strict_positive_progress": true,
+      "progress_beyond_source_float_rounding": true
+    },
+    "conditional_safe_control_with_progress": true,
+    "progress_x": 0.029005298968629134,
+    "geometry": {
+      "body": {
+        "dynamic_sample_min": 1.1861378797355526,
+        "static_sample_min": 1.3144522970098227,
+        "dynamic_lower": 1.1807481649624434,
+        "static_lower": 1.3126392694119458
+      },
+      "padded_configured": {
+        "dynamic_sample_min": 1.090032478753031,
+        "static_sample_min": 1.2344522970098228,
+        "dynamic_lower": 1.0845062614834577,
+        "static_lower": 1.2324995340833191
+      },
+      "padded_native": {
+        "dynamic_sample_min": 1.090032474336623,
+        "static_sample_min": 1.2344522857594458,
+        "dynamic_lower": 1.0845062570671107,
+        "static_lower": 1.2324995228352609
+      },
+      "mechanical": {
+        "dynamic_sample_min": 1.155758394987364,
+        "static_sample_min": 1.2644663684430695,
+        "dynamic_lower": 1.1505286426373913,
+        "static_lower": 1.2626194124936052
+      }
+    },
+    "raw_interval_margin_lower": 0.6720087945986568,
+    "returned_control": [
+      0.051122717559337616,
+      0.09337909519672394,
+      0.10143905133008957
+    ]
+  },
+  "registered_safe_progress_count": 8,
+  "sampler_rows": 300,
+  "sampler_safe_context": 13,
+  "sampler_safe_progress": 13,
+  "safe_sampler_indices": [
+    9,
+    35,
+    81,
+    90,
+    99,
+    142,
+    171,
+    201,
+    208,
+    214,
+    248,
+    249,
+    260
+  ],
+  "sampler_failure_gate_counts": {
+    "body_clearance": 49,
+    "full_mechanical_clearance": 71,
+    "padded_no_contact": 81,
+    "frozen_native_raw203_with_interval_reserve": 284,
+    "SG_full_sequence_and_return_bounds": 14,
+    "strict_positive_progress": 0,
+    "progress_beyond_source_float_rounding": 0
+  }
+}

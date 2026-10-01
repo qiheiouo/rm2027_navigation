@@ -239,3 +239,21 @@ noise与reset anchors重建控制均值/四项SG历史：349/349完整输入与
 SIMD/FMA算式后才通过；runtime二进制均未变。负对照清空历史仅3个
 输出匹配，遗漏reset仅299个。重建不是直接采集或安全/coverage证明，
 后续仍须完整三秒、实测首速度、经验证历史和所有独立验收门。
+
+### 原生安全见证与实际速度契约（2026-10-02）
+
+从a12688b建立`experiment/native-safe-control-witness`，0d13162预登记
+11条固定提案与三秒/几何/raw203/bounds/progress门。349周期的全部
+原生速度/位姿、实际聚合SG序列及命令逐位复现；独立几何15项与bytes
+payload检查通过。207–208个时间点覆盖每个完整3s，保留线性插值条件。
+
+进一步源时刻核查发现349个native speed全0，而295个canonical样本
+超过速度阈值，guard也收到实际非零速度。因此物理安全控制见证尚未
+建立；不能把数值保留原生零输入等同有效实测首速度。原context周期
+223有13/300条经约束/SG的条件安全推进控制，不能归因全部缺覆盖。
+
+原生controller在configure阶段才声明odom_topic，实际inactive读回
+默认`odom`及`/odom`订阅；仅BT/smoother配置canonical不作用于controller。
+后续需独立profile显式设置controller层`/odometry/lio`，核对实际
+速度输入后再重复完整严格试次。main、feature、TF及原算法未改。
+见[三秒见证实验](native_safe_control_witness_experiment.md)。

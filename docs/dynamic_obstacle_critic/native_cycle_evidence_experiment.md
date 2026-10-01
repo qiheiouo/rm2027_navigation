@@ -148,3 +148,10 @@ C++输出也逐字节相同；`--native-outputs`20项复算全部PASS。补齐�
 一致的编译器支持检查后，离线工具ELF仍7550ffdd…；不支持的SIMD选项
 不会阻止其他架构构建，其他平台须重新证明数值匹配。最终manifest还
 纳入两次复算及最后编译验证，原847个文件的hash保持。未推送或合并。
+
+后续[完整三秒见证审核](native_safe_control_witness_experiment.md)发现
+原生speed全0而实际canonical里程计有运动；此处“首速度逐位一致”
+仅验证保存的native输入未变，不代表有效真实速度契约已满足。原生
+controller配置后订阅默认`/odom`，该profile未在controller层选择
+`/odometry/lio`。原归档与CAPTURE/SG数值判定保持，新增速度有效性门
+FAILED；当前物理安全控制见证未建立，须独立修复输入再验证。

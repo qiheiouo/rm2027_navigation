@@ -108,6 +108,17 @@ the complete replay input and checks frozen reports and saved native outputs.
 `--native-outputs DIRECTORY` additionally checks outputs independently re-executed
 against the pinned Humble library. Exact comparisons never substitute tolerances.
 
+The subsequent full-horizon witness audit found a separate input contract
+failure: all 349 native speed inputs were zero while source-aligned canonical
+odometry showed motion in 295 cycles. The configured controller subscribed to
+default `/odom`; the experimental profile set `/odometry/lio` only for the BT
+navigator and smoother. `odom_topic` is declared during controller configure,
+so constructor-only parameter checks are insufficient. Numerical witnesses
+under the saved zero-input context do not establish a physically measured-speed
+safe control. The isolated next step is an explicit controller-level odometry
+parameter and actual input verification. See
+[the full-horizon witness experiment](../../docs/dynamic_obstacle_critic/native_safe_control_witness_experiment.md).
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.

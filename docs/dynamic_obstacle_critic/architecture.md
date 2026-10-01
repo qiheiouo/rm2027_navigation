@@ -64,6 +64,13 @@ base及4轮投影的包络半长宽0.325/0.300m，原padding0.03m不变，guard
 状态不能说成完整三秒安全控制/coverage证书。原生物理试次仍FAILED。见
 [原生证据实验](native_cycle_evidence_experiment.md)。
 
+后续三秒见证的数值模型/SG349周期均精确，但有效速度输入契约FAILED：
+所有native speed为0，295个源时刻canonical样本有实际运动。原生
+controller配置后实际订阅默认`/odom`，BT/smoother的canonical配置不
+作用于controller。该层参数在configure时才声明；须在独立profile
+明确设置并验证真正的速度输入。原zero-input上下文反事实不作为有效
+物理安全控制或coverage证明。见[见证实验](native_safe_control_witness_experiment.md)。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid

@@ -1,0 +1,43 @@
+[INFO] [1790886835.246907098] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790886835.251339766] [controller_server]: Creating controller server
+[INFO] [1790886835.254956552] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1790886835.255555778] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1790886835.345344658] [controller_server]: Configuring controller interface
+[INFO] [1790886835.345446353] [controller_server]: getting goal checker plugins..
+[INFO] [1790886835.345469178] [controller_server]: Controller frequency set to 10.0000Hz
+[INFO] [1790886835.345489845] [local_costmap.local_costmap]: Configuring
+[INFO] [1790886835.348530882] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[INFO] [1790886835.351455929] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[INFO] [1790886835.352806048] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1790886835.352832337] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1790886835.353064024] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1790886835.357686681] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1790886835.358063957] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1790886835.358149870] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1790886835.358966647] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[INFO] [1790886835.359275381] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1790886835.360368389] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1790886835.360390611] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1790886835.360530253] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1790886835.360542007] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1790886835.360614899] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1790886835.360629238] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1790886835.360706228] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1790886835.360714390] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1790886835.360833226] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 10.000000 weight
+[INFO] [1790886835.360840319] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[INFO] [1790886835.360921940] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1790886835.361018815] [controller_server]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Reversing allowed.
+[INFO] [1790886835.361025228] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[INFO] [1790886835.365456661] [controller_server]: Critic loaded : mppi::critics::DynamicObstacleCritic
+[INFO] [1790886835.365865263] [controller_server]: Critic loaded : mppi::critics::StaticStoppingCritic
+[INFO] [1790886835.365968287] [controller_server]: Critic loaded : mppi::critics::NativeCycleSnapshotCritic
+[INFO] [1790886835.366890706] [controller_server]: Optimizer reset
+[INFO] [1790886835.367435113] [MPPIController]: Configured MPPI Controller: FollowPath
+[INFO] [1790886835.367447844] [controller_server]: Controller Server has FollowPath  controllers available.
