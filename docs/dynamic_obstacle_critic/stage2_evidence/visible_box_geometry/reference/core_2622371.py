@@ -217,13 +217,13 @@ def dynamic_candidates(
     return result
 
 
-def cluster_point_indices(
+def cluster_points(
     points: Sequence[Point2D],
     tolerance: float,
     min_points: int,
     max_extent: float,
-) -> list[tuple[int, ...]]:
-    """Return accepted cluster members without discarding source-ray identity."""
+) -> list[Detection]:
+    """Euclidean connected clustering accelerated by metric buckets."""
     if tolerance <= 0.0 or min_points <= 0 or max_extent <= 0.0:
         raise ValueError("clustering parameters must be positive")
     buckets: dict[tuple[int, int], list[int]] = {}
@@ -232,7 +232,7 @@ def cluster_point_indices(
         buckets.setdefault(key, []).append(index)
 
     visited: set[int] = set()
-    components: list[tuple[int, ...]] = []
+    detections: list[Detection] = []
     tolerance_sq = tolerance * tolerance
     for seed in range(len(points)):
         if seed in visited:
@@ -266,23 +266,6 @@ def cluster_point_indices(
         size_y = max(ys) - min(ys)
         if max(size_x, size_y) > max_extent:
             continue
-        components.append(tuple(component))
-    return components
-
-
-def cluster_points(
-    points: Sequence[Point2D],
-    tolerance: float,
-    min_points: int,
-    max_extent: float,
-) -> list[Detection]:
-    """Legacy visible-centroid detections, with unchanged traversal/aggregation."""
-    detections = []
-    for component in cluster_point_indices(points, tolerance, min_points, max_extent):
-        xs = [points[index].x for index in component]
-        ys = [points[index].y for index in component]
-        size_x = max(xs) - min(xs)
-        size_y = max(ys) - min(ys)
         detections.append(
             Detection(
                 centroid=Point2D(sum(xs) / len(xs), sum(ys) / len(ys)),

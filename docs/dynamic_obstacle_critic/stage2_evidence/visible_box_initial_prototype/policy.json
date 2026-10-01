@@ -1,0 +1,74 @@
+{
+  "scope": "offline conditional observation model",
+  "policy": {
+    "fit": {
+      "min_face_points": 4,
+      "min_face_span": 0.08,
+      "orthogonality_tolerance_deg": 10.0,
+      "max_line_residual": 0.035,
+      "range_error": 0.03,
+      "min_ray_normal": 0.08,
+      "max_dimension": 3.0,
+      "assume_no_return_clear": false
+    },
+    "synthetic": {
+      "seed": 53024,
+      "dimensions": [
+        [
+          0.4,
+          0.6
+        ],
+        [
+          0.8,
+          0.4
+        ],
+        [
+          0.45,
+          0.55
+        ]
+      ],
+      "yaws": [
+        0.0,
+        0.3,
+        -0.7
+      ],
+      "sensor_ranges": [
+        1.5,
+        3.0,
+        5.0
+      ],
+      "sensor_bearings_deg": [
+        0,
+        -10,
+        10,
+        -30,
+        30,
+        -60,
+        60,
+        90,
+        135
+      ],
+      "modes": [
+        "ideal",
+        "bounded_noise",
+        "gaussian_noise",
+        "internal_dropout",
+        "boundary_dropout",
+        "foreground_occlusion",
+        "unknown_background",
+        "merged_clutter"
+      ],
+      "range_min": 0.1,
+      "range_max": 8.0,
+      "beam_count": 720,
+      "angle_increment_deg": 0.5,
+      "finite_background": 7.9,
+      "bounded_noise": 0.01,
+      "gaussian_stddev": 0.01,
+      "arc_frames": 121,
+      "arc_dt": 0.05
+    }
+  },
+  "all_clusters_fitted_before_truth_labels": true,
+  "support_is_certified": false
+}

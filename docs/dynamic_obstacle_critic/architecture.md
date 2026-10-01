@@ -35,6 +35,12 @@ TF所有权不变。观察器记录源时间扫描供离线核对，运行模型
 保留。可选nearest查询仅用于该规划目标，默认guard witness仍是原顺序
 的第一个拒绝单元。详见[连续间隙实验](soft_map_clearance_experiment.md)。
 
+`experiment/visible-box-geometry` 在tracker包内增加未接入node的纯几何
+观测原型与离线审计。点成员/射线索引保留不改变原质心聚类；中心与全
+几何仅为条件拟合，无返回/遮挡/单面/混合点簇仍有拒绝或失败，公开v1
+继续表示可见质心/extent。运行critic不依赖此原型或tracker内部类；TF
+唯一所有者与source-time契约不变。见[几何实验](visible_box_geometry_experiment.md)。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid

@@ -1,0 +1,375 @@
+{
+  "matrix": {
+    "ideal": {
+      "scans": 243,
+      "clusters": 243,
+      "target_clusters": 243,
+      "accepted_target": 152,
+      "covered_target": 152,
+      "covered_contributors": 152,
+      "mixed_accepted": 0,
+      "refusals": {
+        "two_faces_not_observable": 83,
+        "ill_conditioned_boundary": 8
+      },
+      "center_error_m": {
+        "count": 152,
+        "median": 0.012051743445550524,
+        "max": 0.04564171373170904,
+        "min": 0.0002658236722387155
+      }
+    },
+    "bounded_noise": {
+      "scans": 243,
+      "clusters": 243,
+      "target_clusters": 243,
+      "accepted_target": 152,
+      "covered_target": 152,
+      "covered_contributors": 152,
+      "mixed_accepted": 0,
+      "refusals": {
+        "two_faces_not_observable": 81,
+        "ill_conditioned_boundary": 9,
+        "boundary_occluded_or_no_contrast": 1
+      },
+      "center_error_m": {
+        "count": 152,
+        "median": 0.012315065048918078,
+        "max": 0.04538416800291108,
+        "min": 0.0010612566343948372
+      }
+    },
+    "gaussian_noise": {
+      "scans": 243,
+      "clusters": 243,
+      "target_clusters": 243,
+      "accepted_target": 154,
+      "covered_target": 154,
+      "covered_contributors": 154,
+      "mixed_accepted": 0,
+      "refusals": {
+        "two_faces_not_observable": 78,
+        "ill_conditioned_boundary": 9,
+        "boundary_occluded_or_no_contrast": 2
+      },
+      "center_error_m": {
+        "count": 154,
+        "median": 0.013754920158832592,
+        "max": 0.04888384184364074,
+        "min": 0.00031049298735013665
+      }
+    },
+    "internal_dropout": {
+      "scans": 243,
+      "clusters": 243,
+      "target_clusters": 243,
+      "accepted_target": 0,
+      "covered_target": 0,
+      "covered_contributors": 0,
+      "mixed_accepted": 0,
+      "refusals": {
+        "internal_beam_gap": 243
+      },
+      "center_error_m": {
+        "count": 0
+      }
+    },
+    "boundary_dropout": {
+      "scans": 243,
+      "clusters": 243,
+      "target_clusters": 243,
+      "accepted_target": 0,
+      "covered_target": 0,
+      "covered_contributors": 0,
+      "mixed_accepted": 0,
+      "refusals": {
+        "two_faces_not_observable": 86,
+        "unknown_boundary_return": 153,
+        "ill_conditioned_boundary": 4
+      },
+      "center_error_m": {
+        "count": 0
+      }
+    },
+    "foreground_occlusion": {
+      "scans": 243,
+      "clusters": 486,
+      "target_clusters": 245,
+      "accepted_target": 0,
+      "covered_target": 0,
+      "covered_contributors": 0,
+      "mixed_accepted": 0,
+      "refusals": {
+        "insufficient_points": 176,
+        "two_faces_not_observable": 66,
+        "boundary_occluded_or_no_contrast": 3
+      },
+      "center_error_m": {
+        "count": 0
+      }
+    },
+    "unknown_background": {
+      "scans": 243,
+      "clusters": 243,
+      "target_clusters": 243,
+      "accepted_target": 0,
+      "covered_target": 0,
+      "covered_contributors": 0,
+      "mixed_accepted": 0,
+      "refusals": {
+        "two_faces_not_observable": 83,
+        "unknown_boundary_return": 153,
+        "ill_conditioned_boundary": 7
+      },
+      "center_error_m": {
+        "count": 0
+      }
+    },
+    "merged_clutter": {
+      "scans": 243,
+      "clusters": 270,
+      "target_clusters": 245,
+      "accepted_target": 50,
+      "covered_target": 49,
+      "covered_contributors": 49,
+      "mixed_accepted": 6,
+      "refusals": {
+        "two_faces_not_observable": 189,
+        "inconsistent_boundary": 1,
+        "internal_beam_gap": 2,
+        "ill_conditioned_boundary": 3
+      },
+      "center_error_m": {
+        "count": 50,
+        "median": 0.013919237085429272,
+        "max": 0.16806514789831278,
+        "min": 0.002937075246452489
+      }
+    }
+  },
+  "stationary_arc": [
+    {
+      "dimensions": [
+        0.4,
+        0.6
+      ],
+      "yaw": 0.0,
+      "mode": "ideal",
+      "frames": 121,
+      "fitted_frames": 100,
+      "no_fitted_track_frames": 19,
+      "legacy_confirmed": 103,
+      "fitted_confirmed": 0,
+      "legacy_stationary_speed_mps": {
+        "count": 121,
+        "median": 0.09986444330844606,
+        "max": 0.13805391058320066,
+        "min": 0.0
+      },
+      "fitted_stationary_speed_mps": {
+        "count": 102,
+        "median": 0.00808960529927303,
+        "max": 0.04908383624610061,
+        "min": 0.0
+      },
+      "legacy_center_error_m": {
+        "count": 121,
+        "median": 0.19322311172991288,
+        "max": 0.29135433036278097,
+        "min": 0.1755762515264168
+      },
+      "fitted_center_error_m": {
+        "count": 102,
+        "median": 0.0055863205320921,
+        "max": 0.050676706593916446,
+        "min": 0.0004970420950624005
+      }
+    },
+    {
+      "dimensions": [
+        0.4,
+        0.6
+      ],
+      "yaw": 0.0,
+      "mode": "gaussian_noise",
+      "frames": 121,
+      "fitted_frames": 99,
+      "no_fitted_track_frames": 19,
+      "legacy_confirmed": 103,
+      "fitted_confirmed": 0,
+      "legacy_stationary_speed_mps": {
+        "count": 121,
+        "median": 0.10025302712081688,
+        "max": 0.14018354607140524,
+        "min": 0.0
+      },
+      "fitted_stationary_speed_mps": {
+        "count": 102,
+        "median": 0.0066062665723258165,
+        "max": 0.049069558629058416,
+        "min": 0.0
+      },
+      "legacy_center_error_m": {
+        "count": 121,
+        "median": 0.19181999730045474,
+        "max": 0.2934614490579947,
+        "min": 0.17579360658517626
+      },
+      "fitted_center_error_m": {
+        "count": 102,
+        "median": 0.004829330578635001,
+        "max": 0.04054401375136731,
+        "min": 0.0006188270305638782
+      }
+    },
+    {
+      "dimensions": [
+        0.8,
+        0.4
+      ],
+      "yaw": 0.3,
+      "mode": "ideal",
+      "frames": 121,
+      "fitted_frames": 86,
+      "no_fitted_track_frames": 34,
+      "legacy_confirmed": 85,
+      "fitted_confirmed": 0,
+      "legacy_stationary_speed_mps": {
+        "count": 121,
+        "median": 0.12517720334088153,
+        "max": 0.22301909437259135,
+        "min": 0.0
+      },
+      "fitted_stationary_speed_mps": {
+        "count": 87,
+        "median": 0.007336763381016331,
+        "max": 0.07480280290113497,
+        "min": 0.0
+      },
+      "legacy_center_error_m": {
+        "count": 121,
+        "median": 0.2107368644251205,
+        "max": 0.43291314964105765,
+        "min": 0.18558257488233737
+      },
+      "fitted_center_error_m": {
+        "count": 87,
+        "median": 0.004757571572201267,
+        "max": 0.047480031380312544,
+        "min": 0.0005910830445419251
+      }
+    },
+    {
+      "dimensions": [
+        0.8,
+        0.4
+      ],
+      "yaw": 0.3,
+      "mode": "gaussian_noise",
+      "frames": 121,
+      "fitted_frames": 87,
+      "no_fitted_track_frames": 33,
+      "legacy_confirmed": 85,
+      "fitted_confirmed": 37,
+      "legacy_stationary_speed_mps": {
+        "count": 121,
+        "median": 0.126625799989158,
+        "max": 0.2233990368354793,
+        "min": 0.0
+      },
+      "fitted_stationary_speed_mps": {
+        "count": 88,
+        "median": 0.00852928586620793,
+        "max": 0.06685453424422017,
+        "min": 0.0
+      },
+      "legacy_center_error_m": {
+        "count": 121,
+        "median": 0.21191594539245054,
+        "max": 0.43231720640778076,
+        "min": 0.1839411796673718
+      },
+      "fitted_center_error_m": {
+        "count": 88,
+        "median": 0.0043232475126317085,
+        "max": 0.12090201203182477,
+        "min": 0.00028524143608965006
+      }
+    },
+    {
+      "dimensions": [
+        0.45,
+        0.55
+      ],
+      "yaw": -0.7,
+      "mode": "ideal",
+      "frames": 121,
+      "fitted_frames": 84,
+      "no_fitted_track_frames": 35,
+      "legacy_confirmed": 84,
+      "fitted_confirmed": 0,
+      "legacy_stationary_speed_mps": {
+        "count": 121,
+        "median": 0.10541439450055894,
+        "max": 0.143273859715354,
+        "min": 0.0
+      },
+      "fitted_stationary_speed_mps": {
+        "count": 86,
+        "median": 0.007272085274467638,
+        "max": 0.06114993205214563,
+        "min": 0.0
+      },
+      "legacy_center_error_m": {
+        "count": 121,
+        "median": 0.21302019059780847,
+        "max": 0.2938640968812848,
+        "min": 0.18112514570476107
+      },
+      "fitted_center_error_m": {
+        "count": 86,
+        "median": 0.0034514700265927643,
+        "max": 0.04120446413822734,
+        "min": 0.0004506818110763054
+      }
+    },
+    {
+      "dimensions": [
+        0.45,
+        0.55
+      ],
+      "yaw": -0.7,
+      "mode": "gaussian_noise",
+      "frames": 121,
+      "fitted_frames": 83,
+      "no_fitted_track_frames": 36,
+      "legacy_confirmed": 83,
+      "fitted_confirmed": 0,
+      "legacy_stationary_speed_mps": {
+        "count": 121,
+        "median": 0.10514863491250215,
+        "max": 0.1435971297586746,
+        "min": 0.0
+      },
+      "fitted_stationary_speed_mps": {
+        "count": 85,
+        "median": 0.007917865696770826,
+        "max": 0.06157838873934561,
+        "min": 0.0
+      },
+      "legacy_center_error_m": {
+        "count": 121,
+        "median": 0.21308945214551034,
+        "max": 0.2944890919099062,
+        "min": 0.18080172738140934
+      },
+      "fitted_center_error_m": {
+        "count": 85,
+        "median": 0.0030490825064296142,
+        "max": 0.036968812127264314,
+        "min": 0.00010822263858109971
+      }
+    }
+  ],
+  "limits": "Conditional rectangle/nearest-return model only. Finite background is synthetic known geometry. Missing returns, clutter and line-angle errors can invalidate full support. Radial allowance is empirical, never a certified bound. Accepted fits do not imply task, raw203, CV horizon or physical safety acceptance."
+}
