@@ -24,3 +24,39 @@
 试次工具随后改为等待正仿真时间、scan、canonical odometry 和 tracker
 receipt，再对原 lifecycle manager 请求 STARTUP。标准 manager 继续拥有
 Nav2 生命周期；观察器只控制隔离试验的启动。场景/目标/安全门不变。
+
+### 有效诊断试次（210c31b）
+
+`gazebo_guard_diagnostics_ready` 启动成功，17.94s 发目标，52.941s 超时
+请求取消，保留到 56.441s。`/cmd_vel` 唯一发布者为 guard。
+物理判定 **FAILED**：body/static 插值下界0.451756m、padded/static
+0.409117m，输出越界0，但只推进0.495248m，没有完成任务。
+
+1208 次静态拒绝全部为提案分支1；拒绝 TTC 中位数0.66s，最小0.06s，
+提案速度中位数0.533970m/s。全部拒绝命中raw cost=204的单元；全部1208
+次匹配到 guard 报告源stamp对应的raw map receipt。独立多边形检查发现
+当前 footprint 在全部1208次都满足raw203；拒绝单元值与未来间距回核
+不符数为0。此证据定位了**提案保持/刹停模型与原规划目标的不一致**，
+没有证明MPPI某个完整候选或sampler coverage失败。
+
+原装[Humble 1.1.20 CostCritic](https://raw.githubusercontent.com/ros-navigation/navigation2/1.1.20/nav2_mppi_controller/src/critics/cost_critic.cpp)
+的 footprint 碰撞判据与当前 guard 的全多边形raw203硬门不同。
+下一项实验应使原生critic目标理解现有guard约束，保留guard原硬门。
+
+记录中仍有318次command watchdog及44次stale observation，不能因为
+主要拒绝来自静态层就忽略时间退化。所有日志、map、代码/二进制身份和
+独立[guard回核](stage2_evidence/gazebo_guard_diagnostics_ready/guard_audit.json)
+存于 `stage2_evidence/gazebo_guard_diagnostics_ready/`。
+
+### 可见质心的独立观测模型诊断
+
+`audit_viewpoint_bias.py` 在无噪声、精确TF、独立静止矩形的合成射线上，
+使用当前实际cluster/tracker实现和YAML参数。固定视角的估计速度为0；
+改变视角后，三个独立尺寸/姿态对象的最大假速度为0.138054、0.223019、
+0.134552m/s，分别有103/85/99帧被confirmed。当前半径公式在每个场景
+的121帧均未覆盖完整真值box。这是测量参考点问题，不能靠滤波或
+宣称size是完整footprint解决。
+
+该试验只提供理想可见面测量模型标签，不是Gazebo/实车验收。源码工具
+归属tracker包；critic运行时不引入tracker内部依赖。结果见
+[离线summary](stage2_evidence/viewpoint_bias/summary.json)。

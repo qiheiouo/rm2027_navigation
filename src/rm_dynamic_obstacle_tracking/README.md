@@ -1,5 +1,15 @@
 # rm_dynamic_obstacle_tracking
 
+The CV experiment consumes this package through its existing public prediction
+message. `position` estimates the **visible cluster centroid** and `size` the
+visible cluster extent; neither is a validated physical object center/footprint.
+Changing the observation angle can produce apparent centroid motion even when
+the physical object is stationary. The isolated, ROS-independent
+`tools/audit_viewpoint_bias.py` records this effect with synthetic ray labels and
+the actual tracker/configuration. It is an offline perception diagnostic, not a
+runtime input or acceptance test. See
+[the stage-two evidence](../../docs/dynamic_obstacle_critic/stage2_progress.md).
+
 This package provides an opt-in, shadow-only 2D dynamic-obstacle tracker. It
 uses `/map` and timestamped `/local_scan` endpoints, subtracts static occupied
 cells, clusters unexplained endpoints, tracks them with a constant-velocity
