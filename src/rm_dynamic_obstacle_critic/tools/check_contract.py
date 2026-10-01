@@ -9,9 +9,10 @@ PKG=Path(__file__).resolve().parents[1]
 base=yaml.safe_load((ROOT/'src/rm_nav_config/config/nav2_phase1_5_mppi.yaml').read_text())
 parser=argparse.ArgumentParser();selection=parser.add_mutually_exclusive_group()
 selection.add_argument('--static-stopping',action='store_true')
-selection.add_argument('--map-uncertainty',action='store_true');args=parser.parse_args()
-stopping=args.static_stopping or args.map_uncertainty
-profile_name='nav2_cv_map_uncertainty.yaml' if args.map_uncertainty else 'nav2_cv_static_stopping.yaml' if stopping else 'nav2_cv_experiment.yaml'
+selection.add_argument('--map-uncertainty',action='store_true')
+selection.add_argument('--soft-map-clearance',action='store_true');args=parser.parse_args()
+stopping=args.static_stopping or args.map_uncertainty or args.soft_map_clearance
+profile_name='nav2_cv_soft_map_clearance.yaml' if args.soft_map_clearance else 'nav2_cv_map_uncertainty.yaml' if args.map_uncertainty else 'nav2_cv_static_stopping.yaml' if stopping else 'nav2_cv_experiment.yaml'
 profile=yaml.safe_load((PKG/'config'/profile_name).read_text())
 original=base['controller_server']['ros__parameters']['FollowPath'];current=profile['controller_server']['ros__parameters']['FollowPath']
 for key,value in original.items():
@@ -34,9 +35,13 @@ if stopping:
         assert current['StaticStoppingCritic'][key]==guard[key],key
     assert current['StaticStoppingCritic']['rejection_cost']==10000
     assert abs(1/profile['controller_server']['ros__parameters']['controller_frequency']-current['model_dt'])<1e-6
-if args.map_uncertainty:
+if args.map_uncertainty or args.soft_map_clearance:
     unbuffered=yaml.safe_load((PKG/'config/nav2_cv_static_stopping.yaml').read_text())
     comparison=copy.deepcopy(profile)
-    margin=comparison['controller_server']['ros__parameters']['FollowPath']['StaticStoppingCritic'].pop('map_uncertainty_margin')
+    uncertainty=comparison['controller_server']['ros__parameters']['FollowPath']['StaticStoppingCritic']
+    if args.soft_map_clearance:
+        assert uncertainty.pop('map_uncertainty_mode')=='soft'
+        assert uncertainty.pop('map_uncertainty_weight')==10000
+    margin=uncertainty.pop('map_uncertainty_margin')
     assert margin==.11 and comparison==unbuffered,'uncertainty profile must change only its planning allowance'
 print('PASS: unchanged native MPPI, matched 3s CV grid, shared boundary parameters and padded footprint')

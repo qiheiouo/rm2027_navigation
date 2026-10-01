@@ -29,6 +29,9 @@ public:
     parent_get(wz_max_, "wz_max", 1.2, ParameterType::Static);
     get(rejection_cost_, "rejection_cost", 10000., ParameterType::Static);
     get(map_margin_, "map_uncertainty_margin", 0., ParameterType::Static);
+    get(map_mode_, "map_uncertainty_mode", std::string("hard"),
+        ParameterType::Static);
+    get(map_weight_, "map_uncertainty_weight", 10000., ParameterType::Static);
     get(cfg_.horizon, "horizon", .5, ParameterType::Static);
     get(cfg_.dt, "simulation_dt", .02, ParameterType::Static);
     get(cfg_.response_delay, "response_delay", .1, ParameterType::Static);
@@ -45,12 +48,13 @@ public:
         threshold_ > 254 || budget < 1 || budget > 4096 ||
         !std::isfinite(cfg_.response_delay) || cfg_.response_delay < 0 ||
         !std::isfinite(vx_min_) || vx_min_ > 0 || !std::isfinite(map_margin_) ||
-        map_margin_ < 0)
+        map_margin_ < 0 || (map_mode_ != "hard" && map_mode_ != "soft") ||
+        (map_mode_ == "soft" && map_margin_ <= 0))
       throw std::invalid_argument(
           "unsupported stopping proxy grid/model or parameters");
     for (double p : {cfg_.horizon, cfg_.dt, cfg_.linear_deceleration,
                      cfg_.angular_deceleration, rejection_cost_, vx_max_,
-                     vy_max_, wz_max_})
+                     vy_max_, wz_max_, map_weight_})
       if (!std::isfinite(p) || p <= 0)
         throw std::invalid_argument(
             "stopping proxy parameters must be finite and positive");
@@ -93,10 +97,14 @@ public:
       return;
     }
     // Validate the entire scored prefix before modifying any costs.
+    const double max_increment =
+        rejection_cost_ + (map_mode_ == "soft"
+                               ? (cfg_.max_steps + 2) * cfg_.dt * map_weight_
+                               : 0);
     for (size_t i = 0; i < data.costs.size(); ++i)
       if (!std::isfinite(s.cvx(i, 1)) || !std::isfinite(s.cvy(i, 1)) ||
           !std::isfinite(s.cwz(i, 1)) || !std::isfinite(data.costs(i)) ||
-          data.costs(i) + rejection_cost_ > std::numeric_limits<float>::max()) {
+          data.costs(i) + max_increment > std::numeric_limits<float>::max()) {
         data.fail_flag = true;
         return;
       }
@@ -127,11 +135,13 @@ public:
     }
     dyn::Array no_dynamic_obstacles;
     size_t passing = 0, measured_rejected = 0, proposed_rejected = 0;
+    double soft_min = INFINITY, soft_max = 0;
     auto static_clear = [&](const auto &poly, double reserve) {
       // Planning allowance only. The independent runtime guard retains its
       // original footprint, raw threshold and motion reserve.
-      return dyn::static_map_clear(snapshot, poly, reserve + map_margin_,
-                                   threshold_);
+      return dyn::static_map_clear(
+          snapshot, poly, reserve + (map_mode_ == "hard" ? map_margin_ : 0),
+          threshold_);
     };
     // For a fixed map and no dynamic obstacles, the measured stopping path is
     // identical for all candidates. Additional time after it stops repeats the
@@ -145,12 +155,32 @@ public:
           std::clamp(static_cast<double>(s.cvx(i, 1)), vx_min_, vx_max_),
           std::clamp(static_cast<double>(s.cvy(i, 1)), -vy_max_, vy_max_),
           std::clamp(static_cast<double>(s.cwz(i, 1)), -wz_max_, wz_max_)};
-      auto result =
-          measured_check.pass
-              ? dyn::check_command(start, {}, proxy, footprint,
-                                   no_dynamic_obstacles, {}, 0, {}, cfg_,
-                                   static_clear, dyn::GuardPaths::ProposedOnly)
-              : measured_check;
+      double soft_cost = 0;
+      auto proposed_clear = [&](const auto &poly, double reserve) {
+        if (map_mode_ != "soft")
+          return static_clear(poly, reserve);
+        const auto nearest = dyn::check_static_map(
+            snapshot, poly, reserve + map_margin_, threshold_,
+            dyn::StaticMapMode::NearestWithinReserve);
+        if (nearest.reason == "invalid_map_geometry" ||
+            nearest.reason == "invalid_footprint_or_reserve")
+          return false;
+        const double fraction = std::clamp(
+            (map_margin_ + reserve - nearest.distance) / map_margin_, 0., 1.);
+        soft_cost += cfg_.dt * map_weight_ * fraction * fraction;
+        // Use the original predicate directly. Nearest-query boundary/float
+        // conventions must never become a different hard acceptance rule.
+        return dyn::static_map_clear(snapshot, poly, reserve, threshold_);
+      };
+      auto result = measured_check.pass
+                        ? dyn::check_command(start, {}, proxy, footprint,
+                                             no_dynamic_obstacles, {}, 0, {},
+                                             cfg_, proposed_clear,
+                                             dyn::GuardPaths::ProposedOnly)
+                        : measured_check;
+      data.costs(i) += static_cast<float>(soft_cost);
+      soft_min = std::min(soft_min, soft_cost);
+      soft_max = std::max(soft_max, soft_cost);
       if (result.pass)
         ++passing;
       else {
@@ -184,6 +214,9 @@ public:
     };
     add("candidate_command_offset", 1);
     add("map_uncertainty_margin", map_margin_);
+    add("map_uncertainty_is_soft", map_mode_ == "soft");
+    add("soft_cost_min", soft_min);
+    add("soft_cost_max", soft_max);
     add("passing_proxies", passing);
     add("batch", data.costs.size());
     add("measured_path_rejections", measured_rejected);
@@ -197,8 +230,9 @@ public:
 
 private:
   dyn::GuardParameters cfg_;
+  std::string map_mode_;
   double dt_, vx_min_, vx_max_, vy_max_, wz_max_, rejection_cost_, map_margin_,
-      last_report_{0};
+      map_weight_, last_report_{0};
   int steps_, threshold_;
   rclcpp_lifecycle::LifecyclePublisher<
       diagnostic_msgs::msg::DiagnosticArray>::SharedPtr diagnostics_;

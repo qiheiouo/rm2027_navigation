@@ -33,6 +33,11 @@ scene inputs, source-time canonical poses and independent box labels; it keeps
 ray mismatches and angular-interior statistics separate. Future trials freeze
 scene files before launch. The documented trial's scene snapshot was post-run.
 
+`experiment/soft-map-clearance` separately preregisters a continuous planning
+band in `nav2_cv_soft_map_clearance.yaml`, preserving the original hard stopping
+check. The optional nearest-map query belongs to this objective; guard witnesses
+retain first-rejection semantics. See [the continuous clearance experiment](../../docs/dynamic_obstacle_critic/soft_map_clearance_experiment.md).
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.
@@ -57,8 +62,10 @@ padded footprint, timeouts, bounds and brake model. All experiment parameters st
 For the fixed physical trial, run `tools/run_gazebo_trial.py OUTPUT --mode baseline|critic|guard --config CONFIG` in an
 isolated ROS/Gazebo environment, then `tools/analyze_trial.py OUTPUT`. Its policy is written before launch:
 phase 2 after 16 s, goal x=5.6, at most 35 s, 3.5 s tail, physical body clearance ≥0.05 m and padded clearance >0,
-original bounds tolerance 5e-5. `baseline` removes only the new critic and bypasses this experimental guard;
-`critic` keeps the CV plugin; `guard` enables both. Outputs preserve failures instead of overwriting them.
+original bounds tolerance 5e-5. `baseline` removes experimental critics and bypasses this experimental guard;
+`critic` keeps the profile's experimental plugins; `guard` additionally enables
+the final guard. With stopping profiles, `baseline` removes both experimental
+critics to preserve the original seven. Outputs preserve failures instead of overwriting them.
 
 `tools/test_guard_runtime.py OUTPUT` starts an actual guard on isolated test topics and verifies pass, collision,
 stale-input, missing-odometry and unknown-map behavior. This is a node integration test, not deployment acceptance.

@@ -30,6 +30,11 @@ SG/smoother发生在评分之后，所以候选代理不是最终命令安全证
 TF所有权不变。观察器记录源时间扫描供离线核对，运行模型不读真值。
 其依据、边界和验收见[地图不确定性实验](map_uncertainty_experiment.md)。
 
+地图硬预留对照任务失败后，`experiment/soft-map-clearance` 单独验证沿
+提案停止路径累计的连续预留成本，原reserve/raw203硬目标及运行guard
+保留。可选nearest查询仅用于该规划目标，默认guard witness仍是原顺序
+的第一个拒绝单元。详见[连续间隙实验](soft_map_clearance_experiment.md)。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid

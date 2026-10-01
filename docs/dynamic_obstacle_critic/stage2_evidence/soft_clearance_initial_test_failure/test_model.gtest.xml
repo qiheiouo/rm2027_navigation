@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="15" failures="1" disabled="0" errors="0" time="0.037" timestamp="2026-10-01T15:08:56" name="AllTests">
+  <testsuite name="CV" tests="4" failures="0" disabled="0" errors="0" time="0" timestamp="2026-10-01T15:08:56">
+    <testcase name="FutureConflictAndCrossing" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.CV" />
+    <testcase name="CurrentOccupancyFutureRelease" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.CV" />
+    <testcase name="StationaryMatchesGeometryAndAll30Steps" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.CV" />
+    <testcase name="SourceAgeAndRotatedFrame" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.CV" />
+  </testsuite>
+  <testsuite name="Cost" tests="1" failures="0" disabled="0" errors="0" time="0" timestamp="2026-10-01T15:08:56">
+    <testcase name="ContinuousMarginsAndContact" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Cost" />
+  </testsuite>
+  <testsuite name="Input" tests="1" failures="0" disabled="0" errors="0" time="0" timestamp="2026-10-01T15:08:56">
+    <testcase name="StaleInvalidIncompleteCoastAndJump" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Input" />
+  </testsuite>
+  <testsuite name="Guard" tests="4" failures="0" disabled="0" errors="0" time="0.012" timestamp="2026-10-01T15:08:56">
+    <testcase name="PassBrakeAndMeasuredStoppingTail" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Guard" />
+    <testcase name="StaticInteriorUnknownAndBounds" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Guard" />
+    <testcase name="StaticWitnessInRotatedMapAndFutureCommandBranch" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Guard" />
+    <testcase name="CachedStaticMeasuredBranchMatchesOriginalUnion" status="run" result="completed" time="0.012" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Guard" />
+  </testsuite>
+  <testsuite name="Geometry" tests="4" failures="1" disabled="0" errors="0" time="0.019" timestamp="2026-10-01T15:08:56">
+    <testcase name="ConvexValidationAndRotation" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Geometry" />
+    <testcase name="SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons" status="run" result="completed" time="0.001" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Geometry" />
+    <testcase name="OptionalNearestMapQueryPreservesFirstWitnessAndExactDistance" status="run" result="completed" time="0" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Geometry" />
+    <testcase name="BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate" status="run" result="completed" time="0.018" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Geometry">
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 2.3539136052679044e-09, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.002336939190225196,&#x0A;exact evaluates to 0.0023369368363115907, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;10" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 2.3539136052679044e-09, which exceeds 1e-10, where
+near.distance evaluates to 0.002336939190225196,
+exact evaluates to 0.0023369368363115907, and
+1e-10 evaluates to 1e-10.
+10]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 1.907380435799827e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.0070245320716058627,&#x0A;exact evaluates to 0.0070245129978015047, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;33" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 1.907380435799827e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.0070245320716058627,
+exact evaluates to 0.0070245129978015047, and
+1e-10 evaluates to 1e-10.
+33]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 8.9341168508366708e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.028246360175764849,&#x0A;exact evaluates to 0.02824627083459634, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;105" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 8.9341168508366708e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.028246360175764849,
+exact evaluates to 0.02824627083459634, and
+1e-10 evaluates to 1e-10.
+105]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 1.5678814066499847e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.047309681902746162,&#x0A;exact evaluates to 0.047309666223932095, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;122" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 1.5678814066499847e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.047309681902746162,
+exact evaluates to 0.047309666223932095, and
+1e-10 evaluates to 1e-10.
+122]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 5.3297375995214891e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.01749683523106816,&#x0A;exact evaluates to 0.017496781933692165, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;143" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 5.3297375995214891e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.01749683523106816,
+exact evaluates to 0.017496781933692165, and
+1e-10 evaluates to 1e-10.
+143]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 8.1783787797551355e-09, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.07016751497308385,&#x0A;exact evaluates to 0.07016750679470507, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;206" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 8.1783787797551355e-09, which exceeds 1e-10, where
+near.distance evaluates to 0.07016751497308385,
+exact evaluates to 0.07016750679470507, and
+1e-10 evaluates to 1e-10.
+206]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 9.6496682866487049e-10, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.023926479664573834,&#x0A;exact evaluates to 0.023926478699607005, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;208" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 9.6496682866487049e-10, which exceeds 1e-10, where
+near.distance evaluates to 0.023926479664573834,
+exact evaluates to 0.023926478699607005, and
+1e-10 evaluates to 1e-10.
+208]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 6.1118399143772484e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.022412500206582264,&#x0A;exact evaluates to 0.02241243908818312, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;227" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 6.1118399143772484e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.022412500206582264,
+exact evaluates to 0.02241243908818312, and
+1e-10 evaluates to 1e-10.
+227]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 5.8181547898938923e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.031057245725137666,&#x0A;exact evaluates to 0.031057187543589767, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;232" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 5.8181547898938923e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.031057245725137666,
+exact evaluates to 0.031057187543589767, and
+1e-10 evaluates to 1e-10.
+232]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 7.7514524639277216e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.040712545122354844,&#x0A;exact evaluates to 0.040712622636879484, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;248" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 7.7514524639277216e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.040712545122354844,
+exact evaluates to 0.040712622636879484, and
+1e-10 evaluates to 1e-10.
+248]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 8.2506473701726701e-09, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.028976152565870581,&#x0A;exact evaluates to 0.028976160816517951, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;263" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 8.2506473701726701e-09, which exceeds 1e-10, where
+near.distance evaluates to 0.028976152565870581,
+exact evaluates to 0.028976160816517951, and
+1e-10 evaluates to 1e-10.
+263]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 3.8362274199302271e-09, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.0035524279353714209,&#x0A;exact evaluates to 0.0035524240991440009, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;307" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 3.8362274199302271e-09, which exceeds 1e-10, where
+near.distance evaluates to 0.0035524279353714209,
+exact evaluates to 0.0035524240991440009, and
+1e-10 evaluates to 1e-10.
+307]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 2.2009488696850266e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.047395782140193007,&#x0A;exact evaluates to 0.047395760130704311, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;320" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 2.2009488696850266e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.047395782140193007,
+exact evaluates to 0.047395760130704311, and
+1e-10 evaluates to 1e-10.
+320]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 1.9914011595983938e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.019815145657720974,&#x0A;exact evaluates to 0.01981516557173257, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;337" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 1.9914011595983938e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.019815145657720974,
+exact evaluates to 0.01981516557173257, and
+1e-10 evaluates to 1e-10.
+337]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 2.2749260517040959e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.044018625061159021,&#x0A;exact evaluates to 0.044018647810419538, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;339" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 2.2749260517040959e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.044018625061159021,
+exact evaluates to 0.044018647810419538, and
+1e-10 evaluates to 1e-10.
+339]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 1.0118824217419942e-07, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.036644141397216196,&#x0A;exact evaluates to 0.03664424258545837, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;344" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 1.0118824217419942e-07, which exceeds 1e-10, where
+near.distance evaluates to 0.036644141397216196,
+exact evaluates to 0.03664424258545837, and
+1e-10 evaluates to 1e-10.
+344]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 1.3139157296893078e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.044878529229475654,&#x0A;exact evaluates to 0.044878542368632951, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;420" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 1.3139157296893078e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.044878529229475654,
+exact evaluates to 0.044878542368632951, and
+1e-10 evaluates to 1e-10.
+420]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 5.1229053334503338e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.014673831569429469,&#x0A;exact evaluates to 0.014673882798482803, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;422" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 5.1229053334503338e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.014673831569429469,
+exact evaluates to 0.014673882798482803, and
+1e-10 evaluates to 1e-10.
+422]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 7.5262736980163947e-09, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.026346737747923617,&#x0A;exact evaluates to 0.026346730221649919, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;432" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 7.5262736980163947e-09, which exceeds 1e-10, where
+near.distance evaluates to 0.026346737747923617,
+exact evaluates to 0.026346730221649919, and
+1e-10 evaluates to 1e-10.
+432]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 4.6244858293437163e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.020987542630060928,&#x0A;exact evaluates to 0.020987588874919222, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;451" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 4.6244858293437163e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.020987542630060928,
+exact evaluates to 0.020987588874919222, and
+1e-10 evaluates to 1e-10.
+451]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 3.9786840185310202e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.0070634602444010104,&#x0A;exact evaluates to 0.0070634204575608251, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;467" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 3.9786840185310202e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.0070634602444010104,
+exact evaluates to 0.0070634204575608251, and
+1e-10 evaluates to 1e-10.
+467]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 3.4352549124760934e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.030298773252828478,&#x0A;exact evaluates to 0.030298738900279353, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;475" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 3.4352549124760934e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.030298773252828478,
+exact evaluates to 0.030298738900279353, and
+1e-10 evaluates to 1e-10.
+475]]></failure>
+      <failure message="/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354&#x0A;The difference between near.distance and exact is 1.1560144922914684e-08, which exceeds 1e-10, where&#x0A;near.distance evaluates to 0.0011964304320032891,&#x0A;exact evaluates to 0.001196441992148212, and&#x0A;1e-10 evaluates to 1e-10.&#x0A;494" type=""><![CDATA[/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:354
+The difference between near.distance and exact is 1.1560144922914684e-08, which exceeds 1e-10, where
+near.distance evaluates to 0.0011964304320032891,
+exact evaluates to 0.001196441992148212, and
+1e-10 evaluates to 1e-10.
+494]]></failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Frame" tests="1" failures="0" disabled="0" errors="0" time="0.006" timestamp="2026-10-01T15:08:56">
+    <testcase name="BoundedWorldCorrectionAndNoMovingFrameInput" status="run" result="completed" time="0.006" timestamp="2026-10-01T15:08:56" classname="rm_dynamic_obstacle_critic.Frame" />
+  </testsuite>
+</testsuites>

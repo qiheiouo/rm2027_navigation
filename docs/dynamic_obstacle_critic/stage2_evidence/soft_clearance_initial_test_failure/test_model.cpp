@@ -343,9 +343,7 @@ TEST(Geometry, BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate) {
     for (size_t y = 0; y < 40; ++y)
       for (size_t x = 0; x < 40; ++x)
         if (map.data[y * 40 + x] >= 203) {
-          // Match the float metadata cell coordinates; traversal remains
-          // independent.
-          const float r = map.metadata.resolution;
+          const double r = map.metadata.resolution;
           exact = std::min(
               exact, d::polygon_box_distance(
                          local, {x * r, y * r, (x + 1) * r, (y + 1) * r}));

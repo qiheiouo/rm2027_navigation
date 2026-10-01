@@ -118,3 +118,10 @@ raw203违规，仅conditional sampled pass；body/padded几何与命令边界通
 
 下一项要检验连续预留目标是否能避免共同状态惩罚打平，保持原raw203
 guard、完整CV和原生MPPI；跟踪几何与观测时效问题仍未解决。
+
+### 连续预留目标预登记
+
+新 `experiment/soft-map-clearance` 从 `aafd87f` 创建。原停止raw203硬门
+保持，额外0.11m预留改为沿提案保持/刹停路径累计的平方连续成本。
+先检查远离/等待/接近排序和原测量动量硬拒绝，nearest与全grid回核，
+再做同policy完整对照。方案见[预登记](soft_map_clearance_experiment.md)。

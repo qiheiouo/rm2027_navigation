@@ -54,7 +54,8 @@ def main():
                      for p in sorted(source_root.rglob("*")) if p.is_file() and "__pycache__" not in p.parts}
     (args.output/"source_identity.json").write_text(json.dumps(source_identity,indent=2)+"\n")
     profile=yaml.safe_load(args.config.read_text());follow=profile["controller_server"]["ros__parameters"]["FollowPath"]
-    if args.mode=="baseline":follow["critics"].remove("DynamicObstacleCritic")
+    if args.mode=="baseline":
+        follow["critics"]=[c for c in follow["critics"] if c not in ("DynamicObstacleCritic","StaticStoppingCritic")]
     params=args.output/"profile.yaml";params.write_text(yaml.safe_dump(profile,sort_keys=False))
     policy={"mode":args.mode,"goal":[5.6,0.,0.],"start_phase":2.,"period":8.,"earliest_start":16.,"phase_tolerance":.06,
             "window":35.,"tail":3.5,"wall_timeout":150.,"body_clearance":.05,"padded_clearance_strict":0.,"raw_costmap_threshold":203,"bounds_tolerance":5e-5,

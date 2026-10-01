@@ -11,10 +11,12 @@ struct StaticMapCheck {
   Point cell_center{}; // In the costmap header frame.
   double distance{std::numeric_limits<double>::infinity()};
 };
-inline StaticMapCheck check_static_map(const nav2_msgs::msg::Costmap &map,
-                                       const std::vector<Point> &world,
-                                       double reserve,
-                                       unsigned int collision_threshold = 203) {
+enum class StaticMapMode { FirstRejection, NearestWithinReserve };
+inline StaticMapCheck
+check_static_map(const nav2_msgs::msg::Costmap &map,
+                 const std::vector<Point> &world, double reserve,
+                 unsigned int collision_threshold = 203,
+                 StaticMapMode mode = StaticMapMode::FirstRejection) {
   StaticMapCheck result;
   const auto &m = map.metadata;
   const auto &q = m.origin.orientation;
@@ -52,12 +54,43 @@ inline StaticMapCheck check_static_map(const nav2_msgs::msg::Costmap &map,
       maxx + reserve >= m.size_x * m.resolution ||
       maxy + reserve >= m.size_y * m.resolution) {
     result.reason = "outside_map";
-    return result;
+    if (mode == StaticMapMode::FirstRejection)
+      return result;
+    // Only the optional planning query selects nearest distance. A footprint
+    // outside/touching the current map has zero usable clearance. For an
+    // interior footprint, map boundaries compete with occupied/unknown cells.
+    result.distance = std::max(
+        0., std::min({minx, miny,
+                      m.size_x * static_cast<double>(m.resolution) - maxx,
+                      m.size_y * static_cast<double>(m.resolution) - maxy}));
+    if (result.distance == 0)
+      return result;
   }
-  int x0 = std::floor((minx - reserve) / m.resolution),
-      y0 = std::floor((miny - reserve) / m.resolution);
-  int x1 = std::floor((maxx + reserve) / m.resolution),
-      y1 = std::floor((maxy + reserve) / m.resolution);
+  const bool nearest = mode == StaticMapMode::NearestWithinReserve;
+  // Clip the optional search interval before floor/casting: arbitrarily large
+  // finite planning bands must not overflow integer cell coordinates.
+  int x0 =
+          std::floor((nearest ? std::max(0., minx - reserve) : minx - reserve) /
+                     m.resolution),
+      y0 =
+          std::floor((nearest ? std::max(0., miny - reserve) : miny - reserve) /
+                     m.resolution);
+  int x1 = std::floor((nearest ? std::min((m.size_x - 1) *
+                                              static_cast<double>(m.resolution),
+                                          maxx + reserve)
+                               : maxx + reserve) /
+                      m.resolution),
+      y1 = std::floor((nearest ? std::min((m.size_y - 1) *
+                                              static_cast<double>(m.resolution),
+                                          maxy + reserve)
+                               : maxy + reserve) /
+                      m.resolution);
+  if (mode == StaticMapMode::NearestWithinReserve) {
+    x0 = std::max(0, x0);
+    y0 = std::max(0, y0);
+    x1 = std::min(static_cast<int>(m.size_x) - 1, x1);
+    y1 = std::min(static_cast<int>(m.size_y) - 1, y1);
+  }
   if (x0 < 0 || y0 < 0 || x1 >= static_cast<int>(m.size_x) ||
       y1 >= static_cast<int>(m.size_y)) {
     result.reason = "outside_map";
@@ -72,7 +105,8 @@ inline StaticMapCheck check_static_map(const nav2_msgs::msg::Costmap &map,
       if (!polygon_box_may_be_within(poly, cell, reserve + 1e-9))
         continue;
       const double gap = polygon_box_distance(poly, cell);
-      if (gap <= reserve + 1e-9) {
+      if (gap <= reserve + 1e-9 &&
+          (mode == StaticMapMode::FirstRejection || gap < result.distance)) {
         result.reason = map.data[y * m.size_x + x] == 255 ? "unknown_cell"
                                                           : "occupied_cell";
         result.cell_x = x;
@@ -84,9 +118,13 @@ inline StaticMapCheck check_static_map(const nav2_msgs::msg::Costmap &map,
             m.origin.position.x + std::cos(yaw) * cx - std::sin(yaw) * cy,
             m.origin.position.y + std::sin(yaw) * cx + std::cos(yaw) * cy};
         result.distance = gap;
-        return result;
+        if (mode == StaticMapMode::FirstRejection)
+          return result;
       }
     }
+  if (mode == StaticMapMode::NearestWithinReserve &&
+      std::isfinite(result.distance))
+    return result;
   result.clear = true;
   result.reason = "clear";
   return result;

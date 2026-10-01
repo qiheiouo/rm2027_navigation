@@ -180,6 +180,70 @@ protected:
         "FollowPath.StaticStoppingCritic.map_uncertainty_margin", .11);
   }
 };
+class SoftStoppingPluginTest : public BufferedStoppingPluginTest {
+protected:
+  void prepare_parameters() override {
+    BufferedStoppingPluginTest::prepare_parameters();
+    node->declare_parameter(
+        "FollowPath.StaticStoppingCritic.map_uncertainty_mode", "soft");
+  }
+};
+TEST_F(SoftStoppingPluginTest,
+       EscapeWaitApproachStayDistinctInsidePlanningBand) {
+  auto grid = costmap->getCostmap();
+  grid->resizeMap(120, 120, .05, -3, -3);
+  std::fill(grid->getCharMap(), grid->getCharMap() + 120 * 120, 0);
+  unsigned int x, y;
+  ASSERT_TRUE(grid->worldToMap(.32, 0, x, y));
+  grid->setCost(x, y, 203);
+  mppi::models::State state;
+  state.reset(4, 30);
+  state.pose.header.frame_id = "map";
+  state.pose.pose.orientation.w = 1;
+  state.cvx(0, 1) = -.2; // Escape from a band shared by all at t=0.
+  state.cvx(1, 1) = 0;
+  state.cvx(2, 1) = .03; // Still raw-clear, but moves closer.
+  state.cvx(3, 1) = .2;  // Violates the original raw203 check.
+  mppi::models::Trajectories tr;
+  tr.reset(4, 30);
+  mppi::models::Path path;
+  path.reset(2);
+  xt::xtensor<float, 1> costs = xt::zeros<float>({4});
+  float dt = .1;
+  mppi::CriticData data{state, tr,      path,    costs,        dt,
+                        false, nullptr, nullptr, std::nullopt, std::nullopt};
+  critic->score(data);
+  EXPECT_FALSE(data.fail_flag);
+  EXPECT_GT(costs(0), 0);
+  EXPECT_LT(costs(0), costs(1));
+  EXPECT_LT(costs(1), costs(2));
+  EXPECT_LT(costs(2), 10000);
+  EXPECT_GE(costs(3), 10000);
+  // Measured momentum remains an independent hard rejection, even for escape.
+  state.speed.linear.x = .8;
+  costs.fill(0);
+  critic->score(data);
+  EXPECT_FALSE(data.fail_flag);
+  for (float value : costs)
+    EXPECT_EQ(value, 10000);
+}
+TEST_F(StoppingPluginTest, UnsupportedSoftModeParametersRejectInitialization) {
+  for (const auto &suffix : {std::string("unknown"), std::string("zero_band"),
+                             std::string("negative_weight")}) {
+    const auto name = "FollowPath." + suffix;
+    node->declare_parameter(name + ".map_uncertainty_mode",
+                            suffix == "unknown" ? "invalid" : "soft");
+    node->declare_parameter(name + ".map_uncertainty_margin",
+                            suffix == "zero_band" ? 0. : .11);
+    node->declare_parameter(name + ".map_uncertainty_weight",
+                            suffix == "negative_weight" ? -1. : 10000.);
+    auto invalid =
+        loader->createSharedInstance("mppi::critics::StaticStoppingCritic");
+    EXPECT_THROW(
+        invalid->on_configure(node, "FollowPath", name, costmap, handler.get()),
+        std::invalid_argument);
+  }
+}
 TEST_F(StoppingPluginTest, DefaultMarginPreservesNearCellDecision) {
   check_near_cell(0);
 }
