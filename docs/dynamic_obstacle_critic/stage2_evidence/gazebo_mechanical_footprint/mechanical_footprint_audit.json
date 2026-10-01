@@ -1,0 +1,91 @@
+{
+  "scope": "offline planar union of frozen fixture collision projections; not 3D contacts or hardware",
+  "verdict": "FAILED",
+  "collision_components": [
+    {
+      "name": "base_link/base_collision",
+      "kind": "polygon",
+      "points": [
+        [
+          -0.3,
+          -0.25
+        ],
+        [
+          0.3,
+          -0.25
+        ],
+        [
+          0.3,
+          0.25
+        ],
+        [
+          -0.3,
+          0.25
+        ]
+      ]
+    },
+    {
+      "name": "front_left_wheel/collision",
+      "kind": "circle",
+      "center": [
+        0.25,
+        0.225
+      ],
+      "radius": 0.075
+    },
+    {
+      "name": "front_right_wheel/collision",
+      "kind": "circle",
+      "center": [
+        0.25,
+        -0.225
+      ],
+      "radius": 0.075
+    },
+    {
+      "name": "rear_left_wheel/collision",
+      "kind": "circle",
+      "center": [
+        -0.25,
+        0.225
+      ],
+      "radius": 0.075
+    },
+    {
+      "name": "rear_right_wheel/collision",
+      "kind": "circle",
+      "center": [
+        -0.25,
+        -0.225
+      ],
+      "radius": 0.075
+    }
+  ],
+  "projected_union_xy_bounds": [
+    -0.325,
+    0.325,
+    -0.3,
+    0.3
+  ],
+  "configured_padded_xy_bounds": [
+    -0.355,
+    0.355,
+    -0.32999999999999996,
+    0.32999999999999996
+  ],
+  "dynamic_sample_min": 0.0,
+  "dynamic_linear_interpolation_bound": -0.007205826867512545,
+  "first_margin_violation": {
+    "time": 40.117,
+    "gap": 0.04407346143591935,
+    "component": "rear_left_wheel/collision"
+  },
+  "first_projected_contact": {
+    "time": 40.185,
+    "gap": 0.0,
+    "component": "rear_left_wheel/collision"
+  },
+  "limits": "Exact circle/box distances under fixed planar poses. Projection is conservative in height; does not reconstruct engine contacts. Linear interpolation bounds are conditional. Static/raw/task gates remain separate; no earlier archive verdict is overwritten.",
+  "static_sample_min": 0.5151916251192002,
+  "static_linear_interpolation_bound": 0.5134863537065012
+}

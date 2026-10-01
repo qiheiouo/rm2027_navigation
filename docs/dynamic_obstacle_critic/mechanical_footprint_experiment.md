@@ -60,3 +60,64 @@ CPU超时和source-age退化照常报告。先核对全部投影支持和配置�
 完整源码、配置、回读参数、DDS及复现脚本保存于
 `stage2_evidence/mechanical_footprint_preflight/`。物理试次将在预运行节点
 冻结后按上述原policy执行，最终所有门仍需独立审计。
+
+## e3f9b4a 完整物理对照
+
+17.940s启动，52.942s请求取消，保留至56.442s。执行/接线PASS，guard
+仍为唯一`/cmd_vel`发布者；目标未到，推进4.928579m，算法整体**FAILED**。
+46个运行源文件与e3f9b4a逐文件hash一致；实际选用新guard YAML已冻结。
+原native controller/critics与本包critic/guard二进制均与性能试次完全相同。
+
+| 门 / 观测 | 结果 |
+|---|---:|
+| 实际base动态sample / 插值下界 | 0.022236 / 0.015990m，FAIL |
+| 完整机械投影动态sample / 插值下界 | 0 / -0.007206m，FAIL |
+| 完整机械投影静态插值下界 | 0.513486m |
+| padded动态sample / 插值下界 | 0 / -0.007429m，FAIL |
+| raw203违规 | 716/2265，全部fresh同frame，FAIL |
+| 最终命令 / bounds违规 | 1925 / 0 |
+| 静态critic 1Hz评分中位 / 最大 | 45.030318 / 95.274940ms |
+| 整链controller deadline警告 | 43 |
+
+这不是固定随机库的配对因果性能试验；更大自身几何会改变通行域、
+inflation半径及地图检查工作量。不能将原13→43警告单独归因某行代码。
+34个评分采样批次中11个因共同测量路径全拒绝，20个有不同soft成本，
+代理通过数中位147.5；仍不是实际SG/最终输出的coverage证明。
+
+首次机械margin失败在40.117s：后左轮gap0.044073m、base0.072898m。
+此前0.2s的12条物理pose完全相同，10条最终命令均0；最新40.103s的
+guard已dynamic_collision/TTC0、测量速度0、输出0。40.185s该轮投影
+零距，base仍0.031183m；此前命令全0、pose最大变化4.90mm。
+首次base<5cm为40.151s，同样此前pose/命令0。包络已包含车轮，但进入
+停止位置后的外物侵入问题仍在；guard作为pass/brake没有独立避让权。
+
+![完整机械失败的独立物理/源消息时间线](stage2_evidence/gazebo_mechanical_footprint/mechanical_contract_witness.png)
+
+当前公共状态431个可用样本在0/1/2/3s完整box覆盖均0/431，源center误差
+中位0.223062m、最大0.388727m，3s误差中位1.209583m、最大2.926081m。
+首次机械失败时源匹配disk也未覆盖box，但guard已判断风险，不能将此
+缺陷说成唯一接触原因。未把truth或模型原型放入在线接口。
+
+活动窗口guard：6 watchdog、1047 clear、137 static、561 dynamic；尾段
+117 watchdog、42 clear、8 static、7 dynamic。没有收到goal取消确认的
+独立证书。145个static拒绝全部源map匹配、回核无不符；112提案分支、
+33测量分支，其中112次当前足迹本来clear。地图在2次完全静止pose上
+引入raw违规；不能据此推断某条scan的精确消费或高斯噪声单因。
+
+579条扫描按source-time对齐，5条world/odom严格一致性跳过，158个预期
+box缺失finite返回、237个无预期box的finite返回均保留。数据不支持把
+所有+inf永久解释为空。旧几何原型继续冻结为离线失败模型。
+
+新gzip archive、14个冻结auditor/复现工具、完整模型/机械/静态/raw/任务
+报告与图见 `stage2_evidence/gazebo_mechanical_footprint/`。11份报告和
+2个PNG/SVG在私有副本由压缩原始数据逐字节重建：
+
+```bash
+python3 -B src/rm_dynamic_obstacle_critic/tools/replay_mechanical_trial.py \
+  docs/dynamic_obstacle_critic/stage2_evidence/gazebo_mechanical_footprint \
+  /tmp/mechanical-footprint-replay
+```
+
+该配置只修复已知self-plant包含契约，尚不能并入main/feature或用于
+硬件。后续应采集进入危险停止位置之前的原生候选与输出证据，先明确
+动态隐藏几何输入边界；不以此次失败恢复CA/sampler/ranking混合路线。

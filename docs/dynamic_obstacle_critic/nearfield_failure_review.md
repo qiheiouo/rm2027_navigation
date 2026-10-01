@@ -91,3 +91,13 @@ TF仍由原链唯一所有者发布，tracker使用scan源时间变换，critic/
 和命令均0，后续投影接触前命令0但pose已有3.54mm变化。完整事件和
 新图见[性能实验](soft_clearance_performance_experiment.md)，旧报告保持原样。
 机械足迹的运行契约与进入停止位置前的候选/最终输出仍须继续修复核对。
+
+## 完整自身包络后续试次
+
+e3f9b4a的新planning/guard足迹已包含四轮全投影，原门不变。新单次
+物理试次仍FAILED：base样本最小0.022236m，轮投影和padded零距，目标
+未到，raw203716/2265违规。40.117s轮margin失败时base仍0.072898m，
+此前pose/命令全0，guard已dynamic_collision/TTC0。修复自身模型包含
+关系并未消除进入危险停止位置后的外物侵入；不能让guard兼任planner。
+新图、源时间/机械门/时间退化和复现工具见
+[机械足迹对照](mechanical_footprint_experiment.md)。旧报告和policy未覆盖。

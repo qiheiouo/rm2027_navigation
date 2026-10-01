@@ -69,6 +69,12 @@ geometry. Offline audits distinguish the actual SDF base box, the full mechanica
 projection union and the configured padded envelope. New trial policies require
 the full union's dynamic and static clearance to reach 0.05 m as well.
 See [the footprint contract experiment](../../docs/dynamic_obstacle_critic/mechanical_footprint_experiment.md).
+Its e3f9b4a physical trial still failed: base sample minimum 0.022236 m,
+wheel projection/padded contact, 716/2265 raw203 violations and no goal success.
+The first wheel margin failure occurred while recent poses and commands were
+zero and guard already rejected. Containment is corrected; dynamic safety remains
+unresolved. `replay_mechanical_trial.py ARCHIVE NEW_OUTPUT` verifies frozen hashes
+and rebuilds all eleven reports and the two figure formats byte for byte.
 
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
