@@ -1,0 +1,10 @@
+<class_libraries>
+  <library path="rm_dynamic_obstacle_critic">
+    <class type="mppi::critics::DynamicObstacleCritic" base_class_type="mppi::critics::CriticFunction">
+      <description>Full-horizon same-time CV obstacle risk without sampler changes.</description>
+    </class>
+    <class type="mppi::critics::StaticStoppingCritic" base_class_type="mppi::critics::CriticFunction">
+      <description>Experimental static stopping objective for an unsmoothed candidate command proxy; final guard remains mandatory.</description>
+    </class>
+  </library>
+</class_libraries>

@@ -183,3 +183,18 @@ base矩形审计分开保存，未改线上足迹。7项离线解析射线/时�
 154个可标签actor簇，仅152/154覆盖完整box，两个失败完整保留。这项
 新反例与静止错误确认共同说明原型尚不能进入公开控制状态。详见几何
 实验的独立holdout和全部source-time样本，旧129/129记录不被覆盖或泛化。
+
+### 仿真自身机械足迹契约（2026-10-02）
+
+从b92cbe0建立 `experiment/mechanical-footprint-contract`。独立profile
+以0.325/0.300m半长宽包住全部base/4轮投影，原padding0.03m；guard
+对应0.355/0.330m。只改两份规划footprint及guard footprint；公开动态
+几何仍未改变。新增launch guard参数文件选择，实际所选输入单独冻结。
+
+12项离线测试、完整circle支持/配置差异检查通过；实际guard完整参数
+回读相等，7项DDS通过。无C++改动，二进制哈希与性能节点相同。
+旧两组6份报告精确复现、4个PNG/SVG逐字节相同；新机械门只先在私有
+副本验证，未改历史policy。新增试次必须检查完整机械投影dynamic和
+static均≥0.05m；真实base来自冻结SDF，不能用规划包络冒充物理base。
+完整预运行身份与初版数值比较失败均保留，随后做同条件物理对照。
+见[机械足迹实验](mechanical_footprint_experiment.md)。

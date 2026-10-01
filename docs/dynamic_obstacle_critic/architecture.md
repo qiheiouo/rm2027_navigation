@@ -46,6 +46,14 @@ TF所有权不变。观察器记录源时间扫描供离线核对，运行模型
 TF和guard接受域保留。BUILD_TESTING微基准以同一ELF加载冻结/新原生
 plugin比较完整成本，独立于运行控制。见[性能实验](soft_clearance_performance_experiment.md)。
 
+`experiment/mechanical-footprint-contract` 单独修复已知仿真plant足迹契约：
+base及4轮投影的包络半长宽0.325/0.300m，原padding0.03m不变，guard
+对应0.355/0.330m。显式profile与`guard_params_file`配对选择；默认旧配置
+保留。离线审计从冻结SDF读取真实base box，并另加完整机械投影≥0.05m
+门，避免把规划矩形误称真实base。只改变已知自身几何，不将actor真值
+作为感知先验；公共v1/TF所有权/原生MPPI及guard权限不变。详见
+[足迹契约实验](mechanical_footprint_experiment.md)。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid
@@ -102,7 +110,7 @@ Humble原生 rollout第一列已经积分 dt，不是 t=0，故索引+1；当前
 
 这是两个连续平方 hinge。d≥R为零；接近时渐增；越过安全裕量后快速增长；实际 padded接触d=0时每秒密度至少约10000。无一票硬相交打平、无概率包络、无CA、无candidate rerank。其它七 critic和原采样/正则/温度/加权/SG保持原值，动态cost直接加到原数据 costs。
 
-实验继承main padded footprint=body矩形每轴±0.03m，再要求动态clearance>0.02m；正式验收始终独立计算实际本体≥0.05m、padded>0，而不是拿此半径模型替代真实几何。可见簇不是完整物体中心/尺寸，0.36m默认下限仅为本仿真箱体量级先验，不能证明所有遮挡情形或真实障碍均被包住。
+第一版实验继承main padded footprint=body矩形每轴±0.03m，机械足迹对照采用上述完整自身包络；均再要求动态clearance>0.02m。正式验收始终独立计算实际本体≥0.05m、padded>0，新增试次还要求完整机械投影≥0.05m，不拿动态半径模型替代真实几何。可见簇不是完整物体中心/尺寸，0.36m默认下限仅为本仿真箱体量级先验，不能证明所有遮挡情形或真实障碍均被包住。
 
 ## 独立安全层
 

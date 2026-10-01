@@ -1,0 +1,178 @@
+{
+  "verdict": "PASS",
+  "scope": "fixed planar self-plant and configuration contract only",
+  "gates": {
+    "nav2_only_local_global_footprints": true,
+    "guard_only_footprint": true,
+    "all_physical_projections_contained": true,
+    "guard_equals_padded_planning_envelope": true
+  },
+  "profile_changes": [
+    {
+      "path": "global_costmap.global_costmap.ros__parameters.footprint",
+      "before": "[[-0.30, -0.25], [-0.30, 0.25], [0.30, 0.25], [0.30, -0.25]]",
+      "after": "[[-0.325, -0.300], [0.325, -0.300], [0.325, 0.300], [-0.325, 0.300]]"
+    },
+    {
+      "path": "local_costmap.local_costmap.ros__parameters.footprint",
+      "before": "[[-0.30, -0.25], [-0.30, 0.25], [0.30, 0.25], [0.30, -0.25]]",
+      "after": "[[-0.325, -0.300], [0.325, -0.300], [0.325, 0.300], [-0.325, 0.300]]"
+    }
+  ],
+  "guard_changes": [
+    {
+      "path": "dynamic_safety_guard.ros__parameters.footprint",
+      "before": [
+        -0.32999999999999996,
+        -0.28,
+        -0.32999999999999996,
+        0.28,
+        0.32999999999999996,
+        0.28,
+        0.32999999999999996,
+        -0.28
+      ],
+      "after": [
+        -0.355,
+        -0.33,
+        -0.355,
+        0.33,
+        0.355,
+        0.33,
+        0.355,
+        -0.33
+      ]
+    }
+  ],
+  "containment": [
+    {
+      "component": "base_link/base_collision",
+      "whole_shape_bounds": [
+        -0.3,
+        0.3,
+        -0.25,
+        0.25
+      ],
+      "margins": [
+        0.025000000000000022,
+        0.025000000000000022,
+        0.04999999999999999,
+        0.04999999999999999
+      ],
+      "contained": true
+    },
+    {
+      "component": "front_left_wheel/collision",
+      "whole_shape_bounds": [
+        0.175,
+        0.325,
+        0.15000000000000002,
+        0.3
+      ],
+      "margins": [
+        0.5,
+        0.0,
+        0.45,
+        0.0
+      ],
+      "contained": true
+    },
+    {
+      "component": "front_right_wheel/collision",
+      "whole_shape_bounds": [
+        0.175,
+        0.325,
+        -0.3,
+        -0.15000000000000002
+      ],
+      "margins": [
+        0.5,
+        0.0,
+        0.0,
+        0.45
+      ],
+      "contained": true
+    },
+    {
+      "component": "rear_left_wheel/collision",
+      "whole_shape_bounds": [
+        -0.325,
+        -0.175,
+        0.15000000000000002,
+        0.3
+      ],
+      "margins": [
+        0.0,
+        0.5,
+        0.45,
+        0.0
+      ],
+      "contained": true
+    },
+    {
+      "component": "rear_right_wheel/collision",
+      "whole_shape_bounds": [
+        -0.325,
+        -0.175,
+        -0.3,
+        -0.15000000000000002
+      ],
+      "margins": [
+        0.0,
+        0.5,
+        0.0,
+        0.45
+      ],
+      "contained": true
+    }
+  ],
+  "planning_bounds": [
+    -0.325,
+    0.325,
+    -0.3,
+    0.3
+  ],
+  "padded_points": [
+    [
+      -0.355,
+      -0.32999999999999996
+    ],
+    [
+      0.355,
+      -0.32999999999999996
+    ],
+    [
+      0.355,
+      0.32999999999999996
+    ],
+    [
+      -0.355,
+      0.32999999999999996
+    ]
+  ],
+  "guard_points": [
+    [
+      -0.355,
+      -0.33
+    ],
+    [
+      -0.355,
+      0.33
+    ],
+    [
+      0.355,
+      0.33
+    ],
+    [
+      0.355,
+      -0.33
+    ]
+  ],
+  "source_sha256": {
+    "nav2_cv_soft_map_clearance.yaml": "d9f6cc7d9b0039b91451324a98ba10e9d51449a18a34cf3ab41b0b66fc78fce1",
+    "nav2_cv_mechanical_footprint.yaml": "5eaa5c05065af19e477fbebd7d6ea7c7620bbd9ae50cca4e282bbb9d2cac6ec7",
+    "guard.yaml": "c4c357c82fd4bbaec7f0623763eb4bce2b22732945940f23f0f66faf746d1d3d",
+    "guard_mechanical_footprint.yaml": "f93abeac47cf3bb11ac779dcba809e20aac8b976c762b03a2789c1c9dbb691cd"
+  },
+  "scene_sha256": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3"
+}
