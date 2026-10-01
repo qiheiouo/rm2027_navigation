@@ -26,6 +26,12 @@ allowance in `nav2_cv_map_uncertainty.yaml`. The new critic parameter defaults
 to zero; the final guard retains its original raw203 and footprint checks.
 The observer also records source-time scans. Evidence, limits and fixed gates
 are preregistered in [the map uncertainty experiment](../../docs/dynamic_obstacle_critic/map_uncertainty_experiment.md).
+That trial failed the task gate (0.480 m progress), despite a conditional sampled
+raw203 pass. Common measured-path rejection made the added penalty equal for
+all proxies in nine sampled batches. `tools/audit_scan_geometry.py` uses frozen
+scene inputs, source-time canonical poses and independent box labels; it keeps
+ray mismatches and angular-interior statistics separate. Future trials freeze
+scene files before launch. The documented trial's scene snapshot was post-run.
 
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,

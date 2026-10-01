@@ -36,6 +36,13 @@ def main():
         src=share/"config"/name;shutil.copyfile(src,frozen/name)
         input_hashes[name]=hashlib.sha256(src.read_bytes()).hexdigest()
     (args.output/"installed_input_identity.json").write_text(json.dumps(input_hashes,indent=2)+"\n")
+    scene=args.output/"scene_inputs";scene.mkdir()
+    sim_share=Path(get_package_share_directory("rm_simulation"))
+    scene_hashes={}
+    for relative in ("worlds/phase1_omni.sdf","models/moving_obstacle.sdf"):
+        src=sim_share/relative;shutil.copyfile(src,scene/src.name)
+        scene_hashes[src.name]=hashlib.sha256(src.read_bytes()).hexdigest()
+    (args.output/"scene_input_identity.json").write_text(json.dumps({"captured_before_launch":True,"sha256":scene_hashes},indent=2)+"\n")
     binary_paths=[Path(get_package_prefix("rm_dynamic_obstacle_critic"))/"lib"/"rm_dynamic_obstacle_critic"/"dynamic_safety_guard",
                   Path(get_package_prefix("rm_dynamic_obstacle_critic"))/"lib"/"librm_dynamic_obstacle_critic.so",
                   Path(get_package_prefix("nav2_mppi_controller"))/"lib"/"libmppi_controller.so",
