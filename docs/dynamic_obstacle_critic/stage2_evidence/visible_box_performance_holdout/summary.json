@@ -1,0 +1,97 @@
+{
+  "matrix": {},
+  "stationary_arc": [],
+  "replay": {
+    "trial_identity": {
+      "manifest_sha256": "dcd60c280d627035624fbb7bd5de582eb2ddd988fd685979e732498d86d649df",
+      "checked_files": 46,
+      "source_checkpoint": "2bde116"
+    },
+    "scans_in_window": 584,
+    "canonical_source_time_scans": 584,
+    "skips": {},
+    "missing_truth_labels": {
+      "world_odom_identity_mismatch": 7
+    },
+    "frozen_utilities": {
+      "audit_scan_geometry.py": "72e35f504b03567efa0cd1fb05c61806f0af53db675e5f3a1cb9f48e84ab6bee",
+      "analyze_trial.py": "0dc3cd4e92c672980429d913f2f5e6d4f901ecdafe4f61fb7c95bdb43fdf29a8",
+      "trial_io.py": "a46e719010669726d18c081f6c3e6eed91cba6de2e5c25b7ff3bebd4bb9a2671"
+    },
+    "modes": {
+      "strict_finite_boundary": {
+        "clusters": 539,
+        "accepted": 0,
+        "actor_clusters": 533,
+        "accepted_actor": 0,
+        "covered_actor": 0,
+        "refusals": {
+          "insufficient_points": 21,
+          "two_faces_not_observable": 21,
+          "single_face_not_excluded": 243,
+          "boundary_occluded_or_no_contrast": 13,
+          "unknown_boundary_return": 158,
+          "ill_conditioned_boundary": 3,
+          "internal_beam_gap": 80
+        },
+        "actor_refusals": {
+          "insufficient_points": 21,
+          "two_faces_not_observable": 21,
+          "single_face_not_excluded": 241,
+          "boundary_occluded_or_no_contrast": 13,
+          "unknown_boundary_return": 156,
+          "ill_conditioned_boundary": 3,
+          "internal_beam_gap": 78
+        },
+        "accepted_actor_single_face": 0,
+        "fitted_center_error_m": {
+          "count": 0
+        },
+        "visible_center_error_m": {
+          "count": 533,
+          "median": 0.2668350163020451,
+          "max": 0.3132046934803628,
+          "min": 0.1754887963886252
+        }
+      },
+      "assumed_no_return_clear": {
+        "clusters": 539,
+        "accepted": 156,
+        "actor_clusters": 533,
+        "accepted_actor": 154,
+        "covered_actor": 152,
+        "refusals": {
+          "insufficient_points": 21,
+          "two_faces_not_observable": 21,
+          "single_face_not_excluded": 243,
+          "boundary_occluded_or_no_contrast": 13,
+          "ill_conditioned_boundary": 5,
+          "internal_beam_gap": 80
+        },
+        "actor_refusals": {
+          "insufficient_points": 21,
+          "two_faces_not_observable": 21,
+          "single_face_not_excluded": 241,
+          "boundary_occluded_or_no_contrast": 13,
+          "ill_conditioned_boundary": 5,
+          "internal_beam_gap": 78
+        },
+        "accepted_actor_single_face": 0,
+        "fitted_center_error_m": {
+          "count": 154,
+          "median": 0.010233483766745464,
+          "max": 0.08729123805819221,
+          "min": 0.00037770861360210964
+        },
+        "visible_center_error_m": {
+          "count": 533,
+          "median": 0.2668350163020451,
+          "max": 0.3132046934803628,
+          "min": 0.1754887963886252
+        }
+      }
+    },
+    "limits": "All canonical source-time clusters fitted before truth labels. Odom brackets <=0.04s, fixed SDF lidar extrinsic, instantaneous scans only. Truth alignment checked only for offline labels. No exact historical TF/DDS consumer reconstruction. +inf-as-clear is an explicitly unsafe assumption under dropout; its contrast results are not deployment eligible."
+  },
+  "limits": "Conditional rectangle/nearest-return model only. Finite background is synthetic known geometry. Missing returns, clutter and line-angle errors can invalidate full support. Radial allowance is empirical, never a certified bound. Accepted fits do not imply task, raw203, CV horizon or physical safety acceptance."
+}

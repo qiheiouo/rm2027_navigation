@@ -81,3 +81,13 @@ TF仍由原链唯一所有者发布，tracker使用scan源时间变换，critic/
 只消费世界修正；所有新审计均离线、无命令/目标/TF发布。
 结果保存在 `stage2_evidence/gazebo_soft_map_clearance/`。main、feature和
 原研究归档不变，连续目标尚不能合入正式配置。
+
+## 等价性能后续试次（独立记录）
+
+2bde116只减少静态几何中不能改进最小值的hypot，完整原生成本对照精确
+一致。新试次推进4.967290m、评分中位35.507955ms、controller超时13次，
+仍FAILED。base样本最小0.008134m（不宣称base零距），padded零距；后右
+轮独立投影先于base门进入5cm并出现投影接触。轮子首次门之前实际pose
+和命令均0，后续投影接触前命令0但pose已有3.54mm变化。完整事件和
+新图见[性能实验](soft_clearance_performance_experiment.md)，旧报告保持原样。
+机械足迹的运行契约与进入停止位置前的候选/最终输出仍须继续修复核对。

@@ -62,3 +62,66 @@ soft累计用时降低约25.98%；两次旧库soft总用时差约0.046%。完整
 预运行证据和精确源码见 `stage2_evidence/soft_clearance_performance_preflight/`。
 比较器可从三份JSONL恢复所有成本差异和计时组。正式body/padded/raw203/
 目标门仍继承上次FAILED，须另做完整物理对照，不能据微基准改写旧验收。
+
+## 固定policy整链对照（2bde116）：仍FAILED
+
+安装的guard/critic SHA256与预运行一致，原生MPPI两库身份不变。
+源文件均匹配运行节点2bde116；SDF在启动前冻结。源时间、TF链、唯一
+命令发布者和所有参数保持。17.94s发目标，52.942s请求取消，56.442s结束；
+goal status为空，不能当作到达或取消已确认。
+
+| 检查 | 结果 |
+|---|---|
+| 推进 | 4.967290m，未到目标 |
+| base body动态采样最小距离 | **0.008134m**，未达0.05m；样本中未出现base box零距离 |
+| base body条件线性插值下界 | -0.002923m，不构成连续安全证明 |
+| padded动态采样最小 / 下界 | **0 / -0.011780m** |
+| 静态body / padded插值下界 | 0.449624 / 0.419564m |
+| raw203 | **636 / 2265**违规，所有样本都有新鲜同frame地图 |
+| 最终命令 | 1925条，原边界越界0 |
+| 停止critic 1Hz样本 | 27个，中位35.507955ms，最大86.374631ms |
+| 完整controller deadline警告 | **13**，尚未消除 |
+
+相对于上一单次试次，评分样本中位从53.533705ms下降，整链警告31→13；
+这与微基准一致，但两次物理轨迹不同，不能凭单次闭环数据作精确因果
+收益或宣称整链达标。17/27批次有不同连续成本，6个批次因原测量raw
+路径不安全而共同拒绝；不是sampler coverage失败证据。
+活动窗口guard仅3次watchdog，尾段115次；另有活动窗口555次动态拒绝、
+32次静态拒绝、15次stale observation。静态32个witness全都匹配源map，
+26次提案/6次测量，单元/距离回核不符0；26次拒绝时当前足迹仍raw-clear。
+
+### 完整机械投影与停止时间线
+
+机械平面投影首次<5cm发生39.619s，rear_right wheel gap0.042832m；
+此时base box gap0.064530m仍满足5cm。此前0.2s内12条真值姿态相同、
+10条最终命令全0，guard已为dynamic_collision。首次wheel投影零距离
+发生39.687s，此时base box gap0.021236m；此前10条命令仍0，body-based
+pose travel最大0.003541m，不能称为整个窗口完全静止。该记录是独立
+SDF平面投影，**不是engine三维contact消息**，也不改写base box报告。
+
+base box首次<5cm是39.653s，gap0.040064m，此前pose和命令均保持0。
+最新可用guard39.634s的TTC=0、测量速度0、最终输出0；source39.535s
+confirmed track2、complete=true，年龄0.099s。对应CV center
+(4.852918,-0.175516)、radius0.36m，完整actor box未覆盖，中心误差0.170325m。
+模型已报告风险，不能把几何缺口当作唯一原因，或把发布停止当作安全证明。
+
+![性能对照的base与wheel投影见证](stage2_evidence/gazebo_soft_clearance_performance/contact_witness.png)
+
+图在39.653s的body门见证上同时显示SDF轮子投影；更早的机械门时间另存
+mechanical_contact_audit。新增 `--mechanical-events` 只补充离线事件，不
+改变默认body chronology；旧试次和新试次的默认body报告均逐值复核相等。
+`plot_contact_witness.py --mechanical` 为可选离线绘图，图已检查，未新增ROS依赖。
+
+481个可匹配confirmed/fresh-coast消息，当前及1/2/3s完整actor支持均
+0/481；source center误差中位0.234251m、3s误差中位1.323620m。
+源时间扫描审计接受577、严格world/odom一致性缺口7；静态/actor角度
+内部残差std为0.010585/0.010425m，全部148个预期返回缺失及195个无预期
+box的finite返回保留。原型无返回假设仍缺线上依据。
+
+完整raw日志、10项基础报告、机械时间线、source/binary/installed/scene
+身份、auditor快照和manifest保存为
+`stage2_evidence/gazebo_soft_clearance_performance/`。所有报告从gzip原始
+数据复现，PNG/SVG用明确的--mechanical参数复现。7项离线解析测试通过。
+评分优化可以继续作为隔离实验节点，**整体正式安全与任务验收仍FAILED**。
+下一项需核对完整机械足迹的运行契约，并取得进入危险停止位置前的原生
+候选、SG和最终输出证据；不降低guard门，不恢复旧sampler/CA/ranking。

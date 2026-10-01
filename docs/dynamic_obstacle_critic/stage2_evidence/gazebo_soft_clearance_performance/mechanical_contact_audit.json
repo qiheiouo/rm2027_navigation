@@ -1,0 +1,343 @@
+{
+  "scope": "offline body/actor contact chronology; guard snapshot chosen by observer receipt, not native optimizer/control identity; mechanical events are frozen SDF planar projection triggers, not engine contacts",
+  "witnesses": {
+    "first_body_margin_violation": {
+      "time": 39.653,
+      "physical_body_gap": 0.04006425693515417,
+      "physical_pose": [
+        4.562131010714736,
+        0.2864924129989629,
+        1.5982015208198566
+      ],
+      "physical_actor_pose": [
+        4.9,
+        -0.3256056144730896,
+        0.0
+      ],
+      "prior_window_s": 0.2,
+      "prior_window_truth_rows": 12,
+      "prior_window_max_pose_deviation_m": 0.0,
+      "prior_window_final_commands": 10,
+      "prior_window_max_abs_final_command": 0.0,
+      "latest_observer_available_guard": {
+        "kind": "guard",
+        "receive_sim": 39.634,
+        "receive_wall": 32497.873502167,
+        "stamp": 39.634,
+        "statuses": [
+          {
+            "name": "dynamic_safety_guard",
+            "reason": "dynamic_collision",
+            "level": 1,
+            "values": {
+              "passed": "0",
+              "minimum_predicted_clearance": "-0.23007928046346987",
+              "TTC": "0",
+              "emitted_vx": "0",
+              "emitted_vy": "0",
+              "emitted_wz": "0",
+              "evaluated": "1",
+              "source_stamp": "39.534999999999997",
+              "odom_stamp": "39.619999999999997",
+              "costmap_stamp": "39.441000000000003",
+              "pose_x": "4.5621310107147357",
+              "pose_y": "0.28649241299896289",
+              "pose_yaw": "1.5982015208198566",
+              "measured_vx": "0",
+              "measured_vy": "0",
+              "measured_wz": "0",
+              "proposed_vx": "0.36243531107902527",
+              "proposed_vy": "-0.46848052740097046",
+              "proposed_wz": "0.92979540824890139",
+              "world_transform_x": "0",
+              "world_transform_y": "0",
+              "world_transform_yaw": "0",
+              "collision_branch": "0",
+              "collision_pose_x": "4.5621310107147357",
+              "collision_pose_y": "0.28649241299896289",
+              "collision_pose_yaw": "1.5982015208198566",
+              "collision_vx": "0",
+              "collision_vy": "0",
+              "collision_wz": "0",
+              "static_reserve": "0",
+              "dynamic_reserve": "0.0098824031047515404"
+            }
+          }
+        ]
+      },
+      "guard_receipt_age": 0.01899999999999835,
+      "matched_guard_source_obstacle_receipt": {
+        "kind": "obstacles",
+        "receive_sim": 39.59,
+        "receive_wall": 32497.828816784,
+        "stamp": 39.535,
+        "frame": "map",
+        "complete": true,
+        "tracks": [
+          {
+            "id": 2,
+            "state": 2,
+            "xy": [
+              4.851366321169296,
+              -0.22440938468524899
+            ],
+            "vxy": [
+              0.015675528296802622,
+              0.49387144645608266
+            ],
+            "size": [
+              0.4604710826297077,
+              0.519530775613688
+            ],
+            "observed": 39.535
+          }
+        ]
+      },
+      "source_matched_model_labels": [
+        {
+          "id": 2,
+          "state": 2,
+          "age": 0.09900000000000375,
+          "observation_age": 0.09900000000000375,
+          "CV_center_at_guard_epoch": [
+            4.85291819847068,
+            -0.17551611148609494
+          ],
+          "radius": 0.36,
+          "physical_actor_center_error": 0.1703247377627942,
+          "full_physical_actor_box_covered": false
+        }
+      ],
+      "physical_gap_at_guard_epoch": 0.05365782762120843
+    },
+    "first_mechanical_margin_violation": {
+      "time": 39.619,
+      "physical_body_gap": 0.06452986132125713,
+      "physical_pose": [
+        4.562131010714736,
+        0.2864924129989629,
+        1.5982015208198566
+      ],
+      "physical_actor_pose": [
+        4.9,
+        -0.35008040911588484,
+        0.0
+      ],
+      "prior_window_s": 0.2,
+      "prior_window_truth_rows": 12,
+      "prior_window_max_pose_deviation_m": 0.0,
+      "prior_window_final_commands": 10,
+      "prior_window_max_abs_final_command": 0.0,
+      "mechanical_projection_trigger": {
+        "time": 39.619,
+        "gap": 0.042832093661655704,
+        "component": "rear_right_wheel/collision"
+      },
+      "latest_observer_available_guard": {
+        "kind": "guard",
+        "receive_sim": 39.614000000000004,
+        "receive_wall": 32497.853039956,
+        "stamp": 39.614,
+        "statuses": [
+          {
+            "name": "dynamic_safety_guard",
+            "reason": "dynamic_collision",
+            "level": 1,
+            "values": {
+              "passed": "0",
+              "minimum_predicted_clearance": "-0.22021415123978411",
+              "TTC": "0",
+              "emitted_vx": "0",
+              "emitted_vy": "0",
+              "emitted_wz": "0",
+              "evaluated": "1",
+              "source_stamp": "39.534999999999997",
+              "odom_stamp": "39.600000000000001",
+              "costmap_stamp": "39.441000000000003",
+              "pose_x": "4.5621310107147357",
+              "pose_y": "0.28649241299896289",
+              "pose_yaw": "1.5982015208198566",
+              "measured_vx": "0",
+              "measured_vy": "0",
+              "measured_wz": "0",
+              "proposed_vx": "0.36243531107902527",
+              "proposed_vy": "-0.46848052740097046",
+              "proposed_wz": "0.92979540824890139",
+              "world_transform_x": "0",
+              "world_transform_y": "0",
+              "world_transform_yaw": "0",
+              "collision_branch": "0",
+              "collision_pose_x": "4.5621310107147357",
+              "collision_pose_y": "0.28649241299896289",
+              "collision_pose_yaw": "1.5982015208198566",
+              "collision_vx": "0",
+              "collision_vy": "0",
+              "collision_wz": "0",
+              "static_reserve": "0",
+              "dynamic_reserve": "0.0098824031047515404"
+            }
+          }
+        ]
+      },
+      "guard_receipt_age": 0.0049999999999954525,
+      "matched_guard_source_obstacle_receipt": {
+        "kind": "obstacles",
+        "receive_sim": 39.59,
+        "receive_wall": 32497.828816784,
+        "stamp": 39.535,
+        "frame": "map",
+        "complete": true,
+        "tracks": [
+          {
+            "id": 2,
+            "state": 2,
+            "xy": [
+              4.851366321169296,
+              -0.22440938468524899
+            ],
+            "vxy": [
+              0.015675528296802622,
+              0.49387144645608266
+            ],
+            "size": [
+              0.4604710826297077,
+              0.519530775613688
+            ],
+            "observed": 39.535
+          }
+        ]
+      },
+      "source_matched_model_labels": [
+        {
+          "id": 2,
+          "state": 2,
+          "age": 0.07900000000000063,
+          "observation_age": 0.07900000000000063,
+          "CV_center_at_guard_epoch": [
+            4.852604687904743,
+            -0.18539354041521816
+          ],
+          "radius": 0.36,
+          "physical_actor_center_error": 0.17485355643553563,
+          "full_physical_actor_box_covered": false
+        }
+      ],
+      "physical_gap_at_guard_epoch": 0.0681492400835795
+    },
+    "first_mechanical_projected_contact": {
+      "time": 39.687,
+      "physical_body_gap": 0.021236389778705157,
+      "physical_pose": [
+        4.561082065081064,
+        0.2884433030294218,
+        1.6015969095064526
+      ],
+      "physical_actor_pose": [
+        4.9,
+        -0.3044356728632907,
+        0.0
+      ],
+      "prior_window_s": 0.2,
+      "prior_window_truth_rows": 12,
+      "prior_window_max_pose_deviation_m": 0.003540949311278152,
+      "prior_window_final_commands": 10,
+      "prior_window_max_abs_final_command": 0.0,
+      "mechanical_projection_trigger": {
+        "time": 39.687,
+        "gap": 0.0,
+        "component": "rear_right_wheel/collision"
+      },
+      "latest_observer_available_guard": {
+        "kind": "guard",
+        "receive_sim": 39.674,
+        "receive_wall": 32497.913219673,
+        "stamp": 39.673,
+        "statuses": [
+          {
+            "name": "dynamic_safety_guard",
+            "reason": "dynamic_collision",
+            "level": 1,
+            "values": {
+              "passed": "0",
+              "minimum_predicted_clearance": "-0.26500479008472283",
+              "TTC": "0",
+              "emitted_vx": "0",
+              "emitted_vy": "0",
+              "emitted_wz": "0",
+              "evaluated": "1",
+              "source_stamp": "39.600999999999999",
+              "odom_stamp": "39.659999999999997",
+              "costmap_stamp": "39.640999999999998",
+              "pose_x": "4.5621310107147357",
+              "pose_y": "0.28649241299896289",
+              "pose_yaw": "1.5982015208198566",
+              "measured_vx": "0",
+              "measured_vy": "0",
+              "measured_wz": "0",
+              "proposed_vx": "0.36243531107902527",
+              "proposed_vy": "-0.46848052740097046",
+              "proposed_wz": "0.82979540824890141",
+              "world_transform_x": "0",
+              "world_transform_y": "0",
+              "world_transform_yaw": "0",
+              "collision_branch": "0",
+              "collision_pose_x": "4.5621310107147357",
+              "collision_pose_y": "0.28649241299896289",
+              "collision_pose_yaw": "1.5982015208198566",
+              "collision_vx": "0",
+              "collision_vy": "0",
+              "collision_wz": "0",
+              "static_reserve": "0",
+              "dynamic_reserve": "0.010344355657157115"
+            }
+          }
+        ]
+      },
+      "guard_receipt_age": 0.012999999999998124,
+      "matched_guard_source_obstacle_receipt": {
+        "kind": "obstacles",
+        "receive_sim": 39.636,
+        "receive_wall": 32497.874733287,
+        "stamp": 39.601,
+        "frame": "map",
+        "complete": true,
+        "tracks": [
+          {
+            "id": 2,
+            "state": 2,
+            "xy": [
+              4.845937209699496,
+              -0.1784606628924623
+            ],
+            "vxy": [
+              0.004383591936835407,
+              0.5171992063278203
+            ],
+            "size": [
+              0.45476691673422354,
+              0.5296087918617884
+            ],
+            "observed": 39.601
+          }
+        ]
+      },
+      "source_matched_model_labels": [
+        {
+          "id": 2,
+          "state": 2,
+          "age": 0.07200000000000273,
+          "observation_age": 0.07200000000000273,
+          "CV_center_at_guard_epoch": [
+            4.846252828318948,
+            -0.1412223200368578
+          ],
+          "radius": 0.36,
+          "physical_actor_center_error": 0.17859178986081412,
+          "full_physical_actor_box_covered": false
+        }
+      ],
+      "physical_gap_at_guard_epoch": 0.026410079868729147
+    }
+  },
+  "limits": "Prior pose deviation includes physical contact motion; zero reported commands alone do not prove all actuator responses. Observer source matching is not exact DDS consumption. No safe-control/SG coverage witness or attribution of a single root cause."
+}

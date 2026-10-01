@@ -52,6 +52,12 @@ not link this package's plugin, allowing the same ELF to load either version.
 Its synthetic controls are neither historical MPPI rollouts nor SG/coverage
 witnesses. Microtimings and independent physical gates are documented in
 [the performance experiment](../../docs/dynamic_obstacle_critic/soft_clearance_performance_experiment.md).
+The corresponding full trial improved sampled critic time (35.51 ms median)
+but retained 13 controller deadline warnings and failed body/padded, raw203 and
+goal gates. Mechanical projection found a wheel reaching the actor before the
+base margin failed. `audit_contact_witness.py --mechanical-events` adds those
+offline triggers in a separate report; `plot_contact_witness.py --mechanical`
+optionally shows wheel projections. Neither implies engine 3D contact evidence.
 
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,

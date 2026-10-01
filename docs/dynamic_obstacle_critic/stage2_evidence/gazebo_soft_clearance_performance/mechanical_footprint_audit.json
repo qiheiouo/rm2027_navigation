@@ -1,0 +1,89 @@
+{
+  "scope": "offline planar union of frozen fixture collision projections; not 3D contacts or hardware",
+  "verdict": "FAILED",
+  "collision_components": [
+    {
+      "name": "base_link/base_collision",
+      "kind": "polygon",
+      "points": [
+        [
+          -0.3,
+          -0.25
+        ],
+        [
+          0.3,
+          -0.25
+        ],
+        [
+          0.3,
+          0.25
+        ],
+        [
+          -0.3,
+          0.25
+        ]
+      ]
+    },
+    {
+      "name": "front_left_wheel/collision",
+      "kind": "circle",
+      "center": [
+        0.25,
+        0.225
+      ],
+      "radius": 0.075
+    },
+    {
+      "name": "front_right_wheel/collision",
+      "kind": "circle",
+      "center": [
+        0.25,
+        -0.225
+      ],
+      "radius": 0.075
+    },
+    {
+      "name": "rear_left_wheel/collision",
+      "kind": "circle",
+      "center": [
+        -0.25,
+        0.225
+      ],
+      "radius": 0.075
+    },
+    {
+      "name": "rear_right_wheel/collision",
+      "kind": "circle",
+      "center": [
+        -0.25,
+        -0.225
+      ],
+      "radius": 0.075
+    }
+  ],
+  "projected_union_xy_bounds": [
+    -0.325,
+    0.325,
+    -0.3,
+    0.3
+  ],
+  "configured_padded_xy_bounds": [
+    -0.32999999999999996,
+    0.32999999999999996,
+    -0.28,
+    0.28
+  ],
+  "dynamic_sample_min": 0.0,
+  "dynamic_linear_interpolation_bound": -0.011675176924093152,
+  "first_margin_violation": {
+    "time": 39.619,
+    "gap": 0.042832093661655704,
+    "component": "rear_right_wheel/collision"
+  },
+  "first_projected_contact": {
+    "time": 39.687,
+    "gap": 0.0,
+    "component": "rear_right_wheel/collision"
+  },
+  "limits": "Exact circle/box distances under fixed planar poses. Projection is conservative in height; does not reconstruct engine contacts. Linear interpolation bounds are conditional. Static/raw/task gates remain separate; no earlier archive verdict is overwritten."
+}
