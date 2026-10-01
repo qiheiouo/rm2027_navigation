@@ -2,6 +2,7 @@
 // occupancy/ranking removed.
 #pragma once
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <limits>
 #include <stdexcept>
@@ -80,6 +81,40 @@ inline double polygon_box_distance(const std::vector<Point> &poly,
       distance = std::min(distance, segment_distance(a, c, p));
   }
   return distance;
+}
+
+// A separating-axis gap divided by axis length is a lower bound on Euclidean
+// distance. Reject only clearly distant cells; the original exact distance is
+// still evaluated for every cell which may be within the requested reserve.
+inline bool polygon_box_may_be_within(const std::vector<Point> &poly,
+                                      const Box &b, double limit) {
+  const std::array<Point, 4> box{{{b.min_x, b.min_y},
+                                  {b.max_x, b.min_y},
+                                  {b.max_x, b.max_y},
+                                  {b.min_x, b.max_y}}};
+  auto distant = [&](double ax, double ay) {
+    double pmin = INFINITY, pmax = -INFINITY, bmin = INFINITY, bmax = -INFINITY;
+    for (auto p : poly) {
+      double value = p.x * ax + p.y * ay;
+      pmin = std::min(pmin, value);
+      pmax = std::max(pmax, value);
+    }
+    for (auto p : box) {
+      double value = p.x * ax + p.y * ay;
+      bmin = std::min(bmin, value);
+      bmax = std::max(bmax, value);
+    }
+    const double gap = std::max(bmin - pmax, pmin - bmax);
+    return gap > (limit + 1e-12) * std::hypot(ax, ay);
+  };
+  if (distant(1, 0) || distant(0, 1))
+    return false;
+  for (size_t i = 0; i < poly.size(); ++i) {
+    auto a = poly[i], c = poly[(i + 1) % poly.size()];
+    if (distant(-(c.y - a.y), c.x - a.x))
+      return false;
+  }
+  return true;
 }
 
 inline bool inside(const std::vector<Point> &poly, Point p) {

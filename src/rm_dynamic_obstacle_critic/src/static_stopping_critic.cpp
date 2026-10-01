@@ -125,16 +125,27 @@ public:
     }
     dyn::Array no_dynamic_obstacles;
     size_t passing = 0, measured_rejected = 0, proposed_rejected = 0;
+    auto static_clear = [&](const auto &poly, double reserve) {
+      return dyn::static_map_clear(snapshot, poly, reserve, threshold_);
+    };
+    // For a fixed map and no dynamic obstacles, the measured stopping path is
+    // identical for all candidates. Additional time after it stops repeats the
+    // same static pose/reserve. Cache this branch only in this static critic.
+    // The runtime guard continues to check both paths against future CV states.
+    const auto measured_check = dyn::check_command(
+        start, measured, {}, footprint, no_dynamic_obstacles, {}, 0, {}, cfg_,
+        static_clear, dyn::GuardPaths::MeasuredOnly);
     for (size_t i = 0; i < data.costs.size(); ++i) {
       const dyn::Velocity proxy{
           std::clamp(static_cast<double>(s.cvx(i, 1)), vx_min_, vx_max_),
           std::clamp(static_cast<double>(s.cvy(i, 1)), -vy_max_, vy_max_),
           std::clamp(static_cast<double>(s.cwz(i, 1)), -wz_max_, wz_max_)};
-      auto result = dyn::check_command(
-          start, measured, proxy, footprint, no_dynamic_obstacles, {}, 0, {},
-          cfg_, [&](const auto &poly, double reserve) {
-            return dyn::static_map_clear(snapshot, poly, reserve, threshold_);
-          });
+      auto result =
+          measured_check.pass
+              ? dyn::check_command(start, {}, proxy, footprint,
+                                   no_dynamic_obstacles, {}, 0, {}, cfg_,
+                                   static_clear, dyn::GuardPaths::ProposedOnly)
+              : measured_check;
       if (result.pass)
         ++passing;
       else {

@@ -18,16 +18,17 @@ struct GuardResult {
   Velocity collision_velocity{};
   double static_reserve{0}, dynamic_reserve{0};
 };
+enum class GuardPaths { All, MeasuredOnly, ProposedOnly };
 inline double approach_zero(double v, double deceleration, double dt) {
   return std::copysign(std::max(0.0, std::abs(v) - deceleration * dt), v);
 }
-inline GuardResult
-check_command(Pose start, Velocity measured, Velocity command,
-              const std::vector<Point> &footprint, const Array &obstacles,
-              const Limits &lim, double age, const Rigid2D &tr,
-              const GuardParameters &cfg,
-              const std::function<bool(const std::vector<Point> &, double)>
-                  &static_clear) {
+inline GuardResult check_command(
+    Pose start, Velocity measured, Velocity command,
+    const std::vector<Point> &footprint, const Array &obstacles,
+    const Limits &lim, double age, const Rigid2D &tr,
+    const GuardParameters &cfg,
+    const std::function<bool(const std::vector<Point> &, double)> &static_clear,
+    GuardPaths paths = GuardPaths::All) {
   GuardResult r;
   double radius = 0, obstacle_speed = 0;
   for (auto p : footprint)
@@ -51,6 +52,9 @@ check_command(Pose start, Velocity measured, Velocity command,
   // commanded motion. Their union is checked, not averaged. Actuator tracking
   // between them still requires validation.
   for (size_t branch = 0; branch < 2; ++branch) {
+    if ((paths == GuardPaths::MeasuredOnly && branch != 0) ||
+        (paths == GuardPaths::ProposedOnly && branch != 1))
+      continue;
     const auto initial = branch == 0 ? measured : command;
     Pose p = start;
     Velocity v = initial;

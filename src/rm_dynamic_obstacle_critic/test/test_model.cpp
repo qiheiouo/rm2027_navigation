@@ -199,6 +199,52 @@ TEST(Guard, StaticWitnessInRotatedMapAndFutureCommandBranch) {
   EXPECT_GT(guard.collision_pose.x, .4);
 }
 
+TEST(Geometry, SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons) {
+  size_t distant = 0, near = 0;
+  for (size_t i = 0; i < 1000; ++i) {
+    const double a = i * .037;
+    auto poly = d::transform(footprint, .6 * std::sin(a), .5 * std::cos(a), a);
+    const d::Box box{.1, -.1, .15, -.05};
+    const double reserve = (i % 5) * .03;
+    const auto exact = d::polygon_box_distance(poly, box);
+    const bool possible =
+        d::polygon_box_may_be_within(poly, box, reserve + 1e-9);
+    if (exact <= reserve + 1e-9) {
+      ++near;
+      EXPECT_TRUE(possible) << i;
+    }
+    distant += !possible;
+  }
+  EXPECT_GT(near, 0u);
+  EXPECT_GT(distant, 0u);
+  const d::Box touch{.25, -.1, .3, .1};
+  EXPECT_TRUE(d::polygon_box_may_be_within(footprint, touch, 1e-9));
+}
+
+TEST(Guard, CachedStaticMeasuredBranchMatchesOriginalUnion) {
+  d::Array empty;
+  const auto clear = [](const auto &poly, double reserve) {
+    return d::polygon_box_distance(poly, {.7, -.1, .75, .15}) > reserve + 1e-9;
+  };
+  for (d::Velocity measured :
+       {d::Velocity{.25, .1, .2}, d::Velocity{.9, 0, 0}}) {
+    const auto cached =
+        d::check_command({}, measured, {}, footprint, empty, {}, 0, {}, {},
+                         clear, d::GuardPaths::MeasuredOnly);
+    for (size_t i = 0; i < 100; ++i) {
+      const double a = i * .13;
+      d::Velocity command{.8 * std::cos(a), .5 * std::sin(a),
+                          1.2 * std::sin(a)};
+      const auto original = d::check_command({}, measured, command, footprint,
+                                             empty, {}, 0, {}, {}, clear);
+      const auto proposed =
+          d::check_command({}, {}, command, footprint, empty, {}, 0, {}, {},
+                           clear, d::GuardPaths::ProposedOnly);
+      EXPECT_EQ(original.pass, cached.pass && proposed.pass) << i;
+    }
+  }
+}
+
 TEST(Frame, BoundedWorldCorrectionAndNoMovingFrameInput) {
   if (!rclcpp::ok())
     rclcpp::init(0, nullptr);

@@ -69,6 +69,8 @@ inline StaticMapCheck check_static_map(const nav2_msgs::msg::Costmap &map,
         continue; // 255 unknown fails closed too.
       const Box cell{x * m.resolution, y * m.resolution, (x + 1) * m.resolution,
                      (y + 1) * m.resolution};
+      if (!polygon_box_may_be_within(poly, cell, reserve + 1e-9))
+        continue;
       const double gap = polygon_box_distance(poly, cell);
       if (gap <= reserve + 1e-9) {
         result.reason = map.data[y * m.size_x + x] == 255 ? "unknown_cell"
