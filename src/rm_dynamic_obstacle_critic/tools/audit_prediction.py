@@ -9,6 +9,7 @@ from pathlib import Path
 import statistics
 import yaml
 from analyze_trial import compose,pose,rotation
+from trial_io import rows as log_rows
 
 
 def main():
@@ -16,8 +17,8 @@ def main():
     execution=json.loads((root/'execution.json').read_text());config=yaml.safe_load((root/'profile.yaml').read_text())
     limits=config['controller_server']['ros__parameters']['FollowPath']['DynamicObstacleCritic']
     truth=[]
-    for line in (root/'gazebo_poses.jsonl').open():
-        msg=json.loads(line);by={x['name']:x for x in msg.get('pose',[]) if x.get('name') in ('moving_obstacle','obstacle_link')}
+    for msg in log_rows(root,'gazebo_poses.jsonl'):
+        by={x['name']:x for x in msg.get('pose',[]) if x.get('name') in ('moving_obstacle','obstacle_link')}
         if len(by)!=2:continue
         stamp=msg['header']['stamp'];t=float(stamp.get('sec',0))+float(stamp.get('nsec',0))*1e-9
         if truth and t<=truth[-1][0]:continue
@@ -29,8 +30,7 @@ def main():
         if j==len(times):return truth[-1][1]
         a,b=truth[j-1],truth[j];u=(t-a[0])/(b[0]-a[0]);return tuple(x+(y-x)*u for x,y in zip(a[1],b[1]))
     supports=defaultdict(list);position_errors=[];vx=[];radii=[];matched=0;unmatched=0
-    for line in (root/'observations.jsonl').open():
-        row=json.loads(line)
+    for row in log_rows(root,'observations.jsonl'):
         if row['kind']!='obstacles' or execution['start_sim'] is None or not execution['start_sim']<=row['receive_sim']<=execution['end_sim']:continue
         if not row['complete'] or row['frame']!=limits['input_frame']:continue
         source=row['stamp'];a=actual(source)

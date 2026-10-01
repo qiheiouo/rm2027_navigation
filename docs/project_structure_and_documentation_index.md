@@ -49,6 +49,8 @@ contracts take precedence over historical behavior.
 | `rm_chassis_interface` | Chassis stub and authority gate boundary | Stub or disabled | `docs/contracts/chassis_contract_2027.md` |
 | `rm_serial_driver` | Protocol framing, dry-run and opt-in real transport | Dry-run/real IO explicit | `docs/contracts/serial_protocol_2027.md`, `docs/phase2h_serial_dry_run.md` |
 | `rm_simulation` | Gazebo and no-hardware sensor/obstacle fixtures | Simulation only | Phase 1.5 documents |
+| `rm_dynamic_obstacle_tracking` | Static-map subtraction, visible cluster tracking and CV state messages | Experimental shadow input; no TF or command authority | package README, `docs/contracts/topic_contract_2027.md` |
+| `rm_dynamic_obstacle_critic` | Native MPPI CV critic, shared geometry and independent final pass/brake guard | Explicit isolated simulation only; deployment FAILED | `docs/dynamic_obstacle_critic/architecture.md`, `validation.md`, `stage2_plan.md` |
 
 ### Competition Layer
 

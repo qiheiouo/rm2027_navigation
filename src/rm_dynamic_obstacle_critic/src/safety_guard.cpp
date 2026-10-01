@@ -6,6 +6,8 @@
 #include "rm_dynamic_obstacle_critic/static_map.hpp"
 #include "tf2_ros/transform_listener.h"
 #include <chrono>
+#include <iomanip>
+#include <sstream>
 namespace dyn = rm_dynamic_obstacle_critic;
 using Steady = std::chrono::steady_clock;
 class SafetyGuard final : public rclcpp::Node {
@@ -134,6 +136,11 @@ private:
     std::string error;
     auto obstacles = cache_.get(error);
     dyn::GuardResult result;
+    dyn::StaticMapCheck static_check;
+    dyn::Pose evaluated_pose{};
+    dyn::Velocity measured_velocity{}, proposed_velocity{};
+    dyn::Rigid2D evaluated_transform;
+    bool evaluated = false;
     result.pass = false;
     if (!cmd_ || elapsed(last_cmd_) > command_timeout_)
       error = "command_watchdog";
@@ -184,12 +191,19 @@ private:
             const auto tr =
                 dyn::frame_transform(*tf_, frame_, obstacles->header.frame_id,
                                      now, limits_.max_tf_age);
+            evaluated_pose = pose;
+            measured_velocity = measured;
+            proposed_velocity = command;
+            evaluated_transform = tr;
+            evaluated = true;
             result = dyn::check_command(
                 pose, measured, command, footprint_, *obstacles, limits_,
                 now.seconds() - dyn::seconds(obstacles->header.stamp), tr, cfg_,
-                [this](const std::vector<dyn::Point> &poly, double reserve) {
-                  return dyn::static_map_clear(*map_, poly, reserve,
-                                               threshold_);
+                [this, &static_check](const std::vector<dyn::Point> &poly,
+                                      double reserve) {
+                  static_check =
+                      dyn::check_static_map(*map_, poly, reserve, threshold_);
+                  return static_check.clear;
                 });
             error = result.reason;
           }
@@ -211,7 +225,10 @@ private:
     auto add = [&](std::string key, double value) {
       diagnostic_msgs::msg::KeyValue kv;
       kv.key = key;
-      kv.value = std::to_string(value);
+      std::ostringstream out;
+      out << std::setprecision(std::numeric_limits<double>::max_digits10)
+          << value;
+      kv.value = out.str();
       s.values.push_back(kv);
     };
     add("passed", result.pass);
@@ -220,6 +237,47 @@ private:
     add("emitted_vx", command.linear.x);
     add("emitted_vy", command.linear.y);
     add("emitted_wz", command.angular.z);
+    add("evaluated", evaluated);
+    if (evaluated) {
+      add("source_stamp", dyn::seconds(obstacles->header.stamp));
+      add("odom_stamp", dyn::seconds(odom_->header.stamp));
+      add("costmap_stamp", dyn::seconds(map_->header.stamp));
+      add("pose_x", evaluated_pose.x);
+      add("pose_y", evaluated_pose.y);
+      add("pose_yaw", evaluated_pose.yaw);
+      add("measured_vx", measured_velocity.x);
+      add("measured_vy", measured_velocity.y);
+      add("measured_wz", measured_velocity.yaw);
+      add("proposed_vx", proposed_velocity.x);
+      add("proposed_vy", proposed_velocity.y);
+      add("proposed_wz", proposed_velocity.yaw);
+      add("world_transform_x", evaluated_transform.x);
+      add("world_transform_y", evaluated_transform.y);
+      add("world_transform_yaw", evaluated_transform.yaw);
+    }
+    if (result.collision_branch >= 0) {
+      add("collision_branch", result.collision_branch);
+      add("collision_pose_x", result.collision_pose.x);
+      add("collision_pose_y", result.collision_pose.y);
+      add("collision_pose_yaw", result.collision_pose.yaw);
+      add("collision_vx", result.collision_velocity.x);
+      add("collision_vy", result.collision_velocity.y);
+      add("collision_wz", result.collision_velocity.yaw);
+      add("static_reserve", result.static_reserve);
+      add("dynamic_reserve", result.dynamic_reserve);
+    }
+    if (result.reason == "static_collision_or_unknown") {
+      diagnostic_msgs::msg::KeyValue kv;
+      kv.key = "static_rejection";
+      kv.value = static_check.reason;
+      s.values.push_back(kv);
+      add("static_cell_x", static_check.cell_x);
+      add("static_cell_y", static_check.cell_y);
+      add("static_cell_cost", static_check.cost);
+      add("static_cell_world_x", static_check.cell_center.x);
+      add("static_cell_world_y", static_check.cell_center.y);
+      add("static_cell_distance", static_check.distance);
+    }
     arr.status.push_back(s);
     diag_->publish(arr);
     RCLCPP_INFO_THROTTLE(

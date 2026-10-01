@@ -8,6 +8,12 @@ The existing tracker/message contract is reused. `model.hpp` validates the bound
 `mppi::critics::DynamicObstacleCritic`; `guard.hpp` and `safety_guard.cpp` independently inspect the final command.
 The package does not contain or modify a Nav2 optimizer or noise generator.
 
+The active follow-up is documented in [the stage-two plan](../../docs/dynamic_obstacle_critic/stage2_plan.md).
+Guard diagnostics now identify the rejecting response branch, time, pose,
+reserve and first raw-costmap cell, without changing the acceptance check.
+`tools/audit_guard_rejections.py` cross-checks those witnesses with saved raw map
+receipts. Trial readers accept original JSONL and archived JSONL.gz.
+
 The default guard endpoints are `/dynamic_test/cmd_vel_smoothed` and `/dynamic_test/cmd_vel_guarded`.
 Only the explicit Gazebo launch selects `/cmd_vel`. That launch routes recovery commands through the smoother too,
 using node-qualified remaps, and the trial runner rejects unexpected command publishers before sending a goal.

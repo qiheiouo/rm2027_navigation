@@ -49,6 +49,38 @@
 
 ## Simulation-Only Topics
 
+### Experimental CV Dynamic Avoidance (feature branch only)
+
+This opt-in composition is not accepted for deployment. Its baseline and failed
+physical results are recorded in [the stage-one report](../dynamic_obstacle_critic/validation.md);
+ongoing work follows [the stage-two plan](../dynamic_obstacle_critic/stage2_plan.md).
+
+| Topic | Type | Producer | Consumer | Experimental meaning |
+| --- | --- | --- | --- | --- |
+| `/perception/dynamic_obstacles_shadow/predictions` | `rm_competition_interfaces/msg/DynamicObstaclePredictionArray` | dynamic tracker | native CV critic, guard, diagnostics | schema v1/shadow_only; source-time `map` centroid, velocity and **visible cluster extent**, not a validated physical object footprint |
+| `/cmd_vel_nav` | `geometry_msgs/msg/Twist` | Nav2 controller and behaviors | Nav2 velocity smoother | proposal before smoothing; no direct chassis authority |
+| `/dynamic_test/cmd_vel_smoothed` | `geometry_msgs/msg/Twist` | Nav2 velocity smoother | dynamic guard | experimental proposed command |
+| `/dynamic_test/cmd_vel_guarded` | `geometry_msgs/msg/Twist` | dynamic guard | isolated test tools | safe default guard output; does not command the normal chassis topic |
+| `/dynamic_critic/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | native critic | evidence observer | dynamic cost range and lowest-dynamic-cost rollout witness; not the optimizer's final command |
+| `/dynamic_critic/predictions` | `visualization_msgs/msg/MarkerArray` | native critic | RViz | CV future markers in `odom`; never written as future occupancy into costmap |
+| `/dynamic_guard/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | guard | evidence observer | final pass/brake, source stamps, rejected response branch/time/pose, first rejecting raw cell |
+
+Only the explicit isolated `cv_course.launch.py enabled:=true` composition
+routes guard output to `/cmd_vel` for the simulation chassis stub. It must
+verify that the guard is the sole publisher there. Baseline/critic comparisons
+instead require the smoother as sole publisher. Neither tracker nor critic
+publishes chassis commands, odometry, navigation goals or TF. This exception
+does not grant competition or real-hardware motion authority.
+
+Inputs must pass source timestamp, completeness, state, finite-value, frame,
+bounded world-TF age and freshness gates. Canonical `/odometry/lio` remains the
+guard pose/twist boundary; raw `nav2_msgs/Costmap` remains current occupancy.
+The tracker is consumed through the existing message only; critic/guard must
+not import its perception implementation. See
+[the time/geometry contract](../dynamic_obstacle_critic/architecture.md).
+
+### Established Simulation Interfaces
+
 | Topic | Type | Producer | Consumer | Meaning |
 | --- | --- | --- | --- | --- |
 | `/simulation/chassis/cmd_vel` | `geometry_msgs/msg/Twist` | `chassis_interface_stub` in simulation mode | `ros_gz_bridge`, Gazebo chassis | Limited and watchdog-protected simulation command; not a real-hardware API |

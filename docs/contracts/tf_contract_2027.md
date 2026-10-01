@@ -152,3 +152,21 @@ In particular:
 4. Static sensor extrinsics have exactly one owner.
 
 Duplicate TF publication is a contract violation and must block Phase 1 acceptance.
+
+## Experimental Dynamic Avoidance Consumers
+
+`rm_dynamic_obstacle_tracking` and `rm_dynamic_obstacle_critic` own no TF edge.
+The opt-in CV course uses the existing simulation owners: map/odom stub,
+`lio_adapter`, and `robot_state_publisher`. No Gazebo pose topic is bridged to TF.
+
+Tracker scan endpoints are transformed into `map` at the scan source stamp.
+Visible cluster centroid/extent are perception measurements, not new sensor
+extrinsics or object frames. Critic and guard evaluate in local-costmap `odom`
+using an explicitly bounded-age planar `map`/`odom` world correction; this
+correction is assumed fixed over the evaluation horizon. This assumption does
+not permit latest-time gimbal/sensor transforms or introduce a TF publisher.
+Missing, stale or nonplanar correction rejects the input. Hardware acceptance
+must measure localization corrections and timing before relying on the model.
+
+See [the CV architecture](../dynamic_obstacle_critic/architecture.md) and
+[stage-two work](../dynamic_obstacle_critic/stage2_plan.md).

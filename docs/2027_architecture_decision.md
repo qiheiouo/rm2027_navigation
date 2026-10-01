@@ -1,5 +1,22 @@
 # 2027 Architecture Decision
 
+## Experimental CV Dynamic Avoidance
+
+The isolated `feature/dynamic-obstacle-critic` route uses the existing tracker
+message, CV prediction, a native Nav2 MPPI critic plugin, and an independent
+pass/brake guard. It does not modify upstream MPPI sampling/optimization or
+assign TF ownership to perception/control nodes. Current costmaps continue
+to represent current occupancy; future predictions are evaluated by time and
+visualized separately. This route remains **FAILED / not deployment accepted**.
+
+The first implementation is checkpointed at `9e36853`, based directly on
+stable main `d735ee1`. Historical research is retained under
+`research/dynamic-differential-risk-frozen-20261001`. The
+[architecture and mathematics](dynamic_obstacle_critic/architecture.md),
+[stage-one evidence](dynamic_obstacle_critic/validation.md), and
+[stage-two plan](dynamic_obstacle_critic/stage2_plan.md) document module
+boundaries, failed geometry/liveness gates, and subsequent experiments.
+
 ## Decision
 
 The 2027 sentry navigation system will use a self-owned canonical skeleton plus selected open source modules.

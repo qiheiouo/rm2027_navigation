@@ -6,6 +6,7 @@ import json
 import math
 from pathlib import Path
 import yaml
+from trial_io import rows as log_rows
 
 
 def rotation(pose,points):
@@ -52,8 +53,8 @@ def analyze(root):
     obstacle=[(-.225,-.275),(.225,-.275),(.225,.275),(-.225,.275)]
     static=rotation((1.4,0,0),[(-.175,-.55),(.175,-.55),(.175,.55),(-.175,.55)])
     rows=[]
-    for line in (root/'gazebo_poses.jsonl').open():
-        msg=json.loads(line);by={p['name']:p for p in msg.get('pose',[]) if p.get('name') in ('rm_sentry_2027','base_link','moving_obstacle','obstacle_link')}
+    for msg in log_rows(root,'gazebo_poses.jsonl'):
+        by={p['name']:p for p in msg.get('pose',[]) if p.get('name') in ('rm_sentry_2027','base_link','moving_obstacle','obstacle_link')}
         if len(by)!=4:continue
         stamp=msg['header']['stamp'];t=float(stamp.get('sec',0))+float(stamp.get('nsec',0))*1e-9
         if t<execution['start_sim'] or t>execution['last_sim']:continue
@@ -74,8 +75,7 @@ def analyze(root):
             'static_sample_min':min(static_gap),'static_linear_interpolation_bound':static_lower,'witness':rows[witness],
             'sampled_overlap':min(dynamic)==0.}
     counts=Counter();critic=Counter();violations=0;commands=0
-    for line in (root/'observations.jsonl').open():
-        row=json.loads(line)
+    for row in log_rows(root,'observations.jsonl'):
         if row['receive_sim']<execution['start_sim']:continue
         if row['kind']=='guard':counts.update(s['reason'] for s in row['statuses'])
         if row['kind']=='critic':critic.update(s['reason'] for s in row['statuses'])

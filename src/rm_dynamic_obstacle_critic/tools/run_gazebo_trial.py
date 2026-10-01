@@ -3,7 +3,7 @@
 import argparse
 import hashlib
 import shutil
-from ament_index_python.packages import get_package_share_directory
+from ament_index_python.packages import get_package_share_directory, get_package_prefix
 import json
 import math
 import os
@@ -14,9 +14,10 @@ import time
 import yaml
 import rclpy
 from rclpy.action import ActionClient
-from rclpy.qos import qos_profile_sensor_data
+from rclpy.qos import qos_profile_sensor_data, QoSProfile, DurabilityPolicy
 from nav2_msgs.action import NavigateToPose
 from nav_msgs.msg import Odometry
+from nav2_msgs.msg import Costmap
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 from diagnostic_msgs.msg import DiagnosticArray
@@ -34,6 +35,16 @@ def main():
         src=share/"config"/name;shutil.copyfile(src,frozen/name)
         input_hashes[name]=hashlib.sha256(src.read_bytes()).hexdigest()
     (args.output/"installed_input_identity.json").write_text(json.dumps(input_hashes,indent=2)+"\n")
+    binary_paths=[Path(get_package_prefix("rm_dynamic_obstacle_critic"))/"lib"/"rm_dynamic_obstacle_critic"/"dynamic_safety_guard",
+                  Path(get_package_prefix("rm_dynamic_obstacle_critic"))/"lib"/"librm_dynamic_obstacle_critic.so",
+                  Path(get_package_prefix("nav2_mppi_controller"))/"lib"/"libmppi_controller.so",
+                  Path(get_package_prefix("nav2_mppi_controller"))/"lib"/"libmppi_critics.so"]
+    binary_identity={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in binary_paths}
+    (args.output/"binary_identity.json").write_text(json.dumps(binary_identity,indent=2)+"\n")
+    source_root=Path(__file__).resolve().parents[1]
+    source_identity={str(p.relative_to(source_root)):hashlib.sha256(p.read_bytes()).hexdigest()
+                     for p in sorted(source_root.rglob("*")) if p.is_file() and "__pycache__" not in p.parts}
+    (args.output/"source_identity.json").write_text(json.dumps(source_identity,indent=2)+"\n")
     profile=yaml.safe_load(args.config.read_text());follow=profile["controller_server"]["ros__parameters"]["FollowPath"]
     if args.mode=="baseline":follow["critics"].remove("DynamicObstacleCritic")
     params=args.output/"profile.yaml";params.write_text(yaml.safe_dump(profile,sort_keys=False))
@@ -53,10 +64,22 @@ def main():
     def odom(m):
         last["odom"]=m;write("odom",{"stamp":m.header.stamp.sec+m.header.stamp.nanosec*1e-9,"xy":[m.pose.pose.position.x,m.pose.pose.position.y],"speed":[m.twist.twist.linear.x,m.twist.twist.linear.y,m.twist.twist.angular.z]})
     def diagnostic(kind,m):
-        last[kind]=m;write(kind,{"statuses":[{"name":s.name,"reason":s.message,"level":(s.level[0] if isinstance(s.level,bytes) else s.level),"values":{v.key:v.value for v in s.values}} for s in m.status]})
+        last[kind]=m;write(kind,{"stamp":m.header.stamp.sec+m.header.stamp.nanosec*1e-9,"statuses":[{"name":s.name,"reason":s.message,"level":(s.level[0] if isinstance(s.level,bytes) else s.level),"values":{v.key:v.value for v in s.values}} for s in m.status]})
     def command(kind,m):
         write(kind,{"velocity":[m.linear.x,m.linear.y,m.angular.z]})
     subs.append(node.create_subscription(Odometry,"/simulation/ground_truth/odom",odom,10))
+    def canonical_odom(m):
+        p=m.pose.pose.position;q=m.pose.pose.orientation
+        write("canonical_odom",{"stamp":m.header.stamp.sec+m.header.stamp.nanosec*1e-9,"frame":m.header.frame_id,"child_frame":m.child_frame_id,
+            "pose":[p.x,p.y,q.x,q.y,q.z,q.w],"velocity":[m.twist.twist.linear.x,m.twist.twist.linear.y,m.twist.twist.angular.z]})
+    subs.append(node.create_subscription(Odometry,"/odometry/lio",canonical_odom,10))
+    def costmap(m):
+        p=m.metadata.origin.position;q=m.metadata.origin.orientation
+        write("costmap",{"stamp":m.header.stamp.sec+m.header.stamp.nanosec*1e-9,"frame":m.header.frame_id,
+            "resolution":m.metadata.resolution,"size":[m.metadata.size_x,m.metadata.size_y],
+            "origin":[p.x,p.y,q.x,q.y,q.z,q.w],"data":list(m.data)})
+    subs.append(node.create_subscription(Costmap,"/local_costmap/costmap_raw",costmap,
+        QoSProfile(depth=10,durability=DurabilityPolicy.TRANSIENT_LOCAL)))
     subs.append(node.create_subscription(LaserScan,"/scan",lambda m:last.update(scan=m),qos_profile_sensor_data))
     for kind,topic in [("critic","/dynamic_critic/diagnostics"),("guard","/dynamic_guard/diagnostics"),("tracker","/perception/dynamic_obstacles_shadow/diagnostics")]:
         subs.append(node.create_subscription(DiagnosticArray,topic,lambda m,k=kind:diagnostic(k,m),10))

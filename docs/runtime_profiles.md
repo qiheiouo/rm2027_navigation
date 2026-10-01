@@ -1,5 +1,18 @@
 # Runtime Profiles
 
+## Experimental CV Dynamic Avoidance
+
+`ros2 launch rm_dynamic_obstacle_critic cv_course.launch.py enabled:=true`
+starts an isolated Gazebo/Nav2 course, tracker and final guard. `enabled` defaults
+to false. The default standalone guard publishes only
+`/dynamic_test/cmd_vel_guarded`; only this explicit simulation composition routes
+it to `/cmd_vel`. The experiment observer requires a single correct final
+publisher before sending its fixed test goal. No serial transport or hardware
+profile is enabled by this entry point. Do not combine it with an existing Nav2
+or real-car session. It is not accepted for deployment; see the
+[failed stage-one report](dynamic_obstacle_critic/validation.md) and
+[ongoing stage-two plan](dynamic_obstacle_critic/stage2_plan.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

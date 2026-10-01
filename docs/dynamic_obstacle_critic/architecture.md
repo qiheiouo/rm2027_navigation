@@ -1,5 +1,10 @@
 # CV DynamicObstacleCritic 第一版
 
+本页保留第一版模型定义；后续诊断与实验遵循
+[第二阶段计划](stage2_plan.md)，结果保存在[进度记录](stage2_progress.md)。
+guard 诊断新增源时间戳、测量/提案速度、拒绝响应分支、未来 pose、reserve
+和第一个拒绝的 raw cell；这些字段描述该次消费检查，不代表 MPPI 最终候选。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid

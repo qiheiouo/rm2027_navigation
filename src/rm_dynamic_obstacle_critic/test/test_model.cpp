@@ -118,6 +118,8 @@ TEST(Guard, PassBrakeAndMeasuredStoppingTail) {
                                 lim, 0, {}, cfg, clear);
   EXPECT_FALSE(drive.pass);
   EXPECT_EQ(drive.reason, "dynamic_collision");
+  EXPECT_EQ(drive.collision_branch, 1);
+  EXPECT_GT(drive.collision_pose.x, 0);
   auto wait = d::check_command({0, 0, 0}, {0, 0, 0}, {0, 0, 0}, footprint, a,
                                lim, 0, {}, cfg, clear);
   EXPECT_TRUE(wait.pass);
@@ -126,6 +128,7 @@ TEST(Guard, PassBrakeAndMeasuredStoppingTail) {
                                    a, lim, 0, {}, cfg, clear);
   EXPECT_FALSE(measured.pass); // Publishing zero cannot instantaneously erase
                                // measured momentum.
+  EXPECT_EQ(measured.collision_branch, 0);
   cfg.horizon = 1e9;
   auto budget = d::check_command({0, 0, 0}, {0, 0, 0}, {0, 0, 0}, footprint, a,
                                  lim, 0, {}, cfg, clear);
@@ -158,6 +161,42 @@ TEST(Geometry, ConvexValidationAndRotation) {
   auto p = d::advance({0, 0, 0}, {1, 0, 1}, 1.5707963267948966);
   EXPECT_NEAR(p.x, 1, 1e-9);
   EXPECT_NEAR(p.y, 1, 1e-9);
+}
+
+TEST(Guard, StaticWitnessInRotatedMapAndFutureCommandBranch) {
+  nav2_msgs::msg::Costmap map;
+  map.metadata.size_x = 40;
+  map.metadata.size_y = 40;
+  map.metadata.resolution = .1;
+  map.metadata.origin.position.x = 2;
+  map.metadata.origin.position.y = -2;
+  map.metadata.origin.orientation.z = std::sqrt(.5);
+  map.metadata.origin.orientation.w = std::sqrt(.5);
+  map.data.assign(1600, 0);
+  map.data[20 * 40 + 20] = 203;
+  auto check = d::check_static_map(map, footprint, 0);
+  EXPECT_FALSE(check.clear);
+  EXPECT_EQ(check.reason, "occupied_cell");
+  EXPECT_EQ(check.cell_x, 20);
+  EXPECT_EQ(check.cell_y, 20);
+  EXPECT_EQ(check.cost, 203u);
+  EXPECT_NEAR(check.cell_center.x, -.05, 1e-6);
+  EXPECT_NEAR(check.cell_center.y, .05, 1e-6);
+  EXPECT_EQ(check.distance, 0);
+  map.data[20 * 40 + 20] = 255;
+  EXPECT_EQ(d::check_static_map(map, footprint, 0).reason, "unknown_cell");
+  EXPECT_EQ(
+      d::check_static_map(map, d::transform(footprint, 10, 0, 0), 0).reason,
+      "outside_map");
+  auto a = obstacles(10, 10, 0, 0);
+  auto guard = d::check_command(
+      {0, 0, 0}, {}, {.8, 0, 0}, footprint, a, {}, 0, {}, {},
+      [](const auto &poly, double) { return poly.front().x < .15; });
+  EXPECT_FALSE(guard.pass);
+  EXPECT_EQ(guard.reason, "static_collision_or_unknown");
+  EXPECT_EQ(guard.collision_branch, 1);
+  EXPECT_GT(guard.collision_time, .4);
+  EXPECT_GT(guard.collision_pose.x, .4);
 }
 
 TEST(Frame, BoundedWorldCorrectionAndNoMovingFrameInput) {

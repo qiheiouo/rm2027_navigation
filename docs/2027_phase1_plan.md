@@ -2,6 +2,15 @@
 
 ## Goal
 
+The opt-in CV dynamic-avoidance course is a separate experimental increment.
+It does not change the accepted Phase 1/1.5 baseline or authorize real motion.
+Its stage-one physical crossing and guard liveness tests failed. The
+[stage-two plan](dynamic_obstacle_critic/stage2_plan.md) first diagnoses the
+existing raw203/full-stopping guard rejection and visible-cluster geometry.
+All original clearance, output-bound, full-horizon and task-success gates remain
+required. New experiment results are kept separately from
+[the frozen stage-one report](dynamic_obstacle_critic/validation.md).
+
 Phase 1 is not a complete competition system. Its goal is the minimum canonical navigation loop:
 
 ```text

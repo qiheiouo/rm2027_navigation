@@ -13,6 +13,10 @@ struct GuardResult {
   double minimum_clearance{std::numeric_limits<double>::infinity()};
   double collision_time{std::numeric_limits<double>::infinity()};
   std::string reason{"clear"};
+  int collision_branch{-1}; // 0: measured response; 1: proposed command.
+  Pose collision_pose{};
+  Velocity collision_velocity{};
+  double static_reserve{0}, dynamic_reserve{0};
 };
 inline double approach_zero(double v, double deceleration, double dt) {
   return std::copysign(std::max(0.0, std::abs(v) - deceleration * dt), v);
@@ -60,11 +64,18 @@ check_command(Pose start, Velocity measured, Velocity command,
       auto poly = transform(footprint, p.x, p.y, p.yaw);
       const double d = clearance(poly, obstacles, lim, age, time, tr) - reserve;
       r.minimum_clearance = std::min(r.minimum_clearance, d);
+      // Preserve the original short-circuit order. Diagnostic capture must not
+      // change which check rejects a command or the pass/brake decision.
       if (d <= cfg.safety_margin || !static_clear(poly, swept)) {
         r.pass = false;
         r.collision_time = std::min(r.collision_time, time);
         r.reason = d <= cfg.safety_margin ? "dynamic_collision"
                                           : "static_collision_or_unknown";
+        r.collision_branch = static_cast<int>(branch);
+        r.collision_pose = p;
+        r.collision_velocity = v;
+        r.static_reserve = swept;
+        r.dynamic_reserve = reserve;
         return r;
       }
       p = advance(p, v, cfg.dt);
