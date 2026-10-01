@@ -1,0 +1,67 @@
+{
+  "verdict": "FAILED",
+  "scope": "sampled physical padded footprint against observer-available current raw costmap; fixed Gazebo world/odom identity only",
+  "threshold": 203,
+  "truth_samples": 2265,
+  "checked_samples": 2265,
+  "missing_wrong_frame_or_stale_map_samples": 0,
+  "padded_footprint_raw203_violations": 24,
+  "first_violations": [
+    {
+      "time": 37.975,
+      "physical_pose": [
+        0.5723678499642202,
+        0.9503294544798839,
+        -0.3541204273684983
+      ],
+      "map_stamp": 37.968,
+      "map_receive_sim": 37.968,
+      "map_age": 0.006999999999997897
+    },
+    {
+      "time": 37.992,
+      "physical_pose": [
+        0.5723678499642202,
+        0.9503294544798839,
+        -0.3541204273684983
+      ],
+      "map_stamp": 37.968,
+      "map_receive_sim": 37.968,
+      "map_age": 0.023999999999993804
+    },
+    {
+      "time": 38.009,
+      "physical_pose": [
+        0.5723678499642202,
+        0.9503294544798839,
+        -0.3541204273684983
+      ],
+      "map_stamp": 37.968,
+      "map_receive_sim": 37.968,
+      "map_age": 0.04099999999999682
+    },
+    {
+      "time": 38.026,
+      "physical_pose": [
+        0.5723678499642202,
+        0.9503294544798839,
+        -0.3541204273684983
+      ],
+      "map_stamp": 37.968,
+      "map_receive_sim": 37.968,
+      "map_age": 0.05799999999999983
+    },
+    {
+      "time": 38.043,
+      "physical_pose": [
+        0.5723678499642202,
+        0.9503294544798839,
+        -0.3541204273684983
+      ],
+      "map_stamp": 37.968,
+      "map_receive_sim": 37.968,
+      "map_age": 0.07499999999999574
+    }
+  ],
+  "limits": "Observer arrival differs from guard/MPPI consumption. Requires fixed simulation world/odom identity. No continuous-time raw-grid or hardware acceptance claim; full body/padded geometry and task gates are separate."
+}

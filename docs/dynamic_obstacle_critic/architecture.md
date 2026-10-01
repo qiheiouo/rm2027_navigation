@@ -5,6 +5,26 @@
 guard 诊断新增源时间戳、测量/提案速度、拒绝响应分支、未来 pose、reserve
 和第一个拒绝的 raw cell；这些字段描述该次消费检查，不代表 MPPI 最终候选。
 
+`experiment/static-stopping-critic` 在 `91d7eda` 之后另行增加静态刹停目标，
+没有并回 feature 或 main。它从原生 CriticData 读取候选控制代理和测量
+pose/twist，通过共享guard静态检查向原生MPPI costs增加0/10000成本：
+
+```mermaid
+flowchart LR
+  Native[原生 CriticData 控制代理 / pose / speed] --> Stop[实验 StaticStoppingCritic]
+  Grid[当前 raw local costmap] --> Stop
+  Shared[共享 guard 路径 / 静态几何] --> Stop
+  Stop --> Costs[原生 MPPI costs]
+  CV[原完整三秒 CV 动态风险] --> Costs
+  Costs --> NativeMPPI[原生 MPPI / SG / smoother]
+  NativeMPPI --> FinalGuard[独立完整 guard]
+```
+
+该静态critic不发布TF、目标或底盘命令，也不依赖tracker内部。
+SG/smoother发生在评分之后，所以候选代理不是最终命令安全证书。
+完整假设、失败试次、性能优化和回滚见
+[静态停止实验](static_stopping_experiment.md)。
+
 该功能只存在于从 main 创建的 feature 分支，默认关闭。正式比赛启动和参数文件不加载它。当前兼容和验证目标为现有固定 Humble 镜像的 Nav2 MPPI 1.1.20。
 
 ```mermaid

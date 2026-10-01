@@ -1,0 +1,38 @@
+{
+  "mode": "guard",
+  "execution": "PASS",
+  "error": null,
+  "goal_status": null,
+  "cancelled": true,
+  "start_sim": 17.94,
+  "end_sim": 52.943000000000005,
+  "last_sim": 56.443000000000005,
+  "graph": {
+    "/cmd_vel": [
+      "dynamic_safety_guard"
+    ],
+    "/cmd_vel_nav": [
+      "controller_server",
+      "behavior_server",
+      "behavior_server",
+      "behavior_server",
+      "behavior_server"
+    ],
+    "/dynamic_test/cmd_vel_smoothed": [
+      "velocity_smoother"
+    ]
+  },
+  "message_counts": {
+    "final_cmd": 2974,
+    "guard": 2976,
+    "odom": 2822,
+    "canonical_odom": 2822,
+    "tracker": 855,
+    "obstacles": 853,
+    "event": 4,
+    "costmap": 275,
+    "critic": 33,
+    "stopping": 33,
+    "raw_smoothed": 721
+  }
+}
