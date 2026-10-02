@@ -229,3 +229,15 @@ anchors are outside the actor projection, so zero error remains a hypothesis.
 `tools/replay_ground_extent_prior.py ARCHIVE NEW_OUTPUT` verifies both referenced
 manifests and reproduces four report/figure artifacts byte for byte.
 See [the extent-prior experiment](../../docs/dynamic_obstacle_critic/ground_robot_extent_prior_experiment.md).
+
+The public geometry contract distinguishes filtered anchors/visible extents,
+budget completeness, display predictions and unverified physical support.
+`tools/audit_raw_rollout_objective.py SOURCE WITNESS_ARCHIVE NEW_REPORT` checks
+the frozen full consumption/weight chain before comparing the preregistered raw
+source298 paths with dynamic physical labels. Of 236 model-margin-clear raw
+paths, 92 fail the dynamic geometry gates; 76 actually contact the padded body
+on the original grid, carrying about 72.54% native weight. Highest-weight row73
+has model clearance 0.02506 m and no TTC, but the same raw path contacts truth.
+Two independent scalar 9,000-pose checks agree; a corrupted contact is rejected.
+These labels certify neither post-SG output nor execution/static/task safety.
+See [the raw-path audit](../../docs/dynamic_obstacle_critic/raw_rollout_objective_experiment.md).

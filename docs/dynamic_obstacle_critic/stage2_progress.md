@@ -357,3 +357,14 @@ size为map轴可见范围的EMA、position为滤波可见质心，公开velocity
 下一项固定source298，比较同一原始300×30路径的实际CV模型与完整
 机械动态标签，避免把不同bounds/SG路径的标签直接归因raw成本。
 见[原始路径实验登记](raw_rollout_objective_experiment.md)。
+
+96bbf4c固定source298后的同raw路径审计：实际CV模型236/300条minimum
+clearance>0.02m，其中92条动态物理门失败，获77.29%权重；更强的
+原30点padded真实接触有76条模型clear，获72.54%权重，两种epoch
+敏感性标签同样76条。最高row73模型min0.025064/TTC无，而真值原始
+路径3s发生body/mechanical/padded接触。不能以不同SG路径标签替代。
+4独立几何回归及两种epoch各9000姿态标量对照通过，接触分类一致；
+篡改row73接触的负probe拒绝。34文件独立冻结，保留首图布局修订。
+具体感知几何与长时CV误差责任仍需分离；未改在线模型、采样或门。
+4报告/图示独立复算逐字节一致，4几何回归重执行通过，负probe再次
+拒绝；6文件verification单独保留，不改原34文件manifest。
