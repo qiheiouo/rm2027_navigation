@@ -368,3 +368,12 @@ clearance>0.02m，其中92条动态物理门失败，获77.29%权重；更强的
 具体感知几何与长时CV误差责任仍需分离；未改在线模型、采样或门。
 4报告/图示独立复算逐字节一致，4几何回归重执行通过，负probe再次
 拒绝；6文件verification单独保留，不改原34文件manifest。
+
+### 聚合/SG路径的纯CV评估登记（2026-10-02）
+
+从1edb4ee建立`experiment/processed-cv-objective-audit`，固定source298
+及实际消费字段/scoreclock/SDK路径。新的BUILD_TESTING-only纯评分
+工具只评估原actual aggregate及311处理后路径，格式显式区分反事实；
+私有reader复用前需104400实际risk/after及fixture字节回归和负probe。
+不动runtime/control/TF、原失败门或research。见
+[处理后目标登记](processed_cv_objective_experiment.md)。
