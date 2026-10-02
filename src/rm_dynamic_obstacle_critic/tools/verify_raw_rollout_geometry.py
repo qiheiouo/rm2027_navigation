@@ -11,9 +11,13 @@ from audit_scan_geometry import fixture
 from native_snapshot_io import read_snapshot
 
 
-def verify(source, report):
+def verify(source, report, path_blocks=None, row_id='raw_native_row', focus_row=None,
+           contact_key='padded_contact_on_original_rollout_grid_rows'):
     native, blocks = read_snapshot(source/'native_cycles/cycle_298.json')
-    if report['native_source_ordinal'] != 298 or len(report['rows']) != 300:
+    if path_blocks is not None:
+        blocks = path_blocks
+    count, steps = blocks['x']['shape']
+    if report['native_source_ordinal'] != 298 or len(report['rows']) != count or steps != 30:
         raise ValueError('registered complete raw report required')
     truth = load_truth_rows(source, json.loads((source/'execution.json').read_text()))
     times = [r['t'] for r in truth]
@@ -32,14 +36,14 @@ def verify(source, report):
     x, y = fixture(source/'scene_inputs')['actor_dimensions'][:2]
     actor = [(-x/2, -y/2), (x/2, -y/2), (x/2, y/2), (-x/2, y/2)]
     results = {}
-    top = report['highest_weight_raw_row']['raw_native_row']
+    top = report['highest_weight_raw_row']['raw_native_row'] if focus_row is None else focus_row
     for epoch, summary in report['epoch_summaries'].items():
         errors = {name: 0. for name in ['body', 'mechanical', 'padded_native']}
         contacts = 0
         first_top_contact = None
         obstacles = [actual(summary['epoch']+(step+1)*native['model_dt']) for step in range(30)]
         for row, label in enumerate(report['rows']):
-            if label['raw_native_row'] != row:
+            if label[row_id] != row:
                 raise ValueError('scalar raw row identity')
             minima = {name: math.inf for name in errors}
             for step, obstacle in enumerate(obstacles):
@@ -67,10 +71,12 @@ def verify(source, report):
                 errors[name] = max(errors[name], abs(value-captured))
                 if (value == 0) != (captured == 0):
                     raise ValueError('scalar contact classification differs')
-        if max(errors.values()) > 2e-12 or contacts != summary['padded_contact_on_original_rollout_grid_rows']:
+        if max(errors.values()) > 2e-12 or contacts != summary[contact_key]:
             raise ValueError('independent scalar grid verification failed')
-        results[epoch] = {'raw_grid_poses': 9000, 'maximum_scalar_vector_distance_error': errors,
-                          'padded_grid_contact_rows': contacts, 'highest_weight_first_padded_contact': first_top_contact}
+        results[epoch] = {'raw_grid_poses' if path_blocks is None else 'processed_grid_poses': count*steps,
+                          'maximum_scalar_vector_distance_error': errors,
+                          'padded_grid_contact_rows': contacts,
+                          'highest_weight_first_padded_contact' if focus_row is None else 'focused_processed_first_padded_contact': first_top_contact}
     return {'verdict': 'PASS', 'epochs': results, 'numerical_comparison_allowance_only': 2e-12,
             'scope': 'Independent scalar interpolation/polygon/circle distances; exact contact labels, no physical gate tolerance change.'}
 

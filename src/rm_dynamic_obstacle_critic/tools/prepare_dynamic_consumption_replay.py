@@ -8,10 +8,17 @@ import struct
 from dynamic_consumption_io import BLOCKS, read_consumption, cost_relation_exact
 
 
-def prepare(source, output):
+def prepare(source, output, source_ordinals=None):
     paths = sorted(source.glob('score_*.json'), key=lambda p: int(p.stem.split('_')[-1]))
     if not 1 <= len(paths) <= 1000:
         raise ValueError('dynamic replay record budget')
+    if source_ordinals is not None:
+        if (not source_ordinals or len(source_ordinals) > 1000 or len(set(source_ordinals)) != len(source_ordinals)
+                or any(type(n) is not int or not 0 <= n < 1000 for n in source_ordinals)):
+            raise ValueError('explicit source ordinal selection')
+        paths = [p for p in paths if int(p.stem.split('_')[-1]) in source_ordinals]
+        if len(paths) != len(source_ordinals):
+            raise ValueError('selected source score missing')
     output.mkdir(parents=True, exist_ok=False)
     identities = []; previous = -1
     with (output/'input.bin').open('xb') as stream:
@@ -40,5 +47,6 @@ def prepare(source, output):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(); parser.add_argument('source', type=Path); parser.add_argument('output', type=Path)
-    args = parser.parse_args(); report = prepare(args.source, args.output)
+    parser.add_argument('--source-ordinals', type=int, nargs='+')
+    args = parser.parse_args(); report = prepare(args.source, args.output, args.source_ordinals)
     print(json.dumps({'records': report['records'], 'input_sha256': report['input_sha256']}))

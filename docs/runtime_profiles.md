@@ -34,6 +34,10 @@ offline geometry tools. It is not a ROS parameter profile and no launch loads
 it; its 2026 size conditions do not certify 2027 targets or future CV support.
 See [the extent-prior experiment](dynamic_obstacle_critic/ground_robot_extent_prior_experiment.md).
 
+`evaluate_processed_cv` is a BUILD_TESTING-only, file-to-file CV evaluator;
+no launch loads it or its processed-path data. It starts no ROS node and does
+not choose controls. See [the processed-path experiment](dynamic_obstacle_critic/processed_cv_objective_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

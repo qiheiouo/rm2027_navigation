@@ -377,3 +377,14 @@ clearance>0.02m，其中92条动态物理门失败，获77.29%权重；更强的
 私有reader复用前需104400实际risk/after及fixture字节回归和负probe。
 不动runtime/control/TF、原失败门或research。见
 [处理后目标登记](processed_cv_objective_experiment.md)。
+
+42d5213后新增纯CV评估器与共享私有reader，16正反可执行检查通过：
+完整104400实际risk/after、原4score输出与负one-ULP结果逐字节相同。
+默认input和raw标量报告不变，五runtime ELF不变。311条SDK处理后
+路径显式分actual aggregate与反事实；actual aggregate CV min0.114527/
+risk0.549357/TTC无，但同scoreclock机械/padded接触，zero CV risk0
+且动态门通过。两epoch各9330姿态标量一致，源pose几何与原见证误差0。
+scoreclock模型clear却padded原网格接触91条，原sourceepoch90条。
+91文件独立归档约2.54MB；保留原FAILED/NOT ESTABLISHED及运行边界。
+首轮9项逐字节复算通过；重新生成输入的CPP311输出实际重执行一致，
+含新输出10项复算全部通过，独立8文件verification不改原91文件身份。

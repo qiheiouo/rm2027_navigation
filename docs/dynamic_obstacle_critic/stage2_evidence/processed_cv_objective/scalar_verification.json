@@ -1,0 +1,61 @@
+{
+  "verdict": "PASS",
+  "epochs": {
+    "actual_score_clock": {
+      "processed_grid_poses": 9330,
+      "maximum_scalar_vector_distance_error": {
+        "body": 5.551115123125783e-17,
+        "mechanical": 1.1102230246251565e-16,
+        "padded_native": 5.551115123125783e-17
+      },
+      "padded_grid_contact_rows": 125,
+      "focused_processed_first_padded_contact": {
+        "step": 29,
+        "future_seconds": 2.9000000432133675,
+        "truth_epoch": 50.904000043213365,
+        "robot_pose": [
+          4.252192974090576,
+          0.8394566178321838,
+          -1.1299333572387695
+        ],
+        "actor_pose": [
+          4.9,
+          0.7637909047699872,
+          0.0
+        ],
+        "scalar_body_gap": 0.06869506366125488,
+        "scalar_mechanical_gap": 0.037640661476236834,
+        "scalar_padded_gap": 0.0
+      }
+    },
+    "source_pose_clock_sensitivity": {
+      "processed_grid_poses": 9330,
+      "maximum_scalar_vector_distance_error": {
+        "body": 5.551115123125783e-17,
+        "mechanical": 5.551115123125783e-17,
+        "padded_native": 2.7755575615628914e-17
+      },
+      "padded_grid_contact_rows": 124,
+      "focused_processed_first_padded_contact": {
+        "step": 29,
+        "future_seconds": 2.9000000432133675,
+        "truth_epoch": 50.880000043213364,
+        "robot_pose": [
+          4.252192974090576,
+          0.8394566178321838,
+          -1.1299333572387695
+        ],
+        "actor_pose": [
+          4.9,
+          0.7733645993944614,
+          0.0
+        ],
+        "scalar_body_gap": 0.06869506366125488,
+        "scalar_mechanical_gap": 0.037640661476236834,
+        "scalar_padded_gap": 0.0
+      }
+    }
+  },
+  "numerical_comparison_allowance_only": 2e-12,
+  "scope": "Independent scalar interpolation/polygon/circle distances; exact contact labels, no physical gate tolerance change."
+}

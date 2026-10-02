@@ -241,3 +241,15 @@ has model clearance 0.02506 m and no TTC, but the same raw path contacts truth.
 Two independent scalar 9,000-pose checks agree; a corrupted contact is rejected.
 These labels certify neither post-SG output nor execution/static/task safety.
 See [the raw-path audit](../../docs/dynamic_obstacle_critic/raw_rollout_objective_experiment.md).
+
+The BUILD_TESTING-only `evaluate_processed_cv ACTUAL_INPUT PROCESSED_PATHS
+NEW_JSONL` applies the original runtime CV arithmetic to explicitly marked SDK
+processed paths. `prepare_processed_cv.py SOURCE WITNESS_ARCHIVE NEW_OUTPUT`
+keeps the actual source298 context and original measured prefix; it exports
+311 paths with the reconstructed actual aggregate separated from counterfactuals.
+Shared-reader regressions preserve all 104,400 raw score bits and four actual
+fixture outputs; 16 executable checks pass and five runtime ELF hashes remain
+unchanged. The aggregate has CV risk 0.5494/minimum 0.1145 m/no TTC, while the
+same-score-clock physical path contacts mechanical/padded geometry. Zero retains
+CV risk0 and passes dynamic geometry. These offline costs do not become native
+weights or a control choice. See [the processed-path experiment](../../docs/dynamic_obstacle_critic/processed_cv_objective_experiment.md).
