@@ -12,6 +12,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('input',type=Path);parser.add_argument('output',type=Path)
     parser.add_argument('--binary',type=Path,required=True)
+    parser.add_argument('--stage-reference',type=Path)
     args=parser.parse_args();args.output.mkdir();checks={}
     def run(source,binary,json_path,label):
         with (args.output/(label+'.log')).open('x') as log:
@@ -23,7 +24,8 @@ def main():
     rows=[json.loads(line) for line in json_path.read_text().splitlines()]
     header=struct.unpack_from('<IIIIfd',blob,8)
     names=['actual_baseline','source_geometry_oracle','source_bracket_CV_oracle','future_circle_oracle']
-    checks['complete_private_four_path_output']=(len(blob)==4356 and blob[:8]==b'RMCVAGO1' and header[:4]==(298,4,30,127) and
+    stage=args.stage_reference is not None;count=8 if stage else 4;stride=count*120
+    checks['complete_private_eight_stage_output' if stage else 'complete_private_four_path_output']=(len(blob)==36+stride*9 and blob[:8]==(b'RMCVAST1' if stage else b'RMCVAGO1') and header[:4]==(298,count,30,127) and
         len(rows)==5 and [r['factor'] for r in rows[1:]]==names and rows[0]['native_library']=='/opt/ros/humble/lib/libmppi_controller.so')
     baseline=rows[1]
     checks['independent_baseline_gamma_weights_mean_SG_command_bits']=(
@@ -32,8 +34,15 @@ def main():
         struct.pack('<90f',*baseline['mean_before_SG'])==data[576:936] and
         struct.pack('<90f',*baseline['mean_after_SG'])==data[936:1296] and
         struct.pack('<3d',*baseline['returned_control'])==data[1296:1320])
-    checks['independent_baseline_nine_path_blocks_bits']=all(blob[36+axis*480:36+axis*480+120]==data[332520+axis*120:332520+(axis+1)*120] for axis in range(9))
+    checks['independent_baseline_nine_path_blocks_bits']=all(blob[36+axis*stride+(120 if stage else 0):36+axis*stride+(120 if stage else 0)+120]==data[332520+axis*120:332520+(axis+1)*120] for axis in range(9))
     checks['all_four_native_weights_reaggregate_exact']=all(r['weights_reaggregate_bounded_mean_bit_exact'] for r in rows[1:])
+    if stage:
+        from native_factor_io import read_paths
+        from native_sg_stage_io import read_paths as read_stages
+        frozen=read_paths(args.stage_reference);current=read_stages(binary)
+        checks['four_after_all_nine_path_blocks_bit_exact']=all(struct.pack('<30f',*current['blocks'][name]['values'][(2*i+1)*30:(2*i+2)*30])==struct.pack('<30f',*frozen['blocks'][name]['values'][i*30:(i+1)*30]) for name in frozen['blocks'] for i in range(4))
+        checks['eight_control_rows_match_captured_bounded_mean_or_SG']=all(struct.pack('<30f',*current['blocks'][name]['values'][row*30:(row+1)*30])==struct.pack('<30f',*rows[row//2+1]['mean_after_SG' if row%2 else 'mean_before_SG'][axis*30:(axis+1)*30]) for row in range(8) for axis,name in enumerate(['cvx','cvy','cwz']))
+        checks['all_eight_measured_prefix_bits']=all(struct.pack('<f',current['blocks'][name]['values'][row*30])==struct.pack('<f',struct.unpack_from('<d',data,64+index*8)[0]) for row in range(8) for name,index in [('vx',7),('vy',8),('wz',12)])
     def mutation(offset,value,fmt):
         changed=bytearray(data);struct.pack_into(fmt,changed,offset,value);return changed
     def delta(offset,fmt,change):
@@ -72,7 +81,7 @@ def main():
     report={'verdict':'PASS' if all(checks.values()) else 'FAILED','checks':checks,
             'native_factor_ELF_sha256':hashlib.sha256(args.binary.read_bytes()).hexdigest(),
             'positive_paths_sha256':digest,'positive_jsonl_sha256':digest_json,
-            'scope':'Fixed actual baseline and private hypotheses; bitwise NaN/Inf rejection under SDK fast-math; no physical acceptance.'}
+            'scope':'Eight private stage paths; all four after paths exact; before-SG are hypotheses, no physical acceptance.' if stage else 'Fixed actual baseline and private hypotheses; bitwise NaN/Inf rejection under SDK fast-math; no physical acceptance.'}
     (args.output/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report),flush=True);return 0 if all(checks.values()) else 1
 

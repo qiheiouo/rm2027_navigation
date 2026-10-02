@@ -11,8 +11,16 @@ from native_snapshot_io import read_snapshot
 
 
 def verify(source,path,report):
-    native,blocks=read_snapshot(source/'native_cycles/cycle_298.json');record=read_paths(path)
+    record=read_paths(path)
     if report['native_source_ordinal']!=298 or len(report['rows'])!=4:raise ValueError('fixed full factor report required')
+    return verify_record(source,record,report)
+
+
+def verify_record(source,record,report):
+    """Scalar geometry core; the caller supplies a separately validated schema."""
+    native,blocks=read_snapshot(source/'native_cycles/cycle_298.json')
+    if report['native_source_ordinal']!=298 or len(report['rows'])!=record['rows']:
+        raise ValueError('full private path/report row join required')
     policy=json.loads((source/'policy.json').read_text());threshold=policy['raw_costmap_threshold']
     if threshold!=203:raise ValueError('original raw203 threshold required')
     grid=native['map'];res=grid['resolution'];width,height=grid['size'];ox,oy=grid['origin']

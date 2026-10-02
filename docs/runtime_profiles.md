@@ -56,6 +56,12 @@ commands. Future truth remains inadmissible and all four full conditional
 gate sets fail, including a frozen raw216 contact for the dynamically clear
 future-circle aggregate. See [the aggregation experiment](dynamic_obstacle_critic/native_factor_aggregation_experiment.md).
 
+`evaluate_native_sg_stages` and `evaluate_cv_stage_factors` are offline
+BUILD_TESTING-only before/after instances. No launch loads the eight-path
+private format or issues its pre-SG controls. Both stages fail the full gate
+sets; future-circle raw216 contact already exists before SG. See
+[the SG stage experiment](dynamic_obstacle_critic/native_sg_stage_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

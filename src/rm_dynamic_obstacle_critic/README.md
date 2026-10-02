@@ -288,3 +288,15 @@ This is a captured map label, not an executed physical collision. Independent
 native/score re-execution and 15 report/input/figure byte checks pass. No online
 producer, physical support bounds or control acceptance is established. See
 [the native aggregation experiment](../../docs/dynamic_obstacle_critic/native_factor_aggregation_experiment.md).
+
+`evaluate_native_sg_stages` and `evaluate_cv_stage_factors` are separate
+BUILD_TESTING-only instances for eight explicitly private before/after paths.
+All four after paths and scores preserve the earlier factor audit bits; all
+twelve prior ELF identities and 86 default artifacts/reports remain unchanged.
+The future-circle aggregate already contacts the same raw216 cell before SG
+at +2.982 s, with mechanical lower bounds 0.189 m before and 0.176 m after.
+Both stages give zero full conditional safe-progress factors in both epochs.
+No closed-loop SG/sampler causal claim follows. Thirty-one native, nineteen
+pure score, twelve format and five evidence probes pass; independent native
+re-execution preserves all fifteen replay artifacts. See
+[the SG stage experiment](../../docs/dynamic_obstacle_critic/native_sg_stage_experiment.md).

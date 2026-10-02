@@ -71,6 +71,12 @@ future truth but yields no full safe-progress result because raw203 still fails.
 Two scalar geometry/cell checks, format probes and independent native replays
 remain separate from execution or deployment acceptance.
 
+[The native SG stage audit](dynamic_obstacle_critic/native_sg_stage_experiment.md)
+isolates bounded mean and actual-history SG under the same four weights and
+measured prefix. All after paths preserve prior bits; future-circle raw216
+contact exists at both stages. Complete conditional gate sets pass zero of
+four factors before and after, without a global SG or sampler causal claim.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

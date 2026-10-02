@@ -149,6 +149,17 @@ public:
     return result;
   }
   std::array<std::vector<float>,9> paths(const Input &input,const std::array<Result,4> &results) {
+#ifdef RM_NATIVE_SG_STAGES
+    constexpr size_t rows=8;
+    mppi::models::State states;states.reset(rows,30);set_measured(states,input.measured);
+    for (size_t row=0;row<rows;++row) {
+      const auto &controls=row%2?results[row/2].sg:results[row/2].mean;
+      size_t axis=0;
+      for (auto *tensor : {&states.cvx,&states.cvy,&states.cwz}) {
+        std::memcpy(tensor->data()+row*30,controls.data()+axis*30,30*sizeof(float));++axis;
+      }
+    }
+#else
     mppi::models::State states;states.reset(4,30);set_measured(states,input.measured);
     for (size_t row=0;row<4;++row) {
       size_t axis=0;
@@ -156,14 +167,23 @@ public:
         std::memcpy(tensor->data()+row*30,results[row].sg.data()+axis*30,30*sizeof(float));++axis;
       }
     }
+#endif
     updateStateVelocities(states);
+#ifdef RM_NATIVE_SG_STAGES
+    mppi::models::Trajectories trajectories;trajectories.reset(rows,30);integrateStateVelocities(trajectories,states);
+#else
     mppi::models::Trajectories trajectories;trajectories.reset(4,30);integrateStateVelocities(trajectories,states);
+#endif
     std::array<std::vector<float>,9> output;size_t axis=0;
     for (const auto *tensor : {&states.cvx,&states.cvy,&states.cwz,&states.vx,&states.vy,&states.wz,
         &trajectories.x,&trajectories.y,&trajectories.yaws}) {
       output[axis].assign(tensor->begin(),tensor->end());require_finite(output[axis]);++axis;
     }
+#ifdef RM_NATIVE_SG_STAGES
+    for (size_t row=0;row<rows;++row) for (size_t a=0;a<3;++a) {
+#else
     for (size_t row=0;row<4;++row) for (size_t a=0;a<3;++a) {
+#endif
       const float expected=float(input.measured[a==2?12:7+a]);
       if (std::memcmp(output[3+a].data()+row*30,&expected,4)) throw std::runtime_error("factor measured prefix changed");
     }
@@ -190,18 +210,37 @@ int main(int argc,char **argv) {
        std::memcmp(baseline.gamma.data(),input.expected_gamma.data(),1200) ||
        std::memcmp(baseline.weights.data(),input.expected_weights.data(),1200))
       throw std::runtime_error("native factor actual gamma/weights/mean/SG/command bits mismatch");
+#ifdef RM_NATIVE_SG_STAGES
+    for(size_t axis=0;axis<9;++axis)if(std::memcmp(paths[axis].data()+30,input.expected_path[axis].data(),120))
+#else
     for(size_t axis=0;axis<9;++axis)if(std::memcmp(paths[axis].data(),input.expected_path[axis].data(),120))
+#endif
       throw std::runtime_error("native factor actual aggregate path bits mismatch");
     std::ofstream binary(argv[2],std::ios::binary),json(argv[3]);
     binary.exceptions(std::ios::failbit|std::ios::badbit);json.exceptions(std::ios::failbit|std::ios::badbit);json<<std::setprecision(17);
+#ifdef RM_NATIVE_SG_STAGES
+    const uint32_t source=298,rows=8,steps=30,baseline_mask=127;const float dt=input.parameters[0];
+#else
     const uint32_t source=298,rows=4,steps=30,baseline_mask=127;const float dt=input.parameters[0];
+#endif
     const double yaw=native.initial_yaw();
+#ifdef RM_NATIVE_SG_STAGES
+    binary.write("RMCVAST1",8);write_values(binary,&source,1);write_values(binary,&rows,1);
+#else
     binary.write("RMCVAGO1",8);write_values(binary,&source,1);write_values(binary,&rows,1);
+#endif
     write_values(binary,&steps,1);write_values(binary,&baseline_mask,1);write_values(binary,&dt,1);write_values(binary,&yaw,1);
     for(const auto &values : paths)write_values(binary,values.data(),values.size());
+#ifdef RM_NATIVE_SG_STAGES
+    json<<"{\"source_ordinal\":298,\"rows\":8,\"steps\":30,\"model_dt\":"<<dt<<",\"native_library\":\""<<library<<'"'
+        <<",\"actual_baseline_bit_exact_mask\":127,\"measured_prefix_exact_all_eight\":true,"
+        <<"\"path_order\":\"factor-major; bounded_mean_before_SG then actual_history_after_SG\","
+        <<"\"scope\":\"offline fixed-context stage paths; pre-SG is a model hypothesis, not a published native command\"}\n";
+#else
     json<<"{\"source_ordinal\":298,\"rows\":4,\"steps\":30,\"model_dt\":"<<dt<<",\"native_library\":\""<<library<<'"'
         <<",\"actual_baseline_bit_exact_mask\":127,\"measured_prefix_exact_all_four\":true,"
         <<"\"scope\":\"offline fixed-context native factor aggregation; baseline replica and three counterfactuals, no new actual event\"}\n";
+#endif
     const std::array<const char *,4> names{"actual_baseline","source_geometry_oracle","source_bracket_CV_oracle","future_circle_oracle"};
     for(size_t factor=0;factor<4;++factor) {
       const auto &r=results[factor];json<<"{\"row\":"<<factor<<",\"factor\":\""<<names[factor]<<"\",\"weights_reaggregate_bounded_mean_bit_exact\":true,\"post_gamma_costs\":";

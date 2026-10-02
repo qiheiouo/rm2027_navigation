@@ -23,8 +23,8 @@ from witness_geometry import rotate, polygon_distance, circle_box_gap, interpola
 def full_context(source,native,blocks,record,truth,scene,shapes,epoch,policy,dynamic):
     times=np.array([r['t'] for r in truth]);dt=record['model_dt'];grid=epoch+np.arange(31)*dt
     samples=np.unique(np.concatenate((grid,times[(times>epoch)&(times<grid[-1])])))
-    poses=np.empty((4,len(samples),3))
-    for row in range(4):
+    poses=np.empty((record['rows'],len(samples),3))
+    for row in range(record['rows']):
         for axis,name in enumerate(['x','y','yaw']):
             initial=native['pose'][axis] if axis<2 else record['initial_yaw']
             values=np.concatenate(([initial],record['blocks'][name]['values'][row*30:(row+1)*30]))
@@ -52,12 +52,12 @@ def full_context(source,native,blocks,record,truth,scene,shapes,epoch,policy,dyn
     gap=polygon_distance(rotate(poses,configured),rotate(obstacle,actor))
     metrics['padded_configured'].update(dynamic_sample_min=gap.min(axis=1),dynamic_lower=interpolation_lower(gap,poses,np.linalg.norm(configured,axis=1).max(),obstacle,np.linalg.norm(actor,axis=1).max()))
     footprint=np.array(native['padded_footprint']);movement=travel(poses[:,:-1],poses[:,1:],np.linalg.norm(footprint,axis=1).max())
-    reserve=np.zeros((4,len(samples)));reserve[:,:-1]=.5*movement;reserve[:,1:]=np.maximum(reserve[:,1:],.5*movement)
+    reserve=np.zeros((record['rows'],len(samples)));reserve[:,:-1]=.5*movement;reserve[:,1:]=np.maximum(reserve[:,1:],.5*movement)
     raw={**{k:native['map'][k] for k in ['resolution','origin','size']},'data':blocks['raw_costmap']['values']}
     raw_margin=(raw_clearance_lower(poses,footprint,raw,reserve,policy['raw_costmap_threshold'])-reserve).min(axis=1)
     follow=profile['controller_server']['ros__parameters']['FollowPath'];tol=policy['bounds_tolerance']
     rounded=struct.unpack('<f',struct.pack('<f',native['pose'][0]))[0];results=[]
-    for row in range(4):
+    for row in range(record['rows']):
         combined={name:{key:float(value[row]) for key,value in values.items()} for name,values in metrics.items()}
         for name in ['body','mechanical','padded_native']:
             for new,old in [('dynamic_sample_min','sample_min'),('dynamic_lower','interval_lower')]:
