@@ -388,3 +388,11 @@ scoreclock模型clear却padded原网格接触91条，原sourceepoch90条。
 91文件独立归档约2.54MB；保留原FAILED/NOT ESTABLISHED及运行边界。
 首轮9项逐字节复算通过；重新生成输入的CPP311输出实际重执行一致，
 含新输出10项复算全部通过，独立8文件verification不改原91文件身份。
+
+### 当前几何与未来CV支持因子登记（2026-10-02）
+
+从8523d1f建立`experiment/cv-support-factor-audit`。固定source298的
+300 raw及311 processed路径，预登记actual/source几何/source bracket
+CV/future circle四个离线对照；真值只诊断，非在线输入或CA恢复。
+baseline先逐位回归，原native权重仅描述，运动上界仍unknown；不改
+原失败门或runtime。见[因子审计登记](cv_support_factor_experiment.md)。
