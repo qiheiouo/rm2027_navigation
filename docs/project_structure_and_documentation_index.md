@@ -77,6 +77,13 @@ measured prefix. All after paths preserve prior bits; future-circle raw216
 contact exists at both stages. Complete conditional gate sets pass zero of
 four factors before and after, without a global SG or sampler causal claim.
 
+[The native factor safe mass audit](dynamic_obstacle_critic/native_factor_safe_mass_experiment.md)
+keeps original raw costs and individual SDK SG labels distinct. It preserves
+39 source-pose witnesses, establishes 38 at the score clock under the same
+conditional gates, and describes their four weight fractions with exact
+rational verification. Every positive label is included in a 43-path raw
+scalar subset; the audit supplies no new ranking or runtime input.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

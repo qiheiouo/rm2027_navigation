@@ -467,3 +467,13 @@ before0/4、after0/4；future circle机械下界0.189→0.176m、padded
 权重与11+row个体bounds/SG完整门的关联，补齐scoreclock所有个体
 门并独立复核全部正安全标签与最高权重行。不把个体标签替换raw
 或aggregate路径，不引入选择器，见[质量审计登记](native_factor_safe_mass_experiment.md)。
+
+ef3c93e后全部311源pose完整几何/门精确复现；主scoreclock300个体
+38完整条件正见证，源pose仍39，row63 padded区间下界失败并非
+已证接触。四原生权重在主38候选的占比16.46/11.46/4.99/40.86%，
+aggregate仍全部失败。43行原raw独立密集核验覆盖全部正标签；
+257失败行仅保守vector，不扩大精确标量核验范围。8组/32分组有理
+质量误差0、13完整性/CLI probe通过，原14 ELF不变。67文件约3.17MB
+冻结，23依赖模块；独立重算个体门/raw/质量/probe/图示6项字节同，
+8文件verification保留，八archive共2448文件身份通过。无排序/选择
+或运行变更，真实支持unknown与原FAILED/NOT ESTABLISHED保持。

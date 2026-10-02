@@ -67,6 +67,12 @@ future-circle raw216采样接触在SG前已经存在；两stage原全部门
 仍0/4，不能用滤波修正推导输出安全或宣布采样器失败。见
 [SG阶段审计](../dynamic_obstacle_critic/native_sg_stage_experiment.md)。
 
+个体SDK见证在源pose有39/300完整条件正进展，实际scoreclock为
+38/300，差异row63仅padded连续区间保守下界未通过，不能据此声称
+接触。原raw风险成本与11+row个体SG标签属于不同路径；即使future
+oracle给正见证40.86%权重，aggregate仍失败。见
+[权重质量审计](../dynamic_obstacle_critic/native_factor_safe_mass_experiment.md)。
+
 离线纯函数已将一个可复算的充分条件具体化：若完整未来投影到源
 集合的有向Hausdorff位移≤B*h，源集合直径≤D、锚点到凸包≤e，
 则原CV锚点可用`D+e+(B+|v_hat|)*h`支持，h包含source age。

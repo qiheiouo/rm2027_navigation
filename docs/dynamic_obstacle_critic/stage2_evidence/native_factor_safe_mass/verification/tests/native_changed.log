@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_native_factor_safe_mass.py", line 145, in <module>
+    values=audit(*[getattr(args,n).resolve() for n in ['source','witness','processed','factors','aggregation','stages','raw_archive']],args.native_json)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_native_factor_safe_mass.py", line 75, in audit
+    raise ValueError('frozen native factor costs/weights/controls changed')
+ValueError: frozen native factor costs/weights/controls changed

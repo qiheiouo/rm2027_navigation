@@ -62,6 +62,11 @@ private format or issues its pre-SG controls. Both stages fail the full gate
 sets; future-circle raw216 contact already exists before SG. See
 [the SG stage experiment](dynamic_obstacle_critic/native_sg_stage_experiment.md).
 
+`audit_native_factor_safe_mass.py` is a file-only descriptive join of frozen
+native weights to separately bounded/SG individual path labels. It creates no
+ranking or control choice; no runtime profile loads its report or the 43-path
+raw verification subset. See [the safe mass audit](dynamic_obstacle_critic/native_factor_safe_mass_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

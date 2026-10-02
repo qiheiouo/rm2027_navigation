@@ -300,3 +300,15 @@ No closed-loop SG/sampler causal claim follows. Thirty-one native, nineteen
 pure score, twelve format and five evidence probes pass; independent native
 re-execution preserves all fifteen replay artifacts. See
 [the SG stage experiment](../../docs/dynamic_obstacle_critic/native_sg_stage_experiment.md).
+
+`audit_native_factor_safe_mass.py` joins original raw row i to the distinct
+individual SDK bounds/SG row 11+i. All 311 source-pose full labels remain exact;
+300 sampled individuals include 38 full conditional safe-progress paths at
+the actual score clock and the earlier 39 at source pose. Row63 loses its
+padded interval lower gate without a sampled contact. The four native weight
+fractions on the 38 paths are 16.46%, 11.46%, 4.99% and 40.86%; all aggregates
+still fail. Exact rational verification of eight groups and 32 disjoint
+partitions has zero mass error. Thirteen integrity/CLI probes and a 43-path
+raw scalar subset cover all positive labels. Six independently recomputed
+report/figure artifacts match byte for byte; all fourteen prior ELF identities
+remain unchanged. See [the safe mass audit](../../docs/dynamic_obstacle_critic/native_factor_safe_mass_experiment.md).
