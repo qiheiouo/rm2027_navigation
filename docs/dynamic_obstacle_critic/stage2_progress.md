@@ -407,3 +407,11 @@ processed91→119→125→0。未来真值不可在线使用；原权重仅描�
 输入/核验/分析/图示逐字节复算通过；motion unknown及全部失败门保持。
 新输入CPP2444行实际重执行字节相同，13项复算通过；9文件独立
 verification保留，五archive共2010文件身份通过且原112文件不变。
+
+### 条件CV支持界登记（2026-10-02）
+
+从b17b73a建立`experiment/cv-support-bound-contract`，先登记纯离线
+三角支持界与unknown语义。完整投影Hausdorff运动界B、源锚点误差e
+及有效区间必须显式提供，source age计入；缺失不补经验数值。
+只开发纯函数/构造与随机独立几何测试，不改在线策略或恢复CA。
+见[条件支持界登记](cv_support_bound_experiment.md)。
