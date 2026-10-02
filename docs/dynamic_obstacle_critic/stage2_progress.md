@@ -460,3 +460,10 @@ before0/4、after0/4；future circle机械下界0.189→0.176m、padded
 192文件约8.26MB冻结，保留绘图bytes转换错误与初图；12项复算
 及独立SDK/纯评分后15项字节相同，14文件verification单独保存，
 五archive共2256文件身份通过。真实支持unknown及原失败门保持。
+
+### 四因子安全候选质量登记（2026-10-02）
+
+从ced13e8建立`experiment/native-factor-safe-mass`，核对原300 raw
+权重与11+row个体bounds/SG完整门的关联，补齐scoreclock所有个体
+门并独立复核全部正安全标签与最高权重行。不把个体标签替换raw
+或aggregate路径，不引入选择器，见[质量审计登记](native_factor_safe_mass_experiment.md)。
