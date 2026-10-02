@@ -56,6 +56,12 @@ conv(S)距离另有可信上界e，则任意p∈S满足`|p-q|≤D+e`。q不必
 [离线因子审计](../dynamic_obstacle_critic/cv_support_factor_experiment.md)。
 它没有建立真实机器人运动上界、观测误差界或在线prediction认证。
 
+后续固定native上下文重加权显示：future-circle真值可使新aggregate
+完整动态mechanical/padded下界达到0.176/0.130m，但在+2.982s接触
+冻结raw216单元，四因子均未通过全部条件门。模型支持、原生输出及
+当前地图门必须分别核验，不能把未来真值诊断当可消费契约或输出
+安全认证。见[聚合因子审计](../dynamic_obstacle_critic/native_factor_aggregation_experiment.md)。
+
 离线纯函数已将一个可复算的充分条件具体化：若完整未来投影到源
 集合的有向Hausdorff位移≤B*h，源集合直径≤D、锚点到凸包≤e，
 则原CV锚点可用`D+e+(B+|v_hat|)*h`支持，h包含source age。

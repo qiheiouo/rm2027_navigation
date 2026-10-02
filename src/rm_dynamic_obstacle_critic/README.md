@@ -274,3 +274,17 @@ data-only `cv_support_assumptions_offline.yaml` leaves every bound unknown;
 all four actual source298 queries remain unknown. Eight tests include 8,000
 irregular deforming cases; 14 CLI checks and ten byte-exact independent replay
 checks pass. See [the support-bound experiment](../../docs/dynamic_obstacle_critic/cv_support_bound_experiment.md).
+
+The BUILD_TESTING-only `evaluate_native_factor_aggregation INPUT NEW_PATHS
+NEW_JSONL` applies four explicit offline costs to the same source298 sampled
+controls, actual warm sequence and SG history. Installed native aggregation,
+constraints, SG and integration preserve every actual baseline bit. The pure
+`evaluate_cv_aggregate_factors` instance scores these four new paths; the default
+311 instance and all its artifacts remain unchanged. All four full three-second
+conditional gate sets fail. Future-circle risk improves dynamic mechanical
+clearance to 0.176 m and padded clearance to 0.130 m, but the new aggregate
+contacts frozen raw216 cell (78,38) at +2.982 s under the original 203 threshold.
+This is a captured map label, not an executed physical collision. Independent
+native/score re-execution and 15 report/input/figure byte checks pass. No online
+producer, physical support bounds or control acceptance is established. See
+[the native aggregation experiment](../../docs/dynamic_obstacle_critic/native_factor_aggregation_experiment.md).

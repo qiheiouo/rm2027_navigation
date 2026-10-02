@@ -64,6 +64,13 @@ requires bounds for the complete moving projection, including rotation and
 mechanisms; a chassis translation limit alone does not satisfy that condition.
 No physical assumptions are supplied automatically to the runtime.
 
+[The native factor aggregation audit](dynamic_obstacle_critic/native_factor_aggregation_experiment.md)
+preserves the full captured baseline through installed optimizer/constraints/SG
+and compares four new offline aggregates. It improves dynamic geometry with
+future truth but yields no full safe-progress result because raw203 still fails.
+Two scalar geometry/cell checks, format probes and independent native replays
+remain separate from execution or deployment acceptance.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

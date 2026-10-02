@@ -432,3 +432,13 @@ null；源年龄计入，有理时域与向外半径舍入。8测试含8000旋�
 cost，baseline全gamma/weights/mean/SG/路径位型先证明，再检查4组
 原生aggregate完整三秒门。future truth仍不可上线；不恢复CA/sampler/
 ranking，不改原失败门。见[聚合因子登记](native_factor_aggregation_experiment.md)。
+
+a78fecf后baseline raw/gamma/weights/mean/SG/command/路径全部逐位
+复现，28原生、17四路径纯评分、19默认回归、10格式及伪造raw通过
+负例通过，原十ELF不变。四新aggregate两epoch完整三秒全部0/4；
+future circle动态机械/padded下界0.176/0.130m且进展1.0246m，但原
+raw203下界−6.936mm。独立单元核验定位+2.982s的raw216单元(78,38)
+实际采样接触，不解释为已执行物理碰撞。179文件约8.08MB冻结，
+12项复算及独立CPP重执行后15项逐字节一致；14文件verification
+单独保存，四archive共2064文件身份通过，保留准备精度错误和初图。
+运动支持仍unknown；原FAILED/NOT ESTABLISHED和在线边界不变。

@@ -49,6 +49,13 @@ no launch/node loads it. Conditional support math does not choose an online
 radius or certify the supplied motion/anchor/size assumptions. See
 [the support-bound experiment](dynamic_obstacle_critic/cv_support_bound_experiment.md).
 
+`evaluate_native_factor_aggregation` and `evaluate_cv_aggregate_factors` are
+BUILD_TESTING-only offline file tools. They intervene on four explicit risk
+inputs in one frozen native context; no profile loads their hypotheses or
+commands. Future truth remains inadmissible and all four full conditional
+gate sets fail, including a frozen raw216 contact for the dynamically clear
+future-circle aggregate. See [the aggregation experiment](dynamic_obstacle_critic/native_factor_aggregation_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

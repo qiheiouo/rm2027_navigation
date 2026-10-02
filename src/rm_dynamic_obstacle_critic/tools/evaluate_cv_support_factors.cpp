@@ -9,6 +9,9 @@
 namespace dyn = rm_dynamic_obstacle_critic;
 namespace offline = dyn::offline;
 using Matrix = std::array<std::vector<float>, 3>;
+#ifndef RM_FACTOR_PROCESSED_ROWS
+#define RM_FACTOR_PROCESSED_ROWS 311
+#endif
 
 dyn::Risk future_circle_score(const std::vector<dyn::Pose> &poses,
     const offline::Record &context, const dyn::Array &message, uint64_t track_id,
@@ -52,7 +55,7 @@ int main(int argc, char **argv) {
     uint64_t track_id; uint32_t factors;
     offline::read_values(input, &track_id, 1); offline::read_values(input, &factors, 1);
     const auto ordinal = grid[0], rows = grid[1], steps = grid[2];
-    if (ordinal != context.ordinal || rows != 311 || steps != context.steps || steps != 30 ||
+    if (ordinal != context.ordinal || rows != RM_FACTOR_PROCESSED_ROWS || steps != context.steps || steps != 30 ||
         !std::isfinite(dt) || double(dt) != context.params[0] || factors != 4)
       throw std::runtime_error("factor source/grid/dt/count mismatch");
     const auto associated = std::find_if(context.message.tracks.begin(), context.message.tracks.end(),

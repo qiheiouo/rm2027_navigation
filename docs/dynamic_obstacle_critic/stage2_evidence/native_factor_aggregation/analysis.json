@@ -1,0 +1,804 @@
+{
+  "schema": 1,
+  "native_source_ordinal": 298,
+  "baseline_original_full_witness_geometry_max_error": 0.0,
+  "input_identity_sha256": "14e8b6c931ccf342f87d6fd3ee7ce797fafddece28f5705408536942dd770ea2",
+  "native_paths_sha256": "c1b1250169f12db30c3821c791142a2274d1e81a68f612c986e62b57ecf38cf6",
+  "native_CPP_sha256": "a6f38f230aaf59b97754515b0da03787e3cdd5ba02ee19a22b0d5be991a1c0b0",
+  "pure_score_CPP_sha256": "5b440b1ff7aa291f42b2c95d4f9facf8f4b58ff6ac85beac4799e1f1f56f3448",
+  "epoch_summaries": {
+    "actual_score_clock": {
+      "epoch": 48.004,
+      "horizon": 3.0000000447034836,
+      "samples": 208,
+      "max_sample_interval": 0.017000000000003013,
+      "padded_contact_on_aggregate_grid_rows": 3,
+      "full_conditional_safe_progress_rows": 0
+    },
+    "source_pose_clock_sensitivity": {
+      "epoch": 47.98,
+      "horizon": 3.0000000447034836,
+      "samples": 207,
+      "max_sample_interval": 0.017000000000003013,
+      "padded_contact_on_aggregate_grid_rows": 3,
+      "full_conditional_safe_progress_rows": 0
+    }
+  },
+  "rows": [
+    {
+      "native_factor_row": 0,
+      "factor": "actual_baseline",
+      "role": "actual_baseline_replica",
+      "returned_control": [
+        0.2580098807811737,
+        0.12303605675697327,
+        -0.10235398262739182
+      ],
+      "matching_factor_model_score": {
+        "factor": "actual_baseline",
+        "path_kind": "processed",
+        "row": 0,
+        "risk": 0.5493567687138423,
+        "minimum_clearance": 0.114527360566684,
+        "collision_time": null
+      },
+      "all_factor_model_scores": {
+        "actual_baseline": {
+          "factor": "actual_baseline",
+          "path_kind": "processed",
+          "row": 0,
+          "risk": 0.5493567687138423,
+          "minimum_clearance": 0.114527360566684,
+          "collision_time": null
+        },
+        "source_geometry_oracle": {
+          "factor": "source_geometry_oracle",
+          "path_kind": "processed",
+          "row": 0,
+          "risk": 0.1932945985210564,
+          "minimum_clearance": 0.1983184805224537,
+          "collision_time": null
+        },
+        "source_bracket_CV_oracle": {
+          "factor": "source_bracket_CV_oracle",
+          "path_kind": "processed",
+          "row": 0,
+          "risk": 0,
+          "minimum_clearance": 0.4542223772753129,
+          "collision_time": null
+        },
+        "future_circle_oracle": {
+          "factor": "future_circle_oracle",
+          "path_kind": "processed",
+          "row": 0,
+          "risk": 205880.15719467716,
+          "minimum_clearance": -0.1637345261016899,
+          "collision_time": 2.600000038743019
+        }
+      },
+      "physical_dynamic_labels": {
+        "actual_score_clock": {
+          "gates": {
+            "body_dynamic_margin": false,
+            "mechanical_dynamic_margin": false,
+            "padded_dynamic_no_contact": false
+          },
+          "all_dynamic_geometry_gates": false,
+          "geometry": {
+            "body": {
+              "sample_min": 0.03317537642651036,
+              "interval_lower": 0.02273480926738977,
+              "original_rollout_grid_min": 0.03317537642651036
+            },
+            "padded_native": {
+              "sample_min": 0.0,
+              "interval_lower": -0.011339065247763092,
+              "original_rollout_grid_min": 0.0
+            },
+            "mechanical": {
+              "sample_min": 0.0,
+              "interval_lower": -0.010839619933605032,
+              "original_rollout_grid_min": 0.0
+            }
+          }
+        },
+        "source_pose_clock_sensitivity": {
+          "gates": {
+            "body_dynamic_margin": false,
+            "mechanical_dynamic_margin": false,
+            "padded_dynamic_no_contact": false
+          },
+          "all_dynamic_geometry_gates": false,
+          "geometry": {
+            "body": {
+              "sample_min": 0.03317537642651036,
+              "interval_lower": 0.026187311667254843,
+              "original_rollout_grid_min": 0.03317537642651036
+            },
+            "padded_native": {
+              "sample_min": 0.0,
+              "interval_lower": -0.011182262696891578,
+              "original_rollout_grid_min": 0.0
+            },
+            "mechanical": {
+              "sample_min": 0.0,
+              "interval_lower": -0.007065250024563302,
+              "original_rollout_grid_min": 0.0
+            }
+          }
+        }
+      },
+      "full_conditional_labels": {
+        "actual_score_clock": {
+          "gates": {
+            "body_clearance": false,
+            "full_mechanical_clearance": false,
+            "padded_no_contact": false,
+            "frozen_native_raw203_with_interval_reserve": true,
+            "SG_full_sequence_and_return_bounds": true,
+            "strict_positive_progress": true,
+            "progress_beyond_source_float_rounding": true
+          },
+          "conditional_safe_control_with_progress": false,
+          "geometry": {
+            "body": {
+              "static_sample_min": 1.243776910027714,
+              "static_lower": 1.2416110851259037,
+              "dynamic_sample_min": 0.03317537642651036,
+              "dynamic_lower": 0.02273480926738977
+            },
+            "padded_configured": {
+              "static_sample_min": 1.1467684658108968,
+              "static_lower": 1.1443115014156355,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011339065256712034
+            },
+            "padded_native": {
+              "static_sample_min": 1.1467684643562441,
+              "static_lower": 1.1443114999314523,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011339065247763092
+            },
+            "mechanical": {
+              "static_sample_min": 1.2189286448206382,
+              "static_lower": 1.2166542456586953,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.010839619933605032
+            }
+          },
+          "raw_interval_margin_lower": 3.057583768060167e-05,
+          "progress_x": 1.17290619440306
+        },
+        "source_pose_clock_sensitivity": {
+          "gates": {
+            "body_clearance": false,
+            "full_mechanical_clearance": false,
+            "padded_no_contact": false,
+            "frozen_native_raw203_with_interval_reserve": true,
+            "SG_full_sequence_and_return_bounds": true,
+            "strict_positive_progress": true,
+            "progress_beyond_source_float_rounding": true
+          },
+          "conditional_safe_control_with_progress": false,
+          "geometry": {
+            "body": {
+              "static_sample_min": 1.243776910027714,
+              "static_lower": 1.2403746450933026,
+              "dynamic_sample_min": 0.03317537642651036,
+              "dynamic_lower": 0.026187311667254843
+            },
+            "padded_configured": {
+              "static_sample_min": 1.1467684658108968,
+              "static_lower": 1.1431323791708212,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011182262705840518
+            },
+            "padded_native": {
+              "static_sample_min": 1.1467684643562441,
+              "static_lower": 1.143132377720048,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011182262696891578
+            },
+            "mechanical": {
+              "static_sample_min": 1.2189286448206382,
+              "static_lower": 1.2154746686719862,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.007065250024563302
+            }
+          },
+          "raw_interval_margin_lower": 0.0001468091884033896,
+          "progress_x": 1.17290619440306
+        }
+      },
+      "weight_summary": {
+        "sum_float64": 1.0000000250206893,
+        "largest_weight": 0.05700063705444336,
+        "largest_weight_raw_row": 73,
+        "effective_sample_size": 53.99585585904295
+      }
+    },
+    {
+      "native_factor_row": 1,
+      "factor": "source_geometry_oracle",
+      "role": "fixed_context_counterfactual",
+      "returned_control": [
+        0.26730096340179443,
+        0.14009948074817657,
+        -0.077513687312603
+      ],
+      "matching_factor_model_score": {
+        "factor": "source_geometry_oracle",
+        "path_kind": "processed",
+        "row": 1,
+        "risk": 0.2923344892422488,
+        "minimum_clearance": 0.1640604891596602,
+        "collision_time": null
+      },
+      "all_factor_model_scores": {
+        "actual_baseline": {
+          "factor": "actual_baseline",
+          "path_kind": "processed",
+          "row": 1,
+          "risk": 0.7151823765386625,
+          "minimum_clearance": 0.08029644550118453,
+          "collision_time": null
+        },
+        "source_geometry_oracle": {
+          "factor": "source_geometry_oracle",
+          "path_kind": "processed",
+          "row": 1,
+          "risk": 0.2923344892422488,
+          "minimum_clearance": 0.1640604891596602,
+          "collision_time": null
+        },
+        "source_bracket_CV_oracle": {
+          "factor": "source_bracket_CV_oracle",
+          "path_kind": "processed",
+          "row": 1,
+          "risk": 0,
+          "minimum_clearance": 0.4207229330443213,
+          "collision_time": null
+        },
+        "future_circle_oracle": {
+          "factor": "future_circle_oracle",
+          "path_kind": "processed",
+          "row": 1,
+          "risk": 317567.800676704,
+          "minimum_clearance": -0.19543127252155804,
+          "collision_time": 2.500000037252903
+        }
+      },
+      "physical_dynamic_labels": {
+        "actual_score_clock": {
+          "gates": {
+            "body_dynamic_margin": false,
+            "mechanical_dynamic_margin": false,
+            "padded_dynamic_no_contact": false
+          },
+          "all_dynamic_geometry_gates": false,
+          "geometry": {
+            "body": {
+              "sample_min": 0.0035232119047510224,
+              "interval_lower": -0.0068955763478559026,
+              "original_rollout_grid_min": 0.0035232119047510224
+            },
+            "padded_native": {
+              "sample_min": 0.0,
+              "interval_lower": -0.011316215238905572,
+              "original_rollout_grid_min": 0.0
+            },
+            "mechanical": {
+              "sample_min": 0.0,
+              "interval_lower": -0.010888892194484889,
+              "original_rollout_grid_min": 0.0
+            }
+          }
+        },
+        "source_pose_clock_sensitivity": {
+          "gates": {
+            "body_dynamic_margin": false,
+            "mechanical_dynamic_margin": false,
+            "padded_dynamic_no_contact": false
+          },
+          "all_dynamic_geometry_gates": false,
+          "geometry": {
+            "body": {
+              "sample_min": 0.0035232119047510224,
+              "interval_lower": -0.0034440556850615775,
+              "original_rollout_grid_min": 0.0035232119047510224
+            },
+            "padded_native": {
+              "sample_min": 0.0,
+              "interval_lower": -0.011159412688034463,
+              "original_rollout_grid_min": 0.0
+            },
+            "mechanical": {
+              "sample_min": 0.0,
+              "interval_lower": -0.010732089643613602,
+              "original_rollout_grid_min": 0.0
+            }
+          }
+        }
+      },
+      "full_conditional_labels": {
+        "actual_score_clock": {
+          "gates": {
+            "body_clearance": false,
+            "full_mechanical_clearance": false,
+            "padded_no_contact": false,
+            "frozen_native_raw203_with_interval_reserve": true,
+            "SG_full_sequence_and_return_bounds": true,
+            "strict_positive_progress": true,
+            "progress_beyond_source_float_rounding": true
+          },
+          "conditional_safe_control_with_progress": false,
+          "geometry": {
+            "body": {
+              "static_sample_min": 1.243776910027714,
+              "static_lower": 1.2416110851259037,
+              "dynamic_sample_min": 0.0035232119047510224,
+              "dynamic_lower": -0.0068955763478559026
+            },
+            "padded_configured": {
+              "static_sample_min": 1.1467684658108968,
+              "static_lower": 1.1443115014156355,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011316215248008661
+            },
+            "padded_native": {
+              "static_sample_min": 1.1467684643562441,
+              "static_lower": 1.1443114999314523,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011316215238905572
+            },
+            "mechanical": {
+              "static_sample_min": 1.2189286448206382,
+              "static_lower": 1.2166542456586953,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.010888892194484889
+            }
+          },
+          "raw_interval_margin_lower": 0.00026863625117281437,
+          "progress_x": 1.2038095337890464
+        },
+        "source_pose_clock_sensitivity": {
+          "gates": {
+            "body_clearance": false,
+            "full_mechanical_clearance": false,
+            "padded_no_contact": false,
+            "frozen_native_raw203_with_interval_reserve": true,
+            "SG_full_sequence_and_return_bounds": true,
+            "strict_positive_progress": true,
+            "progress_beyond_source_float_rounding": true
+          },
+          "conditional_safe_control_with_progress": false,
+          "geometry": {
+            "body": {
+              "static_sample_min": 1.243776910027714,
+              "static_lower": 1.2403746450933026,
+              "dynamic_sample_min": 0.0035232119047510224,
+              "dynamic_lower": -0.0034440556850615775
+            },
+            "padded_configured": {
+              "static_sample_min": 1.1467684658108968,
+              "static_lower": 1.1431323791708212,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011159412697137555
+            },
+            "padded_native": {
+              "static_sample_min": 1.1467684643562441,
+              "static_lower": 1.143132377720048,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011159412688034463
+            },
+            "mechanical": {
+              "static_sample_min": 1.2189286448206382,
+              "static_lower": 1.2154746686719862,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.010732089643613602
+            }
+          },
+          "raw_interval_margin_lower": 0.00021681902348219366,
+          "progress_x": 1.2038095337890464
+        }
+      },
+      "weight_summary": {
+        "sum_float64": 1.0000000772446247,
+        "largest_weight": 0.0509701631963253,
+        "largest_weight_raw_row": 73,
+        "effective_sample_size": 64.45280849556246
+      }
+    },
+    {
+      "native_factor_row": 2,
+      "factor": "source_bracket_CV_oracle",
+      "role": "fixed_context_counterfactual",
+      "returned_control": [
+        0.2905159592628479,
+        0.15312576293945312,
+        -0.10870891809463501
+      ],
+      "matching_factor_model_score": {
+        "factor": "source_bracket_CV_oracle",
+        "path_kind": "processed",
+        "row": 2,
+        "risk": 0.0011610251425375861,
+        "minimum_clearance": 0.37128726671299517,
+        "collision_time": null
+      },
+      "all_factor_model_scores": {
+        "actual_baseline": {
+          "factor": "actual_baseline",
+          "path_kind": "processed",
+          "row": 2,
+          "risk": 1.000336280801319,
+          "minimum_clearance": 0.02981074120424665,
+          "collision_time": null
+        },
+        "source_geometry_oracle": {
+          "factor": "source_geometry_oracle",
+          "path_kind": "processed",
+          "row": 2,
+          "risk": 0.48475168444165273,
+          "minimum_clearance": 0.11140367084766889,
+          "collision_time": null
+        },
+        "source_bracket_CV_oracle": {
+          "factor": "source_bracket_CV_oracle",
+          "path_kind": "processed",
+          "row": 2,
+          "risk": 0.0011610251425375861,
+          "minimum_clearance": 0.37128726671299517,
+          "collision_time": null
+        },
+        "future_circle_oracle": {
+          "factor": "future_circle_oracle",
+          "path_kind": "processed",
+          "row": 2,
+          "risk": 584489.696609371,
+          "minimum_clearance": -0.24634164064535224,
+          "collision_time": 2.400000035762787
+        }
+      },
+      "physical_dynamic_labels": {
+        "actual_score_clock": {
+          "gates": {
+            "body_dynamic_margin": false,
+            "mechanical_dynamic_margin": false,
+            "padded_dynamic_no_contact": false
+          },
+          "all_dynamic_geometry_gates": false,
+          "geometry": {
+            "body": {
+              "sample_min": 0.0,
+              "interval_lower": -0.010844670340545978,
+              "original_rollout_grid_min": 0.0
+            },
+            "padded_native": {
+              "sample_min": 0.0,
+              "interval_lower": -0.011430317374197887,
+              "original_rollout_grid_min": 0.0
+            },
+            "mechanical": {
+              "sample_min": 0.0,
+              "interval_lower": -0.010974190051485807,
+              "original_rollout_grid_min": 0.0
+            }
+          }
+        },
+        "source_pose_clock_sensitivity": {
+          "gates": {
+            "body_dynamic_margin": false,
+            "mechanical_dynamic_margin": false,
+            "padded_dynamic_no_contact": false
+          },
+          "all_dynamic_geometry_gates": false,
+          "geometry": {
+            "body": {
+              "sample_min": 0.0,
+              "interval_lower": -0.010687867789674697,
+              "original_rollout_grid_min": 0.0
+            },
+            "padded_native": {
+              "sample_min": 0.0,
+              "interval_lower": -0.011273514823326856,
+              "original_rollout_grid_min": 0.0
+            },
+            "mechanical": {
+              "sample_min": 0.0,
+              "interval_lower": -0.01081738750061458,
+              "original_rollout_grid_min": 0.0
+            }
+          }
+        }
+      },
+      "full_conditional_labels": {
+        "actual_score_clock": {
+          "gates": {
+            "body_clearance": false,
+            "full_mechanical_clearance": false,
+            "padded_no_contact": false,
+            "frozen_native_raw203_with_interval_reserve": false,
+            "SG_full_sequence_and_return_bounds": true,
+            "strict_positive_progress": true,
+            "progress_beyond_source_float_rounding": true
+          },
+          "conditional_safe_control_with_progress": false,
+          "geometry": {
+            "body": {
+              "static_sample_min": 1.243776910027714,
+              "static_lower": 1.2416110851259037,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.010844670340545978
+            },
+            "padded_configured": {
+              "static_sample_min": 1.1467684658108968,
+              "static_lower": 1.1443115014156355,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011430317383914583
+            },
+            "padded_native": {
+              "static_sample_min": 1.1467684643562441,
+              "static_lower": 1.1443114999314523,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011430317374197887
+            },
+            "mechanical": {
+              "static_sample_min": 1.2189286448206382,
+              "static_lower": 1.2166542456586953,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.010974190051485807
+            }
+          },
+          "raw_interval_margin_lower": -0.007597144169209001,
+          "progress_x": 1.262566362097152
+        },
+        "source_pose_clock_sensitivity": {
+          "gates": {
+            "body_clearance": false,
+            "full_mechanical_clearance": false,
+            "padded_no_contact": false,
+            "frozen_native_raw203_with_interval_reserve": false,
+            "SG_full_sequence_and_return_bounds": true,
+            "strict_positive_progress": true,
+            "progress_beyond_source_float_rounding": true
+          },
+          "conditional_safe_control_with_progress": false,
+          "geometry": {
+            "body": {
+              "static_sample_min": 1.243776910027714,
+              "static_lower": 1.2403746450933026,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.010687867789674697
+            },
+            "padded_configured": {
+              "static_sample_min": 1.1467684658108968,
+              "static_lower": 1.1431323791708212,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011273514833043553
+            },
+            "padded_native": {
+              "static_sample_min": 1.1467684643562441,
+              "static_lower": 1.143132377720048,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.011273514823326856
+            },
+            "mechanical": {
+              "static_sample_min": 1.2189286448206382,
+              "static_lower": 1.2154746686719862,
+              "dynamic_sample_min": 0.0,
+              "dynamic_lower": -0.01081738750061458
+            }
+          },
+          "raw_interval_margin_lower": -0.007597144169209001,
+          "progress_x": 1.262566362097152
+        }
+      },
+      "weight_summary": {
+        "sum_float64": 1.000000030780193,
+        "largest_weight": 0.13500474393367767,
+        "largest_weight_raw_row": 127,
+        "effective_sample_size": 29.023538751009752
+      }
+    },
+    {
+      "native_factor_row": 3,
+      "factor": "future_circle_oracle",
+      "role": "fixed_context_counterfactual",
+      "returned_control": [
+        0.22891820967197418,
+        0.12609606981277466,
+        -0.2042781561613083
+      ],
+      "matching_factor_model_score": {
+        "factor": "future_circle_oracle",
+        "path_kind": "processed",
+        "row": 3,
+        "risk": 0.4065432026318523,
+        "minimum_clearance": 0.03863460652595763,
+        "collision_time": null
+      },
+      "all_factor_model_scores": {
+        "actual_baseline": {
+          "factor": "actual_baseline",
+          "path_kind": "processed",
+          "row": 3,
+          "risk": 0.2767218534296733,
+          "minimum_clearance": 0.16516548530374964,
+          "collision_time": null
+        },
+        "source_geometry_oracle": {
+          "factor": "source_geometry_oracle",
+          "path_kind": "processed",
+          "row": 3,
+          "risk": 0.04855252121632495,
+          "minimum_clearance": 0.2665699072962696,
+          "collision_time": null
+        },
+        "source_bracket_CV_oracle": {
+          "factor": "source_bracket_CV_oracle",
+          "path_kind": "processed",
+          "row": 3,
+          "risk": 0,
+          "minimum_clearance": 0.5144103729834817,
+          "collision_time": null
+        },
+        "future_circle_oracle": {
+          "factor": "future_circle_oracle",
+          "path_kind": "processed",
+          "row": 3,
+          "risk": 0.4065432026318523,
+          "minimum_clearance": 0.03863460652595763,
+          "collision_time": null
+        }
+      },
+      "physical_dynamic_labels": {
+        "actual_score_clock": {
+          "gates": {
+            "body_dynamic_margin": true,
+            "mechanical_dynamic_margin": true,
+            "padded_dynamic_no_contact": true
+          },
+          "all_dynamic_geometry_gates": true,
+          "geometry": {
+            "body": {
+              "sample_min": 0.228561141375895,
+              "interval_lower": 0.21849507504821294,
+              "original_rollout_grid_min": 0.228561141375895
+            },
+            "padded_native": {
+              "sample_min": 0.14073038801043847,
+              "interval_lower": 0.13014048065389167,
+              "original_rollout_grid_min": 0.14073038801043847
+            },
+            "mechanical": {
+              "sample_min": 0.18630623641729632,
+              "interval_lower": 0.17615819503156765,
+              "original_rollout_grid_min": 0.18630623641729632
+            }
+          }
+        },
+        "source_pose_clock_sensitivity": {
+          "gates": {
+            "body_dynamic_margin": true,
+            "mechanical_dynamic_margin": true,
+            "padded_dynamic_no_contact": true
+          },
+          "all_dynamic_geometry_gates": true,
+          "geometry": {
+            "body": {
+              "sample_min": 0.228561141375895,
+              "interval_lower": 0.22057841498031255,
+              "original_rollout_grid_min": 0.228561141375895
+            },
+            "padded_native": {
+              "sample_min": 0.14073038801043847,
+              "interval_lower": 0.1319684924856638,
+              "original_rollout_grid_min": 0.14073038801043847
+            },
+            "mechanical": {
+              "sample_min": 0.18630623641729632,
+              "interval_lower": 0.17852269691813244,
+              "original_rollout_grid_min": 0.18630623641729632
+            }
+          }
+        }
+      },
+      "full_conditional_labels": {
+        "actual_score_clock": {
+          "gates": {
+            "body_clearance": true,
+            "full_mechanical_clearance": true,
+            "padded_no_contact": true,
+            "frozen_native_raw203_with_interval_reserve": false,
+            "SG_full_sequence_and_return_bounds": true,
+            "strict_positive_progress": true,
+            "progress_beyond_source_float_rounding": true
+          },
+          "conditional_safe_control_with_progress": false,
+          "geometry": {
+            "body": {
+              "static_sample_min": 1.243776910027714,
+              "static_lower": 1.2416110851259037,
+              "dynamic_sample_min": 0.228561141375895,
+              "dynamic_lower": 0.21849507504821294
+            },
+            "padded_configured": {
+              "static_sample_min": 1.1467684658108968,
+              "static_lower": 1.1443115014156355,
+              "dynamic_sample_min": 0.14073039708014612,
+              "dynamic_lower": 0.1301404897064699
+            },
+            "padded_native": {
+              "static_sample_min": 1.1467684643562441,
+              "static_lower": 1.1443114999314523,
+              "dynamic_sample_min": 0.14073038801043847,
+              "dynamic_lower": 0.13014048065389167
+            },
+            "mechanical": {
+              "static_sample_min": 1.2189286448206382,
+              "static_lower": 1.2166542456586953,
+              "dynamic_sample_min": 0.18630623641729632,
+              "dynamic_lower": 0.17615819503156765
+            }
+          },
+          "raw_interval_margin_lower": -0.006935911473859409,
+          "progress_x": 1.024585996343978
+        },
+        "source_pose_clock_sensitivity": {
+          "gates": {
+            "body_clearance": true,
+            "full_mechanical_clearance": true,
+            "padded_no_contact": true,
+            "frozen_native_raw203_with_interval_reserve": false,
+            "SG_full_sequence_and_return_bounds": true,
+            "strict_positive_progress": true,
+            "progress_beyond_source_float_rounding": true
+          },
+          "conditional_safe_control_with_progress": false,
+          "geometry": {
+            "body": {
+              "static_sample_min": 1.243776910027714,
+              "static_lower": 1.2403746450933026,
+              "dynamic_sample_min": 0.228561141375895,
+              "dynamic_lower": 0.22057841498031255
+            },
+            "padded_configured": {
+              "static_sample_min": 1.1467684658108968,
+              "static_lower": 1.1431323791708212,
+              "dynamic_sample_min": 0.14073039708014612,
+              "dynamic_lower": 0.13196850144940644
+            },
+            "padded_native": {
+              "static_sample_min": 1.1467684643562441,
+              "static_lower": 1.143132377720048,
+              "dynamic_sample_min": 0.14073038801043847,
+              "dynamic_lower": 0.1319684924856638
+            },
+            "mechanical": {
+              "static_sample_min": 1.2189286448206382,
+              "static_lower": 1.2154746686719862,
+              "dynamic_sample_min": 0.18630623641729632,
+              "dynamic_lower": 0.17852269691813244
+            }
+          },
+          "raw_interval_margin_lower": -0.006935911473859712,
+          "progress_x": 1.024585996343978
+        }
+      },
+      "weight_summary": {
+        "sum_float64": 0.9999999704022615,
+        "largest_weight": 0.1799393594264984,
+        "largest_weight_raw_row": 185,
+        "effective_sample_size": 12.325051852207562
+      }
+    }
+  ],
+  "scope": "Four independent fixed-context native gamma/softmax/constraints/actual SG history hypotheses, full original conditional three-second gates.",
+  "limits": [
+    "Oracle source/future states are inadmissible online; no new actual score or command events.",
+    "All labels are conditional model paths with offline actor truth, pose interpolation and captured frozen raw map, not closed-loop or hardware execution.",
+    "Full-trace task/raw203/age FAILED and witness NOT ESTABLISHED remain; raw-map source and actual odometry callback stamp unavailable.",
+    "No new sampler, CA, custom ranking, guard change or deployment acceptance. Physical support bounds remain unknown."
+  ]
+}

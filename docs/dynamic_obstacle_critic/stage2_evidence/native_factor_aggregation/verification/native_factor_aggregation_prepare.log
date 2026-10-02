@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/prepare_native_factor_aggregation.py", line 104, in <module>
+    args=parser.parse_args();print(json.dumps(prepare(args.source.resolve(),args.witness.resolve(),args.factors.resolve(),args.output)),flush=True)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/prepare_native_factor_aggregation.py", line 62, in prepare
+    if costs[0]!=nb[COST]['bytes']:raise ValueError('original float conversion/addition order mismatch')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: original float conversion/addition order mismatch
