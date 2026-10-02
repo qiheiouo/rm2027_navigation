@@ -49,6 +49,13 @@ conv(S)距离另有可信上界e，则任意p∈S满足`|p-q|≤D+e`。q不必
 [离线包络实验](../dynamic_obstacle_critic/ground_robot_extent_prior_experiment.md)。
 这些真值标签只能诊断条件失败，不能选择在线e、半径或物体类别。
 
+固定source298同路径因子对照进一步表明：补足源时刻物理中心/尺寸后，
+实际aggregate的CV风险下降但仍无TTC；换成有限局部真值斜率继续CV
+时风险为0，只有不可在线获得的未来真值圆报TTC2.6s。该周期需要未来
+运动支持，不能只修当前几何。见
+[离线因子审计](../dynamic_obstacle_critic/cv_support_factor_experiment.md)。
+它没有建立真实机器人运动上界、观测误差界或在线prediction认证。
+
 ## Unknown和退化边界
 
 当前实现对消息不完整/非法/stale/跳变/错误frame失败：critic fail_flag，

@@ -52,6 +52,12 @@ contracts take precedence over historical behavior.
 | `rm_dynamic_obstacle_tracking` | Static-map subtraction, visible cluster tracking and CV state messages; offline conditional box geometry | Experimental shadow input; no TF or command authority | package README, `docs/contracts/topic_contract_2027.md`, `docs/contracts/dynamic_obstacle_geometry_contract_2027.md`, `docs/dynamic_obstacle_critic/visible_box_geometry_experiment.md` |
 | `rm_dynamic_obstacle_critic` | Native MPPI CV critic, shared geometry and independent final pass/brake guard; isolated native evidence, full-horizon witness and input/cost audits | Explicit isolated simulation only; deployment FAILED | `docs/dynamic_obstacle_critic/architecture.md`, `validation.md`, `stage2_plan.md`, `map_uncertainty_experiment.md`, `soft_map_clearance_experiment.md`, `soft_clearance_performance_experiment.md`, `mechanical_footprint_experiment.md`, `native_cycle_evidence_experiment.md`, `native_safe_control_witness_experiment.md`, `controller_odom_contract_experiment.md`, `native_weight_attribution_experiment.md`, `dynamic_consumption_evidence_experiment.md`, `robot_extent_manual_review.md`, `ground_robot_extent_prior_experiment.md`, `raw_rollout_objective_experiment.md`, `processed_cv_objective_experiment.md`, `cv_support_factor_experiment.md`, `nearfield_failure_review.md` |
 
+The fixed-path CV support factor audit is complete with offline baseline,
+source geometry, finite local slope and future-circle diagnostics. It retains
+the failed deployment gates and unknown physical motion bounds; reproducible
+inputs, 2444 scores and independent replay live in the experiment's evidence
+archives. Future truth is not a runtime producer or prediction contract.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

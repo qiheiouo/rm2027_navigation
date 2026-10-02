@@ -396,3 +396,14 @@ scoreclock模型clear却padded原网格接触91条，原sourceepoch90条。
 CV/future circle四个离线对照；真值只诊断，非在线输入或CA恢复。
 baseline先逐位回归，原native权重仅描述，运动上界仍unknown；不改
 原失败门或runtime。见[因子审计登记](cv_support_factor_experiment.md)。
+
+7b11884后四组2444行离线评分：19可执行检查保证baseline300/311位型
+及合成CV退化逐位一致；原7 ELF身份不变。独立真值插值误差0，六类
+协调metadata/binary篡改拒绝。补足source几何后aggregate risk0.1933/
+无TTC，局部真值斜率严格CV后risk0/无TTC；future-circle真值诊断才
+报TTC2.6s。raw模型clear却真实padded网格接触76→117→131→0，
+processed91→119→125→0。未来真值不可在线使用；原权重仅描述，
+无新优化/control。112文件独立冻结约3.81MB，初图保留，首轮12项
+输入/核验/分析/图示逐字节复算通过；motion unknown及全部失败门保持。
+新输入CPP2444行实际重执行字节相同，13项复算通过；9文件独立
+verification保留，五archive共2010文件身份通过且原112文件不变。

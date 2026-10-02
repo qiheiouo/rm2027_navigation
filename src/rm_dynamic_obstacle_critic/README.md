@@ -253,3 +253,14 @@ unchanged. The aggregate has CV risk 0.5494/minimum 0.1145 m/no TTC, while the
 same-score-clock physical path contacts mechanical/padded geometry. Zero retains
 CV risk0 and passes dynamic geometry. These offline costs do not become native
 weights or a control choice. See [the processed-path experiment](../../docs/dynamic_obstacle_critic/processed_cv_objective_experiment.md).
+
+The BUILD_TESTING-only `evaluate_cv_support_factors ACTUAL_INPUT FACTOR_INPUT
+NEW_JSONL` compares four explicitly offline inputs on the same 300 raw and 311
+SDK processed paths. Nineteen executable checks preserve all baseline bits;
+independent truth checks reject six coordinated metadata/binary tampering cases.
+Source geometry and finite local truth slope retain three-second CV contact
+misses; only the inadmissible future-circle oracle reports aggregate TTC2.6s.
+No new weights, commands or prediction model follow. Five runtime and two prior
+offline ELF hashes remain unchanged. `replay_cv_support_factors.py ARCHIVE
+NEW_OUTPUT [--cpp-output FILE]` rebuilds inputs and full reports/figures from
+frozen manifests. See [the factor audit](../../docs/dynamic_obstacle_critic/cv_support_factor_experiment.md).
