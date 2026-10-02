@@ -1,0 +1,3478 @@
+{
+  "schema": 1,
+  "source_manifest_sha256": "5d3385ec5edf33ad8cdd7aebce3359304bc6a9c7b01224b674a757499fb654cd",
+  "reference_yaml_sha256": "8258c63733086a988cebca23a297445ef77e55a7835609dc219ea1788ef221c3",
+  "manual_reference": {
+    "title": "RoboMaster 2026 robot construction specification",
+    "version": "V2.0.0",
+    "date": "2026-06-26",
+    "sha256": "77010458d06616b2bafad4400aad384f72e1b7007269c58061384de8fd0fb41b",
+    "applies_to_2027_verified": false
+  },
+  "target_scope": {
+    "target_classes": [
+      "hero",
+      "engineer",
+      "infantry",
+      "sentry"
+    ],
+    "unknown_class_policy": "maximum_only_within_listed_ground_classes",
+    "dimensions_include": "referee_system_and_mounts",
+    "excludes": [
+      "airborne",
+      "dart",
+      "field_equipment",
+      "nonrobot",
+      "unverified_payload"
+    ]
+  },
+  "class_diameter_upper_bounds": {
+    "hero": 1.697056274847714,
+    "engineer": 1.697056274847714,
+    "infantry": 1.131370849898476,
+    "sentry": 1.131370849898476
+  },
+  "zero_error_radius_hypothesis": 1.697056274847714,
+  "scores": 348,
+  "usable_actor_scores": 278,
+  "no_usable_actor_scores": 70,
+  "filtered_CV_anchor_outside_current_actor_projection_scores": 46,
+  "empirical_anchor_projection_distance_max": 0.012313555701625484,
+  "hypotheses": {
+    "original_consumed_radius": {
+      "0.0": {
+        "scores": 278,
+        "full_physical_box_covered": 0,
+        "support_deficit_max": 0.24627657059982688,
+        "required_radius_median": 0.5440300049790042,
+        "required_radius_max": 0.6062765705998269
+      },
+      "1.0": {
+        "scores": 278,
+        "full_physical_box_covered": 0,
+        "support_deficit_max": 0.7435963789630883,
+        "required_radius_median": 0.8542496781062096,
+        "required_radius_max": 1.1035963789630883
+      },
+      "2.0": {
+        "scores": 278,
+        "full_physical_box_covered": 0,
+        "support_deficit_max": 1.7452386982579715,
+        "required_radius_median": 1.4942812011437399,
+        "required_radius_max": 2.1052386982579714
+      },
+      "3.0": {
+        "scores": 278,
+        "full_physical_box_covered": 0,
+        "support_deficit_max": 2.961785093383676,
+        "required_radius_median": 2.3105033673778728,
+        "required_radius_max": 3.3217850933836757
+      }
+    },
+    "false_800mm_center_half_diagonal": {
+      "0.0": {
+        "scores": 278,
+        "full_physical_box_covered": 173,
+        "support_deficit_max": 0.040591145650588856,
+        "required_radius_median": 0.5440300049790042,
+        "required_radius_max": 0.6062765705998269
+      },
+      "1.0": {
+        "scores": 278,
+        "full_physical_box_covered": 32,
+        "support_deficit_max": 0.5379109540138503,
+        "required_radius_median": 0.8542496781062096,
+        "required_radius_max": 1.1035963789630883
+      },
+      "2.0": {
+        "scores": 278,
+        "full_physical_box_covered": 13,
+        "support_deficit_max": 1.5395532733087334,
+        "required_radius_median": 1.4942812011437399,
+        "required_radius_max": 2.1052386982579714
+      },
+      "3.0": {
+        "scores": 278,
+        "full_physical_box_covered": 6,
+        "support_deficit_max": 2.7560996684344374,
+        "required_radius_median": 2.3105033673778728,
+        "required_radius_max": 3.3217850933836757
+      }
+    },
+    "all_ground_convex_hull_anchor_zero_error_hypothesis": {
+      "0.0": {
+        "scores": 278,
+        "full_physical_box_covered": 278,
+        "support_deficit_max": 0.0,
+        "required_radius_median": 0.5440300049790042,
+        "required_radius_max": 0.6062765705998269
+      },
+      "1.0": {
+        "scores": 278,
+        "full_physical_box_covered": 278,
+        "support_deficit_max": 0.0,
+        "required_radius_median": 0.8542496781062096,
+        "required_radius_max": 1.1035963789630883
+      },
+      "2.0": {
+        "scores": 278,
+        "full_physical_box_covered": 175,
+        "support_deficit_max": 0.40818242341025734,
+        "required_radius_median": 1.4942812011437399,
+        "required_radius_max": 2.1052386982579714
+      },
+      "3.0": {
+        "scores": 278,
+        "full_physical_box_covered": 89,
+        "support_deficit_max": 1.6247288185359616,
+        "required_radius_median": 2.3105033673778728,
+        "required_radius_max": 3.3217850933836757
+      }
+    }
+  },
+  "records": [
+    {
+      "ordinal": 70,
+      "score_stamp": 24.975,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.561831617656106,
+        "1.0": 0.6621739152799344,
+        "2.0": 0.6261796159422853,
+        "3.0": 1.3441587267850053
+      }
+    },
+    {
+      "ordinal": 71,
+      "score_stamp": 25.074,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0021321820426841442,
+      "required_radius_by_horizon": {
+        "0.0": 0.5565623932672403,
+        "1.0": 0.5550708689405816,
+        "2.0": 0.8914521819540973,
+        "3.0": 1.7820174404730966
+      }
+    },
+    {
+      "ordinal": 72,
+      "score_stamp": 25.174,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0011444990596270743,
+      "required_radius_by_horizon": {
+        "0.0": 0.563209635287853,
+        "1.0": 0.540644400033952,
+        "2.0": 1.001947958672292,
+        "3.0": 1.9483870908573897
+      }
+    },
+    {
+      "ordinal": 73,
+      "score_stamp": 25.275,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0020608503984119453,
+      "required_radius_by_horizon": {
+        "0.0": 0.5489259653656959,
+        "1.0": 0.6420916247674648,
+        "2.0": 1.255702022451042,
+        "3.0": 2.309041486451589
+      }
+    },
+    {
+      "ordinal": 74,
+      "score_stamp": 25.374,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.001285073519404628,
+      "required_radius_by_horizon": {
+        "0.0": 0.5462416887740947,
+        "1.0": 0.6943086869207162,
+        "2.0": 1.3795401348422744,
+        "3.0": 2.4654733221364435
+      }
+    },
+    {
+      "ordinal": 75,
+      "score_stamp": 25.475,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.00062262709141922,
+      "required_radius_by_horizon": {
+        "0.0": 0.535183595563009,
+        "1.0": 0.7742609725265718,
+        "2.0": 1.5482520644230076,
+        "3.0": 2.675197359821718
+      }
+    },
+    {
+      "ordinal": 76,
+      "score_stamp": 25.574,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5303647473452774,
+        "1.0": 0.8225926125371756,
+        "2.0": 1.647378911830703,
+        "3.0": 2.7771964419842514
+      }
+    },
+    {
+      "ordinal": 77,
+      "score_stamp": 25.674,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5308544242483499,
+        "1.0": 0.8778491057113832,
+        "2.0": 1.7527076299906728,
+        "3.0": 2.880193979059858
+      }
+    },
+    {
+      "ordinal": 78,
+      "score_stamp": 25.776,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.00019432025576868184,
+      "required_radius_by_horizon": {
+        "0.0": 0.5383617579668668,
+        "1.0": 0.9255389451896814,
+        "2.0": 1.8353572631067698,
+        "3.0": 2.942747671065229
+      }
+    },
+    {
+      "ordinal": 79,
+      "score_stamp": 25.877,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5484313372200996,
+        "1.0": 0.9801208308186962,
+        "2.0": 1.9257626280262763,
+        "3.0": 3.0125587935007028
+      }
+    },
+    {
+      "ordinal": 80,
+      "score_stamp": 25.964,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5630780368344177,
+        "1.0": 1.0288819381517438,
+        "2.0": 2.0000592951366083,
+        "3.0": 3.063716460621837
+      }
+    },
+    {
+      "ordinal": 81,
+      "score_stamp": 26.065,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5708968887128884,
+        "1.0": 1.0396201660780606,
+        "2.0": 1.9994333062938203,
+        "3.0": 2.9978209140391012
+      }
+    },
+    {
+      "ordinal": 82,
+      "score_stamp": 26.165,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5817520829128109,
+        "1.0": 1.0647691114034348,
+        "2.0": 2.0185337192460384,
+        "3.0": 2.958245206981449
+      }
+    },
+    {
+      "ordinal": 83,
+      "score_stamp": 26.295,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5883642132252362,
+        "1.0": 1.0733989853465749,
+        "2.0": 1.9927238494750052,
+        "3.0": 2.833644596361103
+      }
+    },
+    {
+      "ordinal": 84,
+      "score_stamp": 26.397,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5837458148681064,
+        "1.0": 1.044061282254924,
+        "2.0": 1.9016821031156326,
+        "3.0": 2.6351645324908786
+      }
+    },
+    {
+      "ordinal": 85,
+      "score_stamp": 26.497,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0009604451617072074,
+      "required_radius_by_horizon": {
+        "0.0": 0.5926367997791094,
+        "1.0": 1.0669677432721807,
+        "2.0": 1.8974583401437473,
+        "3.0": 2.559544226359874
+      }
+    },
+    {
+      "ordinal": 86,
+      "score_stamp": 26.597,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0005331731343241886,
+      "required_radius_by_horizon": {
+        "0.0": 0.5861163178495229,
+        "1.0": 1.0378985368751283,
+        "2.0": 1.8006046680618815,
+        "3.0": 2.3551414092988088
+      }
+    },
+    {
+      "ordinal": 87,
+      "score_stamp": 26.698,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0006777885920078164,
+      "required_radius_by_horizon": {
+        "0.0": 0.5798384935410852,
+        "1.0": 1.0077341808048237,
+        "2.0": 1.696882543744572,
+        "3.0": 2.1406327128605445
+      }
+    },
+    {
+      "ordinal": 88,
+      "score_stamp": 26.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0006425392679499653,
+      "required_radius_by_horizon": {
+        "0.0": 0.5856662427664363,
+        "1.0": 1.0220134775906315,
+        "2.0": 1.6707159350522927,
+        "3.0": 2.039273356929178
+      }
+    },
+    {
+      "ordinal": 89,
+      "score_stamp": 26.895,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5897626979634861,
+        "1.0": 1.0283786169037001,
+        "2.0": 1.626749025640942,
+        "3.0": 1.9108606602530247
+      }
+    },
+    {
+      "ordinal": 90,
+      "score_stamp": 26.995,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5815003429651123,
+        "1.0": 0.9842994101230381,
+        "2.0": 1.4936645641336976,
+        "3.0": 1.6515660136549448
+      }
+    },
+    {
+      "ordinal": 91,
+      "score_stamp": 27.095,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0005723906845599147,
+      "required_radius_by_horizon": {
+        "0.0": 0.5786636608732726,
+        "1.0": 0.9518166734034633,
+        "2.0": 1.378284398009277,
+        "3.0": 1.4205254786499204
+      }
+    },
+    {
+      "ordinal": 92,
+      "score_stamp": 27.197,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.00018433924041580396,
+      "required_radius_by_horizon": {
+        "0.0": 0.5844352356567591,
+        "1.0": 0.9495584872945886,
+        "2.0": 1.316238354247751,
+        "3.0": 1.268590862074717
+      }
+    },
+    {
+      "ordinal": 93,
+      "score_stamp": 27.285,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0003765970133407792,
+      "required_radius_by_horizon": {
+        "0.0": 0.5914535182463162,
+        "1.0": 0.9490886680093394,
+        "2.0": 1.2649874502937826,
+        "3.0": 1.1456560471273909
+      }
+    },
+    {
+      "ordinal": 94,
+      "score_stamp": 27.384,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5878645166524161,
+        "1.0": 0.905842781542654,
+        "2.0": 1.1361133821164071,
+        "3.0": 0.9180772877900404
+      }
+    },
+    {
+      "ordinal": 95,
+      "score_stamp": 27.485,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5915786594963703,
+        "1.0": 0.8817402225465277,
+        "2.0": 1.0399367533870802,
+        "3.0": 0.7473791834632422
+      }
+    },
+    {
+      "ordinal": 96,
+      "score_stamp": 27.584,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5854064676188391,
+        "1.0": 0.8209218738811573,
+        "2.0": 0.886305624434404,
+        "3.0": 0.5446322959247303
+      }
+    },
+    {
+      "ordinal": 97,
+      "score_stamp": 27.684,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5903824640060757,
+        "1.0": 0.7979574532314739,
+        "2.0": 0.8009215495693375,
+        "3.0": 0.6168423140937861
+      }
+    },
+    {
+      "ordinal": 98,
+      "score_stamp": 27.786,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5787367649724992,
+        "1.0": 0.7213400201688003,
+        "2.0": 0.6377703088649833,
+        "3.0": 0.8662505340972061
+      }
+    },
+    {
+      "ordinal": 99,
+      "score_stamp": 27.886,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5683758273221429,
+        "1.0": 0.6523608246481792,
+        "2.0": 0.519083000975848,
+        "3.0": 1.135792027145851
+      }
+    },
+    {
+      "ordinal": 100,
+      "score_stamp": 27.984,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5706692854190847,
+        "1.0": 0.6267733967678697,
+        "2.0": 0.5892760040911069,
+        "3.0": 1.3018292398867939
+      }
+    },
+    {
+      "ordinal": 101,
+      "score_stamp": 28.079,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5693499428512115,
+        "1.0": 0.5932507335163537,
+        "2.0": 0.6839722110165303,
+        "3.0": 1.4886361430795778
+      }
+    },
+    {
+      "ordinal": 102,
+      "score_stamp": 28.183,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5596830127590318,
+        "1.0": 0.5397429929283295,
+        "2.0": 0.8417879131381276,
+        "3.0": 1.7612256975470142
+      }
+    },
+    {
+      "ordinal": 103,
+      "score_stamp": 28.282,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.557918959679786,
+        "1.0": 0.5257314714934174,
+        "2.0": 0.9420534259645802,
+        "3.0": 1.9315722012849297
+      }
+    },
+    {
+      "ordinal": 104,
+      "score_stamp": 28.374,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5479329900796372,
+        "1.0": 0.5585776098790941,
+        "2.0": 1.0662109151035601,
+        "3.0": 2.134734177631886
+      }
+    },
+    {
+      "ordinal": 105,
+      "score_stamp": 28.477,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.543362410911341,
+        "1.0": 0.5646186437247266,
+        "2.0": 1.133578604066413,
+        "3.0": 2.2550791880893017
+      }
+    },
+    {
+      "ordinal": 106,
+      "score_stamp": 28.573,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5308188358961263,
+        "1.0": 0.5698961634231058,
+        "2.0": 1.2058153711357662,
+        "3.0": 2.38259606008573
+      }
+    },
+    {
+      "ordinal": 107,
+      "score_stamp": 28.673,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5284800606735229,
+        "1.0": 0.6123056507936053,
+        "2.0": 1.3103180089270892,
+        "3.0": 2.535930963279462
+      }
+    },
+    {
+      "ordinal": 108,
+      "score_stamp": 28.774,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5193460771040501,
+        "1.0": 0.6362183139389779,
+        "2.0": 1.392156199817932,
+        "3.0": 2.6605240520785323
+      }
+    },
+    {
+      "ordinal": 109,
+      "score_stamp": 28.872,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5102407759605463,
+        "1.0": 0.666523130844059,
+        "2.0": 1.4759669070104735,
+        "3.0": 2.780283095111169
+      }
+    },
+    {
+      "ordinal": 110,
+      "score_stamp": 28.973,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5087361303293052,
+        "1.0": 0.7210786143905084,
+        "2.0": 1.571238746910691,
+        "3.0": 2.9026307355777154
+      }
+    },
+    {
+      "ordinal": 111,
+      "score_stamp": 29.074,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5021125700583589,
+        "1.0": 0.7628918370157368,
+        "2.0": 1.6477744180866691,
+        "3.0": 2.9969667606849417
+      }
+    },
+    {
+      "ordinal": 112,
+      "score_stamp": 29.173,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.49817559217174295,
+        "1.0": 0.7977373773835958,
+        "2.0": 1.7088255911372192,
+        "3.0": 3.0621143578244334
+      }
+    },
+    {
+      "ordinal": 113,
+      "score_stamp": 29.331,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.489288877738686,
+        "1.0": 0.8483493624360781,
+        "2.0": 1.7997381848606993,
+        "3.0": 3.1444039949951246
+      }
+    },
+    {
+      "ordinal": 114,
+      "score_stamp": 29.436,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48051793533292675,
+        "1.0": 0.8872921583893778,
+        "2.0": 1.8694599633223918,
+        "3.0": 3.203282203993517
+      }
+    },
+    {
+      "ordinal": 115,
+      "score_stamp": 29.535,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4800161704978513,
+        "1.0": 0.9014839670598095,
+        "2.0": 1.8923202685524174,
+        "3.0": 3.191633745821181
+      }
+    },
+    {
+      "ordinal": 116,
+      "score_stamp": 29.629,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48127475177220475,
+        "1.0": 0.8989229476296293,
+        "2.0": 1.8856981635326127,
+        "3.0": 3.1364613923176035
+      }
+    },
+    {
+      "ordinal": 117,
+      "score_stamp": 29.692,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4797885846779042,
+        "1.0": 0.9026079507742051,
+        "2.0": 1.8902604510664893,
+        "3.0": 3.109960879290457
+      }
+    },
+    {
+      "ordinal": 118,
+      "score_stamp": 29.793,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47229101521039907,
+        "1.0": 0.941452863844984,
+        "2.0": 1.9505154800320765,
+        "3.0": 3.137327844761082
+      }
+    },
+    {
+      "ordinal": 119,
+      "score_stamp": 29.893,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47141870847704676,
+        "1.0": 0.9377294791716971,
+        "2.0": 1.9314499021194318,
+        "3.0": 3.049960285650664
+      }
+    },
+    {
+      "ordinal": 120,
+      "score_stamp": 29.993,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47844069350057106,
+        "1.0": 0.961208488771014,
+        "2.0": 1.9572406901871306,
+        "3.0": 3.0233461050575245
+      }
+    },
+    {
+      "ordinal": 121,
+      "score_stamp": 30.093,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4728825024158113,
+        "1.0": 0.9257992357709799,
+        "2.0": 1.8757762873039083,
+        "3.0": 2.844537909844346
+      }
+    },
+    {
+      "ordinal": 122,
+      "score_stamp": 30.193,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.480868422533295,
+        "1.0": 0.9456146991059439,
+        "2.0": 1.8829669600922856,
+        "3.0": 2.787570208887772
+      }
+    },
+    {
+      "ordinal": 123,
+      "score_stamp": 30.293,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4894918058209402,
+        "1.0": 0.9673673040076682,
+        "2.0": 1.8869108666781262,
+        "3.0": 2.7243633513117875
+      }
+    },
+    {
+      "ordinal": 124,
+      "score_stamp": 30.394,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4818752925230409,
+        "1.0": 0.9333801691523709,
+        "2.0": 1.7913030429765067,
+        "3.0": 2.5218154882248323
+      }
+    },
+    {
+      "ordinal": 125,
+      "score_stamp": 30.483,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4750444227708272,
+        "1.0": 0.9016585635626535,
+        "2.0": 1.6981869023550171,
+        "3.0": 2.330094632908021
+      }
+    },
+    {
+      "ordinal": 126,
+      "score_stamp": 30.584,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4815498399641893,
+        "1.0": 0.9219600891438928,
+        "2.0": 1.6857829733050873,
+        "3.0": 2.242987248182076
+      }
+    },
+    {
+      "ordinal": 127,
+      "score_stamp": 30.69,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4813928121189237,
+        "1.0": 0.9071866701773199,
+        "2.0": 1.6031936774466469,
+        "3.0": 2.053681117484977
+      }
+    },
+    {
+      "ordinal": 128,
+      "score_stamp": 30.816,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4814687616318865,
+        "1.0": 0.8943299551984123,
+        "2.0": 1.512379173176538,
+        "3.0": 1.8415613231157386
+      }
+    },
+    {
+      "ordinal": 129,
+      "score_stamp": 30.918,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48913846987208554,
+        "1.0": 0.9111319539023265,
+        "2.0": 1.4841897020910595,
+        "3.0": 1.73336507318887
+      }
+    },
+    {
+      "ordinal": 130,
+      "score_stamp": 31.015,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.481219624933761,
+        "1.0": 0.8698728690525654,
+        "2.0": 1.3594621395144677,
+        "3.0": 1.4886687838380455
+      }
+    },
+    {
+      "ordinal": 131,
+      "score_stamp": 31.111,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48783597550250285,
+        "1.0": 0.87462195648709,
+        "2.0": 1.3117044242763998,
+        "3.0": 1.3554840118952967
+      }
+    },
+    {
+      "ordinal": 132,
+      "score_stamp": 31.219,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48929865873347367,
+        "1.0": 0.8445059004075494,
+        "2.0": 1.1947262791386248,
+        "3.0": 1.125511668180282
+      }
+    },
+    {
+      "ordinal": 133,
+      "score_stamp": 31.317,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.498299044675624,
+        "1.0": 0.8458647925857552,
+        "2.0": 1.1404639210688254,
+        "3.0": 0.9955800302486164
+      }
+    },
+    {
+      "ordinal": 134,
+      "score_stamp": 31.409,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4950130735776068,
+        "1.0": 0.800430252547375,
+        "2.0": 1.011246001498928,
+        "3.0": 0.778925965418513
+      }
+    },
+    {
+      "ordinal": 135,
+      "score_stamp": 31.48,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.49566055503576933,
+        "1.0": 0.7760237968819769,
+        "2.0": 0.9315683472447672,
+        "3.0": 0.6495153973508737
+      }
+    },
+    {
+      "ordinal": 136,
+      "score_stamp": 31.573,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5006246791365164,
+        "1.0": 0.7553472048336248,
+        "2.0": 0.848392065907519,
+        "3.0": 0.5309523727453106
+      }
+    },
+    {
+      "ordinal": 137,
+      "score_stamp": 31.673,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4965204825068255,
+        "1.0": 0.6965780025581624,
+        "2.0": 0.7040548517783848,
+        "3.0": 0.6910683411688623
+      }
+    },
+    {
+      "ordinal": 138,
+      "score_stamp": 31.773,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.49953902697012126,
+        "1.0": 0.6662761710135261,
+        "2.0": 0.6150295625575328,
+        "3.0": 0.8542445161086096
+      }
+    },
+    {
+      "ordinal": 139,
+      "score_stamp": 31.873,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.49285555364159317,
+        "1.0": 0.6043483801359648,
+        "2.0": 0.5098099802260485,
+        "3.0": 1.10934627847222
+      }
+    },
+    {
+      "ordinal": 140,
+      "score_stamp": 31.973,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.49469596286298956,
+        "1.0": 0.5735601597694204,
+        "2.0": 0.5916241838603813,
+        "3.0": 1.2957966939844388
+      }
+    },
+    {
+      "ordinal": 141,
+      "score_stamp": 32.073,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4938963073068278,
+        "1.0": 0.5352327544179045,
+        "2.0": 0.7463589352988742,
+        "3.0": 1.562398594683514
+      }
+    },
+    {
+      "ordinal": 142,
+      "score_stamp": 32.173,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.49699214119497753,
+        "1.0": 0.5146977311404947,
+        "2.0": 0.8524367867034439,
+        "3.0": 1.744148207848916
+      }
+    },
+    {
+      "ordinal": 143,
+      "score_stamp": 32.273,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5070722452204743,
+        "1.0": 0.5653413200865438,
+        "2.0": 1.0015170826291202,
+        "3.0": 1.982820662589387
+      }
+    },
+    {
+      "ordinal": 144,
+      "score_stamp": 32.373,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5141653344864239,
+        "1.0": 0.6063041820736852,
+        "2.0": 1.1159494977723659,
+        "3.0": 2.1624651900684477
+      }
+    },
+    {
+      "ordinal": 145,
+      "score_stamp": 32.463,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.520616353452402,
+        "1.0": 0.6429174864587125,
+        "2.0": 1.2125477319957976,
+        "3.0": 2.3119652483041566
+      }
+    },
+    {
+      "ordinal": 146,
+      "score_stamp": 32.598,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5295406775963066,
+        "1.0": 0.6989539794270031,
+        "2.0": 1.3619447632243458,
+        "3.0": 2.543792230709399
+      }
+    },
+    {
+      "ordinal": 147,
+      "score_stamp": 32.702,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5338121449089098,
+        "1.0": 0.7321179548686589,
+        "2.0": 1.447330449927931,
+        "3.0": 2.6724639613688144
+      }
+    },
+    {
+      "ordinal": 148,
+      "score_stamp": 32.799,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5397423482890595,
+        "1.0": 0.7702906459079707,
+        "2.0": 1.5380605139819103,
+        "3.0": 2.8044482938241817
+      }
+    },
+    {
+      "ordinal": 149,
+      "score_stamp": 32.9,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5466651083336266,
+        "1.0": 0.8126818031843748,
+        "2.0": 1.633439147122911,
+        "3.0": 2.9376782348858255
+      }
+    },
+    {
+      "ordinal": 150,
+      "score_stamp": 32.999,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.00020297073768790752,
+      "required_radius_by_horizon": {
+        "0.0": 0.5511255371650494,
+        "1.0": 0.8525157331616019,
+        "2.0": 1.7046169021403508,
+        "3.0": 3.0300114671660157
+      }
+    },
+    {
+      "ordinal": 151,
+      "score_stamp": 33.101,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5533026579602902,
+        "1.0": 0.8890237176154948,
+        "2.0": 1.7740864110298804,
+        "3.0": 3.1159976616350464
+      }
+    },
+    {
+      "ordinal": 152,
+      "score_stamp": 33.193,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0007540305401954883,
+      "required_radius_by_horizon": {
+        "0.0": 0.5597818244450077,
+        "1.0": 0.9309826465862391,
+        "2.0": 1.8470645738094673,
+        "3.0": 3.1987852278615065
+      }
+    },
+    {
+      "ordinal": 153,
+      "score_stamp": 33.293,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0022547783442400104,
+      "required_radius_by_horizon": {
+        "0.0": 0.5663024916230006,
+        "1.0": 0.9724549305847,
+        "2.0": 1.9194543827337331,
+        "3.0": 3.27267263026039
+      }
+    },
+    {
+      "ordinal": 154,
+      "score_stamp": 33.393,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5665505027810497,
+        "1.0": 0.9957410643726224,
+        "2.0": 1.9647542837993852,
+        "3.0": 3.3044526883347833
+      }
+    },
+    {
+      "ordinal": 155,
+      "score_stamp": 33.496,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5645391063902162,
+        "1.0": 1.001103249765478,
+        "2.0": 1.9731784356689495,
+        "3.0": 3.27411723653821
+      }
+    },
+    {
+      "ordinal": 156,
+      "score_stamp": 33.593,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5693570904644984,
+        "1.0": 1.0310246033652801,
+        "2.0": 2.0247463640362264,
+        "3.0": 3.30191295772061
+      }
+    },
+    {
+      "ordinal": 157,
+      "score_stamp": 33.693,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.577229246860252,
+        "1.0": 1.0642799798725477,
+        "2.0": 2.076457155989805,
+        "3.0": 3.3217850933836757
+      }
+    },
+    {
+      "ordinal": 158,
+      "score_stamp": 33.783,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5736594926141279,
+        "1.0": 1.0526435280559578,
+        "2.0": 2.048398002774713,
+        "3.0": 3.2315297811762322
+      }
+    },
+    {
+      "ordinal": 159,
+      "score_stamp": 33.884,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5833320909085721,
+        "1.0": 1.0914272133036869,
+        "2.0": 2.1052386982579714,
+        "3.0": 3.2513197736513044
+      }
+    },
+    {
+      "ordinal": 160,
+      "score_stamp": 33.989,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5885189405176086,
+        "1.0": 1.087439597624097,
+        "2.0": 2.0803576202611493,
+        "3.0": 3.149885381695142
+      }
+    },
+    {
+      "ordinal": 161,
+      "score_stamp": 34.115,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0005374478912432978,
+      "required_radius_by_horizon": {
+        "0.0": 0.5957589928952128,
+        "1.0": 1.0838065062045175,
+        "2.0": 2.044860928912133,
+        "3.0": 3.0169414622507285
+      }
+    },
+    {
+      "ordinal": 162,
+      "score_stamp": 34.217,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.000848236392348406,
+      "required_radius_by_horizon": {
+        "0.0": 0.6062765705998269,
+        "1.0": 1.1035963789630883,
+        "2.0": 2.05020304719633,
+        "3.0": 2.955683271914845
+      }
+    },
+    {
+      "ordinal": 163,
+      "score_stamp": 34.314,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5963707740982852,
+        "1.0": 1.0598136263558413,
+        "2.0": 1.944242121914067,
+        "3.0": 2.742172449727081
+      }
+    },
+    {
+      "ordinal": 164,
+      "score_stamp": 34.448,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5913856061889453,
+        "1.0": 1.0333548685446259,
+        "2.0": 1.8469002892310793,
+        "3.0": 2.513994547207631
+      }
+    },
+    {
+      "ordinal": 165,
+      "score_stamp": 34.614,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5930244038052678,
+        "1.0": 1.0339804493345666,
+        "2.0": 1.7734985745755083,
+        "3.0": 2.298188156767962
+      }
+    },
+    {
+      "ordinal": 166,
+      "score_stamp": 34.804,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5883919376872654,
+        "1.0": 1.0181500534443375,
+        "2.0": 1.6535060229108989,
+        "3.0": 2.004449084144729
+      }
+    },
+    {
+      "ordinal": 167,
+      "score_stamp": 34.904,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5812072708739516,
+        "1.0": 0.9823309819861553,
+        "2.0": 1.5356625061382534,
+        "3.0": 1.773061810477859
+      }
+    },
+    {
+      "ordinal": 168,
+      "score_stamp": 35.004,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5867558431968918,
+        "1.0": 0.9909952915243051,
+        "2.0": 1.4948978381537819,
+        "3.0": 1.6431311505863035
+      }
+    },
+    {
+      "ordinal": 169,
+      "score_stamp": 35.105,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5819790407291029,
+        "1.0": 0.9529647747729738,
+        "2.0": 1.3700183351689723,
+        "3.0": 1.399184607501637
+      }
+    },
+    {
+      "ordinal": 170,
+      "score_stamp": 35.205,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5872746715085556,
+        "1.0": 0.9479587829576926,
+        "2.0": 1.3039386360644873,
+        "3.0": 1.2440546609504086
+      }
+    },
+    {
+      "ordinal": 171,
+      "score_stamp": 35.304,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5831773502586107,
+        "1.0": 0.9088496685504092,
+        "2.0": 1.1821040672082157,
+        "3.0": 1.0202801153817616
+      }
+    },
+    {
+      "ordinal": 172,
+      "score_stamp": 35.405,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5891384396647376,
+        "1.0": 0.8993132619067091,
+        "2.0": 1.1108318895106077,
+        "3.0": 0.8727189886736608
+      }
+    },
+    {
+      "ordinal": 173,
+      "score_stamp": 35.504,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5820528238259252,
+        "1.0": 0.8446843623123601,
+        "2.0": 0.9667870493095685,
+        "3.0": 0.6453261970885387
+      }
+    },
+    {
+      "ordinal": 174,
+      "score_stamp": 35.604,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5877923462056697,
+        "1.0": 0.8239782177686978,
+        "2.0": 0.8808417422771345,
+        "3.0": 0.5264111322285271
+      }
+    },
+    {
+      "ordinal": 175,
+      "score_stamp": 35.694,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5908048067968584,
+        "1.0": 0.8003265717520122,
+        "2.0": 0.7992343264739928,
+        "3.0": 0.5935731753514591
+      }
+    },
+    {
+      "ordinal": 176,
+      "score_stamp": 35.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5854235898271964,
+        "1.0": 0.7467128188199428,
+        "2.0": 0.669387407837144,
+        "3.0": 0.7709062087419363
+      }
+    },
+    {
+      "ordinal": 177,
+      "score_stamp": 35.894,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5762141373222479,
+        "1.0": 0.6862546796340128,
+        "2.0": 0.5337264797170014,
+        "3.0": 0.9519155575371583
+      }
+    },
+    {
+      "ordinal": 178,
+      "score_stamp": 35.994,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5762292126565907,
+        "1.0": 0.6503387349640505,
+        "2.0": 0.449834784915597,
+        "3.0": 1.1221337319675595
+      }
+    },
+    {
+      "ordinal": 179,
+      "score_stamp": 36.094,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5640856987642722,
+        "1.0": 0.5795974756099254,
+        "2.0": 0.5820020236566341,
+        "3.0": 1.392487973425416
+      }
+    },
+    {
+      "ordinal": 180,
+      "score_stamp": 36.194,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5614722672349571,
+        "1.0": 0.5402789676907064,
+        "2.0": 0.7032557686020685,
+        "3.0": 1.6005037994661295
+      }
+    },
+    {
+      "ordinal": 181,
+      "score_stamp": 36.294,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5500494616737769,
+        "1.0": 0.48259497885865565,
+        "2.0": 0.8293853162582137,
+        "3.0": 1.8182241259357568
+      }
+    },
+    {
+      "ordinal": 182,
+      "score_stamp": 36.394,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5467882126720534,
+        "1.0": 0.45664154918674615,
+        "2.0": 0.9387714527475983,
+        "3.0": 1.9937982146446895
+      }
+    },
+    {
+      "ordinal": 183,
+      "score_stamp": 36.494,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5370968438256821,
+        "1.0": 0.506479402369705,
+        "2.0": 1.0857115850690435,
+        "3.0": 2.217901491941442
+      }
+    },
+    {
+      "ordinal": 184,
+      "score_stamp": 36.596,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.532077573387395,
+        "1.0": 0.538032769635025,
+        "2.0": 1.1863612367164045,
+        "3.0": 2.3733926902687936
+      }
+    },
+    {
+      "ordinal": 185,
+      "score_stamp": 36.696,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5259197348750227,
+        "1.0": 0.5678474881387222,
+        "2.0": 1.2783848584142985,
+        "3.0": 2.513116069916754
+      }
+    },
+    {
+      "ordinal": 186,
+      "score_stamp": 36.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5180843347791525,
+        "1.0": 0.5924515304007696,
+        "2.0": 1.3583259420621159,
+        "3.0": 2.6324058838687314
+      }
+    },
+    {
+      "ordinal": 187,
+      "score_stamp": 36.896,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5112209330658328,
+        "1.0": 0.6471680708726473,
+        "2.0": 1.4734679067566294,
+        "3.0": 2.789019745614102
+      }
+    },
+    {
+      "ordinal": 188,
+      "score_stamp": 36.994,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5075498970374733,
+        "1.0": 0.6769827031574062,
+        "2.0": 1.5310354975534097,
+        "3.0": 2.862134779017782
+      }
+    },
+    {
+      "ordinal": 189,
+      "score_stamp": 37.114,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.49746078825989726,
+        "1.0": 0.737738249866767,
+        "2.0": 1.639324870341305,
+        "3.0": 2.9950529175366776
+      }
+    },
+    {
+      "ordinal": 190,
+      "score_stamp": 37.214,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.495408698693489,
+        "1.0": 0.7642869978642703,
+        "2.0": 1.6855206819127595,
+        "3.0": 3.036434695816739
+      }
+    },
+    {
+      "ordinal": 191,
+      "score_stamp": 37.314,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4863428552964052,
+        "1.0": 0.8059003938967262,
+        "2.0": 1.7603526559725728,
+        "3.0": 3.1119581204306557
+      }
+    },
+    {
+      "ordinal": 192,
+      "score_stamp": 37.414,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4889255320655002,
+        "1.0": 0.8269022444475832,
+        "2.0": 1.7912579541237572,
+        "3.0": 3.1163421206079196
+      }
+    },
+    {
+      "ordinal": 193,
+      "score_stamp": 37.514,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4808207541830699,
+        "1.0": 0.8691732014821947,
+        "2.0": 1.8630296616132584,
+        "3.0": 3.173719328120093
+      }
+    },
+    {
+      "ordinal": 194,
+      "score_stamp": 37.614,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48220528313746763,
+        "1.0": 0.8743677963940488,
+        "2.0": 1.8685221049768312,
+        "3.0": 3.1329593612242848
+      }
+    },
+    {
+      "ordinal": 195,
+      "score_stamp": 37.714,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47193531013370094,
+        "1.0": 0.9101369792208882,
+        "2.0": 1.9269621237883787,
+        "3.0": 3.1621570601376874
+      }
+    },
+    {
+      "ordinal": 196,
+      "score_stamp": 37.814,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4747139679526258,
+        "1.0": 0.9065618694780468,
+        "2.0": 1.910847983639101,
+        "3.0": 3.0814203720257076
+      }
+    },
+    {
+      "ordinal": 197,
+      "score_stamp": 37.914,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.46447476224100404,
+        "1.0": 0.9378906162756779,
+        "2.0": 1.9529725250703667,
+        "3.0": 3.079436406665773
+      }
+    },
+    {
+      "ordinal": 198,
+      "score_stamp": 38.004,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.46613117863119624,
+        "1.0": 0.9096017984898926,
+        "2.0": 1.8882915123727955,
+        "3.0": 2.9315102289855264
+      }
+    },
+    {
+      "ordinal": 199,
+      "score_stamp": 38.105,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.45832635859184667,
+        "1.0": 0.9422629855630718,
+        "2.0": 1.9182219631953747,
+        "3.0": 2.905207422681869
+      }
+    },
+    {
+      "ordinal": 200,
+      "score_stamp": 38.205,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47013484408190936,
+        "1.0": 0.9693979218912113,
+        "2.0": 1.9351790150978916,
+        "3.0": 2.8605889971214165
+      }
+    },
+    {
+      "ordinal": 201,
+      "score_stamp": 38.305,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.46502362092672167,
+        "1.0": 0.9382063085952491,
+        "2.0": 1.8485027441379045,
+        "3.0": 2.671204569481155
+      }
+    },
+    {
+      "ordinal": 202,
+      "score_stamp": 38.404,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4728677154271686,
+        "1.0": 0.9614523537546211,
+        "2.0": 1.8508581049379462,
+        "3.0": 2.6062199230050838
+      }
+    },
+    {
+      "ordinal": 203,
+      "score_stamp": 38.504,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.46734469271094164,
+        "1.0": 0.9273491592170882,
+        "2.0": 1.7465561934401133,
+        "3.0": 2.3904651964063603
+      }
+    },
+    {
+      "ordinal": 204,
+      "score_stamp": 38.604,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4660693020251486,
+        "1.0": 0.88954672478549,
+        "2.0": 1.6335561938588654,
+        "3.0": 2.1635114624037235
+      }
+    },
+    {
+      "ordinal": 205,
+      "score_stamp": 38.704,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4686976414713717,
+        "1.0": 0.9151594577350259,
+        "2.0": 1.6252788097959139,
+        "3.0": 2.0830207368334945
+      }
+    },
+    {
+      "ordinal": 206,
+      "score_stamp": 38.804,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.46892140847455616,
+        "1.0": 0.8813022627917116,
+        "2.0": 1.513695850513164,
+        "3.0": 1.8598654668064305
+      }
+    },
+    {
+      "ordinal": 207,
+      "score_stamp": 38.904,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4695837300158634,
+        "1.0": 0.8969026802430221,
+        "2.0": 1.4839007824861372,
+        "3.0": 1.7513900499004265
+      }
+    },
+    {
+      "ordinal": 208,
+      "score_stamp": 38.995,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4709214037012495,
+        "1.0": 0.8587262025236654,
+        "2.0": 1.3666761895759494,
+        "3.0": 1.520856130002657
+      }
+    },
+    {
+      "ordinal": 209,
+      "score_stamp": 39.094,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47301655520974284,
+        "1.0": 0.8727093837033051,
+        "2.0": 1.3316074318812878,
+        "3.0": 1.4021021858239198
+      }
+    },
+    {
+      "ordinal": 210,
+      "score_stamp": 39.195,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47064026756864336,
+        "1.0": 0.8289026913299427,
+        "2.0": 1.197697843189887,
+        "3.0": 1.1509852046337798
+      }
+    },
+    {
+      "ordinal": 211,
+      "score_stamp": 39.294,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47373291958865094,
+        "1.0": 0.8224517379335884,
+        "2.0": 1.1305324233351888,
+        "3.0": 0.9998632983978989
+      }
+    },
+    {
+      "ordinal": 212,
+      "score_stamp": 39.394,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47236557208358226,
+        "1.0": 0.7769487611878643,
+        "2.0": 0.9943513623579767,
+        "3.0": 0.7692501620359304
+      }
+    },
+    {
+      "ordinal": 213,
+      "score_stamp": 39.494,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4780164760661519,
+        "1.0": 0.7616097950080284,
+        "2.0": 0.91466156876175,
+        "3.0": 0.6263189864237669
+      }
+    },
+    {
+      "ordinal": 214,
+      "score_stamp": 39.594,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47916313437725444,
+        "1.0": 0.7145221386207847,
+        "2.0": 0.7826679873065686,
+        "3.0": 0.5686600283677155
+      }
+    },
+    {
+      "ordinal": 215,
+      "score_stamp": 39.695,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4858939432696655,
+        "1.0": 0.6957025576167042,
+        "2.0": 0.7049130642285794,
+        "3.0": 0.6914772755500211
+      }
+    },
+    {
+      "ordinal": 216,
+      "score_stamp": 39.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4813316421474048,
+        "1.0": 0.6379953699785278,
+        "2.0": 0.5754832829227209,
+        "3.0": 0.9152409594640118
+      }
+    },
+    {
+      "ordinal": 217,
+      "score_stamp": 39.894,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48583501774349164,
+        "1.0": 0.6108571481771725,
+        "2.0": 0.5073733620877645,
+        "3.0": 1.092554508807154
+      }
+    },
+    {
+      "ordinal": 218,
+      "score_stamp": 39.996,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4821618760539145,
+        "1.0": 0.5555807591306664,
+        "2.0": 0.6277673940251486,
+        "3.0": 1.3583313025519808
+      }
+    },
+    {
+      "ordinal": 219,
+      "score_stamp": 40.096,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.484742533224863,
+        "1.0": 0.5275674749315022,
+        "2.0": 0.7363487013772684,
+        "3.0": 1.554825809302348
+      }
+    },
+    {
+      "ordinal": 220,
+      "score_stamp": 40.195,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4962437489219747,
+        "1.0": 0.5240693722470884,
+        "2.0": 0.8964710600507809,
+        "3.0": 1.8188467902608925
+      }
+    },
+    {
+      "ordinal": 221,
+      "score_stamp": 40.295,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5028668826958004,
+        "1.0": 0.5671285788469176,
+        "2.0": 1.032531341875667,
+        "3.0": 2.039842427585637
+      }
+    },
+    {
+      "ordinal": 222,
+      "score_stamp": 40.415,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5066768705475171,
+        "1.0": 0.6087675570334297,
+        "2.0": 1.1617179132918414,
+        "3.0": 2.247021786237695
+      }
+    },
+    {
+      "ordinal": 223,
+      "score_stamp": 40.514,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5182911805926255,
+        "1.0": 0.6654677237371147,
+        "2.0": 1.294821091332801,
+        "3.0": 2.446366650771152
+      }
+    },
+    {
+      "ordinal": 224,
+      "score_stamp": 40.614,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5242920769431423,
+        "1.0": 0.7060780022132284,
+        "2.0": 1.3966018029988847,
+        "3.0": 2.6006350585034443
+      }
+    },
+    {
+      "ordinal": 225,
+      "score_stamp": 40.715,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5327549221964304,
+        "1.0": 0.7558066857051378,
+        "2.0": 1.512559183371586,
+        "3.0": 2.771880590187078
+      }
+    },
+    {
+      "ordinal": 226,
+      "score_stamp": 40.815,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5390491253292525,
+        "1.0": 0.7976949085245413,
+        "2.0": 1.608583185052607,
+        "3.0": 2.9095909310882253
+      }
+    },
+    {
+      "ordinal": 227,
+      "score_stamp": 40.914,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5428744094158634,
+        "1.0": 0.8295275468200776,
+        "2.0": 1.6780062616992386,
+        "3.0": 3.0029513950125035
+      }
+    },
+    {
+      "ordinal": 228,
+      "score_stamp": 41.014,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.548592169828974,
+        "1.0": 0.8786451351714182,
+        "2.0": 1.7657633900226808,
+        "3.0": 3.118163538998307
+      }
+    },
+    {
+      "ordinal": 229,
+      "score_stamp": 41.114,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5534115243089214,
+        "1.0": 0.9161036445258635,
+        "2.0": 1.826734533051551,
+        "3.0": 3.18607704273385
+      }
+    },
+    {
+      "ordinal": 230,
+      "score_stamp": 41.214,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5625803503364522,
+        "1.0": 0.9643218472299138,
+        "2.0": 1.906333589633901,
+        "3.0": 3.27310910235696
+      }
+    },
+    {
+      "ordinal": 231,
+      "score_stamp": 41.304,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5634261064887072,
+        "1.0": 0.9785813233118162,
+        "2.0": 1.9270821897135797,
+        "3.0": 3.274251395191578
+      }
+    },
+    {
+      "ordinal": 232,
+      "score_stamp": 41.404,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5710145478527865,
+        "1.0": 1.0146746398096032,
+        "2.0": 1.9862035227080261,
+        "3.0": 3.320425461985391
+      }
+    },
+    {
+      "ordinal": 233,
+      "score_stamp": 41.504,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5703565933041821,
+        "1.0": 1.0137924374345326,
+        "2.0": 1.9774817907171738,
+        "3.0": 3.263866986862447
+      }
+    },
+    {
+      "ordinal": 234,
+      "score_stamp": 41.604,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5778527305600264,
+        "1.0": 1.0497487170123836,
+        "2.0": 2.039522181944521,
+        "3.0": 3.305179675899407
+      }
+    },
+    {
+      "ordinal": 235,
+      "score_stamp": 41.704,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.582769013302354,
+        "1.0": 1.0655664810512828,
+        "2.0": 2.0593241479481748,
+        "3.0": 3.279533618722685
+      }
+    },
+    {
+      "ordinal": 236,
+      "score_stamp": 41.804,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0019107813725126321,
+      "required_radius_by_horizon": {
+        "0.0": 0.5899700370850752,
+        "1.0": 1.089428488595896,
+        "2.0": 2.0913853104899967,
+        "3.0": 3.267625416112188
+      }
+    },
+    {
+      "ordinal": 237,
+      "score_stamp": 41.904,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.003292234809128297,
+      "required_radius_by_horizon": {
+        "0.0": 0.5844403351878279,
+        "1.0": 1.0664557153782588,
+        "2.0": 2.039098747808923,
+        "3.0": 3.134339228708785
+      }
+    },
+    {
+      "ordinal": 238,
+      "score_stamp": 42.004,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.005197002084473462,
+      "required_radius_by_horizon": {
+        "0.0": 0.597866248739804,
+        "1.0": 1.0900951582152518,
+        "2.0": 2.0637934296204485,
+        "3.0": 3.1063842312442196
+      }
+    },
+    {
+      "ordinal": 239,
+      "score_stamp": 42.104,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.002426627211584348,
+      "required_radius_by_horizon": {
+        "0.0": 0.5940476436620942,
+        "1.0": 1.0607502817518817,
+        "2.0": 1.9948962468825704,
+        "3.0": 2.946662380915624
+      }
+    },
+    {
+      "ordinal": 240,
+      "score_stamp": 42.204,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.004392963815930878,
+      "required_radius_by_horizon": {
+        "0.0": 0.6026058496462039,
+        "1.0": 1.0742074701363094,
+        "2.0": 1.9912804773712347,
+        "3.0": 2.8751313395136737
+      }
+    },
+    {
+      "ordinal": 241,
+      "score_stamp": 42.294,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0004774877922267551,
+      "required_radius_by_horizon": {
+        "0.0": 0.5920397805315001,
+        "1.0": 1.0332678851285813,
+        "2.0": 1.896166869804513,
+        "3.0": 2.683260654936687
+      }
+    },
+    {
+      "ordinal": 242,
+      "score_stamp": 42.394,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.00026692805640013417,
+      "required_radius_by_horizon": {
+        "0.0": 0.5976859452003002,
+        "1.0": 1.048446103244003,
+        "2.0": 1.8878278880104133,
+        "3.0": 2.6044643712506463
+      }
+    },
+    {
+      "ordinal": 243,
+      "score_stamp": 42.494,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5892977202275346,
+        "1.0": 1.0158889035147294,
+        "2.0": 1.7912886140032096,
+        "3.0": 2.401655290019445
+      }
+    },
+    {
+      "ordinal": 244,
+      "score_stamp": 42.594,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.000894978860459611,
+      "required_radius_by_horizon": {
+        "0.0": 0.5958446079891094,
+        "1.0": 1.0362609602173134,
+        "2.0": 1.781642281554613,
+        "3.0": 2.3203972640538915
+      }
+    },
+    {
+      "ordinal": 245,
+      "score_stamp": 42.694,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.6025983731433179,
+        "1.0": 1.060352481025626,
+        "2.0": 1.776487262047725,
+        "3.0": 2.2464743192608414
+      }
+    },
+    {
+      "ordinal": 246,
+      "score_stamp": 42.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5925660930675171,
+        "1.0": 1.022305517148966,
+        "2.0": 1.6599584547216755,
+        "3.0": 2.017233707890688
+      }
+    },
+    {
+      "ordinal": 247,
+      "score_stamp": 42.895,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5834888444522441,
+        "1.0": 0.9978655208501808,
+        "2.0": 1.5709863043030505,
+        "3.0": 1.8290214334808097
+      }
+    },
+    {
+      "ordinal": 248,
+      "score_stamp": 42.994,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5908006466269379,
+        "1.0": 1.0095601024665632,
+        "2.0": 1.5335509501550613,
+        "3.0": 1.7032756846530281
+      }
+    },
+    {
+      "ordinal": 249,
+      "score_stamp": 43.094,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5810278224453682,
+        "1.0": 0.9731866214176766,
+        "2.0": 1.420379308117923,
+        "3.0": 1.4762100460906984
+      }
+    },
+    {
+      "ordinal": 250,
+      "score_stamp": 43.194,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5887431826620476,
+        "1.0": 0.9797215328961905,
+        "2.0": 1.3733454857723595,
+        "3.0": 1.3437608198277071
+      }
+    },
+    {
+      "ordinal": 251,
+      "score_stamp": 43.294,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.581970878344015,
+        "1.0": 0.9333572509356105,
+        "2.0": 1.2374895670718769,
+        "3.0": 1.093731884808584
+      }
+    },
+    {
+      "ordinal": 252,
+      "score_stamp": 43.394,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5767548909103251,
+        "1.0": 0.8867778234074426,
+        "2.0": 1.1017753416626908,
+        "3.0": 0.8511823059676668
+      }
+    },
+    {
+      "ordinal": 253,
+      "score_stamp": 43.494,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5840732976034706,
+        "1.0": 0.8754987225607839,
+        "2.0": 1.0263607193246407,
+        "3.0": 0.701403580995803
+      }
+    },
+    {
+      "ordinal": 254,
+      "score_stamp": 43.615,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5800596905243965,
+        "1.0": 0.8179974194240144,
+        "2.0": 0.8657660640238676,
+        "3.0": 0.4512909110958539
+      }
+    },
+    {
+      "ordinal": 255,
+      "score_stamp": 43.714,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5857080825347702,
+        "1.0": 0.793906351054717,
+        "2.0": 0.77539634688206,
+        "3.0": 0.5221292437406205
+      }
+    },
+    {
+      "ordinal": 256,
+      "score_stamp": 43.814,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.576598280976578,
+        "1.0": 0.7257431127085525,
+        "2.0": 0.6187517025726732,
+        "3.0": 0.7588720605157979
+      }
+    },
+    {
+      "ordinal": 257,
+      "score_stamp": 43.914,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5790403701861881,
+        "1.0": 0.6952975473742079,
+        "2.0": 0.5280871207924126,
+        "3.0": 0.9155589297435127
+      }
+    },
+    {
+      "ordinal": 258,
+      "score_stamp": 44.015,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5699431100163441,
+        "1.0": 0.6273314216948007,
+        "2.0": 0.4663254967768215,
+        "3.0": 1.1928678706300917
+      }
+    },
+    {
+      "ordinal": 259,
+      "score_stamp": 44.114,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5703709581265157,
+        "1.0": 0.5925738624369977,
+        "2.0": 0.5527559779636192,
+        "3.0": 1.3677827500730662
+      }
+    },
+    {
+      "ordinal": 260,
+      "score_stamp": 44.214,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5669486064517124,
+        "1.0": 0.5493425807412945,
+        "2.0": 0.6535327624836689,
+        "3.0": 1.5537133476324516
+      }
+    },
+    {
+      "ordinal": 261,
+      "score_stamp": 44.314,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5567753126622013,
+        "1.0": 0.49219683561711736,
+        "2.0": 0.8142132618717306,
+        "3.0": 1.8094702838863497
+      }
+    },
+    {
+      "ordinal": 262,
+      "score_stamp": 44.414,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5520944201730608,
+        "1.0": 0.4552025073471426,
+        "2.0": 0.934076008376026,
+        "3.0": 1.9997512667090644
+      }
+    },
+    {
+      "ordinal": 263,
+      "score_stamp": 44.515,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5433540126077944,
+        "1.0": 0.4872301528258305,
+        "2.0": 1.0750294691690798,
+        "3.0": 2.2147407841221205
+      }
+    },
+    {
+      "ordinal": 264,
+      "score_stamp": 44.611,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5314265369504482,
+        "1.0": 0.5345581717331205,
+        "2.0": 1.2078827794562228,
+        "3.0": 2.4152509339797956
+      }
+    },
+    {
+      "ordinal": 265,
+      "score_stamp": 44.706,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5277459523869428,
+        "1.0": 0.5716033444425666,
+        "2.0": 1.302034406525356,
+        "3.0": 2.553138077763789
+      }
+    },
+    {
+      "ordinal": 266,
+      "score_stamp": 44.811,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5213045826754029,
+        "1.0": 0.6221790086404213,
+        "2.0": 1.4167500069720387,
+        "3.0": 2.7149739580304244
+      }
+    },
+    {
+      "ordinal": 267,
+      "score_stamp": 44.938,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5139021567620908,
+        "1.0": 0.6741060065003386,
+        "2.0": 1.528738210633507,
+        "3.0": 2.8664789096280976
+      }
+    },
+    {
+      "ordinal": 268,
+      "score_stamp": 45.033,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.506166473166215,
+        "1.0": 0.7218186409165015,
+        "2.0": 1.6144247188959293,
+        "3.0": 2.975996588634864
+      }
+    },
+    {
+      "ordinal": 269,
+      "score_stamp": 45.14,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5031491446213092,
+        "1.0": 0.7452938684222021,
+        "2.0": 1.6581380485475279,
+        "3.0": 3.019294791922089
+      }
+    },
+    {
+      "ordinal": 270,
+      "score_stamp": 45.234,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.49459780381249735,
+        "1.0": 0.7881474089274294,
+        "2.0": 1.7342919389665334,
+        "3.0": 3.103024153825942
+      }
+    },
+    {
+      "ordinal": 271,
+      "score_stamp": 45.304,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4896224772680151,
+        "1.0": 0.8063250831774738,
+        "2.0": 1.7686522233647508,
+        "3.0": 3.1310929692669784
+      }
+    },
+    {
+      "ordinal": 272,
+      "score_stamp": 45.404,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48864451142989457,
+        "1.0": 0.8231663403462903,
+        "2.0": 1.796685009459588,
+        "3.0": 3.1339921903391073
+      }
+    },
+    {
+      "ordinal": 273,
+      "score_stamp": 45.504,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4817826395451069,
+        "1.0": 0.8578736141927917,
+        "2.0": 1.8554875028859912,
+        "3.0": 3.1738577044736216
+      }
+    },
+    {
+      "ordinal": 274,
+      "score_stamp": 45.595,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48482440138819693,
+        "1.0": 0.8512990038384975,
+        "2.0": 1.84251593786218,
+        "3.0": 3.1128109582177754
+      }
+    },
+    {
+      "ordinal": 275,
+      "score_stamp": 45.695,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47618564967303306,
+        "1.0": 0.8802772618781547,
+        "2.0": 1.8901018662757958,
+        "3.0": 3.127799588040293
+      }
+    },
+    {
+      "ordinal": 276,
+      "score_stamp": 45.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47923478721725593,
+        "1.0": 0.874820391533788,
+        "2.0": 1.872103924487375,
+        "3.0": 3.046142537485038
+      }
+    },
+    {
+      "ordinal": 277,
+      "score_stamp": 45.894,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.46824428632722004,
+        "1.0": 0.9116145138547967,
+        "2.0": 1.9245667866326346,
+        "3.0": 3.059271447257011
+      }
+    },
+    {
+      "ordinal": 278,
+      "score_stamp": 45.994,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4671531572542521,
+        "1.0": 0.8907808009577198,
+        "2.0": 1.872522599891987,
+        "3.0": 2.9232816255441905
+      }
+    },
+    {
+      "ordinal": 279,
+      "score_stamp": 46.094,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.45436851657162214,
+        "1.0": 0.9124352005854319,
+        "2.0": 1.8891292336451384,
+        "3.0": 2.8811861960520635
+      }
+    },
+    {
+      "ordinal": 280,
+      "score_stamp": 46.194,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4587841728201844,
+        "1.0": 0.876644371816466,
+        "2.0": 1.8015894179445262,
+        "3.0": 2.6921731729172453
+      }
+    },
+    {
+      "ordinal": 281,
+      "score_stamp": 46.294,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.45127200568571535,
+        "1.0": 0.9009926790249838,
+        "2.0": 1.8096373078696721,
+        "3.0": 2.634505795431243
+      }
+    },
+    {
+      "ordinal": 282,
+      "score_stamp": 46.394,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4614427045202375,
+        "1.0": 0.8746332392090664,
+        "2.0": 1.7226606132221625,
+        "3.0": 2.442644109405283
+      }
+    },
+    {
+      "ordinal": 283,
+      "score_stamp": 46.494,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.455027055001451,
+        "1.0": 0.8838191636012843,
+        "2.0": 1.6995878197250396,
+        "3.0": 2.3427307630436847
+      }
+    },
+    {
+      "ordinal": 284,
+      "score_stamp": 46.594,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.46719656636631185,
+        "1.0": 0.8487059218094551,
+        "2.0": 1.5904261597980622,
+        "3.0": 2.120803690238827
+      }
+    },
+    {
+      "ordinal": 285,
+      "score_stamp": 46.694,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4618433631728403,
+        "1.0": 0.859445263562942,
+        "2.0": 1.5615737557621492,
+        "3.0": 2.013300955554651
+      }
+    },
+    {
+      "ordinal": 286,
+      "score_stamp": 46.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47210696551139547,
+        "1.0": 0.8228400557515826,
+        "2.0": 1.4454353613289592,
+        "3.0": 1.7838473220436912
+      }
+    },
+    {
+      "ordinal": 287,
+      "score_stamp": 46.915,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4789027398144112,
+        "1.0": 0.8118213826024323,
+        "2.0": 1.3555019333219467,
+        "3.0": 1.5765708455510419
+      }
+    },
+    {
+      "ordinal": 288,
+      "score_stamp": 47.015,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47458874804462725,
+        "1.0": 0.8261665843712932,
+        "2.0": 1.3222538744867591,
+        "3.0": 1.4567628912144328
+      }
+    },
+    {
+      "ordinal": 289,
+      "score_stamp": 47.114,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4809757732278092,
+        "1.0": 0.791248578338292,
+        "2.0": 1.2044835417217201,
+        "3.0": 1.225132980628198
+      }
+    },
+    {
+      "ordinal": 290,
+      "score_stamp": 47.214,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47427228326998255,
+        "1.0": 0.7990949228439783,
+        "2.0": 1.1600127481248317,
+        "3.0": 1.1002189630507646
+      }
+    },
+    {
+      "ordinal": 291,
+      "score_stamp": 47.315,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4782951279208899,
+        "1.0": 0.7516389056630833,
+        "2.0": 1.0217895732913258,
+        "3.0": 0.8543909703419211
+      }
+    },
+    {
+      "ordinal": 292,
+      "score_stamp": 47.415,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4742813493494326,
+        "1.0": 0.748302193787972,
+        "2.0": 0.9588511221041524,
+        "3.0": 0.7247019645763093
+      }
+    },
+    {
+      "ordinal": 293,
+      "score_stamp": 47.514,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4801821883985161,
+        "1.0": 0.6895301948597549,
+        "2.0": 0.8067118450745925,
+        "3.0": 0.5082279638197413
+      }
+    },
+    {
+      "ordinal": 294,
+      "score_stamp": 47.615,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.47529214026558547,
+        "1.0": 0.6817135217570356,
+        "2.0": 0.7426595292716062,
+        "3.0": 0.5717490746922901
+      }
+    },
+    {
+      "ordinal": 295,
+      "score_stamp": 47.714,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4817892831456159,
+        "1.0": 0.6227125868060378,
+        "2.0": 0.6031185988450691,
+        "3.0": 0.7925405095464669
+      }
+    },
+    {
+      "ordinal": 296,
+      "score_stamp": 47.814,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4797443133365578,
+        "1.0": 0.6042538802982307,
+        "2.0": 0.5389371058903905,
+        "3.0": 0.9578908017842859
+      }
+    },
+    {
+      "ordinal": 297,
+      "score_stamp": 47.904,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.48902383562092583,
+        "1.0": 0.5504894946751933,
+        "2.0": 0.5533167481390454,
+        "3.0": 1.206242370454123
+      }
+    },
+    {
+      "ordinal": 298,
+      "score_stamp": 48.004,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4878071144343109,
+        "1.0": 0.5318269794814131,
+        "2.0": 0.6402424212543655,
+        "3.0": 1.3758117831002525
+      }
+    },
+    {
+      "ordinal": 299,
+      "score_stamp": 48.104,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4886249806637838,
+        "1.0": 0.5104952135427789,
+        "2.0": 0.7408587808770551,
+        "3.0": 1.555673601717072
+      }
+    },
+    {
+      "ordinal": 300,
+      "score_stamp": 48.204,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.4989679604872785,
+        "1.0": 0.5224708814383909,
+        "2.0": 0.8880206852508951,
+        "3.0": 1.7952725915057979
+      }
+    },
+    {
+      "ordinal": 301,
+      "score_stamp": 48.304,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5102223317054275,
+        "1.0": 0.5771555784275518,
+        "2.0": 1.0333656443557508,
+        "3.0": 2.022543997219753
+      }
+    },
+    {
+      "ordinal": 302,
+      "score_stamp": 48.404,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5131926697285458,
+        "1.0": 0.6096669380563546,
+        "2.0": 1.1329058530294656,
+        "3.0": 2.183251456824595
+      }
+    },
+    {
+      "ordinal": 303,
+      "score_stamp": 48.505,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5217348738252462,
+        "1.0": 0.6584525364842654,
+        "2.0": 1.2589114497392835,
+        "3.0": 2.378555121986864
+      }
+    },
+    {
+      "ordinal": 304,
+      "score_stamp": 48.605,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5265359292661935,
+        "1.0": 0.6954297015211052,
+        "2.0": 1.355444534027042,
+        "3.0": 2.5273406183670453
+      }
+    },
+    {
+      "ordinal": 305,
+      "score_stamp": 48.705,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5327269180052991,
+        "1.0": 0.7357427538670036,
+        "2.0": 1.4523802408347553,
+        "3.0": 2.671858588329486
+      }
+    },
+    {
+      "ordinal": 306,
+      "score_stamp": 48.804,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5405625084712159,
+        "1.0": 0.7788509455091283,
+        "2.0": 1.5479683928179802,
+        "3.0": 2.808563148358581
+      }
+    },
+    {
+      "ordinal": 307,
+      "score_stamp": 48.895,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.548031097166174,
+        "1.0": 0.8182172160402461,
+        "2.0": 1.6316761797758634,
+        "3.0": 2.923591489907484
+      }
+    },
+    {
+      "ordinal": 308,
+      "score_stamp": 48.995,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5521690792032901,
+        "1.0": 0.8559836230508172,
+        "2.0": 1.6987857853706685,
+        "3.0": 3.010221309270454
+      }
+    },
+    {
+      "ordinal": 309,
+      "score_stamp": 49.094,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5561909311447962,
+        "1.0": 0.8852682146709759,
+        "2.0": 1.7428327772201433,
+        "3.0": 3.054833637101905
+      }
+    },
+    {
+      "ordinal": 310,
+      "score_stamp": 49.194,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5634774803951302,
+        "1.0": 0.926407295992495,
+        "2.0": 1.8129818745901176,
+        "3.0": 3.1321710753104717
+      }
+    },
+    {
+      "ordinal": 311,
+      "score_stamp": 49.295,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0032650869316018516,
+      "required_radius_by_horizon": {
+        "0.0": 0.5641867734648675,
+        "1.0": 0.9446495167191729,
+        "2.0": 1.845174351629062,
+        "3.0": 3.150434564283148
+      }
+    },
+    {
+      "ordinal": 312,
+      "score_stamp": 49.394,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.008112420285578986,
+      "required_radius_by_horizon": {
+        "0.0": 0.5716616177514512,
+        "1.0": 0.9823510006063383,
+        "2.0": 1.9113341048420642,
+        "3.0": 3.2101332728429077
+      }
+    },
+    {
+      "ordinal": 313,
+      "score_stamp": 49.494,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.00975977258004565,
+      "required_radius_by_horizon": {
+        "0.0": 0.5706250837561094,
+        "1.0": 0.9903103182732821,
+        "2.0": 1.9268386305482739,
+        "3.0": 3.1934001570280977
+      }
+    },
+    {
+      "ordinal": 314,
+      "score_stamp": 49.595,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.011945763370589363,
+      "required_radius_by_horizon": {
+        "0.0": 0.5784032330027782,
+        "1.0": 1.0277424295464215,
+        "2.0": 1.992965897305431,
+        "3.0": 3.2414844465421155
+      }
+    },
+    {
+      "ordinal": 315,
+      "score_stamp": 49.694,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.011320349582580741,
+      "required_radius_by_horizon": {
+        "0.0": 0.5760278616167107,
+        "1.0": 1.0282381233148516,
+        "2.0": 1.9933658442614106,
+        "3.0": 3.1936471234486534
+      }
+    },
+    {
+      "ordinal": 316,
+      "score_stamp": 49.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.012313555701625484,
+      "required_radius_by_horizon": {
+        "0.0": 0.5836411746302007,
+        "1.0": 1.0611154755525973,
+        "2.0": 2.045753812285688,
+        "3.0": 3.2128871864313546
+      }
+    },
+    {
+      "ordinal": 317,
+      "score_stamp": 49.894,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.010573386283842717,
+      "required_radius_by_horizon": {
+        "0.0": 0.5799368231675981,
+        "1.0": 1.0531059122208093,
+        "2.0": 2.024168587742581,
+        "3.0": 3.125209143811072
+      }
+    },
+    {
+      "ordinal": 318,
+      "score_stamp": 49.994,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.010127072140979715,
+      "required_radius_by_horizon": {
+        "0.0": 0.5934169305042301,
+        "1.0": 1.0847188287818248,
+        "2.0": 2.0656534296116806,
+        "3.0": 3.122113572030965
+      }
+    },
+    {
+      "ordinal": 319,
+      "score_stamp": 50.094,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.009092426379051582,
+      "required_radius_by_horizon": {
+        "0.0": 0.5928231703744619,
+        "1.0": 1.0646189290909585,
+        "2.0": 2.011477354692999,
+        "3.0": 2.9822710543393587
+      }
+    },
+    {
+      "ordinal": 320,
+      "score_stamp": 50.214,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.007114157802158155,
+      "required_radius_by_horizon": {
+        "0.0": 0.5915906688145333,
+        "1.0": 1.0448897628487035,
+        "2.0": 1.9475329576757674,
+        "3.0": 2.814003561588317
+      }
+    },
+    {
+      "ordinal": 321,
+      "score_stamp": 50.314,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.006644065264459792,
+      "required_radius_by_horizon": {
+        "0.0": 0.5991585535690115,
+        "1.0": 1.0634962443277658,
+        "2.0": 1.9487527952041408,
+        "3.0": 2.748765074727135
+      }
+    },
+    {
+      "ordinal": 322,
+      "score_stamp": 50.414,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.004382213909119942,
+      "required_radius_by_horizon": {
+        "0.0": 0.5890100607269885,
+        "1.0": 1.0237282960462186,
+        "2.0": 1.8445001379678916,
+        "3.0": 2.5356249407145257
+      }
+    },
+    {
+      "ordinal": 323,
+      "score_stamp": 50.515,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.003685154731561363,
+      "required_radius_by_horizon": {
+        "0.0": 0.5939748699458766,
+        "1.0": 1.0398609726018158,
+        "2.0": 1.8315105528540587,
+        "3.0": 2.449027247039296
+      }
+    },
+    {
+      "ordinal": 324,
+      "score_stamp": 50.614,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.002482090899781214,
+      "required_radius_by_horizon": {
+        "0.0": 0.5844654303677966,
+        "1.0": 1.0048130274300975,
+        "2.0": 1.7260122245883107,
+        "3.0": 2.2343856302784464
+      }
+    },
+    {
+      "ordinal": 325,
+      "score_stamp": 50.715,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0021413256297591887,
+      "required_radius_by_horizon": {
+        "0.0": 0.5895555526387996,
+        "1.0": 1.0215350405153434,
+        "2.0": 1.7055511253598001,
+        "3.0": 2.1378879556832358
+      }
+    },
+    {
+      "ordinal": 326,
+      "score_stamp": 50.814,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0012409968830372209,
+      "required_radius_by_horizon": {
+        "0.0": 0.5812179838753317,
+        "1.0": 0.9876207089541709,
+        "2.0": 1.5954069063991594,
+        "3.0": 1.9180862304738384
+      }
+    },
+    {
+      "ordinal": 327,
+      "score_stamp": 50.915,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0005150093363980035,
+      "required_radius_by_horizon": {
+        "0.0": 0.5869173702037672,
+        "1.0": 1.0014254040352535,
+        "2.0": 1.5648106260744257,
+        "3.0": 1.8082093237794636
+      }
+    },
+    {
+      "ordinal": 328,
+      "score_stamp": 51.014,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0007475392914196577,
+      "required_radius_by_horizon": {
+        "0.0": 0.5810146177054709,
+        "1.0": 0.9665775899471969,
+        "2.0": 1.4484447351351948,
+        "3.0": 1.5733011648824937
+      }
+    },
+    {
+      "ordinal": 329,
+      "score_stamp": 51.115,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0009114566682223157,
+      "required_radius_by_horizon": {
+        "0.0": 0.5879807208446429,
+        "1.0": 0.9736298190959181,
+        "2.0": 1.4030701412403064,
+        "3.0": 1.4406215393795578
+      }
+    },
+    {
+      "ordinal": 330,
+      "score_stamp": 51.204,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5802904022653111,
+        "1.0": 0.9267742970097862,
+        "2.0": 1.271986170649475,
+        "3.0": 1.2024598590158506
+      }
+    },
+    {
+      "ordinal": 331,
+      "score_stamp": 51.305,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5870143981292731,
+        "1.0": 0.9246471126094326,
+        "2.0": 1.2119858441853875,
+        "3.0": 1.0612384683045477
+      }
+    },
+    {
+      "ordinal": 332,
+      "score_stamp": 51.405,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5822013431816658,
+        "1.0": 0.8745080212336155,
+        "2.0": 1.0703349284114043,
+        "3.0": 0.8225478130261009
+      }
+    },
+    {
+      "ordinal": 333,
+      "score_stamp": 51.504,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 6.111847714679319e-06,
+      "required_radius_by_horizon": {
+        "0.0": 0.5885451227484159,
+        "1.0": 0.8614948999020915,
+        "2.0": 0.9956431186560294,
+        "3.0": 0.6874624971701468
+      }
+    },
+    {
+      "ordinal": 334,
+      "score_stamp": 51.604,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5954107096271919,
+        "1.0": 0.8465722272616646,
+        "2.0": 0.9197366585722396,
+        "3.0": 0.5686294837315357
+      }
+    },
+    {
+      "ordinal": 335,
+      "score_stamp": 51.704,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5880890136264227,
+        "1.0": 0.7857024175876037,
+        "2.0": 0.7726526780718875,
+        "3.0": 0.6323714451398265
+      }
+    },
+    {
+      "ordinal": 336,
+      "score_stamp": 51.805,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5812032978729675,
+        "1.0": 0.7284091419738045,
+        "2.0": 0.6376266338572488,
+        "3.0": 0.8150058367901298
+      }
+    },
+    {
+      "ordinal": 337,
+      "score_stamp": 51.904,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5844335385712264,
+        "1.0": 0.7017896268615098,
+        "2.0": 0.5585716760602464,
+        "3.0": 0.960830996304781
+      }
+    },
+    {
+      "ordinal": 338,
+      "score_stamp": 52.005,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5766966559115042,
+        "1.0": 0.6434795774480788,
+        "2.0": 0.4833707336697244,
+        "3.0": 1.17047597137053
+      }
+    },
+    {
+      "ordinal": 339,
+      "score_stamp": 52.104,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5769094825406614,
+        "1.0": 0.6103500249413998,
+        "2.0": 0.544272716040096,
+        "3.0": 1.3221364581608053
+      }
+    },
+    {
+      "ordinal": 340,
+      "score_stamp": 52.194,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5765023289737637,
+        "1.0": 0.578486413157524,
+        "2.0": 0.6163096748136068,
+        "3.0": 1.4685439023261075
+      }
+    },
+    {
+      "ordinal": 341,
+      "score_stamp": 52.294,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5683358947400016,
+        "1.0": 0.5244748225436866,
+        "2.0": 0.7252025660781019,
+        "3.0": 1.6677324684814532
+      }
+    },
+    {
+      "ordinal": 342,
+      "score_stamp": 52.395,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5601371563538733,
+        "1.0": 0.47299711688160023,
+        "2.0": 0.8537355153726094,
+        "3.0": 1.8793937085129278
+      }
+    },
+    {
+      "ordinal": 343,
+      "score_stamp": 52.495,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5567300680278451,
+        "1.0": 0.43866977804707596,
+        "2.0": 0.9561343428195243,
+        "3.0": 2.0442849586175136
+      }
+    },
+    {
+      "ordinal": 344,
+      "score_stamp": 52.594,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5503234802061082,
+        "1.0": 0.4688416350411256,
+        "2.0": 1.0688727102941187,
+        "3.0": 2.2191247831964307
+      }
+    },
+    {
+      "ordinal": 345,
+      "score_stamp": 52.696,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5446975990466675,
+        "1.0": 0.5033728848469023,
+        "2.0": 1.1746570905728015,
+        "3.0": 2.378598257326396
+      }
+    },
+    {
+      "ordinal": 346,
+      "score_stamp": 52.794,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5373838072461531,
+        "1.0": 0.5388460821296928,
+        "2.0": 1.2745572813456219,
+        "3.0": 2.5251871829113304
+      }
+    },
+    {
+      "ordinal": 347,
+      "score_stamp": 52.894,
+      "used_radius": 0.36,
+      "anchor_to_current_actor_projection_distance": 0.0,
+      "required_radius_by_horizon": {
+        "0.0": 0.5313418849456429,
+        "1.0": 0.5730512417348456,
+        "2.0": 1.3638836987333596,
+        "3.0": 2.6509881132495554
+      }
+    }
+  ],
+  "scope": "Offline reference/hypothesis support labels on exact consumed CV states and unchanged score clock; no online radius change.",
+  "limits": [
+    "2026 compliance/classification/attachment and 2027 applicability remain conditions, not certified facts.",
+    "Zero anchor error is an explicit hypothesis and may fail membership, even when a large disk empirically covers this actor.",
+    "Current diameter bound provides no future CV turn/rotation/deformation or source/measurement error certificate.",
+    "No truth selected control/parameter, no CA/sampler/ranking change, no deployment acceptance."
+  ]
+}

@@ -216,3 +216,16 @@ raw203 and one final-snapshot velocity age window still failed; exact consumed
 CV support was 0/278 at 0, 1, 2 and 3 seconds. No deployment promotion follows.
 The updated offline figures handle trials without contact and use the actual
 velocity verdict; four earlier figure artifacts remain byte-identical.
+
+`config/ground_robot_extent_prior_offline.yaml` is a data-only 2026 manual
+reference for hero, engineer, infantry and sentry; no node or launch consumes it.
+`tools/robot_extent_prior.py` bounds current projection by diameter plus an
+explicit anchor-to-convex-hull error bound. It assumes neither a centered visible
+cluster nor a certified future CV motion bound. Eight geometry tests include
+5,000 rotated irregular cases and the surface-anchor half-diagonal counterexample.
+Frozen consumed-score hypotheses cover 278/278 current actors with the 1.697 m
+all-ground diameter, but only 89/278 at three seconds; 46 propagated current
+anchors are outside the actor projection, so zero error remains a hypothesis.
+`tools/replay_ground_extent_prior.py ARCHIVE NEW_OUTPUT` verifies both referenced
+manifests and reproduces four report/figure artifacts byte for byte.
+See [the extent-prior experiment](../../docs/dynamic_obstacle_critic/ground_robot_extent_prior_experiment.md).

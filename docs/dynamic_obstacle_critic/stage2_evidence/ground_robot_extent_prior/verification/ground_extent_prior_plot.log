@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/plot_ground_extent_prior.py", line 60, in <module>
+    main()
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/plot_ground_extent_prior.py", line 27, in main
+    axes[0].boxplot(samples, tick_labels=['Now', '+1 s', '+2 s', '+3 s'], whis=(0, 100), showfliers=False)
+  File "/usr/lib/python3/dist-packages/matplotlib/__init__.py", line 1437, in inner
+    return func(ax, *map(sanitize_sequence, args), **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Axes.boxplot() got an unexpected keyword argument 'tick_labels'

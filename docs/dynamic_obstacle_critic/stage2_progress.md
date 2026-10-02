@@ -332,3 +332,18 @@ zero真实SG提案通过；全trace速度门失败使综合见证仍NOT ESTABLIS
 source298 Static阶段增量全0，保存Dynamic double/七subtotal/gamma舍入
 分项，标签与raw路径区别保留。88文件条件证据独立引用物理manifest，
 四个原生full/selected输出再次实际重执行字节相同。
+
+### 全部地面机器人尺寸先验离线实验（2026-10-02）
+
+从180a773建立`experiment/ground-robot-extent-prior`，920ce39先登记。
+2026手册四类目标的最大机械投影直径条件上界1.697056m；非中心锚点
+必须另给到凸包的可信误差界，原滤波可见簇不会自然满足。8项独立
+几何测试含5000旋转不规则点集与半对角线反例通过。
+
+原348实际消费score中278可关联actor：D且e=0假设的当前/1/2/3s
+完整支持为278/278、278/278、175/278、89/278。46个外推至scoreclock
+的当前锚点在实际投影外，不能认证e=0；3s最大支持缺口1.624729m。
+25文件独立归档引用原1685文件物理manifest及手册审查；8项测试重
+执行、4报告/图示逐字节复算一致，历史CV默认输出不变。保留首轮绘图
+API错误。无在线radius、motion、TF或公共接口变更，原FAILED及
+NOT ESTABLISHED保持。见[尺寸先验实验](ground_robot_extent_prior_experiment.md)。

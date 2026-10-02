@@ -46,3 +46,60 @@
 
 保留全部源/参数/规则文件身份、完整结果、反例、失败和可复算脚本。
 此登记不将先验提升为物理执行安全证书。
+
+## 实现、固定数据与结果
+
+920ce39先登记；离线配置`ground_robot_extent_prior_offline.yaml`包含四类
+目标、2026来源身份、工程两种尺寸条款和排除范围。纯几何工具
+`robot_extent_prior.py`要求调用者明确给出锚点到物体凸包的误差界e，
+没有默认e=0、未知目标自动套用或在线订阅。未知类别只在列明四类
+范围内取最大D。8项测试通过，包含seed=20261002的5000组旋转不规则
+点集/凸组合锚点/显式偏移，以及半对角线漏覆盖、非法误差/范围、尺寸
+溢出的反例；1e-13仅为几何单元测试浮点舍入余量，不改物理验收门。
+
+分析引用9f73d72实际消费试次的冻结manifest
+`5d3385ec5edf33ad8cdd7aebce3359304bc6a9c7b01224b674a757499fb654cd`，
+保留全部348次score与实际时钟/age；278次可按原1m规则离线关联
+actor，70次无可用目标。以下是同一真值箱体完整投影的覆盖数：
+
+| 离线假设 | score当前 | +1s | +2s | +3s |
+|---|---:|---:|---:|---:|
+| 原实际消费radius=0.36m | 0/278 | 0/278 | 0/278 | 0/278 |
+| 错误的800mm矩形中心半对角线≈0.565685m | 173/278 | 32/278 | 13/278 | 6/278 |
+| 全部地面机器人D≈1.697056m，明确假设e=0 | 278/278 | 278/278 | 175/278 | 89/278 |
+
+最大所需半径在当前/1/2/3s分别为0.606277/1.103596/2.105239/
+3.321785m；D假设在3s的最大支持缺口仍为1.624729m。当前覆盖改善
+不能证明CV换向/转动误差被规范上界约束，也不能借这一箱体的真值
+挑选在线半径或运动界限。
+
+46/278个**已按实际source_age外推至scoreclock的CV锚点**位于当时
+actor投影之外，最大距离0.012314m。这是本夹具的离线经验标签，
+不是扫描源时刻的质心误差认证或可以上线的e。即使大圆在这些样本
+覆盖了完整物体，e=0的数学前提仍未成立；滤波、年龄外推、遮挡、
+关联错误各自的界限仍未知。
+
+![离线尺寸与未来支持](stage2_evidence/ground_robot_extent_prior/figures/ground_extent_prior.png)
+
+## 归档与独立复算
+
+独立25文件归档`stage2_evidence/ground_robot_extent_prior/`含冻结源码、
+配置、结果、图示、环境/反例测试日志，引用原物理和手册审查manifest。
+首次绘图的Matplotlib 3.6.3不支持`tick_labels`错误保留，改用本机支持
+的`labels`后最终图已完整视觉核验。active历史CV审计只增加显式可选
+几何输出；默认报告SHA仍为
+`16831aa4a3739ef5bbab9ff120827653db4f477b96e51c48370fcbfcbcb64f25`。
+
+```bash
+python3 -B src/rm_dynamic_obstacle_critic/tools/replay_ground_extent_prior.py \
+  docs/dynamic_obstacle_critic/stage2_evidence/ground_robot_extent_prior \
+  /tmp/ground_extent_prior_replay_new
+```
+
+重执行8项几何测试通过；报告、PNG、SVG和历史默认CV报告共4项
+逐字节复算一致。独立verification保存在
+`stage2_evidence/ground_robot_extent_prior_replay/`；原25文件manifest不变。
+该阶段无运行节点/算法/参数/TF/公共消息变更，main及research封存保持。
+原物理试次的任务、raw203和末尾snapshot年龄FAILED，以及综合三秒
+见证NOT ESTABLISHED均保留。下一阶段需要先明确公共输入中可见簇、
+完整机械包络、锚点误差和未来运动界的不同含义及unknown退化条件。

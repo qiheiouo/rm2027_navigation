@@ -1,0 +1,36 @@
+# Offline reference only. No launch/node consumes this as an online safety bound.
+schema: 1
+units: m
+reference:
+  title: RoboMaster 2026 robot construction specification
+  version: V2.0.0
+  date: '2026-06-26'
+  sha256: 77010458d06616b2bafad4400aad384f72e1b7007269c58061384de8fd0fb41b
+  applies_to_2027_verified: false
+scope:
+  target_classes: [hero, engineer, infantry, sentry]
+  unknown_class_policy: maximum_only_within_listed_ground_classes
+  dimensions_include: referee_system_and_mounts
+  excludes: [airborne, dart, field_equipment, nonrobot, unverified_payload]
+classes:
+  hero:
+    clause: S94/table_2-6
+    printed_pages: [33]
+    alternatives:
+      - box_xy: [1.2, 1.2]
+  engineer:
+    clause: S96/table_2-7
+    printed_pages: [34, 35]
+    alternatives:
+      - box_xy: [1.2, 1.2]
+      - sphere_diameter: 1.5
+  infantry:
+    clause: S98/table_2-8
+    printed_pages: [35, 36]
+    alternatives:
+      - box_xy: [0.8, 0.8]
+  sentry:
+    clause: S113/table_2-10
+    printed_pages: [40, 41]
+    alternatives:
+      - box_xy: [0.8, 0.8]

@@ -29,6 +29,11 @@ before sending its goal. Recording preserves consumed CV fields and score bits;
 it adds no ROS topics or TF owner. Its I/O needs fresh deadline and physical
 validation. See [the consumption evidence experiment](dynamic_obstacle_critic/dynamic_consumption_evidence_experiment.md).
 
+`ground_robot_extent_prior_offline.yaml` is a manual reference consumed only by
+offline geometry tools. It is not a ROS parameter profile and no launch loads
+it; its 2026 size conditions do not certify 2027 targets or future CV support.
+See [the extent-prior experiment](dynamic_obstacle_critic/ground_robot_extent_prior_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not
