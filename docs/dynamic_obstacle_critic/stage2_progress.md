@@ -424,3 +424,11 @@ null；源年龄计入，有理时域与向外半径舍入。8测试含8000旋�
 输入/结构化结果逐字节一致。无runtime/TF/public fields变更。
 8文件独立verification保留；三个archive共1865文件身份通过，
 原68文件manifest不变，条件半径没有接入在线消费。
+
+### 原生聚合因子实验登记（2026-10-02）
+
+从ca3a50d建立`experiment/native-factor-aggregation`。固定原source298
+300 controls及实际warm/SG历史，用四组显式风险只离线替换Dynamic
+cost，baseline全gamma/weights/mean/SG/路径位型先证明，再检查4组
+原生aggregate完整三秒门。future truth仍不可上线；不恢复CA/sampler/
+ranking，不改原失败门。见[聚合因子登记](native_factor_aggregation_experiment.md)。
