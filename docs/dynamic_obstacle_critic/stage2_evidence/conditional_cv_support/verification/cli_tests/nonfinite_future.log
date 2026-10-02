@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/evaluate_conditional_cv_support.py", line 35, in <module>
+    result=evaluate(args.assumptions,args.query)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/evaluate_conditional_cv_support.py", line 21, in evaluate
+    rows = [conditional_radius(assumptions,query['velocity_xy'],query['source_age_sec'],offset) for offset in offsets]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/conditional_cv_support.py", line 75, in conditional_radius
+    age, future = finite(source_age_sec, True), finite(future_offset_sec, True)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/conditional_cv_support.py", line 24, in finite
+    raise ValueError('finite numeric value with required sign expected')
+ValueError: finite numeric value with required sign expected

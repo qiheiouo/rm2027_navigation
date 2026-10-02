@@ -43,6 +43,12 @@ offline source-geometry/local-slope/future-circle hypotheses. No profile loads
 its data. Future truth is inadmissible online; original weights and runtime
 parameters stay fixed. See [the factor audit](dynamic_obstacle_critic/cv_support_factor_experiment.md).
 
+`cv_support_assumptions_offline.yaml` is data-only and leaves all physical
+conditions unknown. Only file-based Python support-contract tools use it;
+no launch/node loads it. Conditional support math does not choose an online
+radius or certify the supplied motion/anchor/size assumptions. See
+[the support-bound experiment](dynamic_obstacle_critic/cv_support_bound_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

@@ -264,3 +264,13 @@ No new weights, commands or prediction model follow. Five runtime and two prior
 offline ELF hashes remain unchanged. `replay_cv_support_factors.py ARCHIVE
 NEW_OUTPUT [--cpp-output FILE]` rebuilds inputs and full reports/figures from
 frozen manifests. See [the factor audit](../../docs/dynamic_obstacle_critic/cv_support_factor_experiment.md).
+
+`tools/conditional_cv_support.py` supplies pure conditional set-support math,
+with explicit diameter, anchor error, complete-projection motion bound and
+source validity. Source age is included; missing conditions/provenance or an
+expired interval yield UNKNOWN/null. Source-time-only queries need diameter
+and anchor error. It certifies no supplied physical assumptions. The default
+data-only `cv_support_assumptions_offline.yaml` leaves every bound unknown;
+all four actual source298 queries remain unknown. Eight tests include 8,000
+irregular deforming cases; 14 CLI checks and ten byte-exact independent replay
+checks pass. See [the support-bound experiment](../../docs/dynamic_obstacle_critic/cv_support_bound_experiment.md).

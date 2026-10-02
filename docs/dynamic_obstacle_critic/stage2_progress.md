@@ -415,3 +415,12 @@ verification保留，五archive共2010文件身份通过且原112文件不变。
 及有效区间必须显式提供，source age计入；缺失不补经验数值。
 只开发纯函数/构造与随机独立几何测试，不改在线策略或恢复CA。
 见[条件支持界登记](cv_support_bound_experiment.md)。
+
+2a97d92后实现纯条件支撑函数/CLI，缺bound/来源或过期返回unknown/
+null；源年龄计入，有理时域与向外半径舍入。8测试含8000旋转不规则/
+有界形变样本、紧构造和源年龄反例；14CLI检查通过，真实source298
+四查询全部unknown，合成条件单独标识。原8 ELF不变。68文件约104KB
+冻结，保留首次准备字段名错误及源码；独立实际重跑8/14测试，10项
+输入/结构化结果逐字节一致。无runtime/TF/public fields变更。
+8文件独立verification保留；三个archive共1865文件身份通过，
+原68文件manifest不变，条件半径没有接入在线消费。

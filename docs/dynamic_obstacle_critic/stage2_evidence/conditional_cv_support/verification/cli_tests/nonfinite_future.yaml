@@ -1,0 +1,14 @@
+schema: 1
+units: m_s
+time_reference: message_source_epoch
+motion_semantics: complete_projection_directed_Hausdorff_from_source
+bounds:
+  initial_diameter_m: 0.125
+  anchor_to_convex_hull_error_m: 0.25
+  projection_hausdorff_speed_mps: 0.5
+  valid_for_sec: 3.5
+condition_sources:
+  initial_diameter_m: synthetic:constructive-line-set/test-only
+  anchor_to_convex_hull_error_m: synthetic:constructive-line-set/test-only
+  projection_hausdorff_speed_mps: synthetic:constructive-line-set/test-only
+  valid_for_sec: synthetic:constructive-line-set/test-only

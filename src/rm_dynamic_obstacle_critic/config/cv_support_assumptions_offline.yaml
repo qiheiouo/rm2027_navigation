@@ -1,0 +1,20 @@
+# Data-only unknown conditions. No node or launch consumes this file.
+schema: 1
+units: m_s
+time_reference: message_source_epoch
+motion_semantics: complete_projection_directed_Hausdorff_from_source
+bounds:
+  initial_diameter_m: null
+  anchor_to_convex_hull_error_m: null
+  projection_hausdorff_speed_mps: null
+  valid_for_sec: null
+condition_sources:
+  initial_diameter_m: null
+  anchor_to_convex_hull_error_m: null
+  projection_hausdorff_speed_mps: null
+  valid_for_sec: null
+reference_only:
+  extent_file: ground_robot_extent_prior_offline.yaml
+  target_classes: [hero, engineer, infantry, sentry]
+  applies_to_2027_verified: false
+  note: Manual size conditions do not supply anchor error or full-projection motion bounds.

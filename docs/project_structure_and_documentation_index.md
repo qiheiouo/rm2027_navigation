@@ -58,6 +58,12 @@ the failed deployment gates and unknown physical motion bounds; reproducible
 inputs, 2444 scores and independent replay live in the experiment's evidence
 archives. Future truth is not a runtime producer or prediction contract.
 
+[The conditional CV support-bound tool](dynamic_obstacle_critic/cv_support_bound_experiment.md)
+is pure offline mathematics with explicit unknown and source validity. It
+requires bounds for the complete moving projection, including rotation and
+mechanisms; a chassis translation limit alone does not satisfy that condition.
+No physical assumptions are supplied automatically to the runtime.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

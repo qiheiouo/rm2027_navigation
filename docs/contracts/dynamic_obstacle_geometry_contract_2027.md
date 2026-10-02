@@ -56,6 +56,15 @@ conv(S)距离另有可信上界e，则任意p∈S满足`|p-q|≤D+e`。q不必
 [离线因子审计](../dynamic_obstacle_critic/cv_support_factor_experiment.md)。
 它没有建立真实机器人运动上界、观测误差界或在线prediction认证。
 
+离线纯函数已将一个可复算的充分条件具体化：若完整未来投影到源
+集合的有向Hausdorff位移≤B*h，源集合直径≤D、锚点到凸包≤e，
+则原CV锚点可用`D+e+(B+|v_hat|)*h`支持，h包含source age。
+这里B涵盖所有机械点/展开/附件，底盘平移速度上界不能单独替代。
+bound/来源及源有效区间显式给出；缺失或过期返回unknown/null，
+默认真实查询全部unknown。严格源时刻h=0只需D/e。该充分条件不
+修改v1字段或在线模型，不把来源字符串当认证。见
+[条件支持界实验](../dynamic_obstacle_critic/cv_support_bound_experiment.md)。
+
 ## Unknown和退化边界
 
 当前实现对消息不完整/非法/stale/跳变/错误frame失败：critic fail_flag，

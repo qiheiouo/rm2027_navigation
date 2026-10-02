@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/prepare_conditional_cv_queries.py", line 49, in <module>
+    args=parser.parse_args();print(json.dumps(prepare(args.source.resolve(),args.output)),flush=True)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/prepare_conditional_cv_queries.py", line 18, in prepare
+    if len(usable)!=1 or usable[0]['id']!=1 or consumed['native_source_ordinal']!=298:
+                                               ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'native_source_ordinal'
