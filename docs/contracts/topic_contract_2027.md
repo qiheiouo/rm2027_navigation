@@ -57,7 +57,7 @@ ongoing work follows [the stage-two plan](../dynamic_obstacle_critic/stage2_plan
 
 | Topic | Type | Producer | Consumer | Experimental meaning |
 | --- | --- | --- | --- | --- |
-| `/perception/dynamic_obstacles_shadow/predictions` | `rm_competition_interfaces/msg/DynamicObstaclePredictionArray` | dynamic tracker | native CV critic, guard, diagnostics | schema v1/shadow_only; source-time `map` centroid, velocity and **visible cluster extent**, not a validated physical object footprint |
+| `/perception/dynamic_obstacles_shadow/predictions` | `rm_competition_interfaces/msg/DynamicObstaclePredictionArray` | dynamic tracker | native CV critic, guard, diagnostics | schema v1/shadow_only; source-time `map` visible-cluster anchor, estimated velocity and **visible cluster extent**; [geometry/unknown conditions](dynamic_obstacle_geometry_contract_2027.md) remain unverified |
 | `/cmd_vel_nav` | `geometry_msgs/msg/Twist` | Nav2 controller and behaviors | Nav2 velocity smoother | proposal before smoothing; no direct chassis authority |
 | `/dynamic_test/cmd_vel_smoothed` | `geometry_msgs/msg/Twist` | Nav2 velocity smoother | dynamic guard | experimental proposed command |
 | `/dynamic_test/cmd_vel_guarded` | `geometry_msgs/msg/Twist` | dynamic guard | isolated test tools | safe default guard output; does not command the normal chassis topic |

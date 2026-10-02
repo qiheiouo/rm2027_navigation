@@ -347,3 +347,13 @@ source298 Static阶段增量全0，保存Dynamic double/七subtotal/gamma舍入
 执行、4报告/图示逐字节复算一致，历史CV默认输出不变。保留首轮绘图
 API错误。无在线radius、motion、TF或公共接口变更，原FAILED及
 NOT ESTABLISHED保持。见[尺寸先验实验](ground_robot_extent_prior_experiment.md)。
+
+### 公共几何语义与原始路径审计登记（2026-10-02）
+
+从e50b5ee建立`experiment/raw-rollout-objective-audit`。实际生成端确认
+size为map轴可见范围的EMA、position为滤波可见质心，公开velocity
+未使用显示速度裁剪；complete只表示输出预算。公共msg仅增注释，
+字段/类型不变，几何/unknown/时间/TF条件在独立契约记录。
+下一项固定source298，比较同一原始300×30路径的实际CV模型与完整
+机械动态标签，避免把不同bounds/SG路径的标签直接归因raw成本。
+见[原始路径实验登记](raw_rollout_objective_experiment.md)。

@@ -112,6 +112,11 @@ map 和 odom 是世界平面坐标；允许它们之间使用**最新且有年�
 
 ## 预测时域和 cost
 
+v1位置/尺寸是滤波可见簇锚点和可见范围，不是完整机械中心/轮廓。
+`complete`只表示输出预算没有截断，validator速度/尺寸阈值也不认证
+物理支持。当前/未来包络及unknown条件见
+[公共几何契约](../contracts/dynamic_obstacle_geometry_contract_2027.md)。
+
 物体 i 在源时间 s 的估计为 p_i、v_i。评价时刻 n，年龄 a=n-s。第 k 个积分后 rollout 状态对应 `t_k=(k+1)*model_dt`，所以
 
 `p_i(k) = T_map_to_odom [p_i + v_i (a + (k+1) dt)]`。

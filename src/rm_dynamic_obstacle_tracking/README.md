@@ -44,7 +44,11 @@ commands. Its outputs are:
 - `/perception/dynamic_obstacles_shadow/diagnostics`
 
 The versioned prediction array is the only machine-readable consumer boundary.
-It carries the scan source stamp, prediction step, state, footprint and centers.
+It carries the scan source stamp, prediction step, state, visible extents and
+filtered anchors. `complete` indicates output-budget completeness; it does not
+certify detection completeness or physical geometry. Display speed may be
+clipped/decayed, while the published velocity remains the filter estimate.
+See [the geometry and unknown-bound contract](../../docs/contracts/dynamic_obstacle_geometry_contract_2027.md).
 Consumers must reject stale or wrong-frame data and must not parse markers or
 diagnostic strings. Output is deterministically bounded by `prediction.max_tracks`;
 if that bound truncates a frame, `complete=false` and consumers must not infer
