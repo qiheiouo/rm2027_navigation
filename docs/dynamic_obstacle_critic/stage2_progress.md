@@ -325,3 +325,10 @@ controller读回新参数，已有目录与非法预算拒绝初始化。两次�
 source164评分epoch可匹配，末尾153ms；不改原门或消费者stamp缺失。
 实际消费CV完整支持在0/1/2/3s均0/278，70score无可用actor。保留
 FAILED；1685文件独立archive及同条件全部原始数据已经冻结。
+
+完整3秒11提案在348周期数值验证，最早规则7eligible/source298；39/300
+独立约束/SG反事实全门推进，获17.33%权重。实际聚合动态间距失败而
+zero真实SG提案通过；全trace速度门失败使综合见证仍NOT ESTABLISHED。
+source298 Static阶段增量全0，保存Dynamic double/七subtotal/gamma舍入
+分项，标签与raw路径区别保留。88文件条件证据独立引用物理manifest，
+四个原生full/selected输出再次实际重执行字节相同。

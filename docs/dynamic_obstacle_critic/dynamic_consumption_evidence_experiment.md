@@ -125,3 +125,47 @@ float减after float的**舍入增量**。最高权重raw row也不是SG最终控
 重新生成的输入实际重执行risk/SG/零历史/weights/uniform五C++输出全部
 字节一致，接入replayer后31项检查全部一致。独立验证目录单独manifest，
 原1685文件manifest未改。四项旧机械/速度PNG/SVG回归字节相同。
+
+## 完整三秒与最早周期298
+
+348周期的原生全九矩阵、实际聚合SG与返回命令均数值验证后，固定11
+提案各使用独立的真实SG历史，原生实测首速度及完整30×0.1f时域不变。
+actual aggregate有85个安全上下文、74个正推进；zero有348个安全
+上下文、257个正推进。全部线性actor/robot插值、物理base/轮投影、
+padded>0、静态/冻结raw203带interval reserve、完整SG bounds和超出
+source F32舍入的推进门仍保留。不能将这些条件替换闭环验收。
+
+按原登记的最早“实际aggregate动态几何失败且另有固定提案全门推进”
+规则有7个eligible，source298/pose47.98s最早。输入native速度为
+[0.3433359903,0.0538297738,-0.3546795924]（vx,vy,wz），返回实际
+aggregate[0.2580098808,0.1230360568,-0.1023539826]，推进1.172906m；
+base动态下界0.026187m，机械/两padded接触，raw/bounds/progress通过。
+zero raw提案经真实SG返回[0.0669778213,0.0186092183,-0.0345749594]，
+推进0.049846m；base/机械/padded动态下界1.105286/1.085662/1.014456m，
+raw interval余量0.731053m，其余固定门通过。不是字面瞬停控制。
+
+选中batch的300条**独立约束/SG反事实**39条全门安全推进，获得
+17.32993446%原生权重；261失败标签获得82.67006554%，effective N约54。
+它们不是原始rollout几何或实际加权输出，不能判全部sampler缺覆盖。
+这与此前source196/239安全标签不是同一trace，不作算法因果对照。
+
+source298所有300条的Static阶段舍入增量均0。最高权重raw row73
+weight0.057000637，原七subtotal1.125627875、实际Dynamic risk0.891502269、
+after float2.017130136、gamma阶段舍入增量0.308465004、post-gamma
+2.325595140；对应独立SG标签失败。**标签路径与被评分raw路径不同**，
+这些分项还不能宣称该raw轨迹被Dynamic错误判安全，或归因某个原七
+critic。已有实际消费CV支持0/278则独立证明完整外形/未来运动不足。
+
+full trace snapshot速度门FAILED使既有综合assessment为`NOT ESTABLISHED`，
+不因source298自身窗口匹配而改全局门。原通用witness binary/分析模板
+不含实际Dynamic消息；本次消息/变换/时刻另存于已精确连接的消费档案，
+两者的字段边界明确，不把模板中的缺失项视为本次从未采集。
+
+`dynamic_consumption_witness`另留88文件/3643502bytes，与物理1685文件
+manifest通过SHA引用，不覆盖原档案。固定full/selected原生四输出再次
+实际重执行逐字节一致。原生安全与感知尺寸先验工作仍各自独立，不恢复
+CA/sampler/ranking，不提升main/硬件。
+
+完整/选中输入、全部三秒分析、规则选择、综合assessment、权重/分项成本
+共8项独立复算字节相同；合并实际重执行的4个原生输出，共12项通过。
+独立验证5文件另留manifest，物理1685与见证88文件均未修改。

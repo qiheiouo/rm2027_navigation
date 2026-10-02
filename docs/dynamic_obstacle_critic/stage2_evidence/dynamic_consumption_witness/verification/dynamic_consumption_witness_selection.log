@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/select_native_witness_cycle.py", line 48, in <module>
+    main()
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/select_native_witness_cycle.py", line 39, in main
+    text = gzip.open(args.analysis, 'rt').read() if args.analysis.suffix == '.gz' else args.analysis.read_text()
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/rm_dynamic_critic_v1/dynamic_consumption_witness_analysis.json'
