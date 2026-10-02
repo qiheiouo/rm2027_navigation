@@ -500,3 +500,11 @@ consider_footprint已true。直接查询已安装SDK footprint checker
 
 11文件独立verification保留，五archive共2239文件身份通过，
 原207文件manifest不变；未改runtime/profile参数、TF或接口。
+
+### 原300 raw地图查询登记（2026-10-02）
+
+从3ce3958建立`experiment/native-raw-map-contract`，先登记原300
+raw同路径查询。原30点f32网格与完整三秒插值路径分别标识，先
+绑定SDK见证、map、footprint、速度上下文及旧查询回归。完整
+CostCritic状态仍unknown，无运行/成本/阈值修改，见
+[原raw地图登记](native_raw_map_contract_experiment.md)。
