@@ -477,3 +477,11 @@ aggregate仍全部失败。43行原raw独立密集核验覆盖全部正标签；
 冻结，23依赖模块；独立重算个体门/raw/质量/probe/图示6项字节同，
 8文件verification保留，八archive共2448文件身份通过。无排序/选择
 或运行变更，真实支持unknown与原FAILED/NOT ESTABLISHED保持。
+
+### 原 native 地图足迹语义登记（2026-10-02）
+
+从60e485b建立`experiment/native-cost-map-contract`，原CostCritic
+consider_footprint已true。直接查询已安装SDK footprint checker
+与原raw203多边形/连续reserve的差异，原八stage与43个体两epoch
+保持，内部CostCritic实际状态不足则unknown；无ROS/TF/控制或
+阈值修改，见[地图契约登记](native_cost_map_contract_experiment.md)。
