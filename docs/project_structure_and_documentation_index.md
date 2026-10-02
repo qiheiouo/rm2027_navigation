@@ -84,6 +84,13 @@ conditional gates, and describes their four weight fractions with exact
 rational verification. Every positive label is included in a 43-path raw
 scalar subset; the audit supplies no new ranking or runtime input.
 
+[The native map contract audit](dynamic_obstacle_critic/native_cost_map_contract_experiment.md)
+queries the installed boundary-raster helper on 51 model paths in two epochs.
+All 21,165 center/boundary costs match an independent scalar calculation.
+Local-CV boundary costs peak at 202 despite whole-polygon raw216 contact;
+future-circle costs match the original contact checkpoint. Complete actual
+CostCritic state stays unknown; no threshold, scoring or runtime changes follow.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

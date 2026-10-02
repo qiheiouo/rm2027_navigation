@@ -67,6 +67,13 @@ native weights to separately bounded/SG individual path labels. It creates no
 ranking or control choice; no runtime profile loads its report or the 43-path
 raw verification subset. See [the safe mass audit](dynamic_obstacle_critic/native_factor_safe_mass_experiment.md).
 
+`native_cost_map_queries` is a BUILD_TESTING-only installed SDK helper query,
+using frozen map bytes and interpolated model poses without ROS initialization
+or `Costmap2DROS`. No launch loads its private format or reports. Boundary
+raster costs and original whole-polygon/continuous raw203 gates have different
+definitions; actual complete CostCritic state remains unknown. See
+[the map contract audit](dynamic_obstacle_critic/native_cost_map_contract_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

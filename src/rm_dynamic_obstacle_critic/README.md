@@ -312,3 +312,15 @@ partitions has zero mass error. Thirteen integrity/CLI probes and a 43-path
 raw scalar subset cover all positive labels. Six independently recomputed
 report/figure artifacts match byte for byte; all fourteen prior ELF identities
 remain unchanged. See [the safe mass audit](../../docs/dynamic_obstacle_critic/native_factor_safe_mass_experiment.md).
+
+`native_cost_map_queries INPUT NEW_JSONL` is a BUILD_TESTING-only file tool
+calling the installed `FootprintCollisionChecker<Costmap2D*>` on original map
+bytes. It creates no ROS node or costmap wrapper; complete actual CostCritic
+state and scoring remain unknown. Independent scalar grid checks match all
+21,165 queries on eight stages and 43 individual SG paths in two epochs.
+Center costs are all zero. Local-CV stage boundary queries top out at 202,
+while whole-polygon checks contact raw216 and fail the original raw203 gate;
+future-circle stages return216 at the recorded +2.982s contact. Seventy-nine
+native/format probes and nine provenance probes pass; all fourteen prior ELF
+identities remain unchanged. Independent actual SDK re-execution and ten
+replay checks match byte for byte. See [the map contract audit](../../docs/dynamic_obstacle_critic/native_cost_map_contract_experiment.md).

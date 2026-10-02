@@ -73,6 +73,13 @@ future-circle raw216采样接触在SG前已经存在；两stage原全部门
 oracle给正见证40.86%权重，aggregate仍失败。见
 [权重质量审计](../dynamic_obstacle_critic/native_factor_safe_mass_experiment.md)。
 
+原SDK地图足迹helper进一步确认：中心raw、边界栅格返回值与完整
+多边形/连续reserve门属于不同检查。固定局部CV路径边界最高202，
+整足迹仍接触raw216；future路径主epoch边界216与原接触见证一致。
+不得由任一sample/helper低成本推导整足迹clear，也不得从独立查询
+猜测实际CostCritic择支或增量。真实完整内部状态与map单元来源均
+unknown，见[地图契约审计](../dynamic_obstacle_critic/native_cost_map_contract_experiment.md)。
+
 离线纯函数已将一个可复算的充分条件具体化：若完整未来投影到源
 集合的有向Hausdorff位移≤B*h，源集合直径≤D、锚点到凸包≤e，
 则原CV锚点可用`D+e+(B+|v_hat|)*h`支持，h包含source age。

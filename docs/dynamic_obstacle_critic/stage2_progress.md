@@ -485,3 +485,18 @@ consider_footprint已true。直接查询已安装SDK footprint checker
 与原raw203多边形/连续reserve的差异，原八stage与43个体两epoch
 保持，内部CostCritic实际状态不足则unknown；无ROS/TF/控制或
 阈值修改，见[地图契约登记](native_cost_map_contract_experiment.md)。
+
+40d9a32后新BUILD_TESTING-only helper对51条原模型路径两epoch查询
+21165次；独立中心/边界栅格重算误差0，中心raw全0。局部CV两stage
+边界最高202仍有原整足迹raw216接触；future两stage主epoch原接触
++2.982s与SDK216一致。43个体原raw门39通过/4失败，在此子集两
+定义分类一致。人工203/216/253/254/255边/内/中心/地图界夹具保持
+独立含义，不能当实际CostCritic评分。完整内部状态与单元来源unknown。
+79原生/格式/标量检查及9来源probe通过；全部输入从原manifest
+重新生成，拒绝协调位姿/哈希篡改，原14 ELF未改。207文件约28.99MB
+冻结，21依赖模块；7项复算及新输入SDK实际执行后10项逐字节一致。
+保留相对路径验证器调用失败及Docker未转发stdin空log，后者不算
+执行证据。原task/raw203/age FAILED、综合NOT ESTABLISHED保持。
+
+11文件独立verification保留，五archive共2239文件身份通过，
+原207文件manifest不变；未改runtime/profile参数、TF或接口。

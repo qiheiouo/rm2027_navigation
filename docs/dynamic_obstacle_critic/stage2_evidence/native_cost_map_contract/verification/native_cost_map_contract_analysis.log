@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/analyze_native_cost_map_contract.py", line 90, in <module>
+    result=analyze(*[getattr(args,n) for n in ['source','witness','stages','mass','prepared','cpp','synthetic']])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/analyze_native_cost_map_contract.py", line 20, in analyze
+    verify_manifest(root);refs[name]=hashlib.sha256((root/'manifest.json').read_bytes()).hexdigest()
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/prepare_processed_cv.py", line 19, in verify
+    raise ValueError('frozen archive mismatch: '+name)
+ValueError: frozen archive mismatch: analysis.json

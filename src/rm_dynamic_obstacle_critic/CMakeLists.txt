@@ -79,6 +79,8 @@ if(BUILD_TESTING)
   target_include_directories(evaluate_cv_stage_factors PRIVATE include)
   target_compile_definitions(evaluate_cv_stage_factors PRIVATE RM_FACTOR_PROCESSED_ROWS=8)
   ament_target_dependencies(evaluate_cv_stage_factors ${deps})
+  add_executable(native_cost_map_queries tools/native_cost_map_queries.cpp)
+  ament_target_dependencies(native_cost_map_queries nav2_costmap_2d geometry_msgs)
   # Match our runtime plugin arithmetic, not the SDK SG tool's fast-math flags.
 endif()
 ament_export_include_directories(include)
