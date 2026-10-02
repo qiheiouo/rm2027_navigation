@@ -1,0 +1,35 @@
+{
+  "parameters": {
+    "enabled": true,
+    "topic": "/perception/dynamic_obstacles_shadow/predictions",
+    "prediction_horizon": 3.0,
+    "max_age": 0.4,
+    "max_observation_age": 0.4,
+    "max_obstacle_speed": 3.0,
+    "max_obstacle_extent": 3.0,
+    "minimum_obstacle_radius": 0.36,
+    "jump_tolerance": 0.5,
+    "cost_weight": 1.0,
+    "influence_distance": 0.4,
+    "safety_margin": 0.02,
+    "collision_cost": 10000.0,
+    "diagnostics_period": 1.0,
+    "diagnostics_topic": "/dynamic_critic/diagnostics",
+    "markers_topic": "/dynamic_critic/predictions",
+    "input_frame": "map",
+    "max_tf_age": 0.1,
+    "max_tracks": 64,
+    "consumption_evidence_directory": "/out/gazebo_dynamic_consumption_evidence_retry/dynamic_scores",
+    "consumption_evidence_max_records": 400
+  },
+  "scope": "Successful actual dynamic score; consumed fields, clock, transform, rollout and before/risk/after cost bits.",
+  "join_rule": "All rollout bytes, pose/speed values and source pose stamp must match native snapshot exactly.",
+  "unavailable": [
+    "unconsumed public fields",
+    "TF correction source stamp",
+    "native map source stamp",
+    "odometry subscriber source stamp"
+  ],
+  "runtime_output_directory": "/out/gazebo_dynamic_consumption_evidence_retry/dynamic_scores",
+  "io_limit": "Capture can affect deadlines; require new physical trial and preserve errors/budget."
+}

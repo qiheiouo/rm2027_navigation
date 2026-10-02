@@ -1,0 +1,47 @@
+{
+  "scope": "same physical pose against before/after observer-received raw maps; source of marking not inferred",
+  "map_introduced_transition_count": 1,
+  "stationary_map_introduced_count": 1,
+  "map_introduced_transitions": [
+    {
+      "old_stamp": 56.093,
+      "new_stamp": 56.293,
+      "new_receive_sim": 56.293000000000006,
+      "physical_pose": [
+        3.7741703697927265,
+        0.3236737102250432,
+        -0.8253374861057653
+      ],
+      "max_physical_pose_deviation_m": 0.0,
+      "stationary_within_1um": true,
+      "same_grid_geometry": true,
+      "old_origin": [
+        1.25,
+        -2.1500000000000012,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "new_origin": [
+        1.25,
+        -2.1500000000000012,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "intersecting_cells": [
+        {
+          "cell": [
+            60,
+            48
+          ],
+          "cost": 204,
+          "previous_cost_same_cell": 196
+        }
+      ]
+    }
+  ],
+  "limits": "Physical poses use linear interpolation; stationary classification also checks every intermediate recorded truth pose. No exact Nav2 scan-consumer identity, Gaussian-noise attribution or continuous-time guarantee."
+}

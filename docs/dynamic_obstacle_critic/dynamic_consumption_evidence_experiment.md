@@ -67,3 +67,61 @@ canonical修复、七critic/Static/原生采样/SG/guard/机械足迹均保持�
 
 用户提供制作规范并明确后续几何实验覆盖全部地面机器人，另留
 [尺寸审查](robot_extent_manual_review.md)。此固定试次不改radius或目标尺寸。
+
+## 9f73d72固定试次：任务/原始地图/末尾速度门FAILED
+
+首次调用误拼guard文件名，在任何节点/目标前失败，目录与日志独立
+保存。按旧机械试次的实际`guard_mechanical_footprint.yaml`重试；两项
+目标前readback通过。17.94→52.941固定取消，尾段至56.442；目标状态
+为空，推进3.774170m。源代码全部来自9f73d72；原五ELF仅自有critic
+库改变，原生MPPI/critics、guard和命令observer四ELF不变；已安装
+tracker/guard/map/observer与scene输入逐字节等于旧canonical试次。
+profile语义仅加两项证据knob，另两个目录属于证据输出目的地。
+
+| 固定门/证据 | 新试次结果 |
+|---|---|
+| 基础设施/起始相位/唯一最终命令发布者 | PASS，guard是/cmd_vel唯一发布者 |
+| 全物理base动态/静态线性插值下界 | 0.507021/0.505649m，均≥0.05 |
+| 全机械投影union动态/静态下界 | 0.484332/0.486487m，均≥0.05 |
+| padded动态/静态下界 | 0.410958/0.424740m，均>0 |
+| 实际output bounds | 1925命令、0越界，原5e-5容差 |
+| raw203 | FAILED，8/2264，首次56.309在取消尾段；map均新鲜 |
+| goal | FAILED，固定窗口未成功 |
+| observer CV完整物理支持 | 0/424，在0/1/2/3s均失败 |
+| **实际消费**CV完整物理支持 | 0/278，在scoreclock+0/1/2/3s均失败；70score无可用actor |
+| snapshot窗口内canonical速度逐位匹配 | FAILED，347/348；source164距pose源时间153ms>150ms |
+| canonical有运动/native非零 | 318/318恢复；348/348 native速度等于pose源canonical值 |
+| 评分clock内原150ms匹配 | 348/348；不替换snapshot失败门、不伪造callback stamp |
+| 完整Dynamic risk double/after float | 348×300=104400候选逐位相同 |
+| 完整rollout/pose/speed/stamp/frame/dt/footprint身份连接 | 348/348唯一精确配对，无最近receipt替代 |
+| 原生均值/实际SG链 | 348/348完整输入与返回double位型一致，max error=0 |
+| native权重重建/均匀负probe | 348/348 vs 0/348有界均值逐位相同 |
+| SG零历史负probe | FAILED，输入2/348、输出1/348相同 |
+
+评分clock距pose源epoch为3–43ms，中位24ms；评分至末尾snapshot最长
+145ms。source164是计算后段的年龄失败，不等于评分时使用了零速度；
+真正速度订阅callback源stamp仍未捕获。StaticStopping 34诊断点的
+计算中位60.995ms、最大94.444ms，整段controller deadline警告61次；
+guard窗口及尾段120次command_watchdog。Dynamic记录33采样点的I/O
+中位0.327ms、最大8.042ms，Native记录34点中位0.374ms、最大0.956ms。
+这些是采样统计，不是每cycle预算证明。随机采样与调度跨试次不同，
+不能仅凭两个试次差异归因文件I/O或宣称解决动态重叠。
+
+`gazebo_dynamic_consumption_evidence`保存1685文件/147581140bytes，
+包含两次启动、完整实际消费/Native二进制、raw receipt/truth、runtime
+源身份、原生重建/负probe与离线审计/图。首次非接触图绘制假设接触
+事件而失败，旧速度图标题硬写PASS已修正；原失败图/日志保留，接触
+旧图与PASS旧速度图的PNG/SVG共4文件保持字节一致。实际消费support
+脚本最初未将Gazebo字符串秒转换数字，两次失败日志也保留。
+原生离线调用错误参数在真实计算前被usage拒绝，核对实际CLI后重跑；
+不将调用失败混作模型或安全负对照。
+
+本阶段仍不归因单个原七critic、不声明全部300缺覆盖。精确贡献是
+Dynamic actual double；原七是已有float subtotal，Static阶段是末尾
+float减after float的**舍入增量**。最高权重raw row也不是SG最终控制。
+完整三秒条件分析及其后续独立重执行另留证据，不改上述FAILED门。
+
+独立复算：保存输出路径28项report/figure/input全部字节一致；从archive
+重新生成的输入实际重执行risk/SG/零历史/weights/uniform五C++输出全部
+字节一致，接入replayer后31项检查全部一致。独立验证目录单独manifest，
+原1685文件manifest未改。四项旧机械/速度PNG/SVG回归字节相同。

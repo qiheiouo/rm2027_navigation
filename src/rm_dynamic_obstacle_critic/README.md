@@ -208,3 +208,11 @@ The critic's best clearance/TTC is for its lowest **dynamic-cost rollout**, not 
 The guard supplies the final-command check. Visible cluster size and long CV extrapolation are model assumptions;
 zero-command publication does not guarantee physical stopping. Formal acceptance requires independent full physics
 and hardware validation; consult `docs/dynamic_obstacle_critic/validation.md` for the actual verdict.
+
+The 9f73d72 consumption trial captured 348 native batches and 104,400 exact
+risk/after-cost rows, with all native SG/weight reconstructions exact. Independent
+archive replay passed 31 checks including five re-executed C++ outputs. Task,
+raw203 and one final-snapshot velocity age window still failed; exact consumed
+CV support was 0/278 at 0, 1, 2 and 3 seconds. No deployment promotion follows.
+The updated offline figures handle trials without contact and use the actual
+velocity verdict; four earlier figure artifacts remain byte-identical.

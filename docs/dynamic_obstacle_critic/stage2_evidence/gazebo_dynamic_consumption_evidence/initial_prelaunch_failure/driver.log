@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/repo/src/rm_dynamic_obstacle_critic/tools/run_gazebo_trial.py", line 232, in <module>
+    if __name__=="__main__":raise SystemExit(main())
+  File "/repo/src/rm_dynamic_obstacle_critic/tools/run_gazebo_trial.py", line 45, in main
+    shutil.copyfile(src,frozen/name)
+  File "/usr/lib/python3.10/shutil.py", line 254, in copyfile
+    with open(src, 'rb') as fsrc:
+FileNotFoundError: [Errno 2] No such file or directory: '/repo/src/rm_dynamic_obstacle_critic/config/guard_mechanical.yaml'

@@ -1,0 +1,102 @@
+{
+  "scope": "offline source-time fixed planar fixture ray/box range labels; no exact costmap scan-consumer attribution",
+  "fixture": {
+    "sensor_xy_yaw": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "sensor_height": 0.35,
+    "static_pose": [
+      1.4,
+      0.0,
+      0.0
+    ],
+    "static_dimensions": [
+      0.35,
+      1.1
+    ],
+    "actor_dimensions": [
+      0.45,
+      0.55
+    ],
+    "noise_stddev": 0.01
+  },
+  "scene_sha256": {
+    "moving_obstacle.sdf": "ac489655001736911da1dce5bd46f6a3d559e364c65542cdcc9eb75510e2d8cc",
+    "phase1_omni.sdf": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3"
+  },
+  "policy_raw_threshold": 203,
+  "accepted_source_time_scans": 579,
+  "skipped_scans": {
+    "missing_source_time_pose_bracket": 1,
+    "world_odom_identity_mismatch": 3
+  },
+  "receipt_delay_s": {
+    "count": 579,
+    "mean": 0.009245250431781227,
+    "stddev": 0.0019656701488740443,
+    "median": 0.009000000000000341,
+    "min": 0.006000000000000227,
+    "max": 0.03399999999999892
+  },
+  "world_odom_xy_error_m": {
+    "count": 579,
+    "mean": 1.6659506920552166e-05,
+    "stddev": 2.1634917243607694e-05,
+    "median": 5.308724717816624e-06,
+    "min": 0.0,
+    "max": 8.927284987637397e-05
+  },
+  "range_labels": {
+    "static": {
+      "count": 37238,
+      "mean": 0.00015639475160456455,
+      "stddev": 0.027501810293084673,
+      "median": -3.1342962780178674e-06,
+      "min": -0.5824615361974315,
+      "max": 3.48688527070444,
+      "abs_residual_gt_3sigma": 417
+    },
+    "actor": {
+      "count": 13468,
+      "mean": -0.0008411483297519278,
+      "stddev": 0.04857008262899252,
+      "median": -0.00015372428241122726,
+      "min": -3.14384821212428,
+      "max": 0.17836115469817138,
+      "abs_residual_gt_3sigma": 277
+    }
+  },
+  "angular_interior_range_labels": {
+    "static": {
+      "count": 36187,
+      "mean": 3.6298199997214696e-05,
+      "stddev": 0.011010456746790761,
+      "median": 1.3731248374782012e-05,
+      "min": -0.11028885980751513,
+      "max": 0.12137035755124281,
+      "abs_residual_gt_3sigma": 329
+    },
+    "actor": {
+      "count": 12577,
+      "mean": -3.476453692461008e-05,
+      "stddev": 0.011753370714236534,
+      "median": -9.033772898625614e-05,
+      "min": -0.06799074576707298,
+      "max": 0.0988216778579103,
+      "abs_residual_gt_3sigma": 177
+    }
+  },
+  "missing_finite_returns_on_expected_box_rays": 191,
+  "finite_returns_without_expected_box": 186,
+  "static_endpoint_bin_count_per_scan": {
+    "count": 579,
+    "mean": 26.37651122625216,
+    "stddev": 5.485720283972243,
+    "median": 27,
+    "min": 13,
+    "max": 36
+  },
+  "limits": "Source-time canonical odometry interpolated with <=0.04s brackets; fixed SDF extrinsics, instantaneous scan only. Box labels use independent physical truth. Angular-interior subset requires the same nearest box at both neighboring ray angles, without selecting on measured residual. All-ray mismatches remain reported. Endpoint bins are not exact costmap marking identities. No formal Gaussian bound, full sensor accuracy or hardware acceptance."
+}

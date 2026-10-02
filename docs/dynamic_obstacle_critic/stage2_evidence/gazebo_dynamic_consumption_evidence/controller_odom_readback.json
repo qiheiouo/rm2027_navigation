@@ -1,0 +1,51 @@
+{
+  "scope": "public readback after lifecycle configure; endpoint route only, not an effective-speed/freshness certificate",
+  "required_topic": "/odometry/lio",
+  "configured_odom_topic": "/odometry/lio",
+  "controller_subscriptions": [
+    [
+      "/bond",
+      [
+        "bond/msg/Status"
+      ]
+    ],
+    [
+      "/clock",
+      [
+        "rosgraph_msgs/msg/Clock"
+      ]
+    ],
+    [
+      "/odometry/lio",
+      [
+        "nav_msgs/msg/Odometry"
+      ]
+    ],
+    [
+      "/parameter_events",
+      [
+        "rcl_interfaces/msg/ParameterEvent"
+      ]
+    ],
+    [
+      "/perception/dynamic_obstacles_shadow/predictions",
+      [
+        "rm_competition_interfaces/msg/DynamicObstaclePredictionArray"
+      ]
+    ],
+    [
+      "/speed_limit",
+      [
+        "nav2_msgs/msg/SpeedLimit"
+      ]
+    ]
+  ],
+  "canonical_publishers": [
+    {
+      "node_name": "lio_adapter",
+      "namespace": "/",
+      "topic_type": "nav_msgs/msg/Odometry"
+    }
+  ],
+  "verdict": "ROUTE PASS"
+}

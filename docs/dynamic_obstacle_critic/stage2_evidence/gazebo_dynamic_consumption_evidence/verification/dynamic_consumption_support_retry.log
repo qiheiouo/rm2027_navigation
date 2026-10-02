@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_consumed_cv_support.py", line 75, in <module>
+    args = parser.parse_args(); report = audit(args.trial)
+                                         ^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_consumed_cv_support.py", line 20, in audit
+    stamp = msg['header']['stamp']; t = stamp.get('sec', 0)+stamp.get('nsec', 0)*1e-9
+                                        ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: can only concatenate str (not "float") to str
