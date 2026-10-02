@@ -442,3 +442,11 @@ raw203下界−6.936mm。独立单元核验定位+2.982s的raw216单元(78,38)
 12项复算及独立CPP重执行后15项逐字节一致；14文件verification
 单独保存，四archive共2064文件身份通过，保留准备精度错误和初图。
 运动支持仍unknown；原FAILED/NOT ESTABLISHED和在线边界不变。
+
+### 原生 SG 前后路径实验登记（2026-10-02）
+
+从7c0db1b建立`experiment/native-sg-stage-audit`。同四因子固定完整
+上下文输出bounded mean及actual-history SG八路径，先证明四after
+位型等于前序，再比较三秒动态/静态/raw203/bounds/progress门。
+该实验只隔离固定路径的平滑前后差异，不认证闭环或恢复旧路线。
+见[SG阶段登记](native_sg_stage_experiment.md)。
