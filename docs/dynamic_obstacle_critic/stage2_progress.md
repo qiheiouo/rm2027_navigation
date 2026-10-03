@@ -677,3 +677,11 @@ visible各时域均0/285，64无actor，真实e/B未知，综合FAILED。
 7b7cd599。完整manifest与界限见上述登记。用户新表面路线意见已读，
 自主选择先reveal/stopping证据，保留A/B及严格门，独立experiment分支
 开展；尚无moving-surface运行或完整三秒物理候选通过结论。
+
+## 2026-10-03 动态表面与 reveal / stopping 实验登记
+
+从e061a245建立`experiment/dynamic-surface-reveal`。自主选择先reveal
+证据再决定C实现，保留A/B和原严格门，未知真实tau/a不补造。已停后
+目标侵入单列逃逸条件；单层LaserScan不冒充MID360。详细
+[预注册](dynamic_surface_reveal_experiment.md)。原三秒见证与实际SDK
+重执行同步补齐，禁止从新的几何名称推出控制链接受。

@@ -198,3 +198,5 @@ mapping artifact, mission priority or failure policy, update at least:
 3. `docs/runtime_profiles.md` when launch behavior changes;
 4. `docs/competition_capability_status.md` when acceptance status changes;
 5. a dated validation report only after evidence is collected.
+
+- `docs/dynamic_obstacle_critic/dynamic_surface_reveal_experiment.md`: 观测面揭露距离、停止/逃逸条件及隔离A/B/C阶段登记。
