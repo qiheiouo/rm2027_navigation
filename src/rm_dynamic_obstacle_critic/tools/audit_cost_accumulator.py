@@ -16,6 +16,8 @@ from cost_accumulator_io import (read_observation, pair_unknown_reason, input_by
 from cost_accumulator_preflight import ORDER, ROLES, configure_profile, expected_parameters
 from native_snapshot_io import read_snapshot
 from dynamic_consumption_io import read_consumption, cost_relation_exact
+from observation_profile_preflight import (SCHEMA as OBSERVATION_SCHEMA, registered_profiles,
+    transformed_controller, flatten_parameters, typed_value)
 
 
 def dynamic_identity(meta, blocks):
@@ -68,13 +70,39 @@ def audit(trial):
         registered_follow[role]={'enabled':True,'capture_enabled':False,'output_directory':'','max_records':1000}
     registered_follow['DynamicObstacleCritic']['consumption_evidence_directory']=''
     registered_follow['NativeCycleSnapshotCritic']['output_directory']=''
+    observation = follow['DynamicObstacleCritic'].get('input_schema') == OBSERVATION_SCHEMA
+    if observation:
+        selection=json.loads((trial/'observation_profile_selection.json').read_text())
+        mode=selection['radius_parameters']['obstacle_radius_mode']
+        tracker=yaml.safe_load((trial/'installed_inputs/tracker_cv.yaml').read_text())
+        guard=yaml.safe_load((trial/'installed_inputs/guard.yaml').read_text())
+        selected=registered_profiles(registered,tracker,guard,{
+            'controller':yaml.safe_load((trial/'installed_inputs/nav2_cv_cost_accumulator_evidence.yaml').read_text()),
+            'tracker':yaml.safe_load((trial/'installed_inputs/tracker_cv_baseline.yaml').read_text()),
+            'guard':yaml.safe_load((trial/'installed_inputs/guard_mechanical_footprint.yaml').read_text())},mode)
+        if selection['radius_parameters']!=selected['radius_parameters'] or selection['input_schema']!=OBSERVATION_SCHEMA:
+            raise ValueError('registered observation selection mismatch')
+        baseline=transformed_controller(baseline,mode)
     configure_profile(registered,baseline,trial/'uncreated_validation_output')
-    readback=json.loads((trial/'cost_accumulator_readback.json').read_text())
     expected=expected_parameters(profile['controller_server']['ros__parameters'])
-    if (readback['verdict']!='CONFIGURED PARAMETER PASS' or
-            json.dumps(readback['configured'],sort_keys=True)!=json.dumps(expected,sort_keys=True) or
-            json.dumps(readback['requested'],sort_keys=True)!=json.dumps(expected,sort_keys=True)):
-        raise ValueError('actual configured accumulator preflight mismatch')
+    if observation:
+        readback=json.loads((trial/'observation_profile_readback.json').read_text())
+        expected_nodes={
+            'controller_server':{**expected,'use_sim_time':True},
+            'dynamic_obstacle_tracker_shadow':{**flatten_parameters(tracker['dynamic_obstacle_tracker_shadow']['ros__parameters']),'use_sim_time':True},
+            'dynamic_safety_guard':{**flatten_parameters(guard['dynamic_safety_guard']['ros__parameters']),'use_sim_time':True,'output_topic':'/cmd_vel'}}
+        expected_types={name:{key:typed_value(value)[0] for key,value in fields.items()} for name,fields in expected_nodes.items()}
+        if (readback['verdict']!='CONFIGURED PARAMETER PASS' or
+                json.dumps(readback['requested'],sort_keys=True)!=json.dumps(expected_nodes,sort_keys=True) or
+                json.dumps(readback['configured'],sort_keys=True)!=json.dumps(expected_nodes,sort_keys=True) or
+                readback['configured_types']!=expected_types):
+            raise ValueError('actual configured three-node observation preflight mismatch')
+    else:
+        readback=json.loads((trial/'cost_accumulator_readback.json').read_text())
+        if (readback['verdict']!='CONFIGURED PARAMETER PASS' or
+                json.dumps(readback['configured'],sort_keys=True)!=json.dumps(expected,sort_keys=True) or
+                json.dumps(readback['requested'],sort_keys=True)!=json.dumps(expected,sort_keys=True)):
+            raise ValueError('actual configured accumulator preflight mismatch')
     before=record_set(trial/'cost_before','cost',read_observation,'before_CostCritic')
     after=record_set(trial/'cost_after','cost',read_observation,'after_CostCritic')
     native=record_set(trial/'native_cycles','cycle',read_snapshot)

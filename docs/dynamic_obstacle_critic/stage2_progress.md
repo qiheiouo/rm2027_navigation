@@ -655,3 +655,15 @@ v2配对模式先补完整D名义圆及实际消费重算链，默认可见圆/v
 错误在manifest前修复并留痕，原归档未改。完整manifest与重执行命令
 见[直径登记](observation_diameter_consumption_experiment.md)。现在进入
 已登记的原固定场景配对试次，未把原小box升级为全部地面机器人覆盖。
+
+ccb8822d冻结327份八包源码，两次固定v2 visible/nominal已执行，
+目标前三端/odom/v2receipt全部通过，但均35s取消未到goal。visible
+机械接触39.966s、raw750/2264；nominal机械动态下界0.909402m、
+raw0/2264，推进3.379103m仍未成。349/350周期实际risk/after行
+104700/105000全部精确，SDK输入/control/weights/SG全精确，两个
+七类篡改全拒绝；Cost before无after为visible304/307、nominal194，
+保留unknown。速度原150ms值门全通过max138/131ms，callback源stamp
+仍unknown。nominal支持0/1s 284/284，而3s仅98/284，66无actor；
+visible各时域均0/285，64无actor，真实e/B未知，综合FAILED。
+现继续归档/独立复现与全三秒见证、goal几何可行性检查；缺依赖报告
+及错误格式基线比较的初始失败均已留痕并按对应真实格式/顺序修正。
