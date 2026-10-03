@@ -99,6 +99,11 @@ Original cost bits and eight rational weight partitions are independently
 verified. Its immutable archive and explicit verifier amendment preserve
 failures and reconstruct all 38 mutation recipes after temporary files vanished.
 
+[The individual stage registration](dynamic_obstacle_critic/native_individual_stage_experiment.md)
+fixes original sampled controls and SDK history while separating raw,
+post-constraint and post-SG paths. It requires baseline byte identity before
+geometry attribution and adds no runtime selection or parameter changes.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

@@ -527,3 +527,11 @@ SDK/72检查及全部报告、13probe、图示共11项逐字节相同，旧21165
 synthetic/79项也保持。28文件独立verification保留，七archive共
 2596文件身份通过；原task/raw203/age FAILED、综合NOT ESTABLISHED
 与真实支持unknown保持，runtime/TF/profile/公共接口没有变化。
+
+### 个体原生约束与SG分离登记（2026-10-03）
+
+从2a67835建立`experiment/native-individual-stage-contract`，保持
+原300控制/测量前缀/历史/模型，先复现旧raw与311见证，再输出未
+处理、约束后SG前、SG后三阶段，分离raw185原地图通过而个体处理
+后失败的变化。只有离线BUILD_TESTING实例，原raw成本标签不替换，
+严格门和运行参数不改。见[个体阶段登记](native_individual_stage_experiment.md)。
