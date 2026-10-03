@@ -1,0 +1,55 @@
+{
+  "cases": [
+    {
+      "case": "v1_helper_refuses_v2",
+      "expected": 1,
+      "input_sha256": "46dedf3dcba68e24c445186a0ff92b529fc10dbfb24b04a2230f548a4f4758ff",
+      "passed": true,
+      "returncode": 1
+    },
+    {
+      "case": "v2_helper_refuses_v1",
+      "expected": 1,
+      "input_sha256": "83f4364bbd8db0d167e2675a5b949528ee9b94d92a612669b169f447d4d4d81c",
+      "passed": true,
+      "returncode": 1
+    },
+    {
+      "case": "unknown_radius_enum",
+      "expected": 1,
+      "input_sha256": "5036b686b81d0b434345061f9437681d5bfcca4280e556d43a1b73e7c9a690a1",
+      "passed": true,
+      "returncode": 1
+    },
+    {
+      "case": "half_diameter_cannot_match_actual_nominal_risk",
+      "expected": 2,
+      "input_sha256": "b2beb1cc1f8a4b621eb91bdc4151e3eb01e8c71f8ed43e1721c4d3b2728bc4da",
+      "passed": true,
+      "returncode": 2
+    },
+    {
+      "case": "oversize_prior",
+      "expected": 1,
+      "input_sha256": "9501836a46e054feb113a46560f4e77f72bd5544bd608279ee2fb74f671f11a0",
+      "passed": true,
+      "returncode": 1
+    },
+    {
+      "case": "truncated_input",
+      "expected": 1,
+      "input_sha256": "50236be96033b5ea983b1852043f17443023db8f0c900ebfb4623eb861426916",
+      "passed": true,
+      "returncode": 1
+    },
+    {
+      "case": "trailing_input",
+      "expected": 1,
+      "input_sha256": "557433da4f86547a5f46f04d0a4894cb9824f316ea858037ae0af7335fb04f0e",
+      "passed": true,
+      "returncode": 1
+    }
+  ],
+  "scope": "Actual helper protocol and nominal-risk mismatch probes only; not physical negative trials.",
+  "status": "PASS"
+}

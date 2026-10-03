@@ -1,0 +1,51 @@
+[INFO] [1791027624.247913210] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027624.251595750] [controller_server]: Creating controller server
+[INFO] [1791027624.254598770] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027624.255115639] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1791027627.318068030] [controller_server]: Configuring controller interface
+[INFO] [1791027627.318178468] [controller_server]: getting goal checker plugins..
+[INFO] [1791027627.318201291] [controller_server]: Controller frequency set to 10.0000Hz
+[INFO] [1791027627.318221157] [local_costmap.local_costmap]: Configuring
+[INFO] [1791027627.321134981] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[INFO] [1791027627.324033062] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[INFO] [1791027627.325366037] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1791027627.325391292] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1791027627.325623962] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1791027627.330026086] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1791027627.330392281] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1791027627.330484039] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1791027627.331273694] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[INFO] [1791027627.331576851] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1791027627.332617870] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1791027627.332641760] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1791027627.333107139] [controller_server]: Critic loaded : mppi::critics::BeforeCostAccumulatorCritic
+[INFO] [1791027627.333255903] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1791027627.333269978] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1791027627.333346335] [controller_server]: Critic loaded : mppi::critics::AfterCostAccumulatorCritic
+[INFO] [1791027627.333430522] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1791027627.333437304] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1791027627.333503356] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1791027627.333511378] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1791027627.333627472] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 10.000000 weight
+[INFO] [1791027627.333634769] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[INFO] [1791027627.333714592] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1791027627.333852881] [controller_server]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Reversing allowed.
+[INFO] [1791027627.333860056] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[ERROR] [1791027627.335908418] [controller_server]: Caught exception in callback for transition 10
+[ERROR] [1791027627.335953428] [controller_server]: Original error: invalid CV critic parameters or MPPI/prediction horizon mismatch
+[WARN] [1791027627.335968123] [controller_server]: Callback returned ERROR during the transition: configure
+[FATAL] [1791027627.335982773] [controller_server]: Lifecycle node controller_server does not have error state implemented
+[INFO] [1791027627.336806904] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1791027627.336950528] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[INFO] [1791027627.337016173] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+Warning: class_loader.ClassLoader: SEVERE WARNING!!! Attempting to unload library while objects created by this loader exist in the heap! You should delete your objects before attempting to unload the library or destroying the ClassLoader. The library will NOT be unloaded.
+         at line 127 in ./src/class_loader.cpp
+[INFO] [1791027627.340617195] [local_costmap.local_costmap]: Destroying
+[ERROR] [1791027627.340642319] [local_costmap.local_costmap]: Unable to start transition 2 from current state cleaningup: Could not publish transition: publisher's context is invalid, at ./src/rcl/publisher.c:389, at ./src/rcl_lifecycle.c:368
+[INFO] [1791027627.342589893] [controller_server]: Destroying

@@ -1,0 +1,2 @@
+colcon test-result omitted --log-base; default CWD/log was not writable for the isolated container user. Native tests themselves had completed; retry uses an explicit /out log base.
+The prior colcon test call also omitted source base paths in the container default CWD and selected zero packages. This was not a new test run. Corrected execution uses each actual newly built GTest binary and new XML output with a checked total of 57.

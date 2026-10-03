@@ -89,3 +89,35 @@ frame/complete/count/grid与整数source年龄，失败不发送goal。新增
 协议/算术，不冒充SDK SG控制或物理三秒见证。初始命令的默认日志
 目录不可写、零包发现及此前误猜不存在旧input.bin归档均保留，不计
 通过证据。最终源码/ELF/实际预运行与独立重执行另冻结后才启动新试次。
+
+## 9be77e0c 预运行与独立重执行
+
+最终19项汇总检查全部通过：实际57 GTest、54 tracker/ROS、20/11
+reader、5配置/半径、8/6条件数学，两组8 guard，实际三端20配置case
+（两套回读、6 mismatch、18原生初始化拒绝），18实际helper协议/算术
+检查。两个CPP v2夹具risk double和after f32均2/2位型精确，旧347×300
+实际risk/after及三个默认radius报告逐字节保持；默认core/CDR语义保持。
+新处理路径夹具仍只重复raw路径，不是SG/物理见证。
+
+原预运行冻结在`stage2_evidence/observation_diameter_preflight`：474文件、
+78,144,460字节（不含manifest），manifest SHA
+`78fea03bc624d445b8dc47c30d64c629bdcb94029b697f6fc1361dcfcc4fb0e4`。
+含269份9be77e0c源码/文档、全部最终产物、初始失败、原生身份与编译
+flags；两次archive组装错误（误猜TF文档、pytest临时悬空link）也保存，
+在manifest创建前修复，未修改任何冻结归档。
+
+固定SDK离线新目录从归档三包源码干净构建，21项实际重执行全部通过；
+4运行ELF/4helper ELF及编译flags精确，269源文件与git节点逐字节同。
+另35项比较通过：CPP消费/prepare/risk/处理路径、旧风险/默认报告、
+实际三端参数/全部拒绝、DDS完整观测及core/CDR语义一致。仅运行目录
+前缀归一化；timing、callback次数、未定义CDR padding不当字节门。
+独立证据`stage2_evidence/observation_diameter_replay`：181文件、
+37,204,977字节，manifest SHA
+`7f24451295349607ff7e9529e9a77666dfea471284a4adb665e9b4704919473d`。
+
+运行critic ELF为`890081d8137d57b7acdad016411abc570d27794a27fcfd517378564208c862c1`，
+guard为`956d358458b7b82173ddada31e0a09f43e4eb2db8519125fd163aec20ea30556`；
+命令observer/Costobserver与锚点checkpoint保持，SDK两库保持。完整SHA
+见provenance；main、旧research/tag及795MB core保持。此节点仅完成
+可重现模型/消费/配置预运行，尚无新Gazebo物理/任务接受。下一步按本
+登记启动原固定场景v2 visible/nominal两试次，全地面类别闭环另行登记。

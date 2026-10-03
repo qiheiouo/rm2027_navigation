@@ -10,8 +10,9 @@ f8d6d828 的同 mtime 测试可移植性证据；默认 core 与 CDR 语义保�
 
 [完整直径名义代理与 v2 实际消费登记](dynamic_obstacle_critic/observation_diameter_consumption_experiment.md)
 记录显式几何模式、版本化重算链、三端配对/goal门与固定对照。57原生、
-54tracker/ROS及完整预运行通过，独立冻结重执行进行中；名义圆不认证
-未来运动，物理/任务接受仍未建立。
+54tracker/ROS及完整预运行通过，474文件原证据与181文件独立重执行
+冻结，21重执行/35跨执行核验通过；名义圆不认证未来运动，物理/任务
+接受仍未建立。
 
 ## Purpose
 

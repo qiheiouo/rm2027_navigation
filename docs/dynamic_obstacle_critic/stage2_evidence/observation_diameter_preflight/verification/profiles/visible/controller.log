@@ -1,0 +1,53 @@
+[INFO] [1791027604.885367839] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027604.889334948] [controller_server]: Creating controller server
+[INFO] [1791027604.892667209] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027604.893193704] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1791027604.951892100] [controller_server]: Configuring controller interface
+[INFO] [1791027604.951995712] [controller_server]: getting goal checker plugins..
+[INFO] [1791027604.952019752] [controller_server]: Controller frequency set to 10.0000Hz
+[INFO] [1791027604.952038072] [local_costmap.local_costmap]: Configuring
+[INFO] [1791027604.954800266] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[INFO] [1791027604.957699240] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[INFO] [1791027604.959068950] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1791027604.959094856] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1791027604.959359682] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1791027604.963974867] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1791027604.964382631] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1791027604.964465853] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1791027604.965240057] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[INFO] [1791027604.965593155] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1791027604.966639685] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1791027604.966663377] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1791027604.967369366] [controller_server]: Critic loaded : mppi::critics::BeforeCostAccumulatorCritic
+[INFO] [1791027604.967600137] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1791027604.967615392] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1791027604.967695039] [controller_server]: Critic loaded : mppi::critics::AfterCostAccumulatorCritic
+[INFO] [1791027604.967792468] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1791027604.967799853] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1791027604.967908998] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1791027604.967917764] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1791027604.968060913] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 10.000000 weight
+[INFO] [1791027604.968068502] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[INFO] [1791027604.968181088] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1791027604.968302578] [controller_server]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Reversing allowed.
+[INFO] [1791027604.968309264] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[INFO] [1791027604.972963775] [controller_server]: Critic loaded : mppi::critics::DynamicObstacleCritic
+[INFO] [1791027604.973465603] [controller_server]: Critic loaded : mppi::critics::StaticStoppingCritic
+[INFO] [1791027604.973611204] [controller_server]: Critic loaded : mppi::critics::NativeCycleSnapshotCritic
+[INFO] [1791027604.974551951] [controller_server]: Optimizer reset
+[INFO] [1791027604.975213078] [MPPIController]: Configured MPPI Controller: FollowPath
+[INFO] [1791027604.975229586] [controller_server]: Controller Server has FollowPath  controllers available.
+[INFO] [1791027605.766087987] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1791027605.766246942] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[INFO] [1791027605.766348522] [controller_server]: Cleaning up
+[INFO] [1791027605.766445897] [MPPIController]: Cleaned up MPPI Controller: FollowPath
+[INFO] [1791027605.766578930] [local_costmap.local_costmap]: Cleaning up
+[INFO] [1791027605.775602012] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[INFO] [1791027605.778972442] [local_costmap.local_costmap]: Destroying
+[INFO] [1791027605.783047759] [controller_server]: Destroying

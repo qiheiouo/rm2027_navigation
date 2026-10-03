@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="24" failures="0" disabled="0" errors="0" time="1.561" timestamp="2026-10-03T11:48:07" name="AllTests">
+  <testsuite name="PluginTest" tests="4" failures="0" disabled="0" errors="0" time="0.422" timestamp="2026-10-03T11:48:07">
+    <testcase name="NativePluginScoresFutureAndWaitAndRejectsStale" status="run" result="completed" time="0.206" timestamp="2026-10-03T11:48:07" classname="PluginTest" />
+    <testcase name="GridMismatchFailsInsteadOfTruncating" status="run" result="completed" time="0.102" timestamp="2026-10-03T11:48:08" classname="PluginTest" />
+    <testcase name="DefaultNativeConsumerRejectsObservationSchema" status="run" result="completed" time="0.099" timestamp="2026-10-03T11:48:08" classname="PluginTest" />
+    <testcase name="UnsupportedSchemaRejectsInitialization" status="run" result="completed" time="0.015" timestamp="2026-10-03T11:48:08" classname="PluginTest" />
+  </testsuite>
+  <testsuite name="ObservationAnchorPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.183" timestamp="2026-10-03T11:48:08">
+    <testcase name="NativeSchemaSelectionScoresV2AndRejectsV1Replacement" status="run" result="completed" time="0.183" timestamp="2026-10-03T11:48:08" classname="ObservationAnchorPluginTest" />
+  </testsuite>
+  <testsuite name="SoftStoppingPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.016" timestamp="2026-10-03T11:48:08">
+    <testcase name="EscapeWaitApproachStayDistinctInsidePlanningBand" status="run" result="completed" time="0.016" timestamp="2026-10-03T11:48:08" classname="SoftStoppingPluginTest" />
+  </testsuite>
+  <testsuite name="StoppingPluginTest" tests="5" failures="0" disabled="0" errors="0" time="0.07" timestamp="2026-10-03T11:48:08">
+    <testcase name="UnsupportedSoftModeParametersRejectInitialization" status="run" result="completed" time="0.014" timestamp="2026-10-03T11:48:08" classname="StoppingPluginTest" />
+    <testcase name="DefaultMarginPreservesNearCellDecision" status="run" result="completed" time="0.013" timestamp="2026-10-03T11:48:08" classname="StoppingPluginTest" />
+    <testcase name="InvalidPlanningAllowancesRejectInitialization" status="run" result="completed" time="0.014" timestamp="2026-10-03T11:48:08" classname="StoppingPluginTest" />
+    <testcase name="ScoresNativeOffsetOneWithUnchangedRaw203Gate" status="run" result="completed" time="0.014" timestamp="2026-10-03T11:48:08" classname="StoppingPluginTest" />
+    <testcase name="MeasuredStoppingTailAndMalformedGrid" status="run" result="completed" time="0.014" timestamp="2026-10-03T11:48:08" classname="StoppingPluginTest" />
+  </testsuite>
+  <testsuite name="BufferedStoppingPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.014" timestamp="2026-10-03T11:48:08">
+    <testcase name="PlanningAllowanceRejectsNearCellProposal" status="run" result="completed" time="0.014" timestamp="2026-10-03T11:48:08" classname="BufferedStoppingPluginTest" />
+  </testsuite>
+  <testsuite name="SnapshotPluginTest" tests="4" failures="0" disabled="0" errors="0" time="0.057" timestamp="2026-10-03T11:48:08">
+    <testcase name="CompleteNativeDataAndCostsPreservedBitwise" status="run" result="completed" time="0.014" timestamp="2026-10-03T11:48:08" classname="SnapshotPluginTest" />
+    <testcase name="MalformedStateOnlyStopsEvidence" status="run" result="completed" time="0.015" timestamp="2026-10-03T11:48:08" classname="SnapshotPluginTest" />
+    <testcase name="ExistingFailureFlagIsNeverCleared" status="run" result="completed" time="0.013" timestamp="2026-10-03T11:48:08" classname="SnapshotPluginTest" />
+    <testcase name="ExistingEvidenceIsNeverOverwrittenAndControlUnchanged" status="run" result="completed" time="0.015" timestamp="2026-10-03T11:48:08" classname="SnapshotPluginTest" />
+  </testsuite>
+  <testsuite name="DisabledSnapshotPluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.013" timestamp="2026-10-03T11:48:08">
+    <testcase name="DisabledCaptureHasNoSideEffects" status="run" result="completed" time="0.013" timestamp="2026-10-03T11:48:08" classname="DisabledSnapshotPluginTest" />
+  </testsuite>
+  <testsuite name="ObservationEvidencePluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.1" timestamp="2026-10-03T11:48:08">
+    <testcase name="V2VisibleActualScoreAndBudgetArePreserved" status="run" result="completed" time="0.1" timestamp="2026-10-03T11:48:08" classname="ObservationEvidencePluginTest" />
+  </testsuite>
+  <testsuite name="NominalObservationEvidencePluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.1" timestamp="2026-10-03T11:48:08">
+    <testcase name="V2NominalActualScoreAndBudgetArePreserved" status="run" result="completed" time="0.1" timestamp="2026-10-03T11:48:08" classname="NominalObservationEvidencePluginTest" />
+  </testsuite>
+  <testsuite name="OneDynamicEvidencePluginTest" tests="2" failures="0" disabled="0" errors="0" time="0.201" timestamp="2026-10-03T11:48:08">
+    <testcase name="MovingInputWithCaptureAndBudgetExhaustionIsBitExact" status="run" result="completed" time="0.1" timestamp="2026-10-03T11:48:08" classname="OneDynamicEvidencePluginTest" />
+    <testcase name="StaticInputHasIdenticalCostsWithAndWithoutRecording" status="run" result="completed" time="0.101" timestamp="2026-10-03T11:48:09" classname="OneDynamicEvidencePluginTest" />
+  </testsuite>
+  <testsuite name="DynamicEvidencePluginTest" tests="2" failures="0" disabled="0" errors="0" time="0.369" timestamp="2026-10-03T11:48:09">
+    <testcase name="EmptyInputIsRecordedAndStaleReplacementStillFailsClosed" status="run" result="completed" time="0.266" timestamp="2026-10-03T11:48:09" classname="DynamicEvidencePluginTest" />
+    <testcase name="ExistingMetadataStopsEvidenceWithoutChangingCostsOrFailureFlag" status="run" result="completed" time="0.103" timestamp="2026-10-03T11:48:09" classname="DynamicEvidencePluginTest" />
+  </testsuite>
+  <testsuite name="DisabledDynamicEvidencePluginTest" tests="1" failures="0" disabled="0" errors="0" time="0.016" timestamp="2026-10-03T11:48:09">
+    <testcase name="DisabledCriticCreatesNoEvidenceOrCostChanges" status="run" result="completed" time="0.016" timestamp="2026-10-03T11:48:09" classname="DisabledDynamicEvidencePluginTest" />
+  </testsuite>
+</testsuites>

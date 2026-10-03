@@ -1,0 +1,402 @@
+# Runtime Profiles
+
+The isolated `experiment/observation-anchor-cv` interface mode requires three
+tracker parameters: `prediction.anchor_mode=last_observation_cv`,
+`prediction.velocity_decay_tau=0.0`, `prediction.max_speed=0.0`. Both critic and
+guard must explicitly select
+`input_schema=rm_dynamic_obstacle_predictions/v2_observation_anchor`. Existing
+profiles keep v1 and do not enable this mode. No new TF, topic route or controller
+composition is introduced at the anchor checkpoint. The subsequent
+`experiment/observation-diameter-consumption` now implements explicit v2 file
+evidence and a separate RMDYNRP2 helper, with actual plugin round-trip tests;
+the paired controller/tracker/guard profiles and goal-gated preflight are explicit
+opt-in inputs. A nominal complete diameter uses D as radius and requires v2,
+positive D≤3 m and a prior source. It does not bound coasting/future physical
+error; existing profiles keep the default visible circle. Interface preflight
+is not a closed-loop profile or deployment acceptance. See
+[the registered boundary](dynamic_obstacle_critic/observation_anchor_cv_experiment.md).
+The new model/evidence scope follows
+[the diameter registration](dynamic_obstacle_critic/observation_diameter_consumption_experiment.md).
+
+Both comparisons use `tracker_observation_cv.yaml`. Select
+`nav2_cv_observation_visible.yaml` with `guard_observation_visible.yaml` and
+`--observation-radius-mode visible_extent`, or
+`nav2_cv_observation_nominal.yaml` with `guard_observation_nominal.yaml` and
+`--observation-radius-mode nominal_diameter`. The latter uses the upward rounded
+1.6970562748477143 m manual-conditioned complete diameter as a nominal radius.
+The bounded runner also requires `--tracker-config`, `--guard-config`, guard
+mode and all three native snapshot/dynamic consumption/cost accumulator flags.
+It compares every profile field to the registered baseline transformations,
+reads actual typed settings from all three nodes, and requires a fresh complete
+v2 receipt at the goal decision. `tracker_params_file` is a launch argument;
+its default remains `tracker_cv.yaml`. No competition launch selects the new
+profiles. `evaluate_observation_processed_cv` is an explicit RMDYNRP2 offline
+helper; the old processed evaluator refuses that version.
+
+## Experimental CV Dynamic Avoidance
+
+`ros2 launch rm_dynamic_obstacle_critic cv_course.launch.py enabled:=true`
+starts an isolated Gazebo/Nav2 course, tracker and final guard. `enabled` defaults
+to false. The default standalone guard publishes only
+`/dynamic_test/cmd_vel_guarded`; only this explicit simulation composition routes
+it to `/cmd_vel`. The experiment observer requires a single correct final
+publisher before sending its fixed test goal. No serial transport or hardware
+profile is enabled by this entry point. Do not combine it with an existing Nav2
+or real-car session. It is not accepted for deployment; see the
+[failed stage-one report](dynamic_obstacle_critic/validation.md) and
+[ongoing stage-two plan](dynamic_obstacle_critic/stage2_plan.md).
+
+The explicit `nav2_cv_controller_odom.yaml` experiment selects
+`controller_server.ros__parameters.odom_topic: /odometry/lio`. The bounded trial
+runner checks this configured parameter, the controller subscription and one
+canonical publisher after lifecycle startup and before its goal. The existing
+profiles retain their recorded inputs. This repair adds no odometry or TF owner;
+effective native speed and all safety/task gates require fresh physical evidence.
+See [the input contract experiment](dynamic_obstacle_critic/controller_odom_contract_experiment.md).
+
+`nav2_cv_dynamic_consumption.yaml` adds only two default-off evidence parameters
+to the canonical controller profile. The isolated runner requires
+`--dynamic-consumption-evidence --native-snapshots` to assign separate exclusive
+output directories and verifies the actual configured dynamic evidence values
+before sending its goal. Recording preserves consumed CV fields and score bits;
+it adds no ROS topics or TF owner. Its I/O needs fresh deadline and physical
+validation. See [the consumption evidence experiment](dynamic_obstacle_critic/dynamic_consumption_evidence_experiment.md).
+
+`nav2_cv_cost_accumulator_evidence.yaml` is an explicit experiment with two
+default-off file observers adjacent to the original SDK CostCritic, supplied
+by a separate plugin library. The runner requires guard mode and
+`--native-cost-accumulator-evidence --dynamic-consumption-evidence --native-snapshots`.
+Removing the two observer entries/settings preserves the complete typed base
+profile. Before its goal, the runner reads back every explicit FollowPath
+parameter and controller frequency/odometry route. Pairing uses observer-local
+committed state and exact public input/map bytes; incomplete association is
+UNKNOWN. This adds no topic or TF owner and needs fresh IO/deadline and original
+physical/task validation. See [the accumulator evidence experiment](dynamic_obstacle_critic/native_cost_accumulator_evidence_experiment.md).
+
+`ground_robot_extent_prior_offline.yaml` is a manual reference consumed only by
+offline geometry tools. It is not a ROS parameter profile and no launch loads
+it; its 2026 size conditions do not certify 2027 targets or future CV support.
+See [the extent-prior experiment](dynamic_obstacle_critic/ground_robot_extent_prior_experiment.md).
+
+`evaluate_processed_cv` is a BUILD_TESTING-only, file-to-file CV evaluator;
+no launch loads it or its processed-path data. It starts no ROS node and does
+not choose controls. See [the processed-path experiment](dynamic_obstacle_critic/processed_cv_objective_experiment.md).
+
+`evaluate_cv_support_factors` is a BUILD_TESTING-only file evaluator for explicit
+offline source-geometry/local-slope/future-circle hypotheses. No profile loads
+its data. Future truth is inadmissible online; original weights and runtime
+parameters stay fixed. See [the factor audit](dynamic_obstacle_critic/cv_support_factor_experiment.md).
+
+`cv_support_assumptions_offline.yaml` is data-only and leaves all physical
+conditions unknown. Only file-based Python support-contract tools use it;
+no launch/node loads it. Conditional support math does not choose an online
+radius or certify the supplied motion/anchor/size assumptions. See
+[the support-bound experiment](dynamic_obstacle_critic/cv_support_bound_experiment.md).
+
+`evaluate_native_factor_aggregation` and `evaluate_cv_aggregate_factors` are
+BUILD_TESTING-only offline file tools. They intervene on four explicit risk
+inputs in one frozen native context; no profile loads their hypotheses or
+commands. Future truth remains inadmissible and all four full conditional
+gate sets fail, including a frozen raw216 contact for the dynamically clear
+future-circle aggregate. See [the aggregation experiment](dynamic_obstacle_critic/native_factor_aggregation_experiment.md).
+
+`evaluate_native_sg_stages` and `evaluate_cv_stage_factors` are offline
+BUILD_TESTING-only before/after instances. No launch loads the eight-path
+private format or issues its pre-SG controls. Both stages fail the full gate
+sets; future-circle raw216 contact already exists before SG. See
+[the SG stage experiment](dynamic_obstacle_critic/native_sg_stage_experiment.md).
+
+`audit_native_factor_safe_mass.py` is a file-only descriptive join of frozen
+native weights to separately bounded/SG individual path labels. It creates no
+ranking or control choice; no runtime profile loads its report or the 43-path
+raw verification subset. See [the safe mass audit](dynamic_obstacle_critic/native_factor_safe_mass_experiment.md).
+
+`native_cost_map_queries` is a BUILD_TESTING-only installed SDK helper query,
+using frozen map bytes and interpolated model poses without ROS initialization
+or `Costmap2DROS`. No launch loads its private format or reports. Boundary
+raster costs and original whole-polygon/continuous raw203 gates have different
+definitions; actual complete CostCritic state remains unknown. See
+[the map contract audit](dynamic_obstacle_critic/native_cost_map_contract_experiment.md).
+
+`native_raw_map_queries` is a separate BUILD_TESTING-only file instance for
+original raw30 and dense model poses. No profile loads its private input,
+map predicates, weights or reports. It adds no ROS/TF owner or control choice;
+actual CostCritic state and physical support remain unknown. See
+[the original raw map audit](dynamic_obstacle_critic/native_raw_map_contract_experiment.md).
+
+`native_individual_stages` is a BUILD_TESTING-only file tool. Its raw/bounds/SG
+stage tensors and pre-SG controls are never loaded by a launch or published.
+The original witness executable remains bit exact; no SG, sampler, optimizer,
+guard or runtime parameters change. See
+[the individual stage experiment](dynamic_obstacle_critic/native_individual_stage_experiment.md).
+
+## Principle
+
+The project uses one top-level launch per operating mode. A ROS2 package is not
+automatically a runtime node, and starting every package together would create
+duplicate TF owners, conflicting sensor sources, and unsafe hardware behavior.
+
+The generic top-level entry points live in `rm_navigation_bringup`:
+
+1. `navigation.launch.py`
+2. `map_deployment.launch.py`
+3. `simulation.launch.py`
+4. `bag_replay.launch.py`
+5. `mapping.launch.py`
+
+Hardware and competition work adds explicit specialized compositions:
+
+1. `old_car_2026_validation.launch.py`;
+2. `old_car_2026_amcl_relocalization.launch.py`;
+3. `old_car_2026_amcl_spin_candidate.launch.py`;
+4. `old_car_2026_three_point_spin_test.launch.py`;
+5. `old_car_2026_competition.launch.py`;
+6. `competition_no_hardware_test.launch.py`.
+
+Only one profile should run in a ROS domain at a time.
+
+## Navigation
+
+```bash
+ros2 launch rm_navigation_bringup navigation.launch.py
+```
+
+The default command is safe for no-hardware inspection:
+
+- real MID360 driver is disabled;
+- FAST-LIO is disabled;
+- Nav2 is disabled;
+- the chassis stub is enabled;
+- identity `map -> odom` is owned by `map_odom_stub`;
+- `lio_adapter` remains the only possible canonical `odom -> base_link` owner.
+
+An eventual real-hardware command will explicitly enable the selected sensor,
+LIO, global-localization, Nav2, and chassis transport profiles. Until real
+obstacle input and an approved map bundle exist, the current MPPI YAML remains
+a simulation-proven baseline rather than a deployment configuration.
+
+Example boundary-only LIO command:
+
+```bash
+ros2 launch rm_navigation_bringup navigation.launch.py \
+  sensor_mode:=single selected_side:=left \
+  use_driver:=true use_lio_backend:=true \
+  global_localization_mode:=stub use_nav2:=false
+```
+
+Using `global_localization_mode:=external_pose` removes the stub and makes
+`map_odom_from_global_pose` the sole `map -> odom` owner.
+
+Phase 2J adds an explicit upstream backend selector. The safe default is
+`relocalization_backend:=none`. Selecting `amcl_2d` requires external-pose mode
+and a map server; AMCL has TF broadcasting disabled and sends its gated pose to
+the existing Phase 2C bridge:
+
+```bash
+ros2 launch rm_navigation_bringup navigation.launch.py \
+  global_localization_mode:=external_pose \
+  relocalization_backend:=amcl_2d \
+  use_map_server:=true \
+  map_bundle_manifest:=/maps/field/field.bundle.yaml
+```
+
+The optional MID360 projection is enabled separately with
+`use_relocalization_pointcloud_projection:=true` and an explicit filtered
+pointcloud topic. See `docs/phase2j_2d_relocalization.md`.
+
+`relocalization_backend:=gicp_3d` is the parallel PCD path. It requires a
+reviewed `occupancy_with_pcd` bundle, a current registered PointCloud2, and a
+standard `/initialpose` seed. It does not run with AMCL and publishes no TF.
+See `docs/phase2j_3d_relocalization.md`.
+
+Parameter files are explicit launch arguments. `relocalization_params` selects
+the AMCL/gate YAML; `gicp_relocalization_params` selects the GICP/gate YAML.
+Backend launches reject empty paths, directories, and missing files before
+starting nodes.
+
+### Old-Car AMCL Profiles
+
+The normal old-car AMCL launch keeps the accepted baseline projection and AMCL
+parameters:
+
+```text
+old_car_2026_amcl_relocalization.launch.py
+```
+
+The high-speed-spin candidate is isolated behind:
+
+```text
+old_car_2026_amcl_spin_candidate.launch.py
+```
+
+It selects `alpha4=0.02` and strict per-point SE(3) deskew using the Livox
+`timestamp` field. The wrapper cannot start Nav2 motion, serial transport,
+controller or mission. Its offline/no-hardware checks and subsequent old-car
+field A/B were reported successful. The wrapper remains the no-motion
+diagnostic entry, while the normal old-car launch continues to select the
+baseline files.
+
+The strict candidate drops a complete scan frame when point timing, odometry
+coverage, interpolation or timestamped sensor TF is invalid. It does not fall
+back to an uncorrected scan. Inspect:
+
+```bash
+ros2 topic echo --once /localization/scan_deskew/active
+ros2 topic echo --once /localization/scan_deskew/status
+```
+
+See `docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md` for
+the exact evidence boundary and field-validation procedure.
+
+Deployment-map support is an explicit gate:
+
+```bash
+ros2 launch rm_navigation_bringup navigation.launch.py \
+  use_map_server:=true \
+  map_bundle_manifest:=/maps/rm2027_field/rm2027_field.bundle.yaml \
+  use_nav2:=true
+```
+
+The map bundle must be `approved` unless `allow_test_map:=true` is deliberately
+set for offline synthetic-fixture validation. The map server does not publish
+localization TF; it only provides `/map`. Schema-2 occupancy-only bundles
+intentionally expose no PCD path.
+
+## Simulation
+
+```bash
+ros2 launch rm_navigation_bringup simulation.launch.py \
+  scenario:=basic headless:=true
+```
+
+Available scenarios are `basic`, `course_static`, `course_dynamic`, and
+`pointcloud`.
+Simulation never starts the real MID360 driver, serial, or referee interface.
+The dynamic course is a regression tool, not proof of real competition dynamic
+obstacle safety.
+
+`scenario:=pointcloud` disables the simulation `/scan` adapter and publishes a
+synthetic `PointCloud2` obstacle on `/points/obstacles`. It validates the Nav2
+VoxelLayer boundary before real MID360 data is available.
+
+## Bag Replay
+
+```bash
+ros2 launch rm_navigation_bringup bag_replay.launch.py \
+  play_bag:=true bag_path:=/bags/example \
+  replay_level:=raw_odom
+```
+
+`raw_odom` expects `/odometry/fast_lio_raw`. `raw_sensors` starts the selected
+FAST-LIO backend and expects the normalized Livox/IMU topics. The driver is
+always disabled in replay mode.
+
+Replay bags used by this profile must not contain canonical `/odometry/lio`,
+`odom -> base_link`, or a second `map -> odom` publisher. This prevents bag data
+from competing with the canonical adapters. All replay nodes use simulated
+time and `ros2 bag play --clock`.
+
+## Mapping
+
+```bash
+ros2 launch rm_navigation_bringup mapping.launch.py
+```
+
+The safe default is guarded and starts no nodes. Explicit
+`enable_mapping:=true` starts OctoMap projection plus the managed bundle
+exporter, but no driver, LIO, Nav2, or chassis component. A platform bringup or
+bag replay must provide the pointcloud and TF inputs.
+
+The managed mapping workflow provides:
+
+1. a controlled output directory;
+2. explicit start/stop and failure behavior;
+3. bounded PCD generation and OctoMap occupancy projection;
+4. 2D occupancy generation with a documented shared origin;
+5. bundle hashes and metadata;
+6. review before changing deployment status to `approved`.
+
+Mapping must not run together with Nav2 navigation or a global relocalization
+backend. See `docs/phase2i_managed_mapping.md` for generic and old-car launch
+examples plus the candidate-map review gate.
+
+For the old-car integrated profile, `use_mapping:=true` also enables the
+mapping-only `/lio/cloud_registered_transformed` output and makes the mapping
+session consume it. With `use_mapping:=false`, that transformed output remains
+disabled and the normal navigation/LIO behavior is unchanged. The old-car
+mapping guard also rejects Nav2, real serial, and serial dry-run combinations.
+
+Generated occupancy and PCD artifacts always remain `candidate` until explicit
+human landmark and origin review. The verified PGM is no longer entirely
+unknown, but it is still visually noisy; later cleanup is allowed without
+blocking the Phase 2J real-map no-motion tests.
+
+The current old-car `fresh03` asset is an external occupancy-only candidate. It
+has passed strict decoding, live map-server cell comparison, AMCL alignment,
+static planning and one limited short navigation test. It must still be
+selected with `map_acceptance_policy:=allow_candidate`; it is not stored in Git
+and cannot be used as a GICP PCD map.
+
+Map runtime policy is explicit:
+
+```text
+map_acceptance_policy:=approved_only | allow_candidate | allow_test
+```
+
+`approved_only` remains the default. `allow_candidate` permits deliberate
+field experiments with unapproved but structurally valid assets, while
+`allow_test` is reserved for synthetic fixtures. The legacy
+`allow_test_map:=true` argument remains as an alias for `allow_test`.
+
+## Serial Dry-Run
+
+```bash
+ros2 launch rm_serial_driver serial_dry_run.launch.py
+```
+
+The dry-run node converts `/cmd_vel` into protocol bytes on `/serial/mock_tx`.
+It is useful for validating runtime timing and watchdog behavior before the
+real lower controller is connected. It never opens `/dev/tty*` and must not be
+used as proof that the final 2027 serial profile is correct.
+
+## Competition
+
+The old-car competition composition is:
+
+```bash
+ros2 launch rm_navigation_bringup old_car_2026_competition.launch.py
+```
+
+Its safe default starts nothing. Sensor, LIO, map, one relocalization backend,
+Nav2, real serial, referee interface, pursuit and mission remain independent
+opt-ins. The launch rejects real serial with mock target/safety authority,
+synthetic test maps or an auto-enabled mission. Synthetic referee data requires
+the explicit field-debug waiver described below. See
+`docs/phase3d_competition_bringup.md`.
+
+The three-point patrol/spin field candidate is separate:
+
+```bash
+ros2 launch rm_navigation_bringup old_car_2026_three_point_spin_test.launch.py
+```
+
+It binds the candidate map coordinates, Nav2 Spin mission, high-spin AMCL
+profile and elevated velocity limits. Hardware and motion switches remain
+explicit, and mission startup remains disabled. It is not the safe competition
+default.
+
+The no-hardware mission test is separate:
+
+```bash
+ros2 launch rm_navigation_bringup competition_no_hardware_test.launch.py \
+  enable_test:=true headless:=true
+```
+
+It uses Gazebo and explicit mocks, opens no serial device, and keeps the
+mission disabled until `/mission/set_mode` is called.
+
+Old-car field debugging may explicitly use synthetic referee state while the
+remote switch remains the physical chassis authority. This requires both
+`allow_field_debug_inputs:=true` and `use_operator_chassis_authority:=true`;
+the defaults remain false. Follow `docs/field_debug_competition_tutorial.md`
+rather than adapting the no-hardware command to a real robot.

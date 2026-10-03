@@ -1,0 +1,298 @@
+Running main() from /opt/ros/humble/src/gtest_vendor/src/gtest_main.cc
+[==========] Running 24 tests from 12 test suites.
+[----------] Global test environment set-up.
+[----------] 4 tests from PluginTest
+[ RUN      ] PluginTest.NativePluginScoresFutureAndWaitAndRejectsStale
+[INFO] [1791027600.085997451] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.086675680] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.086904464] [test_costmap.test_costmap]: Configuring
+[WARN] [1791027600.098222282] [critic_test]: DynamicObstacleCritic fails closed: missing_input
+[INFO] [1791027600.262078582] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.264633712] [test_costmap.test_costmap]: Destroying
+[       OK ] PluginTest.NativePluginScoresFutureAndWaitAndRejectsStale (205 ms)
+[ RUN      ] PluginTest.GridMismatchFailsInsteadOfTruncating
+[INFO] [1791027600.275028393] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.275479809] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.275664695] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.360377498] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.362717557] [test_costmap.test_costmap]: Destroying
+[       OK ] PluginTest.GridMismatchFailsInsteadOfTruncating (98 ms)
+[ RUN      ] PluginTest.DefaultNativeConsumerRejectsObservationSchema
+[INFO] [1791027600.372372390] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.372820060] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.373014163] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.458217292] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.460676888] [test_costmap.test_costmap]: Destroying
+[       OK ] PluginTest.DefaultNativeConsumerRejectsObservationSchema (98 ms)
+[ RUN      ] PluginTest.UnsupportedSchemaRejectsInitialization
+[INFO] [1791027600.470572316] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.471022826] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.471210498] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.474543733] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.476618990] [test_costmap.test_costmap]: Destroying
+[       OK ] PluginTest.UnsupportedSchemaRejectsInitialization (15 ms)
+[----------] 4 tests from PluginTest (416 ms total)
+
+[----------] 1 test from ObservationAnchorPluginTest
+[ RUN      ] ObservationAnchorPluginTest.NativeSchemaSelectionScoresV2AndRejectsV1Replacement
+[INFO] [1791027600.485288751] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.485705202] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.485895928] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.569814820] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.081
+[INFO] [1791027600.652078344] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.654435535] [test_costmap.test_costmap]: Destroying
+[       OK ] ObservationAnchorPluginTest.NativeSchemaSelectionScoresV2AndRejectsV1Replacement (179 ms)
+[----------] 1 test from ObservationAnchorPluginTest (179 ms total)
+
+[----------] 1 test from SoftStoppingPluginTest
+[ RUN      ] SoftStoppingPluginTest.EscapeWaitApproachStayDistinctInsidePlanningBand
+[INFO] [1791027600.664446820] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.664898346] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.665086776] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.667895619] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.669858590] [test_costmap.test_costmap]: Destroying
+[       OK ] SoftStoppingPluginTest.EscapeWaitApproachStayDistinctInsidePlanningBand (14 ms)
+[----------] 1 test from SoftStoppingPluginTest (14 ms total)
+
+[----------] 5 tests from StoppingPluginTest
+[ RUN      ] StoppingPluginTest.UnsupportedSoftModeParametersRejectInitialization
+[INFO] [1791027600.678775798] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.679212588] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.679400148] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.682334849] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.684394931] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.UnsupportedSoftModeParametersRejectInitialization (14 ms)
+[ RUN      ] StoppingPluginTest.DefaultMarginPreservesNearCellDecision
+[INFO] [1791027600.693424810] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.693864255] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.694048669] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.696629279] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.698595114] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.DefaultMarginPreservesNearCellDecision (14 ms)
+[ RUN      ] StoppingPluginTest.InvalidPlanningAllowancesRejectInitialization
+[INFO] [1791027600.707303463] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.707719951] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.707914657] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.710769649] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.713003475] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.InvalidPlanningAllowancesRejectInitialization (15 ms)
+[ RUN      ] StoppingPluginTest.ScoresNativeOffsetOneWithUnchangedRaw203Gate
+[INFO] [1791027600.721928996] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.722339114] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.722521666] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.725131970] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.727149412] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.ScoresNativeOffsetOneWithUnchangedRaw203Gate (13 ms)
+[ RUN      ] StoppingPluginTest.MeasuredStoppingTailAndMalformedGrid
+[INFO] [1791027600.735647334] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.736068956] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.736260444] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.738768442] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.740666869] [test_costmap.test_costmap]: Destroying
+[       OK ] StoppingPluginTest.MeasuredStoppingTailAndMalformedGrid (14 ms)
+[----------] 5 tests from StoppingPluginTest (70 ms total)
+
+[----------] 1 test from BufferedStoppingPluginTest
+[ RUN      ] BufferedStoppingPluginTest.PlanningAllowanceRejectsNearCellProposal
+[INFO] [1791027600.749105680] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.749522112] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.749706665] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.752276478] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.754301510] [test_costmap.test_costmap]: Destroying
+[       OK ] BufferedStoppingPluginTest.PlanningAllowanceRejectsNearCellProposal (14 ms)
+[----------] 1 test from BufferedStoppingPluginTest (14 ms total)
+
+[----------] 4 tests from SnapshotPluginTest
+[ RUN      ] SnapshotPluginTest.CompleteNativeDataAndCostsPreservedBitwise
+[INFO] [1791027600.762967166] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.763392033] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.763577936] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.766211458] [critic_test]: NativeSnapshot ordinal=0 capture_ms=0.194227000
+[INFO] [1791027600.766237387] [critic_test]: Native snapshot capture budget exhausted (1)
+[INFO] [1791027600.766291091] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.768349596] [test_costmap.test_costmap]: Destroying
+[       OK ] SnapshotPluginTest.CompleteNativeDataAndCostsPreservedBitwise (14 ms)
+[ RUN      ] SnapshotPluginTest.MalformedStateOnlyStopsEvidence
+[INFO] [1791027600.777013380] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.777425920] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.777607140] [test_costmap.test_costmap]: Configuring
+[ERROR] [1791027600.779850003] [critic_test]: Native evidence capture stopped: snapshot state shape mismatch
+[INFO] [1791027600.779918840] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.782034686] [test_costmap.test_costmap]: Destroying
+[       OK ] SnapshotPluginTest.MalformedStateOnlyStopsEvidence (13 ms)
+[ RUN      ] SnapshotPluginTest.ExistingFailureFlagIsNeverCleared
+[INFO] [1791027600.790578965] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.790998197] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.791187583] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.793631594] [critic_test]: Native snapshot capture budget exhausted (1)
+[INFO] [1791027600.793675003] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.795715728] [test_costmap.test_costmap]: Destroying
+[       OK ] SnapshotPluginTest.ExistingFailureFlagIsNeverCleared (14 ms)
+[ RUN      ] SnapshotPluginTest.ExistingEvidenceIsNeverOverwrittenAndControlUnchanged
+[INFO] [1791027600.804510812] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.804931820] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.805117444] [test_costmap.test_costmap]: Configuring
+[ERROR] [1791027600.807512372] [critic_test]: Native evidence capture stopped: refusing to overwrite native snapshot
+[INFO] [1791027600.807573397] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.809562642] [test_costmap.test_costmap]: Destroying
+[       OK ] SnapshotPluginTest.ExistingEvidenceIsNeverOverwrittenAndControlUnchanged (14 ms)
+[----------] 4 tests from SnapshotPluginTest (55 ms total)
+
+[----------] 1 test from DisabledSnapshotPluginTest
+[ RUN      ] DisabledSnapshotPluginTest.DisabledCaptureHasNoSideEffects
+[INFO] [1791027600.818363645] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.818772794] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.818967576] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.821180132] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.823394861] [test_costmap.test_costmap]: Destroying
+[       OK ] DisabledSnapshotPluginTest.DisabledCaptureHasNoSideEffects (14 ms)
+[----------] 1 test from DisabledSnapshotPluginTest (14 ms total)
+
+[----------] 1 test from ObservationEvidencePluginTest
+[ RUN      ] ObservationEvidencePluginTest.V2VisibleActualScoreAndBudgetArePreserved
+[INFO] [1791027600.832122220] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.832537705] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.832721776] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027600.917278047] [critic_test]: DynamicEvidence ordinal=0 capture_ms=0.283523000
+[INFO] [1791027600.917360683] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.000
+[INFO] [1791027600.918218447] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027600.920522728] [test_costmap.test_costmap]: Destroying
+[       OK ] ObservationEvidencePluginTest.V2VisibleActualScoreAndBudgetArePreserved (97 ms)
+[----------] 1 test from ObservationEvidencePluginTest (98 ms total)
+
+[----------] 1 test from NominalObservationEvidencePluginTest
+[ RUN      ] NominalObservationEvidencePluginTest.V2NominalActualScoreAndBudgetArePreserved
+[INFO] [1791027600.930104426] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027600.930555869] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027600.930740746] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027601.015365155] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.800 age=0.000
+[INFO] [1791027601.016153308] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027601.018539591] [test_costmap.test_costmap]: Destroying
+[       OK ] NominalObservationEvidencePluginTest.V2NominalActualScoreAndBudgetArePreserved (98 ms)
+[----------] 1 test from NominalObservationEvidencePluginTest (98 ms total)
+
+[----------] 2 tests from OneDynamicEvidencePluginTest
+[ RUN      ] OneDynamicEvidencePluginTest.MovingInputWithCaptureAndBudgetExhaustionIsBitExact
+[INFO] [1791027601.028601468] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027601.029046468] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027601.029232777] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027601.113740484] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.000
+[INFO] [1791027601.114478641] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027601.116497110] [test_costmap.test_costmap]: Destroying
+[       OK ] OneDynamicEvidencePluginTest.MovingInputWithCaptureAndBudgetExhaustionIsBitExact (97 ms)
+[ RUN      ] OneDynamicEvidencePluginTest.StaticInputHasIdenticalCostsWithAndWithoutRecording
+[INFO] [1791027601.125825816] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027601.126272215] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027601.126460188] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027601.210817986] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,0.000) radius=0.360 age=0.000
+[INFO] [1791027601.211589015] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027601.214016070] [test_costmap.test_costmap]: Destroying
+[       OK ] OneDynamicEvidencePluginTest.StaticInputHasIdenticalCostsWithAndWithoutRecording (98 ms)
+[----------] 2 tests from OneDynamicEvidencePluginTest (195 ms total)
+
+[----------] 2 tests from DynamicEvidencePluginTest
+[ RUN      ] DynamicEvidencePluginTest.EmptyInputIsRecordedAndStaleReplacementStillFailsClosed
+[INFO] [1791027601.223743519] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027601.224193726] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027601.224381593] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027601.308698220] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.000
+[INFO] [1791027601.471945633] [critic_test]: DynamicEvidence ordinal=1 capture_ms=0.228555000
+[INFO] [1791027601.472770128] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027601.475097767] [test_costmap.test_costmap]: Destroying
+[       OK ] DynamicEvidencePluginTest.EmptyInputIsRecordedAndStaleReplacementStillFailsClosed (261 ms)
+[ RUN      ] DynamicEvidencePluginTest.ExistingMetadataStopsEvidenceWithoutChangingCostsOrFailureFlag
+[INFO] [1791027601.484644795] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027601.485097317] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027601.485287731] [test_costmap.test_costmap]: Configuring
+[ERROR] [1791027601.569788611] [critic_test]: Dynamic consumption evidence stopped: refusing to overwrite dynamic evidence
+[INFO] [1791027601.569867830] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.000
+[INFO] [1791027601.570571282] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027601.572692485] [test_costmap.test_costmap]: Destroying
+[       OK ] DynamicEvidencePluginTest.ExistingMetadataStopsEvidenceWithoutChangingCostsOrFailureFlag (98 ms)
+[----------] 2 tests from DynamicEvidencePluginTest (359 ms total)
+
+[----------] 1 test from DisabledDynamicEvidencePluginTest
+[ RUN      ] DisabledDynamicEvidencePluginTest.DisabledCriticCreatesNoEvidenceOrCostChanges
+[INFO] [1791027601.582633586] [test_costmap.test_costmap]: 
+	test_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791027601.583080937] [test_costmap.test_costmap]: Creating Costmap
+[INFO] [1791027601.583270912] [test_costmap.test_costmap]: Configuring
+[INFO] [1791027601.586539707] [test_costmap.test_costmap]: Cleaning up
+[INFO] [1791027601.588567093] [test_costmap.test_costmap]: Destroying
+[       OK ] DisabledDynamicEvidencePluginTest.DisabledCriticCreatesNoEvidenceOrCostChanges (15 ms)
+[----------] 1 test from DisabledDynamicEvidencePluginTest (15 ms total)
+
+[----------] Global test environment tear-down
+[==========] 24 tests from 12 test suites ran. (1528 ms total)
+[  PASSED  ] 24 tests.

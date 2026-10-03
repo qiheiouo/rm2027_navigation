@@ -1,0 +1,46 @@
+{
+  "checks": {
+    "half_diameter": true,
+    "new_refuses_v1": true,
+    "nominal_old_processed_refuses_v2": true,
+    "nominal_processed": true,
+    "nominal_processed_repeated_raw_arithmetic": true,
+    "nominal_raw_risk_after_bits": true,
+    "nominal_risk": true,
+    "old_refuses_v2": true,
+    "oversize_prior": true,
+    "processed_risk_ulp_rejected": true,
+    "trailing_input": true,
+    "truncated_input": true,
+    "unknown_radius_enum": true,
+    "visible_old_processed_refuses_v2": true,
+    "visible_processed": true,
+    "visible_processed_repeated_raw_arithmetic": true,
+    "visible_raw_risk_after_bits": true,
+    "visible_risk": true
+  },
+  "helper_sha256": {
+    "evaluate_observation_processed_cv": "469eab33026009545cda4b3e2b82f1a4b63b1521d21126d091e3d54d5e1d6348",
+    "evaluate_processed_cv": "c504f6480539635bf6faa2c88923ba3afa68cd3d67c37ef5aa2db9693cd728dd",
+    "replay_dynamic_consumption": "d5298824fe59482a5b1de8c4c8f0279d631b9eda6a796bd8842d1288c1b05abf",
+    "replay_observation_consumption": "f08e2c19e1f76411b0d108a1189719f28eb1436934a1f01636c2c4e52e11ca04"
+  },
+  "outputs": {
+    "nominal": {
+      "batch": 2,
+      "input_sha256": "46dedf3dcba68e24c445186a0ff92b529fc10dbfb24b04a2230f548a4f4758ff",
+      "processed_sha256": "f54badf5ca46912473d9582a127671f31b6df0eb67b50180132628bb1fbce10a",
+      "risk_sha256": "72c904a7d6a382610f1bc621e168be0b5cdc6740a40cfd6ea0c0b46f3cd6066f",
+      "steps": 30
+    },
+    "visible": {
+      "batch": 2,
+      "input_sha256": "59e2529cfd1d748a725cf9406e58e3fc30d4648e63b9fb1aab448ce7fb83adff",
+      "processed_sha256": "ed3f122904bb18fca538e79432c297baec8241ae01f7f82e8d6aa0f73cd0ef8d",
+      "risk_sha256": "ebb9d718e5d5795e07a5b5d7196e965591672674f428ec1bf5450bd34ad16000",
+      "steps": 30
+    }
+  },
+  "scope": "CPP-fixture protocol/arithmetic only; processed fixture paths repeat raw paths, no SG or physical acceptance.",
+  "status": "PASS"
+}

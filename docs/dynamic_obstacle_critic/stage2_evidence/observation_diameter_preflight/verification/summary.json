@@ -1,0 +1,43 @@
+{
+  "checks": {
+    "54_tracker_tests": true,
+    "57_actual_native_tests": true,
+    "actual_cpp_fixture:nominal.bin": true,
+    "actual_cpp_fixture:nominal.json": true,
+    "actual_cpp_fixture:visible.bin": true,
+    "actual_cpp_fixture:visible.json": true,
+    "actual_guard:nominal": true,
+    "actual_guard:visible": true,
+    "actual_profiles": true,
+    "actual_tools": true,
+    "actual_v1_regression": true,
+    "default_core_byte_exact": true,
+    "default_wire_semantic_exact": true,
+    "python:test_conditional_cv_support.py": true,
+    "python:test_conditional_observation_support.py": true,
+    "python:test_dynamic_consumption_io.py": true,
+    "python:test_observation_consumption_io.py": true,
+    "python:test_observation_profile_selection.py": true,
+    "sdk_libraries_unchanged": true
+  },
+  "dependency_manifests": {
+    "anchor": "1370e1ac0d0fc6653a30183bd2d6e06afa4922851469633a07d1d8c4e41b91ac",
+    "v1": "a2adeed5ddd006a00c95a6926824b0b5a56adb1b04ff4f3ecb34fd3ec97ec0a5"
+  },
+  "helper_sha256": {
+    "evaluate_observation_processed_cv": "469eab33026009545cda4b3e2b82f1a4b63b1521d21126d091e3d54d5e1d6348",
+    "evaluate_processed_cv": "c504f6480539635bf6faa2c88923ba3afa68cd3d67c37ef5aa2db9693cd728dd",
+    "replay_dynamic_consumption": "d5298824fe59482a5b1de8c4c8f0279d631b9eda6a796bd8842d1288c1b05abf",
+    "replay_observation_consumption": "f08e2c19e1f76411b0d108a1189719f28eb1436934a1f01636c2c4e52e11ca04"
+  },
+  "native_tests": 57,
+  "runtime_elf_sha256": {
+    "rm_dynamic_obstacle_critic/lib/librm_dynamic_obstacle_critic.so": "890081d8137d57b7acdad016411abc570d27794a27fcfd517378564208c862c1",
+    "rm_dynamic_obstacle_critic/lib/librm_native_cost_accumulator_observer.so": "cf649563b93f7ebaae4b027385806b2c392245c4a749268090815be2f5d9ee95",
+    "rm_dynamic_obstacle_critic/lib/rm_dynamic_obstacle_critic/dynamic_safety_guard": "956d358458b7b82173ddada31e0a09f43e4eb2db8519125fd163aec20ea30556",
+    "rm_dynamic_obstacle_critic/lib/rm_dynamic_obstacle_critic/native_command_observer": "c1b704d3892f025ae0620cf2a01785a7247a47a3f02be8cd418a92c0d2236983"
+  },
+  "schema": 1,
+  "scope": "Actual preflight/reexecution only; processed fixture repeats raw paths. No Gazebo physical/task acceptance, real e/B unknown.",
+  "status": "PASS"
+}
