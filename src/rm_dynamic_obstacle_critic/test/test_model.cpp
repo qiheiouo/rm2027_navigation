@@ -124,6 +124,75 @@ TEST(CV, FutureConflictAndCrossing) {
   EXPECT_GT(wait.minimum_clearance, .5);
   EXPECT_EQ(d::validate(a, 10, lim), "");
 }
+TEST(CV, ObservationSchemaRequiresExplicitSelectionAndConsistentEpochs) {
+  auto a = obstacles(1, -1, 0, 1);
+  d::Limits limits;
+  a.schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;
+  EXPECT_EQ(d::validate(a, 10., limits), "schema_or_frame");
+  limits.input_schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;
+  EXPECT_EQ(d::validate(a, 10., limits), "");
+  a.tracks[0].last_observation_stamp.nanosec = 999999999;
+  a.tracks[0].last_observation_stamp.sec = 9;
+  EXPECT_EQ(d::validate(a, 10., limits), "observation_anchor_epoch");
+  a.tracks[0].state = d::Obstacle::STATE_COASTING;
+  EXPECT_EQ(d::validate(a, 10., limits), "");
+  a.tracks[0].last_observation_stamp = a.header.stamp;
+  EXPECT_EQ(d::validate(a, 10., limits), "observation_anchor_epoch");
+  a.schema = d::Array::SCHEMA;
+  EXPECT_EQ(d::validate(a, 10., limits), "schema_or_frame");
+  limits.input_schema = "unknown_schema";
+  EXPECT_EQ(d::validate(a, 10., limits), "schema_or_frame");
+}
+TEST(CV, SchemaTransitionReplacesSnapshotAndRefusesMixedAnchorJumpComparison) {
+  auto a = obstacles(1, 0, 0, 0);
+  d::Limits limits;
+  d::InputCache cache;
+  cache.receive(std::make_shared<d::Array>(a), limits);
+  a.schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;
+  a.header.stamp.nanosec = 100000000;
+  a.tracks[0].last_observation_stamp = a.header.stamp;
+  a.tracks[0].position.x = 100.;
+  cache.receive(std::make_shared<d::Array>(a), limits);
+  std::string reason;
+  EXPECT_EQ(cache.get(reason)->tracks[0].position.x, 100.);
+  EXPECT_EQ(reason, "schema_change");
+}
+TEST(CV, ObservationCoastingCannotHideFutureNanosecondsInFloatEpochRounding) {
+  auto a = obstacles(1, 0, 0, 0);
+  a.schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;
+  a.header.stamp.sec = 1700000000;
+  a.header.stamp.nanosec = 123456789;
+  a.tracks[0].state = d::Obstacle::STATE_COASTING;
+  a.tracks[0].last_observation_stamp = a.header.stamp;
+  d::Limits limits; limits.input_schema = a.schema;
+  a.tracks[0].last_observation_stamp.nanosec += 1;
+  ASSERT_EQ(d::seconds(a.header.stamp), d::seconds(a.tracks[0].last_observation_stamp));
+  EXPECT_EQ(d::validate(a, d::seconds(a.header.stamp), limits), "observation_anchor_epoch");
+  a.tracks[0].last_observation_stamp.nanosec -= 2;
+  EXPECT_EQ(d::validate(a, d::seconds(a.header.stamp), limits), "");
+  a.tracks[0].last_observation_stamp.nanosec = 1000000000u;
+  EXPECT_NE(d::validate(a, d::seconds(a.header.stamp), limits), "");
+}
+TEST(CV, ObservationAnchoredPredictionStillUsesWholeSourceAgeAndNativeFutureGrid) {
+  auto a = obstacles(2., -1., .5, -.25);
+  a.schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;
+  // q_o=(1.75,-.875), coast=.5 is already included in public position.
+  a.tracks[0].state = d::Obstacle::STATE_COASTING;
+  a.tracks[0].last_observation_stamp.sec = 9;
+  a.tracks[0].last_observation_stamp.nanosec = 500000000;
+  d::Limits limits;
+  limits.input_schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;
+  limits.max_observation_age = 1.;
+  ASSERT_EQ(d::validate(a, 10.125, limits), "");
+  const auto p = d::predict(a.tracks[0], .125, 3.);
+  EXPECT_EQ(p.x, 1.75 + .5*(.5+.125+3.));
+  EXPECT_EQ(p.y, -.875 - .25*(.5+.125+3.));
+  a.tracks[0].prediction.resize(30);
+  for (auto &display : a.tracks[0].prediction) display.x = 999.;
+  const auto after = d::predict(a.tracks[0], .125, 3.);
+  EXPECT_EQ(after.x, p.x);
+  EXPECT_EQ(after.y, p.y); // consumer never parses display geometry
+}
 TEST(CV, CurrentOccupancyFutureRelease) {
   auto a = obstacles(1, 0, 0, 1);
   d::Limits lim;

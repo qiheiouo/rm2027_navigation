@@ -156,6 +156,10 @@ Duplicate TF publication is a contract violation and must block Phase 1 acceptan
 ## Experimental Dynamic Avoidance Consumers
 
 `rm_dynamic_obstacle_tracking` and `rm_dynamic_obstacle_critic` own no TF edge.
+The explicit observation-anchor schema also owns no TF. Its latest measurement
+uses the existing scan-source TF projection; coasting advances that world anchor
+in time. It does not substitute processing time, change world-frame alignment,
+or add an object/body TF. The integer observation stamp is metadata only.
 The opt-in CV course uses the existing simulation owners: map/odom stub,
 `lio_adapter`, and `robot_state_publisher`. No Gazebo pose topic is bridged to TF.
 

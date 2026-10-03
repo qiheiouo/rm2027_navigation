@@ -106,6 +106,17 @@ class DynamicObstacleTrackerNode(Node):
         self._prediction_max_tracks = int(
             self.declare_parameter("prediction.max_tracks", 64).value
         )
+        self._anchor_mode = self.declare_parameter(
+            "prediction.anchor_mode", "filtered"
+        ).value
+        schemas = {
+            "filtered": DynamicObstaclePredictionArray.SCHEMA,
+            "last_observation_cv": DynamicObstaclePredictionArray.SCHEMA_OBSERVATION_ANCHOR,
+        }
+        if self._anchor_mode not in schemas:
+            raise ValueError("unsupported prediction.anchor_mode")
+        self._prediction_schema = schemas[self._anchor_mode]
+        self._observation_stamp_ns: dict[int, int] = {}
         if not 1 <= self._prediction_steps <= 1000:
             raise ValueError("prediction.steps must be in [1, 1000]")
         if not 1 <= self._prediction_max_tracks <= 256:
@@ -148,6 +159,7 @@ class DynamicObstacleTrackerNode(Node):
             max_prediction_speed=float(
                 self.declare_parameter("prediction.max_speed", 3.0).value
             ),
+            public_anchor_mode=self._anchor_mode,
         )
         self._map: OccupancyMap | None = None
         self._tf_buffer = Buffer(cache_time=Duration(seconds=15.0))
@@ -310,7 +322,8 @@ class DynamicObstacleTrackerNode(Node):
             self._map,
             self._detection_static_distance_threshold,
         )
-        update = self._tracker.update(detections, stamp.nanoseconds / 1.0e9)
+        update = self._tracker.update(detections, stamp.nanoseconds / 1.0e9,
+            source_stamp_ns=stamp.nanoseconds if self._anchor_mode == "last_observation_cv" else None)
         visible_tracks = [
             track
             for track in update.tracks
@@ -336,7 +349,7 @@ class DynamicObstacleTrackerNode(Node):
         output = DynamicObstaclePredictionArray()
         output.header.frame_id = self._map_frame
         output.header.stamp = message.header.stamp
-        output.schema = DynamicObstaclePredictionArray.SCHEMA
+        output.schema = self._prediction_schema
         output.authority = DynamicObstaclePredictionArray.AUTHORITY_SHADOW_ONLY
         output.processing_stamp = self.get_clock().now().to_msg()
         output.prediction_dt = self._prediction_dt
@@ -348,6 +361,18 @@ class DynamicObstacleTrackerNode(Node):
             TrackState.CONFIRMED: DynamicObstaclePrediction.STATE_CONFIRMED,
             TrackState.COASTING: DynamicObstaclePrediction.STATE_COASTING,
         }
+        if self._anchor_mode == "last_observation_cv":
+            # Preserve integer ROS observation epochs: float seconds cannot
+            # round-trip nanoseconds at wall-clock epoch magnitudes.
+            source_ns = Time.from_msg(message.header.stamp).nanoseconds
+            live_ids = {track.track_id for track in tracks}
+            self._observation_stamp_ns = {
+                key: value for key, value in self._observation_stamp_ns.items()
+                if key in live_ids
+            }
+            for track in tracks:
+                if track.misses == 0:
+                    self._observation_stamp_ns[track.track_id] = source_ns
         ordered_tracks = sorted(
             tracks,
             key=lambda track: (
@@ -370,7 +395,9 @@ class DynamicObstacleTrackerNode(Node):
             prediction.size.x = track.size_x
             prediction.size.y = track.size_y
             prediction.last_observation_stamp = Time(
-                nanoseconds=round(track.last_observation_timestamp * 1.0e9)
+                nanoseconds=(self._observation_stamp_ns[track.track_id]
+                    if self._anchor_mode == "last_observation_cv" else
+                    round(track.last_observation_timestamp * 1.0e9))
             ).to_msg()
             prediction.observation_count = track.observations
             prediction.miss_count = track.misses
@@ -495,6 +522,8 @@ class DynamicObstacleTrackerNode(Node):
         status.message = state
         values = {
             "authority": "shadow_only",
+            "prediction_schema": self._prediction_schema,
+            "anchor_mode": self._anchor_mode,
             "input_scan": self._scan_topic,
             "input_map": self._map_topic,
             "scan_frame": message.header.frame_id,

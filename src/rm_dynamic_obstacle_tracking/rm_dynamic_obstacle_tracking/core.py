@@ -465,6 +465,8 @@ class _Track:
     size_y: float
     initial_x: float
     initial_y: float
+    last_observation_position: Point2D
+    last_observation_stamp_ns: int | None = None
     observations: int = 1
     consecutive_hits: int = 1
     misses: int = 0
@@ -488,6 +490,7 @@ class MultiObjectTracker:
         velocity_decay_tau: float = 1.5,
         max_prediction_speed: float = 3.0,
         max_update_dt: float = 0.5,
+        public_anchor_mode: str = "filtered",
     ) -> None:
         if association_gate <= 0.0 or process_noise < 0.0:
             raise ValueError("invalid tracker noise or association parameters")
@@ -503,6 +506,13 @@ class MultiObjectTracker:
             raise ValueError("invalid track lifecycle parameters")
         if prediction_steps < 0 or prediction_dt <= 0.0 or max_update_dt <= 0.0:
             raise ValueError("invalid tracker timing parameters")
+        if public_anchor_mode not in ("filtered", "last_observation_cv"):
+            raise ValueError("unsupported public anchor mode")
+        if public_anchor_mode == "last_observation_cv" and (
+            velocity_decay_tau != 0.0 or max_prediction_speed != 0.0
+        ):
+            raise ValueError("observation anchor requires unclipped, undecayed CV display")
+        self.public_anchor_mode = public_anchor_mode
         self.association_gate = association_gate
         self.process_noise = process_noise
         self.measurement_noise = measurement_noise
@@ -521,9 +531,14 @@ class MultiObjectTracker:
         self._next_id = 1
         self._last_stamp: float | None = None
 
-    def update(self, detections: Sequence[Detection], stamp: float) -> TrackerUpdate:
+    def update(self, detections: Sequence[Detection], stamp: float,
+               source_stamp_ns: int | None = None) -> TrackerUpdate:
         if not math.isfinite(stamp):
             raise ValueError("tracker timestamp must be finite")
+        if source_stamp_ns is not None and (
+            type(source_stamp_ns) is not int or stamp != source_stamp_ns / 1.0e9
+        ):
+            raise ValueError("integer source epoch must match tracker seconds")
         time_reset = self._last_stamp is not None and stamp <= self._last_stamp
         if time_reset:
             deleted = len(self._tracks)
@@ -596,6 +611,8 @@ class MultiObjectTracker:
                     detection.centroid.y - track.initial_y,
                 )
                 track.last_update = stamp
+                track.last_observation_position = detection.centroid
+                track.last_observation_stamp_ns = source_stamp_ns
                 track.observations += 1
                 track.consecutive_hits += 1
                 track.misses = 0
@@ -638,6 +655,8 @@ class MultiObjectTracker:
                 size_y=detection.size_y,
                 initial_x=detection.centroid.x,
                 initial_y=detection.centroid.y,
+                last_observation_position=detection.centroid,
+                last_observation_stamp_ns=source_stamp_ns,
             )
             if (
                 self.min_hits_to_confirm <= 1
@@ -648,10 +667,21 @@ class MultiObjectTracker:
             self._next_id += 1
             created += 1
 
-        snapshots = tuple(self._snapshot(track, stamp) for track in self._tracks)
+        snapshots = tuple(self._snapshot(track, stamp, source_stamp_ns) for track in self._tracks)
         return TrackerUpdate(snapshots, created, deleted, time_reset)
 
-    def _snapshot(self, track: _Track, stamp: float) -> TrackSnapshot:
+    def _snapshot(self, track: _Track, stamp: float,
+                  source_stamp_ns: int | None = None) -> TrackSnapshot:
+        position = Point2D(track.x_filter.position, track.y_filter.position)
+        if self.public_anchor_mode == "last_observation_cv":
+            # Real source-time elapsed duration, independent of Kalman dt clipping.
+            coast_time = stamp - track.last_update
+            if source_stamp_ns is not None and track.last_observation_stamp_ns is not None:
+                coast_time = (source_stamp_ns - track.last_observation_stamp_ns) / 1.0e9
+            position = Point2D(
+                track.last_observation_position.x + track.x_filter.velocity * coast_time,
+                track.last_observation_position.y + track.y_filter.velocity * coast_time,
+            )
         velocity_x = track.x_filter.velocity
         velocity_y = track.y_filter.velocity
         speed = math.hypot(velocity_x, velocity_y)
@@ -670,14 +700,14 @@ class MultiObjectTracker:
             )
             prediction.append(
                 Point2D(
-                    track.x_filter.position + velocity_x * effective_time,
-                    track.y_filter.position + velocity_y * effective_time,
+                    position.x + velocity_x * effective_time,
+                    position.y + velocity_y * effective_time,
                 )
             )
         return TrackSnapshot(
             track_id=track.track_id,
             state=track.state,
-            position=Point2D(track.x_filter.position, track.y_filter.position),
+            position=position,
             velocity=Point2D(track.x_filter.velocity, track.y_filter.velocity),
             size_x=track.size_x,
             size_y=track.size_y,

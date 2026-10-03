@@ -1,5 +1,18 @@
 # rm_dynamic_obstacle_tracking
 
+`experiment/observation-anchor-cv` adds the explicit
+`prediction.anchor_mode=last_observation_cv` mode. It retains the most recent
+associated detection centroid, then advances it to the scan epoch using the
+current filter velocity. Coasting uses the full observation-to-scan duration.
+It requires `prediction.velocity_decay_tau=0.0` and `prediction.max_speed=0.0`
+so display points match the public CV anchor. Schema is
+`rm_dynamic_obstacle_predictions/v2_observation_anchor`; integer ROS observation
+stamps survive publication without a float-seconds round trip. Markers and
+diagnostics use the same selected anchor. Default `filtered` mode and v1 data
+remain numerically unchanged. Association, filter and visible extent estimation
+are shared and unchanged; neither mode certifies full object geometry or motion.
+See [registration and preflight evidence](../../docs/dynamic_obstacle_critic/observation_anchor_cv_experiment.md).
+
 The CV experiment consumes this package through its existing public prediction
 message. `position` estimates the **visible cluster centroid** and `size` the
 visible cluster extent; neither is a validated physical object center/footprint.
@@ -45,7 +58,7 @@ commands. Its outputs are:
 
 The versioned prediction array is the only machine-readable consumer boundary.
 It carries the scan source stamp, prediction step, state, visible extents and
-filtered anchors. `complete` indicates output-budget completeness; it does not
+the schema-selected anchors. `complete` indicates output-budget completeness; it does not
 certify detection completeness or physical geometry. Display speed may be
 clipped/decayed, while the published velocity remains the filter estimate.
 See [the geometry and unknown-bound contract](../../docs/contracts/dynamic_obstacle_geometry_contract_2027.md).

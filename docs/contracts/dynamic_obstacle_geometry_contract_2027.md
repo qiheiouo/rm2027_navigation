@@ -7,6 +7,16 @@
 
 ## 既有字段的实际含义
 
+表中描述默认 v1。显式 `prediction.anchor_mode=last_observation_cv` 采用
+`rm_dynamic_obstacle_predictions/v2_observation_anchor`，只改变 position 的
+锚点语义：最近真实关联检测质心 q_o，由本次滤波速度 v_hat 外推至
+scan 源时间 s，`position=q_o+v_hat*(s-o)`。匹配/滤波/可见尺寸算法
+保持；显示严格使用未裁剪、未衰减 CV，整数 ROS 观测 stamp 原样保留。
+critic/guard 静态 input_schema 必须同步选择，schema 转换拒绝并替换
+旧快照，非 coasting 的 o 必须等于 s、coasting 的 o 必须早于 s。
+公开字段仍无真实误差界或完整轮廓；错关联的质心也不属于真实物体。
+详见[实验登记](../dynamic_obstacle_critic/observation_anchor_cv_experiment.md)。
+
 | 字段/数据 | 生成与时间 | 可以表达 | 尚不能表达 |
 |---|---|---|---|
 | array.header.stamp / frame_id | 输入LaserScan源时间，map世界frame | 该次更新的滤波状态epoch；扫描通过源时间TF投影 | 发布到达时间、完整物体瞬时几何或逐束同步误差界 |
@@ -24,6 +34,14 @@
 补读这些内容；不能把`confirmed`等同几何/动力学认证。
 
 ## 当前和未来支持是两个条件
+
+观测锚点模式的条件支持从 o 起算，不能从更新后的 s 重新开始：
+`h=(s-o)+(n-s)+t`，`R=D(o)+e(o)+(B+|v_hat|)*h`。其中 e 必须覆盖
+测量、source-time TF、关联及表示/运算误差，B 约束完整投影而非仅
+车体平移。`conditional_observation_support.py` 只做条件数学，显式
+last_observation_epoch 与 observation-origin motion semantics；未知或
+到期仍输出 UNKNOWN/null。旧 source-epoch 数学接口保持原样。该公式
+未接入在线半径，默认可见尺寸圆依旧无法证明三秒真实支持。
 
 对物体某时刻完整机械投影集合S，其直径有可信上界D；若锚点q到
 conv(S)距离另有可信上界e，则任意p∈S满足`|p-q|≤D+e`。q不必

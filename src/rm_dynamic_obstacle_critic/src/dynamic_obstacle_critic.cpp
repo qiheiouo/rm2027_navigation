@@ -28,6 +28,8 @@ public:
     get(horizon_, "prediction_horizon", 3.0, ParameterType::Static);
     get(limits_.input_frame, "input_frame", std::string("map"),
         ParameterType::Static);
+    get(limits_.input_schema, "input_schema", std::string(dyn::Array::SCHEMA),
+        ParameterType::Static);
     get(limits_.max_tf_age, "max_tf_age", 0.1, ParameterType::Static);
     int max_tracks;
     get(max_tracks, "max_tracks", 64, ParameterType::Static);
@@ -71,7 +73,8 @@ public:
         throw std::invalid_argument("nonfinite CV critic parameter");
     if (time_steps_ <= 0 || model_dt_ <= 0 || !std::isfinite(horizon_) ||
         std::abs(time_steps_ * model_dt_ - horizon_) > 1e-6 ||
-        limits_.input_frame.empty() || limits_.max_tf_age <= 0 ||
+        limits_.input_frame.empty() || !dyn::supported_schema(limits_.input_schema) ||
+        limits_.max_tf_age <= 0 ||
         limits_.max_age <= 0 || limits_.max_observation_age <= 0 ||
         limits_.max_speed <= 0 || limits_.max_extent <= 0 ||
         limits_.minimum_radius <= 0 || limits_.jump_tolerance < 0 ||
@@ -80,6 +83,8 @@ public:
         cost_.collision_cost <= 0 || diagnostics_period_ <= 0)
       throw std::invalid_argument(
           "invalid CV critic parameters or MPPI/prediction horizon mismatch");
+    if (limits_.input_schema != dyn::Array::SCHEMA && !evidence_directory.empty())
+      throw std::invalid_argument("v2 observation evidence replay is not yet registered");
     evidence_.configure(enabled_?evidence_directory:std::string(""),evidence_maximum);
     tf_ = costmap_ros_->getTfBuffer();
     sub_ = node->create_subscription<dyn::Array>(

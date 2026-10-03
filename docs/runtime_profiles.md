@@ -1,5 +1,16 @@
 # Runtime Profiles
 
+The isolated `experiment/observation-anchor-cv` interface mode requires three
+tracker parameters: `prediction.anchor_mode=last_observation_cv`,
+`prediction.velocity_decay_tau=0.0`, `prediction.max_speed=0.0`. Both critic and
+guard must explicitly select
+`input_schema=rm_dynamic_obstacle_predictions/v2_observation_anchor`. Existing
+profiles keep v1 and do not enable this mode. No new TF, topic route or controller
+composition is introduced. V2 rejects file consumption evidence until a complete
+read/replay protocol is registered; interface preflight is not a closed-loop
+profile or deployment acceptance. See
+[the registered boundary](dynamic_obstacle_critic/observation_anchor_cv_experiment.md).
+
 ## Experimental CV Dynamic Avoidance
 
 `ros2 launch rm_dynamic_obstacle_critic cv_course.launch.py enabled:=true`

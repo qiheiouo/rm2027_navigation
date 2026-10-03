@@ -66,6 +66,16 @@ ongoing work follows [the stage-two plan](../dynamic_obstacle_critic/stage2_plan
 | `/dynamic_guard/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | guard | evidence observer | final pass/brake, source stamps, rejected response branch/time/pose, first rejecting raw cell |
 | `/static_stopping/diagnostics` | `diagnostic_msgs/msg/DiagnosticArray` | optional experimental StaticStoppingCritic | evidence observer | count of passing unsmoothed candidate proxies and score timing; experiment branch only, no final-command certificate |
 
+The explicit observation-anchor mode reuses the prediction topic and serialized
+fields with schema `rm_dynamic_obstacle_predictions/v2_observation_anchor`.
+`position=q_last_observation+velocity*(scan_source-last_observation)`; coasting
+includes the full elapsed interval, and the observation stamp retains integer
+ROS precision. Both consumers strictly select `input_schema`; the default only
+accepts v1. Complete/count remain output-budget indicators, with no detection,
+association, physical geometry or future-motion guarantee. No markers or private
+perception state become consumer inputs. See
+[the interface experiment](../dynamic_obstacle_critic/observation_anchor_cv_experiment.md).
+
 Only the explicit isolated `cv_course.launch.py enabled:=true` composition
 routes guard output to `/cmd_vel` for the simulation chassis stub. It must
 verify that the guard is the sole publisher there. Baseline/critic comparisons

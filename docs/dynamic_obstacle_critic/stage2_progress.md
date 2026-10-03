@@ -603,3 +603,12 @@ unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
 算法保留。新模式显式schema配对，coasting条件半径从最后观测起算，
 真实e/B仍unknown。实施及预运行门见
 [登记](observation_anchor_cv_experiment.md)；尚无新闭环接受结论。
+
+观测模式已实现：真实关联质心＋未裁剪/衰减 CV，coasting 使用完整
+整数源时间差，观测 stamp 精确保留；消费者只接受所选 schema，
+混合语义/未来1ns/错误coasting epoch均拒绝。原v1关联/滤波及公开
+字段保持，未知完整几何/真实e/B不变，v2旧文件证据路径显式拒绝。
+53原生、54tracker/ROS、两组7guard及8+6数学通过；旧core2400更新
+逐值同，200默认CDR逐语义字节同，非确定性padding独立保存且明确
+解析，所有非padding篡改拒绝。三类初始夹具/比较失败全部保留。
+这只完成可复现接口预运行，尚未解决完整未来几何与guard通行任务。

@@ -30,6 +30,7 @@ public:
     odom_timeout_ = declare_parameter("odom_timeout", 0.15);
     map_timeout_ = declare_parameter("costmap_timeout", 0.5);
     limits_.input_frame = declare_parameter("input_frame", std::string("map"));
+    limits_.input_schema = declare_parameter("input_schema", std::string(dyn::Array::SCHEMA));
     limits_.max_tf_age = declare_parameter("max_tf_age", 0.1);
     int max_tracks = declare_parameter("max_tracks", 64);
     if (max_tracks < 1 || max_tracks > 256)
@@ -87,7 +88,8 @@ public:
         throw std::invalid_argument(
             "guard parameters must be finite and positive");
     if (!std::isfinite(limits_.jump_tolerance) || limits_.jump_tolerance < 0 ||
-        limits_.input_frame.empty() || input_ == output_ || frame_.empty() ||
+        limits_.input_frame.empty() || !dyn::supported_schema(limits_.input_schema) ||
+        input_ == output_ || frame_.empty() ||
         base_.empty() || cfg_.dt > cfg_.horizon || cfg_.response_delay < 0 ||
         !std::isfinite(cfg_.response_delay) || !std::isfinite(vx_min_) ||
         vx_min_ > 0 || threshold_ < 1 || threshold_ > 254)

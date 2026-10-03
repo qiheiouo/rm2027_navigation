@@ -149,6 +149,65 @@ TEST_F(PluginTest, GridMismatchFailsInsteadOfTruncating) {
   EXPECT_TRUE(data.fail_flag);
 }
 
+class ObservationAnchorPluginTest : public PluginTest {
+protected:
+  void prepare_parameters() override {
+    node->declare_parameter("FollowPath.DynamicObstacleCritic.input_schema",
+                            rm_dynamic_obstacle_critic::Array::SCHEMA_OBSERVATION_ANCHOR);
+  }
+};
+TEST_F(ObservationAnchorPluginTest, NativeSchemaSelectionScoresV2AndRejectsV1Replacement) {
+  mppi::models::State state; state.reset(2, 30);
+  mppi::models::Trajectories tr; tr.reset(2, 30);
+  mppi::models::Path path; path.reset(2);
+  for (int k = 0; k < 30; ++k) tr.x(0, k) = (k+1)*.1f;
+  xt::xtensor<float, 1> costs = xt::zeros<float>({2});
+  float dt = .1;
+  mppi::CriticData data{state, tr, path, costs, dt, false, nullptr, nullptr,
+                        std::nullopt, std::nullopt};
+  auto msg = input();
+  msg.schema = rm_dynamic_obstacle_critic::Array::SCHEMA_OBSERVATION_ANCHOR;
+  publish(msg);
+  critic->score(data);
+  EXPECT_FALSE(data.fail_flag);
+  EXPECT_GT(costs(0), 1000);
+  EXPECT_LT(costs(1), 1);
+  msg = input(); // valid v1 must replace v2 and cause failure
+  publish(msg);
+  data.fail_flag = false;
+  critic->score(data);
+  EXPECT_TRUE(data.fail_flag);
+}
+TEST_F(PluginTest, DefaultNativeConsumerRejectsObservationSchema) {
+  mppi::models::State state; state.reset(1, 30);
+  mppi::models::Trajectories tr; tr.reset(1, 30);
+  mppi::models::Path path; path.reset(2);
+  xt::xtensor<float, 1> costs = xt::zeros<float>({1});
+  float dt = .1;
+  mppi::CriticData data{state, tr, path, costs, dt, false, nullptr, nullptr,
+                        std::nullopt, std::nullopt};
+  auto msg = input();
+  msg.schema = rm_dynamic_obstacle_critic::Array::SCHEMA_OBSERVATION_ANCHOR;
+  publish(msg);
+  critic->score(data);
+  EXPECT_TRUE(data.fail_flag);
+  EXPECT_EQ(costs(0), 0);
+}
+TEST_F(PluginTest, UnsupportedSchemaAndUnregisteredV2EvidenceRejectInitialization) {
+  for (bool evidence : {false, true}) {
+    const auto name = std::string("FollowPath.") + (evidence ? "v2_evidence" : "unknown_schema");
+    node->declare_parameter(name + ".input_schema", evidence
+        ? rm_dynamic_obstacle_critic::Array::SCHEMA_OBSERVATION_ANCHOR : std::string("unknown"));
+    if (evidence)
+      node->declare_parameter(name + ".consumption_evidence_directory",
+                              std::string("/v2_evidence_not_registered"));
+    auto invalid = loader->createSharedInstance("mppi::critics::DynamicObstacleCritic");
+    EXPECT_THROW(invalid->on_configure(node, "FollowPath", name, costmap, handler.get()),
+                  std::invalid_argument);
+    EXPECT_FALSE(std::filesystem::exists("/v2_evidence_not_registered"));
+  }
+}
+
 class StoppingPluginTest : public PluginTest {
 protected:
   std::string plugin_name() const override { return "StaticStoppingCritic"; }

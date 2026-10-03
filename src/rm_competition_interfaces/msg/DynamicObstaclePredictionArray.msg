@@ -1,7 +1,8 @@
-# Input scan source epoch and world frame of the filtered public state.
+# Input scan source epoch and world frame of the selected public anchor.
 std_msgs/Header header
 
 string SCHEMA=rm_dynamic_obstacle_predictions/v1
+string SCHEMA_OBSERVATION_ANCHOR=rm_dynamic_obstacle_predictions/v2_observation_anchor
 string AUTHORITY_SHADOW_ONLY=shadow_only
 
 string schema

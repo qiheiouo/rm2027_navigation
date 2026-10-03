@@ -18,10 +18,14 @@ struct Limits {
       max_extent{3.0};
   double minimum_radius{0.36}, jump_tolerance{0.5}, max_tf_age{0.1};
   std::string input_frame{"map"};
+  std::string input_schema{Array::SCHEMA};
   size_t max_tracks{64};
 };
+inline bool supported_schema(const std::string &schema) {
+  return schema == Array::SCHEMA || schema == Array::SCHEMA_OBSERVATION_ANCHOR;
+}
 inline std::string validate(const Array &msg, double now, const Limits &lim) {
-  if (msg.schema != Array::SCHEMA ||
+  if (!supported_schema(lim.input_schema) || msg.schema != lim.input_schema ||
       msg.authority != Array::AUTHORITY_SHADOW_ONLY ||
       msg.header.frame_id != lim.input_frame)
     return "schema_or_frame";
@@ -29,6 +33,8 @@ inline std::string validate(const Array &msg, double now, const Limits &lim) {
       msg.tracks.size() > lim.max_tracks)
     return "incomplete_or_overflow";
   const double stamp = seconds(msg.header.stamp), age = now - stamp;
+  if (msg.schema == Array::SCHEMA_OBSERVATION_ANCHOR && msg.header.stamp.nanosec >= 1000000000u)
+    return "observation_anchor_epoch";
   if (!std::isfinite(now) || stamp <= 0 || age < 0 || age > lim.max_age)
     return "stale_or_future_source";
   if (!std::isfinite(msg.prediction_dt) || msg.prediction_dt <= 0 ||
@@ -56,6 +62,14 @@ inline std::string validate(const Array &msg, double now, const Limits &lim) {
     if (observed <= 0 || observed > stamp ||
         now - observed > lim.max_observation_age)
       return "stale_observation";
+    if (msg.schema == Array::SCHEMA_OBSERVATION_ANCHOR) {
+      const int64_t source_ns = int64_t(msg.header.stamp.sec)*1000000000 + msg.header.stamp.nanosec;
+      const int64_t observed_ns = int64_t(t.last_observation_stamp.sec)*1000000000 + t.last_observation_stamp.nanosec;
+      if (t.last_observation_stamp.nanosec >= 1000000000u ||
+          (t.state == Obstacle::STATE_COASTING ? observed_ns >= source_ns
+                                              : observed_ns != source_ns))
+        return "observation_anchor_epoch";
+    }
   }
   return "";
 }
@@ -72,7 +86,9 @@ public:
     if (latest_ && latest_->tracks.size() <= lim.max_tracks &&
         latest_->header.frame_id == next->header.frame_id) {
       double dt = seconds(next->header.stamp) - seconds(latest_->header.stamp);
-      if (dt <= 0)
+      if (latest_->schema != next->schema)
+        reason_ = "schema_change";
+      else if (dt <= 0)
         reason_ = "nonmonotonic_source";
       else
         for (const auto &a : latest_->tracks)

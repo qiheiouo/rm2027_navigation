@@ -1,5 +1,16 @@
 # rm_dynamic_obstacle_critic
 
+The explicit observation-anchor experiment adds static `input_schema` to the
+critic and guard. Default is strictly `rm_dynamic_obstacle_predictions/v1`;
+selecting `rm_dynamic_obstacle_predictions/v2_observation_anchor` requires the
+matching tracker mode. Unknown configuration schemas, mismatched input,
+schema transitions and inconsistent observation epochs are rejected. The CV
+consumer formula, visible-size radius heuristic and pass/brake algorithm remain.
+This interface repair does not certify complete physical support. V2 file
+consumption evidence is explicitly refused until its replay chain is registered;
+existing evidence profiles remain v1. See
+[the observation-anchor experiment](../../docs/dynamic_obstacle_critic/observation_anchor_cv_experiment.md).
+
 Opt-in development package for the route `Tracker → CV → native MPPI critic → smoother → safety guard`.
 It targets the repository's Nav2 Humble 1.1.20 runtime. It is not enabled by any competition launch.
 
