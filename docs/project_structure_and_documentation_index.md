@@ -201,3 +201,12 @@ mapping artifact, mission priority or failure policy, update at least:
 
 - `docs/dynamic_obstacle_critic/dynamic_surface_reveal_experiment.md`: 观测面揭露距离、停止/逃逸条件及隔离A/B/C阶段登记。
 - `docs/dynamic_obstacle_critic/observed_surface_members_experiment.md`: 实际扫描成员、source TF与权威track关联的默认关闭证据捕获登记。
+
+## Dynamic Prediction Audit and Exit Plan (2026-10-03)
+
+- [HWS selective migration audit](dynamic_navigation/hws_migration_audit_20261003.md): actual build/launch/consumer boundaries, main and research data flows, upstream correspondence and branch/commit evidence.
+- [HWS versus current prediction analysis](dynamic_navigation/hws_vs_current_prediction_analysis.md): observation, tracking, geometry, time alignment, degradation and evidence-qualified failure causes; a bounded one-variable experiment matrix.
+- [One-month exit plan](dynamic_navigation/prediction_one_month_exit_plan.md): STVL + MPPI baseline, one active CV candidate, false-block metric, fixed budget and 2026-11-03 18:00 Asia/Shanghai deadline; current deployment decision is RESEARCH FROZEN.
+- [Audit inventory](dynamic_navigation/hws_migration_audit_inventory_20261003.json): all locally available refs at the audit snapshot, canonical related paths, path history and consumer-reference scan.
+
+These documents do not enable prediction, change formal navigation or relax safety gates. Existing uncommitted surface instrumentation remains outside the audit document change.
