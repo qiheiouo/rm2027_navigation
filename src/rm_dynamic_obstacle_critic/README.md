@@ -402,3 +402,9 @@ after SG. The all300 map counts also show SG gains and losses, so this one
 individual effect is not a global optimizer or SG claim. Sixty-three compiled
 format and association checks pass. See
 [the individual stage experiment](../../docs/dynamic_obstacle_critic/native_individual_stage_experiment.md).
+
+离线 `audit_surface_reveal.py`/`audit_brake_response.py` 从完整冻结manifest
+审计实际源ray的材料分区揭露和模拟刹停观察，缺失/未揭露与真实tau/a
+仍unknown；无TF或命令发布。`audit_observation_native_witness.py`显式
+关联v2全周期native条件3s输出，保持旧v1报告语义。详情见
+`docs/dynamic_obstacle_critic/dynamic_surface_reveal_experiment.md`；C未运行。
