@@ -121,3 +121,20 @@ guard为`956d358458b7b82173ddada31e0a09f43e4eb2db8519125fd163aec20ea30556`；
 见provenance；main、旧research/tag及795MB core保持。此节点仅完成
 可重现模型/消费/配置预运行，尚无新Gazebo物理/任务接受。下一步按本
 登记启动原固定场景v2 visible/nominal两试次，全地面类别闭环另行登记。
+
+## 固定场景试次执行登记
+
+从证据节点`ccb8822d`冻结327份八包运行源码，critic/tracker/interfaces
+沿用上述独立构建的实际安装产物，另从相同冻结源码构建simulation、
+description、localization adapters、chassis stub和nav config五包。实际
+8包安装文件身份另保存，critic/guard/命令observer/Costobserver及SDK
+必须与预运行相同。仅隔离Gazebo/course launch，无硬件/串口/推送。
+
+顺序执行`gazebo_observation_v2_visible`、`gazebo_observation_v2_nominal`，
+各用全新output和独立ROS/Gazebo domain/partition；同一固定SDK镜像、
+无网络、core=0、headless软件渲染、独立512MiB shm。三端文件如上，
+显式radius flag和原全部证据观察器/budget保持。原场景/物理模型、
+起始相位/5.6m goal、35s＋3.5s、原sampling/SG/七critic/足迹/地图/guard
+和全部接受门不改，不按第一试次结果调第二试次参数。完整整数公共
+源/观测epoch与schema现在也保存在receipt日志。IO/timing各自记录，
+随机不同试次不能做单独IO因果归因；原小box仍只当固定场景回归。
