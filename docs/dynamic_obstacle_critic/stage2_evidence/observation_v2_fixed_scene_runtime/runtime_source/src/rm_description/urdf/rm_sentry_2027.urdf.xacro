@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rm_sentry_2027">
+  <xacro:arg name="use_sim_lidar" default="false"/>
+  <!--
+    Phase 1 placeholder robot description.
+
+    These extrinsics are NOT the final 2027 real-robot calibration.
+    The real MID360, gimbal, and IMU extrinsics must be measured again during
+    the hardware stage and recorded with date, method, and robot revision.
+
+    Phase 1 is designed for the likely 2027 layout: two MID360 units mounted
+    on the gimbal. If only one MID360 is used later, keep the unused frame out
+    of launch/config rather than changing the public base_link contract.
+
+    The gimbal yaw joint below is dynamic. Phase 1 may drive it with a
+    zero-yaw placeholder joint state for build, RViz, and early bag tests.
+    Real hardware must replace the placeholder with timestamped gimbal yaw
+    data before validating rotating-gimbal localization.
+
+    Phase 1.5 simulation treats base_link as the ground-projected chassis
+    rotation center. This is a placeholder convention, not the final 2027
+    physical origin decision.
+  -->
+
+  <link name="base_link">
+    <visual>
+      <!-- Placeholder body sits above the Phase 1.5 base_link ground origin. -->
+      <origin xyz="0 0 0.17" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.6 0.5 0.2"/>
+      </geometry>
+      <material name="phase1_gray">
+        <color rgba="0.5 0.5 0.5 0.4"/>
+      </material>
+    </visual>
+  </link>
+
+  <xacro:if value="$(arg use_sim_lidar)">
+    <!--
+      Simulation-only planar scan frame for Phase 1.5 obstacle validation.
+      This is not a MID360 frame and must not be enabled in real-hardware
+      bringup. Its placeholder origin matches phase1_omni.sdf.
+    -->
+    <link name="sim_lidar_link"/>
+    <joint name="base_link_to_sim_lidar_link" type="fixed">
+      <parent link="base_link"/>
+      <child link="sim_lidar_link"/>
+      <origin xyz="0 0 0.35" rpy="0 0 0"/>
+    </joint>
+  </xacro:if>
+
+  <link name="gimbal_yaw_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.04"/>
+      </geometry>
+      <material name="phase1_blue">
+        <color rgba="0.1 0.3 0.8 0.4"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="gimbal_yaw_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="gimbal_yaw_link"/>
+    <!-- Phase 1 zero-yaw joint state is a placeholder. Real robot requires dynamic yaw. -->
+    <origin xyz="0 0 0.35" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="mid360_left_frame"/>
+
+  <joint name="gimbal_yaw_link_to_mid360_left_frame" type="fixed">
+    <parent link="gimbal_yaw_link"/>
+    <child link="mid360_left_frame"/>
+    <!--
+      Phase 1 placeholder only.
+      Expected mechanical layout: left side of the rotation axis, no forward
+      offset, upward installation near 45 degrees. Exact MID360 sensor-frame
+      rpy depends on cable direction and must be calibrated from the manual.
+    -->
+    <origin xyz="0 0.12 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="mid360_right_frame"/>
+
+  <joint name="gimbal_yaw_link_to_mid360_right_frame" type="fixed">
+    <parent link="gimbal_yaw_link"/>
+    <child link="mid360_right_frame"/>
+    <!-- Phase 1 placeholder only. Replace with measured 2027 extrinsic. -->
+    <origin xyz="0 -0.12 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="lio_imu_link"/>
+
+  <joint name="gimbal_yaw_link_to_lio_imu_link" type="fixed">
+    <parent link="gimbal_yaw_link"/>
+    <child link="lio_imu_link"/>
+    <!--
+      Phase 1 placeholder only.
+      This represents the internal IMU of the selected MID360 for LIO.
+      Do not replace it with a chassis IMU unless the LIO backend explicitly
+      supports the non-rigid gimbal-to-base relationship.
+    -->
+    <origin xyz="0 0.12 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_imu_link"/>
+
+  <joint name="base_link_to_base_imu_link" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_imu_link"/>
+    <!-- Optional chassis IMU placeholder. Use only for diagnostics/fusion. -->
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+  </joint>
+</robot>

@@ -1,0 +1,448 @@
+#!/usr/bin/env python3
+"""Read-only Nav2 costmap window inspector.
+
+The tool subscribes to either nav2_msgs/Costmap or nav_msgs/OccupancyGrid and
+summarizes cost classes around base_link. It does not call services or publish.
+"""
+
+import argparse
+import csv
+from collections import Counter
+from math import atan2, cos, floor, sin
+from pathlib import Path
+import sys
+import time
+from typing import Dict, Iterable, List, Optional, Tuple
+
+import rclpy
+from nav2_msgs.msg import Costmap
+from nav_msgs.msg import OccupancyGrid
+from rclpy.duration import Duration
+from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSProfile, ReliabilityPolicy
+from tf2_ros import Buffer, TransformException, TransformListener
+
+
+UNKNOWN = "unknown"
+LETHAL = "lethal"
+INSCRIBED = "inscribed"
+INTERMEDIATE = "intermediate"
+FREE = "free"
+NAV2_COSTMAP_TYPE = "nav2_msgs/msg/Costmap"
+OCCUPANCY_GRID_TYPE = "nav_msgs/msg/OccupancyGrid"
+
+
+def quaternion_yaw(q) -> float:
+    siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
+    cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
+    return atan2(siny_cosp, cosy_cosp)
+
+
+def classify_costmap_value(value: int) -> str:
+    if value == 255:
+        return UNKNOWN
+    if value == 254:
+        return LETHAL
+    if value == 253:
+        return INSCRIBED
+    if value == 0:
+        return FREE
+    return INTERMEDIATE
+
+
+def classify_occupancy_value(value: int) -> str:
+    if value < 0:
+        return UNKNOWN
+    if value >= 100:
+        return LETHAL
+    if value == 99:
+        return INSCRIBED
+    if value == 0:
+        return FREE
+    return INTERMEDIATE
+
+
+class CostmapInspector(Node):
+    def __init__(self, args: argparse.Namespace) -> None:
+        super().__init__("costmap_inspector")
+        self.args = args
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+        self.samples: List[Dict[str, object]] = []
+        self._received = 0
+        self._last_sample_time = None
+        self._first_sample_time = None
+        self._end_time = None
+        self._subscription = None
+
+    def configure_subscription(self) -> None:
+        msg_type = self._resolve_topic_type()
+        qos = QoSProfile(
+            history=HistoryPolicy.KEEP_LAST,
+            depth=1,
+            reliability=ReliabilityPolicy.RELIABLE,
+            durability=DurabilityPolicy.TRANSIENT_LOCAL,
+        )
+        if msg_type == NAV2_COSTMAP_TYPE:
+            self._subscription = self.create_subscription(
+                Costmap, self.args.topic, self._on_nav2_costmap, qos
+            )
+        elif msg_type == OCCUPANCY_GRID_TYPE:
+            self._subscription = self.create_subscription(
+                OccupancyGrid, self.args.topic, self._on_occupancy_grid, qos
+            )
+        else:
+            raise ValueError(
+                f"Unsupported topic type for {self.args.topic}: {msg_type}. "
+                f"Supported: {OCCUPANCY_GRID_TYPE}, {NAV2_COSTMAP_TYPE}"
+            )
+        self.get_logger().info(f"Inspecting {self.args.topic} as {msg_type}")
+
+    def _resolve_topic_type(self) -> str:
+        forced = {
+            "occupancy_grid": OCCUPANCY_GRID_TYPE,
+            "nav2_costmap": NAV2_COSTMAP_TYPE,
+        }.get(self.args.msg_type)
+        if forced:
+            return forced
+
+        deadline = time.monotonic() + self.args.timeout
+        while rclpy.ok() and time.monotonic() < deadline:
+            topics = dict(self.get_topic_names_and_types())
+            types = topics.get(self.args.topic)
+            if types:
+                supported = [t for t in types if t in (OCCUPANCY_GRID_TYPE, NAV2_COSTMAP_TYPE)]
+                if len(supported) == 1:
+                    return supported[0]
+                if len(supported) > 1:
+                    raise ValueError(
+                        f"Topic {self.args.topic} has multiple supported types {supported}; "
+                        "use --msg-type occupancy_grid or --msg-type nav2_costmap."
+                    )
+                raise ValueError(
+                    f"Topic {self.args.topic} has unsupported type(s) {types}. "
+                    f"Supported: {OCCUPANCY_GRID_TYPE}, {NAV2_COSTMAP_TYPE}"
+                )
+            rclpy.spin_once(self, timeout_sec=0.1)
+
+        raise TimeoutError(
+            f"Timed out waiting for topic {self.args.topic} to appear. "
+            "If the publisher starts later, pass --msg-type explicitly."
+        )
+
+    def _on_nav2_costmap(self, msg: Costmap) -> None:
+        if not self._should_accept_sample():
+            return
+        metadata = msg.metadata
+        origin = metadata.origin
+        self._handle_message(
+            msg_type="nav2_msgs/Costmap",
+            stamp=msg.header.stamp,
+            frame_id=msg.header.frame_id,
+            width=int(metadata.size_x),
+            height=int(metadata.size_y),
+            resolution=float(metadata.resolution),
+            origin_x=float(origin.position.x),
+            origin_y=float(origin.position.y),
+            origin_yaw=quaternion_yaw(origin.orientation),
+            data=list(msg.data),
+            classifier=classify_costmap_value,
+        )
+
+    def _on_occupancy_grid(self, msg: OccupancyGrid) -> None:
+        if not self._should_accept_sample():
+            return
+        info = msg.info
+        self._handle_message(
+            msg_type="nav_msgs/OccupancyGrid",
+            stamp=msg.header.stamp,
+            frame_id=msg.header.frame_id,
+            width=int(info.width),
+            height=int(info.height),
+            resolution=float(info.resolution),
+            origin_x=float(info.origin.position.x),
+            origin_y=float(info.origin.position.y),
+            origin_yaw=quaternion_yaw(info.origin.orientation),
+            data=list(msg.data),
+            classifier=classify_occupancy_value,
+        )
+
+    def _should_accept_sample(self) -> bool:
+        now = self.get_clock().now()
+        if not self.args.duration and self._received >= self.args.samples:
+            return False
+        if self.args.duration and self._end_time is not None and now > self._end_time:
+            return False
+        if self._last_sample_time is None:
+            return True
+        min_period = 1.0 / self.args.rate
+        elapsed = (now - self._last_sample_time).nanoseconds * 1e-9
+        return elapsed >= min_period
+
+    def _lookup_center(self, frame_id: str) -> Optional[Tuple[float, float]]:
+        if self.args.center:
+            return self.args.center
+        try:
+            transform = self.tf_buffer.lookup_transform(
+                frame_id,
+                self.args.base_frame,
+                rclpy.time.Time(),
+                timeout=Duration(seconds=self.args.tf_timeout),
+            )
+        except TransformException as exc:
+            self.get_logger().warning(
+                f"Cannot lookup {frame_id} <- {self.args.base_frame}: {exc}"
+            )
+            return None
+        translation = transform.transform.translation
+        return float(translation.x), float(translation.y)
+
+    def _world_to_map(
+        self,
+        wx: float,
+        wy: float,
+        origin_x: float,
+        origin_y: float,
+        origin_yaw: float,
+        resolution: float,
+    ) -> Tuple[int, int]:
+        dx = wx - origin_x
+        dy = wy - origin_y
+        c = cos(-origin_yaw)
+        s = sin(-origin_yaw)
+        mx = (c * dx - s * dy) / resolution
+        my = (s * dx + c * dy) / resolution
+        return int(floor(mx)), int(floor(my))
+
+    def _handle_message(
+        self,
+        *,
+        msg_type: str,
+        stamp,
+        frame_id: str,
+        width: int,
+        height: int,
+        resolution: float,
+        origin_x: float,
+        origin_y: float,
+        origin_yaw: float,
+        data: List[int],
+        classifier,
+    ) -> None:
+        center = self._lookup_center(frame_id)
+        if center is None:
+            return
+
+        now = self.get_clock().now()
+        if self._first_sample_time is None:
+            self._first_sample_time = now
+            if self.args.duration:
+                self._end_time = now + Duration(seconds=self.args.duration)
+
+        cx, cy = center
+        mx, my = self._world_to_map(cx, cy, origin_x, origin_y, origin_yaw, resolution)
+        half_cells = max(0, int(round((self.args.window_size / 2.0) / resolution)))
+        min_x = max(0, mx - half_cells)
+        max_x = min(width - 1, mx + half_cells)
+        min_y = max(0, my - half_cells)
+        max_y = min(height - 1, my + half_cells)
+
+        values: List[int] = []
+        counts = Counter({FREE: 0, INTERMEDIATE: 0, INSCRIBED: 0, LETHAL: 0, UNKNOWN: 0})
+        for y in range(min_y, max_y + 1):
+            row = y * width
+            for x in range(min_x, max_x + 1):
+                value = int(data[row + x])
+                values.append(value)
+                counts[classifier(value)] += 1
+
+        total = len(values)
+        top_values = ",".join(
+            f"{value}:{count}" for value, count in Counter(values).most_common(8)
+        )
+        sample = {
+            "sample_index": self._received,
+            "record_time_sec": now.nanoseconds * 1e-9,
+            "elapsed_sec": (
+                (now - self._first_sample_time).nanoseconds * 1e-9
+                if self._first_sample_time is not None
+                else 0.0
+            ),
+            "stamp": f"{stamp.sec}.{stamp.nanosec:09d}",
+            "topic": self.args.topic,
+            "msg_type": msg_type,
+            "frame": frame_id,
+            "base_frame": self.args.base_frame,
+            "center_x": cx,
+            "center_y": cy,
+            "window_size_m": self.args.window_size,
+            "resolution": resolution,
+            "width": width,
+            "height": height,
+            "origin_x": origin_x,
+            "origin_y": origin_y,
+            "origin_yaw": origin_yaw,
+            "cells": total,
+            FREE: counts[FREE],
+            INTERMEDIATE: counts[INTERMEDIATE],
+            INSCRIBED: counts[INSCRIBED],
+            LETHAL: counts[LETHAL],
+            UNKNOWN: counts[UNKNOWN],
+            "top_values": top_values,
+        }
+        self.samples.append(sample)
+        self._received += 1
+        self._last_sample_time = now
+        self._print_sample(sample)
+
+    def _print_sample(self, sample: Dict[str, object]) -> None:
+        line = (
+            f"sample={sample['sample_index']} elapsed={float(sample['elapsed_sec']):.3f}s "
+            f"{sample['topic']} {sample['msg_type']} frame={sample['frame']} "
+            f"size={sample['width']}x{sample['height']} "
+            f"resolution={float(sample['resolution']):.3f} "
+            f"origin=({float(sample['origin_x']):.3f},{float(sample['origin_y']):.3f},"
+            f"{float(sample['origin_yaw']):.3f}) "
+            f"center=({float(sample['center_x']):.3f},{float(sample['center_y']):.3f}) "
+            f"window={float(sample['window_size_m']):.2f}m cells={sample['cells']} "
+            f"free={sample[FREE]} intermediate={sample[INTERMEDIATE]} "
+            f"inscribed={sample[INSCRIBED]} lethal={sample[LETHAL]} "
+            f"unknown={sample[UNKNOWN]} top={sample['top_values']}"
+        )
+        print(line, flush=True)
+
+    def finished(self) -> bool:
+        if self.args.duration:
+            if self._end_time is None:
+                return False
+            return self.get_clock().now() > self._end_time
+        return self._received >= self.args.samples
+
+
+def write_text(path: Path, samples: Iterable[Dict[str, object]]) -> None:
+    with path.open("w", encoding="utf-8") as output:
+        for sample in samples:
+            output.write(
+                f"sample={sample['sample_index']} elapsed={float(sample['elapsed_sec']):.3f}s "
+                f"{sample['topic']} {sample['msg_type']} frame={sample['frame']} "
+                f"size={sample['width']}x{sample['height']} "
+                f"resolution={float(sample['resolution']):.3f} "
+                f"origin=({float(sample['origin_x']):.3f},{float(sample['origin_y']):.3f},"
+                f"{float(sample['origin_yaw']):.3f}) "
+                f"center=({float(sample['center_x']):.3f},{float(sample['center_y']):.3f}) "
+                f"window={float(sample['window_size_m']):.2f}m cells={sample['cells']} "
+                f"free={sample[FREE]} intermediate={sample[INTERMEDIATE]} "
+                f"inscribed={sample[INSCRIBED]} lethal={sample[LETHAL]} "
+                f"unknown={sample[UNKNOWN]} top={sample['top_values']}\n"
+            )
+
+
+def write_csv(path: Path, samples: Iterable[Dict[str, object]]) -> None:
+    fieldnames = [
+        "sample_index",
+        "record_time_sec",
+        "elapsed_sec",
+        "stamp",
+        "topic",
+        "msg_type",
+        "frame",
+        "base_frame",
+        "center_x",
+        "center_y",
+        "window_size_m",
+        "resolution",
+        "width",
+        "height",
+        "origin_x",
+        "origin_y",
+        "origin_yaw",
+        "cells",
+        FREE,
+        INTERMEDIATE,
+        INSCRIBED,
+        LETHAL,
+        UNKNOWN,
+        "top_values",
+    ]
+    with path.open("w", newline="", encoding="utf-8") as output:
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+        for sample in samples:
+            writer.writerow(sample)
+
+
+def parse_args(argv: List[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--topic", default="/local_costmap/costmap_raw")
+    parser.add_argument(
+        "--msg-type",
+        choices=["auto", "occupancy_grid", "nav2_costmap"],
+        default="auto",
+        help="Topic type. The default auto mode queries the ROS graph first.",
+    )
+    parser.add_argument("--base-frame", default="base_link")
+    parser.add_argument("--window-size", type=float, default=2.0)
+    parser.add_argument("--samples", type=int, default=1)
+    parser.add_argument(
+        "--duration",
+        type=float,
+        default=0.0,
+        help="Record for this many seconds. When set, --samples is ignored.",
+    )
+    parser.add_argument("--rate", type=float, default=10.0)
+    parser.add_argument("--timeout", type=float, default=10.0)
+    parser.add_argument("--tf-timeout", type=float, default=0.2)
+    parser.add_argument("--output", type=Path)
+    parser.add_argument("--csv", type=Path)
+    parser.add_argument(
+        "--center",
+        nargs=2,
+        type=float,
+        metavar=("X", "Y"),
+        help="Use an explicit center in the costmap frame instead of TF.",
+    )
+    args = parser.parse_args(argv)
+    if args.samples < 1:
+        parser.error("--samples must be >= 1")
+    if args.duration < 0.0:
+        parser.error("--duration must be >= 0")
+    if args.rate <= 0.0:
+        parser.error("--rate must be > 0")
+    if args.window_size <= 0.0:
+        parser.error("--window-size must be > 0")
+    return args
+
+
+def main(argv: List[str]) -> int:
+    args = parse_args(argv)
+    rclpy.init()
+    node = CostmapInspector(args)
+    try:
+        try:
+            node.configure_subscription()
+        except (TimeoutError, ValueError) as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        deadline = node.get_clock().now() + Duration(seconds=args.timeout + args.duration)
+        while rclpy.ok() and not node.finished():
+            rclpy.spin_once(node, timeout_sec=0.1)
+            if node.get_clock().now() > deadline:
+                print(
+                    f"Timed out waiting for sample(s) on {args.topic}",
+                    file=sys.stderr,
+                )
+                return 2
+        if args.output:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            write_text(args.output, node.samples)
+        if args.csv:
+            args.csv.parent.mkdir(parents=True, exist_ok=True)
+            write_csv(args.csv, node.samples)
+        return 0
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))

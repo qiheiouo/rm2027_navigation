@@ -1,0 +1,38 @@
+lio_adapter:
+  ros__parameters:
+    raw_odom_topic: /odometry/fast_lio_raw
+    output_odom_topic: /odometry/lio
+    expected_input_odom_frame: odom
+    odom_frame: odom
+    base_frame: base_link
+    input_sensor_frame: lio_imu_link
+    gimbal_frame: gimbal_yaw_link
+    publish_tf: true
+    use_tf_sensor_to_base: true
+    use_latest_transform: false
+    allow_placeholder_fallback: false
+    tf_lookup_timeout_sec: 0.05
+    tf_queue:
+      max_size: 100
+      max_wait_sec: 0.2
+      retry_rate_hz: 200.0
+    backend_child_frame_alias_enabled: false
+    backend_child_frame_alias_source: body
+    backend_child_frame_alias_target: lio_imu_link
+    # Phase 1 fake/simulation odometry already provides canonical base twist.
+    twist_mode: passthrough
+    twist_variance_diagonal: [1.0, 1.0, 1.0, 4.0, 4.0, 4.0]
+
+    # Fallback placeholder only.
+    # Default operation must use TF from base_link to input_sensor_frame.
+    # If the backend outputs odom->lio_imu_link or odom->mid360_*_frame,
+    # lio_adapter computes:
+    #   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
+    # Do not fake the conversion by only changing child_frame_id.
+    input_to_base_placeholder:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0

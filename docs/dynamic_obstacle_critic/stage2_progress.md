@@ -671,3 +671,9 @@ visible各时域均0/285，64无actor，真实e/B未知，综合FAILED。
 逐条v2 radius与实际所选/回读policy一致性检查覆盖空tracks，两个Cost
 报告全量重执行逐字节同；六张图已检查，physical/raw与task结论分别
 标注。缺绘图库及CLI误用日志保留，SDK身份未变，主线门未放宽。
+
+配对原始失败档案2951/2952文件、465.17/454.23MB和共享运行闭包
+551文件33.11MB已完整冻结/二次核验；源327文件与ccb8822d同，auditor
+7b7cd599。完整manifest与界限见上述登记。用户新表面路线意见已读，
+自主选择先reveal/stopping证据，保留A/B及严格门，独立experiment分支
+开展；尚无moving-surface运行或完整三秒物理候选通过结论。

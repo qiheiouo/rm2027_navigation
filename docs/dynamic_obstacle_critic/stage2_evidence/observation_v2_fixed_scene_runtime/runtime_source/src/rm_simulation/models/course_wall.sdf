@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+  <model name="course_wall">
+    <static>true</static>
+    <link name="wall_link">
+      <collision name="wall_collision">
+        <pose>0 0 0.4 0 0 0</pose>
+        <geometry>
+          <box><size>2.0 0.25 0.8</size></box>
+        </geometry>
+      </collision>
+      <visual name="wall_visual">
+        <pose>0 0 0.4 0 0 0</pose>
+        <geometry>
+          <box><size>2.0 0.25 0.8</size></box>
+        </geometry>
+        <material>
+          <ambient>0.18 0.52 0.28 1</ambient>
+          <diffuse>0.18 0.52 0.28 1</diffuse>
+          <specular>0.05 0.05 0.05 1</specular>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

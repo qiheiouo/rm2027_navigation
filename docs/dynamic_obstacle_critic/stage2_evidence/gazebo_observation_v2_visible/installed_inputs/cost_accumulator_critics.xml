@@ -1,0 +1,10 @@
+<class_libraries>
+  <library path="rm_native_cost_accumulator_observer">
+    <class type="mppi::critics::BeforeCostAccumulatorCritic" base_class_type="mppi::critics::CriticFunction">
+      <description>Default-off read-only accumulator evidence immediately before the unchanged CostCritic.</description>
+    </class>
+    <class type="mppi::critics::AfterCostAccumulatorCritic" base_class_type="mppi::critics::CriticFunction">
+      <description>Default-off read-only accumulator evidence immediately after the unchanged CostCritic; no scoring or control mutation.</description>
+    </class>
+  </library>
+</class_libraries>

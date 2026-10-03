@@ -184,3 +184,22 @@ runtime formatter按原冻结源码仍逐字节同；初始错误比较也保留
 六张独立图已生成并人工检查，名义试次的标题只报告任务失败；物理和
 raw门单独呈现。SDK镜像缺matplotlib的初始绘图失败、一次CLI参数
 错误均保留；使用本机已有matplotlib 3.6.3完成绘图，未更改SDK。
+
+## 配对失败试次冻结
+
+`stage2_evidence/observation_v2_fixed_scene_runtime`：551文件，33,107,159字节（不含manifest），manifest SHA `7dd1e4e8a1a433896b6c0f7ddae4ce130228ffe070dacf52a4c2aed9e77623b2`。
+
+`stage2_evidence/gazebo_observation_v2_visible`：2951文件，465,168,897字节（不含manifest），manifest SHA `3199b3b3c93ee7ba89b3b23a01b4ecb44a21ebd5c10b9b11c94e71fb59bb7d84`。
+
+`stage2_evidence/gazebo_observation_v2_nominal`：2952文件，454,225,957字节（不含manifest），manifest SHA `9317daadf03cf11fb2b13110c633b8cce127f9943c0db8310f4d2bf47aa2cf5f`。
+
+冻结时逐文件验证原文件未变、gzip使用mtime=0，并再次核验完整文件集
+与SHA。运行源码327文件与ccb8822d逐字节同；离线auditor为7b7cd599。
+篡改case只保存实际改变的常规文件和只读源引用，不遍历其循环symlink；
+需在全新工作副本重新构造七类probe。完整风险/控制输入、四SDK输出、
+实际参数、场景、消息、日志、图、初始失败均保留。原试次归档不再修改。
+
+两次综合仍FAILED；本次冻结不是三秒物理候选或部署接受。用户提供
+动态表面路线评估并授权自主选择；下一独立分支先做reveal-distance
+与停止能力证据审计，A/B保持。原三秒见证继续补齐，未知真实延迟/
+制动能力和MID360可观测性不以Gazebo标签补造。

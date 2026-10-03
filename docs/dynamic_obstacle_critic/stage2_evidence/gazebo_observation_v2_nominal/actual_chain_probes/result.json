@@ -1,0 +1,43 @@
+{
+  "verdict": "PASS",
+  "checks": 7,
+  "results": [
+    {
+      "name": "cost_delta_rational",
+      "verdict": "REJECTED",
+      "reason": "rounded CostCritic delta rational mismatch"
+    },
+    {
+      "name": "after_cost_ulp",
+      "verdict": "REJECTED",
+      "reason": "rounded CostCritic delta rational mismatch"
+    },
+    {
+      "name": "after_fail_flag",
+      "verdict": "REJECTED",
+      "reason": "actual CostCritic pair failed"
+    },
+    {
+      "name": "risk_double_ulp",
+      "verdict": "REJECTED",
+      "reason": "actual consumed risk bytes differ from SDK-side replay"
+    },
+    {
+      "name": "weights_probe",
+      "verdict": "REJECTED",
+      "reason": "actual weights/SG chain mismatch"
+    },
+    {
+      "name": "uniform_probe",
+      "verdict": "REJECTED",
+      "reason": "uniform negative probe identity"
+    },
+    {
+      "name": "control_comparison",
+      "verdict": "REJECTED",
+      "reason": "complete actual native/consumption/weights source chain required"
+    }
+  ],
+  "source_files_unchanged": 2921,
+  "scope": "Seven actual chain corruption probes. Sources are read-only links; complete mutated files and identities are retained."
+}

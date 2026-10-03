@@ -1,0 +1,11 @@
+std_msgs/Header header
+
+bool valid
+uint8 game_progress
+uint16 stage_remain_time
+uint8 robot_id
+uint16 current_hp
+uint16 self_outpost_hp
+uint16 enemy_outpost_hp
+uint16 projectile_allowance_17mm
+uint16 remaining_gold_coin

@@ -1,0 +1,346 @@
+# 2026 old-car dual MID360 obstacle-fusion STVL experiment profile.
+#
+# This file is intentionally not the default old-car profile. It keeps the
+# controller, planner, serial, behavior-tree, footprint, inflation, and global
+# costmap policy from nav2_old_car_2026_left.yaml, but replaces the local
+# VoxelLayer with SpatioTemporalVoxelLayer to test short-lived dynamic obstacle
+# decay. FAST-LIO remains left-only; local obstacle perception consumes the
+# explicitly fused left/right PointCloud2 stream.
+#
+# Runtime requirement: the project Docker image installs the pinned Humble apt
+# package ros-humble-spatio-temporal-voxel-layer. Enable only by explicitly
+# passing this file through nav2_params:=...nav2_old_car_2026_dual_stvl.yaml.
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: false
+    global_frame: map
+    robot_base_frame: base_link
+    odom_topic: /odometry/lio
+    bt_loop_duration: 10
+    default_server_timeout: 20
+    wait_for_service_timeout: 1000
+
+controller_server:
+  ros__parameters:
+    use_sim_time: false
+    controller_frequency: 10.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.001
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
+    progress_checker_plugin: progress_checker
+    goal_checker_plugins: [general_goal_checker]
+    controller_plugins: [FollowPath]
+
+    progress_checker:
+      plugin: nav2_controller::SimpleProgressChecker
+      required_movement_radius: 0.05
+      movement_time_allowance: 10.0
+
+    general_goal_checker:
+      stateful: true
+      plugin: nav2_controller::SimpleGoalChecker
+      xy_goal_tolerance: 0.15
+      yaw_goal_tolerance: 0.20
+
+    FollowPath:
+      plugin: nav2_mppi_controller::MPPIController
+      motion_model: Omni
+      model_dt: 0.1
+      time_steps: 30
+      batch_size: 300
+      iteration_count: 1
+      # Old-car landing-debug limits. These are high enough to avoid the
+      # chassis low-speed dead zone observed during component tests, but still
+      # far below competition-speed tuning.
+      vx_std: 0.20
+      vy_std: 0.20
+      wz_std: 0.40
+      vx_max: 0.50
+      vx_min: -0.30
+      vy_max: 0.50
+      wz_max: 1.20
+      temperature: 0.3
+      gamma: 0.015
+      retry_attempt_limit: 1
+      regenerate_noises: false
+      visualize: false
+      prune_distance: 1.5
+      transform_tolerance: 0.3
+      critics: [ConstraintCritic, CostCritic, GoalCritic, GoalAngleCritic, PathAlignCritic, PathFollowCritic, PathAngleCritic]
+
+      ConstraintCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 4.0
+
+      CostCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.81
+        critical_cost: 300.0
+        collision_cost: 1000000.0
+        consider_footprint: true
+        near_goal_distance: 0.5
+
+      GoalCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 1.4
+
+      GoalAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.0
+        threshold_to_consider: 0.5
+
+      PathAlignCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 10.0
+        threshold_to_consider: 0.5
+        offset_from_furthest: 20
+        trajectory_point_step: 4
+        max_path_occupancy_ratio: 0.07
+        use_path_orientations: false
+
+      PathFollowCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        offset_from_furthest: 6
+        threshold_to_consider: 1.4
+
+      PathAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 2.0
+        offset_from_furthest: 4
+        threshold_to_consider: 0.5
+        max_angle_to_furthest: 1.2
+        forward_preference: false
+
+planner_server:
+  ros__parameters:
+    use_sim_time: false
+    expected_planner_frequency: 5.0
+    planner_plugins: [GridBased]
+
+    GridBased:
+      plugin: nav2_navfn_planner/NavfnPlanner
+      tolerance: 0.5
+      use_astar: false
+      allow_unknown: true
+
+smoother_server:
+  ros__parameters:
+    use_sim_time: false
+    smoother_plugins: [simple_smoother]
+
+    simple_smoother:
+      plugin: nav2_smoother::SimpleSmoother
+      tolerance: 1.0e-10
+      max_its: 1000
+      do_refinement: true
+
+behavior_server:
+  ros__parameters:
+    use_sim_time: false
+    costmap_topic: local_costmap/costmap_raw
+    footprint_topic: local_costmap/published_footprint
+    cycle_frequency: 10.0
+    behavior_plugins: [spin, backup, drive_on_heading, wait]
+
+    spin:
+      plugin: nav2_behaviors/Spin
+
+    backup:
+      plugin: nav2_behaviors/BackUp
+
+    drive_on_heading:
+      plugin: nav2_behaviors/DriveOnHeading
+
+    wait:
+      plugin: nav2_behaviors/Wait
+
+    global_frame: odom
+    robot_base_frame: base_link
+    transform_tolerance: 0.3
+    simulate_ahead_time: 2.0
+    max_rotational_vel: 1.20
+    min_rotational_vel: 0.20
+    rotational_acc_lim: 2.00
+
+waypoint_follower:
+  ros__parameters:
+    use_sim_time: false
+    loop_rate: 20
+    stop_on_failure: false
+    waypoint_task_executor_plugin: wait_at_waypoint
+
+    wait_at_waypoint:
+      plugin: nav2_waypoint_follower::WaitAtWaypoint
+      enabled: false
+      waypoint_pause_duration: 0
+
+velocity_smoother:
+  ros__parameters:
+    use_sim_time: false
+    smoothing_frequency: 20.0
+    scale_velocities: false
+    feedback: OPEN_LOOP
+    max_velocity: [0.50, 0.50, 1.20]
+    min_velocity: [-0.30, -0.50, -1.20]
+    max_accel: [0.80, 0.80, 2.00]
+    max_decel: [-0.80, -0.80, -2.00]
+    odom_topic: /odometry/lio
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      use_sim_time: false
+      update_frequency: 10.0
+      publish_frequency: 5.0
+      global_frame: odom
+      robot_base_frame: base_link
+      rolling_window: true
+
+      # The old-car MID360 sits near the edge of the local rolling window in
+      # some poses. Use a wider experiment-only window before floor tests.
+      width: 8
+      height: 8
+      resolution: 0.05
+
+      # Measured old-car approximate body size:
+      # length x direction: about 0.60 m
+      # width  y direction: about 0.50 m
+      # Use a slightly conservative 0.64 m x 0.54 m footprint.
+      footprint: "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]"
+      footprint_padding: 0.02
+
+      plugins: [stvl_layer, inflation_layer]
+
+      stvl_layer:
+        plugin: spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer
+        enabled: true
+
+        # Short local decay experiment. The previous VoxelLayer profile kept
+        # stale lethal cells after dynamic obstacles left. This profile tests
+        # whether STVL's temporal decay and frustum clearing remove stale cells
+        # in roughly the 0.5-2.0 second window while still preserving obstacles
+        # that are continuously observed.
+        voxel_decay: 0.5
+        decay_model: 0
+        voxel_size: 0.05
+        track_unknown_space: false
+        observation_persistence: 0.0
+        max_obstacle_height: 2.0
+        mark_threshold: 1
+        update_footprint_enabled: true
+        footprint_clearing_enabled: true
+        combination_method: 1
+        obstacle_range: 3.5
+        origin_z: -0.2
+        publish_voxel_map: false
+        transform_tolerance: 0.3
+        mapping_mode: false
+
+        observation_sources: fused_mid360_mark left_mid360_clear right_mid360_clear
+
+        fused_mid360_mark:
+          topic: /points/obstacles_fused
+          data_type: PointCloud2
+          marking: true
+          clearing: false
+          observation_persistence: 0.2
+          expected_update_rate: 0.2
+          min_obstacle_height: 0.18
+          max_obstacle_height: 2.0
+          obstacle_min_range: 0.45
+          obstacle_max_range: 3.5
+          clear_after_reading: true
+          filter: voxel
+          voxel_min_points: 1
+
+        # Keep each physical sensor frame for frustum clearing. The fused cloud
+        # is in base_link and is therefore suitable for marking, but it no
+        # longer carries the two distinct ray origins.
+        left_mid360_clear:
+          topic: /livox/left/pointcloud_filtered_fusion
+          data_type: PointCloud2
+          marking: false
+          clearing: true
+          min_z: 0.0
+          max_z: 6.0
+          horizontal_fov_angle: 4.71239
+          vertical_fov_angle: 1.03
+          vertical_fov_offset: 0.3927
+          decay_acceleration: 1.0
+          model_type: 1
+
+        right_mid360_clear:
+          topic: /livox/right/pointcloud_filtered_fusion
+          data_type: PointCloud2
+          marking: false
+          clearing: true
+          min_z: 0.0
+          max_z: 6.0
+
+          # MID360 has full horizontal coverage and a non-symmetric vertical
+          # field of view. For 3D lidar STVL uses model_type 1 and the vertical
+          # FOV/offset to define the clearing frustum. These values are an
+          # experiment starting point; tune from recorded bags if clearing still
+          # misses stale cells.
+          horizontal_fov_angle: 4.71239
+          vertical_fov_angle: 1.03
+          vertical_fov_offset: 0.3927
+          decay_acceleration: 1.0
+          model_type: 1
+
+      inflation_layer:
+        plugin: nav2_costmap_2d::InflationLayer
+        cost_scaling_factor: 6.0
+        inflation_radius: 0.30
+
+      always_send_full_costmap: true
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      use_sim_time: false
+      update_frequency: 5.0
+      publish_frequency: 2.0
+      global_frame: map
+      robot_base_frame: base_link
+      rolling_window: true
+      width: 16
+      height: 16
+      resolution: 0.05
+      track_unknown_space: false
+
+      # Keep global footprint consistent with local_costmap.
+      footprint: "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]"
+      footprint_padding: 0.02
+
+      # The deployment occupancy map shapes the global plan. Dynamic MID360
+      # observations remain local-only so short-lived perception does not
+      # become a persistent global obstacle.
+      plugins: [static_layer, inflation_layer]
+
+      static_layer:
+        plugin: nav2_costmap_2d::StaticLayer
+        map_subscribe_transient_local: true
+        subscribe_to_updates: true
+        transform_tolerance: 0.5
+
+      inflation_layer:
+        plugin: nav2_costmap_2d::InflationLayer
+        cost_scaling_factor: 2.0
+        inflation_radius: 0.65
+
+      always_send_full_costmap: true

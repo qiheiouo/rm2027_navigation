@@ -1,0 +1,22 @@
+{
+  "mode": "guard",
+  "goal": [
+    5.6,
+    0.0,
+    0.0
+  ],
+  "start_phase": 2.0,
+  "period": 8.0,
+  "earliest_start": 16.0,
+  "phase_tolerance": 0.06,
+  "window": 35.0,
+  "tail": 3.5,
+  "wall_timeout": 150.0,
+  "body_clearance": 0.05,
+  "padded_clearance_strict": 0.0,
+  "raw_costmap_threshold": 203,
+  "bounds_tolerance": 5e-05,
+  "startup": "explicit lifecycle STARTUP after positive sim clock, scan, canonical odometry and tracker receipt",
+  "full_mechanical_body_required": true,
+  "scope": "one fixed Phase1.5 fixture; not independent field acceptance"
+}

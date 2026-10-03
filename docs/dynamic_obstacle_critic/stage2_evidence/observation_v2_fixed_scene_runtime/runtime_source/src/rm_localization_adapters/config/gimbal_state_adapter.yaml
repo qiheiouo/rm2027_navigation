@@ -1,0 +1,12 @@
+gimbal_state_adapter:
+  ros__parameters:
+    input_topic: /gimbal/state
+    output_topic: /joint_states
+    joint_name: gimbal_yaw_joint
+
+    # Phase 1 placeholder mode.
+    # Real hardware must set use_input=true and feed timestamped gimbal yaw.
+    use_input: false
+    placeholder_yaw_rad: 0.0
+    publish_rate_hz: 50.0
+    stale_timeout_sec: 0.2

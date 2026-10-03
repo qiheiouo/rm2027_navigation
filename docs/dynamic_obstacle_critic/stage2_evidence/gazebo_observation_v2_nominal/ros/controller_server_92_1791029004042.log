@@ -1,0 +1,298 @@
+[INFO] [1791029004.088876595] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791029004.100592509] [controller_server]: Creating controller server
+[INFO] [1791029004.191809564] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791029004.192680426] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1791029009.215005276] [controller_server]: Configuring controller interface
+[INFO] [1791029009.215186941] [controller_server]: getting goal checker plugins..
+[INFO] [1791029009.215434214] [controller_server]: Controller frequency set to 10.0000Hz
+[INFO] [1791029009.215519095] [local_costmap.local_costmap]: Configuring
+[INFO] [1791029009.223309438] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[INFO] [1791029009.227764849] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[INFO] [1791029009.231152970] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[INFO] [1791029009.231184258] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1791029009.231920540] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1791029009.242411642] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1791029009.243590661] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1791029009.244129414] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1791029009.245478291] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[INFO] [1791029009.248447378] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1791029009.251067660] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1791029009.251128642] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1791029009.253394375] [controller_server]: Critic loaded : mppi::critics::BeforeCostAccumulatorCritic
+[INFO] [1791029009.254744112] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1791029009.254787380] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1791029009.254987928] [controller_server]: Critic loaded : mppi::critics::AfterCostAccumulatorCritic
+[INFO] [1791029009.255688135] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1791029009.255714283] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1791029009.256318670] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[INFO] [1791029009.256346650] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[INFO] [1791029009.257531419] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 10.000000 weight
+[INFO] [1791029009.257560155] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[INFO] [1791029009.258427700] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1791029009.259576099] [controller_server]: PathAngleCritic instantiated with 1 power and 2.000000 weight. Reversing allowed.
+[INFO] [1791029009.259614246] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[INFO] [1791029009.275121520] [controller_server]: Critic loaded : mppi::critics::DynamicObstacleCritic
+[INFO] [1791029009.278920392] [controller_server]: Critic loaded : mppi::critics::StaticStoppingCritic
+[INFO] [1791029009.279879845] [controller_server]: Critic loaded : mppi::critics::NativeCycleSnapshotCritic
+[INFO] [1791029009.281237337] [controller_server]: Optimizer reset
+[INFO] [1791029009.283719305] [MPPIController]: Configured MPPI Controller: FollowPath
+[INFO] [1791029009.283749170] [controller_server]: Controller Server has FollowPath  controllers available.
+[INFO] [1791029009.492348758] [controller_server]: Activating
+[INFO] [1791029009.492417442] [local_costmap.local_costmap]: Activating
+[INFO] [1791029009.492446095] [local_costmap.local_costmap]: Checking transform
+[INFO] [1791029009.492601083] [local_costmap.local_costmap]: start
+[WARN] [1791029009.593807485] [controller_server]: Parameter controller_server.verbose not found
+[INFO] [1791029009.595369988] [controller_server]: Optimizer reset
+[INFO] [1791029009.595763498] [MPPIController]: Activated MPPI Controller: FollowPath
+[INFO] [1791029009.595796677] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[INFO] [1791029025.176693877] [controller_server]: Received a goal, begin computing control effort.
+[WARN] [1791029025.176788800] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+[INFO] [1791029025.177708327] [controller_server]: Optimizer reset
+[INFO] [1791029025.199893201] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=0 capture_ms=0.871435000
+[INFO] [1791029025.200837133] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=0 capture_ms=0.722740000
+[INFO] [1791029025.202065095] [controller_server]: DynamicEvidence ordinal=0 capture_ms=0.248889000
+[INFO] [1791029025.224691301] [controller_server]: NativeSnapshot ordinal=0 capture_ms=0.274641000
+[INFO] [1791029026.233542790] [controller_server]: NativeSnapshot ordinal=10 capture_ms=0.338546000
+[INFO] [1791029026.276996190] [controller_server]: Passing new path to controller.
+[INFO] [1791029026.288320215] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=11 capture_ms=0.417295000
+[INFO] [1791029026.288794349] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=11 capture_ms=0.299608000
+[INFO] [1791029026.290073401] [controller_server]: DynamicEvidence ordinal=11 capture_ms=0.192829000
+[INFO] [1791029027.247857944] [controller_server]: NativeSnapshot ordinal=20 capture_ms=0.322667000
+[INFO] [1791029027.276996899] [controller_server]: Passing new path to controller.
+[INFO] [1791029027.409021896] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=22 capture_ms=0.495236000
+[INFO] [1791029027.409735286] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=22 capture_ms=0.332552000
+[INFO] [1791029027.411377599] [controller_server]: DynamicEvidence ordinal=22 capture_ms=0.271584000
+[WARN] [1791029027.484254497] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029027.585856969] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029027.690786021] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029027.791908380] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029028.276998382] [controller_server]: Passing new path to controller.
+[INFO] [1791029028.363670148] [controller_server]: NativeSnapshot ordinal=31 capture_ms=0.327240000
+[INFO] [1791029028.525555034] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=33 capture_ms=27.014126000
+[INFO] [1791029028.526596475] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=33 capture_ms=0.717387000
+[INFO] [1791029028.528617546] [controller_server]: DynamicEvidence ordinal=33 capture_ms=0.301827000
+[WARN] [1791029028.589557261] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029029.376996228] [controller_server]: Passing new path to controller.
+[INFO] [1791029029.442951827] [controller_server]: NativeSnapshot ordinal=42 capture_ms=0.339226000
+[INFO] [1791029029.589001028] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=44 capture_ms=0.684417000
+[INFO] [1791029029.589865803] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=44 capture_ms=0.424716000
+[INFO] [1791029029.591619497] [controller_server]: DynamicEvidence ordinal=44 capture_ms=0.598664000
+[WARN] [1791029030.080387978] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029030.376995540] [controller_server]: Passing new path to controller.
+[INFO] [1791029030.535946025] [controller_server]: NativeSnapshot ordinal=53 capture_ms=0.346239000
+[INFO] [1791029030.708838463] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=55 capture_ms=0.574880000
+[INFO] [1791029030.709545999] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=55 capture_ms=0.438874000
+[INFO] [1791029030.711760711] [controller_server]: DynamicEvidence ordinal=55 capture_ms=0.341109000
+[INFO] [1791029031.377002371] [controller_server]: Passing new path to controller.
+[INFO] [1791029031.578388084] [controller_server]: NativeSnapshot ordinal=63 capture_ms=0.388768000
+[WARN] [1791029031.578720990] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029031.780957837] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029031.802690397] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=66 capture_ms=0.544505000
+[INFO] [1791029031.803279875] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=66 capture_ms=0.374915000
+[INFO] [1791029031.805786840] [controller_server]: DynamicEvidence ordinal=66 capture_ms=0.232745000
+[INFO] [1791029031.805863484] [controller_server]: CV obstacle id=1 source=(4.672,0.394) velocity=(-0.024,0.200) radius=1.697 age=0.037
+[INFO] [1791029032.476992012] [controller_server]: Passing new path to controller.
+[WARN] [1791029032.578266563] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029032.646840807] [controller_server]: NativeSnapshot ordinal=74 capture_ms=0.355398000
+[INFO] [1791029032.888350562] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=77 capture_ms=0.580824000
+[INFO] [1791029032.888903831] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=77 capture_ms=0.372961000
+[INFO] [1791029032.891109131] [controller_server]: DynamicEvidence ordinal=77 capture_ms=0.275863000
+[INFO] [1791029032.891184959] [controller_server]: CV obstacle id=1 source=(4.677,0.892) velocity=(-0.000,0.461) radius=1.697 age=0.067
+[INFO] [1791029033.477007017] [controller_server]: Passing new path to controller.
+[INFO] [1791029033.741534472] [controller_server]: NativeSnapshot ordinal=85 capture_ms=0.344562000
+[INFO] [1791029034.008754450] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=88 capture_ms=0.584844000
+[INFO] [1791029034.009502937] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=88 capture_ms=0.476427000
+[INFO] [1791029034.012071056] [controller_server]: DynamicEvidence ordinal=88 capture_ms=0.267555000
+[INFO] [1791029034.012146300] [controller_server]: CV obstacle id=1 source=(4.672,0.832) velocity=(-0.000,-0.052) radius=1.697 age=0.065
+[WARN] [1791029034.283044027] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029034.389315401] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029034.505423126] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029034.505486815] [controller_server]: Passing new path to controller.
+[INFO] [1791029034.790968227] [controller_server]: NativeSnapshot ordinal=95 capture_ms=0.356602000
+[WARN] [1791029034.791310337] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029035.099083530] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=99 capture_ms=0.554349000
+[INFO] [1791029035.099823385] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=99 capture_ms=0.374223000
+[INFO] [1791029035.102125173] [controller_server]: DynamicEvidence ordinal=99 capture_ms=0.230090000
+[INFO] [1791029035.102189507] [controller_server]: CV obstacle id=1 source=(4.686,0.253) velocity=(0.009,-0.548) radius=1.697 age=0.100
+[WARN] [1791029035.288190220] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029035.490111429] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029035.490150325] [controller_server]: Passing new path to controller.
+[WARN] [1791029035.590488442] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029035.885394114] [controller_server]: NativeSnapshot ordinal=106 capture_ms=0.354666000
+[WARN] [1791029035.885888096] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029035.980532457] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029036.188459951] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=110 capture_ms=0.542966000
+[INFO] [1791029036.189172219] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=110 capture_ms=0.452938000
+[INFO] [1791029036.191510558] [controller_server]: DynamicEvidence ordinal=110 capture_ms=0.249550000
+[INFO] [1791029036.191587402] [controller_server]: CV obstacle id=1 source=(4.717,-0.524) velocity=(0.008,-0.727) radius=1.697 age=0.067
+[INFO] [1791029036.576993831] [controller_server]: Passing new path to controller.
+[WARN] [1791029036.878780834] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029036.956473919] [controller_server]: NativeSnapshot ordinal=117 capture_ms=0.374576000
+[INFO] [1791029037.308413489] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=121 capture_ms=0.452420000
+[INFO] [1791029037.308918259] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=121 capture_ms=0.333990000
+[INFO] [1791029037.311507667] [controller_server]: DynamicEvidence ordinal=121 capture_ms=0.535685000
+[INFO] [1791029037.311633475] [controller_server]: CV obstacle id=1 source=(4.736,-0.860) velocity=(0.028,-0.306) radius=1.697 age=0.064
+[WARN] [1791029037.401011680] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029037.513277075] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029037.612873379] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029037.612914375] [controller_server]: Passing new path to controller.
+[WARN] [1791029037.697283946] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029037.799990547] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[WARN] [1791029037.894486148] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029037.984813954] [controller_server]: NativeSnapshot ordinal=127 capture_ms=0.365936000
+[WARN] [1791029037.985232384] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029038.398461504] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=132 capture_ms=0.429922000
+[INFO] [1791029038.398941523] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=132 capture_ms=0.327633000
+[INFO] [1791029038.400932357] [controller_server]: DynamicEvidence ordinal=132 capture_ms=0.250365000
+[INFO] [1791029038.400997917] [controller_server]: CV obstacle id=1 source=(4.721,-0.618) velocity=(-0.007,0.234) radius=1.697 age=0.099
+[WARN] [1791029038.578105094] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029038.578143151] [controller_server]: Passing new path to controller.
+[WARN] [1791029038.788943427] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029039.053868152] [controller_server]: NativeSnapshot ordinal=138 capture_ms=0.382761000
+[WARN] [1791029039.182373459] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029039.488818954] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=143 capture_ms=0.562742000
+[INFO] [1791029039.489518579] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=143 capture_ms=0.475393000
+[INFO] [1791029039.491823506] [controller_server]: DynamicEvidence ordinal=143 capture_ms=0.268929000
+[INFO] [1791029039.491899975] [controller_server]: CV obstacle id=1 source=(4.719,0.153) velocity=(-0.025,0.693) radius=1.697 age=0.067
+[INFO] [1791029039.676997259] [controller_server]: Passing new path to controller.
+[INFO] [1791029040.144641288] [controller_server]: NativeSnapshot ordinal=149 capture_ms=0.362635000
+[INFO] [1791029040.508498686] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=153 capture_ms=0.453483000
+[INFO] [1791029040.509004843] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=153 capture_ms=0.356040000
+[INFO] [1791029040.510955673] [controller_server]: DynamicEvidence ordinal=153 capture_ms=0.249228000
+[INFO] [1791029040.511019897] [controller_server]: CV obstacle id=1 source=(4.676,0.757) velocity=(-0.038,0.643) radius=1.697 age=0.096
+[INFO] [1791029040.676995919] [controller_server]: Passing new path to controller.
+[INFO] [1791029041.169542584] [controller_server]: NativeSnapshot ordinal=159 capture_ms=0.390614000
+[WARN] [1791029041.577544527] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029041.598957968] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=164 capture_ms=0.446193000
+[INFO] [1791029041.599457664] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=164 capture_ms=0.356724000
+[INFO] [1791029041.601454504] [controller_server]: DynamicEvidence ordinal=164 capture_ms=0.257170000
+[INFO] [1791029041.601521357] [controller_server]: CV obstacle id=1 source=(4.681,0.936) velocity=(-0.007,0.151) radius=1.697 age=0.064
+[INFO] [1791029041.676999452] [controller_server]: Passing new path to controller.
+[INFO] [1791029042.249008316] [controller_server]: NativeSnapshot ordinal=170 capture_ms=0.366184000
+[INFO] [1791029042.688779874] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=175 capture_ms=0.460940000
+[INFO] [1791029042.689300035] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=175 capture_ms=0.355516000
+[INFO] [1791029042.691165224] [controller_server]: DynamicEvidence ordinal=175 capture_ms=0.229271000
+[INFO] [1791029042.691235735] [controller_server]: CV obstacle id=1 source=(4.708,0.568) velocity=(0.018,-0.355) radius=1.697 age=0.098
+[INFO] [1791029042.777005301] [controller_server]: Passing new path to controller.
+[INFO] [1791029043.328561395] [controller_server]: NativeSnapshot ordinal=181 capture_ms=0.694134000
+[INFO] [1791029043.776998394] [controller_server]: Passing new path to controller.
+[INFO] [1791029043.808556995] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=186 capture_ms=0.482567000
+[INFO] [1791029043.809050143] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=186 capture_ms=0.331741000
+[INFO] [1791029043.811140428] [controller_server]: DynamicEvidence ordinal=186 capture_ms=0.240828000
+[INFO] [1791029043.811221731] [controller_server]: CV obstacle id=1 source=(4.725,-0.231) velocity=(0.028,-0.722) radius=1.697 age=0.096
+[INFO] [1791029044.340382908] [controller_server]: NativeSnapshot ordinal=191 capture_ms=0.331234000
+[INFO] [1791029044.609646212] [controller_server]: Optimizer reset
+[INFO] [1791029044.611194509] [controller_server]: Optimizer reset
+[ERROR] [1791029044.611329529] [controller_server]: Optimizer fail to compute path
+[WARN] [1791029044.611432740] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+[INFO] [1791029044.625546199] [local_costmap.local_costmap]: Received request to clear entirely the local_costmap
+[INFO] [1791029044.626385698] [controller_server]: Received a goal, begin computing control effort.
+[WARN] [1791029044.758113201] [controller_server]: Control loop missed its desired rate of 10.0000Hz
+[INFO] [1791029044.758167462] [controller_server]: Passing new path to controller.
+[INFO] [1791029044.838121256] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=197 capture_ms=0.439164000
+[INFO] [1791029044.838809422] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=196 capture_ms=0.505427000
+[INFO] [1791029044.841188905] [controller_server]: DynamicEvidence ordinal=196 capture_ms=0.296891000
+[INFO] [1791029044.841293069] [controller_server]: CV obstacle id=1 source=(4.764,-0.770) velocity=(0.019,-0.543) radius=1.697 age=0.069
+[INFO] [1791029045.392345138] [controller_server]: NativeSnapshot ordinal=201 capture_ms=0.366360000
+[INFO] [1791029045.826534407] [controller_server]: Passing new path to controller.
+[INFO] [1791029045.927696397] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=208 capture_ms=0.433384000
+[INFO] [1791029045.928177179] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=207 capture_ms=0.337152000
+[INFO] [1791029045.930060866] [controller_server]: DynamicEvidence ordinal=207 capture_ms=0.238213000
+[INFO] [1791029045.930138765] [controller_server]: CV obstacle id=1 source=(4.762,-0.724) velocity=(0.008,0.052) radius=1.697 age=0.037
+[INFO] [1791029046.404129945] [controller_server]: NativeSnapshot ordinal=211 capture_ms=0.365849000
+[INFO] [1791029046.826533601] [controller_server]: Passing new path to controller.
+[INFO] [1791029046.947941466] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=218 capture_ms=0.437301000
+[INFO] [1791029046.948447627] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=217 capture_ms=0.357597000
+[INFO] [1791029046.950481740] [controller_server]: DynamicEvidence ordinal=217 capture_ms=0.237129000
+[INFO] [1791029046.950545490] [controller_server]: CV obstacle id=1 source=(4.742,-0.228) velocity=(-0.013,0.493) radius=1.697 age=0.065
+[INFO] [1791029047.419734262] [controller_server]: NativeSnapshot ordinal=221 capture_ms=0.360801000
+[INFO] [1791029047.926532355] [controller_server]: Passing new path to controller.
+[INFO] [1791029048.038114227] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=229 capture_ms=0.486484000
+[INFO] [1791029048.038607301] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=228 capture_ms=0.317961000
+[INFO] [1791029048.040756923] [controller_server]: DynamicEvidence ordinal=228 capture_ms=0.244550000
+[INFO] [1791029048.040831955] [controller_server]: CV obstacle id=1 source=(4.707,0.468) velocity=(-0.030,0.726) radius=1.697 age=0.165
+[INFO] [1791029048.503584518] [controller_server]: NativeSnapshot ordinal=232 capture_ms=0.373282000
+[INFO] [1791029048.926536811] [controller_server]: Passing new path to controller.
+[INFO] [1791029049.128178216] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=240 capture_ms=0.475326000
+[INFO] [1791029049.128724639] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=239 capture_ms=0.376083000
+[INFO] [1791029049.130810542] [controller_server]: DynamicEvidence ordinal=239 capture_ms=0.259097000
+[INFO] [1791029049.130897267] [controller_server]: CV obstacle id=1 source=(4.674,0.951) velocity=(-0.020,0.406) radius=1.697 age=0.067
+[INFO] [1791029049.607620653] [controller_server]: NativeSnapshot ordinal=243 capture_ms=0.373488000
+[INFO] [1791029049.926534358] [controller_server]: Passing new path to controller.
+[INFO] [1791029050.147944235] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=250 capture_ms=0.432936000
+[INFO] [1791029050.148426159] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=249 capture_ms=0.336880000
+[INFO] [1791029050.150527574] [controller_server]: DynamicEvidence ordinal=249 capture_ms=0.228918000
+[INFO] [1791029050.150589532] [controller_server]: CV obstacle id=1 source=(4.679,0.808) velocity=(0.010,-0.112) radius=1.697 age=0.097
+[INFO] [1791029050.707397765] [controller_server]: NativeSnapshot ordinal=254 capture_ms=0.419007000
+[INFO] [1791029050.926546885] [controller_server]: Passing new path to controller.
+[INFO] [1791029051.237795116] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=261 capture_ms=0.428485000
+[INFO] [1791029051.238321604] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=260 capture_ms=0.371022000
+[INFO] [1791029051.240385817] [controller_server]: DynamicEvidence ordinal=260 capture_ms=0.281366000
+[INFO] [1791029051.240451550] [controller_server]: CV obstacle id=1 source=(4.735,0.170) velocity=(0.042,-0.585) radius=1.697 age=0.065
+[INFO] [1791029051.771242768] [controller_server]: NativeSnapshot ordinal=265 capture_ms=0.392201000
+[INFO] [1791029052.026532651] [controller_server]: Passing new path to controller.
+[INFO] [1791029052.328750733] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=272 capture_ms=0.784589000
+[INFO] [1791029052.329687279] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=271 capture_ms=0.660220000
+[INFO] [1791029052.332931164] [controller_server]: DynamicEvidence ordinal=271 capture_ms=0.349141000
+[INFO] [1791029052.333015064] [controller_server]: CV obstacle id=1 source=(4.758,-0.557) velocity=(0.025,-0.674) radius=1.697 age=0.034
+[INFO] [1791029052.775018762] [controller_server]: NativeSnapshot ordinal=275 capture_ms=0.374476000
+[INFO] [1791029053.026535020] [controller_server]: Passing new path to controller.
+[INFO] [1791029053.347920489] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=282 capture_ms=0.447793000
+[INFO] [1791029053.348438154] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=281 capture_ms=0.372385000
+[INFO] [1791029053.350354414] [controller_server]: DynamicEvidence ordinal=281 capture_ms=0.254919000
+[INFO] [1791029053.350421046] [controller_server]: CV obstacle id=1 source=(4.785,-0.804) velocity=(0.027,-0.288) radius=1.697 age=0.063
+[INFO] [1791029053.782281058] [controller_server]: NativeSnapshot ordinal=285 capture_ms=0.382222000
+[INFO] [1791029054.026544322] [controller_server]: Passing new path to controller.
+[INFO] [1791029054.437757841] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=293 capture_ms=0.433797000
+[INFO] [1791029054.438260323] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=292 capture_ms=0.347377000
+[INFO] [1791029054.440207641] [controller_server]: DynamicEvidence ordinal=292 capture_ms=0.214672000
+[INFO] [1791029054.440275367] [controller_server]: CV obstacle id=1 source=(4.777,-0.513) velocity=(-0.003,0.265) radius=1.697 age=0.097
+[INFO] [1791029054.872079005] [controller_server]: NativeSnapshot ordinal=296 capture_ms=0.372982000
+[INFO] [1791029055.126543641] [controller_server]: Passing new path to controller.
+[INFO] [1791029055.527665897] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=304 capture_ms=0.436930000
+[INFO] [1791029055.528165721] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=303 capture_ms=0.356218000
+[INFO] [1791029055.530057409] [controller_server]: DynamicEvidence ordinal=303 capture_ms=0.274616000
+[INFO] [1791029055.530130956] [controller_server]: CV obstacle id=1 source=(4.732,0.212) velocity=(-0.042,0.667) radius=1.697 age=0.065
+[INFO] [1791029055.875604372] [controller_server]: NativeSnapshot ordinal=306 capture_ms=0.720145000
+[INFO] [1791029056.126534186] [controller_server]: Passing new path to controller.
+[INFO] [1791029056.548426646] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=314 capture_ms=0.464283000
+[INFO] [1791029056.549106056] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=313 capture_ms=0.530315000
+[INFO] [1791029056.552511572] [controller_server]: DynamicEvidence ordinal=313 capture_ms=0.463908000
+[INFO] [1791029056.552623486] [controller_server]: CV obstacle id=1 source=(4.676,0.760) velocity=(-0.059,0.587) radius=1.697 age=0.094
+[INFO] [1791029056.884666795] [controller_server]: NativeSnapshot ordinal=316 capture_ms=0.372905000
+[INFO] [1791029057.126550134] [controller_server]: Passing new path to controller.
+[INFO] [1791029057.638816595] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=325 capture_ms=0.807631000
+[INFO] [1791029057.639751945] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=324 capture_ms=0.654111000
+[INFO] [1791029057.643102355] [controller_server]: DynamicEvidence ordinal=324 capture_ms=0.457978000
+[INFO] [1791029057.643225928] [controller_server]: CV obstacle id=1 source=(4.676,0.917) velocity=(0.001,0.135) radius=1.697 age=0.063
+[INFO] [1791029057.974977208] [controller_server]: NativeSnapshot ordinal=327 capture_ms=0.421762000
+[INFO] [1791029058.226532416] [controller_server]: Passing new path to controller.
+[INFO] [1791029058.727744254] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=336 capture_ms=0.446128000
+[INFO] [1791029058.728267870] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=335 capture_ms=0.344771000
+[INFO] [1791029058.730118943] [controller_server]: DynamicEvidence ordinal=335 capture_ms=0.239238000
+[INFO] [1791029058.730189082] [controller_server]: CV obstacle id=1 source=(4.696,0.530) velocity=(0.016,-0.372) radius=1.697 age=0.095
+[INFO] [1791029058.977537751] [controller_server]: NativeSnapshot ordinal=337 capture_ms=0.397969000
+[INFO] [1791029059.226543159] [controller_server]: Passing new path to controller.
+[INFO] [1791029059.748942364] [controller_server]: CostAccumulator stage=before_CostCritic ordinal=346 capture_ms=0.751754000
+[INFO] [1791029059.749569565] [controller_server]: CostAccumulator stage=after_CostCritic ordinal=345 capture_ms=0.440024000
+[INFO] [1791029059.751981612] [controller_server]: DynamicEvidence ordinal=345 capture_ms=0.321177000
+[INFO] [1791029059.752064481] [controller_server]: CV obstacle id=1 source=(4.758,-0.172) velocity=(0.061,-0.674) radius=1.697 age=0.061
+[INFO] [1791029059.993054343] [controller_server]: NativeSnapshot ordinal=347 capture_ms=0.425154000
+[INFO] [1791029060.226548362] [controller_server]: Goal was canceled. Stopping the robot.
+[INFO] [1791029060.226621962] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+[INFO] [1791029063.877106258] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1791029063.877205876] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[INFO] [1791029063.877335398] [controller_server]: Deactivating
+[INFO] [1791029063.877390976] [MPPIController]: Deactivated MPPI Controller: FollowPath
+[INFO] [1791029063.877427889] [local_costmap.local_costmap]: Deactivating
+[INFO] [1791029063.893268480] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[INFO] [1791029063.903795421] [controller_server]: Cleaning up
+[INFO] [1791029063.903955469] [MPPIController]: Cleaned up MPPI Controller: FollowPath
+[INFO] [1791029063.904185532] [local_costmap.local_costmap]: Cleaning up
+[INFO] [1791029063.932588629] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
