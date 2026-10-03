@@ -74,6 +74,12 @@ raster costs and original whole-polygon/continuous raw203 gates have different
 definitions; actual complete CostCritic state remains unknown. See
 [the map contract audit](dynamic_obstacle_critic/native_cost_map_contract_experiment.md).
 
+`native_raw_map_queries` is a separate BUILD_TESTING-only file instance for
+original raw30 and dense model poses. No profile loads its private input,
+map predicates, weights or reports. It adds no ROS/TF owner or control choice;
+actual CostCritic state and physical support remain unknown. See
+[the original raw map audit](dynamic_obstacle_critic/native_raw_map_contract_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

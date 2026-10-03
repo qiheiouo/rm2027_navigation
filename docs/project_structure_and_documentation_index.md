@@ -91,6 +91,14 @@ Local-CV boundary costs peak at 202 despite whole-polygon raw216 contact;
 future-circle costs match the original contact checkpoint. Complete actual
 CostCritic state stays unknown; no threshold, scoring or runtime changes follow.
 
+[The original raw map audit](dynamic_obstacle_critic/native_raw_map_contract_experiment.md)
+keeps the original 300 raw30 paths distinct from dense queries and individual
+bounds/SG paths. All 142,500 installed SDK queries match scalar grids; a ten-path
+exact cell audit separates sampled contact from negative interval bounds.
+Original cost bits and eight rational weight partitions are independently
+verified. Its immutable archive and explicit verifier amendment preserve
+failures and reconstruct all 38 mutation recipes after temporary files vanished.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

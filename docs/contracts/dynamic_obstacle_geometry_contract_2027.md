@@ -80,6 +80,14 @@ oracle给正见证40.86%权重，aggregate仍失败。见
 猜测实际CostCritic择支或增量。真实完整内部状态与map单元来源均
 unknown，见[地图契约审计](../dynamic_obstacle_critic/native_cost_map_contract_experiment.md)。
 
+原300 raw同路径查询进一步分开原30点网格、密集SDK边界、整多边形
+及连续reserve。主7条SDK低于203而保守门失败的路径中，显式十行
+单元标量复核证实3条采样接触、4条仅负区间下界；原raw185精确
+地图下界为正，而不同的个体bounds/SG路径失败。不能把处理后的
+标签接到原风险路径，也不能据此推导SG单一因果或已接受控制。
+全300只有保守vector标签，精确单元范围仍是十行。见
+[原raw地图审计](../dynamic_obstacle_critic/native_raw_map_contract_experiment.md)。
+
 离线纯函数已将一个可复算的充分条件具体化：若完整未来投影到源
 集合的有向Hausdorff位移≤B*h，源集合直径≤D、锚点到凸包≤e，
 则原CV锚点可用`D+e+(B+|v_hat|)*h`支持，h包含source age。

@@ -26,11 +26,23 @@ struct Input {
   std::vector<Trace> traces;
 };
 Input read_input(const char *path) {
+#ifdef RM_NATIVE_RAW_MAP
+  if(std::filesystem::file_size(path)!=4598940)throw std::runtime_error("native raw map query exact byte budget");
+#else
   if(std::filesystem::file_size(path)!=689868)throw std::runtime_error("native map query exact byte budget");
+#endif
   std::ifstream s(path,std::ios::binary);std::array<char,8> magic;read_values(s,magic.data(),8);
+#ifdef RM_NATIVE_RAW_MAP
+  if(std::memcmp(magic.data(),"RMCOSTR1",8))throw std::runtime_error("native raw map query private schema");
+#else
   if(std::memcmp(magic.data(),"RMCOSTQ1",8))throw std::runtime_error("native map query private schema");
+#endif
   std::array<uint32_t,8> h;read_values(s,h.data(),h.size());
+#ifdef RM_NATIVE_RAW_MAP
+  if(h!=std::array<uint32_t,8>{298,100,100,4,1200,142500,2,30})throw std::runtime_error("native raw map query source/map/trace budget");
+#else
   if(h!=std::array<uint32_t,8>{298,100,100,4,102,21165,2,30})throw std::runtime_error("native map query source/map/trace budget");
+#endif
   Input input;read_values(s,&input.dt,1);read_values(s,input.map.data(),input.map.size());finite_values(input.map);
   if(input.dt!=float(.1) || input.map[0]!=.05 || input.map[3]!=30*double(input.dt))throw std::runtime_error("native map query time/resolution mismatch");
   input.footprint.resize(4);
@@ -38,14 +50,27 @@ Input read_input(const char *path) {
     std::array<double,2> xy;read_values(s,xy.data(),2);finite_values(xy);p.x=xy[0];p.y=xy[1];p.z=0;
   }
   read_values(s,input.raw.data(),input.raw.size());std::vector<std::pair<uint32_t,uint32_t>> first_ids;size_t count=0;
+#ifdef RM_NATIVE_RAW_MAP
+  for(size_t i=0;i<1200;++i) {
+#else
   for(size_t i=0;i<102;++i) {
+#endif
     std::array<uint32_t,4> m;read_values(s,m.data(),m.size());Trace trace;trace.kind=m[0];trace.row=m[1];trace.epoch=m[2];read_values(s,&trace.start,1);
+#ifdef RM_NATIVE_RAW_MAP
+    const size_t epoch=i/600,index=i%600,samples=index<300?(epoch?207:208):30;
+    if(trace.epoch!=epoch || m[3]!=samples || !std::isfinite(trace.start) || trace.start!=(epoch?47.98:48.004) ||
+        trace.kind!=(index<300?2u:3u) || trace.row!=index%300)
+      throw std::runtime_error("native raw map query trace row/epoch identity");
+#else
     const size_t epoch=i/51,index=i%51,samples=epoch?207:208;
     if(trace.epoch!=epoch || m[3]!=samples || !std::isfinite(trace.start) || trace.start!=(epoch?47.98:48.004) ||
         (index<8 && (trace.kind!=0 || trace.row!=index)) || (index>=8 && (trace.kind!=1 || trace.row>=300)))
       throw std::runtime_error("native map query trace row/epoch identity");
+#endif
     if(epoch==0) {
+#ifndef RM_NATIVE_RAW_MAP
       if(index>8 && trace.row<=first_ids.back().second)throw std::runtime_error("native map query individual order/duplicate");
+#endif
       first_ids.emplace_back(trace.kind,trace.row);
     } else if(first_ids[index]!=std::make_pair(trace.kind,trace.row))throw std::runtime_error("native map query epoch row mapping changed");
     trace.poses.resize(samples);double last=-1;
@@ -54,10 +79,21 @@ Input read_input(const char *path) {
       if(pose[0]<=last || pose[0]<0 || pose[0]>input.map[3]+1e-12)throw std::runtime_error("native map query full monotonic grid");
       last=pose[0];
     }
+#ifdef RM_NATIVE_RAW_MAP
+    if(trace.poses.front()[0]!=(trace.kind==3?double(input.dt):0.) || std::abs(trace.poses.back()[0]-input.map[3])>1e-12)
+      throw std::runtime_error("native raw map query complete native/dense grid required");
+    if(trace.kind==3)for(size_t step=0;step<30;++step)if(trace.poses[step][0]!=(step+1)*double(input.dt))
+      throw std::runtime_error("native raw map query original30 time grid required");
+#else
     if(trace.poses.front()[0]!=0 || std::abs(trace.poses.back()[0]-input.map[3])>1e-12)throw std::runtime_error("native map query complete horizon required");
+#endif
     count+=samples;input.traces.push_back(std::move(trace));
   }
+#ifdef RM_NATIVE_RAW_MAP
+  if(count!=142500 || s.peek()!=std::char_traits<char>::eof())throw std::runtime_error("native raw map query trailing/budget mismatch");
+#else
   if(count!=21165 || s.peek()!=std::char_traits<char>::eof())throw std::runtime_error("native map query trailing/budget mismatch");
+#endif
   return input;
 }
 std::string loaded_library() {
@@ -90,8 +126,13 @@ int main(int argc,char **argv) {
     const auto input=read_input(argv[1]);nav2_costmap_2d::Costmap2D map(100,100,input.map[0],input.map[1],input.map[2],0);
     std::memcpy(map.getCharMap(),input.raw.data(),input.raw.size());Checker checker(&map);
     std::ofstream out(argv[2]);out.exceptions(std::ios::failbit|std::ios::badbit);out<<std::setprecision(17);
+#ifdef RM_NATIVE_RAW_MAP
+    out<<"{\"schema\":\"native_raw_map_queries_v1\",\"source_ordinal\":298,\"trace_count\":1200,\"query_count\":142500,\"native_library\":\""<<loaded_library()
+       <<"\",\"actual_CostCritic_state\":\"unknown\",\"scope\":\"Original native raw30 grid and interpolated full-horizon queries; not actual critic costs or collision events\"}\n";
+#else
     out<<"{\"schema\":\"native_map_queries_v1\",\"source_ordinal\":298,\"trace_count\":102,\"query_count\":21165,\"native_library\":\""<<loaded_library()
        <<"\",\"actual_CostCritic_state\":\"unknown\",\"scope\":\"Installed checker queries on frozen map; not actual critic costs or collision events\"}\n";
+#endif
     for(size_t t=0;t<input.traces.size();++t) {
       const auto &trace=input.traces[t];
       for(size_t sample=0;sample<trace.poses.size();++sample) {
@@ -103,6 +144,10 @@ int main(int argc,char **argv) {
            <<",\"center_raw\":"<<(inside?int(map.getCost(mx,my)):-1)<<",\"native_footprint_cost\":"<<cost<<"}\n";
       }
     }
+#ifdef RM_NATIVE_RAW_MAP
+    std::cout<<"native_raw_map_queries=142500 traces=1200 actual_CostCritic_state=unknown\n";return 0;
+#else
     std::cout<<"native_map_queries=21165 traces=102 actual_CostCritic_state=unknown\n";return 0;
+#endif
   }catch(const std::exception &error){std::cerr<<error.what()<<'\n';return 1;}
 }

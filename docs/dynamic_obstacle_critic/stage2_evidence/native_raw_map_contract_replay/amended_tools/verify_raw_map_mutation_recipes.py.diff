@@ -1,0 +1,13 @@
+--- frozen/verify_raw_map_mutation_recipes.py
++++ amended/verify_raw_map_mutation_recipes.py
+@@ -10,7 +10,9 @@
+ def verify(archive):
+     blob=(archive/'prepared/queries.bin').read_bytes();cpp=gzip.open(archive/'native_queries.jsonl.gz','rb').read()
+     rows=None;checks={}
+-    for path in sorted((archive/'verification').rglob('*.mutation.json')):
++    paths=set((archive/'verification').rglob('*.mutation.json'))
++    paths.update((archive/'verification').rglob('mutation.json'))
++    for path in sorted(paths):
+         recipe=json.loads(path.read_text());mode=recipe['mode']
+         if mode=='binary_patch':
+             if hashlib.sha256(blob).hexdigest()!=recipe['base_sha256']:raise ValueError('mutation base input changed')

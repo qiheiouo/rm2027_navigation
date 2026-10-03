@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-03 Asia/Shanghai",
+  "references": {
+    "native_raw_map_contract": {
+      "manifest_sha256": "a4bf8390a687345049adc954b29fdf08e7898b67cb8cb9f10fba1dd90e2da003",
+      "files": 211
+    },
+    "native_cost_map_contract": {
+      "manifest_sha256": "97f7e65be1645663776755b6df47ae0a6203b86a8d4b1d2d9e2b97ad5d966cda",
+      "files": 207
+    },
+    "gazebo_dynamic_consumption_evidence": {
+      "manifest_sha256": "5d3385ec5edf33ad8cdd7aebce3359304bc6a9c7b01224b674a757499fb654cd",
+      "files": 1685
+    },
+    "dynamic_consumption_witness": {
+      "manifest_sha256": "f6b59502b7d701f22a8e31f6ece4714367c24c58a7bf84c5df3a7020500541e8",
+      "files": 88
+    },
+    "raw_rollout_objective": {
+      "manifest_sha256": "ddbab89c2904d031f2a5f2fb1efd0d84b34faa3e03df8e50c5fd4534be161e95",
+      "files": 34
+    },
+    "native_factor_aggregation": {
+      "manifest_sha256": "01690b6230b5fb5c256b3fa41d3353b6576098cedda4aba1ad928ad60a180ece",
+      "files": 179
+    },
+    "native_sg_stages": {
+      "manifest_sha256": "a252b8048513ea6596b877fd56607dbb3f32450e7de6f31b9f85fc375dfafe4a",
+      "files": 192
+    }
+  },
+  "reference_file_count": 2596,
+  "byte_exact_replay_checks": 11,
+  "mutation_recipe_hash_checks": 38,
+  "recovery_regression_checks": {
+    "raw72_verification_byte_exact": true,
+    "default79_verification_byte_exact": true,
+    "default21165_native_output_byte_exact": true,
+    "default_synthetic_output_byte_exact": true
+  },
+  "rebuilt_helpers_and_reread_SDKs_match": true,
+  "missing_old_temporary_ELFs": "Historical identities preserved in original archive; not claimed reread after temporary directory vanished.",
+  "original_archive_mutated": false,
+  "amendment": "Explicit mutation-verifier source adds coordinated_pose/mutation.json discovery. Current replay driver stores both verifier identities and separates recipe hashes from byte-exact checks.",
+  "preserved_failures": [
+    "Original frozen verifier found only 37 recipes and rejected missing coordinated entry.",
+    "First recovery default test invocation omitted mandatory format arguments and exited 2; corrected invocation exited 0."
+  ],
+  "full_old_ephemeral_negative_files": "Lost with old temporary directory; reconstructed from complete frozen bases and 38 lossless recipes, then new compiled probes executed. Frozen provenance is retained as a statement at freeze time.",
+  "runtime_TF_profiles_and_public_contracts_changed": false,
+  "actual_CostCritic_state_and_cell_source": "unknown",
+  "original_task_raw203_age": "FAILED",
+  "composite": "NOT ESTABLISHED",
+  "physical_support_bounds": "unknown"
+}

@@ -324,3 +324,15 @@ future-circle stages return216 at the recorded +2.982s contact. Seventy-nine
 native/format probes and nine provenance probes pass; all fourteen prior ELF
 identities remain unchanged. Independent actual SDK re-execution and ten
 replay checks match byte for byte. See [the map contract audit](../../docs/dynamic_obstacle_critic/native_cost_map_contract_experiment.md).
+
+`native_raw_map_queries` is a separate BUILD_TESTING instance for the original
+300 raw paths. Original 30-point f32 poses and dense full-horizon queries are
+distinct; all 142,500 installed SDK queries match independent scalar grids.
+Whole-polygon vector gates pass 90/300 at the score clock and 92/300 at source
+pose. The ten-path exact cell subset distinguishes three sampled contacts
+from four negative interval bounds among seven primary SDK-below203 failures.
+Raw185 has a positive exact map margin; its different bounds/SG path fails.
+Raw cost sums and weights remain attached to raw paths; individual CostCritic
+increments and accepted-control labels remain unknown. The immutable archive
+and explicit replay-verifier amendment are documented in
+[the original raw map audit](../../docs/dynamic_obstacle_critic/native_raw_map_contract_experiment.md).
