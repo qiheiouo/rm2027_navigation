@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/repo/src/rm_dynamic_obstacle_tracking/tools/audit_default_prediction_wire.py", line 70, in <module>
+    report = run(args.reference_node)
+  File "/repo/src/rm_dynamic_obstacle_tracking/tools/audit_default_prediction_wire.py", line 55, in run
+    raise AssertionError(f'v1 wire mismatch at frame {frame}: fields_equal={actual == baseline}, lengths={(len(actual_bytes), len(baseline_bytes))}, differing_offsets={mismatch[:20]}')
+AssertionError: v1 wire mismatch at frame 38: fields_equal=True, lengths=(1772, 1772), differing_offsets=[59, 97, 98, 99, 120, 121, 122, 123, 216, 217, 218, 219, 949, 950, 951, 952, 953, 954, 955, 1048]

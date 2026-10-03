@@ -126,3 +126,26 @@ CMake namespace adapter 的同 mtime 干净重建也完成：三包编译成功�
 53 原生测试无失败/错误/skipped。生成 header 仅加固定注释，冻结
 body 完全一致；运行库身份另核验。旧真实成本/动态消费两份 archive
 的完整文件和 manifest 身份再次通过，旧物理/任务失败不变。
+
+f8d6d828 的可移植性归档 `observation_anchor_portability`：18 文件、
+166,295 字节（不含 manifest），manifest SHA
+`9ebd7083423cd9aead352cb3ffc0e532575bda449b1203a843910b51dab2f95c`。
+244 个 source 字节与14a预运行比较仅 CMake/test_model 两个文件变化；
+生成 frozen body、53 原生结果及四运行 ELF 均已核验一致。SDK 原生
+controller/critics 仍为 fc259…/cb4f7…；命令 observer c1b704…、成本
+observer cf649…保持，critic/guard 本次接口修改身份为599106…/3095ae…。
+
+## 复现入口
+
+`replay_observation_anchor_preflight.py ARCHIVE NEW_OUTPUT BUILD INSTALL`
+在已加载固定 Humble 与本次安装环境后执行。它核验完整 manifest，
+实际运行测试、默认 core/CDR/guard/DDS，与冻结结果比较；不是读取
+旧 XML 冒充新测试。用归档 `observation_anchor_replay/verification/run.sh`
+在无网络镜像重编译，挂载 source 到 `/repo`、新工作目录到 `/out`、
+原预运行 archive 到 `/archive`；所有输出使用新目录。
+
+构造 source 副本时可直接采用预运行 `source/`，并保留记录的参考头
+mtime 分离；或将 `observation_anchor_portability/amended_source/` 中
+两个源文件覆盖至独立副本同路径，以 namespace adapter 消除 mtime
+依赖。其余源字节不变，原始 archive 不写入。两种重建的四运行 ELF
+均相同；相同 mtime 检查只用于测试可移植性，不生成新闭环结论。

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>rm_dynamic_obstacle_critic</name><version>0.1.0</version>
+  <description>Opt-in CV MPPI critic and independent short-horizon command guard.</description>
+  <maintainer email="todo@example.com">RM Navigation</maintainer><license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>nav2_mppi_controller</depend><depend>nav2_costmap_2d</depend><depend>nav2_msgs</depend>
+  <depend>pluginlib</depend><depend>rclcpp</depend><depend>rclcpp_lifecycle</depend>
+  <depend>tf2_ros</depend><depend>tf2</depend><depend>geometry_msgs</depend><depend>nav_msgs</depend>
+  <depend>diagnostic_msgs</depend><depend>visualization_msgs</depend><depend>rm_competition_interfaces</depend>
+  <exec_depend>rm_dynamic_obstacle_tracking</exec_depend><exec_depend>launch_ros</exec_depend>
+  <exec_depend>nav2_common</exec_depend><exec_depend>python3-yaml</exec_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

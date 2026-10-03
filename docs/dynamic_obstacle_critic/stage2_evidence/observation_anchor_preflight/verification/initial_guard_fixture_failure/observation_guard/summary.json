@@ -1,0 +1,276 @@
+{
+  "schema": 1,
+  "status": "FAILED",
+  "parameter_readback": {
+    "input_schema": "rm_dynamic_obstacle_predictions/v2_observation_anchor"
+  },
+  "cases": [
+    {
+      "case": "fresh_observation_passes",
+      "passed": false,
+      "output_tail": [
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "clear",
+        "clear",
+        "clear",
+        "clear",
+        "clear"
+      ]
+    },
+    {
+      "case": "v1_replacement_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "schema_or_frame",
+        "schema_or_frame",
+        "schema_or_frame",
+        "schema_or_frame",
+        "schema_or_frame"
+      ]
+    },
+    {
+      "case": "v2_recovers_after_transition",
+      "passed": false,
+      "output_tail": [
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "clear",
+        "clear",
+        "clear",
+        "clear",
+        "clear"
+      ]
+    },
+    {
+      "case": "old_confirmed_epoch_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "observation_anchor_epoch",
+        "observation_anchor_epoch",
+        "observation_anchor_epoch",
+        "observation_anchor_epoch",
+        "observation_anchor_epoch"
+      ]
+    },
+    {
+      "case": "fresh_coasting_passes",
+      "passed": false,
+      "output_tail": [
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "clear",
+        "clear",
+        "clear",
+        "clear",
+        "clear"
+      ]
+    },
+    {
+      "case": "coasting_at_source_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "observation_anchor_epoch",
+        "observation_anchor_epoch",
+        "observation_anchor_epoch",
+        "observation_anchor_epoch",
+        "observation_anchor_epoch"
+      ]
+    },
+    {
+      "case": "expired_observation_brakes",
+      "passed": true,
+      "output_tail": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "reason_tail": [
+        "stale_observation",
+        "stale_observation",
+        "stale_observation",
+        "stale_observation",
+        "stale_observation"
+      ]
+    }
+  ],
+  "scope": "Public-message schema and pass/brake regression on isolated DDS topics; no physical safety certificate."
+}

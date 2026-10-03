@@ -1,0 +1,70 @@
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from CostAccumulatorPlugin
+[ RUN      ] CostAccumulatorPlugin.DefaultOffDoesNotCreateFilesOrMutateData
+[INFO] [1791023905.628566959] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791023905.629190967] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791023905.629411975] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791023905.636668527] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791023905.639177588] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.DefaultOffDoesNotCreateFilesOrMutateData (34 ms)
+[ RUN      ] CostAccumulatorPlugin.ActiveCallbacksShareCommittedTokenAndLeaveCostsUnchanged
+[INFO] [1791023905.649015355] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791023905.649434405] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791023905.649619310] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791023905.652194940] [cost_observer_test]: CostAccumulator stage=before_CostCritic ordinal=0 capture_ms=0.216766000
+[INFO] [1791023905.652347223] [cost_observer_test]: CostAccumulator stage=after_CostCritic ordinal=0 capture_ms=0.121666000
+[INFO] [1791023905.652398957] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791023905.654548564] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.ActiveCallbacksShareCommittedTokenAndLeaveCostsUnchanged (15 ms)
+[ RUN      ] CostAccumulatorPlugin.AfterWithoutBeforeIsExplicitlyUnpaired
+[INFO] [1791023905.663430725] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791023905.663863936] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791023905.664053991] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791023905.666505929] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791023905.668655479] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.AfterWithoutBeforeIsExplicitlyUnpaired (14 ms)
+[ RUN      ] CostAccumulatorPlugin.BudgetExhaustionCannotReuseOrphanedBeforeToken
+[INFO] [1791023905.677573384] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791023905.677998234] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791023905.678189272] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791023905.680720200] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791023905.682736165] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.BudgetExhaustionCannotReuseOrphanedBeforeToken (14 ms)
+[ RUN      ] CostAccumulatorPlugin.DifferentCriticDataObjectCannotReuseToken
+[INFO] [1791023905.691331163] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791023905.691742706] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791023905.691942165] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791023905.694430673] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791023905.696492625] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.DifferentCriticDataObjectCannotReuseToken (14 ms)
+[ RUN      ] CostAccumulatorPlugin.ReorderedCostCriticIsRejectedBeforeDirectoryCreation
+[INFO] [1791023905.705520813] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791023905.705967602] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791023905.706159531] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791023905.708259328] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791023905.710364709] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.ReorderedCostCriticIsRejectedBeforeDirectoryCreation (14 ms)
+[----------] 6 tests from CostAccumulatorPlugin (105 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (105 ms total)
+[  PASSED  ] 6 tests.

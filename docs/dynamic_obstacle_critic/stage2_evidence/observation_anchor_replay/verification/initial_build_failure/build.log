@@ -1,0 +1,37 @@
+Starting >>> rm_competition_interfaces
+Finished <<< rm_competition_interfaces [7.03s]
+Starting >>> rm_dynamic_obstacle_tracking
+--- stderr: rm_dynamic_obstacle_tracking
+warning: build_py: byte-compiling is disabled, skipping.
+
+warning: install_lib: byte-compiling is disabled, skipping.
+
+---
+Finished <<< rm_dynamic_obstacle_tracking [0.78s]
+Starting >>> rm_dynamic_obstacle_critic
+--- stderr: rm_dynamic_obstacle_critic
+/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp: In member function ‘virtual void Guard_HypotPruningPreservesFrozenMapWitnessExactly_Test::TestBody()’:
+/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:64:45: error: ‘check_static_map’ is not a member of ‘frozen_2622371’; did you mean ‘rm_dynamic_obstacle_critic::check_static_map’?
+   64 |       const auto expected = frozen_2622371::check_static_map(map, old, reserve, 203,
+      |                                             ^~~~~~~~~~~~~~~~
+In file included from /repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:2:
+/repo/src/rm_dynamic_obstacle_critic/include/rm_dynamic_obstacle_critic/static_map.hpp:16:1: note: ‘rm_dynamic_obstacle_critic::check_static_map’ declared here
+   16 | check_static_map(const nav2_msgs::msg::Costmap &map,
+      | ^~~~~~~~~~~~~~~~
+/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:65:37: error: ‘frozen_2622371::StaticMapMode’ has not been declared
+   65 |           nearest ? frozen_2622371::StaticMapMode::NearestWithinReserve
+      |                                     ^~~~~~~~~~~~~
+/repo/src/rm_dynamic_obstacle_critic/test/test_model.cpp:66:37: error: ‘frozen_2622371::StaticMapMode’ has not been declared
+   66 |                   : frozen_2622371::StaticMapMode::FirstRejection);
+      |                                     ^~~~~~~~~~~~~
+gmake[2]: *** [CMakeFiles/test_model.dir/build.make:76: CMakeFiles/test_model.dir/test/test_model.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:300: CMakeFiles/test_model.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+gmake: *** [Makefile:146: all] Error 2
+---
+Failed   <<< rm_dynamic_obstacle_critic [40.8s, exited with code 2]
+[Processing: rm_dynamic_obstacle_critic]
+
+Summary: 2 packages finished [48.8s]
+  1 package failed: rm_dynamic_obstacle_critic
+  2 packages had stderr output: rm_dynamic_obstacle_critic rm_dynamic_obstacle_tracking

@@ -5,6 +5,15 @@
 guard 诊断新增源时间戳、测量/提案速度、拒绝响应分支、未来 pose、reserve
 和第一个拒绝的 raw cell；这些字段描述该次消费检查，不代表 MPPI 最终候选。
 
+`experiment/observation-anchor-cv` 增加显式 v2 锚点模式：真实关联检测
+质心从最后观测 epoch 按本次滤波速度推进至 scan epoch；ROS coasting
+先计算整数源时间差，未裁剪/衰减显示与公开 CV 一致。关联/滤波/可见
+尺寸保持，默认 v1 不变，critic/guard 静态 schema 必须配对选择。
+只使用同一公共消息，无感知私有状态消费、truth 输入或新 TF。完整
+物体直径/观测误差/未来运动界仍独立且未知，在线可见尺寸圆未认证；
+v2 文件消费证据尚未迁移，显式拒绝。见
+[接口预运行与独立重执行](observation_anchor_cv_experiment.md)。
+
 `experiment/static-stopping-critic` 在 `91d7eda` 之后另行增加静态刹停目标，
 没有并回 feature 或 main。它从原生 CriticData 读取候选控制代理和测量
 pose/twist，通过共享guard静态检查向原生MPPI costs增加0/10000成本：

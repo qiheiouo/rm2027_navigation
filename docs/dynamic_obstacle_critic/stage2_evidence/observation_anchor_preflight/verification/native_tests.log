@@ -1,0 +1,483 @@
+Starting >>> rm_dynamic_obstacle_critic
+UpdateCTestConfiguration  from :/out/build/rm_dynamic_obstacle_critic/CTestConfiguration.ini
+Parse Config file:/out/build/rm_dynamic_obstacle_critic/CTestConfiguration.ini
+   Site: 9fd315810b8e
+   Build name: (empty)
+ Add coverage exclude regular expressions.
+Create new tag: 20261003-1006 - Experimental
+UpdateCTestConfiguration  from :/out/build/rm_dynamic_obstacle_critic/CTestConfiguration.ini
+Parse Config file:/out/build/rm_dynamic_obstacle_critic/CTestConfiguration.ini
+Test project /out/build/rm_dynamic_obstacle_critic
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: test_model
+
+1: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_model.gtest.xml" "--package-name" "rm_dynamic_obstacle_critic" "--output-file" "/out/build/rm_dynamic_obstacle_critic/ament_cmake_gtest/test_model.txt" "--command" "/out/build/rm_dynamic_obstacle_critic/test_model" "--gtest_output=xml:/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_model.gtest.xml"
+1: Test timeout computed to be: 60
+1: -- run_test.py: invoking following command in '/out/build/rm_dynamic_obstacle_critic':
+1:  - /out/build/rm_dynamic_obstacle_critic/test_model --gtest_output=xml:/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_model.gtest.xml
+1: Running main() from /opt/ros/humble/src/gtest_vendor/src/gtest_main.cc
+1: [==========] Running 20 tests from 6 test suites.
+1: [----------] Global test environment set-up.
+1: [----------] 5 tests from Geometry
+1: [ RUN      ] Geometry.HypotPruningPreservesFrozenDistanceExactly
+1: [       OK ] Geometry.HypotPruningPreservesFrozenDistanceExactly (80 ms)
+1: [ RUN      ] Geometry.ConvexValidationAndRotation
+1: [       OK ] Geometry.ConvexValidationAndRotation (0 ms)
+1: [ RUN      ] Geometry.SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons
+1: [       OK ] Geometry.SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons (1 ms)
+1: [ RUN      ] Geometry.OptionalNearestMapQueryPreservesFirstWitnessAndExactDistance
+1: [       OK ] Geometry.OptionalNearestMapQueryPreservesFirstWitnessAndExactDistance (0 ms)
+1: [ RUN      ] Geometry.BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate
+1: [       OK ] Geometry.BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate (16 ms)
+1: [----------] 5 tests from Geometry (97 ms total)
+1: 
+1: [----------] 5 tests from Guard
+1: [ RUN      ] Guard.HypotPruningPreservesFrozenMapWitnessExactly
+1: [       OK ] Guard.HypotPruningPreservesFrozenMapWitnessExactly (131 ms)
+1: [ RUN      ] Guard.PassBrakeAndMeasuredStoppingTail
+1: [       OK ] Guard.PassBrakeAndMeasuredStoppingTail (0 ms)
+1: [ RUN      ] Guard.StaticInteriorUnknownAndBounds
+1: [       OK ] Guard.StaticInteriorUnknownAndBounds (0 ms)
+1: [ RUN      ] Guard.StaticWitnessInRotatedMapAndFutureCommandBranch
+1: [       OK ] Guard.StaticWitnessInRotatedMapAndFutureCommandBranch (0 ms)
+1: [ RUN      ] Guard.CachedStaticMeasuredBranchMatchesOriginalUnion
+1: [       OK ] Guard.CachedStaticMeasuredBranchMatchesOriginalUnion (8 ms)
+1: [----------] 5 tests from Guard (139 ms total)
+1: 
+1: [----------] 7 tests from CV
+1: [ RUN      ] CV.FutureConflictAndCrossing
+1: [       OK ] CV.FutureConflictAndCrossing (0 ms)
+1: [ RUN      ] CV.ObservationSchemaRequiresExplicitSelectionAndConsistentEpochs
+1: [       OK ] CV.ObservationSchemaRequiresExplicitSelectionAndConsistentEpochs (0 ms)
+1: [ RUN      ] CV.SchemaTransitionReplacesSnapshotAndRefusesMixedAnchorJumpComparison
+1: [       OK ] CV.SchemaTransitionReplacesSnapshotAndRefusesMixedAnchorJumpComparison (0 ms)
+1: [ RUN      ] CV.ObservationAnchoredPredictionStillUsesWholeSourceAgeAndNativeFutureGrid
+1: [       OK ] CV.ObservationAnchoredPredictionStillUsesWholeSourceAgeAndNativeFutureGrid (0 ms)
+1: [ RUN      ] CV.CurrentOccupancyFutureRelease
+1: [       OK ] CV.CurrentOccupancyFutureRelease (0 ms)
+1: [ RUN      ] CV.StationaryMatchesGeometryAndAll30Steps
+1: [       OK ] CV.StationaryMatchesGeometryAndAll30Steps (0 ms)
+1: [ RUN      ] CV.SourceAgeAndRotatedFrame
+1: [       OK ] CV.SourceAgeAndRotatedFrame (0 ms)
+1: [----------] 7 tests from CV (0 ms total)
+1: 
+1: [----------] 1 test from Cost
+1: [ RUN      ] Cost.ContinuousMarginsAndContact
+1: [       OK ] Cost.ContinuousMarginsAndContact (0 ms)
+1: [----------] 1 test from Cost (0 ms total)
+1: 
+1: [----------] 1 test from Input
+1: [ RUN      ] Input.StaleInvalidIncompleteCoastAndJump
+1: [       OK ] Input.StaleInvalidIncompleteCoastAndJump (0 ms)
+1: [----------] 1 test from Input (0 ms total)
+1: 
+1: [----------] 1 test from Frame
+1: [ RUN      ] Frame.BoundedWorldCorrectionAndNoMovingFrameInput
+1: [ERROR] [1791022003.450614063] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+1: [ERROR] [1791022003.450762322] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+1: [ERROR] [1791022003.450792294] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+1: [       OK ] Frame.BoundedWorldCorrectionAndNoMovingFrameInput (52 ms)
+1: [----------] 1 test from Frame (52 ms total)
+1: 
+1: [----------] Global test environment tear-down
+1: [==========] 20 tests from 6 test suites ran. (288 ms total)
+1: [  PASSED  ] 20 tests.
+1: -- run_test.py: return code 0
+1: -- run_test.py: inject classname prefix into gtest result file '/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_model.gtest.xml'
+1: -- run_test.py: verify result file '/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_model.gtest.xml'
+1/4 Test #1: test_model .......................   Passed    0.38 sec
+test 2
+    Start 2: test_plugin
+
+2: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_plugin.gtest.xml" "--package-name" "rm_dynamic_obstacle_critic" "--output-file" "/out/build/rm_dynamic_obstacle_critic/ament_cmake_gtest/test_plugin.txt" "--command" "/out/build/rm_dynamic_obstacle_critic/test_plugin" "--gtest_output=xml:/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_plugin.gtest.xml"
+2: Test timeout computed to be: 60
+2: -- run_test.py: invoking following command in '/out/build/rm_dynamic_obstacle_critic':
+2:  - /out/build/rm_dynamic_obstacle_critic/test_plugin --gtest_output=xml:/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_plugin.gtest.xml
+2: Running main() from /opt/ros/humble/src/gtest_vendor/src/gtest_main.cc
+2: [==========] Running 21 tests from 10 test suites.
+2: [----------] Global test environment set-up.
+2: [----------] 3 tests from PluginTest
+2: [ RUN      ] PluginTest.NativePluginScoresFutureAndWaitAndRejectsStale
+2: [INFO] [1791022003.574402313] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022003.577140254] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022003.577408012] [test_costmap.test_costmap]: Configuring
+2: [WARN] [1791022003.593111303] [critic_test]: DynamicObstacleCritic fails closed: missing_input
+2: [INFO] [1791022003.794057117] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022003.796816413] [test_costmap.test_costmap]: Destroying
+2: [       OK ] PluginTest.NativePluginScoresFutureAndWaitAndRejectsStale (254 ms)
+2: [ RUN      ] PluginTest.GridMismatchFailsInsteadOfTruncating
+2: [INFO] [1791022003.807253107] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022003.807700598] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022003.807895406] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022003.893189003] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022003.895685405] [test_costmap.test_costmap]: Destroying
+2: [       OK ] PluginTest.GridMismatchFailsInsteadOfTruncating (99 ms)
+2: [ RUN      ] PluginTest.DefaultNativeConsumerRejectsObservationSchema
+2: [INFO] [1791022003.905283211] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022003.905725315] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022003.905918204] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022003.990588876] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022003.993011522] [test_costmap.test_costmap]: Destroying
+2: [       OK ] PluginTest.DefaultNativeConsumerRejectsObservationSchema (97 ms)
+2: [----------] 3 tests from PluginTest (450 ms total)
+2: 
+2: [----------] 1 test from ObservationAnchorPluginTest
+2: [ RUN      ] ObservationAnchorPluginTest.NativeSchemaSelectionScoresV2AndRejectsV1Replacement
+2: [INFO] [1791022004.002782935] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.003229529] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.003417122] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.087626375] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.082
+2: [INFO] [1791022004.169935785] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.172366720] [test_costmap.test_costmap]: Destroying
+2: [       OK ] ObservationAnchorPluginTest.NativeSchemaSelectionScoresV2AndRejectsV1Replacement (180 ms)
+2: [----------] 1 test from ObservationAnchorPluginTest (180 ms total)
+2: 
+2: [----------] 1 test from SoftStoppingPluginTest
+2: [ RUN      ] SoftStoppingPluginTest.EscapeWaitApproachStayDistinctInsidePlanningBand
+2: [INFO] [1791022004.182164838] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.182609478] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.182793165] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.185630464] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.187672931] [test_costmap.test_costmap]: Destroying
+2: [       OK ] SoftStoppingPluginTest.EscapeWaitApproachStayDistinctInsidePlanningBand (14 ms)
+2: [----------] 1 test from SoftStoppingPluginTest (14 ms total)
+2: 
+2: [----------] 5 tests from StoppingPluginTest
+2: [ RUN      ] StoppingPluginTest.UnsupportedSoftModeParametersRejectInitialization
+2: [INFO] [1791022004.196827688] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.197294618] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.197540077] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.200608583] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.202580473] [test_costmap.test_costmap]: Destroying
+2: [       OK ] StoppingPluginTest.UnsupportedSoftModeParametersRejectInitialization (15 ms)
+2: [ RUN      ] StoppingPluginTest.DefaultMarginPreservesNearCellDecision
+2: [INFO] [1791022004.211013087] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.211423842] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.211604085] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.214171527] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.216074552] [test_costmap.test_costmap]: Destroying
+2: [       OK ] StoppingPluginTest.DefaultMarginPreservesNearCellDecision (13 ms)
+2: [ RUN      ] StoppingPluginTest.InvalidPlanningAllowancesRejectInitialization
+2: [INFO] [1791022004.224259202] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.224697450] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.224896443] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.227758501] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.230111556] [test_costmap.test_costmap]: Destroying
+2: [       OK ] StoppingPluginTest.InvalidPlanningAllowancesRejectInitialization (14 ms)
+2: [ RUN      ] StoppingPluginTest.ScoresNativeOffsetOneWithUnchangedRaw203Gate
+2: [INFO] [1791022004.238730644] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.239182033] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.239370436] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.242060357] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.244057388] [test_costmap.test_costmap]: Destroying
+2: [       OK ] StoppingPluginTest.ScoresNativeOffsetOneWithUnchangedRaw203Gate (14 ms)
+2: [ RUN      ] StoppingPluginTest.MeasuredStoppingTailAndMalformedGrid
+2: [INFO] [1791022004.252390443] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.252802892] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.252997575] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.255485516] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.257470778] [test_costmap.test_costmap]: Destroying
+2: [       OK ] StoppingPluginTest.MeasuredStoppingTailAndMalformedGrid (14 ms)
+2: [----------] 5 tests from StoppingPluginTest (70 ms total)
+2: 
+2: [----------] 1 test from BufferedStoppingPluginTest
+2: [ RUN      ] BufferedStoppingPluginTest.PlanningAllowanceRejectsNearCellProposal
+2: [INFO] [1791022004.266377578] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.266870225] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.267069680] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.269782930] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.271735030] [test_costmap.test_costmap]: Destroying
+2: [       OK ] BufferedStoppingPluginTest.PlanningAllowanceRejectsNearCellProposal (14 ms)
+2: [----------] 1 test from BufferedStoppingPluginTest (14 ms total)
+2: 
+2: [----------] 4 tests from SnapshotPluginTest
+2: [ RUN      ] SnapshotPluginTest.CompleteNativeDataAndCostsPreservedBitwise
+2: [INFO] [1791022004.280734364] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.281165618] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.281350585] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.319902004] [critic_test]: NativeSnapshot ordinal=0 capture_ms=0.232145000
+2: [INFO] [1791022004.319940524] [critic_test]: Native snapshot capture budget exhausted (1)
+2: [INFO] [1791022004.320006789] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.322373513] [test_costmap.test_costmap]: Destroying
+2: [       OK ] SnapshotPluginTest.CompleteNativeDataAndCostsPreservedBitwise (52 ms)
+2: [ RUN      ] SnapshotPluginTest.MalformedStateOnlyStopsEvidence
+2: [INFO] [1791022004.332043412] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.332511955] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.332703933] [test_costmap.test_costmap]: Configuring
+2: [ERROR] [1791022004.335048510] [critic_test]: Native evidence capture stopped: snapshot state shape mismatch
+2: [INFO] [1791022004.335116647] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.337060739] [test_costmap.test_costmap]: Destroying
+2: [       OK ] SnapshotPluginTest.MalformedStateOnlyStopsEvidence (13 ms)
+2: [ RUN      ] SnapshotPluginTest.ExistingFailureFlagIsNeverCleared
+2: [INFO] [1791022004.345439096] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.345870264] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.346057538] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.348473947] [critic_test]: Native snapshot capture budget exhausted (1)
+2: [INFO] [1791022004.348517058] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.350456909] [test_costmap.test_costmap]: Destroying
+2: [       OK ] SnapshotPluginTest.ExistingFailureFlagIsNeverCleared (14 ms)
+2: [ RUN      ] SnapshotPluginTest.ExistingEvidenceIsNeverOverwrittenAndControlUnchanged
+2: [INFO] [1791022004.358678035] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.359095070] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.359277642] [test_costmap.test_costmap]: Configuring
+2: [ERROR] [1791022004.361602391] [critic_test]: Native evidence capture stopped: refusing to overwrite native snapshot
+2: [INFO] [1791022004.361662798] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.363608122] [test_costmap.test_costmap]: Destroying
+2: [       OK ] SnapshotPluginTest.ExistingEvidenceIsNeverOverwrittenAndControlUnchanged (13 ms)
+2: [----------] 4 tests from SnapshotPluginTest (92 ms total)
+2: 
+2: [----------] 1 test from DisabledSnapshotPluginTest
+2: [ RUN      ] DisabledSnapshotPluginTest.DisabledCaptureHasNoSideEffects
+2: [INFO] [1791022004.372200192] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.372607886] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.372791818] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.374959463] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.376953435] [test_costmap.test_costmap]: Destroying
+2: [       OK ] DisabledSnapshotPluginTest.DisabledCaptureHasNoSideEffects (13 ms)
+2: [----------] 1 test from DisabledSnapshotPluginTest (13 ms total)
+2: 
+2: [----------] 2 tests from OneDynamicEvidencePluginTest
+2: [ RUN      ] OneDynamicEvidencePluginTest.MovingInputWithCaptureAndBudgetExhaustionIsBitExact
+2: [INFO] [1791022004.385142272] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.385546572] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.385730168] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.470207852] [critic_test]: DynamicEvidence ordinal=0 capture_ms=0.241591000
+2: [INFO] [1791022004.470275985] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.000
+2: [INFO] [1791022004.470830821] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.473168653] [test_costmap.test_costmap]: Destroying
+2: [       OK ] OneDynamicEvidencePluginTest.MovingInputWithCaptureAndBudgetExhaustionIsBitExact (97 ms)
+2: [ RUN      ] OneDynamicEvidencePluginTest.StaticInputHasIdenticalCostsWithAndWithoutRecording
+2: [INFO] [1791022004.482548212] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.482987376] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.483171072] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.567608433] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,0.000) radius=0.360 age=0.000
+2: [INFO] [1791022004.568255310] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.570581096] [test_costmap.test_costmap]: Destroying
+2: [       OK ] OneDynamicEvidencePluginTest.StaticInputHasIdenticalCostsWithAndWithoutRecording (98 ms)
+2: [----------] 2 tests from OneDynamicEvidencePluginTest (195 ms total)
+2: 
+2: [----------] 2 tests from DynamicEvidencePluginTest
+2: [ RUN      ] DynamicEvidencePluginTest.EmptyInputIsRecordedAndStaleReplacementStillFailsClosed
+2: [INFO] [1791022004.580235666] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.580670945] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.580867185] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.665611696] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.000
+2: [INFO] [1791022004.829225147] [critic_test]: DynamicEvidence ordinal=1 capture_ms=0.296294000
+2: [INFO] [1791022004.830006681] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.832669864] [test_costmap.test_costmap]: Destroying
+2: [       OK ] DynamicEvidencePluginTest.EmptyInputIsRecordedAndStaleReplacementStillFailsClosed (262 ms)
+2: [ RUN      ] DynamicEvidencePluginTest.ExistingMetadataStopsEvidenceWithoutChangingCostsOrFailureFlag
+2: [INFO] [1791022004.842585811] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.843059051] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.843335832] [test_costmap.test_costmap]: Configuring
+2: [ERROR] [1791022004.928169295] [critic_test]: Dynamic consumption evidence stopped: refusing to overwrite dynamic evidence
+2: [INFO] [1791022004.928243727] [critic_test]: CV obstacle id=1 source=(1.000,-1.000) velocity=(0.000,1.000) radius=0.360 age=0.000
+2: [INFO] [1791022004.928804153] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.931149739] [test_costmap.test_costmap]: Destroying
+2: [       OK ] DynamicEvidencePluginTest.ExistingMetadataStopsEvidenceWithoutChangingCostsOrFailureFlag (98 ms)
+2: [----------] 2 tests from DynamicEvidencePluginTest (360 ms total)
+2: 
+2: [----------] 1 test from DisabledDynamicEvidencePluginTest
+2: [ RUN      ] DisabledDynamicEvidencePluginTest.DisabledCriticCreatesNoEvidenceOrCostChanges
+2: [INFO] [1791022004.940322592] [test_costmap.test_costmap]: 
+2: 	test_costmap lifecycle node launched. 
+2: 	Waiting on external lifecycle transitions to activate
+2: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+2: [INFO] [1791022004.940761993] [test_costmap.test_costmap]: Creating Costmap
+2: [INFO] [1791022004.940956238] [test_costmap.test_costmap]: Configuring
+2: [INFO] [1791022004.944127261] [test_costmap.test_costmap]: Cleaning up
+2: [INFO] [1791022004.946493998] [test_costmap.test_costmap]: Destroying
+2: [       OK ] DisabledDynamicEvidencePluginTest.DisabledCriticCreatesNoEvidenceOrCostChanges (15 ms)
+2: [----------] 1 test from DisabledDynamicEvidencePluginTest (15 ms total)
+2: 
+2: [----------] Global test environment tear-down
+2: [==========] 21 tests from 10 test suites ran. (1403 ms total)
+2: [  PASSED  ] 21 tests.
+2: -- run_test.py: return code 0
+2: -- run_test.py: inject classname prefix into gtest result file '/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_plugin.gtest.xml'
+2: -- run_test.py: verify result file '/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_plugin.gtest.xml'
+2/4 Test #2: test_plugin ......................   Passed    1.60 sec
+test 3
+    Start 3: test_cost_accumulator_evidence
+
+3: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_evidence.gtest.xml" "--package-name" "rm_dynamic_obstacle_critic" "--output-file" "/out/build/rm_dynamic_obstacle_critic/ament_cmake_gtest/test_cost_accumulator_evidence.txt" "--command" "/out/build/rm_dynamic_obstacle_critic/test_cost_accumulator_evidence" "--gtest_output=xml:/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_evidence.gtest.xml"
+3: Test timeout computed to be: 60
+3: -- run_test.py: invoking following command in '/out/build/rm_dynamic_obstacle_critic':
+3:  - /out/build/rm_dynamic_obstacle_critic/test_cost_accumulator_evidence --gtest_output=xml:/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_evidence.gtest.xml
+3: [==========] Running 4 tests from 1 test suite.
+3: [----------] Global test environment set-up.
+3: [----------] 4 tests from CostAccumulatorEvidence
+3: [ RUN      ] CostAccumulatorEvidence.CopiesActualBytesAndLeavesAllInputsUnchanged
+3: [       OK ] CostAccumulatorEvidence.CopiesActualBytesAndLeavesAllInputsUnchanged (1 ms)
+3: [ RUN      ] CostAccumulatorEvidence.PreservesCommittedAndPartialEvidence
+3: [       OK ] CostAccumulatorEvidence.PreservesCommittedAndPartialEvidence (1 ms)
+3: [ RUN      ] CostAccumulatorEvidence.RejectsNonfiniteDataWithoutCommitting
+3: [       OK ] CostAccumulatorEvidence.RejectsNonfiniteDataWithoutCommitting (0 ms)
+3: [ RUN      ] CostAccumulatorEvidence.RejectsUnboundedOrUnassociatedContext
+3: [       OK ] CostAccumulatorEvidence.RejectsUnboundedOrUnassociatedContext (0 ms)
+3: [----------] 4 tests from CostAccumulatorEvidence (2 ms total)
+3: 
+3: [----------] Global test environment tear-down
+3: [==========] 4 tests from 1 test suite ran. (2 ms total)
+3: [  PASSED  ] 4 tests.
+3: -- run_test.py: return code 0
+3: -- run_test.py: inject classname prefix into gtest result file '/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_evidence.gtest.xml'
+3: -- run_test.py: verify result file '/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_evidence.gtest.xml'
+3/4 Test #3: test_cost_accumulator_evidence ...   Passed    0.08 sec
+test 4
+    Start 4: test_cost_accumulator_plugin
+
+4: Test command: /usr/bin/python3 "-u" "/opt/ros/humble/share/ament_cmake_test/cmake/run_test.py" "/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_plugin.gtest.xml" "--package-name" "rm_dynamic_obstacle_critic" "--output-file" "/out/build/rm_dynamic_obstacle_critic/ament_cmake_gtest/test_cost_accumulator_plugin.txt" "--command" "/out/build/rm_dynamic_obstacle_critic/test_cost_accumulator_plugin" "--gtest_output=xml:/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_plugin.gtest.xml"
+4: Test timeout computed to be: 60
+4: -- run_test.py: invoking following command in '/out/build/rm_dynamic_obstacle_critic':
+4:  - /out/build/rm_dynamic_obstacle_critic/test_cost_accumulator_plugin --gtest_output=xml:/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_plugin.gtest.xml
+4: [==========] Running 6 tests from 1 test suite.
+4: [----------] Global test environment set-up.
+4: [----------] 6 tests from CostAccumulatorPlugin
+4: [ RUN      ] CostAccumulatorPlugin.DefaultOffDoesNotCreateFilesOrMutateData
+4: [INFO] [1791022005.250429243] [cost_observer_map.cost_observer_map]: 
+4: 	cost_observer_map lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1791022005.251044907] [cost_observer_map.cost_observer_map]: Creating Costmap
+4: [INFO] [1791022005.251257296] [cost_observer_map.cost_observer_map]: Configuring
+4: [INFO] [1791022005.258399162] [cost_observer_map.cost_observer_map]: Cleaning up
+4: [INFO] [1791022005.261105098] [cost_observer_map.cost_observer_map]: Destroying
+4: [       OK ] CostAccumulatorPlugin.DefaultOffDoesNotCreateFilesOrMutateData (33 ms)
+4: [ RUN      ] CostAccumulatorPlugin.ActiveCallbacksShareCommittedTokenAndLeaveCostsUnchanged
+4: [INFO] [1791022005.271047045] [cost_observer_map.cost_observer_map]: 
+4: 	cost_observer_map lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1791022005.271474248] [cost_observer_map.cost_observer_map]: Creating Costmap
+4: [INFO] [1791022005.271654864] [cost_observer_map.cost_observer_map]: Configuring
+4: [INFO] [1791022005.274227249] [cost_observer_test]: CostAccumulator stage=before_CostCritic ordinal=0 capture_ms=0.216145000
+4: [INFO] [1791022005.274372083] [cost_observer_test]: CostAccumulator stage=after_CostCritic ordinal=0 capture_ms=0.114455000
+4: [INFO] [1791022005.274423004] [cost_observer_map.cost_observer_map]: Cleaning up
+4: [INFO] [1791022005.276419349] [cost_observer_map.cost_observer_map]: Destroying
+4: [       OK ] CostAccumulatorPlugin.ActiveCallbacksShareCommittedTokenAndLeaveCostsUnchanged (15 ms)
+4: [ RUN      ] CostAccumulatorPlugin.AfterWithoutBeforeIsExplicitlyUnpaired
+4: [INFO] [1791022005.285207650] [cost_observer_map.cost_observer_map]: 
+4: 	cost_observer_map lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1791022005.285622241] [cost_observer_map.cost_observer_map]: Creating Costmap
+4: [INFO] [1791022005.285808029] [cost_observer_map.cost_observer_map]: Configuring
+4: [INFO] [1791022005.288162900] [cost_observer_map.cost_observer_map]: Cleaning up
+4: [INFO] [1791022005.290137966] [cost_observer_map.cost_observer_map]: Destroying
+4: [       OK ] CostAccumulatorPlugin.AfterWithoutBeforeIsExplicitlyUnpaired (13 ms)
+4: [ RUN      ] CostAccumulatorPlugin.BudgetExhaustionCannotReuseOrphanedBeforeToken
+4: [INFO] [1791022005.298643832] [cost_observer_map.cost_observer_map]: 
+4: 	cost_observer_map lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1791022005.299077186] [cost_observer_map.cost_observer_map]: Creating Costmap
+4: [INFO] [1791022005.299261755] [cost_observer_map.cost_observer_map]: Configuring
+4: [INFO] [1791022005.301779089] [cost_observer_map.cost_observer_map]: Cleaning up
+4: [INFO] [1791022005.304084479] [cost_observer_map.cost_observer_map]: Destroying
+4: [       OK ] CostAccumulatorPlugin.BudgetExhaustionCannotReuseOrphanedBeforeToken (15 ms)
+4: [ RUN      ] CostAccumulatorPlugin.DifferentCriticDataObjectCannotReuseToken
+4: [INFO] [1791022005.312968266] [cost_observer_map.cost_observer_map]: 
+4: 	cost_observer_map lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1791022005.313380380] [cost_observer_map.cost_observer_map]: Creating Costmap
+4: [INFO] [1791022005.313564356] [cost_observer_map.cost_observer_map]: Configuring
+4: [INFO] [1791022005.316086504] [cost_observer_map.cost_observer_map]: Cleaning up
+4: [INFO] [1791022005.318070423] [cost_observer_map.cost_observer_map]: Destroying
+4: [       OK ] CostAccumulatorPlugin.DifferentCriticDataObjectCannotReuseToken (13 ms)
+4: [ RUN      ] CostAccumulatorPlugin.ReorderedCostCriticIsRejectedBeforeDirectoryCreation
+4: [INFO] [1791022005.326404994] [cost_observer_map.cost_observer_map]: 
+4: 	cost_observer_map lifecycle node launched. 
+4: 	Waiting on external lifecycle transitions to activate
+4: 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+4: [INFO] [1791022005.326814628] [cost_observer_map.cost_observer_map]: Creating Costmap
+4: [INFO] [1791022005.327003880] [cost_observer_map.cost_observer_map]: Configuring
+4: [INFO] [1791022005.329135852] [cost_observer_map.cost_observer_map]: Cleaning up
+4: [INFO] [1791022005.331073163] [cost_observer_map.cost_observer_map]: Destroying
+4: [       OK ] CostAccumulatorPlugin.ReorderedCostCriticIsRejectedBeforeDirectoryCreation (13 ms)
+4: [----------] 6 tests from CostAccumulatorPlugin (102 ms total)
+4: 
+4: [----------] Global test environment tear-down
+4: [==========] 6 tests from 1 test suite ran. (102 ms total)
+4: [  PASSED  ] 6 tests.
+4: -- run_test.py: return code 0
+4: -- run_test.py: inject classname prefix into gtest result file '/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_plugin.gtest.xml'
+4: -- run_test.py: verify result file '/out/build/rm_dynamic_obstacle_critic/test_results/rm_dynamic_obstacle_critic/test_cost_accumulator_plugin.gtest.xml'
+4/4 Test #4: test_cost_accumulator_plugin .....   Passed    0.30 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Label Time Summary:
+gtest    =   2.36 sec*proc (4 tests)
+
+Total Test time (real) =   2.37 sec
+Finished <<< rm_dynamic_obstacle_critic [2.48s]
+
+Summary: 1 package finished [2.77s]

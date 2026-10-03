@@ -4,6 +4,10 @@
 记录显式 schema 模式、coasting 时间边界和条件支持数学；默认路径保持，
 本轮接口预运行证据不提升动态避障部署结论。
 
+该登记现包含 14a015b5 的 349 文件预运行、23 项独立 SDK 重执行，以及
+f8d6d828 的同 mtime 测试可移植性证据；默认 core 与 CDR 语义保持，
+真实 e/B 和完整物理/任务接受仍未建立。
+
 ## Purpose
 
 This index explains where each runtime responsibility lives and which document

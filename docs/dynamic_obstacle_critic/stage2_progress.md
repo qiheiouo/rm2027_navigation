@@ -619,3 +619,8 @@ unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
 内容不变的mtime副本验证原因，随后CMake生成test-only namespace
 adapter，冻结body字节保持。所有源码同mtime的干净重建与53原生
 测试通过，运行库身份核验；这解决测试可移植性，不改变在线算法。
+
+可移植性18文件0.17MB独立冻结，244源文件仅CMake/test_model两个
+明确变化；生成frozen body原字节，四运行ELF与14a015b5全部相同。
+349/38/18三份archive完整manifest核验通过；main和research/tag及
+既有795MB core保持。下一项为新schema实际消费链和完整几何验证。

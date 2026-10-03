@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="32" time="0.713" timestamp="2026-10-03T10:06:46.100751" hostname="d4116b8ee0ce"><testcase classname="test.test_core" name="test_static_map_subtraction_rejects_wall_and_unknown" time="0.001" /><testcase classname="test.test_core" name="test_map_origin_yaw_is_respected" time="0.000" /><testcase classname="test.test_core" name="test_occupied_distance_index_preserves_rotated_metric_distance" time="0.000" /><testcase classname="test.test_core" name="test_planar_point_transform_uses_full_quaternion" time="0.000" /><testcase classname="test.test_core" name="test_euclidean_clustering_rejects_noise_and_large_components" time="0.000" /><testcase classname="test.test_core" name="test_detection_centroid_static_filter_rejects_wall_residual_only" time="0.000" /><testcase classname="test.test_core" name="test_optimal_assignment_avoids_greedy_unmatched_track" time="0.000" /><testcase classname="test.test_core" name="test_tracker_confirms_coasts_and_deletes" time="0.000" /><testcase classname="test.test_core" name="test_tracker_requires_observed_motion_before_confirmation" time="0.001" /><testcase classname="test.test_core" name="test_tracker_does_not_confirm_after_transient_centroid_jump" time="0.000" /><testcase classname="test.test_core" name="test_tracker_rejects_negative_confirmation_displacement" time="0.000" /><testcase classname="test.test_core" name="test_tracker_estimates_constant_velocity_and_keeps_id" time="0.001" /><testcase classname="test.test_core" name="test_time_reset_invalidates_old_tracks" time="0.000" /><testcase classname="test.test_core" name="test_brief_occlusion_preserves_confirmed_track_id" time="0.000" /><testcase classname="test.test_core" name="test_long_input_gap_expires_track_before_association" time="0.000" /><testcase classname="test.test_core" name="test_two_separated_targets_keep_distinct_ids" time="0.000" /><testcase classname="test.test_core" name="test_global_assignment_keeps_both_tracks_in_greedy_failure_geometry" time="0.000" /><testcase classname="test.test_core" name="test_confirmed_coasting_timeout_is_time_based" time="0.001" /><testcase classname="test.test_observation_anchor" name="test_real_detection_anchor_replaces_filtered_position_without_changing_filter" time="0.001" /><testcase classname="test.test_observation_anchor" name="test_coasting_uses_real_epoch_gap_instead_of_clipped_filter_dt" time="0.000" /><testcase classname="test.test_observation_anchor" name="test_reacquisition_and_reset_never_keep_an_old_observation_anchor" time="0.000" /><testcase classname="test.test_observation_anchor" name="test_long_gap_expires_anchor_before_matching" time="0.000" /><testcase classname="test.test_observation_anchor" name="test_unknown_mode_and_ambiguous_display_configuration_are_rejected[kwargs0]" time="0.001" /><testcase classname="test.test_observation_anchor" name="test_unknown_mode_and_ambiguous_display_configuration_are_rejected[kwargs1]" time="0.000" /><testcase classname="test.test_observation_anchor" name="test_unknown_mode_and_ambiguous_display_configuration_are_rejected[kwargs2]" time="0.000" /><testcase classname="test.test_observation_anchor" name="test_unknown_mode_and_ambiguous_display_configuration_are_rejected[kwargs3]" time="0.000" /><testcase classname="test.test_observation_anchor" name="test_unknown_mode_and_ambiguous_display_configuration_are_rejected[kwargs4]" time="0.000" /><testcase classname="test.test_observation_anchor_ros" name="test_dds_scan_source_epoch_prediction_markers_and_output_budget[filtered]" time="0.117" /><testcase classname="test.test_observation_anchor_ros" name="test_dds_scan_source_epoch_prediction_markers_and_output_budget[last_observation_cv]" time="0.029"><failure message="assert 5.482192477757053e-11 &lt; 1e-14&#10; +  where 5.482192477757053e-11 = abs((2.2987734492767 - 2.298773449221878))&#10; +    where 2.2987734492767 = geometry_msgs.msg.Point(x=2.2987734492767, y=0.0, z=0.0).x&#10; +      where geometry_msgs.msg.Point(x=2.2987734492767, y=0.0, z=0.0) = rm_competition_interfaces.msg.DynamicObstaclePrediction(track_id=1, state=2, position=geometry_msgs.msg.Point(x=2.2987...metry_msgs.msg.Point(x=2.3797385424009585, y=0.0, z=0.0), geometry_msgs.msg.Point(x=2.3825304421638642, y=0.0, z=0.0)]).position">mode = 'last_observation_cv'
+
+    @pytest.mark.parametrize('mode', ['filtered', 'last_observation_cv'])
+    def test_dds_scan_source_epoch_prediction_markers_and_output_budget(mode):
+        args = ['--ros-args', '-p', 'use_sim_time:=true', '-p',
+                'tracker.min_hits_to_confirm:=1', '-p', 'prediction.steps:=30',
+                '-p', 'prediction.velocity_decay_tau:=0.0', '-p', 'prediction.max_speed:=0.0',
+                '-p', 'prediction.max_tracks:=1', '-p', 'prediction.anchor_mode:='+mode]
+        rclpy.init(args=args)
+        tracker = DynamicObstacleTrackerNode()
+        source = Node('observation_anchor_fixture')
+        executor = SingleThreadedExecutor()
+        executor.add_node(tracker); executor.add_node(source)
+        received, markers, diagnostics = [], [], []
+        subscriptions = [
+            source.create_subscription(Array, tracker._predictions_topic, received.append, 10),
+            source.create_subscription(MarkerArray, tracker._markers_topic, markers.append, 10),
+            source.create_subscription(DiagnosticArray, tracker._diagnostics_topic, diagnostics.append, 10)]
+        clock_pub = source.create_publisher(Clock, '/clock', 10)
+        scan_pub = source.create_publisher(LaserScan, tracker._scan_topic, qos_profile_sensor_data)
+        map_pub = source.create_publisher(OccupancyGrid, tracker._map_topic,
+            QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
+        broadcaster = StaticTransformBroadcaster(source)
+    
+        def until(predicate):
+            deadline = time.monotonic()+3.
+            while not predicate() and time.monotonic() &lt; deadline:
+                executor.spin_once(timeout_sec=.01)
+            assert predicate(), 'DDS fixture timed out'
+    
+        def clock_at(stamp_ns):
+            message = Clock(clock=Time(nanoseconds=stamp_ns).to_msg())
+            until(lambda: clock_pub.get_subscription_count() &gt;= 1)
+            clock_pub.publish(message)
+            until(lambda: tracker.get_clock().now().nanoseconds == stamp_ns)
+    
+        def scan_at(stamp_ns, ranges):
+            clock_at(stamp_ns)
+            scan = LaserScan()
+            scan.header.frame_id = 'observation_fixture_laser'
+            scan.header.stamp = Time(nanoseconds=stamp_ns).to_msg()
+            scan.angle_min = -.04; scan.angle_increment = .04
+            scan.angle_max = scan.angle_min+(len(ranges)-1)*scan.angle_increment
+            scan.range_min = .1; scan.range_max = 10.
+            scan.ranges = ranges
+            before = len(received)
+            scan_pub.publish(scan)
+            until(lambda: len(received) == before+1 and
+                  any(ns(m.markers[0].header.stamp) == stamp_ns for m in markers))
+            return scan, received[-1]
+    
+        try:
+            until(lambda: scan_pub.get_subscription_count() == 1 and
+                          map_pub.get_subscription_count() == 1)
+            epoch = 1700000000*10**9+123456789  # deliberately not float-round-trippable
+            clock_at(epoch)
+            transform = TransformStamped()
+            transform.header.frame_id = 'map'
+            transform.child_frame_id = 'observation_fixture_laser'
+            transform.transform.rotation.w = 1.
+            broadcaster.sendTransform(transform)
+            until(lambda: tracker._tf_buffer.can_transform('map', transform.child_frame_id, Time()))
+            grid = OccupancyGrid()
+            grid.header.frame_id = 'map'; grid.info.resolution = .1
+            grid.info.width = grid.info.height = 100
+            grid.info.origin.position.x = grid.info.origin.position.y = -5.
+            grid.info.origin.orientation.w = 1.; grid.data = [0]*10000
+            map_pub.publish(grid)
+            until(lambda: tracker._map is not None)
+            first_scan, first = scan_at(epoch, [2., 2., 2.])
+            second_scan, second = scan_at(epoch+100000000, [2.3, 2.3, 2.3])
+            expected = sum(float(r)*math.cos(second_scan.angle_min+i*second_scan.angle_increment)
+                           for i, r in enumerate(second_scan.ranges))/3.
+            assert len(first.tracks) == len(second.tracks) == 1
+            assert second.header.stamp == second_scan.header.stamp
+            assert second.header.frame_id == 'map' and second.authority == Array.AUTHORITY_SHADOW_ONLY
+            assert second.complete and second.total_track_count == 1
+            assert second.prediction_steps == 30 and second.prediction_dt == .1
+            if mode == 'last_observation_cv':
+                assert second.schema == Array.SCHEMA_OBSERVATION_ANCHOR
+&gt;               assert abs(second.tracks[0].position.x-expected) &lt; 1e-14
+E               assert 5.482192477757053e-11 &lt; 1e-14
+E                +  where 5.482192477757053e-11 = abs((2.2987734492767 - 2.298773449221878))
+E                +    where 2.2987734492767 = geometry_msgs.msg.Point(x=2.2987734492767, y=0.0, z=0.0).x
+E                +      where geometry_msgs.msg.Point(x=2.2987734492767, y=0.0, z=0.0) = rm_competition_interfaces.msg.DynamicObstaclePrediction(track_id=1, state=2, position=geometry_msgs.msg.Point(x=2.2987...metry_msgs.msg.Point(x=2.3797385424009585, y=0.0, z=0.0), geometry_msgs.msg.Point(x=2.3825304421638642, y=0.0, z=0.0)]).position
+
+/repo/src/rm_dynamic_obstacle_tracking/test/test_observation_anchor_ros.py:112: AssertionError</failure></testcase><testcase classname="test.test_observation_anchor_ros" name="test_invalid_ros_anchor_configuration_refuses_start[parameters0]" time="0.009" /><testcase classname="test.test_observation_anchor_ros" name="test_invalid_ros_anchor_configuration_refuses_start[parameters1]" time="0.010" /><testcase classname="test.test_observation_anchor_ros" name="test_invalid_ros_anchor_configuration_refuses_start[parameters2]" time="0.010" /></testsuite></testsuites>

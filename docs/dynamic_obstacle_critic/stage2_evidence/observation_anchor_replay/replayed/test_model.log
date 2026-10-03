@@ -1,0 +1,69 @@
+Running main() from /opt/ros/humble/src/gtest_vendor/src/gtest_main.cc
+[==========] Running 21 tests from 6 test suites.
+[----------] Global test environment set-up.
+[----------] 5 tests from Geometry
+[ RUN      ] Geometry.HypotPruningPreservesFrozenDistanceExactly
+[       OK ] Geometry.HypotPruningPreservesFrozenDistanceExactly (75 ms)
+[ RUN      ] Geometry.ConvexValidationAndRotation
+[       OK ] Geometry.ConvexValidationAndRotation (0 ms)
+[ RUN      ] Geometry.SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons
+[       OK ] Geometry.SeparatingAxisBroadphaseNeverSkipsNearRotatedPolygons (0 ms)
+[ RUN      ] Geometry.OptionalNearestMapQueryPreservesFirstWitnessAndExactDistance
+[       OK ] Geometry.OptionalNearestMapQueryPreservesFirstWitnessAndExactDistance (0 ms)
+[ RUN      ] Geometry.BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate
+[       OK ] Geometry.BoundedNearestQueryMatchesFullGridAndOriginalHardPredicate (16 ms)
+[----------] 5 tests from Geometry (91 ms total)
+
+[----------] 5 tests from Guard
+[ RUN      ] Guard.HypotPruningPreservesFrozenMapWitnessExactly
+[       OK ] Guard.HypotPruningPreservesFrozenMapWitnessExactly (131 ms)
+[ RUN      ] Guard.PassBrakeAndMeasuredStoppingTail
+[       OK ] Guard.PassBrakeAndMeasuredStoppingTail (0 ms)
+[ RUN      ] Guard.StaticInteriorUnknownAndBounds
+[       OK ] Guard.StaticInteriorUnknownAndBounds (0 ms)
+[ RUN      ] Guard.StaticWitnessInRotatedMapAndFutureCommandBranch
+[       OK ] Guard.StaticWitnessInRotatedMapAndFutureCommandBranch (0 ms)
+[ RUN      ] Guard.CachedStaticMeasuredBranchMatchesOriginalUnion
+[       OK ] Guard.CachedStaticMeasuredBranchMatchesOriginalUnion (8 ms)
+[----------] 5 tests from Guard (139 ms total)
+
+[----------] 8 tests from CV
+[ RUN      ] CV.FutureConflictAndCrossing
+[       OK ] CV.FutureConflictAndCrossing (0 ms)
+[ RUN      ] CV.ObservationSchemaRequiresExplicitSelectionAndConsistentEpochs
+[       OK ] CV.ObservationSchemaRequiresExplicitSelectionAndConsistentEpochs (0 ms)
+[ RUN      ] CV.SchemaTransitionReplacesSnapshotAndRefusesMixedAnchorJumpComparison
+[       OK ] CV.SchemaTransitionReplacesSnapshotAndRefusesMixedAnchorJumpComparison (0 ms)
+[ RUN      ] CV.ObservationCoastingCannotHideFutureNanosecondsInFloatEpochRounding
+[       OK ] CV.ObservationCoastingCannotHideFutureNanosecondsInFloatEpochRounding (0 ms)
+[ RUN      ] CV.ObservationAnchoredPredictionStillUsesWholeSourceAgeAndNativeFutureGrid
+[       OK ] CV.ObservationAnchoredPredictionStillUsesWholeSourceAgeAndNativeFutureGrid (0 ms)
+[ RUN      ] CV.CurrentOccupancyFutureRelease
+[       OK ] CV.CurrentOccupancyFutureRelease (0 ms)
+[ RUN      ] CV.StationaryMatchesGeometryAndAll30Steps
+[       OK ] CV.StationaryMatchesGeometryAndAll30Steps (0 ms)
+[ RUN      ] CV.SourceAgeAndRotatedFrame
+[       OK ] CV.SourceAgeAndRotatedFrame (0 ms)
+[----------] 8 tests from CV (0 ms total)
+
+[----------] 1 test from Cost
+[ RUN      ] Cost.ContinuousMarginsAndContact
+[       OK ] Cost.ContinuousMarginsAndContact (0 ms)
+[----------] 1 test from Cost (0 ms total)
+
+[----------] 1 test from Input
+[ RUN      ] Input.StaleInvalidIncompleteCoastAndJump
+[       OK ] Input.StaleInvalidIncompleteCoastAndJump (0 ms)
+[----------] 1 test from Input (0 ms total)
+
+[----------] 1 test from Frame
+[ RUN      ] Frame.BoundedWorldCorrectionAndNoMovingFrameInput
+[ERROR] [1791023904.106407304] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+[ERROR] [1791023904.106505764] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+[ERROR] [1791023904.106539662] [tf2_buffer]: Do not call canTransform or lookupTransform with a timeout unless you are using another thread for populating data. Without a dedicated thread it will always timeout.  If you have a separate thread servicing tf messages, call setUsingDedicatedThread(true) on your Buffer instance.
+[       OK ] Frame.BoundedWorldCorrectionAndNoMovingFrameInput (6 ms)
+[----------] 1 test from Frame (6 ms total)
+
+[----------] Global test environment tear-down
+[==========] 21 tests from 6 test suites ran. (236 ms total)
+[  PASSED  ] 21 tests.
