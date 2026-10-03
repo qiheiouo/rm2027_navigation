@@ -200,3 +200,4 @@ mapping artifact, mission priority or failure policy, update at least:
 5. a dated validation report only after evidence is collected.
 
 - `docs/dynamic_obstacle_critic/dynamic_surface_reveal_experiment.md`: 观测面揭露距离、停止/逃逸条件及隔离A/B/C阶段登记。
+- `docs/dynamic_obstacle_critic/observed_surface_members_experiment.md`: 实际扫描成员、source TF与权威track关联的默认关闭证据捕获登记。
