@@ -595,3 +595,11 @@ unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
 本阶段直接补齐实际CostCritic累计float变化及原生链，物理/raw203/
 任务仍FAILED；下一步必须推进感知完整支持和规划可行性，不能把
 更多低成本/最高权重raw标签当已解决动态重叠。
+
+## 2026-10-03 观测锚点 CV 预注册
+
+从41e96399建立`experiment/observation-anchor-cv`，先补最近真实检测
+质心与source epoch之间的公开语义，默认v1/关联/Kalman/MPPI/guard
+算法保留。新模式显式schema配对，coasting条件半径从最后观测起算，
+真实e/B仍unknown。实施及预运行门见
+[登记](observation_anchor_cv_experiment.md)；尚无新闭环接受结论。

@@ -1,5 +1,9 @@
 # Project Structure And Documentation Index
 
+[最近真实观测锚点 CV 登记](dynamic_obstacle_critic/observation_anchor_cv_experiment.md)
+记录显式 schema 模式、coasting 时间边界和条件支持数学；默认路径保持，
+本轮接口预运行证据不提升动态避障部署结论。
+
 ## Purpose
 
 This index explains where each runtime responsibility lives and which document
