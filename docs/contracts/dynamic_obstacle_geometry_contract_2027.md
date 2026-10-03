@@ -110,6 +110,13 @@ bound/来源及源有效区间显式给出；缺失或过期返回unknown/null�
 guard零输出；完整新鲜空列表仍依赖当前costmap。该行为已有实测，
 零输出不代表瞬时物理停车或完整未来支持。
 
+新的原生CostCritic观察试次再次给出实际消费支持0/235（0/1/2/3s）。
+首次机械余量失败前0.2s最终命令为零、物理pose不变；接近中的actor
+随后在48.108s触及机械投影。这里只是固定试次的物理/诊断关系，不
+扩大成全局brake因果证明；已执行停车不是未来完整支持或安全证书。
+349组实际CostCritic两侧float变化也不提供目标完整外形/未来运动界。
+见[直接成本证据](../dynamic_obstacle_critic/native_cost_accumulator_evidence_experiment.md)。
+
 当前缺失的物理支持条件不会被v1现有validator识别，属于明确的未解决
 模型假设。正式消费若需要物理安全保证，应当经公共契约提供或在明确
 受限场景配置中建立上述条件，并对unknown停止宣称“clear/safe”；保留

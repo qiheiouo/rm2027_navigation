@@ -249,6 +249,12 @@ physical/raw203/task gates fail and two pairs have no final-output association.
 corruption probes retain changed files and rejection reasons. A zero rounded
 increment or highest-weight raw row never becomes an output safety label.
 
+`replay_cost_accumulator_trial.py ARCHIVE NEW_OUTPUT` verifies the frozen
+manifest and reproduces 31 report/input/figure bytes. Supply independently
+reexecuted risk/SG/zero-history/weights/uniform files with `--native-outputs`
+for 36 byte checks. The original trial and separate SDK verification archives
+remain immutable; reproducing failed gates does not constitute acceptance.
+
 The public geometry contract distinguishes filtered anchors/visible extents,
 budget completeness, display predictions and unverified physical support.
 `tools/audit_raw_rollout_objective.py SOURCE WITNESS_ARCHIVE NEW_REPORT` checks

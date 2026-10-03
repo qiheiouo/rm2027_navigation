@@ -123,6 +123,11 @@ corruption rejections. Physical, raw203 and task gates fail; the two cost pairs
 without final outputs remain unassigned. Source, IO timing and all failures are
 preserved separately from earlier immutable archives.
 
+Its immutable trial archive contains 3493 files, with a separate 14-file SDK
+verification archive. Thirty-one report/input/figure byte checks and thirty-six
+checks after five independently reexecuted SDK outputs pass. These checks
+reproduce the physical/raw203/task failures and keep cost pairs 94/95 unassigned.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

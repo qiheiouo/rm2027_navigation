@@ -1,0 +1,98 @@
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from CostAccumulatorEvidence
+[ RUN      ] CostAccumulatorEvidence.CopiesActualBytesAndLeavesAllInputsUnchanged
+[       OK ] CostAccumulatorEvidence.CopiesActualBytesAndLeavesAllInputsUnchanged (0 ms)
+[ RUN      ] CostAccumulatorEvidence.PreservesCommittedAndPartialEvidence
+[       OK ] CostAccumulatorEvidence.PreservesCommittedAndPartialEvidence (1 ms)
+[ RUN      ] CostAccumulatorEvidence.RejectsNonfiniteDataWithoutCommitting
+[       OK ] CostAccumulatorEvidence.RejectsNonfiniteDataWithoutCommitting (0 ms)
+[ RUN      ] CostAccumulatorEvidence.RejectsUnboundedOrUnassociatedContext
+[       OK ] CostAccumulatorEvidence.RejectsUnboundedOrUnassociatedContext (0 ms)
+[----------] 4 tests from CostAccumulatorEvidence (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (1 ms total)
+[  PASSED  ] 4 tests.
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from CostAccumulatorPlugin
+[ RUN      ] CostAccumulatorPlugin.DefaultOffDoesNotCreateFilesOrMutateData
+[INFO] [1791003800.163294920] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791003800.165354148] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791003800.165588973] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791003800.174781396] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791003800.177278939] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.DefaultOffDoesNotCreateFilesOrMutateData (100 ms)
+[ RUN      ] CostAccumulatorPlugin.ActiveCallbacksShareCommittedTokenAndLeaveCostsUnchanged
+[INFO] [1791003800.186710775] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791003800.187150294] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791003800.187337623] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791003800.189818879] [cost_observer_test]: CostAccumulator stage=before_CostCritic ordinal=0 capture_ms=0.196707000
+[INFO] [1791003800.189999265] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791003800.192054738] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.ActiveCallbacksShareCommittedTokenAndLeaveCostsUnchanged (14 ms)
+[ RUN      ] CostAccumulatorPlugin.AfterWithoutBeforeIsExplicitlyUnpaired
+[INFO] [1791003800.200461265] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791003800.200848043] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791003800.201037167] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791003800.203262439] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791003800.205224082] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.AfterWithoutBeforeIsExplicitlyUnpaired (13 ms)
+[ RUN      ] CostAccumulatorPlugin.BudgetExhaustionCannotReuseOrphanedBeforeToken
+[INFO] [1791003800.216646720] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791003800.217054982] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791003800.217239382] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791003800.219571257] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791003800.221657829] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.BudgetExhaustionCannotReuseOrphanedBeforeToken (17 ms)
+[ RUN      ] CostAccumulatorPlugin.DifferentCriticDataObjectCannotReuseToken
+[INFO] [1791003800.230461829] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791003800.230846887] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791003800.231044230] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791003800.233360365] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791003800.235496542] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.DifferentCriticDataObjectCannotReuseToken (14 ms)
+[ RUN      ] CostAccumulatorPlugin.ReorderedCostCriticIsRejectedBeforeDirectoryCreation
+[INFO] [1791003800.244148359] [cost_observer_map.cost_observer_map]: 
+	cost_observer_map lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791003800.244533999] [cost_observer_map.cost_observer_map]: Creating Costmap
+[INFO] [1791003800.244719258] [cost_observer_map.cost_observer_map]: Configuring
+[INFO] [1791003800.246752940] [cost_observer_map.cost_observer_map]: Cleaning up
+[INFO] [1791003800.248834635] [cost_observer_map.cost_observer_map]: Destroying
+[       OK ] CostAccumulatorPlugin.ReorderedCostCriticIsRejectedBeforeDirectoryCreation (13 ms)
+[----------] 6 tests from CostAccumulatorPlugin (171 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (171 ms total)
+[  PASSED  ] 6 tests.
+Internal ctest changing into directory: /out/build
+Test project /out/build
+    Start 1: test_cost_accumulator_evidence
+1/2 Test #1: test_cost_accumulator_evidence ...   Passed    0.09 sec
+    Start 2: test_cost_accumulator_plugin
+2/2 Test #2: test_cost_accumulator_plugin .....   Passed    0.29 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Label Time Summary:
+gtest    =   0.38 sec*proc (2 tests)
+
+Total Test time (real) =   0.38 sec

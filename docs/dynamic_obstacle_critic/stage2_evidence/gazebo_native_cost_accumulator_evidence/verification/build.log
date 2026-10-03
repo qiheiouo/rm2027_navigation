@@ -1,0 +1,41 @@
+Starting >>> rm_competition_interfaces
+Finished <<< rm_competition_interfaces [7.32s]
+Starting >>> rm_description
+--- stderr: rm_description
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_COMPILE_COMMANDS
+
+
+---
+Finished <<< rm_description [0.82s]
+Starting >>> rm_nav_config
+--- stderr: rm_nav_config
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_COMPILE_COMMANDS
+
+
+---
+Finished <<< rm_nav_config [0.82s]
+Starting >>> rm_chassis_interface
+Finished <<< rm_chassis_interface [13.6s]
+Starting >>> rm_dynamic_obstacle_tracking
+--- stderr: rm_dynamic_obstacle_tracking
+warning: build_py: byte-compiling is disabled, skipping.
+
+warning: install_lib: byte-compiling is disabled, skipping.
+
+---
+Finished <<< rm_dynamic_obstacle_tracking [0.89s]
+Starting >>> rm_localization_adapters
+Finished <<< rm_localization_adapters [15.7s]
+Starting >>> rm_dynamic_obstacle_critic
+Finished <<< rm_dynamic_obstacle_critic [47.2s]
+Starting >>> rm_simulation
+Finished <<< rm_simulation [12.7s]
+
+Summary: 8 packages finished [1min 39s]
+  3 packages had stderr output: rm_description rm_dynamic_obstacle_tracking rm_nav_config

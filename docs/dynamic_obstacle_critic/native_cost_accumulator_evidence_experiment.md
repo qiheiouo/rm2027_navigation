@@ -90,7 +90,7 @@ observer及SDK controller/critics五ELF均相同，仅新增cf649…独立
 | 原固定门或证据 | 新试次 |
 |---|---|
 | 基础设施/三项preflight/唯一最终发布者 | PASS，guard唯一发布`/cmd_vel` |
-| 动态base三秒尾段插值下界≥0.05m | FAILED，0.008433m；静态0.535837m |
+| 全窗口/尾段动态base插值下界≥0.05m | FAILED，0.008433m；静态0.535837m |
 | 全机械投影动态/静态下界≥0.05m | FAILED，−0.006466/0.527759m；首次48.108s投影接触 |
 | padded严格正余量 | FAILED，动态−0.006742m、采样接触；静态0.480782m |
 | 原raw203 | FAILED，347/2265；首次47.768s，map年龄9ms，全部map新鲜 |
@@ -133,3 +133,25 @@ guard最近诊断已`dynamic_collision`且brake=0；48.108s投影接触前
 A–E、三秒规划门和完整几何/运动支持需求保持。当前图示保留Cost
 分项/质量/epoch以及原机械/消费/速度图，不扩大为全局SG/sampler/
 guard因果结论。真实e/B与私有CostCritic状态未知，不提升main/硬件。
+
+## 归档及独立复现
+
+[原始试次](stage2_evidence/gazebo_native_cost_accumulator_evidence/manifest.json)
+保存3493文件、377290801bytes（不含manifest），manifest SHA256
+`a2adeed5ddd006a00c95a6926824b0b5a56adb1b04ff4f3ecb34fd3ec97ec0a5`。
+包含完整两侧/native/消费二进制、raw receipt/truth、源身份、配置、
+所有命令失败、负例改变文件、编译参数和四组PNG/SVG。
+
+`replay_cost_accumulator_trial.py ARCHIVE NEW_OUTPUT`校验manifest后在
+独立副本重算31项输入/报告/图示，全部逐字节一致。原两侧成本报告
+用记录时9a0d3b5 formatter重算，后续审计工具独立核验新增连接；
+不静默改写原报告。默认调用使用已保存SDK输出，不冒称新SDK执行。
+
+从归档重新生成的输入在不可变Humble镜像中实际重执行risk、原生SG、
+零history、weights和uniform五输出，全部逐字节相同；通过
+`--native-outputs NEW_SDK_OUTPUT_DIRECTORY`接入replayer后36项检查
+均通过。[独立核验](stage2_evidence/gazebo_native_cost_accumulator_replay/manifest.json)
+另存14文件、4965572bytes（不含manifest），manifest SHA256
+`6bd2fb9dfef8ae538abdb92e21dc6e909a7abb7cea88dc1b6b7029f2ac7c8306`。
+原3493文件manifest保持。恢复后/tmp及运行handle已消失，现存两份
+archive逐文件身份重新通过，不重启已完成试次或声称旧临时安装仍在。

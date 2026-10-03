@@ -1,0 +1,37 @@
+Consolidate compiler generated dependencies of target gtest
+Consolidate compiler generated dependencies of target rm_native_cost_accumulator_observer
+[ 33%] Built target gtest
+[ 50%] Building CXX object CMakeFiles/rm_native_cost_accumulator_observer.dir/repo/src/rm_dynamic_obstacle_critic/src/native_cost_accumulator_observer.cpp.o
+Consolidate compiler generated dependencies of target test_cost_accumulator_evidence
+[ 66%] Building CXX object CMakeFiles/test_cost_accumulator_evidence.dir/repo/src/rm_dynamic_obstacle_critic/test/test_cost_accumulator_evidence.cpp.o
+[ 83%] Linking CXX shared library librm_native_cost_accumulator_observer.so
+[100%] Linking CXX executable test_cost_accumulator_evidence
+[100%] Built target rm_native_cost_accumulator_observer
+[100%] Built target test_cost_accumulator_evidence
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from CostAccumulatorEvidence
+[ RUN      ] CostAccumulatorEvidence.CopiesActualBytesAndLeavesAllInputsUnchanged
+[       OK ] CostAccumulatorEvidence.CopiesActualBytesAndLeavesAllInputsUnchanged (1 ms)
+[ RUN      ] CostAccumulatorEvidence.PreservesCommittedAndPartialEvidence
+[       OK ] CostAccumulatorEvidence.PreservesCommittedAndPartialEvidence (0 ms)
+[ RUN      ] CostAccumulatorEvidence.RejectsNonfiniteDataWithoutCommitting
+[       OK ] CostAccumulatorEvidence.RejectsNonfiniteDataWithoutCommitting (0 ms)
+[ RUN      ] CostAccumulatorEvidence.RejectsUnboundedOrUnassociatedContext
+[       OK ] CostAccumulatorEvidence.RejectsUnboundedOrUnassociatedContext (1 ms)
+[----------] 4 tests from CostAccumulatorEvidence (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (2 ms total)
+[  PASSED  ] 4 tests.
+Internal ctest changing into directory: /out/build
+Test project /out/build
+    Start 1: test_cost_accumulator_evidence
+1/1 Test #1: test_cost_accumulator_evidence ...   Passed    0.09 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Label Time Summary:
+gtest    =   0.09 sec*proc (1 test)
+
+Total Test time (real) =   0.09 sec

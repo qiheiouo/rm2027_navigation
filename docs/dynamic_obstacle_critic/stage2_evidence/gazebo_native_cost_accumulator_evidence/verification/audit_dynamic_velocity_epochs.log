@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_dynamic_velocity_epochs.py", line 43, in <module>
+    args = parser.parse_args(); report = audit(args.trial)
+                                         ^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_dynamic_velocity_epochs.py", line 12, in audit
+    join = json.loads((root/'dynamic_consumption_audit.json').read_text())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/rm_native_cost_runtime/gazebo_cost_accumulator/dynamic_consumption_audit.json'

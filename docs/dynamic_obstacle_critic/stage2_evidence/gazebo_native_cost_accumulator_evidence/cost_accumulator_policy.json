@@ -1,0 +1,39 @@
+{
+  "parameters": {
+    "BeforeCostAccumulatorCritic": {
+      "enabled": true,
+      "capture_enabled": true,
+      "output_directory": "/out/gazebo_cost_accumulator/cost_before",
+      "max_records": 1000
+    },
+    "AfterCostAccumulatorCritic": {
+      "enabled": true,
+      "capture_enabled": true,
+      "output_directory": "/out/gazebo_cost_accumulator/cost_after",
+      "max_records": 1000
+    }
+  },
+  "order": [
+    "ConstraintCritic",
+    "BeforeCostAccumulatorCritic",
+    "CostCritic",
+    "AfterCostAccumulatorCritic",
+    "GoalCritic",
+    "GoalAngleCritic",
+    "PathAlignCritic",
+    "PathFollowCritic",
+    "PathAngleCritic",
+    "DynamicObstacleCritic",
+    "StaticStoppingCritic",
+    "NativeCycleSnapshotCritic"
+  ],
+  "baseline_identity": "255035443367d4756aacc2e7a8589ba5c7a874345f1a075efab00d75f589ab38",
+  "scope": "Adjacent observations of actual f32 cumulative costs around unchanged SDK CostCritic.",
+  "join_rule": "Local committed before token, same public CriticData object during callbacks, then all nine matrices/path/pose/speed/grid/frame/footprint/map bytes.",
+  "limits": [
+    "Token is not an optimizer cycle id.",
+    "Difference includes f32 accumulation rounding; unrounded increment and private CostCritic branch/cache unknown.",
+    "Short circuits, incomplete/map-mismatched pairs remain unknown.",
+    "Added IO requires fresh timing and original physical/task gates."
+  ]
+}

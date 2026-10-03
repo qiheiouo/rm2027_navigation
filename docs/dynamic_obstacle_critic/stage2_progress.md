@@ -587,3 +587,11 @@ unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
 失败前0.2s已零命令/固定pose，不能以brake执行替换三秒规划与支持门。
 额外IO时限采样独立保存，23次deadline警告不证明IO造成结果差异。
 原五ELF保持、新库独立；真实e/B和私有内部择支仍unknown，不提升main。
+
+原试次3493文件约377.29MB冻结；31项独立输入/报告/图示逐字节同。
+归档重生成输入实际重执行五SDK输出后36项全部同，14文件约4.97MB
+独立verification另存。恢复时临时目录/handle已消失，两份现存archive
+完整身份再验证通过，原manifest不变，不重复运行已完成的仿真。
+本阶段直接补齐实际CostCritic累计float变化及原生链，物理/raw203/
+任务仍FAILED；下一步必须推进感知完整支持和规划可行性，不能把
+更多低成本/最高权重raw标签当已解决动态重叠。
