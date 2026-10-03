@@ -153,3 +153,30 @@ mask63、aggregate SG和实际MPPI返回control全部位型精确。源姿态时
 也经过实际history的SG，不能当“瞬间静止”。全300 raw候选虽SDK重现
 精确，其全量未来物理几何仍待完成；未来map来源和e/B仍unknown。
 本checkpoint A/B整体FAILED、C尚未运行、main与TF保持。
+
+揭露/停止审计已保存在 `stage2_evidence/surface_reveal_preflight`：
+225个文件、34,845,477 bytes（不含manifest），manifest SHA256
+`d1ad403692a075c2092492f10f9a61053b83c0ded83f2c98dbcf3ba390d26501`。
+冻结0d7dd31c审计源、初次与独立执行报告/图、18项单元检查及失败日志。
+2026-10-03继续开发时临时目录已清空；此仓库归档和原A/B试次保留。
+从归档源再执行的4份报告与4张图已逐字节同。此前仅在临时目录的
+SDK/三秒几何文件正在从原始manifest恢复，在完整新归档完成前，文档
+中的三秒计数仅作为既有checkpoint摘要，不单独构成可复查的接受证据。
+
+## 下一步离线表面原型登记
+
+先用原source beam身份保留局部观测链，不做box/中心/完整轮廓补全。
+输入是已选cluster的真实endpoint、原scan index/range和整数source epoch；
+纯模块无ROS/TF、tracker状态或hidden truth。只在原index相邻且range
+差及端点欧氏距离均<=0.20m时形成名义短弦，不跨缺失成员、scan接缝、
+显著range跃变；孤立返回保留为退化point。预算4096 points/1024 elements，
+超预算/非法输入整体拒绝，不能以丢弃表面当complete。点间弦仍是一项
+局部连续性近似，只有端点是实际观测，不认证弦内部/隐藏端点后方。
+
+保留全部真实观测端点，不拟合延长线、不连接首尾、不找隐藏中心；
+单面/双面/L形/稀疏/缺失/混簇/噪声/平移旋转坐标变换分别测试。名义
+CV仅做可配置0.5s age+future期限标记，超期保留UNKNOWN/TR趋势而不
+静默成为free；此0.5s只是实验选择，不是可信物理保证。max nominal
+translation speed=3m/s用于输入预算，非真实目标运动界。保留旋转
+未建模标记，无risk函数/正式配置改变。完成固定源scan质量离线审计后
+才登记实际members关联证据与配对消息/critic/guard C隔离实现。

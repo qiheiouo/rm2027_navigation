@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_brake_response.py", line 95, in <module>
+    result=audit(args.archive)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_brake_response.py", line 46, in audit
+    manifest=validate(root);execution=json.loads((root/'execution.json').read_text())
+             ^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/audit_surface_reveal.py", line 29, in validate
+    if not path.is_relative_to(root):raise ValueError('source escaped archive')
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: source escaped archive
