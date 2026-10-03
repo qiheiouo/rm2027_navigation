@@ -163,6 +163,16 @@ mask63、aggregate SG和实际MPPI返回control全部位型精确。源姿态时
 SDK/三秒几何文件正在从原始manifest恢复，在完整新归档完成前，文档
 中的三秒计数仅作为既有checkpoint摘要，不单独构成可复查的接受证据。
 
+恢复已完成并另存为 `stage2_evidence/observation_native_full_horizon_replay`：
+57个文件、367,320,808 bytes（不含manifest），manifest SHA256
+`3d4e28af58d7c2e175d1ef239fc09f052ed5aa981c4d39574310432cd49dbcdc`。
+新构建三helper ELF与旧冻结记录一致，14项实际SDK比较/完整性PASS，
+349/350周期全部3s几何文件完整且两组gate计数与durable checkpoint
+摘要一致。旧临时完整几何文件已丢失，因此不声称与旧文件逐字节同；
+原risk与四类SDK输出则与原始A/B归档逐字节同。实际返回控制和完整
+原生路径保持位型精确，原闭环总体FAILED。初次恢复driver对归档文件名
+的错误假设已保留，修复后复核已有新SDK输出，未替换失败记录。
+
 ## 下一步离线表面原型登记
 
 先用原source beam身份保留局部观测链，不做box/中心/完整轮廓补全。

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/build/dynamic_surface_recovery/recover_sdk.py", line 39, in <module>
+    checks[mode + ' risk_exact'] = (dest / 'dynamic/risk.jsonl').read_bytes() == gzip.decompress((trial / 'dynamic_replay/risk.jsonl.gz').read_bytes())
+                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1021, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/qihei/rm2027_navigation/docs/dynamic_obstacle_critic/stage2_evidence/gazebo_observation_v2_visible/dynamic_replay/risk.jsonl.gz'

@@ -1,0 +1,70 @@
+{
+  "base_checkpoint": "c7b04c0d6324c90c058f4c4295cfdc6ef54d159b",
+  "sdk_image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+  "audit_source_manifest_sha256": "d1ad403692a075c2092492f10f9a61053b83c0ded83f2c98dbcf3ba390d26501",
+  "build_source_manifest_sha256": "78fea03bc624d445b8dc47c30d64c629bdcb94029b697f6fc1361dcfcc4fb0e4",
+  "sdk_checks": {
+    "verdict": "PASS",
+    "checks": {
+      "visible risk_exact": true,
+      "visible sdk_final_output_exact": true,
+      "visible zero_history_output_exact": true,
+      "visible weights_output_exact": true,
+      "visible uniform_output_exact": true,
+      "visible all_witness_integrity": true,
+      "visible witness_complete": true,
+      "nominal risk_exact": true,
+      "nominal sdk_final_output_exact": true,
+      "nominal zero_history_output_exact": true,
+      "nominal weights_output_exact": true,
+      "nominal uniform_output_exact": true,
+      "nominal all_witness_integrity": true,
+      "nominal witness_complete": true
+    },
+    "helper_elf_sha256": {
+      "replay_observation_consumption": "f08e2c19e1f76411b0d108a1189719f28eb1436934a1f01636c2c4e52e11ca04",
+      "replay_native_optimizer": "5147a13366c960d8c9623ef0995c2eb80d283a5d150428601be4d53baf3a59f5",
+      "native_safe_control_witness": "d798fbd5050a943a6e9a5d4fb5d2e4cc0d2883891723a5e94b72f3c808abec01"
+    },
+    "scope": "Fresh frozen-source actual SDK execution; raw states, risk, costs, histories, SG and MPPI returned command exact. Geometry/control acceptance separate."
+  },
+  "prior_checkpoint_comparison": {
+    "visible prior checkpoint gate counts": true,
+    "nominal prior checkpoint gate counts": true
+  },
+  "summary": {
+    "visible": {
+      "cycles": 349,
+      "aggregate_gate_counts": {
+        "body_clearance": 221,
+        "full_mechanical_clearance": 214,
+        "padded_no_contact": 212,
+        "frozen_native_raw203_with_interval_reserve": 81,
+        "SG_full_sequence_and_return_bounds": 199,
+        "strict_positive_progress": 286,
+        "progress_beyond_source_float_rounding": 286
+      },
+      "safe_context": 31,
+      "safe_progress": 31,
+      "witness_payload_sha256": "d905af48d043d96a6909988554e7fe56970ac7c43163db84bd1fe4ba1ce2d871",
+      "prepared_input_sha256": "2a4834d4100dea36df2a23929c6a4f5457f6b17a5bd303a0ec617e1c68610544"
+    },
+    "nominal": {
+      "cycles": 350,
+      "aggregate_gate_counts": {
+        "body_clearance": 342,
+        "full_mechanical_clearance": 339,
+        "padded_no_contact": 340,
+        "frozen_native_raw203_with_interval_reserve": 131,
+        "SG_full_sequence_and_return_bounds": 246,
+        "strict_positive_progress": 285,
+        "progress_beyond_source_float_rounding": 285
+      },
+      "safe_context": 75,
+      "safe_progress": 59,
+      "witness_payload_sha256": "4e11a8f5e1ae9dbf67ef83ef610a0f52def4cbd90043063db66111548703bebb",
+      "prepared_input_sha256": "5d73dea1c7898238d954bd190d4b564eb64b2435e0f5008728a5665e589c8ae2"
+    }
+  },
+  "limits": "Fresh full replay after temporary output loss; prior full geometry files unavailable, only durable checkpoint counts compared. Native SDK/risk outputs exact against original archives. Conditional source-time 3s model geometry is not actual guard/execution or future map certification. Full raw300 geometry pending. Original trials FAILED; real e/B and response/braking bounds unknown."
+}
