@@ -110,6 +110,9 @@ def audit(trial):
     dynamic={}
     for path in sorted((trial/'dynamic_scores').glob('score_*.json'),key=lambda p:int(p.stem.split('_')[-1])):
         meta,blocks=read_consumption(path);ordinal=meta['ordinal']
+        if observation and (meta['schema']!=2 or any(meta['limits'].get(key)!=value
+                for key,value in selected['radius_parameters'].items())):
+            raise ValueError('actual consumed observation radius differs from selected/readback policy')
         if ordinal in dynamic or ordinal!=int(path.stem.split('_')[-1]) or not cost_relation_exact(blocks):
             raise ValueError('dynamic ordinal or exact float accumulation relation')
         dynamic[ordinal]=(meta,blocks)

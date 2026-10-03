@@ -10,7 +10,9 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('trial',type=Path);args=parser.parse_args();root=args.trial
+    parser=argparse.ArgumentParser();parser.add_argument('trial',type=Path)
+    parser.add_argument('--title',default='CostCritic accumulator evidence: physical / raw203 / task FAILED')
+    args=parser.parse_args();root=args.trial
     cost=json.loads((root/'cost_accumulator_audit.json').read_text())
     chain=json.loads((root/'cost_accumulator_full_chain.json').read_text())
     dynamic=json.loads((root/'dynamic_consumption_audit.json').read_text())
@@ -24,7 +26,7 @@ def main():
     axes[0].plot(times,[joined[r['native_ordinal']]['remaining_original_critic_rounded_delta'][r['highest_weight_raw_row']]
         for r in chain['records']],label='Later original critics: rounded subtotal change',color='#7c5b8d',alpha=.7)
     axes[0].set_yscale('symlog',linthresh=.1);axes[0].set_ylabel('Highest-weight raw row\nobserved costs')
-    axes[0].set_title('CostCritic accumulator evidence: physical / raw203 / task FAILED',fontsize=11)
+    axes[0].set_title(args.title,fontsize=11)
     axes[0].legend(loc='upper left',fontsize=8)
     axes[1].plot(times,[100*r['positive_cost_weight_fraction'] for r in chain['records']],color='#157a56',
         label='Native weight on rows with positive rounded CostCritic change')
