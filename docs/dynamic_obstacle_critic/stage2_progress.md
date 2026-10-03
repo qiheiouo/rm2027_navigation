@@ -556,3 +556,12 @@ unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
 通过，原185文件manifest保持。精确单元三路径范围及模型门的描述
 含义不扩大；下一项需要直接记录原CostCritic调用前后的累计成本，
 不能由原七critic总和或SDK边界helper推算实际成本贡献。
+
+### 原CostCritic累计成本证据登记（2026-10-03）
+
+从d688f79建立`experiment/native-cost-accumulator-evidence`，另建
+默认关闭的只读观察器库与显式实验profile，紧邻原CostCritic记录
+累计成本及完整网格关联。观察到的f32累加器变化不冒充内部未舍入
+增量/择支；SDK短路或不完整配对保持unknown。先核验原库/只读性，
+再跑独立无硬件试次及原严格门、I/O期限审计。见
+[累计成本证据登记](native_cost_accumulator_evidence_experiment.md)。

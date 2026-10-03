@@ -110,6 +110,12 @@ through constraints and contacts raw210 after SG; all300 stage map counts also
 show gains. Sixty-three compiled probes and explicit scalar scope keep this
 individual effect separate from aggregate, closed-loop or deployment claims.
 
+[The native cost accumulator registration](dynamic_obstacle_critic/native_cost_accumulator_evidence_experiment.md)
+adds a separate default-off observation library around the unchanged SDK
+CostCritic call in an explicit experimental profile. Complete input association
+and fresh timing/physical evidence are required; cumulative f32 differences
+do not reveal private scoring branches or unrounded increments.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |
