@@ -8,6 +8,9 @@
 f8d6d828 的同 mtime 测试可移植性证据；默认 core 与 CDR 语义保持，
 真实 e/B 和完整物理/任务接受仍未建立。
 
+[完整直径名义代理与 v2 实际消费登记](dynamic_obstacle_critic/observation_diameter_consumption_experiment.md)
+记录下一项显式几何模式、版本化重算链与固定对照；名义圆不认证未来运动。
+
 ## Purpose
 
 This index explains where each runtime responsibility lives and which document

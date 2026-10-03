@@ -624,3 +624,11 @@ adapter，冻结body字节保持。所有源码同mtime的干净重建与53原�
 明确变化；生成frozen body原字节，四运行ELF与14a015b5全部相同。
 349/38/18三份archive完整manifest核验通过；main和research/tag及
 既有795MB core保持。下一项为新schema实际消费链和完整几何验证。
+
+## 2026-10-03 观测直径名义代理/实际消费预注册
+
+从bc447533建立`experiment/observation-diameter-consumption`。显式
+v2配对模式先补完整D名义圆及实际消费重算链，默认可见圆/v1格式保持。
+固定D不是未来保守误差界，真实e/B仍unknown，全部地面机器人手册
+条件与2027未验证边界保留。原严格物理/三秒/地图/任务门不变，预运行
+完成前不启动闭环。详细[登记](observation_diameter_consumption_experiment.md)。
