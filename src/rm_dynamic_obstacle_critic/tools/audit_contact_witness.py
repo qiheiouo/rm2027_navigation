@@ -10,6 +10,7 @@ from analyze_trial import distance, load_truth_rows, rotation, travel
 from audit_scan_geometry import fixture, interpolate
 from trial_io import rows
 from fixture_robot_geometry import physical_base_body
+from dynamic_radius_io import profile_radius, V2
 
 
 def analyze(root, include_mechanical=False):
@@ -66,6 +67,8 @@ def analyze(root, include_mechanical=False):
             if values.get('evaluated') == '1':
                 source = float(values['source_stamp']); epoch = guard['stamp']
                 obstacle = obstacles.get(round(source, 9))
+                if obstacle is not None and cfg.get('input_schema')==V2 and obstacle.get('schema')!=V2:
+                    raise ValueError('selected v2 guard receipt schema mismatch')
                 witness['matched_guard_source_obstacle_receipt'] = obstacle
                 actual = interpolate(times, actor_poses, epoch, .04)
                 actual_robot = interpolate(times, robot_poses, epoch, .04)
@@ -78,7 +81,7 @@ def analyze(root, include_mechanical=False):
                         py = track['xy'][1] + track['vxy'][1] * (epoch - source)
                         center = (float(values['world_transform_x']) + c*px-s*py,
                                   float(values['world_transform_y']) + s*px+c*py)
-                        disk_radius = max(cfg['minimum_obstacle_radius'], .5*math.hypot(*track['size']))
+                        disk_radius = profile_radius(cfg,track['size'])
                         disks.append({'id': track['id'], 'state': track['state'], 'age': epoch-source,
                             'observation_age': epoch-track['observed'], 'CV_center_at_guard_epoch': center,
                             'radius': disk_radius, 'physical_actor_center_error': math.hypot(center[0]-actual[0], center[1]-actual[1]),

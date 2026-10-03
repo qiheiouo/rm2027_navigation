@@ -43,6 +43,9 @@ public:
     static_assert(sizeof(double)==8 && std::numeric_limits<double>::is_iec559);
     const uint32_t endian=1;
     if(*reinterpret_cast<const uint8_t*>(&endian)!=1)throw std::runtime_error("dynamic evidence requires little endian");
+    if(message.schema != limits.input_schema || !supported_schema(message.schema) || !valid_radius_model(limits))
+      throw std::runtime_error("dynamic evidence selected schema/radius model mismatch");
+    const unsigned version = message.schema == Array::SCHEMA_OBSERVATION_ANCHOR ? 2 : 1;
     const auto &tr=data.trajectories;const size_t batch=tr.x.shape(0),steps=tr.x.shape(1);
     if(!bounded(batch,steps,message.tracks.size(),footprint.size()) || tr.x.shape()!=tr.y.shape() ||
        tr.x.shape()!=tr.yaws.shape() || data.costs.size()!=batch || before.size()!=batch ||
@@ -59,7 +62,7 @@ public:
         double(message.prediction_dt)})
       if(!std::isfinite(value))throw std::runtime_error("nonfinite dynamic evidence metadata");
     std::ostringstream json;json.imbue(std::locale::classic());json<<std::setprecision(17);
-    json<<"{\"schema\":1,\"kind\":\"dynamic_consumption_fields_v1\",\"ordinal\":"<<count_
+    json<<"{\"schema\":"<<version<<",\"kind\":\"dynamic_consumption_fields_v"<<version<<"\",\"ordinal\":"<<count_
         <<",\"score_stamp\":"<<now<<",\"source_age_used\":"<<age
         <<",\"pose_stamp_sec\":"<<data.state.pose.header.stamp.sec
         <<",\"pose_stamp_nanosec\":"<<data.state.pose.header.stamp.nanosec
@@ -79,7 +82,13 @@ public:
         <<",\"max_observation_age\":"<<limits.max_observation_age<<",\"max_speed\":"<<limits.max_speed
         <<",\"max_extent\":"<<limits.max_extent<<",\"max_tracks\":"<<limits.max_tracks
         <<",\"jump_tolerance\":"<<limits.jump_tolerance<<",\"max_tf_age\":"<<limits.max_tf_age
-        <<",\"input_frame\":"<<json_string(limits.input_frame)<<"},\"cost_parameters\":{\"weight\":"<<parameters.weight
+        <<",\"input_frame\":"<<json_string(limits.input_frame);
+    if(version == 2)
+      json<<",\"input_schema\":"<<json_string(limits.input_schema)
+          <<",\"obstacle_radius_mode\":"<<json_string(limits.obstacle_radius_mode)
+          <<",\"nominal_obstacle_diameter\":"<<limits.nominal_obstacle_diameter
+          <<",\"geometry_prior_source\":"<<json_string(limits.geometry_prior_source);
+    json<<"},\"cost_parameters\":{\"weight\":"<<parameters.weight
         <<",\"influence_distance\":"<<parameters.influence_distance<<",\"safety_margin\":"<<parameters.safety_margin
         <<",\"collision_cost\":"<<parameters.collision_cost<<"},\"input_used\":{\"stamp_sec\":"<<message.header.stamp.sec
         <<",\"stamp_nanosec\":"<<message.header.stamp.nanosec<<",\"frame\":"<<json_string(message.header.frame_id)

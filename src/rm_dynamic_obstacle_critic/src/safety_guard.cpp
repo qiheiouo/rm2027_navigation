@@ -42,6 +42,9 @@ public:
     limits_.max_speed = declare_parameter("max_obstacle_speed", 3.0);
     limits_.max_extent = declare_parameter("max_obstacle_extent", 3.0);
     limits_.minimum_radius = declare_parameter("minimum_obstacle_radius", 0.36);
+    limits_.obstacle_radius_mode = declare_parameter("obstacle_radius_mode", std::string("visible_extent"));
+    limits_.nominal_obstacle_diameter = declare_parameter("nominal_obstacle_diameter", 0.0);
+    limits_.geometry_prior_source = declare_parameter("geometry_prior_source", std::string(""));
     limits_.jump_tolerance = declare_parameter("jump_tolerance", 0.5);
     cfg_.horizon = declare_parameter("horizon", 0.5);
     cfg_.dt = declare_parameter("simulation_dt", 0.02);
@@ -89,6 +92,7 @@ public:
             "guard parameters must be finite and positive");
     if (!std::isfinite(limits_.jump_tolerance) || limits_.jump_tolerance < 0 ||
         limits_.input_frame.empty() || !dyn::supported_schema(limits_.input_schema) ||
+        !dyn::valid_radius_model(limits_) ||
         input_ == output_ || frame_.empty() ||
         base_.empty() || cfg_.dt > cfg_.horizon || cfg_.response_delay < 0 ||
         !std::isfinite(cfg_.response_delay) || !std::isfinite(vx_min_) ||

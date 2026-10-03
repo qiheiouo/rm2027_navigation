@@ -19,10 +19,14 @@ def prepare(source, output, source_ordinals=None):
         paths = [p for p in paths if int(p.stem.split('_')[-1]) in source_ordinals]
         if len(paths) != len(source_ordinals):
             raise ValueError('selected source score missing')
+    versions = {read_consumption(path)[0]['schema'] for path in paths}
+    if len(versions) != 1:
+        raise ValueError('mixed v1/v2 dynamic trace must not be reinterpreted')
+    version = versions.pop()
     output.mkdir(parents=True, exist_ok=False)
     identities = []; previous = -1
     with (output/'input.bin').open('xb') as stream:
-        stream.write(b'RMDYNRP1'+struct.pack('<I', len(paths)))
+        stream.write((b'RMDYNRP1' if version == 1 else b'RMDYNRP2')+struct.pack('<I', len(paths)))
         for path in paths:
             meta, blocks = read_consumption(path); ordinal = meta['ordinal']
             if ordinal != int(path.stem.split('_')[-1]) or ordinal <= previous or not cost_relation_exact(blocks):
@@ -33,6 +37,11 @@ def prepare(source, output, source_ordinals=None):
             params = meta['cost_parameters']
             stream.write(struct.pack('<10d', meta['model_dt'], meta['source_age_used'], *meta['world_transform'],
                 meta['limits']['minimum_radius'], params['weight'], params['influence_distance'], params['safety_margin'], params['collision_cost']))
+            if version == 2:
+                limits = meta['limits']; prior = limits['geometry_prior_source'].encode()
+                stream.write(struct.pack('<IdI', int(limits['obstacle_radius_mode'] == 'nominal_diameter'),
+                                         limits['nominal_obstacle_diameter'], len(prior)))
+                stream.write(prior)
             for point in poly: stream.write(struct.pack('<2d', *point))
             for track in tracks:
                 stream.write(struct.pack('<QB6d', track['id'], track['state'], *track['xy'], *track['vxy'], *track['size_xy']))

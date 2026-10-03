@@ -19,16 +19,30 @@ struct Limits {
   double minimum_radius{0.36}, jump_tolerance{0.5}, max_tf_age{0.1};
   std::string input_frame{"map"};
   std::string input_schema{Array::SCHEMA};
+  std::string obstacle_radius_mode{"visible_extent"};
+  double nominal_obstacle_diameter{0.0};
+  std::string geometry_prior_source;
   size_t max_tracks{64};
 };
 inline bool supported_schema(const std::string &schema) {
   return schema == Array::SCHEMA || schema == Array::SCHEMA_OBSERVATION_ANCHOR;
+}
+inline bool valid_radius_model(const Limits &lim) {
+  if (lim.obstacle_radius_mode == "visible_extent")
+    return lim.nominal_obstacle_diameter == 0.0 && lim.geometry_prior_source.empty();
+  return lim.obstacle_radius_mode == "nominal_diameter" &&
+         lim.input_schema == Array::SCHEMA_OBSERVATION_ANCHOR &&
+         std::isfinite(lim.nominal_obstacle_diameter) &&
+         lim.nominal_obstacle_diameter > 0.0 && lim.nominal_obstacle_diameter <= 3.0 &&
+         lim.geometry_prior_source.find_first_not_of(" \t\r\n\f\v") != std::string::npos &&
+         lim.geometry_prior_source.size() <= 4096;
 }
 inline std::string validate(const Array &msg, double now, const Limits &lim) {
   if (!supported_schema(lim.input_schema) || msg.schema != lim.input_schema ||
       msg.authority != Array::AUTHORITY_SHADOW_ONLY ||
       msg.header.frame_id != lim.input_frame)
     return "schema_or_frame";
+  if (!valid_radius_model(lim)) return "radius_model";
   if (!msg.complete || msg.total_track_count != msg.tracks.size() ||
       msg.tracks.size() > lim.max_tracks)
     return "incomplete_or_overflow";
@@ -151,6 +165,8 @@ inline Point predict(const Obstacle &t, double source_age, double future,
                    t.position.y + t.velocity.y * (source_age + future)});
 }
 inline double obstacle_radius(const Obstacle &t, const Limits &lim) {
+  if (lim.obstacle_radius_mode == "nominal_diameter")
+    return std::max(lim.minimum_radius, lim.nominal_obstacle_diameter);
   return std::max(lim.minimum_radius, 0.5 * std::hypot(t.size.x, t.size.y));
 }
 struct CostParameters {

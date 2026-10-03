@@ -76,6 +76,12 @@ association, physical geometry or future-motion guarantee. No markers or private
 perception state become consumer inputs. See
 [the interface experiment](../dynamic_obstacle_critic/observation_anchor_cv_experiment.md).
 
+The subsequent nominal-diameter mode changes only an explicitly selected shared
+critic/guard radius model; no new public prediction fields, topic route or TF.
+Its private v2 file evidence records radius mode, complete D and prior source.
+Source identifiers do not certify full geometry, coasting or future motion; see
+[the consumption experiment](../dynamic_obstacle_critic/observation_diameter_consumption_experiment.md).
+
 Only the explicit isolated `cv_course.launch.py enabled:=true` composition
 routes guard output to `/cmd_vel` for the simulation chassis stub. It must
 verify that the guard is the sole publisher there. Baseline/critic comparisons

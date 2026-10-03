@@ -174,6 +174,43 @@ TEST(CV, ObservationCoastingCannotHideFutureNanosecondsInFloatEpochRounding) {
   a.tracks[0].last_observation_stamp.nanosec = 1000000000u;
   EXPECT_NE(d::validate(a, d::seconds(a.header.stamp), limits), "");
 }
+TEST(CV, NominalDiameterUsesFullDiameterAndNeedsExplicitObservationSchema) {
+  auto a = obstacles(0, 0, 0, 0);
+  a.schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;
+  d::Limits limits; limits.minimum_radius = .15;
+  limits.obstacle_radius_mode = "nominal_diameter";
+  limits.nominal_obstacle_diameter = .8;
+  limits.geometry_prior_source = "synthetic:irregular-source-projection-only";
+  EXPECT_FALSE(d::valid_radius_model(limits));
+  limits.input_schema = a.schema;
+  ASSERT_TRUE(d::valid_radius_model(limits));
+  ASSERT_EQ(d::validate(a, 10., limits), "");
+  EXPECT_EQ(d::obstacle_radius(a.tracks[0], limits), .8);
+  // Correct visible anchor at the left end of an irregular shape of diameter .8.
+  EXPECT_LE(std::hypot(.8, 0.), d::obstacle_radius(a.tracks[0], limits));
+  EXPECT_GT(std::hypot(.8, 0.), .5*limits.nominal_obstacle_diameter);
+  limits.geometry_prior_source.clear(); EXPECT_FALSE(d::valid_radius_model(limits));
+  limits.geometry_prior_source = "synthetic";
+  for (double diameter : {0., -1., 3.1, std::numeric_limits<double>::infinity()}) {
+    limits.nominal_obstacle_diameter = diameter; EXPECT_FALSE(d::valid_radius_model(limits));
+  }
+}
+TEST(CV, NominalDiameterIsNotAFuturePhysicalSupportBound) {
+  auto a = obstacles(0, 0, -1, 0);
+  a.schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;
+  d::Limits limits; limits.input_schema = a.schema; limits.minimum_radius = .15;
+  limits.obstacle_radius_mode = "nominal_diameter";
+  limits.nominal_obstacle_diameter = .8; limits.geometry_prior_source = "synthetic";
+  const auto future = d::predict(a.tracks[0], 0., 3.);
+  // A stationary physical endpoint .8 from the observation is not contained
+  // when the estimated visible-anchor velocity is wrong; no e/B was invented.
+  EXPECT_GT(std::hypot(.8-future.x, future.y), d::obstacle_radius(a.tracks[0], limits));
+  limits.obstacle_radius_mode = "visible_extent";
+  EXPECT_FALSE(d::valid_radius_model(limits)); // reject stale nominal settings
+  limits.nominal_obstacle_diameter = 0.; limits.geometry_prior_source.clear();
+  ASSERT_TRUE(d::valid_radius_model(limits));
+  EXPECT_EQ(d::obstacle_radius(a.tracks[0], limits), .15);
+}
 TEST(CV, ObservationAnchoredPredictionStillUsesWholeSourceAgeAndNativeFutureGrid) {
   auto a = obstacles(2., -1., .5, -.25);
   a.schema = d::Array::SCHEMA_OBSERVATION_ANCHOR;

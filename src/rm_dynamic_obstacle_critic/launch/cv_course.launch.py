@@ -20,6 +20,7 @@ def generate_launch_description():
         DeclareLaunchArgument("enabled", default_value="false"),
         DeclareLaunchArgument("params_file", default_value=PathJoinSubstitution([pkg, "config", "nav2_cv_experiment.yaml"])),
         DeclareLaunchArgument("guard_params_file", default_value=PathJoinSubstitution([pkg, "config", "guard.yaml"])),
+        DeclareLaunchArgument("tracker_params_file", default_value=PathJoinSubstitution([pkg, "config", "tracker_cv.yaml"])),
         DeclareLaunchArgument("guard_enabled", default_value="true"),
         DeclareLaunchArgument("nav2_autostart", default_value="true"),
         DeclareLaunchArgument("moving_period", default_value="8.0"),
@@ -41,7 +42,7 @@ def generate_launch_description():
         Node(condition=IfCondition(enabled), package="nav2_lifecycle_manager", executable="lifecycle_manager", name="dynamic_map_lifecycle",
             parameters=[{"use_sim_time": True, "autostart": True, "node_names": ["map_server"]}]),
         Node(condition=IfCondition(enabled), package="rm_dynamic_obstacle_tracking", executable="dynamic_obstacle_tracker_node", name="dynamic_obstacle_tracker_shadow",
-            parameters=[PathJoinSubstitution([pkg, "config", "tracker_cv.yaml"]), {"use_sim_time": True}]),
+            parameters=[LaunchConfiguration("tracker_params_file"), {"use_sim_time": True}]),
         Node(condition=IfCondition(PythonExpression(["'",enabled,"' == 'true' and '",use_guard,"' == 'true'"])), package="rm_dynamic_obstacle_critic", executable="dynamic_safety_guard", name="dynamic_safety_guard",
             parameters=[LaunchConfiguration("guard_params_file"), {"use_sim_time": True, "output_topic": "/cmd_vel"}]),
         TimerAction(period=3.0, actions=[

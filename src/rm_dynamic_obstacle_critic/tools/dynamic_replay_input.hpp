@@ -20,7 +20,11 @@ inline uint32_t read_header(std::istream &input) {
   if (*reinterpret_cast<const uint8_t *>(&endian) != 1)
     throw std::runtime_error("little endian required");
   char magic[8]; read_values(input, magic, 8);
+#ifdef RM_OBSERVATION_DIAMETER_REPLAY
+  if (std::memcmp(magic, "RMDYNRP2", 8)) throw std::runtime_error("observation replay schema");
+#else
   if (std::memcmp(magic, "RMDYNRP1", 8)) throw std::runtime_error("dynamic replay schema");
+#endif
   uint32_t count; read_values(input, &count, 1);
   if (count < 1 || count > 1000) throw std::runtime_error("dynamic replay record budget");
   return count;
@@ -50,6 +54,19 @@ inline Record read_record(std::istream &input, int64_t &previous) {
     if (!std::isfinite(value)) throw std::runtime_error("nonfinite dynamic replay parameter");
   r.transform = {r.params[2], r.params[3], r.params[4]}; r.limits.minimum_radius = r.params[5];
   r.cost = {r.params[6], r.params[7], r.params[8], r.params[9]};
+#ifdef RM_OBSERVATION_DIAMETER_REPLAY
+  uint32_t mode, prior_size;
+  read_values(input, &mode, 1);
+  read_values(input, &r.limits.nominal_obstacle_diameter, 1);
+  read_values(input, &prior_size, 1);
+  if (mode > 1 || prior_size > 4096) throw std::runtime_error("observation replay geometry budget");
+  r.limits.input_schema = Array::SCHEMA_OBSERVATION_ANCHOR;
+  r.message.schema = r.limits.input_schema;
+  r.limits.obstacle_radius_mode = mode ? "nominal_diameter" : "visible_extent";
+  r.limits.geometry_prior_source.resize(prior_size);
+  read_values(input, r.limits.geometry_prior_source.data(), prior_size);
+  if (!valid_radius_model(r.limits)) throw std::runtime_error("observation replay radius model");
+#endif
   if (r.params[0] <= 0 || r.params[1] < 0 || r.params[5] <= 0 || r.params[6] < 0 ||
       r.params[7] <= r.params[8] || r.params[8] <= 0 || r.params[9] <= 0)
     throw std::runtime_error("dynamic replay parameter range");

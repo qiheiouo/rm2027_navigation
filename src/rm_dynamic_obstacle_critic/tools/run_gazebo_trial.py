@@ -26,6 +26,8 @@ from rm_competition_interfaces.msg import DynamicObstaclePredictionArray
 from controller_odom_preflight import ControllerOdomPreflight
 from dynamic_consumption_preflight import DynamicConsumptionPreflight
 from cost_accumulator_preflight import CostAccumulatorPreflight, configure_profile, ROLES
+from observation_profile_preflight import (ObservationProfilePreflight, registered_profiles,
+    transformed_controller, receipt_evidence, SCHEMA as OBSERVATION_SCHEMA)
 
 
 def main():
@@ -33,19 +35,31 @@ def main():
     parser.add_argument("--guard-config",type=Path);parser.add_argument('--native-snapshots',action='store_true')
     parser.add_argument('--require-controller-odom-topic')
     parser.add_argument('--dynamic-consumption-evidence',action='store_true')
-    parser.add_argument('--native-cost-accumulator-evidence',action='store_true');args=parser.parse_args()
+    parser.add_argument('--native-cost-accumulator-evidence',action='store_true')
+    parser.add_argument('--tracker-config',type=Path)
+    parser.add_argument('--observation-radius-mode',choices=['visible_extent','nominal_diameter']);args=parser.parse_args()
+    if args.observation_radius_mode and (args.mode != 'guard' or not args.guard_config or not args.tracker_config or
+            not args.native_snapshots or not args.dynamic_consumption_evidence or not args.native_cost_accumulator_evidence):
+        raise ValueError('observation comparison requires all three selected profiles and native/dynamic/cost guard evidence')
+    if args.tracker_config and not args.observation_radius_mode:
+        raise ValueError('selected tracker profile requires registered observation comparison')
     args.output.mkdir(parents=True,exist_ok=False)
     # Freeze full installed experiment inputs before any scene/goal is started.
     share=Path(get_package_share_directory("rm_dynamic_obstacle_critic"))
     guard_params=args.guard_config.resolve() if args.guard_config else share/"config"/"guard.yaml"
+    tracker_params=args.tracker_config.resolve() if args.tracker_config else share/'config/tracker_cv.yaml'
     frozen=args.output/"installed_inputs";frozen.mkdir()
     input_hashes={}
     input_names=["guard.yaml","tracker_cv.yaml","course_static.yaml","course_static.pgm"]
     if args.native_snapshots:input_names.append('native_command_observer.yaml')
     if args.native_cost_accumulator_evidence:
         input_names.extend(['nav2_cv_dynamic_consumption.yaml', 'cost_accumulator_critics.xml'])
+    if args.observation_radius_mode:
+        input_names.extend(['nav2_cv_cost_accumulator_evidence.yaml', 'tracker_cv_baseline.yaml', 'guard_mechanical_footprint.yaml'])
     for name in input_names:
-        src=guard_params if name=="guard.yaml" else (share/name if name.endswith('.xml') else share/"config"/name)
+        src=(guard_params if name=='guard.yaml' else tracker_params if name=='tracker_cv.yaml' else
+             share/'config/tracker_cv.yaml' if name=='tracker_cv_baseline.yaml' else
+             share/name if name.endswith('.xml') else share/'config'/name)
         shutil.copyfile(src,frozen/name)
         input_hashes[name]=hashlib.sha256(src.read_bytes()).hexdigest()
     (args.output/"installed_input_identity.json").write_text(json.dumps(input_hashes,indent=2)+"\n")
@@ -72,12 +86,27 @@ def main():
                      for p in sorted(source_root.rglob("*")) if p.is_file() and "__pycache__" not in p.parts}
     (args.output/"source_identity.json").write_text(json.dumps(source_identity,indent=2)+"\n")
     profile=yaml.safe_load(args.config.read_text());follow=profile["controller_server"]["ros__parameters"]["FollowPath"]
+    tracker_profile=yaml.safe_load((frozen/'tracker_cv.yaml').read_text())
+    guard_profile=yaml.safe_load((frozen/'guard.yaml').read_text())
+    if args.observation_radius_mode:
+        selection=registered_profiles(profile,tracker_profile,guard_profile,{
+            'controller':yaml.safe_load((frozen/'nav2_cv_cost_accumulator_evidence.yaml').read_text()),
+            'tracker':yaml.safe_load((frozen/'tracker_cv_baseline.yaml').read_text()),
+            'guard':yaml.safe_load((frozen/'guard_mechanical_footprint.yaml').read_text())},args.observation_radius_mode)
+        selection['selected_tracker_file']=str(tracker_params)
+        selection['selected_controller_file']=str(args.config.resolve())
+        selection['selected_controller_sha256']=hashlib.sha256(args.config.read_bytes()).hexdigest()
+        (args.output/'observation_profile_selection.json').write_text(json.dumps(selection,indent=2)+'\n')
+    elif follow.get('DynamicObstacleCritic',{}).get('input_schema') == OBSERVATION_SCHEMA:
+        raise ValueError('v2 controller profile requires registered observation comparison flag')
     required_controller_odom=(args.require_controller_odom_topic or
                               profile['controller_server']['ros__parameters'].get('odom_topic'))
     if args.native_cost_accumulator_evidence:
         if args.mode != 'guard' or not args.native_snapshots or not args.dynamic_consumption_evidence:
             raise ValueError('accumulator evidence requires registered guard trial, native snapshots and dynamic evidence')
-        configure_profile(profile, yaml.safe_load((frozen/'nav2_cv_dynamic_consumption.yaml').read_text()), args.output)
+        accumulator_baseline=yaml.safe_load((frozen/'nav2_cv_dynamic_consumption.yaml').read_text())
+        if args.observation_radius_mode:accumulator_baseline=transformed_controller(accumulator_baseline,args.observation_radius_mode)
+        configure_profile(profile, accumulator_baseline, args.output)
     elif any(role in follow['critics'] for role in ROLES):
         raise ValueError('accumulator profile requires explicit native-cost-accumulator-evidence flag')
     if args.dynamic_consumption_evidence:
@@ -128,7 +157,7 @@ def main():
                 'Short circuits, incomplete/map-mismatched pairs remain unknown.', 'Added IO requires fresh timing and original physical/task gates.']},indent=2)+'\n')
     env=os.environ.copy();env["ROS_LOG_DIR"]=str(args.output/"ros");env["XDG_RUNTIME_DIR"]=str(args.output/"xdg");Path(env["XDG_RUNTIME_DIR"]).mkdir(mode=0o700)
     log=(args.output/"launch.log").open("w");pose_log=(args.output/"gazebo_poses.jsonl").open("w");pose_err=(args.output/"pose_stderr.log").open("w")
-    launch=subprocess.Popen(["ros2","launch","rm_dynamic_obstacle_critic","cv_course.launch.py","enabled:=true","nav2_autostart:=false","params_file:="+str(params),"guard_params_file:="+str(guard_params),"guard_enabled:="+("true" if args.mode=="guard" else "false")],stdout=log,stderr=subprocess.STDOUT,env=env,start_new_session=True)
+    launch=subprocess.Popen(["ros2","launch","rm_dynamic_obstacle_critic","cv_course.launch.py","enabled:=true","nav2_autostart:=false","params_file:="+str(params),"guard_params_file:="+str(frozen/'guard.yaml' if args.observation_radius_mode else guard_params),"tracker_params_file:="+str(frozen/'tracker_cv.yaml'),"guard_enabled:="+("true" if args.mode=="guard" else "false")],stdout=log,stderr=subprocess.STDOUT,env=env,start_new_session=True)
     transport=subprocess.Popen(["ign","topic","-e","--json-output","-t","/world/phase1_omni/pose/info"],stdout=pose_log,stderr=pose_err,env=env,start_new_session=True)
     command_observer=None;command_log=None
     if args.native_snapshots:
@@ -178,13 +207,17 @@ def main():
     def obstacle(m):
         last["obstacles"]=m
         write("obstacles",{"stamp":m.header.stamp.sec+m.header.stamp.nanosec*1e-9,"frame":m.header.frame_id,"complete":m.complete,
-            "tracks":[{"id":t.track_id,"state":t.state,"xy":[t.position.x,t.position.y],"vxy":[t.velocity.x,t.velocity.y],"size":[t.size.x,t.size.y],"observed":t.last_observation_stamp.sec+t.last_observation_stamp.nanosec*1e-9} for t in m.tracks]})
+            "schema":m.schema,"authority":m.authority,"source_stamp_ns":m.header.stamp.sec*1_000_000_000+m.header.stamp.nanosec,
+            "prediction_dt":m.prediction_dt,"prediction_steps":m.prediction_steps,"total_track_count":m.total_track_count,
+            "tracks":[{"id":t.track_id,"state":t.state,"xy":[t.position.x,t.position.y],"vxy":[t.velocity.x,t.velocity.y],"size":[t.size.x,t.size.y],"observed":t.last_observation_stamp.sec+t.last_observation_stamp.nanosec*1e-9,
+                "observed_stamp_ns":t.last_observation_stamp.sec*1_000_000_000+t.last_observation_stamp.nanosec} for t in m.tracks]})
     subs.append(node.create_subscription(DynamicObstaclePredictionArray,"/perception/dynamic_obstacles_shadow/predictions",obstacle,10))
     startup_client=node.create_client(ManageLifecycleNodes,"/lifecycle_manager_navigation/manage_nodes")
     startup_future=None;startup_ok=False
     controller_odom_check=None;controller_odom_ready=not bool(required_controller_odom)
     dynamic_check=None;dynamic_ready=not args.dynamic_consumption_evidence
     cost_check=None;cost_ready=not args.native_cost_accumulator_evidence
+    observation_check=None;observation_ready=not bool(args.observation_radius_mode)
     action=ActionClient(node,NavigateToPose,"/navigate_to_pose");started=time.monotonic();goal_future=None;result_future=None;handle=None;start_sim=None;end_sim=None;status=None;graph=None;cancelled=False;error=None
     try:
         while time.monotonic()-started<policy["wall_timeout"]:
@@ -212,14 +245,27 @@ def main():
                 if readback is not None:
                     with (args.output/'dynamic_consumption_readback.json').open('x') as file:file.write(json.dumps(readback,indent=2)+'\n')
                     dynamic_ready=True;write('event',{'event':'dynamic_consumption_parameters_verified','readback':readback})
-            if startup_ok and not cost_ready:
+            if startup_ok and not observation_ready:
+                if observation_check is None:
+                    observation_check=ObservationProfilePreflight(node,profile['controller_server']['ros__parameters'],
+                        tracker_profile['dynamic_obstacle_tracker_shadow']['ros__parameters'],
+                        guard_profile['dynamic_safety_guard']['ros__parameters'])
+                readback=observation_check.poll()
+                if readback is not None:
+                    with (args.output/'observation_profile_readback.json').open('x') as file:file.write(json.dumps(readback,indent=2)+'\n')
+                    observation_ready=True;cost_ready=True
+                    write('event',{'event':'observation_three_node_parameters_verified','readback':readback})
+            if startup_ok and not cost_ready and not args.observation_radius_mode:
                 if cost_check is None:
                     cost_check=CostAccumulatorPreflight(node,profile['controller_server']['ros__parameters'])
                 readback=cost_check.poll()
                 if readback is not None:
                     with (args.output/'cost_accumulator_readback.json').open('x') as file:file.write(json.dumps(readback,indent=2)+'\n')
                     cost_ready=True;write('event',{'event':'cost_accumulator_parameters_verified','readback':readback})
-            if controller_odom_ready and dynamic_ready and cost_ready and start_sim is None and now>=policy["earliest_start"] and abs(now%8-policy["start_phase"])<=policy["phase_tolerance"] and "odom" in last and "scan" in last and "obstacles" in last and action.server_is_ready():
+            if controller_odom_ready and dynamic_ready and cost_ready and observation_ready and start_sim is None and now>=policy["earliest_start"] and abs(now%8-policy["start_phase"])<=policy["phase_tolerance"] and "odom" in last and "scan" in last and "obstacles" in last and action.server_is_ready():
+                if args.observation_radius_mode:
+                    receipt=receipt_evidence(last['obstacles'],node.get_clock().now().nanoseconds)
+                    with (args.output/'observation_goal_receipt.json').open('x') as file:file.write(json.dumps(receipt,indent=2)+'\n')
                 graph={t:[i.node_name for i in node.get_publishers_info_by_topic(t)] for t in ["/cmd_vel","/cmd_vel_nav","/dynamic_test/cmd_vel_smoothed"]}
                 expected=["dynamic_safety_guard"] if args.mode=="guard" else ["velocity_smoother"]
                 if sorted(graph["/cmd_vel"])!=expected:raise RuntimeError("command publisher identity mismatch: "+str(graph))
@@ -238,6 +284,9 @@ def main():
         else:error="wall_timeout"
     except Exception as e:
         error=str(e)
+        if observation_check is not None and not observation_ready:
+            with (args.output/'observation_profile_preflight_failure.json').open('x') as file:
+                file.write(json.dumps({'verdict':'FAILED','error':error,**observation_check.evidence},indent=2)+'\n')
         if controller_odom_check is not None and not controller_odom_ready:
             with (args.output/'controller_odom_preflight_failure.json').open('x') as file:
                 file.write(json.dumps({'verdict':'FAILED','error':error,**controller_odom_check.evidence},indent=2)+'\n')

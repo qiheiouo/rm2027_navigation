@@ -11,8 +11,18 @@ guard 诊断新增源时间戳、测量/提案速度、拒绝响应分支、未�
 尺寸保持，默认 v1 不变，critic/guard 静态 schema 必须配对选择。
 只使用同一公共消息，无感知私有状态消费、truth 输入或新 TF。完整
 物体直径/观测误差/未来运动界仍独立且未知，在线可见尺寸圆未认证；
-v2 文件消费证据尚未迁移，显式拒绝。见
+锚点checkpoint的v2文件证据初始化拒绝，后续直径实验已单独迁移v2
+文件格式/RMDYNRP2重算helper。新显式三端profile通过完整配置比较和
+实际typed参数回读，goal前另查新鲜完整v2 receipt；默认launch参数不改，
+TF/话题所有者保持。闭环接受仍需独立原物理/任务门。见
 [接口预运行与独立重执行](observation_anchor_cv_experiment.md)。
+
+显式 `nominal_diameter` 与默认 visible radius 分开，critic/guard 共享
+完整D名义圆及严格配置校验。D不是未知中心的半直径，也不是未来运动
+界；默认模式、CV时间网格、原地图/MPPI/guard pass-brake保持。新
+实际消费文件记录模式、D和来源，旧v1格式和重算输出保持，混合版本
+拒绝。原物理/完整三秒/任务门继续适用。见
+[直径/消费登记](observation_diameter_consumption_experiment.md)。
 
 `experiment/static-stopping-critic` 在 `91d7eda` 之后另行增加静态刹停目标，
 没有并回 feature 或 main。它从原生 CriticData 读取候选控制代理和测量

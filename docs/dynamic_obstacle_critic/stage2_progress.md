@@ -632,3 +632,19 @@ v2配对模式先补完整D名义圆及实际消费重算链，默认可见圆/v
 固定D不是未来保守误差界，真实e/B仍unknown，全部地面机器人手册
 条件与2027未验证边界保留。原严格物理/三秒/地图/任务门不变，预运行
 完成前不启动闭环。详细[登记](observation_diameter_consumption_experiment.md)。
+
+显式完整D名义radius、v2私有文件/RMDYNRP2与独立处理路径helper已
+实现；默认v1格式和visible半径保持。三端配对profile使用向上舍入
+1.6970562748477143m，prior记录手册条件，runner完整typed配置比较、
+实际三端参数readback及goal决定时新鲜完整v2 receipt门。无新TF/
+话题所有者，原MPPI/SG/七critic、机械足迹/地图/guard算法和门保持。
+
+最终预运行实际57原生、54tracker/ROS、两组8guard、20旧reader+
+11新reader+5配置/半径门、8+6条件数学全部通过。两份实际CPP v2
+夹具逐字节一致，18项实际helper/处理路径协议与篡改检查通过；处理
+路径夹具只重复raw路径，不冒充SG未来控制证据。两套inactive三端
+全参数回读、6运行值不匹配与18原生初始化拒绝通过；没有导航目标。
+旧347周期input identity/风险及消费支持、receipt、contact三个报告
+逐字节保持；默认core和CDR语义保持。默认日志路径、零包发现等
+命令失败已保存且不计测试通过。独立冻结重编译/重执行进行中，尚未
+启动新Gazebo；实际e/B、全部地面机器人闭环覆盖及物理/任务仍未建立。

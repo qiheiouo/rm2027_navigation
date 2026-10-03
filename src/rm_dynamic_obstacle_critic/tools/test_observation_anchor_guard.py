@@ -22,11 +22,18 @@ from rm_competition_interfaces.msg import DynamicObstaclePrediction as Track
 
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('new_output', type=Path)
+    parser.add_argument('--nominal-diameter', type=float, default=0.)
+    parser.add_argument('--prior-source', default='')
     args = parser.parse_args(); args.new_output.mkdir(exist_ok=False)
     log = (args.new_output/'guard.log').open('w')
     namespace = '/observation_anchor_test'
     command = ['ros2', 'run', 'rm_dynamic_obstacle_critic', 'dynamic_safety_guard', '--ros-args',
         '-p', 'world_frame:=map', '-p', 'input_schema:='+Array.SCHEMA_OBSERVATION_ANCHOR]
+    selected_mode = 'nominal_diameter' if args.nominal_diameter else 'visible_extent'
+    if selected_mode == 'nominal_diameter':
+        command += ['-p', 'obstacle_radius_mode:=nominal_diameter', '-p',
+                    'nominal_obstacle_diameter:='+str(args.nominal_diameter), '-p',
+                    'geometry_prior_source:='+args.prior_source]
     for name, suffix in [('input_topic', 'input'), ('output_topic', 'output'),
                          ('obstacles_topic', 'obstacles'), ('odom_topic', 'odom'),
                          ('costmap_topic', 'map')]:
@@ -45,7 +52,7 @@ def main():
         QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
     rows = []
 
-    def exercise(name, schema, state, observation_delta_ns, expected, expected_reason):
+    def exercise(name, schema, state, observation_delta_ns, expected, expected_reason, position_x=3.):
         outputs.clear(); diagnostics.clear(); deadline = time.monotonic()+.4
         while time.monotonic() < deadline:
             now = node.get_clock().now()
@@ -56,7 +63,7 @@ def main():
             array.schema = schema; array.authority = Array.AUTHORITY_SHADOW_ONLY
             array.complete = True; array.prediction_dt = .1; array.prediction_steps = 30
             track = Track(); track.track_id = 1; track.state = state
-            track.position.x = 3.; track.size.x = track.size.y = .2
+            track.position.x = position_x; track.size.x = track.size.y = .2
             track.last_observation_stamp = Time(nanoseconds=now.nanoseconds+observation_delta_ns).to_msg()
             array.tracks = [track]; array.total_track_count = 1
             grid = Costmap(); grid.header.stamp = now.to_msg(); grid.header.frame_id = 'map'
@@ -75,12 +82,17 @@ def main():
         client = node.create_client(GetParameters, '/dynamic_safety_guard/get_parameters')
         if not client.wait_for_service(timeout_sec=5.):
             raise RuntimeError('guard parameter service missing')
-        request = GetParameters.Request(names=['input_schema'])
+        request = GetParameters.Request(names=['input_schema', 'obstacle_radius_mode',
+                                                'nominal_obstacle_diameter', 'geometry_prior_source'])
         future = client.call_async(request); rclpy.spin_until_future_complete(node, future, timeout_sec=3.)
         if not future.done() or future.result() is None:
             raise RuntimeError('schema readback failed')
-        actual = future.result().values[0].string_value
-        if actual != Array.SCHEMA_OBSERVATION_ANCHOR:
+        values = future.result().values
+        actual = dict(input_schema=values[0].string_value, obstacle_radius_mode=values[1].string_value,
+                      nominal_obstacle_diameter=values[2].double_value, geometry_prior_source=values[3].string_value)
+        expected_parameters = dict(input_schema=Array.SCHEMA_OBSERVATION_ANCHOR, obstacle_radius_mode=selected_mode,
+                                   nominal_obstacle_diameter=args.nominal_diameter, geometry_prior_source=args.prior_source)
+        if [v.type for v in values] != [4,4,3,4] or actual != expected_parameters:
             raise RuntimeError('selected guard schema was not loaded')
         deadline = time.monotonic()+3.
         while obstacle_pub.get_subscription_count() != 1 and time.monotonic() < deadline:
@@ -100,6 +112,12 @@ def main():
                  Track.STATE_COASTING, 0, 0., 'observation_anchor_epoch')
         exercise('expired_observation_brakes', Array.SCHEMA_OBSERVATION_ANCHOR,
                  Track.STATE_COASTING, -1000000000, 0., 'stale_observation')
+        if selected_mode == 'nominal_diameter':
+            exercise('nominal_full_diameter_near_anchor_brakes', Array.SCHEMA_OBSERVATION_ANCHOR,
+                     Track.STATE_CONFIRMED, 0, 0., 'dynamic_collision', position_x=.9)
+        else:
+            exercise('visible_near_anchor_passes', Array.SCHEMA_OBSERVATION_ANCHOR,
+                     Track.STATE_CONFIRMED, 0, .2, 'clear', position_x=.9)
     finally:
         os.killpg(process.pid, signal.SIGINT)
         try: process.wait(timeout=5.)
@@ -107,7 +125,7 @@ def main():
             os.killpg(process.pid, signal.SIGKILL); process.wait()
         node.destroy_node(); rclpy.shutdown(); log.close()
     report = dict(schema=1, status='PASS' if all(row['passed'] for row in rows) else 'FAILED',
-                  parameter_readback=dict(input_schema=actual), cases=rows,
+                  parameter_readback=actual, cases=rows,
                   scope='Public-message schema and pass/brake regression on isolated DDS topics; no physical safety certificate.')
     (args.new_output/'summary.json').write_text(json.dumps(report, indent=2)+'\n')
     print(json.dumps(report, sort_keys=True))

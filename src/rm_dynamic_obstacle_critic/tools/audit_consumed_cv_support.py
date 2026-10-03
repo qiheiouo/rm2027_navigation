@@ -9,6 +9,7 @@ import statistics
 from analyze_trial import compose, pose, rotation
 from audit_scan_geometry import fixture
 from dynamic_consumption_io import read_consumption
+from dynamic_radius_io import consumed_radius
 from trial_io import rows
 
 
@@ -48,7 +49,13 @@ def audit(root, include_geometry_requirements=False):
         row = {'ordinal': meta['ordinal'], 'score_stamp': now, 'source_age_used': age,
             'usable_actor_track': track is not None, 'track_id': track['id'] if track else None, 'horizons': {}}
         if track:
-            radius = max(meta['limits']['minimum_radius'], .5*math.hypot(*track['size_xy'])); row['used_radius'] = radius
+            limits = meta['limits']
+            # v1 keeps its original visible extent semantics and report shape.
+            radius = consumed_radius(limits, track['size_xy'], meta['schema'])
+            row['used_radius'] = radius
+            if meta['schema'] == 2:
+                row['radius_model'] = {key:limits[key] for key in
+                    ('input_schema', 'obstacle_radius_mode', 'nominal_obstacle_diameter', 'geometry_prior_source')}
             if include_geometry_requirements:
                 point=predict(track,0);dx=point[0]-at_now[0];dy=point[1]-at_now[1]
                 ca,sa=math.cos(at_now[2]),math.sin(at_now[2])

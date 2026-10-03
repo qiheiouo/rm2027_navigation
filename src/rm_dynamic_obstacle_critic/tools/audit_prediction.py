@@ -10,6 +10,7 @@ import statistics
 import yaml
 from analyze_trial import compose,pose,rotation
 from trial_io import rows as log_rows
+from dynamic_radius_io import profile_radius, V2
 
 
 def main():
@@ -33,6 +34,7 @@ def main():
     for row in log_rows(root,'observations.jsonl'):
         if row['kind']!='obstacles' or execution['start_sim'] is None or not execution['start_sim']<=row['receive_sim']<=execution['end_sim']:continue
         if not row['complete'] or row['frame']!=limits['input_frame']:continue
+        if limits.get('input_schema')==V2 and row.get('schema')!=V2:raise ValueError('selected v2 receipt schema mismatch')
         source=row['stamp'];a=actual(source)
         if a is None:continue
         candidates=[t for t in row['tracks'] if t['state'] in (2,3) and row['receive_sim']-t['observed']<=limits['max_observation_age']]
@@ -40,7 +42,7 @@ def main():
         track=min(candidates,key=lambda t:math.hypot(t['xy'][0]-a[0],t['xy'][1]-a[1]))
         error=math.hypot(track['xy'][0]-a[0],track['xy'][1]-a[1])
         if error>1.0:unmatched+=1;continue
-        matched+=1;position_errors.append(error);vx.append(abs(track['vxy'][0]));radius=max(limits['minimum_obstacle_radius'],.5*math.hypot(*track['size']));radii.append(radius)
+        matched+=1;position_errors.append(error);vx.append(abs(track['vxy'][0]));radius=profile_radius(limits,track['size']);radii.append(radius)
         for horizon in (0.,1.,2.,3.):
             future=actual(source+horizon)
             if future is None:continue

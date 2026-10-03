@@ -11,6 +11,8 @@
    `max(minimum_radius, 0.5*hypot(visible_size))`。新增显式
    `nominal_diameter` 模式，要求 v2 schema、有限正完整投影名义直径 D
    和明确非空 prior source；半径为 `max(minimum_radius, D)`，不是 D/2。
+   D 在本实验输入预算内限制为 (0,3]m，来源最长4096 UTF-8字节且非ASCII空白；
+   visible 模式不允许遗留非零D/来源，避免配置与证据语义分歧。
    critic 和 guard 共用同一函数与参数，不引入感知私有类、新公共字段、
    TF 或占据发布。CV 源年龄/未来网格与原 cost 公式保持。
 2. 观测质心若确属同一物体且误差可忽略，观测 epoch 的完整投影直径 D
@@ -62,3 +64,28 @@
 名义完整直径可能显著阻塞通行，本轮必须测量这个代价。如果未来
 支持、物理或任务仍失败，结论仍为FAILED/NOT ESTABLISHED；不能把
 当前源几何改进或最高权重raw成本标签写成动态避障已解决。
+
+## 配对配置与启动前检查
+
+新增 `tracker_observation_cv.yaml`，两种 controller/guard 分别为
+`nav2_cv_observation_visible.yaml`＋`guard_observation_visible.yaml`、
+`nav2_cv_observation_nominal.yaml`＋`guard_observation_nominal.yaml`。
+名义值1.6970562748477143 m，以有理数检验平方不小于精确1.2m正方形
+的完整对角平方；prior 字符串记录手册SHA、四类条款、直立投影、未知
+载物/倾斜/2027适用及nominal-CV-only边界。
+
+runner要求三文件和显式`--observation-radius-mode`，同时要求原guard/
+native snapshots/dynamic consumption/Cost累计证据组合。先完整typed
+profile比较，只允许登记的schema/radius/anchor/clip变化；再实际回读
+controller全部FollowPath和频率/odom、tracker/guard全部显式参数及
+sim-time/output覆盖。goal决定时另核对当前公共消息schema/authority/
+frame/complete/count/grid与整数source年龄，失败不发送goal。新增
+`tracker_params_file`只改变所选参数文件，默认仍为原tracker_cv；无新TF。
+
+`run_observation_diameter_preflight.py`直接运行新构建GTest二进制和
+新XML，重新生成实际CPP夹具、执行reader/prepare/两版本helper、
+三端inactive回读与拒绝、guard DDS、旧347周期风险和三个默认半径
+报告、tracker/core/CDR/条件数学。处理路径夹具重复raw路径只检验
+协议/算术，不冒充SDK SG控制或物理三秒见证。初始命令的默认日志
+目录不可写、零包发现及此前误猜不存在旧input.bin归档均保留，不计
+通过证据。最终源码/ELF/实际预运行与独立重执行另冻结后才启动新试次。

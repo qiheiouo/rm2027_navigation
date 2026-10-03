@@ -6,10 +6,32 @@ tracker parameters: `prediction.anchor_mode=last_observation_cv`,
 guard must explicitly select
 `input_schema=rm_dynamic_obstacle_predictions/v2_observation_anchor`. Existing
 profiles keep v1 and do not enable this mode. No new TF, topic route or controller
-composition is introduced. V2 rejects file consumption evidence until a complete
-read/replay protocol is registered; interface preflight is not a closed-loop
-profile or deployment acceptance. See
+composition is introduced at the anchor checkpoint. The subsequent
+`experiment/observation-diameter-consumption` now implements explicit v2 file
+evidence and a separate RMDYNRP2 helper, with actual plugin round-trip tests;
+the paired controller/tracker/guard profiles and goal-gated preflight are explicit
+opt-in inputs. A nominal complete diameter uses D as radius and requires v2,
+positive D≤3 m and a prior source. It does not bound coasting/future physical
+error; existing profiles keep the default visible circle. Interface preflight
+is not a closed-loop profile or deployment acceptance. See
 [the registered boundary](dynamic_obstacle_critic/observation_anchor_cv_experiment.md).
+The new model/evidence scope follows
+[the diameter registration](dynamic_obstacle_critic/observation_diameter_consumption_experiment.md).
+
+Both comparisons use `tracker_observation_cv.yaml`. Select
+`nav2_cv_observation_visible.yaml` with `guard_observation_visible.yaml` and
+`--observation-radius-mode visible_extent`, or
+`nav2_cv_observation_nominal.yaml` with `guard_observation_nominal.yaml` and
+`--observation-radius-mode nominal_diameter`. The latter uses the upward rounded
+1.6970562748477143 m manual-conditioned complete diameter as a nominal radius.
+The bounded runner also requires `--tracker-config`, `--guard-config`, guard
+mode and all three native snapshot/dynamic consumption/cost accumulator flags.
+It compares every profile field to the registered baseline transformations,
+reads actual typed settings from all three nodes, and requires a fresh complete
+v2 receipt at the goal decision. `tracker_params_file` is a launch argument;
+its default remains `tracker_cv.yaml`. No competition launch selects the new
+profiles. `evaluate_observation_processed_cv` is an explicit RMDYNRP2 offline
+helper; the old processed evaluator refuses that version.
 
 ## Experimental CV Dynamic Avoidance
 

@@ -43,6 +43,14 @@ last_observation_epoch 与 observation-origin motion semantics；未知或
 到期仍输出 UNKNOWN/null。旧 source-epoch 数学接口保持原样。该公式
 未接入在线半径，默认可见尺寸圆依旧无法证明三秒真实支持。
 
+后续显式 `obstacle_radius_mode=nominal_diameter` 在 v2 下选择
+`max(minimum_radius, nominal_obstacle_diameter)`，完整D作半径，避免给
+未知物体中心使用半直径。配置限定0<D≤3m及非空来源；默认visible模式
+要求D=0/来源空，并保持旧公式。固定D只是名义代理，未加真实e或
+coasting/未来运动项，仍不证明未来支持。新的私有v2消费文件完整
+记录所选模式/D/来源，不能把metadata来源标识当物理认证。范围与
+原门见[登记](../dynamic_obstacle_critic/observation_diameter_consumption_experiment.md)。
+
 对物体某时刻完整机械投影集合S，其直径有可信上界D；若锚点q到
 conv(S)距离另有可信上界e，则任意p∈S满足`|p-q|≤D+e`。q不必
 在规则矩形中心，任意不规则形状也适用。半对角线只在额外已知矩形

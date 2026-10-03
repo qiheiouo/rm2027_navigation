@@ -43,6 +43,9 @@ public:
     get(limits_.max_extent, "max_obstacle_extent", 3.0, ParameterType::Static);
     get(limits_.minimum_radius, "minimum_obstacle_radius", 0.36,
         ParameterType::Static);
+    get(limits_.obstacle_radius_mode, "obstacle_radius_mode", std::string("visible_extent"), ParameterType::Static);
+    get(limits_.nominal_obstacle_diameter, "nominal_obstacle_diameter", 0.0, ParameterType::Static);
+    get(limits_.geometry_prior_source, "geometry_prior_source", std::string(""), ParameterType::Static);
     get(limits_.jump_tolerance, "jump_tolerance", 0.5, ParameterType::Static);
     get(cost_.weight, "cost_weight", 1.0, ParameterType::Static);
     get(cost_.influence_distance, "influence_distance", 0.4,
@@ -74,6 +77,7 @@ public:
     if (time_steps_ <= 0 || model_dt_ <= 0 || !std::isfinite(horizon_) ||
         std::abs(time_steps_ * model_dt_ - horizon_) > 1e-6 ||
         limits_.input_frame.empty() || !dyn::supported_schema(limits_.input_schema) ||
+        !dyn::valid_radius_model(limits_) ||
         limits_.max_tf_age <= 0 ||
         limits_.max_age <= 0 || limits_.max_observation_age <= 0 ||
         limits_.max_speed <= 0 || limits_.max_extent <= 0 ||
@@ -83,8 +87,6 @@ public:
         cost_.collision_cost <= 0 || diagnostics_period_ <= 0)
       throw std::invalid_argument(
           "invalid CV critic parameters or MPPI/prediction horizon mismatch");
-    if (limits_.input_schema != dyn::Array::SCHEMA && !evidence_directory.empty())
-      throw std::invalid_argument("v2 observation evidence replay is not yet registered");
     evidence_.configure(enabled_?evidence_directory:std::string(""),evidence_maximum);
     tf_ = costmap_ros_->getTfBuffer();
     sub_ = node->create_subscription<dyn::Array>(

@@ -193,19 +193,12 @@ TEST_F(PluginTest, DefaultNativeConsumerRejectsObservationSchema) {
   EXPECT_TRUE(data.fail_flag);
   EXPECT_EQ(costs(0), 0);
 }
-TEST_F(PluginTest, UnsupportedSchemaAndUnregisteredV2EvidenceRejectInitialization) {
-  for (bool evidence : {false, true}) {
-    const auto name = std::string("FollowPath.") + (evidence ? "v2_evidence" : "unknown_schema");
-    node->declare_parameter(name + ".input_schema", evidence
-        ? rm_dynamic_obstacle_critic::Array::SCHEMA_OBSERVATION_ANCHOR : std::string("unknown"));
-    if (evidence)
-      node->declare_parameter(name + ".consumption_evidence_directory",
-                              std::string("/v2_evidence_not_registered"));
-    auto invalid = loader->createSharedInstance("mppi::critics::DynamicObstacleCritic");
-    EXPECT_THROW(invalid->on_configure(node, "FollowPath", name, costmap, handler.get()),
-                  std::invalid_argument);
-    EXPECT_FALSE(std::filesystem::exists("/v2_evidence_not_registered"));
-  }
+TEST_F(PluginTest, UnsupportedSchemaRejectsInitialization) {
+  const std::string name = "FollowPath.unknown_schema";
+  node->declare_parameter(name + ".input_schema", std::string("unknown"));
+  auto invalid = loader->createSharedInstance("mppi::critics::DynamicObstacleCritic");
+  EXPECT_THROW(invalid->on_configure(node, "FollowPath", name, costmap, handler.get()),
+                std::invalid_argument);
 }
 
 class StoppingPluginTest : public PluginTest {
@@ -519,6 +512,50 @@ protected:
 class OneDynamicEvidencePluginTest : public DynamicEvidencePluginTest {
   int evidence_budget() const override {return 1;}
 };
+class ObservationEvidencePluginTest : public DynamicEvidencePluginTest {
+protected:
+  virtual bool nominal() const { return false; }
+  int evidence_budget() const override { return 1; }
+  void prepare_parameters() override {
+    DynamicEvidencePluginTest::prepare_parameters();
+    node->declare_parameter("FollowPath.DynamicObstacleCritic.input_schema",
+                            rm_dynamic_obstacle_critic::Array::SCHEMA_OBSERVATION_ANCHOR);
+    if (nominal()) {
+      node->declare_parameter("FollowPath.DynamicObstacleCritic.obstacle_radius_mode", "nominal_diameter");
+      node->declare_parameter("FollowPath.DynamicObstacleCritic.nominal_obstacle_diameter", .8);
+      node->declare_parameter("FollowPath.DynamicObstacleCritic.geometry_prior_source", "synthetic:CPP-fixture-only");
+    }
+  }
+  void capture_v2() {
+    pin_clock(); auto msg = input();
+    msg.schema = rm_dynamic_obstacle_critic::Array::SCHEMA_OBSERVATION_ANCHOR;
+    publish(msg);
+    mppi::models::State state; mppi::models::Trajectories tr; mppi::models::Path path;
+    setup_data(state, tr, path);
+    xt::xtensor<float,1> costs={10.f,20.f}; float dt=.1f;
+    mppi::CriticData data{state,tr,path,costs,dt,false,nullptr,nullptr,std::nullopt,std::nullopt};
+    const auto old_tr=tr; const auto old_state=state;
+    critic->score(data); ASSERT_FALSE(data.fail_flag);
+    ASSERT_TRUE(std::filesystem::exists(directory/"score_0.json"));
+    std::ifstream stream(directory/"score_0.json");
+    std::string metadata{std::istreambuf_iterator<char>(stream),std::istreambuf_iterator<char>()};
+    EXPECT_NE(metadata.find("\"schema\":2,\"kind\":\"dynamic_consumption_fields_v2\""),std::string::npos);
+    EXPECT_NE(metadata.find("\"input_schema\":\"rm_dynamic_obstacle_predictions/v2_observation_anchor\""),std::string::npos);
+    if (nominal()) EXPECT_GT(costs(1), 20.f);
+    else EXPECT_LT(costs(1)-20.f, 1.f);
+    const auto captured=costs;
+    costs={10.f,20.f}; critic->score(data); EXPECT_FALSE(data.fail_flag);
+    EXPECT_EQ(std::memcmp(costs.data(),captured.data(),costs.size()*4),0);
+    EXPECT_FALSE(std::filesystem::exists(directory/"score_1.json"));
+    EXPECT_EQ(std::memcmp(tr.x.data(),old_tr.x.data(),tr.x.size()*4),0);
+    EXPECT_EQ(std::memcmp(state.cvx.data(),old_state.cvx.data(),state.cvx.size()*4),0);
+  }
+};
+class NominalObservationEvidencePluginTest : public ObservationEvidencePluginTest {
+  bool nominal() const override { return true; }
+};
+TEST_F(ObservationEvidencePluginTest, V2VisibleActualScoreAndBudgetArePreserved) { capture_v2(); }
+TEST_F(NominalObservationEvidencePluginTest, V2NominalActualScoreAndBudgetArePreserved) { capture_v2(); }
 TEST_F(OneDynamicEvidencePluginTest, MovingInputWithCaptureAndBudgetExhaustionIsBitExact) {
   pin_clock();publish(input());
   mppi::models::State state;mppi::models::Trajectories tr;mppi::models::Path path;setup_data(state,tr,path);

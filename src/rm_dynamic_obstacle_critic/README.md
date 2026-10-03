@@ -6,10 +6,30 @@ selecting `rm_dynamic_obstacle_predictions/v2_observation_anchor` requires the
 matching tracker mode. Unknown configuration schemas, mismatched input,
 schema transitions and inconsistent observation epochs are rejected. The CV
 consumer formula, visible-size radius heuristic and pass/brake algorithm remain.
-This interface repair does not certify complete physical support. V2 file
-consumption evidence is explicitly refused until its replay chain is registered;
-existing evidence profiles remain v1. See
+This interface repair does not certify complete physical support. The subsequent
+explicit diameter experiment adds `obstacle_radius_mode=nominal_diameter`,
+`nominal_obstacle_diameter` in (0,3] m and `geometry_prior_source`. This mode
+requires v2, uses the full diameter as radius, and remains a nominal CV proxy;
+it does not certify measurement error, association or future motion. Default
+`visible_extent` requires zero/empty nominal settings and keeps the original
+visible-size formula. Both critic and guard use the same geometry function.
+
+Private v2 consumption files now record schema, radius mode, diameter and prior;
+`replay_observation_consumption` explicitly reads RMDYNRP2. Old helper/formats
+remain v1 and refuse the new binary. Mixed-version traces are rejected. Actual
+plugin fixtures are replayed exactly; old 347-cycle input/risk output remains
+byte-identical. Existing simulation profiles remain v1. New explicit
+`nav2_cv_observation_{visible,nominal}.yaml` and matching
+`guard_observation_{visible,nominal}.yaml` use `tracker_observation_cv.yaml`.
+The trial runner requires a selected radius mode and all native/dynamic/cost
+evidence flags, checks the complete typed profile transformations and actual
+three-node settings, then gates the goal on a fresh complete v2 receipt.
+The nominal profile uses 1.6970562748477143 m under its recorded manual
+conditions, with no certified e/B. `evaluate_observation_processed_cv` uses
+RMDYNRP2 explicitly; the old helper refuses it. See
 [the observation-anchor experiment](../../docs/dynamic_obstacle_critic/observation_anchor_cv_experiment.md).
+The ongoing scope and strict gates are in
+[the diameter/consumption registration](../../docs/dynamic_obstacle_critic/observation_diameter_consumption_experiment.md).
 
 Opt-in development package for the route `Tracker → CV → native MPPI critic → smoother → safety guard`.
 It targets the repository's Nav2 Humble 1.1.20 runtime. It is not enabled by any competition launch.

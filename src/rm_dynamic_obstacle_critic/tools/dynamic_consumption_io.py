@@ -11,6 +11,23 @@ import struct
 import sys
 
 BLOCKS = ('x', 'y', 'yaw', 'costs_before_dynamic', 'dynamic_risk_double', 'costs_after_dynamic')
+V1_SCHEMA = 'rm_dynamic_obstacle_predictions/v1'
+V2_SCHEMA = 'rm_dynamic_obstacle_predictions/v2_observation_anchor'
+V2_FIELDS = {'schema', 'kind', 'ordinal', 'score_stamp', 'source_age_used',
+    'pose_stamp_sec', 'pose_stamp_nanosec', 'pose_frame', 'evaluation_frame', 'base_frame',
+    'model_dt', 'pose', 'speed', 'world_transform', 'padded_footprint', 'limits',
+    'cost_parameters', 'input_used', 'blocks', 'payload_bytes', 'scope', 'unavailable'}
+LIMIT_FIELDS = {'minimum_radius', 'max_age', 'max_observation_age', 'max_speed',
+    'max_extent', 'max_tracks', 'jump_tolerance', 'max_tf_age', 'input_frame'}
+V2_RADIUS_FIELDS = {'input_schema', 'obstacle_radius_mode', 'nominal_obstacle_diameter', 'geometry_prior_source'}
+MESSAGE_FIELDS = {'stamp_sec', 'stamp_nanosec', 'frame', 'schema', 'authority', 'complete',
+                  'total_track_count', 'prediction_dt', 'prediction_steps', 'tracks'}
+TRACK_FIELDS = {'id', 'state', 'xy', 'vxy', 'size_xy', 'observed_sec', 'observed_nanosec'}
+
+
+def exact_fields(value, fields, label):
+    if not isinstance(value, dict) or set(value) != fields:
+        raise ValueError('dynamic v2 '+label+' fields')
 
 
 def unique_object(pairs):
@@ -46,8 +63,14 @@ def read_consumption(path):
     if len(raw) > 200_000:
         raise ValueError('dynamic metadata budget')
     meta = json.loads(raw, object_pairs_hook=unique_object)
-    if meta.get('schema') != 1 or meta.get('kind') != 'dynamic_consumption_fields_v1':
+    version = meta.get('schema')
+    if type(version) is not int or version not in (1, 2) or meta.get('kind') != 'dynamic_consumption_fields_v'+str(version):
         raise ValueError('dynamic evidence schema')
+    if version == 2:
+        exact_fields(meta, V2_FIELDS, 'metadata')
+        exact_fields(meta['limits'], LIMIT_FIELDS | V2_RADIUS_FIELDS, 'limits')
+        exact_fields(meta['input_used'], MESSAGE_FIELDS, 'message')
+        exact_fields(meta['cost_parameters'], {'weight', 'influence_distance', 'safety_margin', 'collision_cost'}, 'cost')
     if not integer(meta['ordinal'], 0, 999) or not finite(meta['score_stamp']) or meta['score_stamp'] <= 0:
         raise ValueError('dynamic score identity')
     stamp(meta, 'pose_stamp_sec', 'pose_stamp_nanosec')
@@ -68,6 +91,20 @@ def read_consumption(path):
         raise ValueError('dynamic limits')
     if not isinstance(lim['input_frame'], str) or not lim['input_frame'] or len(lim['input_frame']) > 4096:
         raise ValueError('dynamic input frame')
+    selected_schema = V1_SCHEMA
+    if version == 2:
+        selected_schema = lim['input_schema']
+        mode, diameter, prior = (lim[n] for n in ('obstacle_radius_mode', 'nominal_obstacle_diameter', 'geometry_prior_source'))
+        if (selected_schema != V2_SCHEMA or not finite(diameter) or not isinstance(prior, str)
+                or len(prior.encode()) > 4096):
+            raise ValueError('dynamic v2 radius model')
+        if mode == 'visible_extent':
+            if diameter != 0 or prior != '': raise ValueError('dynamic v2 unused nominal settings')
+        elif mode == 'nominal_diameter':
+            if not 0 < diameter <= 3 or not prior.strip(' \t\r\n\f\v'):
+                raise ValueError('dynamic v2 nominal diameter/provenance')
+        else:
+            raise ValueError('dynamic v2 unknown radius mode')
     if not all(finite(params[n]) for n in ('weight', 'influence_distance', 'safety_margin', 'collision_cost')):
         raise ValueError('dynamic cost parameters')
     if params['weight'] < 0 or params['safety_margin'] <= 0 or params['influence_distance'] <= params['safety_margin'] or params['collision_cost'] <= 0:
@@ -77,7 +114,7 @@ def read_consumption(path):
     if (not finite(meta['source_age_used']) or struct.pack('<d', age) != struct.pack('<d', meta['source_age_used'])
             or source <= 0 or not 0 <= age <= lim['max_age']):
         raise ValueError('dynamic source age identity/range')
-    if (msg['schema'] != 'rm_dynamic_obstacle_predictions/v1' or msg['authority'] != 'shadow_only'
+    if (msg['schema'] != selected_schema or msg['authority'] != 'shadow_only'
             or msg['frame'] != lim['input_frame'] or msg['complete'] is not True):
         raise ValueError('dynamic consumed input contract')
     if (not isinstance(tracks, list) or not integer(msg['total_track_count'], 0, min(64, lim['max_tracks']))
@@ -89,6 +126,7 @@ def read_consumption(path):
         raise ValueError('dynamic step budget')
     identifiers = set()
     for track in tracks:
+        if version == 2: exact_fields(track, TRACK_FIELDS, 'track')
         if not integer(track['id'], 0, 2**64-1) or track['id'] in identifiers or track['state'] not in (1, 2, 3) or type(track['state']) is not int:
             raise ValueError('dynamic track identity/state')
         identifiers.add(track['id'])
@@ -99,6 +137,11 @@ def read_consumption(path):
         observed = stamp(track, 'observed_sec', 'observed_nanosec')
         if observed <= 0 or observed > source or meta['score_stamp'] - observed > lim['max_observation_age']:
             raise ValueError('dynamic track observation age')
+        if version == 2:
+            source_ns = msg['stamp_sec']*10**9+msg['stamp_nanosec']
+            observed_ns = track['observed_sec']*10**9+track['observed_nanosec']
+            if (observed_ns >= source_ns if track['state'] == 3 else observed_ns != source_ns):
+                raise ValueError('dynamic v2 observation epoch')
     binary = path.with_suffix('.bin')
     opener = open if binary.is_file() else gzip.open
     with opener(binary if binary.is_file() else str(binary)+'.gz', 'rb') as stream:
@@ -109,6 +152,7 @@ def read_consumption(path):
     if not isinstance(meta['blocks'], list) or len(meta['blocks']) != len(BLOCKS):
         raise ValueError('dynamic block count')
     for expected, block in zip(BLOCKS, meta['blocks']):
+        if version == 2: exact_fields(block, {'name', 'dtype', 'offset', 'bytes', 'shape'}, 'block')
         name = block['name']; dtype = '<f8' if name == 'dynamic_risk_double' else '<f4'
         shape = block['shape']; width = 8 if dtype == '<f8' else 4
         if name != expected or not isinstance(shape, list) or not shape or any(not integer(v, 1, 512) for v in shape):
