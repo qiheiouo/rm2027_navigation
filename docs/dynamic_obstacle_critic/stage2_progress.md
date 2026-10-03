@@ -535,3 +535,24 @@ synthetic/79项也保持。28文件独立verification保留，七archive共
 处理、约束后SG前、SG后三阶段，分离raw185原地图通过而个体处理
 后失败的变化。只有离线BUILD_TESTING实例，原raw成本标签不替换，
 严格门和运行参数不改。见[个体阶段登记](native_individual_stage_experiment.md)。
+
+9626742后共享见证源码新增BUILD_TESTING宏实例，默认ELF仍d798...，
+原311 binary/JSON及原raw九张量完全相同；新三阶段保留raw300与
+bounded/SG311的原辅助行布局。源pose原311完整标签及两epoch原
+300 SG全部标签精确复现。63项实际原生/格式/IEEE非finite/关联
+检查通过。raw185精确地图区间下界主20.782→23.441→−5.873mm，
+SG后首次+2.914s接触raw210单元(76,37)，原始及约束后无采样接触。
+精确单元范围仅此三路径；主全300地图vector门90→90→92，SG既
+造成8条通过变失败，也使10条失败变通过，不推广为全局SG故障。
+
+185文件约24.54MB冻结，24依赖模块，完整负例及初期缺link.txt/
+绘图bytes错误日志源码、初图及图例修正均保留。独立新输入SDK
+执行与63项检查重跑通过，报告/标量/图示及原生输出共10项逐字节
+一致；原task/raw203/age FAILED、综合NOT ESTABLISHED和真实支持
+unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
+运行profile、公共接口或TF唯一所有者。
+
+10文件独立verification另存，五archive共2236个manifest文件身份
+通过，原185文件manifest保持。精确单元三路径范围及模型门的描述
+含义不扩大；下一项需要直接记录原CostCritic调用前后的累计成本，
+不能由原七critic总和或SDK边界helper推算实际成本贡献。

@@ -104,6 +104,12 @@ fixes original sampled controls and SDK history while separating raw,
 post-constraint and post-SG paths. It requires baseline byte identity before
 geometry attribution and adds no runtime selection or parameter changes.
 
+The completed comparison preserves the original raw nine tensors, full311
+witness and source-pose labels. Raw185 retains positive exact raw203 margins
+through constraints and contacts raw210 after SG; all300 stage map counts also
+show gains. Sixty-three compiled probes and explicit scalar scope keep this
+individual effect separate from aggregate, closed-loop or deployment claims.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

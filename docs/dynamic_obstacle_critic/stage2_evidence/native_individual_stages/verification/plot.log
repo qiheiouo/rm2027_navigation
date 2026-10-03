@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/plot_native_individual_stages.py", line 57, in <module>
+    args=parser.parse_args();plot(args.source,args.stage_file,json.loads(args.report.read_text()),json.loads(args.scalar.read_text()),args.output)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_critic/tools/plot_native_individual_stages.py", line 22, in plot
+    cells=np.asarray(blocks['raw_costmap']['values']).reshape(height,width)>=203
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: cannot reshape array of size 1 into shape (100,100)

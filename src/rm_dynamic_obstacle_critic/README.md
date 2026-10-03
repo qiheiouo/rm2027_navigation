@@ -336,3 +336,13 @@ Raw cost sums and weights remain attached to raw paths; individual CostCritic
 increments and accepted-control labels remain unknown. The immutable archive
 and explicit replay-verifier amendment are documented in
 [the original raw map audit](../../docs/dynamic_obstacle_critic/native_raw_map_contract_experiment.md).
+
+`native_individual_stages` is a separate BUILD_TESTING macro instance sharing
+the original witness source. The default ELF and full old311 outputs stay
+bit exact. Its private raw300/bounded311/SG311 format retains the original
+auxiliary layout; raw rows use offsets 0/11/11. Raw185 has positive exact
+raw203 margins before and after constraints, then sampled raw210 contact
+after SG. The all300 map counts also show SG gains and losses, so this one
+individual effect is not a global optimizer or SG claim. Sixty-three compiled
+format and association checks pass. See
+[the individual stage experiment](../../docs/dynamic_obstacle_critic/native_individual_stage_experiment.md).

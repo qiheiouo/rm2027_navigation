@@ -88,6 +88,13 @@ unknown，见[地图契约审计](../dynamic_obstacle_critic/native_cost_map_con
 全300只有保守vector标签，精确单元范围仍是十行。见
 [原raw地图审计](../dynamic_obstacle_critic/native_raw_map_contract_experiment.md)。
 
+固定个体三阶段复核将raw185的约束和SG效果分开：原raw与约束后
+精确地图下界均为正，SG后出现raw210采样接触。整批主epoch地图
+vector通过数90→90→92，约束到SG既有8条通过变失败也有10条失败
+变通过。这个个体的阶段效果不认证聚合/闭环，不替换原raw成本，
+也不支持禁用SG的全局结论；精确单元范围仅raw185三阶段。见
+[个体阶段实验](../dynamic_obstacle_critic/native_individual_stage_experiment.md)。
+
 离线纯函数已将一个可复算的充分条件具体化：若完整未来投影到源
 集合的有向Hausdorff位移≤B*h，源集合直径≤D、锚点到凸包≤e，
 则原CV锚点可用`D+e+(B+|v_hat|)*h`支持，h包含source age。

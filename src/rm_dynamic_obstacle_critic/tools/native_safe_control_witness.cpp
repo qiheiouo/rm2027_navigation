@@ -8,10 +8,26 @@
 #include <iomanip>
 #include <iostream>
 #include <vector>
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+#include <type_traits>
+#endif
 
 template<typename T> void read_values(std::istream &input,T *values,size_t count) {
   input.read(reinterpret_cast<char *>(values),count*sizeof(T));
   if(!input)throw std::runtime_error("truncated native witness input");
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+  if constexpr(std::is_same_v<T,float>) {
+    for(size_t i=0;i<count;++i) {
+      uint32_t bits;std::memcpy(&bits,values+i,sizeof(bits));
+      if((bits&0x7f800000u)==0x7f800000u)throw std::runtime_error("nonfinite native individual input");
+    }
+  } else if constexpr(std::is_same_v<T,double>) {
+    for(size_t i=0;i<count;++i) {
+      uint64_t bits;std::memcpy(&bits,values+i,sizeof(bits));
+      if((bits&UINT64_C(0x7ff0000000000000))==UINT64_C(0x7ff0000000000000))throw std::runtime_error("nonfinite native individual input");
+    }
+  }
+#endif
 }
 template<typename T> void write_values(std::ostream &output,const T *values,size_t count) {
   output.write(reinterpret_cast<const char *>(values),count*sizeof(T));
@@ -27,7 +43,11 @@ public:
     state_.reset(batch,steps);generated_trajectories_.reset(batch,steps);
     control_sequence_.reset(steps);
   }
-  void cycle(std::istream &input,std::ostream &binary,std::ostream &json,uint32_t ordinal,bool sampler) {
+  void cycle(std::istream &input,std::ostream &binary,std::ostream &json,uint32_t ordinal,bool sampler
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+      ,std::ostream &stages
+#endif
+  ) {
     std::array<double,13> measured;read_values(input,measured.data(),measured.size());
     auto &pose=state_.pose.pose;auto &speed=state_.speed;
     pose.position.x=measured[0];pose.position.y=measured[1];pose.position.z=measured[2];
@@ -57,6 +77,10 @@ public:
     const size_t rows=11+(sampler?settings_.batch_size:0);
     mppi::models::State witnesses;witnesses.reset(rows,steps);
     witnesses.pose=state_.pose;witnesses.speed=state_.speed;
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+    mppi::models::State bounded;bounded.reset(rows,steps);
+    bounded.pose=state_.pose;bounded.speed=state_.speed;
+#endif
     const double yaw=tf2::getYaw(state_.pose.pose.orientation);
     constexpr std::array<std::array<double,2>,8> directions{{
       {{.2,0}},{{.2,.3}},{{.2,-.3}},{{.4,0}},{{.4,.3}},{{.4,-.3}},{{0,.3}},{{0,-.3}}}};
@@ -79,6 +103,13 @@ public:
         ++axis;
       }
       applyControlSequenceConstraints(); // Same order as native aggregation.
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+      for(size_t step=0;step<steps;++step) {
+        bounded.cvx(row,step)=control_sequence_.vx(step);
+        bounded.cvy(row,step)=control_sequence_.vy(step);
+        bounded.cwz(row,step)=control_sequence_.wz(step);
+      }
+#endif
       mppi::utils::savitskyGolayFilter(control_sequence_,control_history_,settings_);
       if(row==0) {
         bool exact=true;axis=0;
@@ -99,6 +130,23 @@ public:
     updateStateVelocities(witnesses);
     mppi::models::Trajectories trajectories;trajectories.reset(rows,steps);
     integrateStateVelocities(trajectories,witnesses);
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+    if(mask!=63 || !aggregate_exact || !command_exact)
+      throw std::runtime_error("native individual baseline bits mismatch");
+    updateStateVelocities(bounded);
+    mppi::models::Trajectories bounded_trajectories;bounded_trajectories.reset(rows,steps);
+    integrateStateVelocities(bounded_trajectories,bounded);
+    write_values(stages,&ordinal,1);write_values(stages,&mask,1);
+    const auto write_stage=[&](uint32_t stage,const mppi::models::State &s,
+        const mppi::models::Trajectories &t,uint32_t stage_rows) {
+      write_values(stages,&stage,1);write_values(stages,&stage_rows,1);
+      for(const auto *tensor:{&s.cvx,&s.cvy,&s.cwz,&s.vx,&s.vy,&s.wz,&t.x,&t.y,&t.yaws})
+        write_values(stages,tensor->data(),tensor->size());
+    };
+    write_stage(0,state_,generated_trajectories_,settings_.batch_size);
+    write_stage(1,bounded,bounded_trajectories,rows);
+    write_stage(2,witnesses,trajectories,rows);
+#endif
     write_values(binary,&ordinal,1);write_values(binary,&mask,1);
     write_values(binary,&aggregate_exact,1);write_values(binary,&command_exact,1);write_values(binary,&yaw,1);
     for(const auto *tensor:{&witnesses.cvx,&witnesses.cvy,&witnesses.cwz,
@@ -112,8 +160,15 @@ public:
 };
 
 int main(int argc,char **argv) {
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+  if(argc!=6 || std::string(argv[5])!="--filtered-sampler")
+    throw std::invalid_argument("usage: native_individual_stages INPUT OLD_OUTPUT.bin OLD_OUTPUT.jsonl STAGES.bin --filtered-sampler");
+  if(std::filesystem::exists(argv[4]))throw std::runtime_error("refusing to overwrite stage evidence");
+  if(std::filesystem::file_size(argv[1])!=324940)throw std::runtime_error("native individual exact input budget");
+#else
   if(argc!=4 && !(argc==5 && std::string(argv[4])=="--filtered-sampler"))
     throw std::invalid_argument("usage: native_safe_control_witness INPUT OUTPUT.bin OUTPUT.jsonl [--filtered-sampler]");
+#endif
   if(std::filesystem::exists(argv[2]) || std::filesystem::exists(argv[3]))
     throw std::runtime_error("refusing to overwrite witness evidence");
   std::ifstream input(argv[1],std::ios::binary);std::ofstream binary(argv[2],std::ios::binary),json(argv[3]);
@@ -123,9 +178,24 @@ int main(int argc,char **argv) {
   std::array<char,8> magic;read_values(input,magic.data(),magic.size());
   if(std::string(magic.data(),8)!="RMSFWIT1")throw std::runtime_error("witness schema");
   uint32_t count,batch,steps;read_values(input,&count,1);read_values(input,&batch,1);read_values(input,&steps,1);
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+  if(count!=1 || batch!=300 || steps!=30)throw std::runtime_error("native individual fixed source grid");
+#endif
   if(!count || count>1000 || !batch || batch>500 || steps!=30)throw std::runtime_error("witness budget/grid");
   std::array<float,5> parameters;read_values(input,parameters.data(),parameters.size());
-  NativeWitness witness(batch,steps,parameters);const bool sampler=argc==5;
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+  if(parameters!=std::array<float,5>{float(.1),-.5f,.8f,.5f,1.2f})
+    throw std::runtime_error("native individual registered constraints required");
+#endif
+  NativeWitness witness(batch,steps,parameters);
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+  const bool sampler=true;
+  std::ofstream stages(argv[4],std::ios::binary);if(!stages)throw std::runtime_error("stage file unavailable");
+  stages.exceptions(std::ios::failbit|std::ios::badbit);stages.write("RMCISTO1",8);
+  write_values(stages,&count,1);write_values(stages,&batch,1);write_values(stages,&steps,1);write_values(stages,&parameters[0],1);
+#else
+  const bool sampler=argc==5;
+#endif
   const uint32_t rows=11+(sampler?batch:0);
   binary.write("RMSFWTO1",8);write_values(binary,&count,1);write_values(binary,&rows,1);
   write_values(binary,&steps,1);write_values(binary,&parameters[0],1);
@@ -136,7 +206,11 @@ int main(int argc,char **argv) {
   for(uint32_t cycle=0;cycle<count;++cycle) {
     uint32_t ordinal;read_values(input,&ordinal,1);
     if(ordinal!=cycle)throw std::runtime_error("witness ordinal gap");
-    witness.cycle(input,binary,json,ordinal,sampler);
+    witness.cycle(input,binary,json,ordinal,sampler
+#ifdef RM_NATIVE_INDIVIDUAL_STAGES
+        ,stages
+#endif
+    );
   }
   if(input.peek()!=std::char_traits<char>::eof())throw std::runtime_error("witness trailing input");
 }

@@ -80,6 +80,12 @@ map predicates, weights or reports. It adds no ROS/TF owner or control choice;
 actual CostCritic state and physical support remain unknown. See
 [the original raw map audit](dynamic_obstacle_critic/native_raw_map_contract_experiment.md).
 
+`native_individual_stages` is a BUILD_TESTING-only file tool. Its raw/bounds/SG
+stage tensors and pre-SG controls are never loaded by a launch or published.
+The original witness executable remains bit exact; no SG, sampler, optimizer,
+guard or runtime parameters change. See
+[the individual stage experiment](dynamic_obstacle_critic/native_individual_stage_experiment.md).
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not
