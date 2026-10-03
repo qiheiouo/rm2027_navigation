@@ -565,3 +565,11 @@ unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
 增量/择支；SDK短路或不完整配对保持unknown。先核验原库/只读性，
 再跑独立无硬件试次及原严格门、I/O期限审计。见
 [累计成本证据登记](native_cost_accumulator_evidence_experiment.md)。
+
+独立默认关闭库/显式profile/运行前完整参数读回及严格私有reader已实现。
+4序列化/6真实插件、实际完整包46 GTest、52读取/关联/profile/协议检查
+通过。实际controller两个inactive配置与全部显式参数readback通过，
+六类非法配置拒绝且不覆盖证据。原critic/guard/命令observer三ELF重新
+构建均相同；保留临时setup路径及colcon源发现路径两次命令失败，不计
+执行证据。现在继续完整独立Gazebo与实际成本/原生/物理门审计，尚未
+建立实际CostCritic增量或闭环接受，原FAILED与真实支持unknown保持。

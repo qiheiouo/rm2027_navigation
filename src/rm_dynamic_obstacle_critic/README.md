@@ -230,6 +230,18 @@ anchors are outside the actor projection, so zero error remains a hypothesis.
 manifests and reproduces four report/figure artifacts byte for byte.
 See [the extent-prior experiment](../../docs/dynamic_obstacle_critic/ground_robot_extent_prior_experiment.md).
 
+`config/nav2_cv_cost_accumulator_evidence.yaml` adds two default-off observers
+in a separate library immediately around the unchanged SDK CostCritic. The
+isolated runner requires `--native-cost-accumulator-evidence` together with
+native snapshots, dynamic consumption evidence and guard mode. It verifies
+the complete base profile before assigning exclusive directories, then reads
+back all explicit FollowPath settings before its goal. Files carry a local
+committed before token plus all nine matrices, path and map/context bytes;
+tokens never become native optimizer cycle ids. The pure reader rejects
+malformed records, and incomplete/failed/map-mismatched pairs remain UNKNOWN.
+The actual f32 accumulator difference includes accumulation rounding. See
+[the cost accumulator experiment](../../docs/dynamic_obstacle_critic/native_cost_accumulator_evidence_experiment.md).
+
 The public geometry contract distinguishes filtered anchors/visible extents,
 budget completeness, display predictions and unverified physical support.
 `tools/audit_raw_rollout_objective.py SOURCE WITNESS_ARCHIVE NEW_REPORT` checks

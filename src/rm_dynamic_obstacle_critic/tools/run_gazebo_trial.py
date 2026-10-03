@@ -25,13 +25,15 @@ from diagnostic_msgs.msg import DiagnosticArray
 from rm_competition_interfaces.msg import DynamicObstaclePredictionArray
 from controller_odom_preflight import ControllerOdomPreflight
 from dynamic_consumption_preflight import DynamicConsumptionPreflight
+from cost_accumulator_preflight import CostAccumulatorPreflight, configure_profile, ROLES
 
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument("output",type=Path);parser.add_argument("--mode",choices=["baseline","critic","guard"],required=True);parser.add_argument("--config",type=Path,required=True)
     parser.add_argument("--guard-config",type=Path);parser.add_argument('--native-snapshots',action='store_true')
     parser.add_argument('--require-controller-odom-topic')
-    parser.add_argument('--dynamic-consumption-evidence',action='store_true');args=parser.parse_args()
+    parser.add_argument('--dynamic-consumption-evidence',action='store_true')
+    parser.add_argument('--native-cost-accumulator-evidence',action='store_true');args=parser.parse_args()
     args.output.mkdir(parents=True,exist_ok=False)
     # Freeze full installed experiment inputs before any scene/goal is started.
     share=Path(get_package_share_directory("rm_dynamic_obstacle_critic"))
@@ -40,8 +42,10 @@ def main():
     input_hashes={}
     input_names=["guard.yaml","tracker_cv.yaml","course_static.yaml","course_static.pgm"]
     if args.native_snapshots:input_names.append('native_command_observer.yaml')
+    if args.native_cost_accumulator_evidence:
+        input_names.extend(['nav2_cv_dynamic_consumption.yaml', 'cost_accumulator_critics.xml'])
     for name in input_names:
-        src=guard_params if name=="guard.yaml" else share/"config"/name
+        src=guard_params if name=="guard.yaml" else (share/name if name.endswith('.xml') else share/"config"/name)
         shutil.copyfile(src,frozen/name)
         input_hashes[name]=hashlib.sha256(src.read_bytes()).hexdigest()
     (args.output/"installed_input_identity.json").write_text(json.dumps(input_hashes,indent=2)+"\n")
@@ -59,6 +63,8 @@ def main():
                   Path(get_package_prefix("nav2_mppi_controller"))/"lib"/"libmppi_critics.so"]
     if args.native_snapshots:
         binary_paths.append(Path(get_package_prefix('rm_dynamic_obstacle_critic'))/'lib/rm_dynamic_obstacle_critic/native_command_observer')
+    if args.native_cost_accumulator_evidence:
+        binary_paths.append(Path(get_package_prefix('rm_dynamic_obstacle_critic'))/'lib/librm_native_cost_accumulator_observer.so')
     binary_identity={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in binary_paths}
     (args.output/"binary_identity.json").write_text(json.dumps(binary_identity,indent=2)+"\n")
     source_root=Path(__file__).resolve().parents[1]
@@ -68,6 +74,12 @@ def main():
     profile=yaml.safe_load(args.config.read_text());follow=profile["controller_server"]["ros__parameters"]["FollowPath"]
     required_controller_odom=(args.require_controller_odom_topic or
                               profile['controller_server']['ros__parameters'].get('odom_topic'))
+    if args.native_cost_accumulator_evidence:
+        if args.mode != 'guard' or not args.native_snapshots or not args.dynamic_consumption_evidence:
+            raise ValueError('accumulator evidence requires registered guard trial, native snapshots and dynamic evidence')
+        configure_profile(profile, yaml.safe_load((frozen/'nav2_cv_dynamic_consumption.yaml').read_text()), args.output)
+    elif any(role in follow['critics'] for role in ROLES):
+        raise ValueError('accumulator profile requires explicit native-cost-accumulator-evidence flag')
     if args.dynamic_consumption_evidence:
         dynamic=follow.get('DynamicObstacleCritic',{})
         if (args.mode=='baseline' or not args.native_snapshots or
@@ -106,6 +118,14 @@ def main():
             'unavailable':['unconsumed public fields','TF correction source stamp','native map source stamp','odometry subscriber source stamp'],
             'runtime_output_directory':str((args.output/'dynamic_scores').resolve()),
             'io_limit':'Capture can affect deadlines; require new physical trial and preserve errors/budget.'},indent=2)+'\n')
+    if args.native_cost_accumulator_evidence:
+        (args.output/'cost_accumulator_policy.json').write_text(json.dumps({
+            'parameters':{role:follow[role] for role in ROLES},
+            'order':follow['critics'], 'baseline_identity':input_hashes['nav2_cv_dynamic_consumption.yaml'],
+            'scope':'Adjacent observations of actual f32 cumulative costs around unchanged SDK CostCritic.',
+            'join_rule':'Local committed before token, same public CriticData object during callbacks, then all nine matrices/path/pose/speed/grid/frame/footprint/map bytes.',
+            'limits':['Token is not an optimizer cycle id.', 'Difference includes f32 accumulation rounding; unrounded increment and private CostCritic branch/cache unknown.',
+                'Short circuits, incomplete/map-mismatched pairs remain unknown.', 'Added IO requires fresh timing and original physical/task gates.']},indent=2)+'\n')
     env=os.environ.copy();env["ROS_LOG_DIR"]=str(args.output/"ros");env["XDG_RUNTIME_DIR"]=str(args.output/"xdg");Path(env["XDG_RUNTIME_DIR"]).mkdir(mode=0o700)
     log=(args.output/"launch.log").open("w");pose_log=(args.output/"gazebo_poses.jsonl").open("w");pose_err=(args.output/"pose_stderr.log").open("w")
     launch=subprocess.Popen(["ros2","launch","rm_dynamic_obstacle_critic","cv_course.launch.py","enabled:=true","nav2_autostart:=false","params_file:="+str(params),"guard_params_file:="+str(guard_params),"guard_enabled:="+("true" if args.mode=="guard" else "false")],stdout=log,stderr=subprocess.STDOUT,env=env,start_new_session=True)
@@ -164,6 +184,7 @@ def main():
     startup_future=None;startup_ok=False
     controller_odom_check=None;controller_odom_ready=not bool(required_controller_odom)
     dynamic_check=None;dynamic_ready=not args.dynamic_consumption_evidence
+    cost_check=None;cost_ready=not args.native_cost_accumulator_evidence
     action=ActionClient(node,NavigateToPose,"/navigate_to_pose");started=time.monotonic();goal_future=None;result_future=None;handle=None;start_sim=None;end_sim=None;status=None;graph=None;cancelled=False;error=None
     try:
         while time.monotonic()-started<policy["wall_timeout"]:
@@ -191,7 +212,14 @@ def main():
                 if readback is not None:
                     with (args.output/'dynamic_consumption_readback.json').open('x') as file:file.write(json.dumps(readback,indent=2)+'\n')
                     dynamic_ready=True;write('event',{'event':'dynamic_consumption_parameters_verified','readback':readback})
-            if controller_odom_ready and dynamic_ready and start_sim is None and now>=policy["earliest_start"] and abs(now%8-policy["start_phase"])<=policy["phase_tolerance"] and "odom" in last and "scan" in last and "obstacles" in last and action.server_is_ready():
+            if startup_ok and not cost_ready:
+                if cost_check is None:
+                    cost_check=CostAccumulatorPreflight(node,profile['controller_server']['ros__parameters'])
+                readback=cost_check.poll()
+                if readback is not None:
+                    with (args.output/'cost_accumulator_readback.json').open('x') as file:file.write(json.dumps(readback,indent=2)+'\n')
+                    cost_ready=True;write('event',{'event':'cost_accumulator_parameters_verified','readback':readback})
+            if controller_odom_ready and dynamic_ready and cost_ready and start_sim is None and now>=policy["earliest_start"] and abs(now%8-policy["start_phase"])<=policy["phase_tolerance"] and "odom" in last and "scan" in last and "obstacles" in last and action.server_is_ready():
                 graph={t:[i.node_name for i in node.get_publishers_info_by_topic(t)] for t in ["/cmd_vel","/cmd_vel_nav","/dynamic_test/cmd_vel_smoothed"]}
                 expected=["dynamic_safety_guard"] if args.mode=="guard" else ["velocity_smoother"]
                 if sorted(graph["/cmd_vel"])!=expected:raise RuntimeError("command publisher identity mismatch: "+str(graph))
@@ -216,6 +244,9 @@ def main():
         if dynamic_check is not None and not dynamic_ready:
             with (args.output/'dynamic_consumption_preflight_failure.json').open('x') as file:
                 file.write(json.dumps({'verdict':'FAILED','error':error,**dynamic_check.evidence},indent=2)+'\n')
+        if cost_check is not None and not cost_ready:
+            with (args.output/'cost_accumulator_preflight_failure.json').open('x') as file:
+                file.write(json.dumps({'verdict':'FAILED','error':error,**cost_check.evidence},indent=2)+'\n')
     finally:
         final_sim=node.get_clock().now().nanoseconds*1e-9
         for proc in [p for p in [command_observer,transport,launch] if p is not None]:

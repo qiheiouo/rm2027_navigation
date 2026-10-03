@@ -29,6 +29,17 @@ before sending its goal. Recording preserves consumed CV fields and score bits;
 it adds no ROS topics or TF owner. Its I/O needs fresh deadline and physical
 validation. See [the consumption evidence experiment](dynamic_obstacle_critic/dynamic_consumption_evidence_experiment.md).
 
+`nav2_cv_cost_accumulator_evidence.yaml` is an explicit experiment with two
+default-off file observers adjacent to the original SDK CostCritic, supplied
+by a separate plugin library. The runner requires guard mode and
+`--native-cost-accumulator-evidence --dynamic-consumption-evidence --native-snapshots`.
+Removing the two observer entries/settings preserves the complete typed base
+profile. Before its goal, the runner reads back every explicit FollowPath
+parameter and controller frequency/odometry route. Pairing uses observer-local
+committed state and exact public input/map bytes; incomplete association is
+UNKNOWN. This adds no topic or TF owner and needs fresh IO/deadline and original
+physical/task validation. See [the accumulator evidence experiment](dynamic_obstacle_critic/native_cost_accumulator_evidence_experiment.md).
+
 `ground_robot_extent_prior_offline.yaml` is a manual reference consumed only by
 offline geometry tools. It is not a ROS parameter profile and no launch loads
 it; its 2026 size conditions do not certify 2027 targets or future CV support.

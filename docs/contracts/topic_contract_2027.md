@@ -87,6 +87,14 @@ critic writes bounded local files without changing the topic interface or tracke
 message. GID identifies the publisher, not the exact optimizer/SG cycle; see
 [the evidence boundary](../dynamic_obstacle_critic/native_cycle_evidence_experiment.md).
 
+The explicit accumulator experiment adds two file-only plugins from a separate
+library before/after the original SDK CostCritic. They own no subscriptions,
+publishers, TF, goals or control authority. Their committed local pairing token
+is not a native optimizer cycle id; full copied input/map bytes must still match,
+and SDK short circuits or missing pairs remain UNKNOWN. The existing public
+perception message and TF ownership stay unchanged. See
+[the accumulator boundary](../dynamic_obstacle_critic/native_cost_accumulator_evidence_experiment.md).
+
 ### Established Simulation Interfaces
 
 | Topic | Type | Producer | Consumer | Meaning |
