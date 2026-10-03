@@ -133,6 +133,8 @@ def audit(trial):
         'before_records':len(before),'after_records':len(after),'valid_observed_pairs':len(paired),
         'native_records':len(native),'dynamic_records':len(dynamic),'joined_native':len(joined_native),'joined_dynamic':len(joined_dynamic),
         'unknown_after_records':unknown,'before_without_after':unmatched_before,'partial_files':partial,
+        'pairs_without_native':[r['before_ordinal'] for r in paired if 'native_ordinal' not in r],
+        'pairs_without_dynamic':[r['before_ordinal'] for r in paired if 'dynamic_ordinal' not in r],
         'unmatched_native':sorted(set(native)-joined_native),'unmatched_dynamic':sorted(set(dynamic)-joined_dynamic),
         'cycles':paired,'scope':'Actual adjacent f32 CostCritic accumulator changes with exact rational differences. No internal unrounded increment or branch attribution.',
         'limits':['Observer token is local committed pairing state, not an optimizer cycle id.',

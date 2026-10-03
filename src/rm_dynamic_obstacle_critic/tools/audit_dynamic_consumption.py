@@ -25,9 +25,17 @@ def identity(meta, blocks):
     return hashlib.sha256(raw).hexdigest(), raw
 
 
-def audit(trial, replay):
+def audit(trial, replay, cost_accumulator_evidence=False):
     follow = yaml.safe_load((trial/'profile.yaml').read_text())['controller_server']['ros__parameters']['FollowPath']
-    if follow['critics'] != ORIGINAL+['DynamicObstacleCritic', 'StaticStoppingCritic', 'NativeCycleSnapshotCritic']:
+    expected = ORIGINAL+['DynamicObstacleCritic', 'StaticStoppingCritic', 'NativeCycleSnapshotCritic']
+    if cost_accumulator_evidence:
+        from cost_accumulator_preflight import ORDER
+        from audit_cost_accumulator import audit as audit_cost
+        cost = audit_cost(trial)
+        if cost['joined_native'] != cost['native_records'] or cost['joined_dynamic'] != cost['dynamic_records']:
+            raise ValueError('accumulator profile needs complete native/consumption association')
+        expected = ORDER
+    if follow['critics'] != expected:
         raise ValueError('dynamic subtotal attribution requires exact registered critic order')
     native = {}; native_count = 0; native_ordinals = set()
     for path in sorted((trial/'native_cycles').glob('cycle_*.json'), key=lambda p: int(p.stem.split('_')[-1])):
@@ -81,7 +89,7 @@ def audit(trial, replay):
             'raw_candidates_with_predicted_margin_violation': sum(v is not None and v <= meta['cost_parameters']['safety_margin'] for v in result['minimum_clearance'])})
     if set(replays) != {int(p.stem.split('_')[-1]) for p in scores}: raise ValueError('risk replay coverage differs from recorded scores')
     complete = not unmatched and not ambiguous and len(matched_native) == native_count
-    return {'schema': 1, 'verdict': 'EXACT CONSUMPTION/NATIVE JOIN PASS' if complete else 'INCOMPLETE EXACT CONSUMPTION/NATIVE JOIN',
+    report = {'schema': 1, 'verdict': 'EXACT CONSUMPTION/NATIVE JOIN PASS' if complete else 'INCOMPLETE EXACT CONSUMPTION/NATIVE JOIN',
         'native_batches': native_count, 'dynamic_scores': len(scores), 'exact_joined_batches': len(joined),
         'unmatched_scores': unmatched, 'ambiguous_scores': ambiguous,
         'unmatched_native_ordinals': sorted(native_ordinals-matched_native), 'cycles': joined,
@@ -90,10 +98,18 @@ def audit(trial, replay):
             'Post-dynamic and final native float difference includes rounding, not exact StaticStopping double risk.',
             'Raw rollout score labels differ from individually constrained/SG counterfactual and weighted output.',
             'Exact replay does not certify perception geometry, future motion or physical acceptance.']}
+    if cost_accumulator_evidence:
+        report['cost_accumulator_observation_scope'] = {
+            'before_records': cost['before_records'], 'after_records': cost['after_records'],
+            'valid_observed_pairs': cost['valid_observed_pairs'], 'joined_native': cost['joined_native'],
+            'joined_dynamic': cost['joined_dynamic'],
+            'limits': 'Explicit separate read-only observers verified by full public input/map bytes. Extra cost pairs without final native/consumption records remain outside this output join.'}
+    return report
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(); parser.add_argument('trial', type=Path); parser.add_argument('native_risk_replay', type=Path); parser.add_argument('output', type=Path)
-    args = parser.parse_args(); report = audit(args.trial, args.native_risk_replay)
+    parser.add_argument('--cost-accumulator-evidence', action='store_true')
+    args = parser.parse_args(); report = audit(args.trial, args.native_risk_replay, args.cost_accumulator_evidence)
     with args.output.open('x') as stream: stream.write(json.dumps(report, indent=2, allow_nan=False)+'\n')
     print(json.dumps({k: report[k] for k in ('verdict', 'native_batches', 'dynamic_scores', 'exact_joined_batches')}))

@@ -573,3 +573,17 @@ unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
 构建均相同；保留临时setup路径及colcon源发现路径两次命令失败，不计
 执行证据。现在继续完整独立Gazebo与实际成本/原生/物理门审计，尚未
 建立实际CostCritic增量或闭环接受，原FAILED与真实支持unknown保持。
+
+9a0d3b5独立试次已完成：349组真实Cost前后9矩阵/path/map/context配对，
+347组与末端native/动态消费完整连接，94/95没有末端输出保留unknown。
+104100实际risk/after位型与347原生SG/control、weights链全部精确；
+347有理分组误差0，均匀负probe0/347、零history输入4/347输出2/347。
+七个真实链篡改拒绝，旧动态审计报告字节保持；依赖顺序缺文件失败
+日志另存。原150ms速度值门本轮347/347通过，callback身份仍unknown。
+
+物理/原raw203/任务本轮FAILED：base动态下界8.433mm，机械动态投影
+接触48.108s，padded接触、raw347/2265违规，推进4.639m而goal未成。
+当前消费完整支持在可核验235周期的0/1/2/3s均0/235。首次机械余量
+失败前0.2s已零命令/固定pose，不能以brake执行替换三秒规划与支持门。
+额外IO时限采样独立保存，23次deadline警告不证明IO造成结果差异。
+原五ELF保持、新库独立；真实e/B和私有内部择支仍unknown，不提升main。

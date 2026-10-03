@@ -116,6 +116,13 @@ CostCritic call in an explicit experimental profile. Complete input association
 and fresh timing/physical evidence are required; cumulative f32 differences
 do not reveal private scoring branches or unrounded increments.
 
+The separate library and typed base-profile/readback checks are implemented.
+A fresh isolated trial captures 349 observed cost pairs and 347 complete final
+native/consumption chains, with exact risk/weights/SG reconstruction and seven
+corruption rejections. Physical, raw203 and task gates fail; the two cost pairs
+without final outputs remain unassigned. Source, IO timing and all failures are
+preserved separately from earlier immutable archives.
+
 ### Competition Layer
 
 | Package | Responsibility | Current boundary | Primary documentation |

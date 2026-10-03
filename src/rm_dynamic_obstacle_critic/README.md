@@ -242,6 +242,13 @@ malformed records, and incomplete/failed/map-mismatched pairs remain UNKNOWN.
 The actual f32 accumulator difference includes accumulation rounding. See
 [the cost accumulator experiment](../../docs/dynamic_obstacle_critic/native_cost_accumulator_evidence_experiment.md).
 
+The fresh fixed trial records 349 actual pairs and 347 exact native/consumption
+output chains. Actual risk, weights and SG/control reconstruction are exact;
+physical/raw203/task gates fail and two pairs have no final-output association.
+`verify_cost_accumulator_chain.py` verifies the full recorded chain, while seven
+corruption probes retain changed files and rejection reasons. A zero rounded
+increment or highest-weight raw row never becomes an output safety label.
+
 The public geometry contract distinguishes filtered anchors/visible extents,
 budget completeness, display predictions and unverified physical support.
 `tools/audit_raw_rollout_objective.py SOURCE WITNESS_ARCHIVE NEW_REPORT` checks
