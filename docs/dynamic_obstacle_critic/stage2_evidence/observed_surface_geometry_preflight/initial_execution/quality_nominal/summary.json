@@ -1,0 +1,46 @@
+{
+  "schema": "observed_surface_geometry_audit/v1",
+  "verdict": "NOMINAL OBSERVED CHAIN PROTOTYPE; SUPPORT/CONTROL SAFETY NOT CERTIFIED",
+  "source_manifest_sha256": "9317daadf03cf11fb2b13110c633b8cce127f9943c0db8310f4d2bf47aa2cf5f",
+  "surface_policy": {
+    "max_neighbor_distance": 0.2,
+    "max_range_step": 0.2,
+    "max_points": 4096,
+    "max_elements": 1024,
+    "nominal_prediction_lifetime": 0.5,
+    "max_nominal_speed": 3.0
+  },
+  "counts": {
+    "accepted_source_pose_scans": 583,
+    "legacy_detection_equal_scans": 583,
+    "clusters": 490,
+    "measured_endpoints_preserved": 13262,
+    "elements": 12766,
+    "source_gap_breaks": 4,
+    "nominal_chord": 12766,
+    "actor_clusters": 487,
+    "actor_clusters_mixed_with_other_labels": 71
+  },
+  "skipped_scans": {
+    "missing_canonical_source_pose_bracket": 1
+  },
+  "missing_truth_labels": {
+    "missing_truth_bracket": 1,
+    "world_odom_alignment": 5
+  },
+  "element_length_m": {
+    "count": 12766,
+    "mean": 0.033823776206283095,
+    "stddev": 0.020553227400525613,
+    "median": 0.030013654662040055,
+    "min": 0.011200461804477261,
+    "max": 0.1998872267476298
+  },
+  "cluster_payload_sha256": "ac90b9ed47b866c89b0372097a9c9a3bd554eb9921183ef21ba12253a1a69fc1",
+  "limits": [
+    "Every replay cluster is extracted before truth labels. Canonical source-time interpolation is not exact internal tracker TF/membership capture.",
+    "Legacy cluster detections remain exactly equal for replay inputs. Endpoint observations preserved; chords are a local continuity assumption.",
+    "No centroid/full-object completion, hidden-space freeing, ROS/TF/commands, optimizer/SG changes or moving-surface C run.",
+    "Gap, sparse, mixed and never-seen geometry remains unverified; this is a fixed single-layer planar LaserScan fixture, not MID360 acceptance."
+  ]
+}

@@ -180,3 +180,39 @@ CV仅做可配置0.5s age+future期限标记，超期保留UNKNOWN/TR趋势而�
 translation speed=3m/s用于输入预算，非真实目标运动界。保留旋转
 未建模标记，无risk函数/正式配置改变。完成固定源scan质量离线审计后
 才登记实际members关联证据与配对消息/critic/guard C隔离实现。
+
+## 表面链原型质量检查（2026-10-03）
+
+18项端点/拓扑/时间/budget反例与3项距离标签检查通过。两组原始试次
+均按全部point cluster提取后才作独立truth标签，未用actor位置筛选输入。
+旧检测值与顺序逐scan精确一致；原端点没有丢弃。
+
+| 原source-time离线输入 | visible | nominal |
+|---|---:|---:|
+| 有canonical source姿态并通过旧检测一致性检查 | 583 | 583 |
+| 点簇 | 494 | 490 |
+| 完整保留端点 | 30,548 | 13,262 |
+| 名义短弦 / 孤立point | 30,002 / 4 | 12,766 / 0 |
+| 原beam成员断裂 | 52 | 4 |
+| 与最近actor交点range残差<=3sigma的端点 | 30,209 | 12,931 |
+| range不吻合 / 射线无预期box标签 | 225 / 96 | 204 / 72 |
+
+range标签只对truth bracket与world/odom吻合的scan计算，visible两帧
+alignment缺失，nominal一帧truth缺失与五帧alignment缺失。nominal另有
+一帧canonical source bracket缺失未提取；因此此表583不是reveal的
+581/577，后者先要求truth对齐。不同分母没有改写旧报告。
+
+truth residual门为已记录sensor sigma=0.01m的3倍，是离线一致性分类，
+不是误差保证。230/211个actor标签cluster还含其他/未知标签，431/352
+个短弦的端点标签不一致；不得把这些全部称为物理多目标混簇。实际
+运行tracker TF、关联和内部成员仍未捕获，不能用本回放冒充实际消费。
+短弦未提供FREE射线区间、完整occupancy或认证endpoint extension。
+本阶段没有surface critic/guard C闭环试次，部署结论仍未建立。
+
+原型源、两轮完整source-index cluster记录、4项冻结源逐字节比较、
+21项检查、原tuple索引失败及初次粗标签均保留于
+`stage2_evidence/observed_surface_geometry_preflight`：72个文件、
+21,075,084 bytes（不含manifest），manifest SHA256
+`db65236783dc189979bc848e13eda10cdf28c396c791499e76b34485b4a1c41e`。
+依赖的审计源由surface_reveal_preflight manifest绑定；另一次冻结
+reveal源执行的4份报告和4张图全部逐字节同，输出一并归档。

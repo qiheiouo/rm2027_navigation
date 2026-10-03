@@ -1,5 +1,14 @@
 # rm_dynamic_obstacle_tracking
 
+The offline `observed_surface_geometry.py` prototype keeps every selected scan
+endpoint and original beam identity. Only consecutive beams with short spatial
+and range gaps become nominal chords; gaps, isolated returns and hidden space
+retain explicit unknown semantics. Chord interiors and short CV propagation are
+uncertified assumptions. The ROS node does not invoke this prototype yet.
+`tools/audit_observed_surface_geometry.py` verifies legacy detections before
+offline truth labels, including measured-range disagreement. See
+[the surface/reveal experiment](../../docs/dynamic_obstacle_critic/dynamic_surface_reveal_experiment.md).
+
 `experiment/observation-anchor-cv` adds the explicit
 `prediction.anchor_mode=last_observation_cv` mode. It retains the most recent
 associated detection centroid, then advances it to the scan epoch using the

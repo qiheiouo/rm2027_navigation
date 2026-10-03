@@ -1,0 +1,893 @@
+{
+  "schema": "empirical_brake_response/v1",
+  "verdict": "TRACE OBSERVATIONS ONLY; GUARANTEED BRAKE BOUND NOT ESTABLISHED",
+  "source_manifest_sha256": "3199b3b3c93ee7ba89b3b23a01b4ecb44a21ebd5c10b9b11c94e71fb59bb7d84",
+  "registered_policy": {
+    "maximum_command_receipt_gap_s": 0.1,
+    "maximum_prior_odom_age_s": 0.04,
+    "minimum_initial_translation_speed_mps": 0.05,
+    "stop_translation_speed_mps": 0.005,
+    "stop_yaw_rate_radps": 0.01,
+    "sustained_stop_s": 0.2,
+    "maximum_observation_s": 2.0,
+    "maximum_odom_gap_s": 0.04
+  },
+  "zero_episodes": 15,
+  "observed_stop_episodes": 3,
+  "minimum_observed_equivalent_time_deceleration_mps2": 1.0931190350535904,
+  "maximum_observed_source_elapsed_s": 0.3999999999999986,
+  "actual_end_to_end_response_delay_s": null,
+  "guaranteed_brake_deceleration_lower_mps2": null,
+  "episodes": [
+    {
+      "ordinal": 0,
+      "zero_command_first_observer_stamp": 17.978,
+      "zero_command_last_observer_stamp": 18.071,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "verdict": "UNKNOWN START / COMMAND GAP"
+    },
+    {
+      "ordinal": 1,
+      "zero_command_first_observer_stamp": 20.151,
+      "zero_command_last_observer_stamp": 20.432000000000002,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 20.14,
+      "initial_measured_twist": [
+        0.14144122403265125,
+        0.3950371830264521,
+        -0.1630593469599262
+      ],
+      "initial_translation_speed_mps": 0.4195950378988403,
+      "observer_minus_initial_odom_source_s": 0.010999999999999233,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 2,
+      "zero_command_first_observer_stamp": 21.031000000000002,
+      "zero_command_last_observer_stamp": 21.531000000000002,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 21.02,
+      "initial_measured_twist": [
+        0.1534765732235615,
+        0.10500982995735557,
+        0.0769915641285479
+      ],
+      "initial_translation_speed_mps": 0.18596269226949788,
+      "observer_minus_initial_odom_source_s": 0.011000000000002785,
+      "verdict": "OBSERVED SIMULATED STOP",
+      "stop_source_stamp": 21.12,
+      "confirmation_source_stamp": 21.34,
+      "source_elapsed_s": 0.10000000000000142,
+      "physical_translation_path_m": 0.008247778747046117,
+      "physical_yaw_travel_rad": 0.0019826251435196007,
+      "physical_path_first_stamp": 21.025,
+      "physical_path_last_stamp": 21.11,
+      "equivalent_time_deceleration_mps2": 1.8596269226949524,
+      "equivalent_distance_deceleration_mps2": 2.0964506915577306,
+      "odom_speed_samples": [
+        {
+          "source_stamp": 21.02,
+          "twist": [
+            0.1534765732235615,
+            0.10500982995735557,
+            0.0769915641285479
+          ]
+        },
+        {
+          "source_stamp": 21.04,
+          "twist": [
+            0.1504763301528995,
+            0.1020118067475027,
+            0.0697916591889225
+          ]
+        },
+        {
+          "source_stamp": 21.06,
+          "twist": [
+            0.1106711777557258,
+            0.062219086105734345,
+            0.029991688279551454
+          ]
+        },
+        {
+          "source_stamp": 21.08,
+          "twist": [
+            0.07066928291958881,
+            0.022222444732081154,
+            6.733244517498349e-09
+          ]
+        },
+        {
+          "source_stamp": 21.1,
+          "twist": [
+            0.030669288696806407,
+            3.7955592868574e-11,
+            4.782368945299709e-10
+          ]
+        },
+        {
+          "source_stamp": 21.12,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.14,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.16,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.18,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.2,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.22,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.24,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.26,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.28,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.3,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.32,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 21.34,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "ordinal": 3,
+      "zero_command_first_observer_stamp": 21.891000000000002,
+      "zero_command_last_observer_stamp": 22.39,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 21.88,
+      "initial_measured_twist": [
+        0.02316016281189927,
+        -0.30149797904600434,
+        -0.5086473131086677
+      ],
+      "initial_translation_speed_mps": 0.3023862174608799,
+      "observer_minus_initial_odom_source_s": 0.011000000000002785,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 4,
+      "zero_command_first_observer_stamp": 23.771,
+      "zero_command_last_observer_stamp": 23.831000000000003,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 23.76,
+      "initial_measured_twist": [
+        0.022938925770413978,
+        0.3643538301435558,
+        -0.17005414847517386
+      ],
+      "initial_translation_speed_mps": 0.3650752084924142,
+      "observer_minus_initial_odom_source_s": 0.010999999999999233,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 5,
+      "zero_command_first_observer_stamp": 24.751,
+      "zero_command_last_observer_stamp": 25.271,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 24.74,
+      "initial_measured_twist": [
+        0.00019574223197279034,
+        0.356700089458022,
+        -0.6133017770480365
+      ],
+      "initial_translation_speed_mps": 0.35670014316563187,
+      "observer_minus_initial_odom_source_s": 0.011000000000002785,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 6,
+      "zero_command_first_observer_stamp": 25.431,
+      "zero_command_last_observer_stamp": 25.470000000000002,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 25.42,
+      "initial_measured_twist": [
+        0.07866820807107519,
+        0.24012311814921222,
+        -0.24699984642211348
+      ],
+      "initial_translation_speed_mps": 0.252681219782584,
+      "observer_minus_initial_odom_source_s": 0.010999999999999233,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 7,
+      "zero_command_first_observer_stamp": 26.611,
+      "zero_command_last_observer_stamp": 26.671000000000003,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 26.6,
+      "initial_measured_twist": [
+        0.014974153487134245,
+        0.42555605765464993,
+        -0.4702012782217935
+      ],
+      "initial_translation_speed_mps": 0.42581942590636235,
+      "observer_minus_initial_odom_source_s": 0.010999999999999233,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 8,
+      "zero_command_first_observer_stamp": 26.770000000000003,
+      "zero_command_last_observer_stamp": 26.832,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 26.76,
+      "initial_measured_twist": [
+        0.03620499397105572,
+        0.4248799352851803,
+        -0.3849446278763935
+      ],
+      "initial_translation_speed_mps": 0.4264197005256478,
+      "observer_minus_initial_odom_source_s": 0.010000000000001563,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 9,
+      "zero_command_first_observer_stamp": 28.291,
+      "zero_command_last_observer_stamp": 28.331000000000003,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 28.28,
+      "initial_measured_twist": [
+        -0.1273897919759863,
+        0.3343230947986149,
+        -0.49610959831625223
+      ],
+      "initial_translation_speed_mps": 0.3577710033183359,
+      "observer_minus_initial_odom_source_s": 0.010999999999999233,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 10,
+      "zero_command_first_observer_stamp": 38.99,
+      "zero_command_last_observer_stamp": 45.230000000000004,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 38.98,
+      "initial_measured_twist": [
+        -0.48131032345148733,
+        0.06757980868905034,
+        0.35537296207621694
+      ],
+      "initial_translation_speed_mps": 0.48603154013234984,
+      "observer_minus_initial_odom_source_s": 0.010000000000005116,
+      "verdict": "OBSERVED SIMULATED STOP",
+      "stop_source_stamp": 39.24,
+      "confirmation_source_stamp": 39.46,
+      "source_elapsed_s": 0.2600000000000051,
+      "physical_translation_path_m": 0.06356203883330608,
+      "physical_yaw_travel_rad": 0.035659517256097395,
+      "physical_path_first_stamp": 38.98,
+      "physical_path_last_stamp": 39.235,
+      "equivalent_time_deceleration_mps2": 1.869352077432078,
+      "equivalent_distance_deceleration_mps2": 1.8582369472362081,
+      "odom_speed_samples": [
+        {
+          "source_stamp": 38.98,
+          "twist": [
+            -0.48131032345148733,
+            0.06757980868905034,
+            0.35537296207621694
+          ]
+        },
+        {
+          "source_stamp": 39.0,
+          "twist": [
+            -0.4741136607608293,
+            0.06037421620496858,
+            0.34817307023331523
+          ]
+        },
+        {
+          "source_stamp": 39.02,
+          "twist": [
+            -0.43432843763483336,
+            0.02054319655962772,
+            0.3083730989601463
+          ]
+        },
+        {
+          "source_stamp": 39.04,
+          "twist": [
+            -0.3943347769186828,
+            0.00010588029649224063,
+            0.2683730999706313
+          ]
+        },
+        {
+          "source_stamp": 39.06,
+          "twist": [
+            -0.3543347886095606,
+            8.09774244193157e-05,
+            0.2283731082570739
+          ]
+        },
+        {
+          "source_stamp": 39.08,
+          "twist": [
+            -0.31433480154068444,
+            5.9254121048034564e-05,
+            0.18837311217794195
+          ]
+        },
+        {
+          "source_stamp": 39.1,
+          "twist": [
+            -0.27433480601930893,
+            4.0744726320757446e-05,
+            0.14837312046438456
+          ]
+        },
+        {
+          "source_stamp": 39.12,
+          "twist": [
+            -0.23433481176051768,
+            2.5432795533247496e-05,
+            0.10837312656803988
+          ]
+        },
+        {
+          "source_stamp": 39.14,
+          "twist": [
+            -0.19433481901617974,
+            1.3325879369157528e-05,
+            0.06837313230789732
+          ]
+        },
+        {
+          "source_stamp": 39.16,
+          "twist": [
+            -0.15433482721153796,
+            4.412562522008735e-06,
+            0.028373138957249466
+          ]
+        },
+        {
+          "source_stamp": 39.18,
+          "twist": [
+            -0.11433483576362899,
+            -1.1609654903421305e-08,
+            -6.003197938753146e-10
+          ]
+        },
+        {
+          "source_stamp": 39.2,
+          "twist": [
+            -0.07433484054050296,
+            -7.547362224191831e-09,
+            -3.196998221710601e-10
+          ]
+        },
+        {
+          "source_stamp": 39.22,
+          "twist": [
+            -0.03433484531752715,
+            -3.4859157854255857e-09,
+            -1.2110312752611208e-10
+          ]
+        },
+        {
+          "source_stamp": 39.24,
+          "twist": [
+            -0.0004669698277584922,
+            -4.742700647809556e-11,
+            -1.3766765505351941e-12
+          ]
+        },
+        {
+          "source_stamp": 39.26,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.28,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.3,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.32,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.34,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.36,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.38,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.4,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.42,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.44,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 39.46,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "ordinal": 11,
+      "zero_command_first_observer_stamp": 47.03,
+      "zero_command_last_observer_stamp": 47.03,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 47.02,
+      "initial_measured_twist": [
+        -0.07693375330553527,
+        0.46981676927855365,
+        0.7385163218714297
+      ],
+      "initial_translation_speed_mps": 0.4760741529352488,
+      "observer_minus_initial_odom_source_s": 0.00999999999999801,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 12,
+      "zero_command_first_observer_stamp": 47.07,
+      "zero_command_last_observer_stamp": 47.07,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 47.06,
+      "initial_measured_twist": [
+        -0.04595626188587059,
+        0.4387935501257821,
+        0.738516345154494
+      ],
+      "initial_translation_speed_mps": 0.44119356028676343,
+      "observer_minus_initial_odom_source_s": 0.00999999999999801,
+      "verdict": "NO SUSTAINED STOP WITHIN AVAILABLE ZERO EPISODE"
+    },
+    {
+      "ordinal": 13,
+      "zero_command_first_observer_stamp": 47.11,
+      "zero_command_last_observer_stamp": 53.230000000000004,
+      "zero_episode_end_reason": "nonzero_command_resumed",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 47.1,
+      "initial_measured_twist": [
+        -0.042360576658240015,
+        0.4351908288470919,
+        0.7349163643084466
+      ],
+      "initial_translation_speed_mps": 0.43724761402143464,
+      "observer_minus_initial_odom_source_s": 0.00999999999999801,
+      "verdict": "OBSERVED SIMULATED STOP",
+      "stop_source_stamp": 47.5,
+      "confirmation_source_stamp": 47.7,
+      "source_elapsed_s": 0.3999999999999986,
+      "physical_translation_path_m": 0.054539870067729014,
+      "physical_yaw_travel_rad": 0.14680119524103086,
+      "physical_path_first_stamp": 47.11,
+      "physical_path_last_stamp": 47.484,
+      "equivalent_time_deceleration_mps2": 1.0931190350535904,
+      "equivalent_distance_deceleration_mps2": 1.752712976122041,
+      "odom_speed_samples": [
+        {
+          "source_stamp": 47.1,
+          "twist": [
+            -0.042360576658240015,
+            0.4351908288470919,
+            0.7349163643084466
+          ]
+        },
+        {
+          "source_stamp": 47.12,
+          "twist": [
+            -0.06393545860867049,
+            0.4568087279189788,
+            0.7565165346022695
+          ]
+        },
+        {
+          "source_stamp": 47.14,
+          "twist": [
+            -0.02398250728530021,
+            0.4167776098568762,
+            0.7165165618062019
+          ]
+        },
+        {
+          "source_stamp": 47.16,
+          "twist": [
+            0.00025497808530122333,
+            0.3767602034126821,
+            0.6765165599063039
+          ]
+        },
+        {
+          "source_stamp": 47.18,
+          "twist": [
+            0.0002144363793281129,
+            0.33676022870176536,
+            0.6365165521856397
+          ]
+        },
+        {
+          "source_stamp": 47.2,
+          "twist": [
+            0.00017709984866829613,
+            0.2967602438302954,
+            0.5965165502857417
+          ]
+        },
+        {
+          "source_stamp": 47.22,
+          "twist": [
+            0.00014296704109528156,
+            0.2567602649166359,
+            0.5565165483858436
+          ]
+        },
+        {
+          "source_stamp": 47.24,
+          "twist": [
+            0.0001120286194469493,
+            0.21676028185241963,
+            0.5165165523067117
+          ]
+        },
+        {
+          "source_stamp": 47.26,
+          "twist": [
+            8.428376768089297e-05,
+            0.17676029740621785,
+            0.4765165504068136
+          ]
+        },
+        {
+          "source_stamp": 47.28,
+          "twist": [
+            5.9747197542026176e-05,
+            0.13676031008814918,
+            0.4365165514172986
+          ]
+        },
+        {
+          "source_stamp": 47.3,
+          "twist": [
+            3.8413070051452025e-05,
+            0.09676032026565097,
+            0.3965165524277836
+          ]
+        },
+        {
+          "source_stamp": 47.32,
+          "twist": [
+            2.0276740943969124e-05,
+            0.056760331094455996,
+            0.35651655634865165
+          ]
+        },
+        {
+          "source_stamp": 47.34,
+          "twist": [
+            5.342177937810588e-06,
+            0.016760339143560544,
+            0.31651656317990273
+          ]
+        },
+        {
+          "source_stamp": 47.36,
+          "twist": [
+            2.380409076882269e-09,
+            -3.3217252749553285e-11,
+            0.27651656710077077
+          ]
+        },
+        {
+          "source_stamp": 47.38,
+          "twist": [
+            1.6653200182556823e-09,
+            -2.2879484844501945e-11,
+            0.2365165710216388
+          ]
+        },
+        {
+          "source_stamp": 47.4,
+          "twist": [
+            1.1318420309211188e-09,
+            -1.5424548691948834e-11,
+            0.19651657930808142
+          ]
+        },
+        {
+          "source_stamp": 47.42,
+          "twist": [
+            7.375633073713616e-10,
+            -1.0147431140076505e-11,
+            0.1565165803185664
+          ]
+        },
+        {
+          "source_stamp": 47.44,
+          "twist": [
+            4.492249081217557e-10,
+            -6.111536988725419e-12,
+            0.11651658642222174
+          ]
+        },
+        {
+          "source_stamp": 47.46,
+          "twist": [
+            2.4139683547252494e-10,
+            -3.179942567216785e-12,
+            0.07651659252587706
+          ]
+        },
+        {
+          "source_stamp": 47.48,
+          "twist": [
+            9.447658953996741e-11,
+            -1.2560532388033918e-12,
+            0.03651659844763344
+          ]
+        },
+        {
+          "source_stamp": 47.5,
+          "twist": [
+            1.9770796689261785e-12,
+            -2.131905033529331e-14,
+            0.0009033206197273103
+          ]
+        },
+        {
+          "source_stamp": 47.52,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.54,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.56,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.58,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.6,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.62,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.64,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.66,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.68,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "source_stamp": 47.7,
+          "twist": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "ordinal": 14,
+      "zero_command_first_observer_stamp": 53.49,
+      "zero_command_last_observer_stamp": 56.43000000000001,
+      "zero_episode_end_reason": "trace_end",
+      "command_emission_or_actuator_stamp": null,
+      "actual_end_to_end_delay_s": null,
+      "initial_odom_source_stamp": 53.48,
+      "initial_measured_twist": [
+        0.0,
+        0.0,
+        0.1136809674790129
+      ],
+      "initial_translation_speed_mps": 0.0,
+      "observer_minus_initial_odom_source_s": 0.010000000000005116,
+      "verdict": "LOW INITIAL TRANSLATION SPEED; NOT A BRAKE CAPABILITY SAMPLE"
+    }
+  ],
+  "limits": [
+    "Command zero epochs are observer receipts, not emission or actuator epochs; cannot measure total reaction latency.",
+    "Equivalent decelerations include selected trace history and sampling/bracket error; not a measured guaranteed limit or real chassis capability.",
+    "Initial yaw and physical yaw travel are recorded; scalar translation stopping does not certify a rotating footprint.",
+    "Self stopping does not guarantee escape from an approaching target. Original physical/raw203/3s/task gates remain separate."
+  ]
+}

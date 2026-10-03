@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_tracking/tools/audit_observed_surface_geometry.py", line 99, in <module>
+    print(json.dumps(audit(args.archive,args.output)))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/src/rm_dynamic_obstacle_tracking/tools/audit_observed_surface_geometry.py", line 28, in audit
+    if odom and r['stamp']<=odom[-1]['stamp']:continue
+                            ~~~~~~~~^^^^^^^^^
+TypeError: tuple indices must be integers or slices, not str
