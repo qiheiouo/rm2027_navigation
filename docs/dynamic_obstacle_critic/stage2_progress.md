@@ -612,3 +612,10 @@ unknown保持。未改变原七critic、sampler/optimizer/SG参数、guard、
 逐值同，200默认CDR逐语义字节同，非确定性padding独立保存且明确
 解析，所有非padding篡改拒绝。三类初始夹具/比较失败全部保留。
 这只完成可复现接口预运行，尚未解决完整未来几何与guard通行任务。
+
+14a015b5预运行349文件2.85MB及独立重执行38文件0.56MB已冻结；
+23核验全部通过，实际SDK重新编译、运行测试和DDS observations。
+初次源码复制同mtime触发GCC pragma-once归并而编译失败，原日志保留；
+内容不变的mtime副本验证原因，随后CMake生成test-only namespace
+adapter，冻结body字节保持。所有源码同mtime的干净重建与53原生
+测试通过，运行库身份核验；这解决测试可移植性，不改变在线算法。

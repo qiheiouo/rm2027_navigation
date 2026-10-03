@@ -29,8 +29,20 @@ install(DIRECTORY include/ DESTINATION include)
 install(DIRECTORY config launch DESTINATION share/${PROJECT_NAME})
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
+  # GCC may treat byte-identical #pragma-once headers with equal mtimes as one
+  # file, even though this test changes the namespace macro between includes.
+  # Preserve the frozen body exactly, with a distinct test-only generated prefix.
+  set(frozen_static_map "${CMAKE_CURRENT_SOURCE_DIR}/test/reference/static_map_2622371.hpp")
+  file(SHA256 "${frozen_static_map}" frozen_static_map_sha256)
+  if(NOT frozen_static_map_sha256 STREQUAL "ced0773f572d345a42dc542ef72cd3e654a8814f07e8f83a4e9b59bf007cb240")
+    message(FATAL_ERROR "Frozen static-map test reference identity changed")
+  endif()
+  file(READ "${frozen_static_map}" frozen_static_map_body)
+  file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/test_reference")
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/test_reference/static_map_2622371.hpp"
+    "// Generated test namespace adapter; frozen body follows unchanged.\n${frozen_static_map_body}")
   ament_add_gtest(test_model test/test_model.cpp)
-  target_include_directories(test_model PRIVATE include)
+  target_include_directories(test_model PRIVATE include "${CMAKE_CURRENT_BINARY_DIR}")
   ament_target_dependencies(test_model ${deps})
   ament_add_gtest(test_plugin test/test_plugin.cpp)
   target_include_directories(test_plugin PRIVATE include)

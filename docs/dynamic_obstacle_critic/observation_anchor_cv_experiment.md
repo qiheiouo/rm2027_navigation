@@ -95,3 +95,34 @@ CDR 语义 trace SHA 为
 诊断断言失败；修正后通过。初始原 CDR byte 比较两次因填充失败，
 字段全等；结构解析和语义篡改负例补齐后通过。全部失败日志保留，
 不计作物理负对照或原门放宽。无新闭环、physical/task 接受结果。
+
+## 独立重建发现的测试可移植性问题
+
+14a015b5 的冻结源码初次独立编译失败：当前与冻结 static_map 头的
+字节 SHA 完全相同，复制后 mtime 同秒，GCC `#pragma once` 将两者
+归并，导致宏 namespace 下的参考类型未定义。原运行库并未修改；
+首轮编译失败保留。独立副本仅调整参考头 mtime，250 个冻结源文件
+逐字节不变，先用于核验原因；这项元数据条件明确记录。
+
+仓库修复另在 CMake 测试目标生成 namespace adapter：核验冻结头
+ced077…身份，仅在其原始完整字节前增加一个固定注释，使 GCC 区分
+两次 include。冻结参考文件保持原字节，生成物不安装、不加入运行
+库。后续从所有 source 同 mtime 的副本编译验证；原预运行 archive
+保持不可变，不以修改归档字节隐藏初次失败。
+
+14a015b5 预运行归档 `stage2_evidence/observation_anchor_preflight`：
+349 文件、2,846,775 字节（不含 manifest），manifest SHA
+`1370e1ac0d0fc6653a30183bd2d6e06afa4922851469633a07d1d8c4e41b91ac`。
+独立 SDK 重执行归档 `observation_anchor_replay`：38 文件、562,863
+字节，manifest SHA
+`1b7e33a053b178b9501f8a9ffaeccf6e38260955cb671154aa63c94d1144781d`，
+23 项全部通过，包括四运行 ELF、旧 core 报告字节、CDR 语义 SHA、
+两种模式实际 DDS 完整 observations、53/54 原生/tracker、两组 guard
+和 8+6 数学重新执行。CDR padding、回调计数和执行时长不作字节门。
+该复现的独立 source 副本 250 文件全部字节保持，仅参考头 mtime
+元数据调整明确登记；初次失败与原 manifest 不变。
+
+CMake namespace adapter 的同 mtime 干净重建也完成：三包编译成功、
+53 原生测试无失败/错误/skipped。生成 header 仅加固定注释，冻结
+body 完全一致；运行库身份另核验。旧真实成本/动态消费两份 archive
+的完整文件和 manifest 身份再次通过，旧物理/任务失败不变。

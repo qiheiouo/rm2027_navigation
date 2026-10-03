@@ -1,9 +1,10 @@
 #include "rm_dynamic_obstacle_critic/guard.hpp"
 #include "rm_dynamic_obstacle_critic/static_map.hpp"
-// Byte-exact frozen headers; rename their namespace only at preprocessing.
+// Frozen bodies are byte-exact. The static-map build adapter adds only a
+// distinct prefix to avoid GCC #pragma-once aliasing on equal source mtimes.
 #define rm_dynamic_obstacle_critic frozen_2622371
 #include "reference/geometry_2622371.hpp"
-#include "reference/static_map_2622371.hpp"
+#include "test_reference/static_map_2622371.hpp"
 #undef rm_dynamic_obstacle_critic
 #include <gtest/gtest.h>
 #include <random>
