@@ -68,20 +68,30 @@ def main():
     assert git('rev-parse','research/dynamic-differential-risk-frozen-20261001^{}').decode().strip()==catalog['frozen_research_commit']
     changes=git('diff','--name-only','2d95b026',commit).decode().splitlines()
     assert all(p.endswith('.md') or p=='docs/dynamic_navigation/temporal_mpc_freeze_20261004.json' for p in changes)
-    preserved=None
+    preserved=None;head_advance_verified=None
     if args.preservation_baseline:
         baseline=json.loads(Path(args.preservation_baseline).read_text())
         for path,item in baseline['files'].items():
             p=repo/path;assert p.stat().st_size==item['size'],path
             if item['sha256'] is not None:assert sha(p.read_bytes())==item['sha256'],path
-        for ref,value in baseline['refs'].items():assert git('rev-parse',ref).decode().strip()==value,ref
+        for ref,value in baseline['refs'].items():
+            observed=git('rev-parse',ref).decode().strip()
+            if ref=='HEAD' and observed!=value:
+                # This task explicitly authorizes publishing history on the existing
+                # document branch. Protect code and old refs, not its old doc HEAD.
+                assert value==catalog['legacy_catalog_snapshot']['source_commit']
+                assert git('branch','--show-current').decode().strip()=='experiment/dynamic-documents-archive-20261004'
+                changed=git('diff','--name-only',value,'HEAD').decode().splitlines()
+                assert changed and all(p.startswith('docs/dynamic_navigation/') for p in changed)
+                head_advance_verified=True
+            else:assert observed==value,ref
         preserved=True
     result=dict(pass_=True,markdown_documents_checked=len(entries),legacy_markdown_documents=347,
         frozen_mpc_documents=25,selected_reading_assets_checked=len(catalog['temporal_mpc_reading_assets']),
         historical_reference_chats_checked=2,full_literal_bodies_verified=len(records),compilation_bytes=len(full),
         compilation_sha256=sha(full),source_reading_differences=source_differences,broken_summary_index_links=broken,
         freeze_tag=tag,freeze_commit=commit,freeze_is_documentation_only=True,main_and_old_research_freeze_preserved=True,
-        original_dirty_files_and_core_preserved=preserved,new_experiments_run=False,
+        original_dirty_files_and_core_preserved=preserved,authorized_documentation_head_advance_verified=head_advance_verified,new_experiments_run=False,
         scope='Literal documentation/source hashes, full compilation spans, direct reading assets, index links and frozen refs. This does not rerun algorithms or certify historical physical results. Raw evidence stays in original Git/manifest context.')
     result['pass']=result.pop('pass_')
     Path(args.output).write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
