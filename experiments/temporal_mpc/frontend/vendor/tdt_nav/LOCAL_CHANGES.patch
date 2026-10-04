@@ -1,0 +1,176 @@
+--- a/YAstar/yastar.hpp
++++ b/YAstar/yastar.hpp
+@@ -5,6 +5,11 @@
+  ***************/
+ 
+ #pragma once
++#include <mutex>
++#include <string>
++#include <cmath>
++#include <limits>
++#include <sys/types.h>
+ #include <vector>
+ #include <queue>
+ #include <unordered_map>
+@@ -12,7 +17,7 @@
+ #include <chrono>
+ #include <atomic>
+ #include <Eigen/Dense>
+-#if __has_include(<opencv2/opencv.hpp>)
++#if !defined(RM_TDT_NO_OPENCV) && __has_include(<opencv2/opencv.hpp>)
+     #include <opencv2/opencv.hpp>
+ #endif
+ 
+@@ -230,7 +235,8 @@
+     // @param start 起点
+     // @param end 终点
+     // @return 路径 （返回空数组表示无解）
+-    std::vector<Eigen::Vector2f> search(Eigen::Vector2f start, Eigen::Vector2f end);
++    std::vector<Eigen::Vector2f> search(Eigen::Vector2f start, Eigen::Vector2f end,
++        const std::function<bool()>& cancelled = {});
+ 
+     // @brief 更新历史轨迹图
+     // @param traj 轨迹
+--- a/YAstar/yastar.cpp
++++ b/YAstar/yastar.cpp
+@@ -5,6 +5,7 @@
+ #include <future>
+ #include <ranges>
+ #include <span>
++#include <iostream>
+ #include <utility>
+ #include <vector>
+ 
+@@ -154,7 +155,7 @@
+     int x1 = static_cast<int>((end.x() - originPos.x()) / mapping);
+     int y1 = static_cast<int>((end.y() - originPos.y()) / mapping);
+     // safty check
+-    if(x0 < 0 || x1 < 0 || y0 < 0 || y1 < 0 || x0 > occMap.cols() || x1 > occMap.cols() || y0 > occMap.rows() || y1 > occMap.rows()){
++    if(x0 < 0 || x1 < 0 || y0 < 0 || y1 < 0 || x0 >= occMap.cols() || x1 >= occMap.cols() || y0 >= occMap.rows() || y1 >= occMap.rows()){
+         // outside map = true
+         return true;
+     }
+@@ -799,7 +800,17 @@
+     }
+ }
+ 
+-std::vector<Eigen::Vector2f> YAstar::search(Eigen::Vector2f start, Eigen::Vector2f end){
++std::vector<Eigen::Vector2f> YAstar::search(Eigen::Vector2f start, Eigen::Vector2f end,
++    const std::function<bool()>& cancelled){
++    // RM: validate floating bounds before integer conversion, and fail empty.
++    auto valid = [&](const Eigen::Vector2f& p){
++        const auto c = ((p - originPos) / mapping).eval();
++        return p.allFinite() && std::isfinite(mapping) && mapping > 0.f &&
++            c.x() >= 0.f && c.y() >= 0.f && c.x() < occMap.cols() && c.y() < occMap.rows();
++    };
++    if(!valid(start) || !valid(end) || pointInObsticle(start.x(), start.y()) ||
++       pointInObsticle(end.x(), end.y())) return {};
++
+     if(!reseted){
+         reset();
+     }
+@@ -810,27 +821,32 @@
+     reseted = false;
+     resetedCostMap = false;
+     // 创建最大堆(index存储)
+-    std::priority_queue<size_t, std::vector<size_t>, CompareNode> openList(CompareNode(nodeMap, std::placeholders::_1));
++    // RM: immutable priorities; mutating nodeMap must not invalidate heap order.
++    using Entry = std::pair<float, size_t>;
++    std::priority_queue<Entry, std::vector<Entry>, std::greater<Entry>> openList;
+     int startx = static_cast<int>((start.x() - originPos.x()) / mapping);
+     int starty = static_cast<int>((start.y() - originPos.y()) / mapping);      // 起点
+     int endx = static_cast<int>((end.x() - originPos.x()) / mapping);
+     int endy = static_cast<int>((end.y() - originPos.y()) / mapping);         // 终点
+-    if(startx < 0 || startx > occMap.cols() || starty < 0 || starty > occMap.rows()){
+-        std::cout << "\033[33mError: start point out of map! return start point only\033[0m" << std::endl;
+-        return std::vector<Eigen::Vector2f>({start});
+-    }
+-    if(endx < 0 || endx > occMap.cols() || endy < 0 || endy > occMap.rows()){
+-        std::cout << "\033[33mError: end point out of map! return start point only\033[0m" << std::endl;
+-        return std::vector<Eigen::Vector2f>({start});
++    if(startx < 0 || startx >= occMap.cols() || starty < 0 || starty >= occMap.rows()){
++        std::cout << "\033[33mError: start point out of map! return empty path\033[0m" << std::endl;
++        return {};
++    }
++    if(endx < 0 || endx >= occMap.cols() || endy < 0 || endy >= occMap.rows()){
++        std::cout << "\033[33mError: end point out of map! return empty path\033[0m" << std::endl;
++        return {};
+     }
+     Node startNode(0, std::hypotf(static_cast<float>(startx - endx), static_cast<float>(starty - endy)), -1);
+     nodeMap(starty, startx) = startNode;
+-    openList.push(starty*nodeMap.cols()+startx);
++    openList.emplace(startNode.getCostTotal(), starty*nodeMap.cols()+startx);
++    size_t expansions = 0;
+     while(!openList.empty()){
+-        int index = static_cast<int>(openList.top());
++        if ((++expansions % 64 == 0) && cancelled && cancelled()) return {};
++        int index = static_cast<int>(openList.top().second);
+         openList.pop();
+         int y = index / static_cast<int>(nodeMap.cols());
+         int x = index % (static_cast<int>(nodeMap.cols()));
++        if(nodeMap(y, x).closed) continue;
+         if(x==endx && y==endy){
+             // 找到终点
+             std::vector<Eigen::Vector2f> path;
+@@ -856,27 +872,29 @@
+             int nx = x + neighour[i][1], ny = y + neighour[i][0];
+             size_t nindex = ny * nodeMap.cols() + nx;
+             if (nx >= 0 && nx < nodeMap.cols() && ny >= 0 && ny < nodeMap.rows()){
++                // RM: do not cut an occupied corner during diagonal expansion.
++                if(nx != x && ny != y && (isInObstacle(nx, y) || isInObstacle(x, ny))) continue;
+                 if (costMap.data()[nindex] < std::numeric_limits<float>::infinity()){
+                     auto &nd = nodeMap(ny, nx);
+                     if (nd.closed)
+                         continue;
+                     // float newCost = nodeMap.data()[index].cost + costMap.data()[nindex] * (1.f + static_cast<int>(i / 4) * 0.414f); // 分支优化
+-                    float newCost = nodeMap(y, x).cost + costMap(ny, nx) * costWeight * (i < 4 ? 1.f: 1.414f); // 依赖分支预测
++                    float newCost = nodeMap(y, x).cost + costMap(ny, nx) * costWeight * (i < 4 ? 1.f: 1.41421356237f); // 依赖分支预测
+                     if (newCost < nd.cost){
+                         nd.cost = newCost;
+                         auto delx = static_cast<float>(nx - endx);
+                         auto dely = static_cast<float>(ny - endy);
+                         nd.estim = std::hypotf(delx, dely);
+                         nd.parent = index;
+-                        openList.push(nindex);
++                        openList.emplace(nd.getCostTotal(), nindex);
+                     }
+                 }
+             }
+         }
+     }
+     // 未找到路径，红色警告
+-    std::cout<<"\033[31mError: No path found! return start point only\033[0m"<<std::endl;
+-    return std::vector<Eigen::Vector2f>({start});
++    std::cout<<"\033[31mError: No path found! return empty path\033[0m"<<std::endl;
++    return {};
+ }
+ 
+ 
+@@ -956,4 +974,4 @@
+ 
+ void YAstar::resetMask(const std::string& maskName){
+     mask.reset(maskName);
+-}
+\ No newline at end of file
++}
+--- a/MinimumSnapOsqp/sfcSquare.hpp
++++ b/MinimumSnapOsqp/sfcSquare.hpp
+@@ -5,12 +5,17 @@
+  ***************/
+ 
+ #pragma once
++#include <array>
++#include <vector>
++#include <limits>
++#include <cmath>
++#include <sys/types.h>
+ #include <cstddef>
+ #include <iostream>
+ #include <Eigen/Dense>
+ 
+ #ifdef __has_include
+-    #if __has_include(<opencv2/opencv.hpp>)
++    #if !defined(RM_TDT_NO_OPENCV) && __has_include(<opencv2/opencv.hpp>)
+         #include <opencv2/opencv.hpp>
+     #endif
+ #endif

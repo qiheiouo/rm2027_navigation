@@ -1,0 +1,134 @@
+{
+  "scenario": {
+    "name": "narrow_crossing",
+    "trajectory": "low",
+    "start": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "goal": [
+      5.6,
+      0.0,
+      0.0
+    ],
+    "domain": [
+      -1.0,
+      7.0,
+      -0.8,
+      0.8
+    ],
+    "duration": 12.0,
+    "geometry": "full_current_polygon",
+    "speed_bound": 0.25
+  },
+  "config": {
+    "dt": 0.1,
+    "horizon": 1.5,
+    "collision_dt": 0.05,
+    "blocks": 5,
+    "velocity_lower": [
+      -0.5,
+      -0.5,
+      -1.2
+    ],
+    "velocity_upper": [
+      0.8,
+      0.5,
+      1.2
+    ],
+    "acceleration": [
+      1.0,
+      1.0,
+      2.0
+    ],
+    "physical_half_extents": [
+      0.325,
+      0.3
+    ],
+    "padding": 0.03,
+    "margin": 0.02,
+    "deadline_s": 0.5,
+    "iterations": 45,
+    "tolerance": 1e-05
+  },
+  "report": {
+    "scenario": "narrow_crossing",
+    "geometry_mode": "nominal_diameter",
+    "consumption": "temporal",
+    "model_goal_reached": false,
+    "ros_action_success": null,
+    "physical_collision": false,
+    "minimum_physical_clearance_lower_m": 0.31743869463016317,
+    "minimum_physical_clearance_sampled_m": 0.3224249666979253,
+    "completion_time_s": null,
+    "observed_duration_s": 12.0,
+    "average_speed_m_s": 0.14476236940785314,
+    "travel_distance_m": 1.7371484328942377,
+    "detour_distance_m": 0.02242168307651582,
+    "stop_wait_duration_s": 8.999999999999984,
+    "recovery_count": null,
+    "optimizer_failure_count": 0,
+    "configured_deadline_miss_count": 7,
+    "target_20hz_deadline_miss_count": 32,
+    "cpu_process_s": 11.441141114999994,
+    "cpu_compute_fraction_of_simulated_duration": 0.9534284262499995,
+    "solve_p50_s": 0.0006553804996656254,
+    "solve_p95_s": 0.5000913760039112,
+    "solve_max_s": 0.5004821109978366,
+    "max_abs_velocity_xyz": [
+      0.7780524566214639,
+      0.21150517759157614,
+      0.10240388487862838
+    ],
+    "rms_velocity_xyz": [
+      0.3050468933936131,
+      0.045722089356726746,
+      0.017626793621880434
+    ],
+    "max_abs_acceleration_xyz": [
+      1.0,
+      1.0,
+      1.0240388487862837
+    ],
+    "max_abs_command_delta_xyz": [
+      0.10000000000000031,
+      0.10000000000000007,
+      0.10240388487862834
+    ],
+    "max_abs_jerk_xyz": [
+      20.0,
+      17.440094233269768,
+      10.371618524641645
+    ],
+    "false_block_count": null,
+    "false_block_duration_s": null,
+    "false_block_reason": "No matched STVL + MPPI safe completion witness in this offline experiment",
+    "statuses": {
+      "unsafe_brake": 89,
+      "brake": 6,
+      "optimized": 25
+    },
+    "reasons": {
+      "current footprint already violates model margin": 88,
+      "deadline": 7,
+      "checked same-time trajectory": 25
+    },
+    "invalid_input_cycles": 0,
+    "model_feasible_cycles": 31,
+    "cycles": 120,
+    "terminal_state": [
+      1.7072528048586277,
+      -0.15992400333532303,
+      -0.011522718564891265,
+      0.7780524566214639,
+      0.028632852854229902,
+      0.018415551568906854
+    ],
+    "offline_physical_task_gate": false,
+    "deployment_accepted": false
+  }
+}

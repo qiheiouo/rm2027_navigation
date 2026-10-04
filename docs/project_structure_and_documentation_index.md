@@ -106,3 +106,18 @@ mapping artifact, mission priority or failure policy, update at least:
 3. `docs/runtime_profiles.md` when launch behavior changes;
 4. `docs/competition_capability_status.md` when acceptance status changes;
 5. a dated validation report only after evidence is collected.
+
+## Independent Temporal MPC Prototype (2026-10-04)
+
+This candidate is on a branch created directly from main. The previous research
+routes remain reference material. No runtime package, launch, public interface
+generation or default controller changed.
+
+- [Architecture and source audit](dynamic_navigation/temporal_mpc_architecture.md).
+- [Fixed experiment registration](dynamic_navigation/temporal_mpc_experiment_registration.md).
+- [Progress and actual evidence](dynamic_navigation/temporal_mpc_progress.md).
+- [Isolated offline prototype](../experiments/temporal_mpc/README.md): excluded from normal colcon discovery.
+
+The current slice reuses the migrated T-DT static frontend/corridor and a bounded
+20 Hz fixed-yaw QP. Dual-controller runtime selection is the integration target;
+only offline policy and marked integration examples are implemented in M1.

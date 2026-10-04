@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rm-temporal-mpc-prototype"
+version = "0.1.0"
+description = "Offline, isolated temporal MPC feasibility experiment"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24,<2", "scipy>=1.10,<2"]
+
+[project.optional-dependencies]
+realtime = ["osqp==1.0.5"]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+pythonpath = ["."]
+
+
+[tool.setuptools.packages.find]
+include = ["temporal_mpc*"]

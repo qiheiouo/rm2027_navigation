@@ -1,0 +1,75 @@
+{
+  "schema": "temporal_mpc_realtime_shadow/v1",
+  "date": "2026-10-04 Asia/Shanghai",
+  "config": {
+    "period": 0.05,
+    "node_dt": 0.1,
+    "horizon": 1.5,
+    "cycle_budget": 0.04,
+    "solver_budget": 0.015,
+    "max_iterations": 400,
+    "max_active_obstacles": 4,
+    "physical_half_extents": [
+      0.325,
+      0.3
+    ],
+    "padding": 0.03,
+    "margin": 0.02,
+    "velocity_lower": [
+      -0.5,
+      -0.5
+    ],
+    "velocity_upper": [
+      0.8,
+      0.5
+    ],
+    "acceleration": [
+      1.0,
+      1.0
+    ]
+  },
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "numpy": "1.26.4",
+  "scipy": "1.11.4",
+  "osqp": "1.0.5",
+  "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39",
+  "thread_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  },
+  "source_sha256": {
+    "frontend/bridge.cpp": "bfd3de8a4c4b4e019d22cdddb15f21c29223c827572156203f93dbf50676e93b",
+    "frontend/build.sh": "ddb49f712cc0505c68e7dd822aa01359ba2da214bdef4c165f46ea9a6c6462f9",
+    "frontend/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp": "05f9d5c028af2d0a353abf2a85ff44ef7569877758cf3c374cc735e8050986dd",
+    "frontend/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.hpp": "58c9b489b9eb4e5db6754f5350a7882a270caa19b269f4307e6234b0f29c51e7",
+    "frontend/vendor/tdt_nav/YAstar/yastar.cpp": "51a3dba93b01421b0c44460a5299f6b0f4fb67242bf70dd2dce9bb74ef7d0cae",
+    "frontend/vendor/tdt_nav/YAstar/yastar.hpp": "59a8c8d5e48ce3dcffe69ab508c2593178559ccd78849c2257e835a8eefac7c3",
+    "integration/controller_subtree.example.xml": "46a52c42dcdaac78ead04efd9e46e052eb2eb465c1aabf32cc310f11a29c252f",
+    "integration/dual_controller.example.yaml": "e4059dd86eec77c85bb9ec527144da26f4455f3a1c6fcc8d9cb7669028db722f",
+    "integration/selector_node.py": "2382db4a747f2178ce31fcf53c9e9ace142ccdc7ea415781d7eedbfe7041648a",
+    "plot_evidence.py": "24ceef52b7c3a944f0638deaaf6b900f65d886692e689e9332726a651fcd31ac",
+    "reference_inputs/core.py": "f10c5306355e0f21117adf1c45ca7a5b1b11fbea1e31c9cae1f26b7706f8ea20",
+    "run_experiment.py": "a03d68d56894f43bee83f752f5de7e97ec8d418aee6775bf01eb38fe6a0d7065",
+    "run_realtime.py": "08c31551d6110f14624726c3014c06741c4392d638e722853074f5ba3d67f7a4",
+    "temporal_mpc/__init__.py": "07b371e4beda21da562421ad1c1bbcc6f9bfd79e24acab3ef427d930b9381121",
+    "temporal_mpc/contracts.py": "c925e41bda2b8e5edb095f0ced6faf74f646e55be55e9110adb22d0edfaf3333",
+    "temporal_mpc/dynamics.py": "a997fb123825f913827ae3d280d187fa8fcf8b38e6f11d5a3ca89dffcc13b5de",
+    "temporal_mpc/fixtures.py": "7e2e994c2f1899137513bb07704f29e609dded8cccb02d3bfc6902c57c56789c",
+    "temporal_mpc/frontend.py": "009ecbf6fefa748010833bfc07aa423abfd316145eb9432f6ab6f37b5cbd20bf",
+    "temporal_mpc/geometry.py": "bf452222ae079c30e9f20b88178ac822bec8453b1b5f3e9705b77e93388d9a56",
+    "temporal_mpc/oracle.py": "82da7efb116f9d4f55fda4ba739c6c36f3c308c64db3ab51ddc16536e2f5fce9",
+    "temporal_mpc/realtime_qp.py": "82c1a8455809cae094aa774cdc0a4474c7091a3d6344bbb0967543c34b2ee4da",
+    "temporal_mpc/selection.py": "df1fa722cf7d1fbfcaa73469473b2225009819d4831f81da8d1150585ab85db8",
+    "temporal_mpc/solver.py": "f9d88f303e9bf119a065d5dd4dd2aab2696c69f596de32d7fb7523bd89da6640",
+    "test/test_contracts.py": "213310fa497f55aa37a04e70c7e202f42058fdef71939c734c252b2f37294c4f",
+    "test/test_evidence_replay.py": "8882b62c546f3d416d809a57a310e1b89d961610c789ac5bcf666ae12944d814",
+    "test/test_model_and_oracle.py": "73ec901e88dbd14b0052ec2e17ac5ecd0abe72c471115b6a40e3fa65f32f74e3",
+    "test/test_realtime_qp.py": "47cbf46d8da6762e7d22ff0f45900fd160582dec83ea9f66c364b3c3776f8a1a",
+    "test/test_solver.py": "3990ccfd8a9604e13993742f20702496db3750cfb1c7a4bf14df5e239148fed0",
+    "verify_evidence.py": "102143bff938a75eba3124d64f98de657a2df22af0b8191a69c21c083d84345c"
+  },
+  "frontend_binary_sha256": "60b2691184735768e2ffa338a684d509390148b72ae39ae4a8a36bd7d915d0e5",
+  "scope": "Offline fixed-yaw ideal plant. T-DT static path/corridor reuse. Control timing includes window+QP; physical simulation freezes during compute. MPPI requests logged, NOT executed.",
+  "physical_safety_gate_m": 0.05,
+  "deployment_accepted": false
+}

@@ -1,0 +1,5 @@
+{
+  "verdict": "COMMAND/HOLD CONSISTENCY FAILED",
+  "reason": "Brake controls changed inside a control tick, but executed acceleration was held for the complete tick. Small vy/wz could overshoot zero. All pre_fix candidate acceptance results are invalidated. Physical truth sweeps remain historical execution labels only.",
+  "repair": "Generate braking at control dt; repeat to collision grid. Same model limits, geometry, weights and oracle retained."
+}

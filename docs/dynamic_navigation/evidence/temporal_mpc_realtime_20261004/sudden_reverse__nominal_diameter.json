@@ -1,0 +1,131 @@
+{
+  "scenario": {
+    "name": "sudden_reverse",
+    "trajectory": "reverse",
+    "start": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "goal": [
+      5.6,
+      0.0,
+      0.0
+    ],
+    "domain": [
+      -1.0,
+      7.0,
+      -1.2,
+      1.2
+    ],
+    "duration": 12.0,
+    "geometry": "full_current_polygon",
+    "speed_bound": 0.4
+  },
+  "config": {
+    "period": 0.05,
+    "node_dt": 0.1,
+    "horizon": 1.5,
+    "cycle_budget": 0.04,
+    "solver_budget": 0.015,
+    "max_iterations": 400,
+    "max_active_obstacles": 4,
+    "physical_half_extents": [
+      0.325,
+      0.3
+    ],
+    "padding": 0.03,
+    "margin": 0.02,
+    "velocity_lower": [
+      -0.5,
+      -0.5
+    ],
+    "velocity_upper": [
+      0.8,
+      0.5
+    ],
+    "acceleration": [
+      1.0,
+      1.0
+    ]
+  },
+  "physical_domain": [
+    -0.95,
+    6.95,
+    -1.15,
+    1.15
+  ],
+  "static_detour": false,
+  "report": {
+    "scenario": "sudden_reverse",
+    "geometry_mode": "nominal_diameter",
+    "cycles": 240,
+    "model_goal_reached": false,
+    "ros_action_success": null,
+    "physical_collision": false,
+    "minimum_physical_clearance_lower_m": 0.6229499999886747,
+    "completion_time_s": null,
+    "observed_duration_s": 12.0,
+    "stop_wait_duration_s": 5.449999999999989,
+    "travel_distance_m": 4.419152743011841,
+    "average_speed_m_s": 0.3682627285843201,
+    "detour_distance_m": 6.217248937900877e-15,
+    "control_p50_s": 0.00372124800196616,
+    "control_p95_s": 0.00534451995154086,
+    "control_max_s": 0.009206499002175406,
+    "cycle_budget_miss_count": 0,
+    "20hz_deadline_miss_count": 0,
+    "solver_failure_cycles": 169,
+    "fallback_request_cycles": 169,
+    "fallback_handoffs_executed": 0,
+    "model_feasible_cycles": 139,
+    "max_iterations": 400,
+    "statuses": {
+      "uncertified_brake": 101,
+      "brake": 8,
+      "optimized": 71,
+      "previous_feasible": 60
+    },
+    "reasons": {
+      "primal infeasible": 103,
+      "maximum iterations reached; trajectory rejected by hard checks": 1,
+      "solved; trajectory rejected by hard checks": 65,
+      "revalidated temporal QP": 71
+    },
+    "cpu_process_s": 0.9543218799999895,
+    "max_abs_velocity_xyz": [
+      0.7362699256452013,
+      1.6302924412839482e-07,
+      0.0
+    ],
+    "rms_velocity_xyz": [
+      0.5085869284004829,
+      2.99813652358608e-08,
+      0.0
+    ],
+    "max_abs_acceleration_xyz": [
+      1.000000226504165,
+      2.5216957289016442e-06,
+      0.0
+    ],
+    "max_abs_command_delta_xyz": [
+      0.05000001132520825,
+      1.2608478644508222e-07,
+      0.0
+    ],
+    "max_abs_jerk_xyz": [
+      20.0000045300833,
+      5.8082997498767224e-05,
+      0.0
+    ],
+    "recovery_count": null,
+    "false_block_count": null,
+    "false_block_duration_s": null,
+    "offline_physical_task_gate": false,
+    "offline_physical_and_20hz_gate": false,
+    "deployment_accepted": false
+  }
+}

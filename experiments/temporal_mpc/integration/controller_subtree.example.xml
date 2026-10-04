@@ -1,0 +1,14 @@
+<!-- Design example only: insert into the experiment's existing recovery tree
+     after the local path producer. ReactiveSequence re-ticks the selector while
+     FollowPath is RUNNING; a one-shot Sequence would delay switching. -->
+<root main_tree_to_execute="ControlWithRuntimeSelection">
+  <BehaviorTree ID="ControlWithRuntimeSelection">
+    <ReactiveSequence>
+      <ControllerSelector selected_controller="{selected_controller}"
+                          default_controller="FollowPathMPPI"
+                          topic_name="controller_selector"/>
+      <FollowPath path="{path}" controller_id="{selected_controller}"
+                  goal_checker_id="general_goal_checker"/>
+    </ReactiveSequence>
+  </BehaviorTree>
+</root>

@@ -1,0 +1,46 @@
+{
+  "schema": "temporal_mpc_offline_evidence/v1",
+  "date": "2026-10-04 Asia/Shanghai",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "numpy": "1.26.4",
+  "scipy": "1.11.4",
+  "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39",
+  "arguments": {
+    "output": "../../docs/dynamic_navigation/evidence/temporal_mpc_20261004/horizons",
+    "scenarios": [
+      "wait_then_pass"
+    ],
+    "modes": [
+      "observed_polygon"
+    ],
+    "consumptions": [
+      "temporal"
+    ],
+    "horizons": [
+      0.5,
+      1.0,
+      1.5,
+      2.0
+    ]
+  },
+  "sources_sha256": {
+    "run_experiment.py": "a03d68d56894f43bee83f752f5de7e97ec8d418aee6775bf01eb38fe6a0d7065",
+    "temporal_mpc/__init__.py": "07b371e4beda21da562421ad1c1bbcc6f9bfd79e24acab3ef427d930b9381121",
+    "temporal_mpc/contracts.py": "c925e41bda2b8e5edb095f0ced6faf74f646e55be55e9110adb22d0edfaf3333",
+    "temporal_mpc/dynamics.py": "a997fb123825f913827ae3d280d187fa8fcf8b38e6f11d5a3ca89dffcc13b5de",
+    "temporal_mpc/fixtures.py": "7e2e994c2f1899137513bb07704f29e609dded8cccb02d3bfc6902c57c56789c",
+    "temporal_mpc/geometry.py": "bf452222ae079c30e9f20b88178ac822bec8453b1b5f3e9705b77e93388d9a56",
+    "temporal_mpc/oracle.py": "82da7efb116f9d4f55fda4ba739c6c36f3c308c64db3ab51ddc16536e2f5fce9",
+    "temporal_mpc/solver.py": "f9d88f303e9bf119a065d5dd4dd2aab2696c69f596de32d7fb7523bd89da6640"
+  },
+  "scope": "Ideal acceleration plant and current known-motion measurements. No ROS, STVL, MPPI or Gazebo execution.",
+  "physical_safety_gate_m": 0.05,
+  "nominal_control_period_s": 0.05,
+  "deterministic_without_deadline_effects": true,
+  "deadline_branching_is_host_dependent": true,
+  "timings_are_host_dependent": true,
+  "thread_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  }
+}

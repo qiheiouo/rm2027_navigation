@@ -1,0 +1,28 @@
+{
+  "verdict": "EXECUTED SWEEP AND METRICS REPLAY PASS",
+  "trials": [
+    {
+      "file": "wait_then_pass__observed_polygon__current_only__h1.5.json",
+      "replayed_cycles": 112,
+      "physical_task_gate": true,
+      "uncertified_model_cycles": [],
+      "sha256": "af7104c79727c893a2c34a3d6c9eed64c694b17c7d26d8af93eeaf98410f9c8b"
+    },
+    {
+      "file": "wait_then_pass__observed_polygon__future_union__h1.5.json",
+      "replayed_cycles": 120,
+      "physical_task_gate": false,
+      "uncertified_model_cycles": [],
+      "sha256": "3859a148b2e71e6d85efdee81485f8bff6d5c2383282d032f7f5e3ab39f94d5b"
+    },
+    {
+      "file": "wait_then_pass__observed_polygon__temporal__h1.5.json",
+      "replayed_cycles": 101,
+      "physical_task_gate": true,
+      "uncertified_model_cycles": [],
+      "sha256": "45a358a81d93abbd5e9df59e5effcaf5b162b68535454a44c6c546c4cb2d1a5f"
+    }
+  ],
+  "scope": "Replays executed commands through the independent physical oracle. Does not prove optimized-horizon safety or STVL superiority.",
+  "deployment_accepted": false
+}

@@ -1,0 +1,50 @@
+{
+  "all_run_source_hashes_match_archive": true,
+  "post_run_differences": {
+    "frontend/bridge.cpp": {
+      "run_sha256": "bfd3de8a4c4b4e019d22cdddb15f21c29223c827572156203f93dbf50676e93b",
+      "current_sha256": "f6c81444a4cac4837374144dde25524c6332985af07f96fd52432df11b96d1da",
+      "reason": "Parser additionally rejects oversized dimensions/nonfinite origins/endpoints; valid matrix inputs unaffected."
+    },
+    "test/test_realtime_qp.py": {
+      "run_sha256": "47cbf46d8da6762e7d22ff0f45900fd160582dec83ea9f66c364b3c3776f8a1a",
+      "current_sha256": "f45469772835b514da354800017f5cf4b6094bf31bcf41a4c96de155c829de7c",
+      "reason": "Two extra fault/static-frontend tests and raw-cost/parser rejection assertions added after matrix; final suite rechecked."
+    },
+    "temporal_mpc/__init__.py": {
+      "run_sha256": "07b371e4beda21da562421ad1c1bbcc6f9bfd79e24acab3ef427d930b9381121",
+      "current_sha256": "e536a8f4b98d6816187ca0f696980a2bd7ae431ad00d9468607a2a5040ec55e6",
+      "reason": "Remove extra empty EOF line only; behavior unchanged. Exact executed bytes remain in source_snapshot.tar.gz."
+    },
+    "temporal_mpc/dynamics.py": {
+      "run_sha256": "a997fb123825f913827ae3d280d187fa8fcf8b38e6f11d5a3ca89dffcc13b5de",
+      "current_sha256": "bbd0e68bab121b8c62ba8eb7a36a796fd37c23afebd257a3ca49b878812b97b7",
+      "reason": "Remove extra empty EOF line only; behavior unchanged. Exact executed bytes remain in source_snapshot.tar.gz."
+    },
+    "temporal_mpc/fixtures.py": {
+      "run_sha256": "7e2e994c2f1899137513bb07704f29e609dded8cccb02d3bfc6902c57c56789c",
+      "current_sha256": "5dc77a79887d96085e3e8052720884dee0057a3a7c67701f2d2a2ebb19ddcc9b",
+      "reason": "Remove extra empty EOF line only; behavior unchanged. Exact executed bytes remain in source_snapshot.tar.gz."
+    },
+    "test/test_contracts.py": {
+      "run_sha256": "213310fa497f55aa37a04e70c7e202f42058fdef71939c734c252b2f37294c4f",
+      "current_sha256": "edb4ca04067b210961e74efb5384c4eb82acfd0a4be532b1e1ad68d295c1d41e",
+      "reason": "Remove extra empty EOF line only; behavior unchanged. Exact executed bytes remain in source_snapshot.tar.gz."
+    },
+    "test/test_model_and_oracle.py": {
+      "run_sha256": "73ec901e88dbd14b0052ec2e17ac5ecd0abe72c471115b6a40e3fa65f32f74e3",
+      "current_sha256": "2d0c686b6711576f0994f1294f602889466de58fe79aa029b8d6e40e4720a181",
+      "reason": "Remove extra empty EOF line only; behavior unchanged. Exact executed bytes remain in source_snapshot.tar.gz."
+    },
+    "temporal_mpc/frontend.py": {
+      "run_sha256": "009ecbf6fefa748010833bfc07aa423abfd316145eb9432f6ab6f37b5cbd20bf",
+      "current_sha256": "90f1f7bd445c5d5436391ad5ce557831e96e6f3b7fb37190d42890e590ce7520",
+      "reason": "Reject invalid/noninteger/out-of-range raw map costs before uint8 conversion; declared uint8 matrix inputs/outputs unchanged."
+    }
+  },
+  "qp_predictor_oracle_runner_bytes_unchanged": true,
+  "dynamics_fixtures_behavior_unchanged_eof_format_only": true,
+  "additional_post_run_tools": [
+    "plot_realtime_evidence.py (plot only; no experiment rerun)"
+  ]
+}

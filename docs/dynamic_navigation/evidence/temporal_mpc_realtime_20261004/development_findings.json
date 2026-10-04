@@ -1,0 +1,17 @@
+{
+  "findings": [
+    {
+      "issue": "Initial SfcSquare origin convention mismatch caused Eigen assertion on negative map origin",
+      "resolution": "Use zero-origin local grid coordinates and explicitly translate corridor bounds; frozen vendor unchanged. Independent raw-cell certificate plus static detour/unknown barrier regression."
+    },
+    {
+      "issue": "Fixed-yaw reference violation could initially reuse old trajectory",
+      "resolution": "Reset old solution before domain-rejection fallback. Regression for reference yaw/wz/epoch/source/plan."
+    },
+    {
+      "issue": "Snapshot test version differs from final expanded tests",
+      "resolution": "Exact run-source archive hash-verified; post-run parser guards and two additional tests explicitly listed in source_identity.json."
+    }
+  ],
+  "scope": "Development failures retained as records; not counted as accepted trials."
+}
