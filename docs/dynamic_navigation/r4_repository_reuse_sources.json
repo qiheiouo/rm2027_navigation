@@ -1,0 +1,3321 @@
+{
+  "audit_date": "2026-10-04",
+  "timezone": "Asia/Shanghai",
+  "scope": "repository_reuse_audit_documents_only",
+  "pins": {
+    "M": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+    "L": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+    "D": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+    "F": "04291a410f193c009e043af88e014cf420e1f68b",
+    "H": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49"
+  },
+  "source_files": [
+    {
+      "id": "M1",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_validation.launch.py",
+      "sha256": "d34177ef8453169878bb0bea290305955077c1bd80b43d380e4738862b3108fc",
+      "lines": 452,
+      "key_lines": [
+        {
+          "line": 16,
+          "text": "from launch_ros.actions import Node, SetRemap"
+        },
+        {
+          "line": 83,
+          "text": "\"old-car mapping mode cannot run Nav2 or either serial mode. \""
+        },
+        {
+          "line": 389,
+          "text": "# directly on /cmd_vel. Keep every Nav2 motion producer behind"
+        },
+        {
+          "line": 391,
+          "text": "SetRemap(src=\"cmd_vel\", dst=\"cmd_vel_nav\"),"
+        },
+        {
+          "line": 424,
+          "text": "\"cmd_vel_topic\": \"/cmd_vel\","
+        },
+        {
+          "line": 435,
+          "text": "\"cmd_vel_topic\": \"/cmd_vel\","
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M2",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_nav_config/config/nav2_old_car_2026_left_stvl.yaml",
+      "sha256": "f50751cbf4b7c069810b6e810fa0613f389b4ed0c7cf26a0be38227437e5e701",
+      "lines": 329,
+      "key_lines": [
+        {
+          "line": 4,
+          "text": "# controller, planner, serial, behavior-tree, footprint, inflation, and global"
+        },
+        {
+          "line": 16,
+          "text": "global_frame: map"
+        },
+        {
+          "line": 26,
+          "text": "controller_frequency: 10.0"
+        },
+        {
+          "line": 30,
+          "text": "failure_tolerance: 0.3"
+        },
+        {
+          "line": 36,
+          "text": "plugin: nav2_controller::SimpleProgressChecker"
+        },
+        {
+          "line": 42,
+          "text": "plugin: nav2_controller::SimpleGoalChecker"
+        },
+        {
+          "line": 47,
+          "text": "plugin: nav2_mppi_controller::MPPIController"
+        },
+        {
+          "line": 83,
+          "text": "consider_footprint: true"
+        },
+        {
+          "line": 131,
+          "text": "plugin: nav2_navfn_planner/NavfnPlanner"
+        },
+        {
+          "line": 151,
+          "text": "footprint_topic: local_costmap/published_footprint"
+        },
+        {
+          "line": 167,
+          "text": "global_frame: odom"
+        },
+        {
+          "line": 190,
+          "text": "smoothing_frequency: 20.0"
+        },
+        {
+          "line": 200,
+          "text": "velocity_timeout: 1.0"
+        },
+        {
+          "line": 208,
+          "text": "global_frame: odom"
+        },
+        {
+          "line": 221,
+          "text": "# Use a slightly conservative 0.64 m x 0.54 m footprint."
+        },
+        {
+          "line": 222,
+          "text": "footprint: \"[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]\""
+        },
+        {
+          "line": 223,
+          "text": "footprint_padding: 0.02"
+        },
+        {
+          "line": 243,
+          "text": "update_footprint_enabled: true"
+        },
+        {
+          "line": 244,
+          "text": "footprint_clearing_enabled: true"
+        },
+        {
+          "line": 301,
+          "text": "global_frame: map"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M3",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/navigation.launch.py",
+      "sha256": "37915ce984c7dee2a4ef2d54dc1556b5f6215c4934d81263dba27686740dd22a",
+      "lines": 316,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "from launch import LaunchDescription"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M4",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_serial_driver/src/serial_transport_node.cpp",
+      "sha256": "cdc0a9ce2d364761ba46039a8b3c51372b721ea7567631a4cce8c3150ce86b49",
+      "lines": 402,
+      "key_lines": [
+        {
+          "line": 172,
+          "text": "class SerialTransportNode : public rclcpp::Node"
+        },
+        {
+          "line": 178,
+          "text": "cmd_vel_topic_ = declare_parameter<std::string>(\"cmd_vel_topic\", \"/cmd_vel\");"
+        },
+        {
+          "line": 184,
+          "text": "publish_rate_hz_ = declare_parameter<double>(\"publish_rate_hz\", 100.0);"
+        },
+        {
+          "line": 185,
+          "text": "cmd_vel_timeout_sec_ = declare_parameter<double>(\"cmd_vel_timeout_sec\", 0.2);"
+        },
+        {
+          "line": 225,
+          "text": "cmd_vel_topic_, rclcpp::SystemDefaultsQoS(),"
+        },
+        {
+          "line": 229,
+          "text": "timer_ = create_wall_timer("
+        },
+        {
+          "line": 237,
+          "text": "read_timer_ = create_wall_timer("
+        },
+        {
+          "line": 253,
+          "text": "void handleCmdVel(const geometry_msgs::msg::Twist::SharedPtr msg)"
+        },
+        {
+          "line": 279,
+          "text": "void writeFrame()"
+        },
+        {
+          "line": 284,
+          "text": "if (age > cmd_vel_timeout_sec_) {"
+        },
+        {
+          "line": 367,
+          "text": "std::string cmd_vel_topic_;"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M5",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_chassis_interface/src/chassis_interface_stub.cpp",
+      "sha256": "6e5128c485f240d76e64fc18ad0c0686012d9ac26321c6d8a6ccc281c14eaff1",
+      "lines": 162,
+      "key_lines": [
+        {
+          "line": 12,
+          "text": "class ChassisInterfaceStub : public rclcpp::Node"
+        },
+        {
+          "line": 23,
+          "text": "cmd_vel_topic_ = declare_parameter<std::string>(\"cmd_vel_topic\", \"/cmd_vel\");"
+        },
+        {
+          "line": 24,
+          "text": "mock_output_cmd_vel_topic_ ="
+        },
+        {
+          "line": 25,
+          "text": "declare_parameter<std::string>(\"mock_output_cmd_vel_topic\", \"\");"
+        },
+        {
+          "line": 28,
+          "text": "cmd_vel_topic_, 10,"
+        },
+        {
+          "line": 31,
+          "text": "if (!mock_output_cmd_vel_topic_.empty()) {"
+        },
+        {
+          "line": 32,
+          "text": "if (mock_output_cmd_vel_topic_ == cmd_vel_topic_) {"
+        },
+        {
+          "line": 35,
+          "text": "\"mock_output_cmd_vel_topic must differ from cmd_vel_topic; relay is disabled.\");"
+        },
+        {
+          "line": 37,
+          "text": "mock_cmd_pub_ = create_publisher<geometry_msgs::msg::Twist>("
+        },
+        {
+          "line": 38,
+          "text": "mock_output_cmd_vel_topic_, 10);"
+        },
+        {
+          "line": 43,
+          "text": "twist_raw_pub_ = create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>("
+        },
+        {
+          "line": 68,
+          "text": "RCLCPP_ERROR(get_logger(), \"Reject non-finite /cmd_vel command.\");"
+        },
+        {
+          "line": 78,
+          "text": "\"Unsupported /cmd_vel dimensions are non-zero and will be ignored.\");"
+        },
+        {
+          "line": 145,
+          "text": "std::string cmd_vel_topic_;"
+        },
+        {
+          "line": 146,
+          "text": "std::string mock_output_cmd_vel_topic_;"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M6",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_chassis_interface/src/chassis_mode_gate_node.cpp",
+      "sha256": "a007fa87c1a5a5e155ddb67334fc61cc05762b6a8ca622da9482511c4bf84789",
+      "lines": 136,
+      "key_lines": [
+        {
+          "line": 11,
+          "text": "class ChassisModeGateNode : public rclcpp::Node"
+        },
+        {
+          "line": 27,
+          "text": "state_pub_ = create_publisher<rm_competition_interfaces::msg::ChassisMode>("
+        },
+        {
+          "line": 29,
+          "text": "valid_pub_ = create_publisher<std_msgs::msg::Bool>(valid_topic_, latched);"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M7",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_serial_driver/include/rm_serial_driver/protocol.hpp",
+      "sha256": "4821222455138ba4fab06dc882f992cf03be3e7ff95c219c6e20af9025c4d244",
+      "lines": 135,
+      "key_lines": [
+        {
+          "line": 43,
+          "text": "class StreamDecoder"
+        },
+        {
+          "line": 83,
+          "text": "class StreamDecoder"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M7b",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_serial_driver/src/protocol.cpp",
+      "sha256": "3b7aff1f04efa1f7a5007da8a38bf7dd0e70a8914156c6e8c9afe603108c44a3",
+      "lines": 319,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "#include \"rm_serial_driver/protocol.hpp\""
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M8",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_serial_driver/src/serial_dry_run_node.cpp",
+      "sha256": "df346a5bd0e3284bb16febb1deb46051cfef8eae8a33e22137b6e5ce6088eab8",
+      "lines": 197,
+      "key_lines": [
+        {
+          "line": 19,
+          "text": "enum class ProtocolProfile"
+        },
+        {
+          "line": 57,
+          "text": "class SerialDryRunNode : public rclcpp::Node"
+        },
+        {
+          "line": 63,
+          "text": "cmd_vel_topic_ = declare_parameter<std::string>(\"cmd_vel_topic\", \"/cmd_vel\");"
+        },
+        {
+          "line": 69,
+          "text": "cmd_vel_timeout_sec_ = declare_parameter<double>(\"cmd_vel_timeout_sec\", 0.2);"
+        },
+        {
+          "line": 85,
+          "text": "if (!std::isfinite(cmd_vel_timeout_sec_) || cmd_vel_timeout_sec_ < 0.0) {"
+        },
+        {
+          "line": 86,
+          "text": "throw std::runtime_error(\"cmd_vel_timeout_sec must be finite and non-negative\");"
+        },
+        {
+          "line": 89,
+          "text": "mock_tx_pub_ = create_publisher<std_msgs::msg::UInt8MultiArray>("
+        },
+        {
+          "line": 91,
+          "text": "cmd_vel_sub_ = create_subscription<geometry_msgs::msg::Twist>("
+        },
+        {
+          "line": 92,
+          "text": "cmd_vel_topic_, rclcpp::SystemDefaultsQoS(),"
+        },
+        {
+          "line": 103,
+          "text": "\"Serial dry-run started: cmd_vel=%s mock_tx=%s profile=%s. \""
+        },
+        {
+          "line": 105,
+          "text": "cmd_vel_topic_.c_str(), mock_tx_topic_.c_str(),"
+        },
+        {
+          "line": 141,
+          "text": "if (age > cmd_vel_timeout_sec_) {"
+        },
+        {
+          "line": 170,
+          "text": "std::string cmd_vel_topic_;"
+        },
+        {
+          "line": 175,
+          "text": "double cmd_vel_timeout_sec_;"
+        },
+        {
+          "line": 186,
+          "text": "rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M9",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_simulation/launch/phase1_5_gazebo.launch.py",
+      "sha256": "c1d1931b6e24fcae786fbf7a93f59aac59647ffaa20600f64b60784b9f07f991",
+      "lines": 145,
+      "key_lines": [
+        {
+          "line": 68,
+          "text": "\"/cmd_vel -> chassis_interface_stub -> Gazebo. No Gazebo TF is bridged.\","
+        },
+        {
+          "line": 123,
+          "text": "\"cmd_vel_topic\": \"/cmd_vel\","
+        },
+        {
+          "line": 124,
+          "text": "\"mock_output_cmd_vel_topic\": \"/simulation/chassis/cmd_vel\","
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M10",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_competition_mission/src/competition_mission_node.cpp",
+      "sha256": "7079df5b4f479f1dc6cacc8a27a48cabee365bb92bdaf4d580753d86e96344da",
+      "lines": 673,
+      "key_lines": [
+        {
+          "line": 53,
+          "text": "class CompetitionMissionNode : public rclcpp::Node"
+        },
+        {
+          "line": 125,
+          "text": "mission_state_pub_ = create_publisher<rm_competition_interfaces::msg::MissionState>("
+        },
+        {
+          "line": 218,
+          "text": "return safetyReady() ? BT::NodeStatus::SUCCESS : BT::NodeStatus::FAILURE;"
+        },
+        {
+          "line": 257,
+          "text": "bool safetyReady() const"
+        },
+        {
+          "line": 341,
+          "text": "reconcileNavigation();"
+        },
+        {
+          "line": 359,
+          "text": "void reconcileNavigation()"
+        },
+        {
+          "line": 586,
+          "text": "state.detail = safetyReady() ? \"safety_ready\" : \"safety_gate_closed\";"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M11",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_relocalization_bridge/src/map_odom_from_global_pose.cpp",
+      "sha256": "f0fae9d0c169df0be396a3af4dd2a1f9bffe758b11072c8ca65aec6046a5685c",
+      "lines": 380,
+      "key_lines": [
+        {
+          "line": 57,
+          "text": "class MapOdomFromGlobalPose : public rclcpp::Node"
+        },
+        {
+          "line": 95,
+          "text": "transform_pub_ = create_publisher<geometry_msgs::msg::TransformStamped>(output_topic_, 10);"
+        },
+        {
+          "line": 98,
+          "text": "valid_pub_ = create_publisher<std_msgs::msg::Bool>("
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M12",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_system_monitor/rm_system_monitor/readiness_monitor.py",
+      "sha256": "233c809feaa20038f2fedc5becd348df371c091d8e7b230e6c651b072f01c4d4",
+      "lines": 165,
+      "key_lines": [
+        {
+          "line": 15,
+          "text": "class ReadinessMonitor(Node):"
+        },
+        {
+          "line": 61,
+          "text": "self._publisher = self.create_publisher("
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M13",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "docs/development_workflow.md",
+      "sha256": "aaaea6297b6e71e3c1ea1e341d856512f3f0864691ab944d08baa983c8cf2866",
+      "lines": 126,
+      "key_lines": [
+        {
+          "line": 112,
+          "text": "-> /cmd_vel"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "M14",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_competition.launch.py",
+      "sha256": "8aef8031f10656ef49780d8463e950231d001329ab50e8069ad50865d326455b",
+      "lines": 494,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "from launch import LaunchDescription"
+        }
+      ],
+      "scope": "main_configured_not_live"
+    },
+    {
+      "id": "L1",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/planner.hpp",
+      "sha256": "5ad91c7cfa44db6380ba0d0ddf6a841c27b17cbd40d719357cbd047d015322fa",
+      "lines": 84,
+      "key_lines": [
+        {
+          "line": 14,
+          "text": "enum class CostInterpretation {ObstacleSeeds, Nav2Master};"
+        },
+        {
+          "line": 25,
+          "text": "CostInterpretation cost_interpretation = CostInterpretation::ObstacleSeeds;"
+        },
+        {
+          "line": 45,
+          "text": "struct Result"
+        },
+        {
+          "line": 54,
+          "text": "// Immutable configuration-space snapshot produced only by prepare_grid()."
+        },
+        {
+          "line": 57,
+          "text": "class PreparedGrid"
+        },
+        {
+          "line": 67,
+          "text": "friend bool collision_free_prepared(const PreparedGrid &, const std::vector<Point> &);"
+        },
+        {
+          "line": 68,
+          "text": "friend PreparedGrid prepare_grid(const Grid &, const Options &);"
+        },
+        {
+          "line": 69,
+          "text": "friend Result plan_prepared(const PreparedGrid &, Point, Point, const Options &);"
+        },
+        {
+          "line": 71,
+          "text": "PreparedGrid prepare_grid(const Grid & grid, const Options & options);"
+        },
+        {
+          "line": 72,
+          "text": "Result plan_prepared(const PreparedGrid & grid, Point start, Point goal,"
+        },
+        {
+          "line": 74,
+          "text": "bool collision_free_prepared(const PreparedGrid & grid, const std::vector<Point> & path);"
+        },
+        {
+          "line": 82,
+          "text": "bool collision_free(const Grid & grid, const std::vector<Point> & path,"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L2",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/src/planner.cpp",
+      "sha256": "d87d29cb9466eb85763eebc18fac9a82d1ca08ba06a813439a02adf15b273b43",
+      "lines": 518,
+      "key_lines": [
+        {
+          "line": 409,
+          "text": "result.path = {{start.x + g.origin_x, start.y + g.origin_y}};"
+        },
+        {
+          "line": 453,
+          "text": "MinimumSnap backend;"
+        },
+        {
+          "line": 464,
+          "text": "input.setNormTime(true); input.setBackend(MinimumSnap::Backend::OSQPCorridor);"
+        },
+        {
+          "line": 465,
+          "text": "input.setMaxCorridorRange(o.corridor_range);"
+        },
+        {
+          "line": 477,
+          "text": "result.reason = \"validated minimum-jerk polyline\";"
+        },
+        {
+          "line": 489,
+          "text": "result.path = resample(base, std::min(o.output_spacing, g.resolution * 0.5));"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L3",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/src/nav2_plugin.cpp",
+      "sha256": "088126a50dd989fcfcd74cbfad588f5f3a2f0d6a1a6135a054ff559a342ed56b",
+      "lines": 227,
+      "key_lines": [
+        {
+          "line": 4,
+          "text": "#include \"rm_tdt_planner/snapshot_guard.hpp\""
+        },
+        {
+          "line": 19,
+          "text": "class TdtGlobalPlanner : public nav2_core::GlobalPlanner"
+        },
+        {
+          "line": 22,
+          "text": "void configure(const rclcpp_lifecycle::LifecycleNode::WeakPtr & parent,"
+        },
+        {
+          "line": 67,
+          "text": "nav_msgs::msg::Path createPlan(const geometry_msgs::msg::PoseStamped & start,"
+        },
+        {
+          "line": 87,
+          "text": "grid = snapshot_locked();"
+        },
+        {
+          "line": 89,
+          "text": "const auto result = plan(grid, {start.pose.position.x, start.pose.position.y},"
+        },
+        {
+          "line": 92,
+          "text": "// Diagnose the exact request/snapshot; published OccupancyGrid samples may lag it."
+        },
+        {
+          "line": 139,
+          "text": "const Grid latest = snapshot_locked();"
+        },
+        {
+          "line": 153,
+          "text": "detail << std::setprecision(17) << \"snapshot_admission_v1={\\\"decision\\\":\\\"\""
+        },
+        {
+          "line": 154,
+          "text": "<< snapshot_admission_name(admission) << \"\\\",\\\"old_origin\\\":[\""
+        },
+        {
+          "line": 163,
+          "text": "throw nav2_core::PlannerException(std::string(\"TDT latest snapshot rejected: \") +"
+        },
+        {
+          "line": 164,
+          "text": "snapshot_admission_name(admission));"
+        },
+        {
+          "line": 166,
+          "text": "// Preserve the soft budget; count snapshot copying/final checking too."
+        },
+        {
+          "line": 170,
+          "text": "throw nav2_core::PlannerException(\"TDT deadline exceeded including latest snapshot validation\");"
+        },
+        {
+          "line": 205,
+          "text": "Grid snapshot_locked() const"
+        },
+        {
+          "line": 227,
+          "text": "PLUGINLIB_EXPORT_CLASS(rm_tdt_planner::TdtGlobalPlanner, nav2_core::GlobalPlanner)"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L4",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/src/snapshot_guard.cpp",
+      "sha256": "e39e79310ad6b2f63d46a32a3447ec3024c4648bac9c3e90cd46627af9ee98c2",
+      "lines": 39,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "// Copyright 2026 RM Navigation. SPDX-License-Identifier: MIT"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L5",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.hpp",
+      "sha256": "58c9b489b9eb4e5db6754f5350a7882a270caa19b269f4307e6234b0f29c51e7",
+      "lines": 126,
+      "key_lines": [
+        {
+          "line": 23,
+          "text": "class SfcSquare{"
+        },
+        {
+          "line": 29,
+          "text": "struct CorridorOutput{"
+        },
+        {
+          "line": 30,
+          "text": "std::vector<PointPair> corridor;"
+        },
+        {
+          "line": 31,
+          "text": "std::vector<int> index;// 与原始路径点对应的、选定为飞行走廊点的索引"
+        },
+        {
+          "line": 82,
+          "text": "PointPair getBound(float x, float y, float maxRange = std::numeric_limits<float>::max(), float shrink = 0.f);"
+        },
+        {
+          "line": 93,
+          "text": "CorridorOutput getCorridor(const std::vector<Eigen::Vector2f> &wayPoints, float maxRange = std::numeric_limits<float>::max(), float shrink = 0.f);"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L6",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "docs/external/tdt_nav_kit.md",
+      "sha256": "3c8a0c549a19c299c3217e2a1a12b0695d9bad65a267a7e1a9432ddb1fafc712",
+      "lines": 88,
+      "key_lines": [
+        {
+          "line": 3,
+          "text": "日期：2026-09-12。状态：**隔离实验引入，未成为旧车/新车默认规划器**。"
+        },
+        {
+          "line": 8,
+          "text": "- 分支：`main`；固定提交：`a4bddc467f84d2418a4de06c65c8c79403eb4a13`。"
+        },
+        {
+          "line": 9,
+          "text": "- 许可证：MIT，保留原作者 Rongxuan Ye / BoLin Li 的完整 `LICENCE`。"
+        },
+        {
+          "line": 43,
+          "text": "| 依赖 | URL / 版本 | 提交 | 随源码许可证 |"
+        },
+        {
+          "line": 45,
+          "text": "| OSQP | <https://github.com/osqp/osqp> / v0.6.3 | `0dd00a578cf1c2691c5c379965d504c75bf6cfad` | Apache-2.0 + NOTICE |"
+        },
+        {
+          "line": 46,
+          "text": "| OsqpEigen | <https://github.com/robotology/osqp-eigen> / v0.8.1 | `85c37623774c682db396505f0d4ea677040c2557` | BSD-3-Clause |"
+        },
+        {
+          "line": 48,
+          "text": "| AMD | OSQP 0.6.3 自带 `lin_sys/direct/qdldl/amd` | 随 OSQP SHA 固定 | BSD-3-Clause |"
+        },
+        {
+          "line": 53,
+          "text": "diff，并把 OSQP/NOTICE、OsqpEigen、QDLDL、AMD 许可证复制到依赖安装前缀。"
+        },
+        {
+          "line": 64,
+          "text": "- 示例默认 `order=6, maxdx=3` 是五次多项式 minimum jerk，不是四阶 snap 目标。"
+        },
+        {
+          "line": 68,
+          "text": "- 上游成功标记基于其采样折线碰撞检查；默认 strict 为 false，可能容忍两格擦碰。"
+        },
+        {
+          "line": 78,
+          "text": "安全余量，253 中心禁区仍有效，默认离线语义不变。依据与 static_v3 待验步骤见"
+        },
+        {
+          "line": 84,
+          "text": "本轮修正本地构建流程：保持上述 OSQP/OsqpEigen/QDLDL 固定 SHA 与许可，离线复制"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L7",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "src/rm_navigation_integrity/rm_navigation_integrity/localization_integrity_node.py",
+      "sha256": "920a84d15d96660a3ed075a788104b258042692d7f3c8ac4d7081575daf42158",
+      "lines": 636,
+      "key_lines": [
+        {
+          "line": 82,
+          "text": "class LocalizationIntegrityNode(Node):"
+        },
+        {
+          "line": 87,
+          "text": "self._mode = str(self.declare_parameter(\"mode\", \"shadow\").value).lower()"
+        },
+        {
+          "line": 88,
+          "text": "if self._mode != \"shadow\":"
+        },
+        {
+          "line": 89,
+          "text": "raise ValueError(\"the first integrity implementation supports shadow mode only\")"
+        },
+        {
+          "line": 253,
+          "text": "self._diagnostics_pub = self.create_publisher("
+        },
+        {
+          "line": 577,
+          "text": "KeyValue(key=\"mode\", value=self._mode),"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L8",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "docs/tdt_migration/evidence/dynamic_failure_analysis_20260922/installed_mppi_and_command_route.txt",
+      "sha256": "0181e2b1a6cae94b00adf597d878c5e519b271cc02b0c87fa4c2a725d9baec7d",
+      "lines": 376,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "ros-humble-nav2-controller\t1.1.20-1jammy.20260607.083252"
+        },
+        {
+          "line": 2,
+          "text": "ros-humble-nav2-costmap-2d\t1.1.20-1jammy.20260607.080735"
+        },
+        {
+          "line": 3,
+          "text": "ros-humble-nav2-mppi-controller\t1.1.20-1jammy.20260607.083249"
+        },
+        {
+          "line": 4,
+          "text": "ros-humble-nav2-velocity-smoother\t1.1.20-1jammy.20260607.080005"
+        },
+        {
+          "line": 145,
+          "text": "lifecycle_nodes = ['controller_server',"
+        },
+        {
+          "line": 224,
+          "text": "remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),"
+        },
+        {
+          "line": 285,
+          "text": "[('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),"
+        },
+        {
+          "line": 294,
+          "text": "{'node_names': lifecycle_nodes}]),"
+        },
+        {
+          "line": 307,
+          "text": "remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),"
+        },
+        {
+          "line": 344,
+          "text": "[('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),"
+        },
+        {
+          "line": 351,
+          "text": "'node_names': lifecycle_nodes}]),"
+        },
+        {
+          "line": 375,
+          "text": "fc259b61103fe1cc8ce6e5fa517460074aecf4b8d5c1075c50fad0ab0eaff88b  /opt/ros/humble/lib/libmppi_controller.so"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L9",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "src/rm_dynamic_clearance/rm_dynamic_clearance/dynamic_clearance_node.py",
+      "sha256": "6b1d19ce0758b9abfb1670676e5ddbcbdcb057cf7accfc64ca282cff1d83dca1",
+      "lines": 360,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "\"\"\"ROS wrapper for revision-bound shadow dynamic-clearance evaluation.\"\"\""
+        },
+        {
+          "line": 28,
+          "text": "ANNOTATED_PATH_SCHEMA,"
+        },
+        {
+          "line": 40,
+          "text": "class DynamicClearanceNode(Node):"
+        },
+        {
+          "line": 42,
+          "text": "super().__init__(\"dynamic_clearance_shadow\")"
+        },
+        {
+          "line": 52,
+          "text": "\"/perception/dynamic_obstacles_shadow/predictions\","
+        },
+        {
+          "line": 57,
+          "text": "\"report_topic\", \"/navigation/dynamic_clearance_shadow\""
+        },
+        {
+          "line": 132,
+          "text": "self._report_publisher = self.create_publisher("
+        },
+        {
+          "line": 149,
+          "text": "f\"{report_topic}; it owns no Path, TF, action, costmap, or cmd_vel.\""
+        },
+        {
+          "line": 204,
+          "text": "if annotation.schema != ANNOTATED_PATH_SCHEMA:"
+        },
+        {
+          "line": 276,
+          "text": "track_id=track.track_id,"
+        },
+        {
+          "line": 282,
+          "text": "last_observation_stamp=_stamp_seconds("
+        },
+        {
+          "line": 283,
+          "text": "track.last_observation_stamp"
+        },
+        {
+          "line": 309,
+          "text": "output.schema = DynamicClearanceReport.SCHEMA"
+        },
+        {
+          "line": 328,
+          "text": "output.blocking_track_ids = list(report.blocking_track_ids)"
+        },
+        {
+          "line": 335,
+          "text": "output.schema = DynamicClearanceReport.SCHEMA"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L10",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "src/rm_dynamic_clearance/rm_dynamic_clearance/core.py",
+      "sha256": "5d7669ce857e139bfc166b69e0c999852831df87211a3f942292510dbf68bd5a",
+      "lines": 748,
+      "key_lines": [
+        {
+          "line": 13,
+          "text": "DYNAMIC_CLEARANCE_REPORT_SCHEMA = \"rm_dynamic_clearance_report/v1\""
+        },
+        {
+          "line": 14,
+          "text": "DYNAMIC_OBSTACLE_PREDICTIONS_SCHEMA = \"rm_dynamic_obstacle_predictions/v1\""
+        },
+        {
+          "line": 15,
+          "text": "AUTHORITY_SHADOW_ONLY = \"shadow_only\""
+        },
+        {
+          "line": 31,
+          "text": "class ClearanceContractError(ValueError):"
+        },
+        {
+          "line": 35,
+          "text": "class Decision(IntEnum):"
+        },
+        {
+          "line": 42,
+          "text": "class Point2D:"
+        },
+        {
+          "line": 48,
+          "text": "class IntentSegment:"
+        },
+        {
+          "line": 59,
+          "text": "class PredictedTrack:"
+        },
+        {
+          "line": 60,
+          "text": "track_id: int"
+        },
+        {
+          "line": 66,
+          "text": "last_observation_stamp: float"
+        },
+        {
+          "line": 73,
+          "text": "class PredictionFrame:"
+        },
+        {
+          "line": 82,
+          "text": "schema: str = DYNAMIC_OBSTACLE_PREDICTIONS_SCHEMA"
+        },
+        {
+          "line": 87,
+          "text": "class ClearanceConfig:"
+        },
+        {
+          "line": 104,
+          "text": "class ClearanceReport:"
+        },
+        {
+          "line": 119,
+          "text": "blocking_track_ids: tuple[int, ...]"
+        },
+        {
+          "line": 123,
+          "text": "class _Polyline:"
+        },
+        {
+          "line": 186,
+          "text": "class _SpeedPiece:"
+        },
+        {
+          "line": 194,
+          "text": "class _SpeedProfile:"
+        },
+        {
+          "line": 348,
+          "text": "if frame.schema != DYNAMIC_OBSTACLE_PREDICTIONS_SCHEMA:"
+        },
+        {
+          "line": 380,
+          "text": "track_ids: set[int] = set()"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L11",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "src/rm_navigation_launch/launch/old_car_full_terrain_navigation.launch.py",
+      "sha256": "a207dc86598cbb6bf1d4b40cee53b77da14f353facea556816019fa6899b58be",
+      "lines": 452,
+      "key_lines": [
+        {
+          "line": 4,
+          "text": "perception starts in shadow unless explicitly activated. The legacy old-car"
+        },
+        {
+          "line": 123,
+          "text": "serial_cmd_vel_topic = \"/cmd_vel\""
+        },
+        {
+          "line": 139,
+          "text": "serial_cmd_vel_topic = \"/cmd_vel_dog_hole_gated\""
+        },
+        {
+          "line": 169,
+          "text": "\"input_cmd_vel_topic\": \"/cmd_vel\","
+        },
+        {
+          "line": 170,
+          "text": "\"output_cmd_vel_topic\": serial_cmd_vel_topic,"
+        },
+        {
+          "line": 320,
+          "text": "\"serial_cmd_vel_topic\": serial_cmd_vel_topic,"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L12",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "src/rm_dog_hole_entry_gate/rm_dog_hole_entry_gate/node.py",
+      "sha256": "a6bec678a2cbbb418d71c7eda51ce71e41261e4bb7d3f2c4abde7a097110cbaf",
+      "lines": 329,
+      "key_lines": [
+        {
+          "line": 27,
+          "text": "class DogHoleEntryPauseGateNode(Node):"
+        },
+        {
+          "line": 56,
+          "text": "input_cmd_vel_topic = self.declare_parameter("
+        },
+        {
+          "line": 57,
+          "text": "\"input_cmd_vel_topic\", \"/cmd_vel\""
+        },
+        {
+          "line": 59,
+          "text": "output_cmd_vel_topic = self.declare_parameter("
+        },
+        {
+          "line": 60,
+          "text": "\"output_cmd_vel_topic\", \"/cmd_vel_dog_hole_gated\""
+        },
+        {
+          "line": 73,
+          "text": "if input_cmd_vel_topic == output_cmd_vel_topic:"
+        },
+        {
+          "line": 75,
+          "text": "\"input_cmd_vel_topic and output_cmd_vel_topic must differ\""
+        },
+        {
+          "line": 107,
+          "text": "self._cmd_publisher = self.create_publisher(Twist, output_cmd_vel_topic, 10)"
+        },
+        {
+          "line": 135,
+          "text": "Twist, input_cmd_vel_topic, self._handle_cmd, 10"
+        },
+        {
+          "line": 141,
+          "text": "f\"input={input_cmd_vel_topic}, output={output_cmd_vel_topic}. \""
+        },
+        {
+          "line": 227,
+          "text": "def _handle_cmd(self, message: Twist) -> None:"
+        },
+        {
+          "line": 231,
+          "text": "self._cmd_publisher.publish(Twist())"
+        },
+        {
+          "line": 236,
+          "text": "def _tick(self) -> None:"
+        },
+        {
+          "line": 248,
+          "text": "self._cmd_publisher.publish(Twist())"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L13",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "src/rm_dog_hole_entry_gate/rm_dog_hole_entry_gate/core.py",
+      "sha256": "3ad50db6c491d057c106b2ce022e3af1b3eb2570b2691201205332dd62983482",
+      "lines": 347,
+      "key_lines": [
+        {
+          "line": 18,
+          "text": "class GateState(str, Enum):"
+        },
+        {
+          "line": 32,
+          "text": "class GateSnapshot:"
+        },
+        {
+          "line": 41,
+          "text": "class LocalizationReadinessGate:"
+        },
+        {
+          "line": 149,
+          "text": "class DogHoleEntryPauseGate:"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L14",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/tools/audit_sanitizer_chain.py",
+      "sha256": "b9fab68dae992a555f79fe8093d66c545498de20530d06f87e5fd5b33bbb47d8",
+      "lines": 108,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "#!/usr/bin/env python3"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "L15",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/tools/run_core_sanitizers.sh",
+      "sha256": "3a2a8ec7e591741b62b95d0c241fe1c68a0a21dfef6be7aa96a9740617a54c18",
+      "lines": 26,
+      "key_lines": [
+        {
+          "line": 12,
+          "text": "export ASAN_OPTIONS=halt_on_error=1:detect_leaks=1"
+        },
+        {
+          "line": 13,
+          "text": "export UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1"
+        }
+      ],
+      "scope": "existing_isolated_migration_or_shadow"
+    },
+    {
+      "id": "D1",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+      "sha256": "f10c5306355e0f21117adf1c45ca7a5b1b11fbea1e31c9cae1f26b7706f8ea20",
+      "lines": 720,
+      "key_lines": [
+        {
+          "line": 49,
+          "text": "class TrackerUpdate:"
+        },
+        {
+          "line": 220,
+          "text": "def cluster_point_indices("
+        },
+        {
+          "line": 273,
+          "text": "def cluster_points("
+        },
+        {
+          "line": 374,
+          "text": "def optimal_gated_assignment("
+        },
+        {
+          "line": 476,
+          "text": "class MultiObjectTracker:"
+        },
+        {
+          "line": 509,
+          "text": "if public_anchor_mode not in (\"filtered\", \"last_observation_cv\"):"
+        },
+        {
+          "line": 511,
+          "text": "if public_anchor_mode == \"last_observation_cv\" and ("
+        },
+        {
+          "line": 676,
+          "text": "if self.public_anchor_mode == \"last_observation_cv\":"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D2",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+      "sha256": "60076d2455ac63f43fd9470f1fbff0c5fa323f9da499a195b7c4d4b1b7835a42",
+      "lines": 601,
+      "key_lines": [
+        {
+          "line": 47,
+          "text": "class DynamicObstacleTrackerNode(Node):"
+        },
+        {
+          "line": 59,
+          "text": "self._predictions_topic = self.declare_parameter("
+        },
+        {
+          "line": 60,
+          "text": "\"predictions_topic\", \"/perception/dynamic_obstacles_shadow/predictions\""
+        },
+        {
+          "line": 110,
+          "text": "\"prediction.anchor_mode\", \"filtered\""
+        },
+        {
+          "line": 114,
+          "text": "\"last_observation_cv\": DynamicObstaclePredictionArray.SCHEMA_OBSERVATION_ANCHOR,"
+        },
+        {
+          "line": 117,
+          "text": "raise ValueError(\"unsupported prediction.anchor_mode\")"
+        },
+        {
+          "line": 183,
+          "text": "DynamicObstaclePredictionArray, self._predictions_topic, 10"
+        },
+        {
+          "line": 188,
+          "text": "% (self._map_topic, self._scan_topic, self._predictions_topic)"
+        },
+        {
+          "line": 196,
+          "text": "or not self._predictions_topic"
+        },
+        {
+          "line": 250,
+          "text": "stamp = Time.from_msg(message.header.stamp)"
+        },
+        {
+          "line": 326,
+          "text": "source_stamp_ns=stamp.nanoseconds if self._anchor_mode == \"last_observation_cv\" else None)"
+        },
+        {
+          "line": 351,
+          "text": "output.header.stamp = message.header.stamp"
+        },
+        {
+          "line": 354,
+          "text": "output.processing_stamp = self.get_clock().now().to_msg()"
+        },
+        {
+          "line": 364,
+          "text": "if self._anchor_mode == \"last_observation_cv\":"
+        },
+        {
+          "line": 367,
+          "text": "source_ns = Time.from_msg(message.header.stamp).nanoseconds"
+        },
+        {
+          "line": 397,
+          "text": "prediction.last_observation_stamp = Time("
+        },
+        {
+          "line": 399,
+          "text": "if self._anchor_mode == \"last_observation_cv\" else"
+        },
+        {
+          "line": 416,
+          "text": "reset.header.stamp = message.header.stamp"
+        },
+        {
+          "line": 495,
+          "text": "marker.header.stamp = message.header.stamp"
+        },
+        {
+          "line": 545,
+          "text": "array.header.stamp = self.get_clock().now().to_msg()"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D3",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_competition_interfaces/msg/DynamicObstaclePredictionArray.msg",
+      "sha256": "e462d1cd7ea34b50dd2e45ef37f39f934be6f2913e82377ab14691bde22a74dd",
+      "lines": 17,
+      "key_lines": [
+        {
+          "line": 2,
+          "text": "std_msgs/Header header"
+        },
+        {
+          "line": 4,
+          "text": "string SCHEMA=rm_dynamic_obstacle_predictions/v1"
+        },
+        {
+          "line": 5,
+          "text": "string SCHEMA_OBSERVATION_ANCHOR=rm_dynamic_obstacle_predictions/v2_observation_anchor"
+        },
+        {
+          "line": 9,
+          "text": "string authority"
+        },
+        {
+          "line": 10,
+          "text": "builtin_interfaces/Time processing_stamp"
+        },
+        {
+          "line": 14,
+          "text": "# completeness, full object visibility, geometry bounds or correct association."
+        },
+        {
+          "line": 15,
+          "text": "bool complete"
+        },
+        {
+          "line": 16,
+          "text": "uint32 total_track_count"
+        },
+        {
+          "line": 17,
+          "text": "rm_competition_interfaces/DynamicObstaclePrediction[] tracks"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D4",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_competition_interfaces/msg/DynamicObstaclePrediction.msg",
+      "sha256": "3fc1458ef9efab481377d96c1ef2e1b872045ebef72a160182196627f9a4eeae",
+      "lines": 24,
+      "key_lines": [
+        {
+          "line": 5,
+          "text": "uint64 track_id"
+        },
+        {
+          "line": 10,
+          "text": "# from last_observation_stamp to the array stamp with this velocity estimate."
+        },
+        {
+          "line": 12,
+          "text": "geometry_msgs/Point position"
+        },
+        {
+          "line": 13,
+          "text": "# Estimated anchor velocity; not a certified material-point motion bound."
+        },
+        {
+          "line": 14,
+          "text": "geometry_msgs/Vector3 velocity"
+        },
+        {
+          "line": 16,
+          "text": "geometry_msgs/Vector3 size"
+        },
+        {
+          "line": 17,
+          "text": "builtin_interfaces/Time last_observation_stamp"
+        },
+        {
+          "line": 21,
+          "text": "# Display anchor at (i + 1) * prediction_dt after the array stamp."
+        },
+        {
+          "line": 22,
+          "text": "# v1 may clip/decay display velocity. v2 uses the same unclipped, undecayed CV"
+        },
+        {
+          "line": 23,
+          "text": "# as public position/velocity. Consumers still recompute CV and check schema."
+        },
+        {
+          "line": 24,
+          "text": "geometry_msgs/Point[] prediction"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D5",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_tracking/config/dynamic_obstacle_tracking_shadow.yaml",
+      "sha256": "bff48a224494814295a21d1d7481d2635b51f5896fd2f769a15b5dcf40fa63f1",
+      "lines": 46,
+      "key_lines": [
+        {
+          "line": 9,
+          "text": "predictions_topic: /perception/dynamic_obstacles_shadow/predictions"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D6",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/observed_surface_geometry.py",
+      "sha256": "6a24d65338584b5e4bf10703ecc5ee094666eadd6acb0a01c67951effb3eee78",
+      "lines": 99,
+      "key_lines": [
+        {
+          "line": 20,
+          "text": "nominal_prediction_lifetime:float=.5"
+        },
+        {
+          "line": 24,
+          "text": "for value in (self.max_neighbor_distance,self.max_range_step,self.nominal_prediction_lifetime,self.max_nominal_speed):"
+        },
+        {
+          "line": 39,
+          "text": "class ObservedSurface:"
+        },
+        {
+          "line": 44,
+          "text": "support_is_certified:bool=False"
+        },
+        {
+          "line": 45,
+          "text": "hidden_space_status:str='UNKNOWN'"
+        },
+        {
+          "line": 53,
+          "text": "support_is_certified:bool=False"
+        },
+        {
+          "line": 55,
+          "text": "hidden_space_status:str='UNKNOWN'"
+        },
+        {
+          "line": 58,
+          "text": "def extract_observed_surface(points:Sequence[XY],beam_indices:Sequence[int],*,ranges:Sequence[float],"
+        },
+        {
+          "line": 86,
+          "text": "def propagate_nominal(surface:ObservedSurface,velocity:XY,*,source_age_seconds:float,future_seconds:float,"
+        },
+        {
+          "line": 98,
+          "text": "status='NO_OBSERVATION_UNKNOWN' if not surface.elements else ('NOMINAL_SHORT_CV_UNCERTIFIED' if horizon<=config.nominal_prediction_lifetime else 'EXPIRED_GEOMETRY_UNKNOWN_TREND_ONLY')"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D7",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/visible_box_geometry.py",
+      "sha256": "cc016d1c6cd675241f90bac0408931ab65c5b80eb007231b0abeba556e966ff0",
+      "lines": 220,
+      "key_lines": [
+        {
+          "line": 17,
+          "text": "class BoxFitConfig:"
+        },
+        {
+          "line": 40,
+          "text": "class VisibleBox:"
+        },
+        {
+          "line": 52,
+          "text": "support_is_certified: bool = False"
+        },
+        {
+          "line": 56,
+          "text": "class BoxFitResult:"
+        },
+        {
+          "line": 77,
+          "text": "def fit_visible_box("
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D8",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_critic/include/rm_dynamic_obstacle_critic/model.hpp",
+      "sha256": "9213895162f338532c17785f0d5f71db5d97ca61fb03f899442ec1a505aeeef4",
+      "lines": 218,
+      "key_lines": [
+        {
+          "line": 40,
+          "text": "inline std::string validate(const Array &msg, double now, const Limits &lim) {"
+        },
+        {
+          "line": 162,
+          "text": "inline Point predict(const Obstacle &t, double source_age, double future,"
+        },
+        {
+          "line": 164,
+          "text": "return tr.apply({t.position.x + t.velocity.x * (source_age + future),"
+        },
+        {
+          "line": 165,
+          "text": "t.position.y + t.velocity.y * (source_age + future)});"
+        },
+        {
+          "line": 201,
+          "text": "inline Risk score(const std::vector<Pose> &rollout,"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D9",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_critic/src/dynamic_obstacle_critic.cpp",
+      "sha256": "f1f21480e9a5b21190a2cf37b7f38752aba3638e9f640855e9fdb6e018fb40ee",
+      "lines": 304,
+      "key_lines": [
+        {
+          "line": 11,
+          "text": "class DynamicObstacleCritic final : public CriticFunction {"
+        },
+        {
+          "line": 105,
+          "text": "void score(CriticData &data) override {"
+        },
+        {
+          "line": 110,
+          "text": "data.fail_flag = true;"
+        },
+        {
+          "line": 145,
+          "text": "data.fail_flag = true;"
+        },
+        {
+          "line": 157,
+          "text": "data.fail_flag = true;"
+        },
+        {
+          "line": 186,
+          "text": "const auto risk = dyn::score(poses, footprint, *msg, limits_, cost_, age,"
+        },
+        {
+          "line": 191,
+          "text": "data.fail_flag = true;"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D10",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_critic/include/rm_dynamic_obstacle_critic/guard.hpp",
+      "sha256": "8c694fbce2317a02986fcdaf117d3da770bf444cdd0f37bb9b2c9b26e7106490",
+      "lines": 103,
+      "key_lines": [
+        {
+          "line": 5,
+          "text": "struct GuardParameters {"
+        },
+        {
+          "line": 6,
+          "text": "double horizon{0.5}, dt{0.02}, response_delay{0.1}, linear_deceleration{1.0},"
+        },
+        {
+          "line": 11,
+          "text": "struct GuardResult {"
+        },
+        {
+          "line": 25,
+          "text": "inline GuardResult check_command("
+        },
+        {
+          "line": 30,
+          "text": "const std::function<bool(const std::vector<Point> &, double)> &static_clear,"
+        },
+        {
+          "line": 45,
+          "text": "const double horizon = std::max(cfg.horizon, cfg.response_delay) + stop;"
+        },
+        {
+          "line": 46,
+          "text": "if (!std::isfinite(horizon / cfg.dt) || horizon / cfg.dt > cfg.max_steps) {"
+        },
+        {
+          "line": 65,
+          "text": "for (size_t k = 0; k <= static_cast<size_t>(std::ceil(horizon / cfg.dt));"
+        },
+        {
+          "line": 73,
+          "text": "if (d <= cfg.safety_margin || !static_clear(poly, swept)) {"
+        },
+        {
+          "line": 86,
+          "text": "// Proposed command is held for the short horizon, then brake. Measured"
+        },
+        {
+          "line": 87,
+          "text": "// path brakes after response_delay. Check the entire stopping tail; no"
+        },
+        {
+          "line": 88,
+          "text": "// horizon truncation."
+        },
+        {
+          "line": 90,
+          "text": "if (time + cfg.dt >= (measured_path ? cfg.response_delay : cfg.horizon)) {"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D11",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_critic/src/safety_guard.cpp",
+      "sha256": "731b72448797952227faf8960bc6bc258c395e492268c2defc87cc040f7dd339",
+      "lines": 322,
+      "key_lines": [
+        {
+          "line": 13,
+          "text": "class SafetyGuard final : public rclcpp::Node {"
+        },
+        {
+          "line": 17,
+          "text": "std::string(\"/dynamic_test/cmd_vel_smoothed\"));"
+        },
+        {
+          "line": 19,
+          "text": "std::string(\"/dynamic_test/cmd_vel_guarded\"));"
+        },
+        {
+          "line": 24,
+          "text": "std::string(\"/perception/dynamic_obstacles_shadow/predictions\"));"
+        },
+        {
+          "line": 33,
+          "text": "limits_.input_schema = declare_parameter(\"input_schema\", std::string(dyn::Array::SCHEMA));"
+        },
+        {
+          "line": 103,
+          "text": "out_ = create_publisher<geometry_msgs::msg::Twist>(output_, 1);"
+        },
+        {
+          "line": 104,
+          "text": "diag_ = create_publisher<diagnostic_msgs::msg::DiagnosticArray>("
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "D12",
+      "version": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "path": "src/rm_dynamic_obstacle_critic/src/native_command_observer.cpp",
+      "sha256": "dc707a73e77f46ca92989136e0e73e2cb7615ccdbb8b2d0fce8668c59216c225",
+      "lines": 75,
+      "key_lines": [
+        {
+          "line": 11,
+          "text": "class NativeCommandObserver : public rclcpp::Node {"
+        },
+        {
+          "line": 14,
+          "text": "topic_ = declare_parameter(\"input_topic\",std::string(\"/cmd_vel_nav\"));"
+        }
+      ],
+      "scope": "committed_research_not_main"
+    },
+    {
+      "id": "F1",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/frontend/bridge.cpp",
+      "sha256": "621bc90c31e280cc5466799817fd5209397b8fccf350edd0c3656b3bd8ba7fa3",
+      "lines": 77,
+      "key_lines": [
+        {
+          "line": 3,
+          "text": "#include \"YAstar/yastar.hpp\""
+        },
+        {
+          "line": 25,
+          "text": "std::vector<u_char> raw(w*h);"
+        },
+        {
+          "line": 26,
+          "text": "for (auto &v : raw) {int cost; if (!(std::cin >> cost) || cost<0 || cost>255) return 2;"
+        },
+        {
+          "line": 29,
+          "text": "if(x==0 || y==0 || x==w-1 || y==h-1) raw[y*w+x]=0;"
+        },
+        {
+          "line": 30,
+          "text": "YAstar field(w,h,r,ox,oy); field.setMap(w,h,raw.data()); auto sdf=field.getSDF();"
+        },
+        {
+          "line": 32,
+          "text": "// clearance, and both cell half diagonals. Never expose raw-free corridors."
+        },
+        {
+          "line": 35,
+          "text": "for(int i=0;i<w*h;i++) free[i]=raw[i] && sdf.data()[i]>reach+1e-6f ? 255 : 0;"
+        },
+        {
+          "line": 36,
+          "text": "YAstar planner(w,h,r,ox,oy); planner.setMap(w,h,free.data());"
+        },
+        {
+          "line": 54,
+          "text": "// SfcSquare's frozen offset convention differs from YAstar's map origin."
+        },
+        {
+          "line": 56,
+          "text": "SfcSquare corridor(w,h,free.data(),r,{0.f,0.f});"
+        },
+        {
+          "line": 61,
+          "text": "std::cout<<\"],\\\"anchors\\\":[\"; bool first=true;"
+        },
+        {
+          "line": 67,
+          "text": "// independently certify the full rectangle against the raw map."
+        },
+        {
+          "line": 72,
+          "text": "std::cout<<\"{\\\"position\\\":[\"<<p.x()<<','<<p.y()<<\"],\\\"centre_bounds\\\":[\""
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F2",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/temporal_mpc/frontend.py",
+      "sha256": "f906ea1dc66e746c63fba77e436e38c996206eadd38249f33108a29ba1bb56e5",
+      "lines": 122,
+      "key_lines": [
+        {
+          "line": 15,
+          "text": "class Window:"
+        },
+        {
+          "line": 18,
+          "text": "centre_bounds: tuple"
+        },
+        {
+          "line": 23,
+          "text": "class StaticRoute:"
+        },
+        {
+          "line": 28,
+          "text": "self.bounds = np.asarray([a[\"centre_bounds\"] for a in document[\"anchors\"]], float)"
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F3",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/ros2/rm_temporal_mpc_controller/src/controller.cpp",
+      "sha256": "6705b91a48b19ee2c1d630c87c4c7bc596b6577e3bfeac79efb4d4b7847f3d8d",
+      "lines": 375,
+      "key_lines": [
+        {
+          "line": 47,
+          "text": "class Controller : public nav2_core::Controller {"
+        },
+        {
+          "line": 49,
+          "text": "void configure(const rclcpp_lifecycle::LifecycleNode::WeakPtr &parent, std::string name,"
+        },
+        {
+          "line": 83,
+          "text": "void activate() override {"
+        },
+        {
+          "line": 88,
+          "text": "void deactivate() override {"
+        },
+        {
+          "line": 92,
+          "text": "void cleanup() override {"
+        },
+        {
+          "line": 97,
+          "text": "void setPlan(const nav_msgs::msg::Path &path) override {"
+        },
+        {
+          "line": 100,
+          "text": "void setSpeedLimit(const double &limit, const bool &percentage) override {"
+        },
+        {
+          "line": 106,
+          "text": "geometry_msgs::msg::TwistStamped computeVelocityCommands(const geometry_msgs::msg::PoseStamped &pose,"
+        },
+        {
+          "line": 205,
+          "text": "bool current_grid_clear(double x,double y,double yaw, const geometry_msgs::msg::Twist &cmd) {"
+        },
+        {
+          "line": 299,
+          "text": "if(std::max(std::abs(vx),std::abs(vy))>1e-5) return reject(\"terminal stop\");"
+        },
+        {
+          "line": 300,
+          "text": "// Independently check the first held-command interval against current STVL."
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F4",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/integration/dual_controller_humble.yaml",
+      "sha256": "6a6a0ae8ec7e970a47f4c2a4327d0100dce5919db600b21543d7f6faf447ac32",
+      "lines": 258,
+      "key_lines": [
+        {
+          "line": 26,
+          "text": "controller_plugins:"
+        },
+        {
+          "line": 28,
+          "text": "- FollowPathTemporalMPC"
+        },
+        {
+          "line": 40,
+          "text": "plugin: nav2_mppi_controller::MPPIController"
+        },
+        {
+          "line": 110,
+          "text": "FollowPathTemporalMPC:"
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F4b",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/integration/runtime_tree.xml",
+      "sha256": "740012bca5dbae8ee54c1dabd633d42e0604e2e06d4d840c01166b6a5d85fc62",
+      "lines": 12,
+      "key_lines": [
+        {
+          "line": 5,
+          "text": "<ComputePathToPose goal=\"{goal}\" path=\"{path}\" planner_id=\"GridBased\"/>"
+        },
+        {
+          "line": 7,
+          "text": "<ControllerSelector selected_controller=\"{selected_controller}\" default_controller=\"FollowPathMPPI\" topic_name=\"controller_selector\"/>"
+        },
+        {
+          "line": 8,
+          "text": "<FollowPath path=\"{path}\" controller_id=\"{selected_controller}\" goal_checker_id=\"general_goal_checker\"/>"
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F5",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/integration/selector_node.py",
+      "sha256": "b28970f21552d7f28376d7ba839271aba18bdf19d363053711541500e3adf3f8",
+      "lines": 67,
+      "key_lines": [
+        {
+          "line": 4,
+          "text": "It cannot enable MPC without fresh health and never publishes cmd_vel. Neither"
+        },
+        {
+          "line": 16,
+          "text": "class Selector(Node):"
+        },
+        {
+          "line": 18,
+          "text": "super().__init__(\"temporal_controller_selector\")"
+        },
+        {
+          "line": 23,
+          "text": "self.output = self.create_publisher(String, \"controller_selector\", qos)"
+        },
+        {
+          "line": 24,
+          "text": "self.create_subscription(String, \"temporal_mpc/request_controller\", self.request, 10)"
+        },
+        {
+          "line": 25,
+          "text": "self.create_subscription(String, \"temporal_mpc/health\", self.health, 1)"
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F5b",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/temporal_mpc/selection.py",
+      "sha256": "df1fa722cf7d1fbfcaa73469473b2225009819d4831f81da8d1150585ab85db8",
+      "lines": 42,
+      "key_lines": [
+        {
+          "line": 5,
+          "text": "MPPI = \"FollowPathMPPI\""
+        },
+        {
+          "line": 6,
+          "text": "MPC = \"FollowPathTemporalMPC\""
+        },
+        {
+          "line": 10,
+          "text": "class Selection:"
+        },
+        {
+          "line": 16,
+          "text": "def health(self, now, ready, fallback=False):"
+        },
+        {
+          "line": 17,
+          "text": "if not math.isfinite(now) or now < 0 or type(ready) is not bool or type(fallback) is not bool:"
+        },
+        {
+          "line": 23,
+          "text": "self.ready = ready and not fallback"
+        },
+        {
+          "line": 25,
+          "text": "self.selected, self.reason = MPPI, \"MPC degraded/fallback requested\""
+        },
+        {
+          "line": 30,
+          "text": "or now-self.health_time > .1):"
+        },
+        {
+          "line": 31,
+          "text": "self.selected, self.ready, self.reason = MPPI, False, \"MPC health stale\""
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F6",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/temporal_mpc/execution_guard.py",
+      "sha256": "c12c23e68ecc46cdff347b089449b4ad1f4a8d9c9eaba5ab2771be6f713d523d",
+      "lines": 142,
+      "key_lines": [
+        {
+          "line": 27,
+          "text": "class StaticCells:"
+        },
+        {
+          "line": 35,
+          "text": "blocked = grid >= 253"
+        },
+        {
+          "line": 36,
+          "text": "blocked[[0, -1], :] = True"
+        },
+        {
+          "line": 37,
+          "text": "blocked[:, [0, -1]] = True"
+        },
+        {
+          "line": 38,
+          "text": "iy, ix = np.where(blocked)"
+        },
+        {
+          "line": 47,
+          "text": "def minimum(self, states, reserve):"
+        },
+        {
+          "line": 69,
+          "text": "class ExecutionGuard:"
+        },
+        {
+          "line": 81,
+          "text": "brake = np.sign(self.previous)*np.maximum(np.abs(self.previous)-[.05,.05,0.],0.)"
+        },
+        {
+          "line": 87,
+          "text": "timeline = None"
+        },
+        {
+          "line": 94,
+          "text": "timeline = predict(snapshot, epoch_ns, self.times)"
+        },
+        {
+          "line": 99,
+          "text": "if not valid or timeline is None or not isinstance(cells, StaticCells):"
+        },
+        {
+          "line": 109,
+          "text": "minima = [(cells.minimum(states,reserve),'static braking sweep')]"
+        },
+        {
+          "line": 111,
+          "text": "for centers, shape, speed in zip(timeline.centers,timeline.geometries,timeline.speeds):"
+        },
+        {
+          "line": 115,
+          "text": "minimum, reason = min(minima)"
+        },
+        {
+          "line": 116,
+          "text": "return minimum >= 0. and np.max(np.abs(states[-1,3:])) <= 1e-5, minimum, reason"
+        },
+        {
+          "line": 121,
+          "text": "np.minimum(upper,self.previous+[.05,.05,0.]))"
+        },
+        {
+          "line": 122,
+          "text": "try: ok, minimum, reason = check(command)"
+        },
+        {
+          "line": 123,
+          "text": "except TimeoutError: ok, minimum, reason = False,None,'guard deadline'"
+        },
+        {
+          "line": 125,
+          "text": "ok, minimum, reason = False, None, 'invalid requested velocity'"
+        },
+        {
+          "line": 130,
+          "text": "command = brake"
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F7",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/integration/execution_guard_node.py",
+      "sha256": "61b32210fb19ee6a1158f26c288cde876d5b80262aa39a81dd9aaa3bb98a71bb",
+      "lines": 134,
+      "key_lines": [
+        {
+          "line": 22,
+          "text": "class GuardNode(Node):"
+        },
+        {
+          "line": 35,
+          "text": "self.create_subscription(Twist,'temporal_mpc/smoothed_cmd_vel',self.command,1)"
+        },
+        {
+          "line": 37,
+          "text": "self.output=self.create_publisher(Twist,'cmd_vel',1)"
+        },
+        {
+          "line": 108,
+          "text": "self.output.publish(msg)"
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "F8",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+      "sha256": "f10c5306355e0f21117adf1c45ca7a5b1b11fbea1e31c9cae1f26b7706f8ea20",
+      "lines": 720,
+      "key_lines": [
+        {
+          "line": 12,
+          "text": "class Point2D:"
+        },
+        {
+          "line": 18,
+          "text": "class Detection:"
+        },
+        {
+          "line": 25,
+          "text": "class TrackState(str, Enum):"
+        },
+        {
+          "line": 33,
+          "text": "class TrackSnapshot:"
+        },
+        {
+          "line": 34,
+          "text": "track_id: int"
+        },
+        {
+          "line": 49,
+          "text": "class TrackerUpdate:"
+        },
+        {
+          "line": 76,
+          "text": "class OccupancyMap:"
+        },
+        {
+          "line": 220,
+          "text": "def cluster_point_indices("
+        },
+        {
+          "line": 374,
+          "text": "def optimal_gated_assignment("
+        },
+        {
+          "line": 412,
+          "text": "class _Kalman1D:"
+        },
+        {
+          "line": 458,
+          "text": "class _Track:"
+        },
+        {
+          "line": 459,
+          "text": "track_id: int"
+        },
+        {
+          "line": 469,
+          "text": "last_observation_stamp_ns: int | None = None"
+        },
+        {
+          "line": 476,
+          "text": "class MultiObjectTracker:"
+        },
+        {
+          "line": 615,
+          "text": "track.last_observation_stamp_ns = source_stamp_ns"
+        },
+        {
+          "line": 649,
+          "text": "track_id=self._next_id,"
+        },
+        {
+          "line": 659,
+          "text": "last_observation_stamp_ns=source_stamp_ns,"
+        },
+        {
+          "line": 679,
+          "text": "if source_stamp_ns is not None and track.last_observation_stamp_ns is not None:"
+        },
+        {
+          "line": 680,
+          "text": "coast_time = (source_stamp_ns - track.last_observation_stamp_ns) / 1.0e9"
+        },
+        {
+          "line": 708,
+          "text": "track_id=track.track_id,"
+        }
+      ],
+      "scope": "frozen_R3_not_main"
+    },
+    {
+      "id": "H1",
+      "version": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/tracker_core.py",
+      "sha256": "9b7d0bf4a57284ba4b4706cc1e23f9be681669af93d322f51bcbe19e8305180b",
+      "lines": 726,
+      "key_lines": [
+        {
+          "line": 12,
+          "text": "class Point2D:"
+        },
+        {
+          "line": 18,
+          "text": "class Detection:"
+        },
+        {
+          "line": 25,
+          "text": "class TrackState(str, Enum):"
+        },
+        {
+          "line": 33,
+          "text": "class TrackSnapshot:"
+        },
+        {
+          "line": 34,
+          "text": "track_id: int"
+        },
+        {
+          "line": 49,
+          "text": "class TrackerUpdate:"
+        },
+        {
+          "line": 79,
+          "text": "class OccupancyMap:"
+        },
+        {
+          "line": 223,
+          "text": "def cluster_point_indices("
+        },
+        {
+          "line": 377,
+          "text": "def optimal_gated_assignment("
+        },
+        {
+          "line": 415,
+          "text": "class _Kalman1D:"
+        },
+        {
+          "line": 461,
+          "text": "class _Track:"
+        },
+        {
+          "line": 462,
+          "text": "track_id: int"
+        },
+        {
+          "line": 472,
+          "text": "last_observation_stamp_ns: int | None = None"
+        },
+        {
+          "line": 479,
+          "text": "class MultiObjectTracker:"
+        },
+        {
+          "line": 609,
+          "text": "associations.append((track.track_id, detection_index))"
+        },
+        {
+          "line": 620,
+          "text": "track.last_observation_stamp_ns = source_stamp_ns"
+        },
+        {
+          "line": 654,
+          "text": "track_id=self._next_id,"
+        },
+        {
+          "line": 664,
+          "text": "last_observation_stamp_ns=source_stamp_ns,"
+        },
+        {
+          "line": 672,
+          "text": "associations.append((track.track_id, detection_index))"
+        },
+        {
+          "line": 685,
+          "text": "if source_stamp_ns is not None and track.last_observation_stamp_ns is not None:"
+        }
+      ],
+      "scope": "offline_harness"
+    },
+    {
+      "id": "H2",
+      "version": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/observed_shape.py",
+      "sha256": "eb93e7b89fd301e0f2412fedb0eacf2040a46c36f3962283c4684722aa83ca88",
+      "lines": 86,
+      "key_lines": [
+        {
+          "line": 12,
+          "text": "class ObservedShapeTracker:"
+        },
+        {
+          "line": 52,
+          "text": "for track_id, detection_index in update.associations:"
+        },
+        {
+          "line": 61,
+          "text": "self.shapes[track_id] = dict(track_id=track_id, observation_ns=source_ns,"
+        },
+        {
+          "line": 66,
+          "text": "live_ids = {t.track_id for t in update.tracks}"
+        },
+        {
+          "line": 70,
+          "text": "if track.track_id not in self.shapes:"
+        },
+        {
+          "line": 72,
+          "text": "shape = self.shapes[track.track_id]"
+        },
+        {
+          "line": 74,
+          "text": "public_tracks.append(dict(track_id=track.track_id, state=track.state.value,"
+        },
+        {
+          "line": 82,
+          "text": "authority='shadow_only', complete=True, prediction_steps=15, prediction_dt=.1,"
+        }
+      ],
+      "scope": "offline_harness"
+    },
+    {
+      "id": "H3",
+      "version": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/frontend.py",
+      "sha256": "f906ea1dc66e746c63fba77e436e38c996206eadd38249f33108a29ba1bb56e5",
+      "lines": 122,
+      "key_lines": [
+        {
+          "line": 15,
+          "text": "class Window:"
+        },
+        {
+          "line": 18,
+          "text": "centre_bounds: tuple"
+        },
+        {
+          "line": 23,
+          "text": "class StaticRoute:"
+        },
+        {
+          "line": 28,
+          "text": "self.bounds = np.asarray([a[\"centre_bounds\"] for a in document[\"anchors\"]], float)"
+        }
+      ],
+      "scope": "offline_harness"
+    },
+    {
+      "id": "H4",
+      "version": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/soft_field.py",
+      "sha256": "89a89623f4ad979d0ad074ef96ed65d5d119553721389bbed047a576c13e5d2e",
+      "lines": 83,
+      "key_lines": [
+        {
+          "line": 14,
+          "text": "class FieldSample:"
+        },
+        {
+          "line": 18,
+          "text": "track_id: int | None"
+        },
+        {
+          "line": 22,
+          "text": "class TemporalSoftField:"
+        },
+        {
+          "line": 77,
+          "text": "best = FieldSample(residual, tuple(gradient), distance, track.track_id, distance <= 0.)"
+        }
+      ],
+      "scope": "offline_harness"
+    },
+    {
+      "id": "H5",
+      "version": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/follow.py",
+      "sha256": "f4ace3ff3bbef007593c822f401023d74ec084a2f02f89557f1865a4a9110df4",
+      "lines": 283,
+      "key_lines": [
+        {
+          "line": 18,
+          "text": "class FollowConfig:"
+        },
+        {
+          "line": 47,
+          "text": "class SolveResult:"
+        },
+        {
+          "line": 71,
+          "text": "class FollowMPC:"
+        },
+        {
+          "line": 209,
+          "text": "b = snapshot.centre_bounds"
+        }
+      ],
+      "scope": "offline_harness"
+    },
+    {
+      "id": "H5b",
+      "version": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/contracts.py",
+      "sha256": "f3891d6c0a4fc86b846b12d02db2195e8678db3636094aa205af4619c149c716",
+      "lines": 258,
+      "key_lines": [
+        {
+          "line": 17,
+          "text": "class ContractError(ValueError):"
+        },
+        {
+          "line": 41,
+          "text": "class ObservedTrack:"
+        },
+        {
+          "line": 42,
+          "text": "track_id: int"
+        },
+        {
+          "line": 59,
+          "text": "class PreparedRoute:"
+        },
+        {
+          "line": 120,
+          "text": "class CycleSnapshot:"
+        },
+        {
+          "line": 134,
+          "text": "centre_bounds: tuple"
+        },
+        {
+          "line": 162,
+          "text": "or public[\"authority\"] != \"shadow_only\" or public[\"complete\"] is not True"
+        },
+        {
+          "line": 177,
+          "text": "sid = integer(shape[\"track_id\"], \"shape track ID\", upper=2**64-1)"
+        },
+        {
+          "line": 184,
+          "text": "tid = integer(track[\"track_id\"], \"track ID\", upper=2**64-1)"
+        },
+        {
+          "line": 239,
+          "text": "class ReceiptOrder:"
+        },
+        {
+          "line": 253,
+          "text": "if track.track_id in self.positions and math.dist(track.anchor, self.positions[track.track_id]) > .5+3*dt:"
+        },
+        {
+          "line": 256,
+          "text": "self.positions = {t.track_id: t.anchor for t in snapshot.tracks}"
+        }
+      ],
+      "scope": "offline_harness"
+    },
+    {
+      "id": "H6",
+      "version": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/execution.py",
+      "sha256": "d72704ce2832ba7e675b24a250bd6f4c0c8933f8acb8b46103492c7653557f9a",
+      "lines": 173,
+      "key_lines": [
+        {
+          "line": 15,
+          "text": "class GuardVerdict:"
+        },
+        {
+          "line": 22,
+          "text": "class CurrentGrid:"
+        },
+        {
+          "line": 76,
+          "text": "class CommandOffer:"
+        },
+        {
+          "line": 87,
+          "text": "class Output:"
+        },
+        {
+          "line": 96,
+          "text": "class OutputArbiter:"
+        }
+      ],
+      "scope": "offline_harness"
+    },
+    {
+      "id": "H7",
+      "version": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/consumer.py",
+      "sha256": "088a1157c2e9de1a5ce3337f7b4e9283753908e49d53c1e088ca0b45518f5a9a",
+      "lines": 59,
+      "key_lines": [
+        {
+          "line": 15,
+          "text": "class CycleOutcome:"
+        },
+        {
+          "line": 22,
+          "text": "class CycleConsumer:"
+        },
+        {
+          "line": 30,
+          "text": "def compute(self, **values):"
+        }
+      ],
+      "scope": "offline_harness"
+    },
+    {
+      "id": "U1",
+      "version": "working_tree_unaccepted",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+      "sha256": "fc2d231376eadded0cfea47db8e6ed7eef6f43e3d58116f13e95ed91703b056a",
+      "lines": 738,
+      "key_lines": [
+        {
+          "line": 55,
+          "text": "detection_track_ids: tuple[int, ...] = ()"
+        },
+        {
+          "line": 286,
+          "text": "def cluster_detections_with_members("
+        },
+        {
+          "line": 545,
+          "text": "capture_assignments: bool = False) -> TrackerUpdate:"
+        },
+        {
+          "line": 546,
+          "text": "if type(capture_assignments) is not bool:"
+        },
+        {
+          "line": 547,
+          "text": "raise ValueError(\"capture_assignments must be boolean\")"
+        },
+        {
+          "line": 548,
+          "text": "detection_track_ids = [0] * len(detections) if capture_assignments else None"
+        },
+        {
+          "line": 618,
+          "text": "if detection_track_ids is not None:"
+        },
+        {
+          "line": 619,
+          "text": "detection_track_ids[detection_index] = track.track_id"
+        },
+        {
+          "line": 682,
+          "text": "if detection_track_ids is not None:"
+        },
+        {
+          "line": 683,
+          "text": "detection_track_ids[detection_index] = track.track_id"
+        },
+        {
+          "line": 689,
+          "text": "tuple(detection_track_ids) if detection_track_ids is not None else ())"
+        }
+      ],
+      "scope": "dirty_unaccepted_reference"
+    },
+    {
+      "id": "U2",
+      "version": "working_tree_unaccepted",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+      "sha256": "fcb3cefbecc269b8ed46593392517ce208590c609142e6b3ba6817a3343aee65",
+      "lines": 721,
+      "key_lines": [
+        {
+          "line": 39,
+          "text": "cluster_detections_with_members,"
+        },
+        {
+          "line": 104,
+          "text": "evidence_directory = self.declare_parameter(\"surface_evidence_directory\", \"\").value"
+        },
+        {
+          "line": 106,
+          "text": "raise ValueError(\"surface_evidence_directory must be a string\")"
+        },
+        {
+          "line": 352,
+          "text": "members = None"
+        },
+        {
+          "line": 354,
+          "text": "members = cluster_detections_with_members("
+        },
+        {
+          "line": 358,
+          "text": "detections = [d for d, _ in members]"
+        },
+        {
+          "line": 371,
+          "text": "members = [(d, indices) for d, indices in members if id(d) in retained]"
+        },
+        {
+          "line": 374,
+          "text": "capture_assignments=capture)"
+        },
+        {
+          "line": 417,
+          "text": "for i, (d, indices) in enumerate(members)],"
+        }
+      ],
+      "scope": "dirty_unaccepted_reference"
+    },
+    {
+      "id": "U3",
+      "version": "working_tree_unaccepted",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/surface_member_evidence.py",
+      "sha256": "ed9fcd9ea4b9543cc31e9a05dbc73c91bc55b373961cbf495b864cbfa2c8d8e5",
+      "lines": 90,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "\"\"\"Bounded private evidence files; never a ROS perception/control interface.\"\"\""
+        },
+        {
+          "line": 18,
+          "text": "class SurfaceMemberEvidence:"
+        },
+        {
+          "line": 19,
+          "text": "SCHEMA = 'rm_observed_surface_members/private_v1'"
+        }
+      ],
+      "scope": "dirty_unaccepted_reference"
+    }
+  ],
+  "branch_inventory": [
+    {
+      "ref": "refs/heads/codex/dynamic-differential-risk",
+      "commit": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "role_path_counts": {
+        "tracking_prediction": 9,
+        "tdt_frontend": 13,
+        "integrity_safety": 21,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/controller-odom-contract",
+      "commit": "96799412e0b60a2b55eda2ed567476160d675e9e",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 40,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/cv-support-bound-contract",
+      "commit": "ca3a50dcd50bd5059b686f59f00cc50941f5a20c",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/cv-support-factor-audit",
+      "commit": "b17b73a5d887c78945e5db89b95cb7e866ac85eb",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/dynamic-consumption-evidence",
+      "commit": "180a773cd000a338b99ea43841dbb0943af500f6",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/dynamic-documents-archive-20261004",
+      "commit": "1229583ff5811bc42671188f05332d0b3780ebd2",
+      "role_path_counts": {
+        "tracking_prediction": 12,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 44,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/dynamic-surface-reveal",
+      "commit": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "role_path_counts": {
+        "tracking_prediction": 12,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 44,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/ground-robot-extent-prior",
+      "commit": "e50b5eeb208f438f7a1cf73a8463fa140ae16348",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/hws-migration-audit-20261003",
+      "commit": "652f14cea66edc0fcd77401de7db41cb6ffa7477",
+      "role_path_counts": {
+        "tracking_prediction": 12,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 44,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/map-uncertainty-stopping",
+      "commit": "aafd87f6d977c024e86c871cdcdcce3e9200cb74",
+      "role_path_counts": {
+        "tracking_prediction": 9,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 36,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/mechanical-footprint-contract",
+      "commit": "a4076027050c806104977317141ea53d21c88631",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 38,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-cost-accumulator-evidence",
+      "commit": "41e9639936718a46a9b3aecaba51981b2805c4f3",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 42,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-cost-map-contract",
+      "commit": "3ce395889f565b786f980929ad64b6edd4fe8ac2",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-cycle-evidence",
+      "commit": "a12688b2c35b86ebf5ea63dcc86bdc753918f551",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 39,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-factor-aggregation",
+      "commit": "7c0db1b528ca01624be8ae6ce43ee80eb57ed25a",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-factor-safe-mass",
+      "commit": "60e485bdb2ba73b67da5cce50830d6273c4251e8",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-individual-stage-contract",
+      "commit": "d688f790f7d8d3223d61a14537de4037146f4c92",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-raw-map-contract",
+      "commit": "2a67835d59a3310773091db95f864ddc60c6faa9",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-safe-control-witness",
+      "commit": "b89eb1d0ff4cad3ef25d71a64c7d0588e63d985e",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 39,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-sg-stage-audit",
+      "commit": "ced13e8ae13a90e88c22e08fb9b67169acfa015e",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/native-weight-attribution",
+      "commit": "fea7bf914e42361a3dda0053145e7077687b0a3e",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 40,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/observation-anchor-cv",
+      "commit": "bc447533ab4a847059e7ca65c54bf9267236a941",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 42,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/observation-diameter-consumption",
+      "commit": "e061a245e3d760f27705af1a1125774c84298c34",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 44,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/processed-cv-objective-audit",
+      "commit": "8523d1f47fbb86e6e976f371e43778addcf40eee",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/r4-hws-prediction-consumption",
+      "commit": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "role_path_counts": {
+        "tracking_prediction": 0,
+        "tdt_frontend": 0,
+        "integrity_safety": 3,
+        "nav2_controller": 33,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/raw-rollout-objective-audit",
+      "commit": "1edb4ee42c1a0ae9b4132d994e5220c92f838469",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 41,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/soft-clearance-performance",
+      "commit": "b92cbe0f48e29c3538e01045163262d2e8fb5d7d",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 37,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/soft-map-clearance",
+      "commit": "2622371295abfdaefc543e1c346346adce36228f",
+      "role_path_counts": {
+        "tracking_prediction": 9,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 37,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/static-stopping-critic",
+      "commit": "faabc5a5df059c9a084c58750079bc789ce0619f",
+      "role_path_counts": {
+        "tracking_prediction": 9,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 35,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/temporal-mpc-main-20261004",
+      "commit": "04291a410f193c009e043af88e014cf420e1f68b",
+      "role_path_counts": {
+        "tracking_prediction": 10,
+        "tdt_frontend": 2,
+        "integrity_safety": 6,
+        "nav2_controller": 37,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/experiment/visible-box-geometry",
+      "commit": "5b5f654434f5c52c35a85275b8a14a26c16ac7e7",
+      "role_path_counts": {
+        "tracking_prediction": 11,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 37,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/feature/dynamic-obstacle-critic",
+      "commit": "91d7eda09dbece27c52fb711f0f8a1a11666c84a",
+      "role_path_counts": {
+        "tracking_prediction": 9,
+        "tdt_frontend": 0,
+        "integrity_safety": 4,
+        "nav2_controller": 34,
+        "output_transport": 8
+      }
+    },
+    {
+      "ref": "refs/heads/main",
+      "commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "role_path_counts": {
+        "tracking_prediction": 0,
+        "tdt_frontend": 0,
+        "integrity_safety": 3,
+        "nav2_controller": 33,
+        "output_transport": 8
+      }
+    }
+  ],
+  "search": {
+    "head_count": 33,
+    "tree_roots": [
+      "src",
+      "experiments/tdt_planner",
+      "experiments/temporal_mpc"
+    ],
+    "role_path_patterns": {
+      "tracking_prediction": "(dynamic_obstacle_tracking|DynamicObstaclePrediction)",
+      "tdt_frontend": "(tdt_planner|temporal_mpc/frontend)",
+      "integrity_safety": "(navigation_integrity|safety_guard|execution_guard|chassis_mode_gate|competition_mission_node|dog_hole_entry_gate)",
+      "nav2_controller": "(navigation.*launch|nav2_.*yaml|controller\\.cpp|selector_node|selection\\.py|runtime_tree)",
+      "output_transport": "(serial_transport|serial_dry_run_node|chassis_interface_stub|protocol\\.(cpp|hpp))"
+    },
+    "excluded_bulk": [
+      "vendor",
+      "test",
+      "tests",
+      "tools",
+      "evidence",
+      "frozen_cycle",
+      "__pycache__"
+    ],
+    "command_ownership_regex": "create_publisher.*(Twist|cmd_vel)|create_publisher<.*Twist|cmd_vel_sanitizer|twist_mux|OutputArbiter|class .*Guard|serial_cmd_vel_topic",
+    "unique_output_matches": {
+      "experiments/temporal_mpc/integration/execution_guard_harness.py": [
+        "self.command=self.create_publisher(Twist,'temporal_mpc/smoothed_cmd_vel',10)"
+      ],
+      "experiments/temporal_mpc/integration/execution_guard_node.py": [
+        "class GuardNode(Node):",
+        "self.output=self.create_publisher(Twist,'cmd_vel',1)"
+      ],
+      "src/rm_chassis_interface/src/chassis_interface_stub.cpp": [
+        "mock_cmd_pub_ = create_publisher<geometry_msgs::msg::Twist>(",
+        "twist_raw_pub_ = create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>("
+      ],
+      "src/rm_dog_hole_entry_gate/rm_dog_hole_entry_gate/node.py": [
+        "self._cmd_publisher = self.create_publisher(Twist, output_cmd_vel_topic, 10)"
+      ],
+      "src/rm_dynamic_obstacle_critic/include/rm_dynamic_obstacle_critic/guard.hpp": [
+        "enum class GuardPaths { All, MeasuredOnly, ProposedOnly };"
+      ],
+      "src/rm_dynamic_obstacle_critic/src/safety_guard.cpp": [
+        "class SafetyGuard final : public rclcpp::Node {",
+        "out_ = create_publisher<geometry_msgs::msg::Twist>(output_, 1);"
+      ],
+      "src/rm_navigation_bringup/launch/old_car_2026_competition.launch.py": [
+        "\"serial_cmd_vel_topic\": serial_cmd_vel_topic,",
+        "DeclareLaunchArgument(\"serial_cmd_vel_topic\", default_value=\"/cmd_vel\"),",
+        "serial_cmd_vel_topic = LaunchConfiguration(\"serial_cmd_vel_topic\")"
+      ],
+      "src/rm_navigation_bringup/launch/old_car_2026_validation.launch.py": [
+        "\"cmd_vel_topic\": serial_cmd_vel_topic,",
+        "\"serial_cmd_vel_topic\",",
+        "serial_cmd_vel_topic = LaunchConfiguration(\"serial_cmd_vel_topic\")"
+      ],
+      "src/rm_navigation_launch/launch/old_car_full_navigation.launch.py": [
+        "\"serial_cmd_vel_topic\"",
+        "\"serial_cmd_vel_topic\": LaunchConfiguration(",
+        "DeclareLaunchArgument(\"serial_cmd_vel_topic\", default_value=\"/cmd_vel\"),"
+      ],
+      "src/rm_navigation_launch/launch/old_car_full_terrain_navigation.launch.py": [
+        "\"output_cmd_vel_topic\": serial_cmd_vel_topic,",
+        "\"serial_cmd_vel_topic\": serial_cmd_vel_topic,",
+        "serial_cmd_vel_topic = \"/cmd_vel\"",
+        "serial_cmd_vel_topic = \"/cmd_vel_dog_hole_gated\""
+      ],
+      "src/rm_navigation_launch/launch/old_car_ramp_validation.launch.py": [
+        "\"serial_cmd_vel_topic\": LaunchConfiguration(\"serial_cmd_vel_topic\"),",
+        "DeclareLaunchArgument(\"serial_cmd_vel_topic\", default_value=\"/cmd_vel\"),"
+      ]
+    },
+    "Twist_or_cmd_vel_source_files": [
+      "experiments/temporal_mpc/integration/execution_guard_harness.py",
+      "experiments/temporal_mpc/integration/execution_guard_node.py",
+      "experiments/temporal_mpc/integration/ros_harness.py",
+      "experiments/temporal_mpc/integration/selector_node.py",
+      "experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+      "experiments/temporal_mpc/ros2/rm_temporal_mpc_controller/src/controller.cpp",
+      "src/rm_chassis_interface/src/chassis_interface_stub.cpp",
+      "src/rm_dog_hole_entry_gate/rm_dog_hole_entry_gate/node.py",
+      "src/rm_dynamic_clearance/rm_dynamic_clearance/dynamic_clearance_node.py",
+      "src/rm_dynamic_obstacle_critic/launch/cv_course.launch.py",
+      "src/rm_dynamic_obstacle_critic/src/native_command_observer.cpp",
+      "src/rm_dynamic_obstacle_critic/src/safety_guard.cpp",
+      "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+      "src/rm_localization_adapters/include/rm_localization_adapters/canonical_odometry.hpp",
+      "src/rm_localization_adapters/src/canonical_odometry.cpp",
+      "src/rm_localization_adapters/src/fake_lio_odom_publisher.cpp",
+      "src/rm_localization_adapters/src/lio_adapter.cpp",
+      "src/rm_navigation_bringup/launch/old_car_2026_competition.launch.py",
+      "src/rm_navigation_bringup/launch/old_car_2026_validation.launch.py",
+      "src/rm_navigation_bringup/launch/phase1_bringup.launch.py",
+      "src/rm_navigation_bringup/launch/phase2b_twist_test.launch.py",
+      "src/rm_navigation_bringup/launch/phase2c_relocalization_test.launch.py",
+      "src/rm_navigation_bringup/launch/phase2j_2d_relocalization_test.launch.py",
+      "src/rm_navigation_bringup/launch/phase2j_3d_relocalization_test.launch.py",
+      "src/rm_navigation_launch/launch/old_car_full_navigation.launch.py",
+      "src/rm_navigation_launch/launch/old_car_full_terrain_navigation.launch.py",
+      "src/rm_navigation_launch/launch/old_car_ramp_validation.launch.py",
+      "src/rm_serial_driver/launch/serial_dry_run.launch.py",
+      "src/rm_serial_driver/launch/serial_transport.launch.py",
+      "src/rm_serial_driver/src/serial_dry_run_node.cpp",
+      "src/rm_serial_driver/src/serial_transport_node.cpp",
+      "src/rm_simulation/launch/phase1_5_gazebo.launch.py",
+      "src/rm_simulation/src/fake_pointcloud_obstacle_publisher.cpp"
+    ]
+  },
+  "runtime_evidence": {
+    "live_graph_checked": false,
+    "running_container_inventory": "empty during read-only audit",
+    "nodes_started": false,
+    "historical_nav2_version": "Humble 1.1.20",
+    "host_jazzy_not_used_as_formal_chain": true
+  },
+  "preservation_baseline": {
+    "protected_refs": [
+      "refs/heads/codex/dynamic-differential-risk e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "refs/heads/experiment/controller-odom-contract 96799412e0b60a2b55eda2ed567476160d675e9e",
+      "refs/heads/experiment/cv-support-bound-contract ca3a50dcd50bd5059b686f59f00cc50941f5a20c",
+      "refs/heads/experiment/cv-support-factor-audit b17b73a5d887c78945e5db89b95cb7e866ac85eb",
+      "refs/heads/experiment/dynamic-consumption-evidence 180a773cd000a338b99ea43841dbb0943af500f6",
+      "refs/heads/experiment/dynamic-documents-archive-20261004 1229583ff5811bc42671188f05332d0b3780ebd2",
+      "refs/heads/experiment/dynamic-surface-reveal b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "refs/heads/experiment/ground-robot-extent-prior e50b5eeb208f438f7a1cf73a8463fa140ae16348",
+      "refs/heads/experiment/hws-migration-audit-20261003 652f14cea66edc0fcd77401de7db41cb6ffa7477",
+      "refs/heads/experiment/map-uncertainty-stopping aafd87f6d977c024e86c871cdcdcce3e9200cb74",
+      "refs/heads/experiment/mechanical-footprint-contract a4076027050c806104977317141ea53d21c88631",
+      "refs/heads/experiment/native-cost-accumulator-evidence 41e9639936718a46a9b3aecaba51981b2805c4f3",
+      "refs/heads/experiment/native-cost-map-contract 3ce395889f565b786f980929ad64b6edd4fe8ac2",
+      "refs/heads/experiment/native-cycle-evidence a12688b2c35b86ebf5ea63dcc86bdc753918f551",
+      "refs/heads/experiment/native-factor-aggregation 7c0db1b528ca01624be8ae6ce43ee80eb57ed25a",
+      "refs/heads/experiment/native-factor-safe-mass 60e485bdb2ba73b67da5cce50830d6273c4251e8",
+      "refs/heads/experiment/native-individual-stage-contract d688f790f7d8d3223d61a14537de4037146f4c92",
+      "refs/heads/experiment/native-raw-map-contract 2a67835d59a3310773091db95f864ddc60c6faa9",
+      "refs/heads/experiment/native-safe-control-witness b89eb1d0ff4cad3ef25d71a64c7d0588e63d985e",
+      "refs/heads/experiment/native-sg-stage-audit ced13e8ae13a90e88c22e08fb9b67169acfa015e",
+      "refs/heads/experiment/native-weight-attribution fea7bf914e42361a3dda0053145e7077687b0a3e",
+      "refs/heads/experiment/observation-anchor-cv bc447533ab4a847059e7ca65c54bf9267236a941",
+      "refs/heads/experiment/observation-diameter-consumption e061a245e3d760f27705af1a1125774c84298c34",
+      "refs/heads/experiment/processed-cv-objective-audit 8523d1f47fbb86e6e976f371e43778addcf40eee",
+      "refs/heads/experiment/r4-hws-prediction-consumption b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "refs/heads/experiment/raw-rollout-objective-audit 1edb4ee42c1a0ae9b4132d994e5220c92f838469",
+      "refs/heads/experiment/soft-clearance-performance b92cbe0f48e29c3538e01045163262d2e8fb5d7d",
+      "refs/heads/experiment/soft-map-clearance 2622371295abfdaefc543e1c346346adce36228f",
+      "refs/heads/experiment/static-stopping-critic faabc5a5df059c9a084c58750079bc789ce0619f",
+      "refs/heads/experiment/temporal-mpc-main-20261004 04291a410f193c009e043af88e014cf420e1f68b",
+      "refs/heads/experiment/visible-box-geometry 5b5f654434f5c52c35a85275b8a14a26c16ac7e7",
+      "refs/heads/feature/dynamic-obstacle-critic 91d7eda09dbece27c52fb711f0f8a1a11666c84a",
+      "refs/heads/main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "refs/remotes/origin/HEAD d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "refs/remotes/origin/codex/dynamic-differential-risk e067c3757e2272128a6af6f015526f893321e5f6",
+      "refs/remotes/origin/docs/new-field-competition-runbook 8598b8c0f64b386ac7b7551c49287bcc32440bf5",
+      "refs/remotes/origin/experiment/dynamic-prediction-v1 f85149e08cb116a53159b0482ae1db5993ae3a06",
+      "refs/remotes/origin/experiment/old-car-2026-bringup a1ff138f228824b54a7d52b77bd7a5394df789f5",
+      "refs/remotes/origin/experiment/tdt-planner-intake 359fd7115b0052e7196cc00fae464646f42977e0",
+      "refs/remotes/origin/experiment/tdt-planner-phase2 e374894a7a713ea84b82de9e92479a37041f39ff",
+      "refs/remotes/origin/feature/chassis-authority-boundary 49f67023e8689e94a2d80f2896cec69ad0d40bd0",
+      "refs/remotes/origin/feature/competition-bringup-readiness baa7c5bddcd2af9d58b73502142a527aad0d1040",
+      "refs/remotes/origin/feature/competition-mission-bt 8c2f8b3d7ea10e0f49bcf060293c7f94a2082005",
+      "refs/remotes/origin/feature/competition-state-contracts f7cb20e2d144a7a416db5a887ebafc5d5f70e7be",
+      "refs/remotes/origin/feature/competition-v2-protocol 4e1095135426f87b83c5bc0568339552856bb9ce",
+      "refs/remotes/origin/feature/dual-lidar-obstacle-fusion f2f1c74c8191c1058a3157ee89e34e867d0155f6",
+      "refs/remotes/origin/feature/dynamic-clearance-shadow 902261de0139b54ce84edbd3284447abb237ab7e",
+      "refs/remotes/origin/feature/field-debug-competition-inputs f58f30ed7e53ad96fed3375c605be02422314206",
+      "refs/remotes/origin/feature/gicp-degeneracy-gate 6a38b7452d0018bbcabc9c6e6dd30338d777abaf",
+      "refs/remotes/origin/feature/gimbal-state-adapter d900ef4c22e0ce0d189e2622b8b0e1a870c933ae",
+      "refs/remotes/origin/feature/hwsentry-selective-migration-phase1 711d281faf390001f2baed22d1c3ce7c47647fd0",
+      "refs/remotes/origin/feature/lio-dynamic-gimbal-adapter be5b616fb98000f3bcd4c41e91a1b2d296612b9f",
+      "refs/remotes/origin/feature/lio-position-chassis-heading 68eb89e4611e738713ec586f5a2649e3cdd37e0f",
+      "refs/remotes/origin/feature/map-candidate-runtime-policy 2c6265a9a710ba180af596a310577eddaf9696b8",
+      "refs/remotes/origin/feature/mapping-quality-contract 11b346310baaa6fbe0ff8aa7e6e610382a65e5c6",
+      "refs/remotes/origin/feature/mid360-driver-bridge 4521cb594f67af8de849c45663906bace8747ead",
+      "refs/remotes/origin/feature/navigation-integrity 64870dc7c6bba27828356e2200b927d95472a32f",
+      "refs/remotes/origin/feature/new-car-dog-hole-sim 3e7e0ae3d6073dd636541bfbeaf02a6aa27e2a78",
+      "refs/remotes/origin/feature/new-car-rotating-gimbal-simulation 5b477fa92760138350800c5182ab220bf45dad63",
+      "refs/remotes/origin/feature/offline-match-strategy-profiles 2c0620c18186da71da9294cb1a6c7052f0377ee8",
+      "refs/remotes/origin/feature/old-car-amcl-integration 07ce256fda1bcae4d64493ecb178cae8caf1ac01",
+      "refs/remotes/origin/feature/old-car-dog-hole-entry-pause 85d5f7d768a87e2ff238487a5ed43ce2305ff5b6",
+      "refs/remotes/origin/feature/old-car-gicp-integration 41526b7761e53bdbd9a80c638a99410d6687db1a",
+      "refs/remotes/origin/feature/old-car-ramp-validation b4e7d0e27810edf4872e048a8e92757a1a532a06",
+      "refs/remotes/origin/feature/operator-navigation-goal-boundary d50a1e151c4d69ad7a46081843e1ee175ff44d92",
+      "refs/remotes/origin/feature/phase2i-ray-sidecar-recorder 0e3347a806212dc79e48e59d1ad84e5d733b49aa",
+      "refs/remotes/origin/feature/phase2j-relocalization-backends a1ff138f228824b54a7d52b77bd7a5394df789f5",
+      "refs/remotes/origin/feature/pursuit-goal-boundary f66c55e601ee82c0a6dbf15b68a491e7613c6f56",
+      "refs/remotes/origin/feature/semantic-region-path-contract f60f62ee287dad5951296f1b96937176845ee8da",
+      "refs/remotes/origin/fix/amcl-high-spin-candidate 2f5ae666fa54556c9315930e54d0a74a27145559",
+      "refs/remotes/origin/fix/description-robot-description-string c0f7ea2e9cd39d7e44e3523921e3ce378e17d328",
+      "refs/remotes/origin/fix/dual-lidar-fusion-runtime d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "refs/remotes/origin/fix/field-debug-linux-consolidation ed6c7ddb7110cdca99c37120461fcfa3f30e5665",
+      "refs/remotes/origin/fix/hwsentry-tracker-field-gates c04278f32ff585d98baa0c7fa71a69b929aeea88",
+      "refs/remotes/origin/fix/main-old-car-runtime-hardening 820179457b70789b0f46697758dbe3d947ec1d4a",
+      "refs/remotes/origin/fix/old-car-amcl-correction-gate e15b6bdaf6f1b40c37cf1c725925a4d31d44eca6",
+      "refs/remotes/origin/fix/old-car-fast-lio-high-spin 46c521b2d2f8691f3cfd159b99fad8e7dc764ce7",
+      "refs/remotes/origin/fix/old-car-global-dynamic-replanning 9b608b9dcd0c3c2d736be4a9841fafe4780d13fe",
+      "refs/remotes/origin/fix/old-car-lio-jump-recovery 51e3b23351537d9100ec2d8f624b77813f5c6c7a",
+      "refs/remotes/origin/fix/old-car-ramp-live-tracking 1525bb5e39a0837f0b4222a81fb0dd368864814b",
+      "refs/remotes/origin/fix/phase2i-frame-export a1ff138f228824b54a7d52b77bd7a5394df789f5",
+      "refs/remotes/origin/fix/phase2i-pcd-accumulation d6d4f9a9cf28fbc38b3531d7dc68b178e24552f4",
+      "refs/remotes/origin/fix/phase2j-linux-smoke-fixes ef4e6a9e64d44ba675afbfd8b51f73d77b3c2b1f",
+      "refs/remotes/origin/fix/phase3-linux-audit 3a91d80bdeca5bbc961cbb53dbe98c4d84614509",
+      "refs/remotes/origin/integration/field-validation-sim ea72ef09c82fbb125de5a1164163c7906991cb58",
+      "refs/remotes/origin/integration/old-car-competition-ready 3a91d80bdeca5bbc961cbb53dbe98c4d84614509",
+      "refs/remotes/origin/main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "refs/remotes/origin/main-new-car bd6cf689d3d5aca5c8edd430ff760ca5ceb27496",
+      "refs/remotes/origin/main-old-car 820179457b70789b0f46697758dbe3d947ec1d4a",
+      "refs/remotes/origin/test/competition-boundary-integration 0ad5b66b734ab2d27887001321caf2a89b56d4bb",
+      "refs/tags/dynamic-prediction-v1-frozen-20260925 495281c07cf20bbffd8fb3b8689f7ef9f6cb13f3",
+      "refs/tags/research/dynamic-differential-risk-frozen-20261001 62ad260ffa86953126ead6ec3727cfc5ac84ce48",
+      "refs/tags/research/temporal-mpc-frozen-20261004 dae4a6f6bef45e882f7b481b51fc0977ef1d9707"
+    ],
+    "dirty": [
+      {
+        "status": " M",
+        "path": "docs/dynamic_obstacle_critic/observed_surface_members_experiment.md",
+        "size": 3216,
+        "sha256": "ab57c13a60d77f3a84074474df80682bbe07eb0355be6cc369da56da5faac611"
+      },
+      {
+        "status": " M",
+        "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+        "size": 29390,
+        "sha256": "fc2d231376eadded0cfea47db8e6ed7eef6f43e3d58116f13e95ed91703b056a"
+      },
+      {
+        "status": " M",
+        "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+        "size": 32295,
+        "sha256": "fcb3cefbecc269b8ed46593392517ce208590c609142e6b3ba6817a3343aee65"
+      },
+      {
+        "status": "??",
+        "path": "core",
+        "size": 795242496,
+        "sha256": null
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/surface_member_evidence.py",
+        "size": 3383,
+        "sha256": "ed9fcd9ea4b9543cc31e9a05dbc73c91bc55b373961cbf495b864cbfa2c8d8e5"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/test/test_surface_member_evidence.py",
+        "size": 3533,
+        "sha256": "126992399ca3eed086edd80649eae65d8ed3d95fdc7b51f86f73d98dab1c9439"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/test/test_surface_member_ros.py",
+        "size": 8905,
+        "sha256": "82f30ff783e23562a6aeecd9ccd6e711616bd92176ce7068f6082193ac68a50f"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/tools/audit_actual_surface_members.py",
+        "size": 10374,
+        "sha256": "0dbe62d22ae3737e9121e4e93d18cd429336051482d6af7e63373807482b5bec"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/tools/audit_surface_member_core.py",
+        "size": 4144,
+        "sha256": "a6a6c68c0ddaca8702c4d91e5f6e226f516b19789a2183e05ad5ca020a68da73"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/tools/verify_actual_surface_members.py",
+        "size": 4190,
+        "sha256": "9efd5f072e9ea3aa51d724540eb94cf5e1cceb32e70b1f90a657bed92fb114d9"
+      }
+    ],
+    "original_branch": "experiment/dynamic-documents-archive-20261004",
+    "original_head": "1229583ff5811bc42671188f05332d0b3780ebd2",
+    "r3_head": "04291a410f193c009e043af88e014cf420e1f68b",
+    "r3_status": ""
+  },
+  "verification": {
+    "original_dirty_matches_durable_A01_hashes": true,
+    "A02_non_markdown_source_hashes_match": true,
+    "runtime_code_changes": false,
+    "tests_or_large_experiments_run": false,
+    "document_checks": "passed",
+    "source_hashes_and_key_lines_verified": 63,
+    "new_or_added_local_links_checked": 47,
+    "matrix_capabilities": 12,
+    "mermaid_structure": [
+      {
+        "nodes": 8,
+        "edges": 7,
+        "validation": "source structure only; not external render"
+      },
+      {
+        "nodes": 21,
+        "edges": 23,
+        "validation": "source structure only; not external render"
+      }
+    ],
+    "only_document_files_changed": [
+      "docs/dynamic_navigation/r4_hws_prediction_consumption_audit.md",
+      "docs/dynamic_navigation/r4_hws_prediction_consumption_implementation.md",
+      "docs/dynamic_navigation/r4_hws_prediction_consumption_progress.md",
+      "docs/dynamic_navigation/r4_repository_reuse_audit.md",
+      "docs/dynamic_navigation/r4_repository_reuse_sources.json",
+      "experiments/r4_hws_prediction_consumption/README.md"
+    ],
+    "main_and_origin_main_unchanged": true,
+    "original_branch_head_dirty_unchanged": true,
+    "frozen_R3_head_and_clean_unchanged": true,
+    "protected_heads_tags_remotes_unchanged_excluding_R4": 92,
+    "A02_non_markdown_source_hashes_checked": 23,
+    "public_v2_runtime_interface_changed": false,
+    "live_publisher_exclusivity_verified": false,
+    "lease_or_physical_output_acceptance_verified": false
+  }
+}

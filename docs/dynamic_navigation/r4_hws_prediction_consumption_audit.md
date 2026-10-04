@@ -287,19 +287,21 @@ R3 源码定位：`experiments/temporal_mpc/temporal_mpc/realtime_qp.py:20–35,
 
 ## 11. 可复用、可迁移、轮腿专属与必须重写
 
+本节记录A01的研究原型范围；后续生产接线以 [A03全仓复用审计](r4_repository_reuse_audit.md) 为准。main已有Nav2/MPPI/速度/串口责任，研究tracker与T-DT不能因离线副本存在就自动转成另一套生产模块。
+
 | 分类 | 模块/机制 | 边界 |
 |---|---|---|
 | RM 可直接复用的已冻结资产 | source-time静态剔除、聚类、Hungarian/KF、公共v2位置/速度合同；T-DT静态前后端/路径与走廊；Nav2双插件/selector基础设施；Gazebo/source-TF/odom采集、物理oracle、配对身份工具；既有OSQP依赖 | 均在研究资产而非main默认中；后续从固定提交显式选取、写来源清单、隔离构建。**复用不等于全部代码原样加载** |
 | HWS 可迁移思想 | centroid-local shape融合、逐帧平移/渲染、stage obstacle residual、自由进度、command-rate/jerk代价、参考冷启动、同步每拍solve-command、Follow/Stop分责 | halo、权重、dt、shape窗口、速度衰减均是参数/建模假设；不照搬数值当RM认证 |
 | HWS 通用但不必迁入的实现 | FDDP、MINCO、通用地图采样/优化方法 | 不是轮腿独占；首版不更换OSQP、不迁全套规划器，避免求解器/规划同伦同时成为混杂因素 |
 | HWS 轮腿/本机专属 | LPV辨识系数、hidden state observer、leg_h/leg_psi调度、非最小相位响应、台阶速度窗/起跳/commit、BLOCKED动作权、SPIN/腿模式协议 | 不映射到四全向轮状态，不复制下位机命令与TF职责 |
-| RM 必须新增/重写 | 带关联身份的observed-shape实验sidecar；source-age stage renderer；omni进度/速度投影；同步Nav2 Follow消费；STOP/WAIT输出责任和失效时序；soft/hard用途隔离 | 公开v2消息只有position/velocity/size/prediction，**没有shape成员**；不能用size反推已观测形状，更不能拿未提交surface代码当现成合同 |
+| R4新增核心/最小适配 | observed-shape消费与必要private sidecar；source-age stage renderer；omni自由进度/Follow；标准Nav2插件薄适配；现有owner缺失的lease/admission表达 | 公开v2没有shape成员；不能用size反推形状或拿未提交surface代码当现成合同。STOP/WAIT故障要求复用既有输出责任，不另建最终owner |
 
-冻结 tracker `Detection` 没有成员字段，`TrackerUpdate` 不公开 assignment；但 `cluster_point_indices` 可保留成员索引，association 在 tracker 内部。若后续做 sidecar，需要在**R4隔离副本**里增加明确的 detection→track 身份输出/钩子，再使用同次聚类成员；不事后按最近质心猜关联，不在R2/R3上补丁。KF/关联算法本身尽量保持。
+冻结tracker的 `Detection` 没有成员字段，`TrackerUpdate` 不公开assignment；A02仅在隔离harness副本验证了身份hook。生产应复用canonical唯一tracker，在同次association/new-track分支最小导出members与ID；不能再运行A02副本或事后按最近质心猜关联。固定R2/R3仍不补丁，KF/关联算法保持；接入来源与未提交证据边界详见A03。
 
 ## 12. 最小 R4 prototype 设计（A01方案；已授权进入A02）
 
-本节为A01时提出的架构。用户随后回复“继续”，已进入隔离实现；A02离线核心与尚未完成的运行接线见[实现记录](r4_hws_prediction_consumption_implementation.md)。架构确认不等于闭环/部署接受。
+本节为A01时提出的机制设计；A02离线核心见[实现记录](r4_hws_prediction_consumption_implementation.md)。用户随后要求停止运行编码并先做复用审计，生产接线/所有权方向已由 [A03](r4_repository_reuse_audit.md) 修正。架构确认不等于闭环/部署接受。
 
 ### 12.1 待检验假设与范围
 
@@ -320,11 +322,12 @@ flowchart LR
   OD[measured odom / last sent command] --> SNAP
   SNAP --> MAP[按绝对stage时刻平移shape / soft cost]
   MAP --> FOLLOW[omni Follow /自由进度 /命令平滑]
-  FOLLOW --> EXEC[同snapshot检查 / 当前占用保护 /单一命令责任]
-  EXEC --> CMD[cmd_vel]
-  ST[STVL当前占用] --> EXEC
+  FOLLOW -->|proposal返回值| HOST[既有Nav2 controller_server]
+  HOST --> OWNER[既有smoother / 末级输出责任]
+  OWNER --> CMD[既有最终topic / 串口或仿真端]
+  ST[STVL当前占用] -. 必要的共用admission最小适配 .-> OWNER
   ST --> B0[默认MPPI / fallback]
-  B0 --> EXEC
+  B0 --> HOST
 ```
 
 ### 12.2 输入与 per-cycle snapshot 合同
@@ -365,11 +368,11 @@ Follow 不强制每个时域终点零速，改以进度与command平滑运行；
 
 - **Follow**：同一静态path/corridor内优化路径进度、侧移和动态soft代价。减速和等待应优先由低 `s_dot`/低实际速度出现。
 - **Wait**：保留path与进度，不把等待等同于path失效；下拍照常消费新snapshot，障碍离开后可恢复Follow。定义进入/恢复条件和迟滞时必须预登记，不能结果出来后临时改门。
-- **Stop**：输入失效、静态lethal、bounds/数值失败、deadline或当前占用危险的有界减速与fallback，不是长时未来动态veto。独立输出责任应在solver阻塞/退出时仍工作。
+- **Stop**：输入失效、静态lethal、bounds/数值失败、deadline或当前占用危险的有界减速与fallback，不是长时未来动态veto。solver阻塞/退出时的发送与timeout需求在现有末级owner落实；A02独立arbiter只是harness。
 - **Hold**：第一版不搬轮腿平衡/危险恢复Hold；如终点需要位置保持，作为Nav2正常到达行为，不扩成新动态避障机制。
 - **MPPI fallback**：保持唯一最终publisher及selector命令连续性，切换记明确原因；所有时延、近场保护和回退占比都纳入结果，不能只展示R4活跃周期。
 
-**ExecutionGuard 不能整套原样复用。** R3 guard也消费长时硬动态合同，直接加载会重新建立R3全时域否决链。可复用其发布责任、失效有界减速、输入完整性及采集基础；R4应在实验副本中明确“当前占用/首个执行区间保护”与“预测引导”边界，并对B0/R4采用相同边界。保护触发、uncertified brake、近场碰撞风险必须原样报告；软代价不提供独立安全证书。
+**ExecutionGuard不能整套原样复用或作为新增最终publisher。** R3 guard包含长时硬动态合同；整套加载会恢复全时域否决。输入验证/当前图几何可作参考，失效发送责任优先归main现有owner；若其接口无法表达原始lease/shared admission，仅做该owner的窄扩展，对B0/R4保持共用边界。保护触发、uncertified brake、近场碰撞风险原样报告；软代价不提供独立安全证书。现有timeout并不已满足75ms租约，详见A03。
 
 首版仍保留测量bounds、原机器人完整机械/padded模型、当前STVL unknown/lethal语义、有效静态走廊和physical oracle。R4接受前不改main默认、不接实车部署。
 

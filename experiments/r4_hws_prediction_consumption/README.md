@@ -2,6 +2,8 @@
 
 隔离研究核心，从 main 新分支实现。`COLCON_IGNORE` 防止正式 colcon 发现；没有 ROS publisher、Nav2 插件、正式 launch/YAML 修改或实车部署。
 
+**A03边界：** `tracker_core.py/frontend.py/execution.py`仅为测试harness，不能自动升级为生产实现。后续R4在已有Nav2/controller/输出owner之前提供proposal，复用唯一tracker、public v2、T-DT与原生MPPI；不建立第二个最终publisher。接线设计见 [全仓复用审计](../../docs/dynamic_navigation/r4_repository_reuse_audit.md)。当前新增运行编码暂停。
+
 已实现：
 
 - 冻结 tracker 的精确 detection→track 输出钩子；同次聚类的 source member IDs → centroid-local 0.05m observed raster。未确认/静止物体保留，coasting 保留最后关联形状。
@@ -11,7 +13,7 @@
 - 原机械半尺寸(.325,.300)+.03 padding；soft configuration-space 支持另外加.02 margin和每cell半径。fixed-yaw rectangle 的 world AABB 是保守 soft 近似，不证明隐藏完整体。
 - 当前原始占用图的 padded footprint 连续50ms扫掠、unknown/inscribed/lethal≥253、静态版本撤销、75ms命令租约、唯一输出策略、WAIT保持/下拍恢复和无证书的有界Stop。`mppi` offer 使用同一接口，**尚未连接实际MPPI**。
 
-代码入口是 `CycleConsumer.compute(...)`：获取一次输入→freeze→原有/新receipt检查→Follow求解→command offer。`OutputArbiter.tick(...)` 应由独立输出所有者调用，发布成功后才 `sent(output)`；失败周期撤销旧offer。计算过程不得直接发布。offline fault probe 在独立进程运行输出策略；这不等于 Nav2/实车独立输出验证。
+离线代码入口是 `CycleConsumer.compute(...)`：获取一次输入→freeze→原有/新receipt检查→Follow求解→command offer。测试harness调用 `OutputArbiter.tick(...)`，模拟发送后才 `sent(output)`；失败周期撤销旧offer。offline fault probe在独立进程运行输出策略，只验证离线合同。生产应把相应lease/失效要求映射到已有输出owner，不能把该arbiter直接ROS化为新发布者；本探针不证明Nav2/实车输出独立性。
 
 `frontend.py` 原样复用冻结 R3。`PreparedRoute.from_frontend` 只复制其 raw-static certificate、弧长及corridor，不调用其按wall time推进的 reference。T-DT桥接在控制周期外执行，explicit executable/hash 写入证据。
 

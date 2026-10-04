@@ -2,7 +2,7 @@
 
 2026-10-04，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A01审计已完成；用户回复“继续”后进入A02，离线最小消费核心及46项检查已完成。Nav2/真实sidecar接线、Gazebo配对与部署验收尚未完成。** R1/R2/R3保持冻结，正式MPPI配置保持。
+状态：**A01/A02已完成其审计与离线范围；A03全仓复用审计已完成。按用户最新要求暂停新增运行编码；下一步先落实最小接口边界，不把A02 harness全部ROS化。** Nav2/真实sidecar接线、Gazebo配对与部署验收尚未完成；R1/R2/R3保持冻结，正式MPPI配置保持。当前架构以 [A03复用矩阵与接线图](r4_repository_reuse_audit.md) 为准。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -75,4 +75,34 @@ ExecutionGuard不能整套原样加载；其未来硬动态门会恢复R3消费�
 
 ### next step
 
-在同一R4分支接真实ROS关联sidecar、Nav2 synchronous compute与实际独立输出/MPPI回退；之后冻结五场景进入门和30run配对协议，再运行有限Gazebo矩阵。保留原body≥.05m、padded>0、15/40ms预算和失败统计。R3仍只读冻结，有限有效基础验证若失败则冻结复杂预测控制研究，不继续R5/R6。
+此处A02原计划中的“独立实际输出所有者”已被A03复用审计修正：R4只在既有Nav2/controller/末级owner之前提供proposal，原生MPPI经已有controller selection回退；不新增并行final publisher。当前先完成最小接口设计，运行编码与新实验暂停。原body≥.05m、padded>0、15/40ms预算和失败统计保留；R3仍只读冻结，有限有效基础验证若失败则冻结复杂预测控制研究，不继续R5/R6。
+
+## A03 — Repository-wide reuse audit
+
+### hypothesis
+
+A02已验证的prediction-consumption逻辑可以作为现有导航架构内的最小控制提案源；tracker/frontend/execution harness无需演化成第二套导航链路。
+
+### change
+
+按用户要求停止新增运行编码，搜索本地33个branch heads，逐项对照main、既有T-DT迁移、dynamic tracking/v2、integrity/safety、Nav2 bringup和冻结R3。新增12项reuse matrix、profile输出所有权分析、最小接线图和63个固定/未接受来源文件的索引；同步修正A01/A02后续计划。只有文档变更。
+
+### result
+
+- main老车链已有Nav2 motion→cmd_vel_nav→velocity_smoother→cmd_vel→serial；冻结地形分支另有串行dog-hole gate，不能绕过。
+- 原生MPPI与标准Nav2 controller/lifecycle/action可复用；冻结selector模式只需controller ID/health薄映射，但不能抢占卡住的compute线程。
+- tracker/v2、迁移T-DT、R2 guard与integrity是已有研究资产，尚未进入main；integrity只做shadow诊断，sanitizer指ASan/UBSan。
+- 真正缺口为同次association shape表达、corridor只读导出、当前共用admission及原始proposal lease的表达。现有1.0s/0.2s/0.5s timeout不能冒称75ms solver lease。
+- A02 tracker_core/frontend/execution继续仅作harness；R4新核心限于snapshot/shape消费、stage soft cost和free-s Follow，生产接线仅加不能由现有接口表达的最小适配。
+
+### evidence
+
+[全仓reuse audit](r4_repository_reuse_audit.md)、[源码/版本/搜索与保留验证](r4_repository_reuse_sources.json)。main、原checkout的十个dirty/untracked文件及冻结R3保持；A02非Markdown源码hash与既有验证清单一致。本次没有启动ROS/Nav2/串口、重跑R3、增加运行配置或做大规模实验；没有当前live graph排他性/物理输出验收。
+
+### conclusion
+
+撤销A02“建立独立实际输出owner”的方向。故障输出责任应在已有末级owner中落实；R4是其上游proposal，MPPI是现有Nav2算法回退。没有证据证明当前架构无法仲裁，不能新增并行最终输出。
+
+### next step
+
+先明确canonical tracker member hook来源、private shape合同、迁移库corridor导出，以及目标Nav2版本中既有owner的lease/admission窄扩展点。保持当前运行编码暂停；后续工作以A03最小边界为准，不自动恢复ROS化A02或批量实验。

@@ -6,6 +6,8 @@
 
 新建 `experiments/r4_hws_prediction_consumption/`，顶层COLCON_IGNORE，内容是Python离线核心/实验sidecar及测试，**没有新增Nav2插件、topic、TF所有者、运行launch或YAML**。公开v2 ROS接口文件不变；目前dict字段是其平面值投影，不是新ROS API。
 
+**A03复用审计补充：** `tracker_core.py/frontend.py/execution.py`默认是测试harness，不能自动升为生产模块。运行接线方向以 [全仓reuse matrix](r4_repository_reuse_audit.md) 为准：复用既有唯一tracker/prediction/T-DT/Nav2/MPPI/输出链，R4只提供prediction-consumption proposal。
+
 | 实现 | 行为 | 尚未建立 |
 |---|---|---|
 | `tracker_core.py` / `observed_shape.py` | 复用冻结KF/匹配，在原assignment和new-track位置输出ID；source member IDs随同次cluster；最新观测raster，coasting保留；静止tentative保留 | 真正LaserScan/source-time TF到sidecar的ROS接线；shape合并/遮挡的实际有效率 |
@@ -13,7 +15,7 @@
 | `frontend.py` / `PreparedRoute` | 原样复用T-DT桥接和完整padded支持的raw-static certificate；自由p(s)替代固定wall-time进度 | 五场景目标区/静态布局的实际进入门 |
 | `soft_field.py` | stage绝对时刻从public source anchor推进一次；每cell+机器人world AABB+padded/margin；另列motion-error参数（首版0，不称概率保证） | 未观测完整面支持；软代价不是安全证书 |
 | `follow.py` | 一次有界OSQP局部近似；自由s，body vx/vy命令rate，固定yaw/wz=0；30个running stages，terminal cost=0；硬静态corridor/速度/rate/进度 | 一次线性化对非凸cost的全局能力、真实plant执行精度、goal/action接线 |
-| `execution.py` / `fault_probe.py` | 无future输入的当前图50ms连续footprint扫掠；≥253 blocked；static generation撤销；75ms租约；唯一输出offer接口和未认证bounded brake | 实际MPPI回退/ROS独立最终publisher；solver/native kill或实车制动保证 |
+| `execution.py` / `fault_probe.py` | 无future输入的当前图50ms连续footprint扫掠；≥253 blocked；static generation撤销；75ms租约；唯一输出offer接口和未认证bounded brake | 现有输出owner内的lease/admission合同、原生MPPI选择回退；solver/native kill或实车制动保证；不新增ROS最终publisher |
 
 HWS形状历史0.8 decay/union不在此切片；geometry历史与消费同时改变会增加混杂。latest observed raster不是完整物体模型，也不是名义D缩小后的原hard约束。公共v2无衰减CV、1.5s时域、真实机器人/padding/margin保持A01决定。
 
@@ -49,6 +51,6 @@ public source/last observation≤400ms；state、last actually sent command≤15
 
 A02建立了一个可测试的离线消费原型与输出策略边界，支持进入实际接线阶段；没有完成完整HWS-style闭环最小复现，不能宣布提前避让/净空/实时验收通过。平台零梯度、局部非凸、hidden geometry、真实运动/命令延迟仍是明确风险，未用新solver/候选/halo救结果。
 
-后续工作沿同一R4分支：ROS真实关联sidecar与Nav2 synchronous compute端口、独立实际输出所有者和MPPI fallback，再冻结五场景进入门/参数/30run配对协议。任何新版本先做输出kill/超时/输入断流，记录stop/current guard/fallback占比；完整机械body≥.05m、padded>0和75ms接收gap观察门维持A01。R3仅引用冻结结果，不新跑。
+用户随后要求先停止运行编码、完成repository-wide reuse audit。A03已修正原先“独立实际输出所有者”的计划：真实association/shape与corridor仅做最小适配，R4 synchronous compute返回proposal，MPPI使用原生插件和既有selector，最终发令/timeout仍归现有owner。下一步先落实这些接口与现有owner的缺失表达，不自动开始接线或30run实验；完整机械body≥.05m、padded>0和75ms接收gap观察门维持A01。R3仅引用冻结结果，不新跑。
 
 这是阶段记录，不新增R5/R6或自动续跑。有限有效基础场景若仍不能联合满足A01行为、净空和实时性要求，按既定规则冻结复杂预测控制研究。
