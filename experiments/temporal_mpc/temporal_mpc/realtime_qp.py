@@ -31,6 +31,7 @@ class QPConfig:
     velocity_lower: tuple = (-.5, -.5)
     velocity_upper: tuple = (.8, .5)
     acceleration: tuple = (1., 1.)
+    planning_buffer: float = 0.    # Extra conservatism; native hard geometry is unchanged.
 
     def __post_init__(self):
         if (self.period != .05 or self.node_dt != .1 or not 1 <= self.horizon <= 2
@@ -40,7 +41,8 @@ class QPConfig:
                 or type(self.max_active_obstacles) is not int or not 1 <= self.max_active_obstacles <= 4
                 or self.physical_half_extents != (.325, .300) or self.padding != .03
                 or self.margin != .02 or self.velocity_lower != (-.5, -.5)
-                or self.velocity_upper != (.8, .5) or self.acceleration != (1., 1.)):
+                or self.velocity_upper != (.8, .5) or self.acceleration != (1., 1.)
+                or not np.isfinite(self.planning_buffer) or not 0 <= self.planning_buffer <= .05):
             raise ValueError("invalid bounded realtime configuration")
 
     @property
@@ -68,6 +70,9 @@ class QPResult:
     iterations: int
     selected_ids: tuple
     constraint_min: float | None
+    solver_s: float = 0.
+    candidate_trace: tuple = ()
+    chosen_candidate: str | None = None
 
 
 class RealtimeMPC:
@@ -144,6 +149,7 @@ class RealtimeMPC:
         brake_states = integrate(x, brake, cfg.period)
         timeline, selected_ids = None, ()
         status, iterations, minimum = "not_run", 0, None
+        solver_elapsed = 0.
         valid_window = (isinstance(window, Window) and type(epoch_ns) is int and epoch_ns >= 0
                         and window.epoch_ns == epoch_ns and window.frame == "map"
                         and bool(window.plan_id) and np.shape(window.reference) == (len(self.times), 3)
@@ -164,7 +170,7 @@ class RealtimeMPC:
                     (np.asarray(cfg.acceleration)-np.abs(controls[:, :2])).ravel()]
             # ALL tracks are revalidated, including those excluded from the QP.
             for centers, shape, speed in zip(timeline.centers, timeline.geometries, timeline.speeds):
-                vals.append(clearance(states, centers, shape, (.355, .330))-cfg.margin
+                vals.append(clearance(states, centers, shape, (.355, .330))-cfg.margin-cfg.planning_buffer
                             -.5*cfg.period*(np.hypot(.8, .5)+speed))
             m = float(np.min(np.concatenate(vals)))
             terminal = float(np.max(np.abs(states[-1, 3:])))
@@ -175,7 +181,7 @@ class RealtimeMPC:
             elapsed = time.perf_counter()-started
             return QPResult(label, reason, states[1, 3:].copy(), controls[0].copy(),
                             states, controls, feasible, request, elapsed,
-                            time.process_time()-cpu, status, iterations, selected_ids, margin)
+                            time.process_time()-cpu, status, iterations, selected_ids, margin, solver_elapsed)
 
         def fallback(reason):
             nonlocal minimum
@@ -277,7 +283,7 @@ class RealtimeMPC:
                                     else np.max(axes@np.asarray(shape.offsets).T,axis=1))
                 gap = axes@direction-robot_support-obstacle_support
                 best = int(np.argmax(gap)); n = axes[best]
-                rhs = n@center+robot_support[best]+obstacle_support[best]+cfg.margin+.5*cfg.period*(vmax+speed)
+                rhs = n@center+robot_support[best]+obstacle_support[best]+cfg.margin+cfg.planning_buffer+.5*cfg.period*(vmax+speed)
                 rows.append((n@pm[2*k:2*k+2])[None,:])
                 lower.append(np.array([rhs-n@p0[k]]));upper.append(np.array([np.inf]))
         if time.perf_counter()-started >= cfg.cycle_budget-cfg.solver_budget-.003:
@@ -291,7 +297,11 @@ class RealtimeMPC:
                      check_termination=10)
             if warm is not None:
                 qp.warm_start(x=warm)
-            answer = qp.solve(raise_error=False)
+            solver_started=time.perf_counter()
+            try:
+                answer = qp.solve(raise_error=False)
+            finally:
+                solver_elapsed=time.perf_counter()-solver_started
             status, iterations = answer.info.status, int(answer.info.iter)
             if answer.x is not None and np.isfinite(answer.x).all() and status in (
                     "solved", "solved inaccurate", "maximum iterations reached"):

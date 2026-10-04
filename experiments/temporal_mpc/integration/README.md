@@ -89,3 +89,9 @@ worker / supervisor / 受控测试模型。依赖轮子版本和 sha256 见
 实际MPC/BT交接的隔离仿真。两组物理配对仍失败，未达到部署接受。
 见[实际结果](../../../docs/dynamic_navigation/temporal_mpc_gazebo_results_20261004.md)。
 消费者新增合法tentative漏检旧观察epoch支持，既有stale/future/confirmed/coasting门不变。
+
+有限候选工程验证可在既定禁网Humble镜像中设置TEMPORAL_MPC_STRATEGY=portfolio
+后运行run_humble.sh /absolute/new-output（默认single）。两插件及selector接口不变。
+worker诊断v2_inputs记录实际source/observation/generation/map/初态/走廊及候选轨迹
+状态，solver_s只含qp.solve；invalid字段null。真实14类故障fixture通过，物理策略
+仍未完成任务，见[最新结果](../../../docs/dynamic_navigation/temporal_mpc_candidates_results_20261004.md)。

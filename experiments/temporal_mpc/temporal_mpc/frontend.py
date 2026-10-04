@@ -96,7 +96,9 @@ class StaticRoute:
         return Window(epoch_ns, np.c_[xy, np.full(len(times), initial[2])], tuple(b), self.plan_id)
 
 
-def prepare_route(executable, costs, resolution, origin, start, goal, supplied_path=None):
+def prepare_route(executable, costs, resolution, origin, start, goal, supplied_path=None, corridor_range=6.):
+    if not np.isfinite(corridor_range) or not 1. <= corridor_range <= 12.:
+        raise ContractError('bounded corridor range required')
     raw = np.asarray(costs)
     if (raw.ndim != 2 or min(raw.shape) < 3 or max(raw.shape) > 1000 or raw.size > 100000
             or not np.issubdtype(raw.dtype, np.integer) or np.any(raw < 0) or np.any(raw > 255)):
@@ -105,6 +107,7 @@ def prepare_route(executable, costs, resolution, origin, start, goal, supplied_p
     header = [grid.shape[1], grid.shape[0], resolution, *origin, *start[:2], *goal[:2]]
     wire = " ".join(map(str, header)) + "\n" + " ".join(map(str, grid.ravel())) + "\n"
     arguments = [str(executable)]
+    if corridor_range!=6.:arguments += ['--range',str(float(corridor_range))]
     if supplied_path is not None:
         path = np.asarray(supplied_path, float)
         if (path.ndim != 2 or path.shape[1] != 2 or not 2 <= len(path) <= 256

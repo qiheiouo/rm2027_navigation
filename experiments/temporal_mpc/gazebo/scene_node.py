@@ -44,10 +44,11 @@ class Scene(Node):
         if self.map is not None or self.get_clock().now().nanoseconds <= 0: return
         message=OccupancyGrid()
         message.header.frame_id="map"; message.header.stamp=self.get_clock().now().to_msg()
-        message.info.resolution=.05; message.info.width=160; message.info.height=120
-        message.info.origin.position.x=-1.; message.info.origin.position.y=-3.
+        fixture=self.registration['map']
+        message.info.resolution=fixture['resolution']; message.info.width=fixture['width']; message.info.height=fixture['height']
+        message.info.origin.position.x=fixture['origin'][0]; message.info.origin.position.y=fixture['origin'][1]
         message.info.origin.orientation.w=1.
-        grid=grid_for(self.registration["scenario"])
+        grid=grid_for(self.registration["scenario"],fixture['width'],fixture['height'],fixture['resolution'],fixture['origin'])
         message.data=grid.ravel().tolist()
         self.costs=np.where(grid>=65,254,0).astype(np.uint8)
         self.map=message; self.map_pub.publish(message)
@@ -80,7 +81,9 @@ class Scene(Node):
                 tf=self.buffer.lookup_transform("map","base_link",Time())
                 xy=[tf.transform.translation.x,tf.transform.translation.y]
             goal=request.goal.pose.position
-            route=prepare_route(self.frontend,self.costs,.05,(-1.,-3.),xy,[goal.x,goal.y])
+            i=self.map.info
+            route=prepare_route(self.frontend,self.costs,i.resolution,(i.origin.position.x,i.origin.position.y),xy,[goal.x,goal.y],
+                                corridor_range=self.registration['map']['corridor_range'])
             path=PathMessage(); path.header.frame_id="map"; path.header.stamp=self.get_clock().now().to_msg()
             for position in route.anchors:
                 p=PoseStamped(); p.header=path.header

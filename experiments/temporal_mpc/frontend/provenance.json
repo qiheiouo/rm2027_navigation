@@ -5,6 +5,7 @@
   "upstream_pin": "a4bddc467f84d2418a4de06c65c8c79403eb4a13",
   "license": "MIT (vendor/tdt_nav/LICENCE)",
   "scope": "YAstar + collision-aware simplification + SfcSquare only. Existing MinimumSnap/backend migration remains in original frozen branch; not discarded. No research commit merged.",
+  "local_bridge_changes": "Experiment-owned bridge adds optional finite --range in [1,12] (default 6) for static SFC expansion outside the MPC cycle; open_long uses 10. Vendor code and all raw-cell footprint certificates remain unchanged. Removal: omit the option or remove the isolated experiment.",
   "files": {
     "YAstar/yastar.hpp": {
       "source_path": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/YAstar/yastar.hpp",

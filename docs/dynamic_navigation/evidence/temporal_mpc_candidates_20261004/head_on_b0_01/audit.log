@@ -1,0 +1,104 @@
+{
+  "source_tf_replay_gate": false,
+  "event_file_sha256": "122fab77e604089521e970a0e6e804d6458960596105f58ad49b7e4af8cb0d16",
+  "scenario": "head_on",
+  "mode": "shadow",
+  "source_counts": 760,
+  "public_accepted": 760,
+  "public_rejections": {},
+  "source_epoch_monotonic": true,
+  "schema_failures": 0,
+  "complete_count": 760,
+  "track_states": {
+    "1": 159,
+    "2": 601
+  },
+  "confirmed_observations": 601,
+  "source_scan_pairs": 760,
+  "source_tf_pairs": 756,
+  "source_receipt_sim_s": {
+    "count": 760,
+    "p50": 0.031,
+    "p95": 0.059,
+    "min": 0.01,
+    "max": 0.138
+  },
+  "source_processing_sim_s": {
+    "count": 760,
+    "p50": 0.009,
+    "p95": 0.012,
+    "min": 0.007,
+    "max": 0.074
+  },
+  "processing_order_failures": 0,
+  "display_cv_error_max_m": 0.0,
+  "odom_count": 2519,
+  "odom_receipt_sim_s": {
+    "count": 2519,
+    "p50": 0.001,
+    "p95": 0.004,
+    "min": 0.0,
+    "max": 0.06
+  },
+  "measured_wz_abs": {
+    "count": 2519,
+    "p50": 0.0,
+    "p95": 0.0,
+    "min": 0.0,
+    "max": 8.014318629714174e-11
+  },
+  "measured_translation_speed": {
+    "count": 2519,
+    "p50": 0.0,
+    "p95": 0.0,
+    "min": 0.0,
+    "max": 0.1527241820763909
+  },
+  "model_domain_rejections": {},
+  "solver_s": {
+    "count": 1001,
+    "p50": 0.005741708999266848,
+    "p95": 0.013167718992917798,
+    "min": 6.460699660237879e-05,
+    "max": 0.020255158000509255
+  },
+  "solver_feasible_count": 26,
+  "solver_reasons": {
+    "ContractError: missing plan/map/prediction": 255,
+    "revalidated temporal QP": 26,
+    "primal infeasible": 720
+  },
+  "native_health_reasons": {
+    "missing TF/odom": 1,
+    "missing proposal/state": 5,
+    "proposal stale/rejected/generation": 973,
+    "accepted_reanchored": 10,
+    "reanchored trajectory rejected": 16
+  },
+  "native_executed_s": null,
+  "native_executed_ready_count": 0,
+  "oracle_same_epoch_pairs": 2519,
+  "oracle_errors": {},
+  "oracle_gap_s": {
+    "count": 2518,
+    "p50": 0.02,
+    "p95": 0.02,
+    "min": 0.02,
+    "max": 0.02
+  },
+  "sampled_full_envelope_clearance_m": 0.8207902991546472,
+  "diagnostic_sweep_lower_m": 0.7657902991546471,
+  "diagnostic_point_speed_bound": 5.5,
+  "physical_speed_bound_certified": false,
+  "sampled_full_envelope_intersection": false,
+  "actual_robot_contacts": 0,
+  "actual_contact_message_count": 0,
+  "action_success": false,
+  "sensor_contract_gate": false,
+  "measured_model_gate": true,
+  "mpc_entry_gate": false,
+  "oracle_sample_gate": true,
+  "physical_acceptance": false,
+  "false_block": null,
+  "blocked_pair_reason": "real input/model entry gate failed; MPC comparison not authorized by registration"
+}

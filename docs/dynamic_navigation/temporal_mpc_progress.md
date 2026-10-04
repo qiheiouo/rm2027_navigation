@@ -267,3 +267,12 @@ M2历史输入审计：[787条真实捕获预测](evidence/temporal_mpc_nav2_202
 - evidence：[登记](temporal_mpc_projection_registration_20261004.md)、[结果](temporal_mpc_projection_results_20261004.md)、[完整证据](evidence/temporal_mpc_projection_20261004/manifest.json)。
 - conclusion：执行投影已从工程检查推进到持续物理参与，仍没有任务成功或部署净收益。横穿失败含当前模型目标排除，不能只责归QP；迎面后期目标开放仍失败。原生未来净空veto并非物理碰撞，预测更新与新测量贡献尚不能唯一分解。初版审计的旧步号input筛选修正并保留，原物理配对未重跑。
 - next step：在原几何下另登记目标可开放的场景，补worker实际预测身份/余量分解，再做同总预算的左右/等待候选与独立几何/运动不确定性校准。
+
+## 2026-10-04：目标开放、有限候选与确切输入分解
+
+- goal：保留完整D/执行门，比较目标开放场景中的single与有限左右/等待候选。
+- change：周期外T-DT有界range参数、open_long可选profile；portfolio首可行/共享390迭代与15ms预算；worker确切输入/逐候选诊断；只读2×2动态余量分解。
+- result：116项工程测试及2项分解测试在主机/Humble通过，真实Nav2 14类故障门通过。六有效物理试次全部40s取消、无正Contact；横穿single/portfolio实际228/229及237/238检查通过，迎面15/15及1/2。迎面B0最终接收gap81.572ms失败。目标后所有模型采样目标开放；6,433保护/1,597原生状态与输入join/92动态余量重放匹配，102,290 CDR/4,562源TF通过。
+- evidence：[预登记及采集修正](temporal_mpc_candidates_registration_20261004.md)、[结果与分解](temporal_mpc_candidates_results_20261004.md)、[完整证据](evidence/temporal_mpc_candidates_20261004/manifest.json)。
+- conclusion：候选预算观察门通过，但没有稳定完成任务或统计净收益，动态接受与部署冻结仍false。原迎面基线缺raw静态TF导致进入门失败，采集端回归后另登记全组02，失败证据完整保留。
+- next step：worker判定clock/回调排队证据，以及提案年龄/停止尾余量；几何支持和运动残差分开校准，保持静态规划职责与双插件回退。

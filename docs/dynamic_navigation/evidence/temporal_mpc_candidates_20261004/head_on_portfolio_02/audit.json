@@ -1,0 +1,113 @@
+{
+  "source_tf_replay_gate": true,
+  "event_file_sha256": "9d90a229c2dd3d33a95aee92854519f9430214a95da440cc4b1728ea86a650f5",
+  "scenario": "head_on",
+  "mode": "mpc",
+  "source_counts": 761,
+  "public_accepted": 761,
+  "public_rejections": {},
+  "source_epoch_monotonic": true,
+  "schema_failures": 0,
+  "complete_count": 761,
+  "track_states": {
+    "1": 159,
+    "2": 602
+  },
+  "confirmed_observations": 602,
+  "source_scan_pairs": 761,
+  "source_tf_pairs": 758,
+  "source_receipt_sim_s": {
+    "count": 761,
+    "p50": 0.031,
+    "p95": 0.059,
+    "min": 0.01,
+    "max": 0.137
+  },
+  "source_processing_sim_s": {
+    "count": 761,
+    "p50": 0.009,
+    "p95": 0.012,
+    "min": 0.007,
+    "max": 0.071
+  },
+  "processing_order_failures": 0,
+  "display_cv_error_max_m": 0.0,
+  "odom_count": 2520,
+  "odom_receipt_sim_s": {
+    "count": 2520,
+    "p50": 0.001,
+    "p95": 0.004,
+    "min": 0.0,
+    "max": 0.046
+  },
+  "measured_wz_abs": {
+    "count": 2520,
+    "p50": 0.0,
+    "p95": 0.0,
+    "min": 0.0,
+    "max": 1.241246749752057e-10
+  },
+  "measured_translation_speed": {
+    "count": 2520,
+    "p50": 0.0,
+    "p95": 0.0,
+    "min": 0.0,
+    "max": 0.18306345546963937
+  },
+  "model_domain_rejections": {},
+  "solver_s": {
+    "count": 1000,
+    "p50": 0.015432887004863005,
+    "p95": 0.03465983805363066,
+    "min": 7.393000123556703e-05,
+    "max": 0.037439138992340304
+  },
+  "solver_feasible_count": 26,
+  "solver_reasons": {
+    "ContractError: missing plan/map/prediction": 252,
+    "revalidated temporal QP": 26,
+    "ContractError: state request stale/frame": 1,
+    "maximum iterations reached; trajectory rejected by hard checks": 5,
+    "primal infeasible inaccurate": 7,
+    "primal infeasible": 709
+  },
+  "native_health_reasons": {
+    "missing TF/odom": 1,
+    "missing proposal/state": 6,
+    "proposal stale/rejected/generation": 973,
+    "accepted_reanchored": 13,
+    "reanchored trajectory rejected": 13
+  },
+  "native_executed_s": {
+    "count": 2,
+    "p50": 8.08025e-05,
+    "p95": 0.00012074764999999999,
+    "min": 3.6419e-05,
+    "max": 0.000125186
+  },
+  "native_executed_ready_count": 1,
+  "oracle_same_epoch_pairs": 2519,
+  "oracle_errors": {},
+  "oracle_gap_s": {
+    "count": 2518,
+    "p50": 0.02,
+    "p95": 0.02,
+    "min": 0.02,
+    "max": 0.02
+  },
+  "sampled_full_envelope_clearance_m": 0.8078458703852525,
+  "diagnostic_sweep_lower_m": 0.7528458703852524,
+  "diagnostic_point_speed_bound": 5.5,
+  "physical_speed_bound_certified": false,
+  "sampled_full_envelope_intersection": false,
+  "actual_robot_contacts": 0,
+  "actual_contact_message_count": 0,
+  "action_success": false,
+  "sensor_contract_gate": true,
+  "measured_model_gate": true,
+  "mpc_entry_gate": true,
+  "oracle_sample_gate": true,
+  "physical_acceptance": false,
+  "false_block": null,
+  "blocked_pair_reason": null
+}

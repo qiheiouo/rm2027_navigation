@@ -1,0 +1,21 @@
+[INFO] [1791104217.767941643] [dynamic_obstacle_tracker_shadow]: SHADOW ONLY dynamic tracker ready: /map + /scan -> /dynamic_obstacle_predictions; it does not modify costmaps, plans, goals, TF, or cmd_vel
+[WARN] [1791104222.113380836] [dynamic_obstacle_tracker_shadow]: drop scan without timestamped TF: Lookup would require extrapolation into the future.  Requested time 1.123000 but the latest data is at time 1.120000, when looking up transform from frame [sim_lidar_link] to frame [map]
+[WARN] [1791104242.717099589] [dynamic_obstacle_tracker_shadow]: drop scan without timestamped TF: Lookup would require extrapolation into the future.  Requested time 21.649000 but the latest data is at time 21.640000, when looking up transform from frame [sim_lidar_link] to frame [map]
+[WARN] [1791104263.983136045] [dynamic_obstacle_tracker_shadow]: drop scan without timestamped TF: Lookup would require extrapolation into the future.  Requested time 42.901000 but the latest data is at time 42.900000, when looking up transform from frame [sim_lidar_link] to frame [map]
+Traceback (most recent call last):
+  File "/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node", line 33, in <module>
+    sys.exit(load_entry_point('rm-dynamic-obstacle-tracking==0.1.0', 'console_scripts', 'dynamic_obstacle_tracker_node')())
+  File "/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/python3.10/site-packages/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py", line 593, in main
+    executor.spin()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 323, in spin
+    self.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 863, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 844, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 653, in _wait_for_ready_callbacks
+    wait_set = _rclpy.WaitSet(
+rclpy._rclpy_pybind11.RCLError: failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130
+[ros2run]: Process exited with failure 1

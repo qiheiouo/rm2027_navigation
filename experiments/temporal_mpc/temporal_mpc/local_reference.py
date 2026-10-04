@@ -8,7 +8,10 @@ import numpy as np
 
 
 class LateralReference:
-    def __init__(self):
+    def __init__(self, forced_side=None):
+        if forced_side not in (None, -1., 1.):
+            raise ValueError('side must be explicitly bounded')
+        self.forced_side=forced_side
         self.reset()
 
     def reset(self):
@@ -70,6 +73,8 @@ class LateralReference:
                 options.append((abs(level-current_level),sign,level))
         if self.side is not None:
             options = [o for o in options if o[1] == self.side]
+        elif self.forced_side is not None:
+            options = [o for o in options if o[1] == self.forced_side]
         if not options:
             self.mode = 'corridor_insufficient'
             return route.copy()

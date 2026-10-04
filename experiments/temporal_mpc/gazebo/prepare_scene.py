@@ -6,13 +6,15 @@ import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import yaml
+from fixture_profile import fixture_profile
 
 
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def prepare(output, scenario="crossing"):
+def prepare(output, scenario="crossing", profile="legacy"):
+    fixture=fixture_profile(profile)
     repo = Path(__file__).resolve().parents[3]
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
@@ -101,7 +103,8 @@ def prepare(output, scenario="crossing"):
                        gz_type_name="ignition.msgs.Contacts", direction="GZ_TO_ROS"))
     # These oracle messages are deliberately NOT /tf and never fed into TF buffers.
     (output / "bridge.yaml").write_text(yaml.safe_dump(bridge, sort_keys=False))
-    manifest = dict(scenario=scenario, goal=[5.6,0.], goal_phase_s=2., period_s=8.,
+    manifest = dict(scenario=scenario, goal=fixture['goal'], fixture_profile=profile, map=fixture,
+                    goal_phase_s=10., period_s=8.,
                     robot_half_extent=[.325,.300], actor_half_extent=[.225,.275],
                     geometry_mode="nominal_diameter", clearance_gate_m=.05,
                     execution_guard=scenario != "actuator",execution_model="fixed_yaw_velocity_zoh/v1",
@@ -114,5 +117,6 @@ if __name__ == "__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("output")
     parser.add_argument("--scenario", choices=["crossing","head_on","course","actuator"], default="crossing")
+    parser.add_argument("--profile", choices=["legacy","open_long"], default="legacy")
     args=parser.parse_args()
-    prepare(args.output,args.scenario)
+    prepare(args.output,args.scenario,args.profile)

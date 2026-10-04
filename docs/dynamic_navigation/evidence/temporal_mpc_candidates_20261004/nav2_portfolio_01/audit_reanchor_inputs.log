@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/build/temporal_mpc_main_20261004/experiments/temporal_mpc/gazebo/audit_reanchor_inputs.py", line 113, in <module>
+    result=evaluate(root);(root/'reanchor_inputs_audit.json').write_text(json.dumps(result,allow_nan=False,indent=2)+'\n')
+           ^^^^^^^^^^^^^^
+  File "/home/qihei/rm2027_navigation/build/temporal_mpc_main_20261004/experiments/temporal_mpc/gazebo/audit_reanchor_inputs.py", line 68, in evaluate
+    predictions={epoch(e['data']['header']['stamp']):e['data'] for e in events if e['topic']=='/dynamic_obstacle_predictions'}
+                                                                                  ~^^^^^^^^^
+KeyError: 'topic'

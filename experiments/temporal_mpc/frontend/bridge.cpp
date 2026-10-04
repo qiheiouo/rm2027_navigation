@@ -5,10 +5,18 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include <cstdlib>
 
 int main(int argc, char **argv) {
-  const bool supplied_path = argc == 2 && std::string(argv[1]) == "--path";
-  if(argc > 1 && !supplied_path) return 2;
+  bool supplied_path=false, range_set=false;float corridor_range=6.f;
+  for(int i=1;i<argc;i++) {
+    const std::string option(argv[i]);
+    if(option=="--path" && !supplied_path) supplied_path=true;
+    else if(option=="--range" && !range_set && i+1<argc) {
+      char *end=nullptr;corridor_range=std::strtof(argv[++i],&end);range_set=true;
+      if(!end || *end || !std::isfinite(corridor_range) || corridor_range<1.f || corridor_range>12.f) return 2;
+    } else return 2;
+  }
   int w, h; float r, ox, oy, sx, sy, gx, gy;
   if (!(std::cin >> w >> h >> r >> ox >> oy >> sx >> sy >> gx >> gy) ||
       w < 3 || h < 3 || w > 1000 || h > 1000 || w*h > 100000 ||
@@ -57,7 +65,7 @@ int main(int argc, char **argv) {
       Eigen::Vector2f p=path[i-1]+delta*((float)k/n);
       // Expand only in already inflated free space; Python/native still
       // independently certify the full rectangle against the raw map.
-      auto b=corridor.getBound(p.x()-ox,p.y()-oy,6.f,.01f);
+      auto b=corridor.getBound(p.x()-ox,p.y()-oy,corridor_range,.01f);
       b[0]+=ox;b[2]+=ox;b[1]+=oy;b[3]+=oy;
       if(!(b[0]<p.x() && p.x()<b[2] && b[1]<p.y() && p.y()<b[3])) return 5;
       if(!first) std::cout<<',';first=false;

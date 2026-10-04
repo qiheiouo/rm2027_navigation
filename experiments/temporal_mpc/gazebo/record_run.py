@@ -5,6 +5,7 @@ import base64
 from collections import Counter
 import json
 import math
+import os
 from pathlib import Path
 import time
 import rclpy
@@ -38,11 +39,15 @@ class Recorder(Node):
     def __init__(self,output,mode):
         super().__init__("temporal_gazebo_recorder",parameter_overrides=[Parameter("use_sim_time",value=True)])
         self.output=Path(output); self.stream=(self.output/"events.jsonl").open("w")
+        self.fixture=json.loads((self.output/'scene/scene.json').read_text())
         self.counts=Counter(); self.mode=mode; self.latest={}; self.goal=None; self.result=None
+        self.recorded_static_edges=set()
         self.buffer=Buffer(); self.listener=TransformListener(self.buffer,self)
         self.request=self.create_publisher(String,"temporal_mpc/request_controller",10)
         self.client=ActionClient(self,NavigateToPose,"navigate_to_pose")
         transient=QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL,
+                             reliability=ReliabilityPolicy.RELIABLE)
+        static_qos=QoSProfile(depth=100,durability=DurabilityPolicy.TRANSIENT_LOCAL,
                              reliability=ReliabilityPolicy.RELIABLE)
         inputs=[("/scan",LaserScan,qos_profile_sensor_data),
                 ("/dynamic_obstacle_predictions",DynamicObstaclePredictionArray,10),
@@ -55,7 +60,7 @@ class Recorder(Node):
                 ("/simulation/oracle/world",TFMessage,100),
                 ("/simulation/oracle/contacts",Contacts,100),
                 ("/simulation/oracle/moving_obstacle",TFMessage,100),
-                ("/tf",TFMessage,100),("/tf_static",TFMessage,transient),
+                ("/tf",TFMessage,100),("/tf_static",TFMessage,static_qos),
                 ("/map",OccupancyGrid,transient),("/plan",PathMessage,transient),
                 ("/controller_selector",String,transient),
                 ("/temporal_mpc/health",String,100),
@@ -66,7 +71,8 @@ class Recorder(Node):
         self.subscriptions_kept=[]
         for topic,kind,qos in inputs:
             self.subscriptions_kept.append(self.create_subscription(kind,topic,lambda m,t=topic:self.record(t,m),qos))
-        self.event("registration",dict(mode=mode,goal=[5.6,0.],phase=2.,timeout_sim_s=40.))
+        self.event("registration",dict(mode=mode,goal=self.fixture['goal'],phase=10.,timeout_sim_s=40.,
+                   fixture_profile=self.fixture['fixture_profile'],strategy=os.environ.get('TEMPORAL_MPC_STRATEGY','single')))
 
     def event(self,topic,data,**extra):
         document=dict(topic=topic,receipt_monotonic_ns=time.monotonic_ns(),
@@ -77,6 +83,8 @@ class Recorder(Node):
     def record(self,topic,message):
         self.latest[topic]=message
         self.event(topic,message_to_ordereddict(message),cdr_b64=base64.b64encode(serialize_message(message)).decode())
+        if topic=="/tf_static":
+            self.recorded_static_edges.update((t.header.frame_id,t.child_frame_id) for t in message.transforms)
         if topic=="/dynamic_obstacle_predictions":
             try:
                 tf=self.buffer.lookup_transform("map","sim_lidar_link",Time.from_msg(message.header.stamp))
@@ -96,12 +104,18 @@ class Recorder(Node):
     def ready(self):
         required=("/scan","/dynamic_obstacle_predictions","/odometry/lio",
                   "/simulation/oracle/rm_sentry_2027","/simulation/oracle/moving_obstacle","/map")
-        return all(self.counts[k]>2 if k!="/map" else self.counts[k]>0 for k in required) and self.client.server_is_ready()
+        return (self.static_chain_recorded() and
+                all(self.counts[k]>2 if k!="/map" else self.counts[k]>0 for k in required)
+                and self.client.server_is_ready())
+
+    def static_chain_recorded(self):
+        # Check the raw evidence subscription, not the separate TF listener.
+        return {('map','odom'),('base_link','sim_lidar_link')}<=self.recorded_static_edges
 
     def start_goal(self):
         goal=NavigateToPose.Goal(); goal.pose.header.frame_id="map"
         goal.pose.header.stamp=self.get_clock().now().to_msg()
-        goal.pose.pose.position.x=5.6; goal.pose.pose.orientation.w=1.
+        goal.pose.pose.position.x,goal.pose.pose.position.y=self.fixture['goal']; goal.pose.pose.orientation.w=1.
         self.event("goal_sent",message_to_ordereddict(goal))
         self.goal_future=self.client.send_goal_async(goal)
         self.goal_future.add_done_callback(self.goal_accepted)

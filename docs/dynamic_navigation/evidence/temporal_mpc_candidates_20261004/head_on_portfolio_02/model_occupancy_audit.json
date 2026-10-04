@@ -1,0 +1,110 @@
+{
+  "goal": [
+    8.5,
+    0.0
+  ],
+  "goal_tolerance_m": 0.15,
+  "current_public_source": {
+    "samples": 611,
+    "nonempty_samples": 611,
+    "point_excluded": 0,
+    "entire_goal_disk_excluded": 0,
+    "point_slack_m": {
+      "count": 611,
+      "p50": 5.228667733238035,
+      "p95": 5.2311466004030684,
+      "min": 1.7218848937489373,
+      "max": 5.233365441882558
+    },
+    "goal_disk_upper_slack_m": {
+      "count": 611,
+      "p50": 5.378667733238036,
+      "p95": 5.381146600403069,
+      "min": 1.8718848937489372,
+      "max": 5.3833654418825585
+    }
+  },
+  "native_exact_epochs": {
+    "samples": 26,
+    "nonempty_samples": 26,
+    "point_excluded": 0,
+    "entire_goal_disk_excluded": 0,
+    "point_slack_m": {
+      "count": 26,
+      "p50": 3.5590618312195623,
+      "p95": 3.835838880714153,
+      "min": 3.2300658544192293,
+      "max": 3.865384671209515
+    },
+    "goal_disk_upper_slack_m": {
+      "count": 26,
+      "p50": 3.7090618312195622,
+      "p95": 3.985838880714153,
+      "min": 3.3800658544192292,
+      "max": 4.015384671209515
+    }
+  },
+  "public_receipt_rejections": {},
+  "diagnostic_missing_inputs": {},
+  "native_constraint_counts": {
+    "input": 784,
+    "accepted": 13,
+    "dynamic_clearance": 13
+  },
+  "actual_executed_rejections": [
+    {
+      "ready": false,
+      "fallback_requested": true,
+      "reason": "proposal stale/rejected/generation",
+      "executed": true,
+      "compute_count": 2,
+      "elapsed_s": 3.6419e-05,
+      "evaluation_ns": 13262000000,
+      "proposal_ns": 13216000000,
+      "prediction_ns": 13201000000,
+      "generation": 2,
+      "model": "fixed_yaw_velocity_zoh/v1",
+      "constraint": "input",
+      "reanchor_projection": "velocity_and_stop/v2",
+      "step": -1,
+      "track_id": 0,
+      "slack": null,
+      "initial_state": [
+        -6.43710317526343e-19,
+        -0.0012999882801133932,
+        8.106245447168358e-18,
+        0,
+        -0.0499999926598968,
+        0
+      ],
+      "checked_state": [
+        -6.43710317526343e-19,
+        -0.0012999882801133932,
+        8.106245447168358e-18,
+        0,
+        -0.0499999926598968,
+        0
+      ]
+    }
+  ],
+  "worker_postsolve_modes": {
+    "route": 779,
+    "shift": 26
+  },
+  "worker_reasons": {
+    "ContractError: missing plan/map/prediction": 57,
+    "revalidated temporal QP": 26,
+    "ContractError: state request stale/frame": 1,
+    "maximum iterations reached; trajectory rejected by hard checks": 5,
+    "primal infeasible inaccurate": 7,
+    "primal infeasible": 709
+  },
+  "native_current_section_exists": 26,
+  "native_preference_no_target_but_current_cut_exists": 0,
+  "input_sha256": {
+    "events.jsonl": "9d90a229c2dd3d33a95aee92854519f9430214a95da440cc4b1728ea86a650f5",
+    "scene/nav2.yaml": "12abb65f4a5bf02ba52a644e1269b062745b67104dc0618a9b09866336c38cd0"
+  },
+  "scope": "Recorded current model only. Source rows use source epoch (no double coast); native rows use exact recorded evaluation/prediction. Disk upper bound proves sampled-epoch exclusion only. Free section is not a temporal route. Preference does not reconstruct latch. No oracle, geometry changes, continuous-time infeasibility or physical safety proof.",
+  "dynamic_acceptance": false
+}

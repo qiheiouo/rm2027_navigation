@@ -1,0 +1,113 @@
+[INFO] [launch]: All log files can be found below /home/rmnav/.ros/log/2026-10-04-08-56-57-438532-c57fe9bfe4ee-56
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [ign gazebo-1]: process started with pid [205]
+[INFO] [parameter_bridge-2]: process started with pid [207]
+[INFO] [scan_frame_adapter-3]: process started with pid [210]
+[INFO] [robot_state_publisher-4]: process started with pid [212]
+[INFO] [lio_adapter-5]: process started with pid [214]
+[INFO] [gimbal_state_adapter-6]: process started with pid [216]
+[INFO] [imu_frame_adapter-7]: process started with pid [218]
+[INFO] [static_transform_publisher-8]: process started with pid [220]
+[INFO] [chassis_interface_stub-9]: process started with pid [222]
+[imu_frame_adapter-7] [WARN] [1791104217.911006972] [imu_frame_adapter]: Phase 1 IMU frame adapter: /livox/lio_imu_raw -> /livox/lio_imu, output frame_id=lio_imu_link. This node only rewrites header.frame_id; it does not publish TF, filter IMU data, or modify measurements.
+[chassis_interface_stub-9] [WARN] [1791104217.920227529] [chassis_interface_stub]: Phase 1 chassis stub only: no TF, no odom, no nav goals, no real serial.
+[gimbal_state_adapter-6] [WARN] [1791104217.922743655] [gimbal_state_adapter]: Phase 1 skeleton: publishing gimbal_yaw_joint on /joint_states. Real hardware must provide timestamped gimbal yaw before rotating-gimbal localization is accepted.
+[scan_frame_adapter-3] [WARN] [1791104217.923455201] [scan_frame_adapter]: Simulation-only scan adapter: /simulation/scan_raw -> /scan with frame_id=sim_lidar_link. No TF is published.
+[robot_state_publisher-4] [INFO] [1791104217.924353715] [robot_state_publisher]: got segment base_imu_link
+[robot_state_publisher-4] [INFO] [1791104217.924452819] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-4] [INFO] [1791104217.924465022] [robot_state_publisher]: got segment gimbal_yaw_link
+[robot_state_publisher-4] [INFO] [1791104217.924473181] [robot_state_publisher]: got segment lio_imu_link
+[static_transform_publisher-8] [INFO] [1791104217.924351401] [experiment_map_origin]: Spinning until stopped - publishing transform
+[static_transform_publisher-8] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-8] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-8] from 'map' to 'odom'
+[robot_state_publisher-4] [INFO] [1791104217.924480606] [robot_state_publisher]: got segment mid360_left_frame
+[robot_state_publisher-4] [INFO] [1791104217.924488840] [robot_state_publisher]: got segment mid360_right_frame
+[robot_state_publisher-4] [INFO] [1791104217.924496740] [robot_state_publisher]: got segment sim_lidar_link
+[lio_adapter-5] [WARN] [1791104217.925394457] [lio_adapter]: Canonical LIO adapter: adapting /simulation/ground_truth/odom to /odometry/lio through TF base_link->sensor with gimbal frame gimbal_yaw_link. raw_odom_parent_frame_mode=canonical_odom. twist_mode=passthrough. Real hardware still requires calibrated and timestamped gimbal yaw.
+[parameter_bridge-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ign gazebo-1] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ign gazebo-1] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ign gazebo-1] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ign gazebo-1] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-2] [INFO] [1791104218.978283170] [simulation_bridge]: Creating GZ->ROS Bridge: [/clock (ignition.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104218.981971446] [simulation_bridge]: Creating ROS->GZ Bridge: [/simulation/chassis/cmd_vel (geometry_msgs/msg/Twist) -> /model/rm_sentry_2027/cmd_vel (ignition.msgs.Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104218.985611094] [simulation_bridge]: Creating GZ->ROS Bridge: [/model/rm_sentry_2027/odometry (ignition.msgs.Odometry) -> /simulation/ground_truth/odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104218.988773240] [simulation_bridge]: Creating GZ->ROS Bridge: [/model/rm_sentry_2027/sim_lidar/scan (ignition.msgs.LaserScan) -> /simulation/scan_raw (sensor_msgs/msg/LaserScan)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104218.991883595] [simulation_bridge]: Creating ROS->GZ Bridge: [/simulation/moving_obstacle/target (std_msgs/msg/Float64) -> /simulation/moving_obstacle/gz_target (ignition.msgs.Double)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104218.993758047] [simulation_bridge]: Creating GZ->ROS Bridge: [/model/rm_sentry_2027/pose (ignition.msgs.Pose_V) -> /simulation/oracle/rm_sentry_2027 (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104218.996847607] [simulation_bridge]: Creating GZ->ROS Bridge: [/model/moving_obstacle/pose (ignition.msgs.Pose_V) -> /simulation/oracle/moving_obstacle (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104218.998370725] [simulation_bridge]: Creating GZ->ROS Bridge: [/world/phase1_omni/dynamic_pose/info (ignition.msgs.Pose_V) -> /simulation/oracle/world (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104218.999933314] [simulation_bridge]: Creating GZ->ROS Bridge: [/simulation/oracle/contacts (ignition.msgs.Contacts) -> /simulation/oracle/contacts (ros_gz_interfaces/msg/Contacts)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791104219.015054691] [simulation_bridge]: Passing message from ROS geometry_msgs/msg/Twist to Gazebo gz.msgs.Twist (showing msg only once per type)
+[scan_frame_adapter-3] [INFO] [1791104220.891062218] [scan_frame_adapter]: Gazebo raw scan frame_id is 'rm_sentry_2027/sim_lidar_link/phase1_planar_lidar'; canonical simulation frame is 'sim_lidar_link'.
+[parameter_bridge-2] [INFO] [1791104220.937378877] [simulation_bridge]: Passing message from ROS std_msgs/msg/Float64 to Gazebo gz.msgs.Double (showing msg only once per type)
+[chassis_interface_stub-9] [INFO] [1791104221.915266242] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104222.916844331] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104223.967399812] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104225.015442414] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104226.015557857] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104227.017529633] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104228.065356059] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104229.065649675] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104230.115423183] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104231.115327211] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104232.117360617] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104233.165986695] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104234.166723958] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=-0.200 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104235.167971892] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104236.169087882] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104237.216337855] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104238.217774180] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104239.266326288] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104240.266194321] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104241.266337913] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104242.266471451] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104243.266228462] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104244.266444558] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104245.268895360] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104246.268989505] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104247.319700635] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104248.366180362] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104249.369247581] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104250.416446135] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104251.416685642] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104252.419448048] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104253.419018255] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104254.466429972] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104255.467825181] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104256.516543178] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104257.516535388] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104258.519412463] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104259.519498424] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104260.569525477] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104261.569235850] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104262.569152501] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104263.619446623] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104264.669416318] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104265.716798107] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104266.719663618] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104267.768189236] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104268.769806578] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104269.817845674] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791104270.819629193] [chassis_interface_stub]: Mock chassis packet vx=0.000 vy=0.000 wz=0.000
+[gimbal_state_adapter-6] [INFO] [1791104271.502502829] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[imu_frame_adapter-7] [INFO] [1791104271.502501146] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[chassis_interface_stub-9] [INFO] [1791104271.502505556] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[lio_adapter-5] [INFO] [1791104271.502523362] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[scan_frame_adapter-3] [INFO] [1791104271.502516288] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[parameter_bridge-2] [INFO] [1791104271.502524568] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[static_transform_publisher-8] [INFO] [1791104271.502519325] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-4] [INFO] [1791104271.502522442] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [ign gazebo-1]: process has finished cleanly [pid 205]
+[INFO] [scan_frame_adapter-3]: process has finished cleanly [pid 210]
+[INFO] [parameter_bridge-2]: process has finished cleanly [pid 207]
+[INFO] [imu_frame_adapter-7]: process has finished cleanly [pid 218]
+[INFO] [lio_adapter-5]: process has finished cleanly [pid 214]
+[INFO] [gimbal_state_adapter-6]: process has finished cleanly [pid 216]
+[INFO] [chassis_interface_stub-9]: process has finished cleanly [pid 222]
+[INFO] [robot_state_publisher-4]: process has finished cleanly [pid 212]
+[INFO] [static_transform_publisher-8]: process has finished cleanly [pid 220]

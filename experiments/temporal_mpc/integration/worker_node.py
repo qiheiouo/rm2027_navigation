@@ -17,6 +17,8 @@ from rm_temporal_mpc_msgs.msg import Plan, StateRequest, Proposal
 from temporal_mpc.contracts import PublicAdapter, ContractError, stamp_ns, predict, causal_snapshot
 from temporal_mpc.frontend import prepare_route
 from temporal_mpc.realtime_qp import RealtimeMPC
+from temporal_mpc.candidates import CandidateMPC
+from temporal_mpc.diagnostics import input_identity, lateral_state
 
 
 class Worker(Node):
@@ -26,9 +28,12 @@ class Worker(Node):
         if not binary:
             raise ValueError("explicit frozen T-DT frontend executable required")
         self.binary = binary
+        self.corridor_range=self.declare_parameter('corridor_range',6.).value
         mode = self.declare_parameter("geometry_mode", "nominal_diameter").value
         self.adapter = PublicAdapter(geometry_mode=mode)
-        self.mpc = RealtimeMPC()
+        self.strategy=self.declare_parameter('strategy','single').value
+        if self.strategy not in ('single','portfolio'):raise ValueError('unregistered strategy')
+        self.mpc = RealtimeMPC() if self.strategy=='single' else CandidateMPC()
         self.plan = self.map = self.route = self.snapshot = None
         self.snapshots = deque(maxlen=4)
         self.generation = self.map_revision = None
@@ -104,7 +109,8 @@ class Worker(Node):
             xy=xy[keep]
             if len(xy)>256:
                 raise ContractError("planner must compress path to <=256 distinct points")
-            self.route = prepare_route(self.binary, *self.map, xy[0], xy[-1], supplied_path=xy)
+            self.route = prepare_route(self.binary, *self.map, xy[0], xy[-1], supplied_path=xy,
+                                       corridor_range=self.corridor_range)
         except (ValueError, ContractError, OSError, TimeoutError, subprocess.TimeoutExpired) as error:
             self.route = None
             self.get_logger().warning(f"planner/corridor rejected: {error}")
@@ -132,6 +138,8 @@ class Worker(Node):
         iterations = 0
         constraint_min = None
         solver_status = "not_run"
+        snapshot=x=window=solved=None;validated=False
+        before=lateral_state(self.mpc.lateral)
         try:
             epoch = stamp_ns(request.header.stamp)
             # Duplicated timer/compute requests are not queued as extra QPs.
@@ -164,6 +172,7 @@ class Worker(Node):
                 return
             predict(snapshot,epoch,self.mpc.times)
             window = self.route.window(x,epoch,self.mpc.times)
+            validated=True
             solved = self.mpc.solve(x,epoch,snapshot,window)
             result.fixed_yaw = yaw
             result.centre_bounds = list(window.centre_bounds)
@@ -188,10 +197,15 @@ class Worker(Node):
             result.fallback_requested=True
             result.reason="worker cycle deadline"
         self.output.publish(result)
-        self.diagnostic.publish(String(data=json.dumps({"epoch_ns":stamp_ns(request.header.stamp),
+        identity=input_identity(stamp_ns(request.header.stamp),snapshot,x,window,request.generation,self.map_revision,validated)
+        self.diagnostic.publish(String(data=json.dumps({**identity,"epoch_ns":stamp_ns(request.header.stamp),
             "elapsed_s":elapsed,"iterations":iterations,"feasible":result.model_feasible,
+            "strategy":self.strategy,"solver_s":0. if solved is None else solved.solver_s,
+            "candidates":[] if solved is None else solved.candidate_trace,
+            "chosen_candidate":None if solved is None else solved.chosen_candidate,
+            "local_reference_before":before,"local_reference_after":lateral_state(self.mpc.lateral),
             "local_reference_mode":self.mpc.lateral.mode,"local_reference_track":self.mpc.lateral.track,
-            "fallback":result.fallback_requested,"reason":result.reason,"constraint_min":constraint_min,"solver_status":solver_status})))
+            "fallback":result.fallback_requested,"reason":result.reason,"constraint_min":constraint_min,"solver_status":solver_status},allow_nan=False)))
 
 
 def main():

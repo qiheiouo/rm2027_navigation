@@ -1,0 +1,72 @@
+{
+  "goal": [
+    8.5,
+    0.0
+  ],
+  "goal_tolerance_m": 0.15,
+  "current_public_source": {
+    "samples": 610,
+    "nonempty_samples": 610,
+    "point_excluded": 0,
+    "entire_goal_disk_excluded": 0,
+    "point_slack_m": {
+      "count": 610,
+      "p50": 5.228690688039922,
+      "p95": 5.23132992101773,
+      "min": 1.7280539722008088,
+      "max": 5.233337231270678
+    },
+    "goal_disk_upper_slack_m": {
+      "count": 610,
+      "p50": 5.378690688039923,
+      "p95": 5.3813299210177306,
+      "min": 1.8780539722008087,
+      "max": 5.383337231270678
+    }
+  },
+  "native_exact_epochs": {
+    "samples": 46,
+    "nonempty_samples": 46,
+    "point_excluded": 0,
+    "entire_goal_disk_excluded": 0,
+    "point_slack_m": {
+      "count": 46,
+      "p50": 3.4509568360544276,
+      "p95": 3.86439101201779,
+      "min": 3.15870228788161,
+      "max": 3.9143887325407407
+    },
+    "goal_disk_upper_slack_m": {
+      "count": 46,
+      "p50": 3.6009568360544275,
+      "p95": 4.01439101201779,
+      "min": 3.30870228788161,
+      "max": 4.064388732540741
+    }
+  },
+  "public_receipt_rejections": {},
+  "diagnostic_missing_inputs": {},
+  "native_constraint_counts": {
+    "input": 777,
+    "accepted": 30,
+    "dynamic_clearance": 16
+  },
+  "actual_executed_rejections": [],
+  "worker_postsolve_modes": {
+    "route": 773,
+    "shift": 46
+  },
+  "worker_reasons": {
+    "ContractError: missing plan/map/prediction": 54,
+    "revalidated temporal QP": 46,
+    "primal infeasible": 719
+  },
+  "native_current_section_exists": 46,
+  "native_preference_no_target_but_current_cut_exists": 0,
+  "input_sha256": {
+    "events.jsonl": "0115d48c759d2ecf647c3e1767ad9527c04dfa97bed2fc62b107ea0623f7348a",
+    "scene/nav2.yaml": "12abb65f4a5bf02ba52a644e1269b062745b67104dc0618a9b09866336c38cd0"
+  },
+  "scope": "Recorded current model only. Source rows use source epoch (no double coast); native rows use exact recorded evaluation/prediction. Disk upper bound proves sampled-epoch exclusion only. Free section is not a temporal route. Preference does not reconstruct latch. No oracle, geometry changes, continuous-time infeasibility or physical safety proof.",
+  "dynamic_acceptance": false
+}

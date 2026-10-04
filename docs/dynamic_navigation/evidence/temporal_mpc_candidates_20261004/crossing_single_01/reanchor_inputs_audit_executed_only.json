@@ -1,0 +1,71 @@
+{
+  "checked_native_records": 538,
+  "worker_input_joins": 538,
+  "missing": {},
+  "errors": [],
+  "executed_dynamic_factorials": [
+    {
+      "evaluation_ns": 24401000000,
+      "proposal_ns": 24382000000,
+      "worker_source_ns": 24355000000,
+      "native_source_ns": 24355000000,
+      "measured_state_delta": [
+        0.0,
+        0.0,
+        5.571888606157194e-20,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "recorded_native_constraint": "dynamic_clearance",
+      "recorded_step": 30,
+      "recorded_track_id": 1,
+      "recorded_slack_m": -0.00030821569554054934,
+      "cases": {
+        "worker_state__worker_prediction": {
+          "at_recorded_track_step_m": -0.0003082156955407714,
+          "hypothetical_full_min_m": -0.0003082156955407714,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "worker_state__native_prediction": {
+          "at_recorded_track_step_m": -0.0003082156955407714,
+          "hypothetical_full_min_m": -0.0003082156955407714,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "native_state__worker_prediction": {
+          "at_recorded_track_step_m": -0.0003082156955407714,
+          "hypothetical_full_min_m": -0.0003082156955407714,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "native_state__native_prediction": {
+          "at_recorded_track_step_m": -0.0003082156955407714,
+          "hypothetical_full_min_m": -0.0003082156955407714,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        }
+      },
+      "worker_original_dynamic_min_m": 0.010552436839606792,
+      "worker_constraint_min": 1.1102230246251565e-16
+    }
+  ],
+  "actual_native_margins_match": true,
+  "worker_solver_s": {
+    "count": 1227,
+    "p50": 0.0004279970016796142,
+    "p95": 0.002714155697321985,
+    "min": 0.0,
+    "max": 0.00585631700232625
+  },
+  "worker_iterations_max": 400,
+  "portfolio_choices": {},
+  "portfolio_attempts": {},
+  "portfolio_max_attempts": 0,
+  "portfolio_diagnostic_count": 0,
+  "portfolio_feasible_count": 0,
+  "accepted_portfolio_budget_gate": null,
+  "scope": "Exact recorded input joins. Four dynamic-margin counterfactuals at one native epoch; no backdating stale predictions, no execution/physical certificate, no unique additive causal attribution.",
+  "dynamic_acceptance": false
+}

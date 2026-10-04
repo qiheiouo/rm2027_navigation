@@ -1,0 +1,1482 @@
+{
+  "baseline_strategy": "MPPI + common ExecutionGuard",
+  "candidate_strategy": "MPC + MPPI fallback + common ExecutionGuard",
+  "pairs": [
+    {
+      "scenario": "crossing_single",
+      "config_byte_identical": {
+        "world.sdf": true,
+        "nav2.yaml": true,
+        "tracker.yaml": true,
+        "bridge.yaml": true
+      },
+      "b0": {
+        "execution_audit": {
+          "guard_exact_input_replays": 1070,
+          "native_zoh_state_replays": 326,
+          "native_model_error": {
+            "count": 326,
+            "p50": 1.1102230246251565e-16,
+            "p95": 2.220446049250313e-16,
+            "min": 0.0,
+            "max": 4.440892098500626e-16
+          },
+          "native_dynamic_rejection_checks": 12,
+          "native_constraint_counts": {
+            "input": 676,
+            "accepted": 314,
+            "dynamic_clearance": 12
+          },
+          "executed_rejections": [],
+          "guard_statuses": {
+            "uncertified_brake": 539,
+            "certified_brake": 321,
+            "pass": 210
+          },
+          "guard_slew_max": 0.05,
+          "guard_core_s": {
+            "count": 1070,
+            "p50": 0.002223642004537396,
+            "p95": 0.004939758800901473,
+            "min": 4.6532994019798934e-05,
+            "max": 0.0056483899970771745
+          },
+          "guard_tick_to_output_s": {
+            "count": 1070,
+            "p50": 0.002530929501517676,
+            "p95": 0.0054457938502309846,
+            "min": 0.00020302701159380376,
+            "max": 0.006194344008690678
+          },
+          "guard_producer_start_interval_s": {
+            "count": 1070,
+            "p50": 0.0500005925,
+            "p95": 0.0502852884,
+            "min": 0.048800675,
+            "max": 0.051182226000000004
+          },
+          "guard_producer_output_interval_s": {
+            "count": 1070,
+            "p50": 0.050008521,
+            "p95": 0.05276978125,
+            "min": 0.0458258,
+            "max": 0.054159500000000006
+          },
+          "guard_tick_to_output_cpu_s": {
+            "count": 1070,
+            "p50": 0.0026075215000000004,
+            "p95": 0.0056288973,
+            "min": 0.000203902,
+            "max": 0.006280918000000001
+          },
+          "guard_nominal_missed_slots": 0,
+          "guard_record_tick_gaps": [],
+          "guard_observed_10ms_gate": true,
+          "errors": [],
+          "missing_inputs": {},
+          "all_model_replays_pass": true,
+          "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+        },
+        "run": "crossing_b0_01",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.0,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 1.6215291889912815,
+        "diagnostic_sweep_lower_m": 1.5665291889912816,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 0,
+        "native_executed_ready_count": 0,
+        "native_executed_s": null,
+        "feasible_worker_s": {
+          "count": 326,
+          "p50": 0.009257300502213184,
+          "p95": 0.018694940747082,
+          "min": 0.0058870770008070394,
+          "max": 0.019882595996023156
+        },
+        "worker_all_s": {
+          "count": 998,
+          "p50": 0.007129600999178365,
+          "p95": 0.015946290949796087,
+          "min": 5.911299376748502e-05,
+          "max": 0.019882595996023156
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 244,
+          "primal infeasible": 428
+        },
+        "controller_command_count": 743,
+        "controller_command_gap_wall_s": {
+          "count": 742,
+          "p50": 0.0499855795,
+          "p95": 0.055599685649999994,
+          "min": 0.022978425,
+          "max": 0.076918262
+        },
+        "actuator_command_count": 801,
+        "actuator_command_gap_wall_s": {
+          "count": 800,
+          "p50": 0.0498808365,
+          "p95": 0.0562384789,
+          "min": 0.030684879,
+          "max": 0.067877177
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 67849626843746,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": null,
+        "accepted_mpc_cycle_share": 0.0,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": false,
+        "physical_fail_reasons": [
+          "action not successful",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "candidate": {
+        "execution_audit": {
+          "guard_exact_input_replays": 1070,
+          "native_zoh_state_replays": 538,
+          "native_model_error": {
+            "count": 538,
+            "p50": 2.465190328815662e-32,
+            "p95": 4.440892098500626e-16,
+            "min": 0.0,
+            "max": 1.1102230246251565e-15
+          },
+          "native_dynamic_rejection_checks": 20,
+          "native_constraint_counts": {
+            "input": 693,
+            "accepted": 518,
+            "dynamic_clearance": 20
+          },
+          "executed_rejections": [
+            {
+              "ready": false,
+              "fallback_requested": true,
+              "reason": "reanchored trajectory rejected",
+              "executed": true,
+              "compute_count": 229,
+              "elapsed_s": 8.8328e-05,
+              "evaluation_ns": 24401000000,
+              "proposal_ns": 24382000000,
+              "prediction_ns": 24355000000,
+              "generation": 2,
+              "model": "fixed_yaw_velocity_zoh/v1",
+              "constraint": "dynamic_clearance",
+              "reanchor_projection": "velocity_and_stop/v2",
+              "step": 30,
+              "track_id": 1,
+              "slack": -0.00030821569554054934,
+              "initial_state": [
+                2.6629865518472813,
+                1.6983733719655003,
+                1.9668935473489063e-09,
+                0,
+                0,
+                0
+              ],
+              "checked_state": [
+                2.6562340556823916,
+                2.1623754622627205,
+                1.9668935473489063e-09,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "guard_statuses": {
+            "uncertified_brake": 533,
+            "certified_brake": 282,
+            "pass": 255
+          },
+          "guard_slew_max": 0.050000000000000044,
+          "guard_core_s": {
+            "count": 1070,
+            "p50": 0.0022733805017196573,
+            "p95": 0.005017174945533043,
+            "min": 6.022500747349113e-05,
+            "max": 0.005507135996595025
+          },
+          "guard_tick_to_output_s": {
+            "count": 1070,
+            "p50": 0.00258910350385122,
+            "p95": 0.005541850345616694,
+            "min": 0.00027095100085716695,
+            "max": 0.0061386239976854995
+          },
+          "guard_producer_start_interval_s": {
+            "count": 1070,
+            "p50": 0.050000720500000005,
+            "p95": 0.05036307735,
+            "min": 0.04862231,
+            "max": 0.051249879000000005
+          },
+          "guard_producer_output_interval_s": {
+            "count": 1070,
+            "p50": 0.050011464500000005,
+            "p95": 0.052863537,
+            "min": 0.045868658,
+            "max": 0.054048946
+          },
+          "guard_tick_to_output_cpu_s": {
+            "count": 1070,
+            "p50": 0.0026716255,
+            "p95": 0.00572077,
+            "min": 0.00024926500000000003,
+            "max": 0.006429307
+          },
+          "guard_nominal_missed_slots": 0,
+          "guard_record_tick_gaps": [],
+          "guard_observed_10ms_gate": true,
+          "errors": [],
+          "missing_inputs": {},
+          "all_model_replays_pass": true,
+          "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+        },
+        "run": "crossing_single_01",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.0,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 0.9633209497873017,
+        "diagnostic_sweep_lower_m": 0.9083209497873016,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 229,
+        "native_executed_ready_count": 228,
+        "native_executed_s": {
+          "count": 229,
+          "p50": 0.000139997,
+          "p95": 0.0001569996,
+          "min": 7.7323e-05,
+          "max": 0.000225814
+        },
+        "feasible_worker_s": {
+          "count": 538,
+          "p50": 0.007891449502494652,
+          "p95": 0.01602648220723495,
+          "min": 0.00494280899874866,
+          "max": 0.020322706986917183
+        },
+        "worker_all_s": {
+          "count": 1227,
+          "p50": 0.006464874997618608,
+          "p95": 0.013546433203737251,
+          "min": 6.308199954219162e-05,
+          "max": 0.020322706986917183
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 247,
+          "primal infeasible": 442
+        },
+        "controller_command_count": 742,
+        "controller_command_gap_wall_s": {
+          "count": 741,
+          "p50": 0.049986212,
+          "p95": 0.05509835,
+          "min": 0.03982675,
+          "max": 0.060728098
+        },
+        "actuator_command_count": 801,
+        "actuator_command_gap_wall_s": {
+          "count": 800,
+          "p50": 0.0501445215,
+          "p95": 0.056263871199999996,
+          "min": 0.033180299,
+          "max": 0.065303179
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 68025972745797,
+            "controller": "FollowPathMPPI"
+          },
+          {
+            "sim_s": 12.935,
+            "wall_ns": 68041965509037,
+            "controller": "FollowPathTemporalMPC"
+          },
+          {
+            "sim_s": 24.407,
+            "wall_ns": 68053441507251,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": {
+          "nearby_health_diagnostic": {
+            "ready": false,
+            "fallback_requested": true,
+            "reason": "reanchored trajectory rejected",
+            "executed": true,
+            "compute_count": 229,
+            "elapsed_s": 8.8328e-05,
+            "evaluation_ns": 24401000000,
+            "proposal_ns": 24382000000,
+            "prediction_ns": 24355000000,
+            "generation": 2,
+            "model": "fixed_yaw_velocity_zoh/v1",
+            "constraint": "dynamic_clearance",
+            "reanchor_projection": "velocity_and_stop/v2",
+            "step": 30,
+            "track_id": 1,
+            "slack": -0.00030821569554054934,
+            "initial_state": [
+              2.6629865518472813,
+              1.6983733719655003,
+              1.9668935473489063e-09,
+              0,
+              0,
+              0
+            ],
+            "checked_state": [
+              2.6562340556823916,
+              2.1623754622627205,
+              1.9668935473489063e-09,
+              0,
+              0,
+              0
+            ]
+          },
+          "nearby_health_receipt_offset_s": 0.0002156,
+          "causal_failure_to_switch_s": null,
+          "causal_health_receipt_observed_before_selection": false,
+          "nearby_executed_rejection_reason": "reanchored trajectory rejected",
+          "nearby_rejection_receipt_offset_s": 0.0002156,
+          "receipt_order_note": "Independent DDS subscriptions; post-selection receipt is correlation, not measured causal latency",
+          "selection_sim_s": 24.407,
+          "health_reason": null,
+          "health_to_selection_wall_s": null
+        },
+        "accepted_mpc_cycle_share": 0.30727762803234504,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": true,
+        "physical_fail_reasons": [
+          "action not successful",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "repetition_count": 1,
+      "mppi_internal_noise_seed": null,
+      "statistical_net_benefit_established": false
+    },
+    {
+      "scenario": "crossing_portfolio",
+      "config_byte_identical": {
+        "world.sdf": true,
+        "nav2.yaml": true,
+        "tracker.yaml": true,
+        "bridge.yaml": true
+      },
+      "b0": {
+        "execution_audit": {
+          "guard_exact_input_replays": 1070,
+          "native_zoh_state_replays": 326,
+          "native_model_error": {
+            "count": 326,
+            "p50": 1.1102230246251565e-16,
+            "p95": 2.220446049250313e-16,
+            "min": 0.0,
+            "max": 4.440892098500626e-16
+          },
+          "native_dynamic_rejection_checks": 12,
+          "native_constraint_counts": {
+            "input": 676,
+            "accepted": 314,
+            "dynamic_clearance": 12
+          },
+          "executed_rejections": [],
+          "guard_statuses": {
+            "uncertified_brake": 539,
+            "certified_brake": 321,
+            "pass": 210
+          },
+          "guard_slew_max": 0.05,
+          "guard_core_s": {
+            "count": 1070,
+            "p50": 0.002223642004537396,
+            "p95": 0.004939758800901473,
+            "min": 4.6532994019798934e-05,
+            "max": 0.0056483899970771745
+          },
+          "guard_tick_to_output_s": {
+            "count": 1070,
+            "p50": 0.002530929501517676,
+            "p95": 0.0054457938502309846,
+            "min": 0.00020302701159380376,
+            "max": 0.006194344008690678
+          },
+          "guard_producer_start_interval_s": {
+            "count": 1070,
+            "p50": 0.0500005925,
+            "p95": 0.0502852884,
+            "min": 0.048800675,
+            "max": 0.051182226000000004
+          },
+          "guard_producer_output_interval_s": {
+            "count": 1070,
+            "p50": 0.050008521,
+            "p95": 0.05276978125,
+            "min": 0.0458258,
+            "max": 0.054159500000000006
+          },
+          "guard_tick_to_output_cpu_s": {
+            "count": 1070,
+            "p50": 0.0026075215000000004,
+            "p95": 0.0056288973,
+            "min": 0.000203902,
+            "max": 0.006280918000000001
+          },
+          "guard_nominal_missed_slots": 0,
+          "guard_record_tick_gaps": [],
+          "guard_observed_10ms_gate": true,
+          "errors": [],
+          "missing_inputs": {},
+          "all_model_replays_pass": true,
+          "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+        },
+        "run": "crossing_b0_01",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.0,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 1.6215291889912815,
+        "diagnostic_sweep_lower_m": 1.5665291889912816,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 0,
+        "native_executed_ready_count": 0,
+        "native_executed_s": null,
+        "feasible_worker_s": {
+          "count": 326,
+          "p50": 0.009257300502213184,
+          "p95": 0.018694940747082,
+          "min": 0.0058870770008070394,
+          "max": 0.019882595996023156
+        },
+        "worker_all_s": {
+          "count": 998,
+          "p50": 0.007129600999178365,
+          "p95": 0.015946290949796087,
+          "min": 5.911299376748502e-05,
+          "max": 0.019882595996023156
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 244,
+          "primal infeasible": 428
+        },
+        "controller_command_count": 743,
+        "controller_command_gap_wall_s": {
+          "count": 742,
+          "p50": 0.0499855795,
+          "p95": 0.055599685649999994,
+          "min": 0.022978425,
+          "max": 0.076918262
+        },
+        "actuator_command_count": 801,
+        "actuator_command_gap_wall_s": {
+          "count": 800,
+          "p50": 0.0498808365,
+          "p95": 0.0562384789,
+          "min": 0.030684879,
+          "max": 0.067877177
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 67849626843746,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": null,
+        "accepted_mpc_cycle_share": 0.0,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": false,
+        "physical_fail_reasons": [
+          "action not successful",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "candidate": {
+        "execution_audit": {
+          "guard_exact_input_replays": 1076,
+          "native_zoh_state_replays": 628,
+          "native_model_error": {
+            "count": 628,
+            "p50": 0.0,
+            "p95": 4.440892098500626e-16,
+            "min": 0.0,
+            "max": 8.881784197001252e-16
+          },
+          "native_dynamic_rejection_checks": 14,
+          "native_constraint_counts": {
+            "input": 608,
+            "accepted": 614,
+            "dynamic_clearance": 14
+          },
+          "executed_rejections": [
+            {
+              "ready": false,
+              "fallback_requested": true,
+              "reason": "reanchored trajectory rejected",
+              "executed": true,
+              "compute_count": 238,
+              "elapsed_s": 0.000129283,
+              "evaluation_ns": 24781000000,
+              "proposal_ns": 24731000000,
+              "prediction_ns": 24751000000,
+              "generation": 2,
+              "model": "fixed_yaw_velocity_zoh/v1",
+              "constraint": "dynamic_clearance",
+              "reanchor_projection": "velocity_and_stop/v2",
+              "step": 30,
+              "track_id": 1,
+              "slack": -0.002661158140268835,
+              "initial_state": [
+                2.7046453960616814,
+                1.708324281270578,
+                1.5054026627905544e-09,
+                0,
+                0,
+                0
+              ],
+              "checked_state": [
+                2.5836111525592935,
+                2.1301509653200426,
+                1.5054026627905544e-09,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "guard_statuses": {
+            "uncertified_brake": 461,
+            "certified_brake": 321,
+            "pass": 294
+          },
+          "guard_slew_max": 0.050000000000000044,
+          "guard_core_s": {
+            "count": 1076,
+            "p50": 0.0022053895008866675,
+            "p95": 0.004911726246064063,
+            "min": 6.211399158928543e-05,
+            "max": 0.0055295900092460215
+          },
+          "guard_tick_to_output_s": {
+            "count": 1076,
+            "p50": 0.0025068094982998446,
+            "p95": 0.00539329499588348,
+            "min": 0.00027011599740944803,
+            "max": 0.006180158001370728
+          },
+          "guard_producer_start_interval_s": {
+            "count": 1076,
+            "p50": 0.04999587500000001,
+            "p95": 0.050396468750000006,
+            "min": 0.048847541,
+            "max": 0.051220457000000004
+          },
+          "guard_producer_output_interval_s": {
+            "count": 1076,
+            "p50": 0.049987664,
+            "p95": 0.05272988925,
+            "min": 0.045717559000000005,
+            "max": 0.054362992000000006
+          },
+          "guard_tick_to_output_cpu_s": {
+            "count": 1076,
+            "p50": 0.0025922805000000004,
+            "p95": 0.00557177975,
+            "min": 0.000252162,
+            "max": 0.006440706
+          },
+          "guard_nominal_missed_slots": 0,
+          "guard_record_tick_gaps": [],
+          "guard_observed_10ms_gate": true,
+          "errors": [],
+          "missing_inputs": {},
+          "all_model_replays_pass": true,
+          "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+        },
+        "run": "crossing_portfolio_01",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.001,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 0.9083648975389944,
+        "diagnostic_sweep_lower_m": 0.8533648975389944,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 238,
+        "native_executed_ready_count": 237,
+        "native_executed_s": {
+          "count": 238,
+          "p50": 0.000116411,
+          "p95": 0.00015622354999999996,
+          "min": 8.1651e-05,
+          "max": 0.000173162
+        },
+        "feasible_worker_s": {
+          "count": 628,
+          "p50": 0.007521476502006408,
+          "p95": 0.016342843906750202,
+          "min": 0.004668309993576258,
+          "max": 0.020622333002393134
+        },
+        "worker_all_s": {
+          "count": 1231,
+          "p50": 0.008507044010912068,
+          "p95": 0.02672033400449436,
+          "min": 6.712399772368371e-05,
+          "max": 0.036844348011072725
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 242,
+          "maximum iterations reached; trajectory rejected by hard checks": 2,
+          "primal infeasible inaccurate": 1,
+          "primal infeasible": 358
+        },
+        "controller_command_count": 743,
+        "controller_command_gap_wall_s": {
+          "count": 742,
+          "p50": 0.050020083,
+          "p95": 0.05497999455,
+          "min": 0.039202815,
+          "max": 0.060922244
+        },
+        "actuator_command_count": 801,
+        "actuator_command_gap_wall_s": {
+          "count": 800,
+          "p50": 0.050044205,
+          "p95": 0.055297431949999996,
+          "min": 0.033582771,
+          "max": 0.061486643
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 68124862951340,
+            "controller": "FollowPathMPPI"
+          },
+          {
+            "sim_s": 12.928,
+            "wall_ns": 68141146499899,
+            "controller": "FollowPathTemporalMPC"
+          },
+          {
+            "sim_s": 24.788,
+            "wall_ns": 68153009613486,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": {
+          "nearby_health_diagnostic": {
+            "ready": false,
+            "fallback_requested": true,
+            "reason": "reanchored trajectory rejected",
+            "executed": true,
+            "compute_count": 238,
+            "elapsed_s": 0.000129283,
+            "evaluation_ns": 24781000000,
+            "proposal_ns": 24731000000,
+            "prediction_ns": 24751000000,
+            "generation": 2,
+            "model": "fixed_yaw_velocity_zoh/v1",
+            "constraint": "dynamic_clearance",
+            "reanchor_projection": "velocity_and_stop/v2",
+            "step": 30,
+            "track_id": 1,
+            "slack": -0.002661158140268835,
+            "initial_state": [
+              2.7046453960616814,
+              1.708324281270578,
+              1.5054026627905544e-09,
+              0,
+              0,
+              0
+            ],
+            "checked_state": [
+              2.5836111525592935,
+              2.1301509653200426,
+              1.5054026627905544e-09,
+              0,
+              0,
+              0
+            ]
+          },
+          "nearby_health_receipt_offset_s": -0.003993387,
+          "causal_failure_to_switch_s": null,
+          "causal_health_receipt_observed_before_selection": true,
+          "nearby_executed_rejection_reason": "reanchored trajectory rejected",
+          "nearby_rejection_receipt_offset_s": -0.003993387,
+          "receipt_order_note": "Independent DDS subscriptions; post-selection receipt is correlation, not measured causal latency",
+          "selection_sim_s": 24.788,
+          "health_reason": "reanchored trajectory rejected",
+          "health_to_selection_wall_s": 0.003993387
+        },
+        "accepted_mpc_cycle_share": 0.3189771197846568,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": true,
+        "physical_fail_reasons": [
+          "action not successful",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "repetition_count": 1,
+      "mppi_internal_noise_seed": null,
+      "statistical_net_benefit_established": false
+    },
+    {
+      "scenario": "head_on_single",
+      "config_byte_identical": {
+        "world.sdf": true,
+        "nav2.yaml": true,
+        "tracker.yaml": true,
+        "bridge.yaml": true
+      },
+      "b0": {
+        "execution_audit": {
+          "guard_exact_input_replays": 1073,
+          "native_zoh_state_replays": 33,
+          "native_model_error": {
+            "count": 33,
+            "p50": 1.1102230246251565e-16,
+            "p95": 3.441691376337985e-16,
+            "min": 0.0,
+            "max": 4.163336342344337e-16
+          },
+          "native_dynamic_rejection_checks": 17,
+          "native_constraint_counts": {
+            "input": 971,
+            "accepted": 16,
+            "dynamic_clearance": 17
+          },
+          "executed_rejections": [],
+          "guard_statuses": {
+            "uncertified_brake": 809,
+            "certified_brake": 251,
+            "pass": 13
+          },
+          "guard_slew_max": 0.05,
+          "guard_core_s": {
+            "count": 1073,
+            "p50": 0.0020039629889652133,
+            "p95": 0.004514014002052136,
+            "min": 5.741200584452599e-05,
+            "max": 0.005392951992689632
+          },
+          "guard_tick_to_output_s": {
+            "count": 1073,
+            "p50": 0.0023075549979694188,
+            "p95": 0.0050199148041429,
+            "min": 0.00025280100817326456,
+            "max": 0.005978397995932028
+          },
+          "guard_producer_start_interval_s": {
+            "count": 1073,
+            "p50": 0.049994849,
+            "p95": 0.050437415,
+            "min": 0.048644606,
+            "max": 0.051486026000000004
+          },
+          "guard_producer_output_interval_s": {
+            "count": 1073,
+            "p50": 0.049986485000000004,
+            "p95": 0.052883632400000005,
+            "min": 0.046209744000000004,
+            "max": 0.054180377
+          },
+          "guard_tick_to_output_cpu_s": {
+            "count": 1073,
+            "p50": 0.0023741450000000002,
+            "p95": 0.0051633412,
+            "min": 0.000233865,
+            "max": 0.0061090860000000006
+          },
+          "guard_nominal_missed_slots": 0,
+          "guard_record_tick_gaps": [],
+          "guard_observed_10ms_gate": true,
+          "errors": [],
+          "missing_inputs": {},
+          "all_model_replays_pass": true,
+          "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+        },
+        "run": "head_on_b0_02",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.0,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 0.6758508008965798,
+        "diagnostic_sweep_lower_m": 0.6208508008965797,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 0,
+        "native_executed_ready_count": 0,
+        "native_executed_s": null,
+        "feasible_worker_s": {
+          "count": 33,
+          "p50": 0.011102422009571455,
+          "p95": 0.01938518399838358,
+          "min": 0.007922311997390352,
+          "max": 0.020111270001507364
+        },
+        "worker_all_s": {
+          "count": 998,
+          "p50": 0.005879301505046897,
+          "p95": 0.013078038556704997,
+          "min": 6.548300734721124e-05,
+          "max": 0.030257751001045108
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 243,
+          "maximum iterations reached; trajectory rejected by hard checks": 1,
+          "primal infeasible": 721
+        },
+        "controller_command_count": 748,
+        "controller_command_gap_wall_s": {
+          "count": 747,
+          "p50": 0.049991127,
+          "p95": 0.05633677279999999,
+          "min": 0.018932202,
+          "max": 0.087162822
+        },
+        "actuator_command_count": 800,
+        "actuator_command_gap_wall_s": {
+          "count": 799,
+          "p50": 0.049993801,
+          "p95": 0.0551589206,
+          "min": 0.01945476,
+          "max": 0.081571937
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 68482876832598,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": null,
+        "accepted_mpc_cycle_share": 0.0,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": false,
+        "logged_controller_75ms_continuity_gate": false,
+        "physical_fail_reasons": [
+          "action not successful",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "candidate": {
+        "execution_audit": {
+          "guard_exact_input_replays": 1070,
+          "native_zoh_state_replays": 46,
+          "native_model_error": {
+            "count": 46,
+            "p50": 1.5612511283791264e-17,
+            "p95": 2.220446049250313e-16,
+            "min": 0.0,
+            "max": 5.551115123125783e-16
+          },
+          "native_dynamic_rejection_checks": 16,
+          "native_constraint_counts": {
+            "input": 972,
+            "accepted": 30,
+            "dynamic_clearance": 16
+          },
+          "executed_rejections": [],
+          "guard_statuses": {
+            "uncertified_brake": 800,
+            "certified_brake": 257,
+            "pass": 13
+          },
+          "guard_slew_max": 0.05,
+          "guard_core_s": {
+            "count": 1070,
+            "p50": 0.002031561001786031,
+            "p95": 0.0045135416527045885,
+            "min": 6.180300260894e-05,
+            "max": 0.005006398001569323
+          },
+          "guard_tick_to_output_s": {
+            "count": 1070,
+            "p50": 0.0023468369981856085,
+            "p95": 0.005015210402780213,
+            "min": 0.0002603449975140393,
+            "max": 0.005582443001912907
+          },
+          "guard_producer_start_interval_s": {
+            "count": 1069,
+            "p50": 0.050002833000000003,
+            "p95": 0.050518447400000006,
+            "min": 0.048882236,
+            "max": 0.051112969
+          },
+          "guard_producer_output_interval_s": {
+            "count": 1069,
+            "p50": 0.049990976000000006,
+            "p95": 0.052951649,
+            "min": 0.045707865,
+            "max": 0.054142942000000006
+          },
+          "guard_tick_to_output_cpu_s": {
+            "count": 1070,
+            "p50": 0.0024077085000000003,
+            "p95": 0.0051750201,
+            "min": 0.000239959,
+            "max": 0.005909612000000001
+          },
+          "guard_nominal_missed_slots": 0,
+          "guard_record_tick_gaps": [],
+          "guard_observed_10ms_gate": true,
+          "errors": [],
+          "missing_inputs": {},
+          "all_model_replays_pass": true,
+          "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+        },
+        "run": "head_on_single_02",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.0,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 0.8499999819614809,
+        "diagnostic_sweep_lower_m": 0.7949999819614808,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 15,
+        "native_executed_ready_count": 15,
+        "native_executed_s": {
+          "count": 15,
+          "p50": 0.000144701,
+          "p95": 0.0001551033,
+          "min": 0.000117475,
+          "max": 0.00016594
+        },
+        "feasible_worker_s": {
+          "count": 46,
+          "p50": 0.00902050749573391,
+          "p95": 0.01841182049975032,
+          "min": 0.007181936001870781,
+          "max": 0.02001179200306069
+        },
+        "worker_all_s": {
+          "count": 1013,
+          "p50": 0.005727167008444667,
+          "p95": 0.013048514997353777,
+          "min": 6.311599281616509e-05,
+          "max": 0.02001179200306069
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 248,
+          "primal infeasible": 719
+        },
+        "controller_command_count": 742,
+        "controller_command_gap_wall_s": {
+          "count": 741,
+          "p50": 0.05004281,
+          "p95": 0.055006102,
+          "min": 0.02195381,
+          "max": 0.085663193
+        },
+        "actuator_command_count": 801,
+        "actuator_command_gap_wall_s": {
+          "count": 800,
+          "p50": 0.0499859265,
+          "p95": 0.056070569599999995,
+          "min": 0.03177268,
+          "max": 0.071970447
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 68611709789046,
+            "controller": "FollowPathMPPI"
+          },
+          {
+            "sim_s": 12.98,
+            "wall_ns": 68627889859677,
+            "controller": "FollowPathTemporalMPC"
+          },
+          {
+            "sim_s": 13.726,
+            "wall_ns": 68628635165515,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": {
+          "nearby_health_diagnostic": {
+            "ready": false,
+            "fallback_requested": true,
+            "reason": "reanchored trajectory rejected",
+            "executed": false,
+            "compute_count": 15,
+            "elapsed_s": 0,
+            "evaluation_ns": 13725000000,
+            "proposal_ns": 13693000000,
+            "prediction_ns": 13663000000,
+            "generation": 2,
+            "model": "fixed_yaw_velocity_zoh/v1",
+            "constraint": "dynamic_clearance",
+            "reanchor_projection": "velocity_and_stop/v2",
+            "step": 30,
+            "track_id": 1,
+            "slack": -0.01111851479431834,
+            "initial_state": [
+              1.8038159221125885e-08,
+              -0.1492323528094667,
+              1.1882218410075953e-15,
+              -6.7869815696787e-17,
+              -0.31319845451058265,
+              1.4666370634946809e-16
+            ],
+            "checked_state": [
+              7.263258849503336e-07,
+              -0.6267982421951926,
+              1.1882218410075953e-15,
+              0,
+              0,
+              0
+            ]
+          },
+          "nearby_health_receipt_offset_s": -0.00090237,
+          "causal_failure_to_switch_s": null,
+          "causal_health_receipt_observed_before_selection": true,
+          "nearby_executed_rejection_reason": null,
+          "nearby_rejection_receipt_offset_s": null,
+          "receipt_order_note": "Independent DDS subscriptions; post-selection receipt is correlation, not measured causal latency",
+          "selection_sim_s": 13.726,
+          "health_reason": "reanchored trajectory rejected",
+          "health_to_selection_wall_s": 0.00090237
+        },
+        "accepted_mpc_cycle_share": 0.02021563342318059,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": false,
+        "physical_fail_reasons": [
+          "action not successful",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "repetition_count": 1,
+      "mppi_internal_noise_seed": null,
+      "statistical_net_benefit_established": false
+    },
+    {
+      "scenario": "head_on_portfolio",
+      "config_byte_identical": {
+        "world.sdf": true,
+        "nav2.yaml": true,
+        "tracker.yaml": true,
+        "bridge.yaml": true
+      },
+      "b0": {
+        "execution_audit": {
+          "guard_exact_input_replays": 1073,
+          "native_zoh_state_replays": 33,
+          "native_model_error": {
+            "count": 33,
+            "p50": 1.1102230246251565e-16,
+            "p95": 3.441691376337985e-16,
+            "min": 0.0,
+            "max": 4.163336342344337e-16
+          },
+          "native_dynamic_rejection_checks": 17,
+          "native_constraint_counts": {
+            "input": 971,
+            "accepted": 16,
+            "dynamic_clearance": 17
+          },
+          "executed_rejections": [],
+          "guard_statuses": {
+            "uncertified_brake": 809,
+            "certified_brake": 251,
+            "pass": 13
+          },
+          "guard_slew_max": 0.05,
+          "guard_core_s": {
+            "count": 1073,
+            "p50": 0.0020039629889652133,
+            "p95": 0.004514014002052136,
+            "min": 5.741200584452599e-05,
+            "max": 0.005392951992689632
+          },
+          "guard_tick_to_output_s": {
+            "count": 1073,
+            "p50": 0.0023075549979694188,
+            "p95": 0.0050199148041429,
+            "min": 0.00025280100817326456,
+            "max": 0.005978397995932028
+          },
+          "guard_producer_start_interval_s": {
+            "count": 1073,
+            "p50": 0.049994849,
+            "p95": 0.050437415,
+            "min": 0.048644606,
+            "max": 0.051486026000000004
+          },
+          "guard_producer_output_interval_s": {
+            "count": 1073,
+            "p50": 0.049986485000000004,
+            "p95": 0.052883632400000005,
+            "min": 0.046209744000000004,
+            "max": 0.054180377
+          },
+          "guard_tick_to_output_cpu_s": {
+            "count": 1073,
+            "p50": 0.0023741450000000002,
+            "p95": 0.0051633412,
+            "min": 0.000233865,
+            "max": 0.0061090860000000006
+          },
+          "guard_nominal_missed_slots": 0,
+          "guard_record_tick_gaps": [],
+          "guard_observed_10ms_gate": true,
+          "errors": [],
+          "missing_inputs": {},
+          "all_model_replays_pass": true,
+          "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+        },
+        "run": "head_on_b0_02",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.0,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 0.6758508008965798,
+        "diagnostic_sweep_lower_m": 0.6208508008965797,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 0,
+        "native_executed_ready_count": 0,
+        "native_executed_s": null,
+        "feasible_worker_s": {
+          "count": 33,
+          "p50": 0.011102422009571455,
+          "p95": 0.01938518399838358,
+          "min": 0.007922311997390352,
+          "max": 0.020111270001507364
+        },
+        "worker_all_s": {
+          "count": 998,
+          "p50": 0.005879301505046897,
+          "p95": 0.013078038556704997,
+          "min": 6.548300734721124e-05,
+          "max": 0.030257751001045108
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 243,
+          "maximum iterations reached; trajectory rejected by hard checks": 1,
+          "primal infeasible": 721
+        },
+        "controller_command_count": 748,
+        "controller_command_gap_wall_s": {
+          "count": 747,
+          "p50": 0.049991127,
+          "p95": 0.05633677279999999,
+          "min": 0.018932202,
+          "max": 0.087162822
+        },
+        "actuator_command_count": 800,
+        "actuator_command_gap_wall_s": {
+          "count": 799,
+          "p50": 0.049993801,
+          "p95": 0.0551589206,
+          "min": 0.01945476,
+          "max": 0.081571937
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 68482876832598,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": null,
+        "accepted_mpc_cycle_share": 0.0,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": false,
+        "logged_controller_75ms_continuity_gate": false,
+        "physical_fail_reasons": [
+          "action not successful",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "candidate": {
+        "execution_audit": {
+          "guard_exact_input_replays": 1074,
+          "native_zoh_state_replays": 26,
+          "native_model_error": {
+            "count": 26,
+            "p50": 5.551115123125783e-17,
+            "p95": 1.1102230246251565e-16,
+            "min": 0.0,
+            "max": 2.220446049250313e-16
+          },
+          "native_dynamic_rejection_checks": 13,
+          "native_constraint_counts": {
+            "input": 980,
+            "accepted": 13,
+            "dynamic_clearance": 13
+          },
+          "executed_rejections": [
+            {
+              "ready": false,
+              "fallback_requested": true,
+              "reason": "proposal stale/rejected/generation",
+              "executed": true,
+              "compute_count": 2,
+              "elapsed_s": 3.6419e-05,
+              "evaluation_ns": 13262000000,
+              "proposal_ns": 13216000000,
+              "prediction_ns": 13201000000,
+              "generation": 2,
+              "model": "fixed_yaw_velocity_zoh/v1",
+              "constraint": "input",
+              "reanchor_projection": "velocity_and_stop/v2",
+              "step": -1,
+              "track_id": 0,
+              "slack": null,
+              "initial_state": [
+                -6.43710317526343e-19,
+                -0.0012999882801133932,
+                8.106245447168358e-18,
+                0,
+                -0.0499999926598968,
+                0
+              ],
+              "checked_state": [
+                -6.43710317526343e-19,
+                -0.0012999882801133932,
+                8.106245447168358e-18,
+                0,
+                -0.0499999926598968,
+                0
+              ]
+            }
+          ],
+          "guard_statuses": {
+            "uncertified_brake": 805,
+            "certified_brake": 261,
+            "pass": 8
+          },
+          "guard_slew_max": 0.05,
+          "guard_core_s": {
+            "count": 1074,
+            "p50": 0.002053227501164656,
+            "p95": 0.004553366396430647,
+            "min": 6.184300582390279e-05,
+            "max": 0.004994119008188136
+          },
+          "guard_tick_to_output_s": {
+            "count": 1074,
+            "p50": 0.002387278502283152,
+            "p95": 0.005058658103371272,
+            "min": 0.0002566390030551702,
+            "max": 0.005594578993623145
+          },
+          "guard_producer_start_interval_s": {
+            "count": 1074,
+            "p50": 0.0500013455,
+            "p95": 0.0503892483,
+            "min": 0.047483318000000004,
+            "max": 0.052420953000000006
+          },
+          "guard_producer_output_interval_s": {
+            "count": 1074,
+            "p50": 0.04999568,
+            "p95": 0.0528844321,
+            "min": 0.046470703,
+            "max": 0.054108147
+          },
+          "guard_tick_to_output_cpu_s": {
+            "count": 1074,
+            "p50": 0.0024992820000000002,
+            "p95": 0.0052312259,
+            "min": 0.000242116,
+            "max": 0.005848283
+          },
+          "guard_nominal_missed_slots": 0,
+          "guard_record_tick_gaps": [],
+          "guard_observed_10ms_gate": true,
+          "errors": [],
+          "missing_inputs": {},
+          "all_model_replays_pass": true,
+          "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+        },
+        "run": "head_on_portfolio_02",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.0,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 0.8078458703852525,
+        "diagnostic_sweep_lower_m": 0.7528458703852524,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 2,
+        "native_executed_ready_count": 1,
+        "native_executed_s": {
+          "count": 2,
+          "p50": 8.08025e-05,
+          "p95": 0.00012074764999999999,
+          "min": 3.6419e-05,
+          "max": 0.000125186
+        },
+        "feasible_worker_s": {
+          "count": 26,
+          "p50": 0.00767555149650434,
+          "p95": 0.016300137245707447,
+          "min": 0.006759155003237538,
+          "max": 0.016753348012571223
+        },
+        "worker_all_s": {
+          "count": 1000,
+          "p50": 0.015432887004863005,
+          "p95": 0.03465983805363066,
+          "min": 7.393000123556703e-05,
+          "max": 0.037439138992340304
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 252,
+          "ContractError: state request stale/frame": 1,
+          "maximum iterations reached; trajectory rejected by hard checks": 5,
+          "primal infeasible inaccurate": 7,
+          "primal infeasible": 709
+        },
+        "controller_command_count": 737,
+        "controller_command_gap_wall_s": {
+          "count": 736,
+          "p50": 0.049988878,
+          "p95": 0.05540634925,
+          "min": 0.027630719,
+          "max": 0.073192229
+        },
+        "actuator_command_count": 800,
+        "actuator_command_gap_wall_s": {
+          "count": 799,
+          "p50": 0.050070082,
+          "p95": 0.056321992,
+          "min": 0.0248009,
+          "max": 0.068572557
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 68715498658045,
+            "controller": "FollowPathMPPI"
+          },
+          {
+            "sim_s": 13.119,
+            "wall_ns": 68731900209835,
+            "controller": "FollowPathTemporalMPC"
+          },
+          {
+            "sim_s": 13.267,
+            "wall_ns": 68732048979637,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": {
+          "nearby_health_diagnostic": {
+            "ready": false,
+            "fallback_requested": true,
+            "reason": "proposal stale/rejected/generation",
+            "executed": true,
+            "compute_count": 2,
+            "elapsed_s": 3.6419e-05,
+            "evaluation_ns": 13262000000,
+            "proposal_ns": 13216000000,
+            "prediction_ns": 13201000000,
+            "generation": 2,
+            "model": "fixed_yaw_velocity_zoh/v1",
+            "constraint": "input",
+            "reanchor_projection": "velocity_and_stop/v2",
+            "step": -1,
+            "track_id": 0,
+            "slack": null,
+            "initial_state": [
+              -6.43710317526343e-19,
+              -0.0012999882801133932,
+              8.106245447168358e-18,
+              0,
+              -0.0499999926598968,
+              0
+            ],
+            "checked_state": [
+              -6.43710317526343e-19,
+              -0.0012999882801133932,
+              8.106245447168358e-18,
+              0,
+              -0.0499999926598968,
+              0
+            ]
+          },
+          "nearby_health_receipt_offset_s": 0.000230091,
+          "causal_failure_to_switch_s": null,
+          "causal_health_receipt_observed_before_selection": false,
+          "nearby_executed_rejection_reason": "proposal stale/rejected/generation",
+          "nearby_rejection_receipt_offset_s": 0.000230091,
+          "receipt_order_note": "Independent DDS subscriptions; post-selection receipt is correlation, not measured causal latency",
+          "selection_sim_s": 13.267,
+          "health_reason": null,
+          "health_to_selection_wall_s": null
+        },
+        "accepted_mpc_cycle_share": 0.0013568521031207597,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": true,
+        "physical_fail_reasons": [
+          "action not successful",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "repetition_count": 1,
+      "mppi_internal_noise_seed": null,
+      "statistical_net_benefit_established": false
+    }
+  ],
+  "all_pair_config_identical": true,
+  "candidate_frozen_for_deployment": false,
+  "dynamic_acceptance": false,
+  "conclusion": "Recorded engineering/physical results only. No safe successful B0 witness or continuous safety certificate; deployment acceptance remains false."
+}

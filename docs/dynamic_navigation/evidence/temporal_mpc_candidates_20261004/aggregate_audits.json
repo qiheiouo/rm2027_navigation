@@ -1,0 +1,28 @@
+{
+  "valid_comparison_runs": [
+    "crossing_b0_01",
+    "crossing_single_01",
+    "crossing_portfolio_01",
+    "head_on_b0_02",
+    "head_on_single_02",
+    "head_on_portfolio_02"
+  ],
+  "valid_sums": {
+    "cdr": 102290,
+    "sources": 4562,
+    "guard": 6433,
+    "native": 1597,
+    "dynamic": 92,
+    "joins": 1597,
+    "shadow": 90
+  },
+  "valid_maxima_s": {
+    "worker": 0.037439138992340304,
+    "native": 0.000225814,
+    "guard": 0.006194344008690678,
+    "producer_start": 0.052420953000000006,
+    "producer_output": 0.054362992000000006,
+    "solver": 0.00585631700232625
+  },
+  "scope": "Six valid physical runs only; failed head_on_b0_01 is separately retained and audited. solver is qp.solve wall time; worker includes planning/QP/rechecks but excludes diagnostic construction/publishing."
+}

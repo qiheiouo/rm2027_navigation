@@ -1,0 +1,66 @@
+.......F..F.............................................F............... [ 62%]
+............................................                             [100%]
+=================================== FAILURES ===================================
+_______ test_portfolio_cannot_bypass_input_or_all_track_hard_checks[yaw] _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x724a85dd8590>
+failure = 'yaw'
+
+    @pytest.mark.parametrize('failure',['stale','yaw','epoch','collision','overload'])
+    def test_portfolio_cannot_bypass_input_or_all_track_hard_checks(monkeypatch,failure):
+        m,x,w,r=fixture(monkeypatch);ns=50_000_000;s=Snapshot(ns,());w=replace(w,epoch_ns=ns)
+        if failure=='stale':s=Snapshot(0,());ns=500_000_000;w=replace(w,epoch_ns=ns)
+        if failure=='yaw':w=replace(w,reference=w.reference+np.array([0.,0.,.1]))
+        if failure=='epoch':w=replace(w,epoch_ns=0)
+        if failure in ('collision','overload'):
+            count=1 if failure=='collision' else 5
+            pos=(0.,0.) if failure=='collision' else (.8,.8)
+            s=Snapshot(ns,tuple(Track(i,pos,(0.,0.),ns,'confirmed',Geometry('circle',radius=.2,source='test')) for i in range(count)))
+        result=m.solve(x,ns,s,w)
+>       assert result.fallback_id=='FollowPathMPPI' and not result.model_feasible
+E       AssertionError: assert ('FollowPathMPPI' == 'FollowPathMPPI'
+E           FollowPathMPPI and not True)
+E        +  where True = QPResult(status='brake', reason='fixed-yaw phase-one domain violated', command=array([0., 0., 0.]), acceleration=array...5}, {'candidate': 'wait', 'attempted': False, 'reason': 'invalid static reference contract'}), chosen_candidate='left').model_feasible
+
+experiments/temporal_mpc/test/test_candidates.py:89: AssertionError
+____ test_portfolio_cannot_bypass_input_or_all_track_hard_checks[overload] _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x724a85bff500>
+failure = 'overload'
+
+    @pytest.mark.parametrize('failure',['stale','yaw','epoch','collision','overload'])
+    def test_portfolio_cannot_bypass_input_or_all_track_hard_checks(monkeypatch,failure):
+        m,x,w,r=fixture(monkeypatch);ns=50_000_000;s=Snapshot(ns,());w=replace(w,epoch_ns=ns)
+        if failure=='stale':s=Snapshot(0,());ns=500_000_000;w=replace(w,epoch_ns=ns)
+        if failure=='yaw':w=replace(w,reference=w.reference+np.array([0.,0.,.1]))
+        if failure=='epoch':w=replace(w,epoch_ns=0)
+        if failure in ('collision','overload'):
+            count=1 if failure=='collision' else 5
+            pos=(0.,0.) if failure=='collision' else (.8,.8)
+            s=Snapshot(ns,tuple(Track(i,pos,(0.,0.),ns,'confirmed',Geometry('circle',radius=.2,source='test')) for i in range(count)))
+        result=m.solve(x,ns,s,w)
+>       assert result.fallback_id=='FollowPathMPPI' and not result.model_feasible
+E       AssertionError: assert (None == 'FollowPathMPPI')
+E        +  where None = QPResult(status='optimized', reason='revalidated temporal QP', command=array([0., 0., 0.]), acceleration=array([0., 0....s': 0.0, 'mode': 'route', 'track': None, 'side': None, 'constraint_min': 0.3736592051195461}), chosen_candidate='wait').fallback_id
+
+experiments/temporal_mpc/test/test_candidates.py:89: AssertionError
+____________ test_tdt_certifies_long_goal_and_full_D_lateral_space _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-qihei/pytest-31/test_tdt_certifies_long_goal_a0')
+
+    def test_tdt_certifies_long_goal_and_full_D_lateral_space(tmp_path):
+        root=Path(__file__).resolve().parents[1];binary=tmp_path/'frontend'
+        subprocess.run(['bash',str(root/'frontend/build.sh'),str(binary)],check=True,capture_output=True)
+        p=fixture_profile('open_long');grid=grid_for('crossing',p['width'],p['height'],p['resolution'],p['origin'])
+        route=prepare_route(binary,np.where(grid>=65,254,0).astype(np.uint8),.05,tuple(p['origin']),(0.,0.),p['goal'])
+        w=route.window(np.zeros(6),0,np.arange(31)*.05)
+>       assert w.centre_bounds[1]>8.5 and w.centre_bounds[2]<-3.6 and w.centre_bounds[3]>3.6
+E       assert (10.3400002 > 8.5 and -2.94000006 < -3.6)
+
+experiments/temporal_mpc/test/test_fixture_profile.py:30: AssertionError
+- generated xml file: /home/qihei/rm2027_navigation/build/temporal_mpc_main_20261004/build/temporal_mpc_candidates_20261004/tests_host.xml -
+=========================== short test summary info ============================
+FAILED experiments/temporal_mpc/test/test_candidates.py::test_portfolio_cannot_bypass_input_or_all_track_hard_checks[yaw]
+FAILED experiments/temporal_mpc/test/test_candidates.py::test_portfolio_cannot_bypass_input_or_all_track_hard_checks[overload]
+FAILED experiments/temporal_mpc/test/test_fixture_profile.py::test_tdt_certifies_long_goal_and_full_D_lateral_space
+3 failed, 113 passed in 31.55s

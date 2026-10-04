@@ -10,10 +10,10 @@ from audit_run import physical_projection, polygon_distance
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('directory');args=parser.parse_args();root=Path(args.directory)
-    fig,axes=plt.subplots(2,2,figsize=(12,8))
     colors={'b0':'#386cb0','candidate':'#dc6b20'}
     document=json.loads((root/'paired_summary.json').read_text())
     pairs=[(p['scenario'],p['b0']['run'],p['candidate']['run']) for p in document['pairs']]
+    fig,axes=plt.subplots(len(pairs),2,figsize=(12,4*len(pairs)),squeeze=False)
     for row,(scenario,left,right) in enumerate(pairs):
         for label,name in (('b0',left),('candidate',right)):
             es=[json.loads(line) for line in (root/name/'events.jsonl').open()]
@@ -36,12 +36,13 @@ if __name__=='__main__':
                 if mpc:
                     end=next((e['receipt_sim_ns']/1e9-begin for e in selected if e['data']['data']=='FollowPathMPPI' and e['receipt_sim_ns']/1e9-begin>mpc[0]),pairs[-1]/1e9-begin)
                     axes[row,1].axvspan(mpc[0],end,color=colors[label],alpha=.15,label='MPC selected')
-        axes[row,0].plot(5.6,0.,'*',ms=12,color='#36904c',label='goal')
+        goal=json.loads((root/left/'scene'/'scene.json').read_text()).get('goal',[5.6,0.])
+        axes[row,0].plot(*goal,'*',ms=12,color='#36904c',label='goal')
         axes[row,0].set(title=scenario+' actual physical path',xlabel='world x (m)',ylabel='world y (m)')
         axes[row,0].set_aspect('equal',adjustable='datalim')
         axes[row,0].legend(fontsize=8);axes[row,0].grid(alpha=.2)
         axes[row,1].axhline(.05,color='#a63636',ls=':',label='0.05 m gate')
         axes[row,1].set(title='Sampled full mechanical envelope clearance',xlabel='simulation time after goal (s)',ylabel='distance (m)')
         axes[row,1].legend(fontsize=8);axes[row,1].grid(alpha=.2)
-    fig.suptitle('Actual Gazebo paired evidence — neither scenario passes dynamic acceptance\nSampled clearance is diagnostic; continuous plant error bounds remain unverified',fontsize=12)
+    fig.suptitle('Actual Gazebo paired evidence\nSampled clearance is diagnostic; continuous plant error bounds remain unverified',fontsize=12)
     fig.tight_layout(rect=(0,0,1,.92));fig.savefig(root/'paired_physical_paths.png',dpi=160);plt.close(fig)

@@ -369,3 +369,27 @@ TimerInfo，也不是DDS接收时延；CPU测量截止输出后的诊断构造�
 模型的采样目标排除不等于连续或真实任务不可行，正宽度当前截面也不是时域轨迹。
 几何检查样本必须有明确constraint，不能仅凭input健康残留step。worker目前未记录
 确切消费的prediction identity，因此暂不唯一分解预测更新与测量重锚的余量损失。
+
+## 有限候选与确切输入继续轮
+
+[登记](temporal_mpc_candidates_registration_20261004.md)、[结果](temporal_mpc_candidates_results_20261004.md)。
+worker的strategy=single（默认）/portfolio只在实验profile选择；双Nav2插件IDs与BT
+runtime选择接口不变。portfolio最多左右/等待三个局部参考，首个完整重验可行优化
+解即停止，每项130迭代/5ms、合计390/15ms、worker40ms；独立warm start与原
+previous/brake/MPPI链保留。内部另收紧.03m动态规划buffer，原生/保护几何门不变。
+
+桥接可选corridor_range[1,12]（legacy6，open_long10）只在周期外扩展T-DT SFC，
+vendor/raw-cell完整足迹证书保持。open_long map240×200、origin(-1,-5)、目标8.5m，
+原legacy及机械/actor配置保留。MPC不获得静态全局搜索职责。
+
+solver_diagnostic新增v2_inputs schema，携带实际消费source/observation epoch、
+generation/map、初态/走廊、source age、偏好前后、逐项候选与qp.solve耗时。
+invalid输入字段明确null，不能当作有效消费证据。只读2×2审计固定native epoch，
+分开标记实际和shadow拒绝，不反填缺失或过期数据；公共预测消息语义不变。
+
+raw /tf_static独立记录采用可靠transient-local depth100，并在启动前要求原始
+记录含map→odom和base_link→sim_lidar_link。它不更改TF发布/所有权或控制输入。
+修复前迎面失败门完整保留，不能用单独TF listener的成功查找代替raw证据链。
+
+六有效试次任务均取消，目标模型已开放但有限候选仍未稳定通过；迎面portfolio
+由状态请求合同拒绝、QP未运行，下一阶段需判定时刻与队列证据。动态接受false。

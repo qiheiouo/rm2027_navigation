@@ -73,3 +73,25 @@ v2投影独立物理复验见[结果](../../../docs/dynamic_navigation/temporal_
 未来净空拒绝回退，任务全取消。横穿模型在所有目标后有效源采样排除固定yaw=0
 位置容差区；只读工具不缩几何、不补造完整物体中心、不将当前空间当时域证书。
 原始记录、失败与首版审计筛选修正均保存，动态接受仍false。
+
+目标开放/有限候选继续轮见[登记](../../../docs/dynamic_navigation/temporal_mpc_candidates_registration_20261004.md)
+和[结果](../../../docs/dynamic_navigation/temporal_mpc_candidates_results_20261004.md)。
+可选TEMPORAL_MPC_FIXTURE_PROFILE=legacy（默认）/open_long；后者地图240×200、
+origin(-1,-5)、目标(8.5,0)，T-DT corridor_range=10（原默认6，桥接有界[1,12]）。
+TEMPORAL_MPC_STRATEGY=single（默认）/portfolio，后者共享15ms/390迭代预算，
+单项5ms/130迭代、最多3局部参考，内部动态planning_buffer=.03m，原生硬门不变。
+
+```bash
+TEMPORAL_MPC_FIXTURE_PROFILE=open_long TEMPORAL_MPC_STRATEGY=single \
+  bash /workspace/experiments/temporal_mpc/gazebo/run.sh /absolute/new-b0 shadow head_on
+# 完成CDR、audit_run及校准联合进入门，另启全新禁网容器：
+TEMPORAL_MPC_FIXTURE_PROFILE=open_long TEMPORAL_MPC_STRATEGY=portfolio \
+  bash /workspace/experiments/temporal_mpc/gazebo/run.sh /absolute/new-portfolio mpc head_on /absolute/gate.json
+python3 /workspace/experiments/temporal_mpc/gazebo/audit_reanchor_inputs.py /absolute/finished-run
+python3 /workspace/experiments/temporal_mpc/gazebo/verify_static_capture.py /absolute/new-dds-fixture
+```
+
+原始静态TF采用可靠transient-local depth100，ready需确实记录两条必要静态边，
+失败在固定phase前拒绝，不补TF。输入分解工具只适用于Gazebo event schema；
+实际/shadow分开，旧测量替换是反事实，不能当传播后的plant或已执行轨迹。
+六有效试次仍全部取消，另外保留缺静态TF失败基线；不形成部署接受。

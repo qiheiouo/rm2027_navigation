@@ -94,3 +94,8 @@ handoff均未完成；[集成边界](integration/README.md)明确下一阶段的
 [gazebo/README.md](gazebo/README.md)和[实际结果](../../docs/dynamic_navigation/temporal_mpc_gazebo_results_20261004.md)。
 前述M1/M3历史“尚未完成”状态保留为阶段记录；当前动态接受仍false，85项测试
 两环境通过。MPC实际短暂参与，整体策略接触/超时，没有冻结部署候选。
+
+后续目标开放/有限候选实现、确切输入与共享预算见
+[最新结果](../../docs/dynamic_navigation/temporal_mpc_candidates_results_20261004.md)。
+strategy=portfolio是实验可选项，single保持默认；静态T-DT职责、双Nav2插件与原硬门
+保留。六有效物理试次全部取消，没有部署资格；全部失败/输入门与工程证据保存。

@@ -7,6 +7,11 @@ set -u
 output=${1:?absolute output directory required}
 mode=${2:-shadow}
 scenario=${3:-crossing}
+profile=${TEMPORAL_MPC_FIXTURE_PROFILE:-legacy}
+strategy=${TEMPORAL_MPC_STRATEGY:-single}
+range=6.0
+[[ "$profile" != open_long ]] || range=10.0
+[[ "$strategy" == single || "$strategy" == portfolio ]] || { echo "Unknown strategy" >&2; exit 2; }
 if [[ "$mode" == mpc ]]; then
   gate=${4:?MPC requires an absolute prior audit file}
   python3 - "$gate" <<'PY'
@@ -29,7 +34,7 @@ chmod 700 "$XDG_RUNTIME_DIR"
 export PYTHONPATH="$repo/build/temporal_mpc_ros2/python_deps:$repo/experiments/temporal_mpc:${PYTHONPATH:-}"
 python3 "$repo/experiments/temporal_mpc/gazebo/runtime_identity.py" "$output/runtime_identity.json"
 export TEMPORAL_MPC_SCENE="$output/scene" TEMPORAL_MPC_FRONTEND="$repo/build/temporal_mpc_ros2/frontend"
-python3 "$repo/experiments/temporal_mpc/gazebo/prepare_scene.py" "$TEMPORAL_MPC_SCENE" --scenario "$scenario"
+python3 "$repo/experiments/temporal_mpc/gazebo/prepare_scene.py" "$TEMPORAL_MPC_SCENE" --scenario "$scenario" --profile "$profile"
 pids=()
 finish() {
   # Each child has a private process group, including launch -> Gazebo descendants.
@@ -63,7 +68,7 @@ setsid ros2 run nav2_bt_navigator bt_navigator --ros-args --params-file "$config
 setsid ros2 run nav2_lifecycle_manager lifecycle_manager --ros-args -p autostart:=true \
   -p node_names:="['controller_server','velocity_smoother','bt_navigator']" > "$output/lifecycle.log" 2>&1 & pids+=("$!")
 setsid python3 "$repo/experiments/temporal_mpc/integration/worker_node.py" --ros-args -p use_sim_time:=true \
-  -p frontend:="$TEMPORAL_MPC_FRONTEND" > "$output/worker.log" 2>&1 & pids+=("$!")
+  -p frontend:="$TEMPORAL_MPC_FRONTEND" -p strategy:="$strategy" -p corridor_range:="$range" > "$output/worker.log" 2>&1 & pids+=("$!")
 setsid python3 "$repo/experiments/temporal_mpc/integration/selector_node.py" > "$output/selector.log" 2>&1 & pids+=("$!")
 python3 "$repo/experiments/temporal_mpc/gazebo/record_run.py" --output "$output" --mode "$mode" > "$output/recorder.log" 2>&1
 cat "$output/recorder.log"
