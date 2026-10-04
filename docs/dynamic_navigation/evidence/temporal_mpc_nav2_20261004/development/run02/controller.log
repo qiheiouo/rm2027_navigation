@@ -1,0 +1,69 @@
+[INFO] [1791081673.933201876] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791081673.937432124] [controller_server]: Creating controller server
+[INFO] [1791081673.941356337] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791081673.941872867] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1791081673.942361329] [controller_server]: Configuring controller interface
+[INFO] [1791081673.942413144] [controller_server]: getting goal checker plugins..
+[INFO] [1791081673.942423364] [controller_server]: Controller frequency set to 20.0000Hz
+[INFO] [1791081673.942441264] [local_costmap.local_costmap]: Configuring
+[INFO] [1791081673.945257222] [local_costmap.local_costmap]: Using plugin "static_layer"
+[INFO] [1791081673.948208850] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[INFO] [1791081673.949035040] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[INFO] [1791081673.949057726] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1791081673.949409466] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1791081673.954101082] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1791081673.954516779] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1791081673.954610068] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1791081673.955429856] [controller_server]: Created controller : FollowPathMPPI of type nav2_mppi_controller::MPPIController
+[INFO] [1791081673.955916900] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1791081673.956866656] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1791081673.956892154] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1791081673.957076300] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1791081673.957088853] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1791081673.957202781] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1791081673.957209844] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1791081673.957346362] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1791081673.957980659] [controller_server]: Optimizer reset
+[INFO] [1791081673.959643618] [MPPIController]: Configured MPPI Controller: FollowPathMPPI
+[INFO] [1791081673.963395827] [controller_server]: Created controller : FollowPathTemporalMPC of type rm_temporal_mpc::Controller
+[INFO] [1791081673.966599520] [controller_server]: Controller Server has FollowPathMPPI FollowPathTemporalMPC  controllers available.
+[INFO] [1791081674.018240653] [controller_server]: Activating
+[INFO] [1791081674.018284151] [local_costmap.local_costmap]: Activating
+[INFO] [1791081674.018301002] [local_costmap.local_costmap]: Checking transform
+[INFO] [1791081674.018321172] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[INFO] [1791081674.183256259] [local_costmap.local_costmap]: StaticLayer: Resizing costmap to 500 X 140 at 0.050000 m/pix
+[INFO] [1791081674.518604002] [local_costmap.local_costmap]: start
+[WARN] [1791081674.568865554] [controller_server]: Parameter controller_server.verbose not found
+[INFO] [1791081674.569171653] [controller_server]: Optimizer reset
+[INFO] [1791081674.569278515] [MPPIController]: Activated MPPI Controller: FollowPathMPPI
+[INFO] [1791081674.569291649] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[INFO] [1791081677.218628538] [controller_server]: Received a goal, begin computing control effort.
+[INFO] [1791081677.219738272] [controller_server]: Optimizer reset
+[INFO] [1791081678.269119351] [controller_server]: Passing new path to controller.
+[INFO] [1791081678.369039912] [controller_server]: Passing new path to controller.
+[INFO] [1791081679.269039830] [controller_server]: Passing new path to controller.
+[INFO] [1791081679.369168969] [controller_server]: Passing new path to controller.
+[INFO] [1791081679.769120027] [controller_server]: Passing new path to controller.
+[INFO] [1791081679.919053660] [controller_server]: Passing new path to controller.
+[INFO] [1791081680.469167989] [controller_server]: Passing new path to controller.
+[INFO] [1791081680.519128475] [controller_server]: Passing new path to controller.
+[INFO] [1791081680.919120723] [controller_server]: Passing new path to controller.
+[INFO] [1791081681.019130758] [controller_server]: Passing new path to controller.
+[INFO] [1791081681.369036308] [controller_server]: Passing new path to controller.
+[INFO] [1791081681.519129987] [controller_server]: Passing new path to controller.
+[INFO] [1791081681.769116311] [controller_server]: Passing new path to controller.
+[INFO] [1791081681.969119805] [controller_server]: Passing new path to controller.
+[INFO] [1791081682.269121562] [controller_server]: Passing new path to controller.
+[INFO] [1791081682.469121223] [controller_server]: Passing new path to controller.
+[INFO] [1791081682.769120195] [controller_server]: Passing new path to controller.
+[INFO] [1791081682.869120986] [controller_server]: Passing new path to controller.
+[INFO] [1791081683.219131118] [controller_server]: Passing new path to controller.
+[INFO] [1791081683.269116014] [controller_server]: Passing new path to controller.
+[INFO] [1791081683.519116022] [controller_server]: Goal was canceled. Stopping the robot.
+[INFO] [1791081683.519189750] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.

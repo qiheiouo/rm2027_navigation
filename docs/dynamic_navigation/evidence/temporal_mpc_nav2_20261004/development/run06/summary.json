@@ -1,0 +1,179 @@
+{
+  "scope": "Humble real Nav2/BT/DDS with synthetic empty predictions, static map, ZOH test plant; not Gazebo or tracker acceptance",
+  "checks": {
+    "lifecycle_active": true,
+    "navigation_goal_accepted": true,
+    "ready_while_MPPI": true,
+    "MPPI_to_MPC": true,
+    "MPC_computes": true,
+    "MPC_to_MPPI": true,
+    "cancel_reply": true,
+    "action_result_received": true,
+    "direct_goal_accepted": true,
+    "direct_MPC_accepted_compute": true,
+    "native_brake_after_worker_process_exit": true,
+    "single_command_publisher": true,
+    "finite_bounded_commands": true,
+    "command_continuity_20Hz": true,
+    "native_compute_budget": true
+  },
+  "fault_cases": [
+    {
+      "fault": "silent",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.14610423300473485,
+      "commands_during_fault": 6,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "timeout",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.14570682599878637,
+      "commands_during_fault": 6,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "infeasible",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.0958431860053679,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "exception",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09469007999723544,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "nan",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09878511600254569,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "incomplete",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09403716200176859,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "wrong_frame",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09364916699996684,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "wrong_schema",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09406444899650523,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "prediction_silent",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.4465770699971472,
+      "commands_during_fault": 12,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "authority",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09569635899970308,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "future_stamp",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09534354499919573,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "duplicate_id",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09284766699420288,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "over_budget",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.09345866499643307,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    },
+    {
+      "fault": "new_obstacle",
+      "rearmed": true,
+      "fallback_to_MPPI": true,
+      "fallback_latency_s": 0.0940658089966746,
+      "commands_during_fault": 5,
+      "native_brake_seen": true,
+      "degraded_health_seen": true,
+      "selector_transition_after_fault": true
+    }
+  ],
+  "statuses": {
+    "navigation_result": 5
+  },
+  "command_count": 256,
+  "publisher_names": [
+    "controller_server"
+  ],
+  "publisher_gids": [
+    "010f7f01540102b100000000000054030000000000000000"
+  ],
+  "max_command_gap_s": 0.21875569300027564,
+  "max_active_command_gap_s": 0.058055841000168584,
+  "native_compute_p95_s": 0.00021033559999999993,
+  "native_compute_max_s": 0.000241235,
+  "solver_p95_s": 0.00690569700091146,
+  "all_engineering_gates_pass": true,
+  "dynamic_navigation_acceptance": false
+}

@@ -127,7 +127,7 @@ map↔odom平面变换、twist旋转、输出延迟和定位跳变处理。
 观测和突然停止/反向夹具负责揭露几何/预测失败，全部保留。
 旧SLSQP静态输入是显式凸多边形与有限可行区域；当前QP消费认证走廊，
 静态raw map只进入T-DT前端。没有地图的unknown→free转换。
-在线raw costmap整足迹/unknown/地图外检查尚未实现，由后续Nav2边界承担。
+原M1没有在线raw costmap检查；继续轮原生Nav2边界已实现整足迹内部cell/unknown/地图外检查，真实Gazebo输入门仍待验证。
 
 ## 6. 旧SLSQP对照：优化、硬约束和输出选择
 
@@ -162,18 +162,20 @@ FollowPath运行期间controller_id变更会更新动作目标；server接受pen
 选择新插件并setPlan。Selector必须处在会持续tick的ReactiveSequence中，不能
 放在只执行一次的普通Sequence内。由此设计可保留上层Mission、Planner和
 NavigateToPose接口，并在同一目标执行期间双向切换，无需重新编译或改配置。
-实际动作preemption/延迟须在固定Humble环境实测，源码审计不等于运行通过。
+继续轮已在项目Humble 1.1.20镜像实测原生BT/action preemption；工程链路通过，实际tracker/Gazebo物理门另计。
 
 [集成示例](../../experiments/temporal_mpc/integration/README.md)包含双插件参数片段、
 BT子树和ROS选择监督器。默认MPPI；明确请求且健康新鲜才允许选择MPC。
 MPC timeout/infeasible、预测失效、健康100ms失流请求MPPI；恢复健康不自动
 弹回MPC，避免来回切换。双向选择/故障保持政策有离线测试。
 
-当前完成的是M1控制核与监督政策，**尚没有可加载的TemporalMPC
-nav2_core::Controller二进制，也没有执行MPPI交接**。YAML/XML均明确为M3
-设计示例，不是可启动的完整profile。旧MPPI插件和T-DT完整迁移保持原状。
-plugin接入前必须实现生命周期、setPlan/speedLimit/goal checker、正确订阅
-/odometry/lio、source-time TF及raw-grid整足迹/unknown验证。
+2026-10-04继续授权后，新增隔离可加载原生Controller、类型明确的异步worker
+提案协议、完整profile和BT。正式src/配置仍不变；T-DT完整迁移不删除。
+原生侧实现生命周期/setPlan/speedLimit、测量输入、零等待TF、raw-grid内部cell /
+unknown和执行区间验证，Nav2保留goal checker。profile仅验证map帧固定航向子域；
+历史odom/v1输入缺失authority及同步TF/odom，真实接入尚未通过。
+速度限制会对违反新限制的提案制动并请求MPPI，QP还未自适应速度限制。
+详见[实现与运行限制](../../experiments/temporal_mpc/integration/README.md)。
 
 QP失败时先将上一条控制序列移位、从新测量状态重积分，并用新预测、当前
 静态走廊、全量tracks及终态重新验收；计划改变/epoch断续/失效输入禁止复用。
@@ -213,7 +215,7 @@ R1和timed-reference路线须先证明已实现再列实测组。
 M0：审计/设计；M1：离线core、契约/物理约束测试、固定夹具及独立oracle；
 M2：实际源时间回放和Gazebo shadow输入/预算门；M3：独立Nav2 plugin与统一
 B0/R2配对闭环；M4：仅有稳定净收益才扩大工况和实车响应辨识。
-M0/M1属于本次请求；M2–M4是明确后续门，不宣称已经完成。
+原轮M0/M1已完成；用户“继续进行”授权后独立完成M3工程切片，M2真实tracker/Gazebo及M3配对B0物理门、M4仍未完成。
 
 同场景MPC明显改善才继续；复杂度/CPU增加却无收益则冻结；大量碰撞、
 false block、optimizer failure或振荡先归因geometry/prediction/feasibility。
@@ -273,3 +275,27 @@ OSQP只安装到本次临时实验Python目录，不改系统ROS或main依赖。
 [Python接口](https://osqp.org/docs/interfaces/python.html)记录版本/许可及预算设置。
 旧SLSQP的0.5s开发预算不是当前实时方案。本版的5,659周期P95约7.6ms、
 最大14.8ms仅是当前主机离线计时；25试次有2次迎面接触，不能授权部署。
+
+
+## 11. 继续轮：异步问题与原生执行重验
+
+QP在独立进程求解；Controller Server不等待solver，plugin只消费有限提案。
+状态请求、提案和计划采用实验独立类型；规范公开预测保持原消息定义，main
+canonical接口包只在隔离overlay选择性加两条冻结预测msg。引入身份见
+[ros2/intake.json](../../experiments/temporal_mpc/ros2/intake.json)，没有更改正式消息生成。
+
+对M1模型的两个工程修正都有原始失败日志：ROS调度抖动用真实elapsed移位warm
+inputs；QP数值残差先做执行器/停止投影，再以原margin完整重验。DDS新扫描
+可能先于旧状态callback到达，4帧有界历史选择source<=request epoch，异常
+receipt立刻清空；不回填新扫描到过去。Nav2实际保持速度，原生层对新速度
+预留剩余horizon停止能力并全量重验，防止沿用ramp终态。最后一段clamp处理
+浮点极限，不减小足迹或放宽terminal tolerance。
+
+地图变化/计划变化让旧提案失效；静态走廊只由已规划路径通过T-DT SfcSquare
+生成，supplied-path模式不搜索。static-map内容/时间revision变更必须重新取得证书。
+原生全未来动态约束基于最新公开CV；当前raw costmap只验证正在执行的保持
+速度区间，避免把当前动态占用错误要求为整个未来区间静态不动。
+
+原生检查10ms、worker40ms/solver15ms均为预算/迟到拒绝；不是操作系统硬实时。
+当前costmap try-lock与零等待TF避免原生shadow锁反转；仍需实际负载和独立wall
+watchdog验证。健康ready只是本周期工程条件，不授予比赛部署资格。

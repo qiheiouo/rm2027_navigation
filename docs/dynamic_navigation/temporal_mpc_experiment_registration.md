@@ -51,3 +51,20 @@ manifest原`deterministic_model_outputs=true`理解为跨主机确定性。
 只留shadow证据、不执行handoff。计时control_elapsed包括每周期window生成，
 预测、QP组装/求解、输出重验；map规划另计。模拟计算暂停，真实wall执行门
 另行取得。测试增加/parser加固后的来源差异如实登记，runtime QP未变化。
+
+
+## 继续轮工程实验身份（2026-10-04，补记）
+
+用户继续授权，独立Humble 1.1.20 / main派生worktree，不改正式src/默认。
+完整参数固定在dual_controller_humble.yaml；真实Nav2 plugin/BT/action/DDS，
+合成空预测与静态地图、wall-clock ZOH测试模型。保持20Hz/1.5s/15节点/
+400迭代/4相关障碍、整足迹与原净空门；本轮只验工程故障与交接，不能替代
+Gazebo/tracker或B0配对净收益。14类故障逐项要求MPC已实际输出并稳定选中，
+注入后发生新的MPPI selector变更且控制继续。末尾人为cancel导航目标，再
+直接FollowPath持有MPC，验证SpeedLimit与worker进程退出后的持续制动。
+连续性门75ms只覆盖两个活跃控制会话；总体最大间隔也记录，不隐藏cancel空档。
+原生重验门10ms；迟到或无证书输出仅叫有界制动。
+
+run01–run05工程失败/测试门问题保留；run02早期“通过”由因果审查撤销。
+run06通过但非最终helper/speed-limit身份；run07最终源码构建后重跑。
+全部故障/结果/开发修正见独立nav2证据目录；旧物理矩阵不覆盖、不重解释。

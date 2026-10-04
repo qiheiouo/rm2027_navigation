@@ -1,0 +1,47 @@
+[INFO] [1791082708.178979928] [temporal_controller_selector]: FollowPathMPPI: MPC health stale
+[INFO] [1791082712.492553895] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082713.311922633] [temporal_controller_selector]: FollowPathMPPI: explicit runtime request
+[INFO] [1791082713.614950390] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082714.016977828] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082714.268096555] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082714.654468470] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082715.168032752] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082715.454730474] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082715.718247355] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082716.004732302] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082716.267883201] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082716.554969886] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082716.818057180] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082717.117254388] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082717.367658269] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082717.667035280] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082717.917685975] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082718.217070682] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082718.467580529] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082719.117143696] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082719.367929184] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082719.667367854] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082719.917838157] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082720.217547694] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082720.468043115] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082720.767248156] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082721.018274773] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082721.317069099] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+[INFO] [1791082721.567509809] [temporal_controller_selector]: FollowPathTemporalMPC: explicit runtime request
+[INFO] [1791082721.867499004] [temporal_controller_selector]: FollowPathMPPI: MPC degraded/fallback requested
+Traceback (most recent call last):
+  File "/workspace/experiments/temporal_mpc/integration/selector_node.py", line 67, in <module>
+    main()
+  File "/workspace/experiments/temporal_mpc/integration/selector_node.py", line 57, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 797, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 653, in _wait_for_ready_callbacks
+    wait_set = _rclpy.WaitSet(
+rclpy._rclpy_pybind11.RCLError: failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130

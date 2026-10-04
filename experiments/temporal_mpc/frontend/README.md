@@ -9,3 +9,9 @@ YAstar采用地图原点；SfcSquare冻结版本采用不同offset约定，桥�
 以C++20、Eigen3构建：`bash frontend/build.sh /tmp/mpc-tdt-frontend`（在原型根目录）。GCC13对未调用的vendor _removeRedundant产生stringop-overflow警告，原构建日志已保存；当前桥接调用getBound，不调用该冗余合并函数。尚未取得全vendor运行域的安全接受。
 
 替换/删除本目录只影响离线原型，正式planner与Nav2保持原状。
+
+
+继续轮新增 `--path` 输入模式：Nav2/既有前后端给出路径，仅使用冻结 SfcSquare
+构造走廊，并独立验原始地图；该模式不会执行 YAstar 搜索或改变路径拓扑。
+密集 Nav2 路径只删除共线点；256点以上、碰撞/未知路径或不支持的map输入
+明确拒绝，由规划前端压缩/重规划，不能让 MPC 改道。离线默认搜索模式保留。

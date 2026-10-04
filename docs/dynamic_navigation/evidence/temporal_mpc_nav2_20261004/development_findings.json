@@ -1,0 +1,40 @@
+{
+  "runs": [
+    {
+      "run": "run01",
+      "acceptance": false,
+      "finding": "MPPI wz_std=0 led to nonfinite output (division by zero variance); harness failed JSON serialization. No success claim; fix noise variance to .4 while wz_max remains 0, add inflation layer."
+    },
+    {
+      "run": "run02",
+      "acceptance": false,
+      "finding": "initial gate falsely allowed fault injection after prior spontaneous MPC fallback; evidence rejected on review."
+    },
+    {
+      "run": "run03",
+      "acceptance": false,
+      "finding": "causal 9 fault cases passed but transient DDS unknown node-name metadata caused uniqueness gate failure; require stable endpoint GID/count, retain resolved-name check."
+    },
+    {
+      "run": "run04",
+      "acceptance": false,
+      "finding": "14 faults and process exit passed; continuity incorrectly included intentional action cancellation gap; split live control sessions and retain overall gap."
+    },
+    {
+      "run": "run05",
+      "acceptance": false,
+      "finding": "strict stable MPC arm exposed held-velocity versus ramp terminal mismatch; do not weaken terminal tolerance. Fix bounded terminal repair with full revalidation. Source history also avoids backdating newer scans."
+    },
+    {
+      "run": "run06",
+      "acceptance": true,
+      "finding": "engineering gate passed, before floating-point endpoint helper and speed-limit tests; run07 final supersedes engineering identity only, not earlier physical failures."
+    },
+    {
+      "run": "run07",
+      "acceptance": true,
+      "finding": "final 14 fault cases, real worker exit, speed-limit fallback/reset, lifecycle, BT/action double switch, bounded/continuous unique command output"
+    }
+  ],
+  "unchanged_physical_acceptance": "M1 head-on contacts and missing B0 retained; no Gazebo/tracker deployment acceptance"
+}

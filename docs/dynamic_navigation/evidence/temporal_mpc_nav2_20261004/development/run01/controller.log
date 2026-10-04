@@ -1,0 +1,52 @@
+[INFO] [1791081579.678109150] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791081579.686995788] [controller_server]: Creating controller server
+[INFO] [1791081579.690483600] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791081579.690969222] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1791081579.878424902] [controller_server]: Configuring controller interface
+[INFO] [1791081579.878546456] [controller_server]: getting goal checker plugins..
+[INFO] [1791081579.878559536] [controller_server]: Controller frequency set to 20.0000Hz
+[INFO] [1791081579.878579925] [local_costmap.local_costmap]: Configuring
+[INFO] [1791081579.881870873] [local_costmap.local_costmap]: Using plugin "static_layer"
+[INFO] [1791081579.886228136] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[INFO] [1791081579.887571430] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[INFO] [1791081579.894486863] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1791081579.895243889] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1791081579.895362059] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1791081579.896235963] [controller_server]: Created controller : FollowPathMPPI of type nav2_mppi_controller::MPPIController
+[INFO] [1791081579.896735613] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1791081579.898981916] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1791081579.899010773] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[WARN] [1791081579.899223171] [controller_server]: No inflation layer found in costmap configuration. If this is an SE2-collision checking plugin, it cannot use costmap potential field to speed up collision checking by only checking the full footprint when robot is within possibly-inscribed radius of an obstacle. This may significantly slow down planning times and not avoid anything but absolute collisions!
+[ERROR] [1791081579.899231772] [controller_server]: Inflation layer either not found or inflation is not set sufficiently for optimized non-circular collision checking capabilities. It is HIGHLY recommended to set the inflation radius to be at MINIMUM half of the robot's largest cross-section. See github.com/ros-planning/navigation2/tree/main/nav2_smac_planner#potential-fields for full instructions. This will substantially impact run-time performance.
+[INFO] [1791081579.899254461] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1791081579.899265501] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1791081579.899391572] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1791081579.899400691] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1791081579.899538649] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1791081579.900185552] [controller_server]: Optimizer reset
+[INFO] [1791081579.902040714] [MPPIController]: Configured MPPI Controller: FollowPathMPPI
+[INFO] [1791081579.905780642] [controller_server]: Created controller : FollowPathTemporalMPC of type rm_temporal_mpc::Controller
+[INFO] [1791081579.909259402] [controller_server]: Controller Server has FollowPathMPPI FollowPathTemporalMPC  controllers available.
+[INFO] [1791081579.952924745] [controller_server]: Activating
+[INFO] [1791081579.952968927] [local_costmap.local_costmap]: Activating
+[INFO] [1791081579.952988005] [local_costmap.local_costmap]: Checking transform
+[INFO] [1791081579.953008457] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[INFO] [1791081580.453172053] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[INFO] [1791081580.677753872] [local_costmap.local_costmap]: StaticLayer: Resizing costmap to 500 X 140 at 0.050000 m/pix
+[INFO] [1791081580.953306061] [local_costmap.local_costmap]: start
+[WARN] [1791081581.003660097] [controller_server]: Parameter controller_server.verbose not found
+[INFO] [1791081581.004225449] [controller_server]: Optimizer reset
+[INFO] [1791081581.004349849] [MPPIController]: Activated MPPI Controller: FollowPathMPPI
+[INFO] [1791081581.004370964] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[INFO] [1791081583.123232730] [controller_server]: Received a goal, begin computing control effort.
+[INFO] [1791081583.124321210] [controller_server]: Optimizer reset
+[INFO] [1791081583.175124825] [controller_server]: Optimizer reset
+[INFO] [1791081583.176274836] [controller_server]: Optimizer reset
+[ERROR] [1791081583.176466264] [controller_server]: Optimizer fail to compute path
+[WARN] [1791081583.176537435] [controller_server]: [follow_path] [ActionServer] Aborting handle.

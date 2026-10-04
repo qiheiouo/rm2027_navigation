@@ -1,7 +1,8 @@
-# Temporal MPC 第一轮进度与结果
+# Temporal MPC 进度与结果
 
 2026-10-04，Asia/Shanghai。工程状态：审计、架构、离线原型和验证完成。
-**候选状态：第一阶段完成。旧SLSQP冻结为失败对照；新T-DT + QP离线满足本机预算，但全场景可靠性未过门，不进入部署。**
+**候选状态：M1离线切片及M3双插件工程链路已完成；M2真实输入/Gazebo、
+M3配对物理门仍未完成，不进入部署。旧SLSQP与迎面接触失败保留。**
 
 ## 分支与保留边界
 
@@ -178,10 +179,48 @@ post-run differences。QP/预测/oracle/runner字节未变，dynamics/fixtures�
 
 本机离线20Hz预算通过，50Hz尚未验证；模拟计算时暂停，真实系统延迟、
 ROS/TF/costmap/CPU负载及下位机响应尚未计入，因此没有硬实时认证。
-当前主机ROS是Jazzy，未运行项目Humble双插件集成。已完成运行时选择政策、
+第4轮当时主机ROS是Jazzy，尚未运行Humble双插件集成；第5轮已在隔离镜像实测。此前完成运行时选择政策、
 监督器代码、双插件和ReactiveSequence示例、固定Humble源码审计；尚未完成
 TemporalMPC Nav2二进制、真实消息接入、DDS/BT action preemption和唯一命令
 publisher的闭环实测。这些进入门没有冒充已完成。
 
 最终staged whitespace检查：自有代码/文档通过；vendor的21项历史空白问题
 保持原字节和来源哈希，单独留存检查输出，不修改冻结源码以掩盖来源。
+
+
+## 第5轮：继续授权后的 Humble 双插件工程实测
+
+- hypothesis：异步QP与原生接受边界能让solver故障不阻塞Controller Server，并通过原生BT在同一上层目标内切换。
+- change：实现可加载 `rm_temporal_mpc::Controller`、独立有界提案消息、异步worker、完整双插件profile/ReactiveSequence。外部规划路径只构造T-DT SFC；增加source/map/plan/current raw-grid及全量动态重验。ROS jitter、DDS跨回调源顺序、数值投影和ZOH终态差异按原门修正，记录开发失败。
+- result：固定Humble1.1.20镜像实际加载两插件，MPPI→MPC→MPPI、14类因果故障回退、SpeedLimit拒绝/恢复、worker被SIGKILL后的独立制动、唯一publisher与活跃控制连续性通过。75项测试在主机及Humble均通过、0跳过；Humble pytest6对pythonpath配置有1条无害警告，实际通过显式PYTHONPATH运行。
+- evidence：[最终运行汇总](evidence/temporal_mpc_nav2_20261004/final/summary.json)、[记录流复核](evidence/temporal_mpc_nav2_20261004/recorded_stream_audit.json)、[Humble测试](evidence/temporal_mpc_nav2_20261004/tests_humble.xml)、[实现/复现与限制](../../experiments/temporal_mpc/integration/README.md)、[失败归因](evidence/temporal_mpc_nav2_20261004/development_findings.json)。
+- conclusion：从“设计片段/切换请求”推进到真实Nav2/BT/action/DDS工程链路。仍没有实际tracker/Gazebo安全成功或同条件STVL/MPPI净收益，不能用这轮覆盖原迎面接触。
+- next step：新采集包含完整authority/v2/源epoch TF/测量odom的真实tracker输入；验证墙钟延迟与下位机响应/外部watchdog，再注册同plant的B0/MPC配对物理门。map帧固定yaw、标准SpeedLimit下MPC退化和监督器失活行为见实现限制。
+
+最终run07有242条实际速度输出，Controller Server唯一endpoint GID；活跃
+会话最大间隔54.741ms（75ms连续性门），原生计算P95=0.210ms/max=0.245ms，
+worker周期P95=6.817ms。一般无效预测/不可行回退约44–57ms，solver失流/timeout
+约145–156ms，prediction失流约406ms（source-age门400ms）；不声称硬实时。
+人为cancel到直接FollowPath的两个会话间总体最大间隔195.010ms保留为指标，
+不能误判为活跃任务输出中断。NavigateToPose结果status=5是人为取消，不是到达。
+
+14故障为solver silent、timeout、infeasible、exception、NaN、complete=false、
+错误frame/schema、预测失流、authority缺失、未来epoch、重复ID、超track预算、
+新障碍。每例要求注入前实际MPC计算且持续选中，之后发生新的MPPI选择/退化
+健康并继续有命令。部分例由BT及时接手，没有观测到原生制动；不伪造该计数。
+另直接FollowPath保持MPC，终止worker进程后有界制动到零，单独证明原生输出边界。
+
+run01配置零方差造成MPPI NaN；run02因果门漏洞撤销；run03发现DDS transient
+unknown node name；run04取消空档门定义错误；run05稳定选中暴露ZOH终态偏差；
+run06工程通过；run07是最终helper/SpeedLimit版本。全部原日志/失败汇总保存。
+原生terminal剩余停止约束和每条修正后的轨迹均重新验，不改足迹、margin或
+terminal tolerance。costmap shadow try-lock修复锁顺序风险，限制检查10ms。
+
+M2历史输入审计：[787条真实捕获预测](evidence/temporal_mpc_nav2_20261004/public_input_audit.json)
+全部odom/v1，source单调、receive-source记录延迟7–55ms，缺authority且没有
+同步ROS测量odom/source TF。Gazebo pose真值不能替代这些缺项；明确拒绝改名
+或补造authority/v2用于控制。本轮动态故障输入仍是合成消息，物理接受=false。
+
+分支仍从main@d735ee12直接派生，继续提交接在M1之后，不接旧研究分支。
+规范接口包只在实验overlay增加冻结公开预测msg，正式src/TF/默认配置不改。
+二进制/源码快照、依赖wheel/tag/commit/许可、原工作区保留记录存于本轮证据。

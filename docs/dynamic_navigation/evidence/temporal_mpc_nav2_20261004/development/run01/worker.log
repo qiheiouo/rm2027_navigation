@@ -1,0 +1,14 @@
+[WARN] [1791081581.047139218] [temporal_mpc_worker]: planner/corridor rejected: planner path frame/count
+[WARN] [1791081581.048007567] [temporal_mpc_worker]: planner/corridor rejected: planner path frame/count
+Traceback (most recent call last):
+  File "/workspace/experiments/temporal_mpc/integration/worker_node.py", line 193, in <module>
+    main()
+  File "/workspace/experiments/temporal_mpc/integration/worker_node.py", line 189, in main
+    rclpy.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+    _shutdown(context=context)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+    return context.shutdown()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+    self.__context.shutdown()
+rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241

@@ -129,3 +129,17 @@ def test_geometry_is_immutable_and_lost_is_unknown():
     snapshot = Snapshot(0, (Track(1, (2, 0), (0, 0), 0, "lost", shape),))
     with pytest.raises(ContractError):
         predict(snapshot, 0, [0., .1])
+
+
+
+def test_causal_ros_history_handles_interleaving_without_backdating():
+    from temporal_mpc.contracts import causal_snapshot
+    history=[Snapshot(t,()) for t in (100_000_000,150_000_000,200_000_000)]
+    assert causal_snapshot(history,175_000_000).source_ns==150_000_000
+    assert causal_snapshot(history,50_000_000) is None
+    assert causal_snapshot([],175_000_000) is None
+    with pytest.raises(ContractError,match='unordered'):
+        causal_snapshot(history[::-1],175_000_000)
+    selected=causal_snapshot(history,650_000_000)
+    with pytest.raises(ContractError,match='source stale'):
+        predict(selected,650_000_000,[0.,.1])

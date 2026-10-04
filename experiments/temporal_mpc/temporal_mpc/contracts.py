@@ -89,6 +89,22 @@ class Timeline:
     frame: str = "map"
 
 
+def causal_snapshot(snapshots, evaluation_ns):
+    """Bounded DDS receipt history; never backdate a newer scan to a request."""
+    if type(evaluation_ns) is not int or evaluation_ns < 0 or len(snapshots) > 4:
+        raise ContractError("invalid causal snapshot history")
+    previous = -1
+    selected = None
+    for snapshot in snapshots:
+        if (not isinstance(snapshot, Snapshot) or type(snapshot.source_ns) is not int
+                or snapshot.source_ns <= previous):
+            raise ContractError("unordered causal snapshot history")
+        previous = snapshot.source_ns
+        if snapshot.source_ns <= evaluation_ns:
+            selected = snapshot
+    return selected
+
+
 def predict(snapshot, evaluation_ns, times, max_age=0.4):
     times = np.asarray(times, dtype=float)
     if (not isinstance(snapshot, Snapshot) or type(evaluation_ns) is not int or type(snapshot.source_ns) is not int

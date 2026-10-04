@@ -90,6 +90,41 @@ class RealtimeMPC:
         return np.c_[np.repeat(np.asarray(z).reshape(-1, 2), 2, axis=0),
                      np.zeros(2*self.config.nodes)]
 
+    def _shift_previous(self, epoch_ns, plan_id):
+        """Warm inputs under ROS scheduling jitter; never reuse an old verdict."""
+        if self.previous is None or self.previous_plan != plan_id or self.previous_epoch is None:
+            return None
+        age = (epoch_ns-self.previous_epoch)*1e-9
+        if not 0 < age <= 3*self.config.period:
+            return None
+        left = np.arange(len(self.previous))*self.config.period
+        starts = left+age
+        overlap = np.maximum(0., np.minimum(starts[:,None]+self.config.period,
+                                            left[None,:]+self.config.period)
+                             - np.maximum(starts[:,None],left[None,:]))
+        return overlap@self.previous/self.config.period
+
+    def _repair_iterate(self, initial, z):
+        """Bound numerical residuals before full independent acceptance.
+
+        Projection may change optimality and obstacle clearance; it NEVER changes
+        the acceptance margins or skips trajectory revalidation.
+        """
+        cfg = self.config
+        nodes = np.asarray(z).reshape(cfg.nodes, 2).copy()
+        velocity = np.asarray(initial[3:5]).copy()
+        for k in range(cfg.nodes):
+            lower = np.maximum(-np.asarray(cfg.acceleration),
+                               (np.asarray(cfg.velocity_lower)-velocity)/cfg.node_dt)
+            upper = np.minimum(cfg.acceleration,
+                               (np.asarray(cfg.velocity_upper)-velocity)/cfg.node_dt)
+            if np.any(lower > upper):
+                return self._expand(z)
+            desired = -velocity/cfg.node_dt if k == cfg.nodes-1 else nodes[k]
+            nodes[k] = np.clip(desired, lower, upper)
+            velocity += cfg.node_dt*nodes[k]
+        return self._expand(nodes)
+
     def solve(self, initial, epoch_ns, snapshot, window):
         cfg = self.config
         started, cpu = time.perf_counter(), time.process_time()
@@ -138,9 +173,8 @@ class RealtimeMPC:
             nonlocal minimum
             # Re-anchor shifted inputs to NEW measured state and NEW prediction.
             # No old safety verdict survives a state, source, or plan change.
-            if (timeline is not None and valid_window and self.previous is not None
-                    and self.previous_plan == window.plan_id and self.previous_epoch == epoch_ns-round(cfg.period*1e9)):
-                shifted = np.vstack([self.previous[1:], np.zeros((1, 3))])
+            shifted = self._shift_previous(epoch_ns, window.plan_id) if valid_window else None
+            if timeline is not None and shifted is not None:
                 shifted_states = rollout(x, shifted, cfg.period)
                 ok, minimum = check(shifted, shifted_states)
                 if ok and time.perf_counter()-started < cfg.cycle_budget:
@@ -186,9 +220,8 @@ class RealtimeMPC:
         upper.append(np.tile([b[1]-reserve,b[3]-reserve],len(self.times))-p0.ravel())
 
         warm = None
-        if (self.previous is not None and self.previous_plan == window.plan_id
-                and self.previous_epoch == epoch_ns-round(cfg.period*1e9)):
-            shifted = np.vstack([self.previous[1:],np.zeros((1,3))])
+        shifted = self._shift_previous(epoch_ns, window.plan_id)
+        if shifted is not None:
             warm = shifted[:, :2].reshape(cfg.nodes, 2, 2).mean(axis=1).ravel()
         seed = rollout(x, self._expand(warm), cfg.period) if warm is not None else brake_states
         relevant = []
@@ -239,7 +272,7 @@ class RealtimeMPC:
             status, iterations = answer.info.status, int(answer.info.iter)
             if answer.x is not None and np.isfinite(answer.x).all() and status in (
                     "solved", "solved inaccurate", "maximum iterations reached"):
-                controls = self._expand(answer.x)
+                controls = self._repair_iterate(x, answer.x)
                 states = rollout(x,controls,cfg.period)
                 ok, minimum = check(controls,states)
                 if ok and time.perf_counter()-started < cfg.cycle_budget:

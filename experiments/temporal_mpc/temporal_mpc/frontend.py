@@ -96,7 +96,7 @@ class StaticRoute:
         return Window(epoch_ns, np.c_[xy, np.full(len(times), initial[2])], tuple(b), self.plan_id)
 
 
-def prepare_route(executable, costs, resolution, origin, start, goal):
+def prepare_route(executable, costs, resolution, origin, start, goal, supplied_path=None):
     raw = np.asarray(costs)
     if (raw.ndim != 2 or min(raw.shape) < 3 or max(raw.shape) > 1000 or raw.size > 100000
             or not np.issubdtype(raw.dtype, np.integer) or np.any(raw < 0) or np.any(raw > 255)):
@@ -104,7 +104,16 @@ def prepare_route(executable, costs, resolution, origin, start, goal):
     grid = raw.astype(np.uint8)
     header = [grid.shape[1], grid.shape[0], resolution, *origin, *start[:2], *goal[:2]]
     wire = " ".join(map(str, header)) + "\n" + " ".join(map(str, grid.ravel())) + "\n"
-    result = subprocess.run([str(executable)], input=wire, text=True, capture_output=True, timeout=2.)
+    arguments = [str(executable)]
+    if supplied_path is not None:
+        path = np.asarray(supplied_path, float)
+        if (path.ndim != 2 or path.shape[1] != 2 or not 2 <= len(path) <= 256
+                or not np.isfinite(path).all() or np.any(np.linalg.norm(np.diff(path, axis=0),axis=1) < 1e-7)
+                or not np.allclose(path[0], start[:2]) or not np.allclose(path[-1], goal[:2])):
+            raise ContractError("invalid externally planned path")
+        wire += str(len(path)) + "\n" + " ".join(map(str, path.ravel())) + "\n"
+        arguments.append("--path")
+    result = subprocess.run(arguments, input=wire, text=True, capture_output=True, timeout=2.)
     if result.returncode:
         raise ContractError(f"T-DT frontend failed ({result.returncode}): {result.stderr[:200]}")
     return StaticRoute(json.loads(result.stdout), grid, resolution, origin)

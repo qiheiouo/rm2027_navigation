@@ -1,0 +1,12 @@
+<!-- Isolated integration tree. Planner output remains the path authority. -->
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <Sequence>
+      <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased"/>
+      <ReactiveSequence>
+        <ControllerSelector selected_controller="{selected_controller}" default_controller="FollowPathMPPI" topic_name="controller_selector"/>
+        <FollowPath path="{path}" controller_id="{selected_controller}" goal_checker_id="general_goal_checker"/>
+      </ReactiveSequence>
+    </Sequence>
+  </BehaviorTree>
+</root>

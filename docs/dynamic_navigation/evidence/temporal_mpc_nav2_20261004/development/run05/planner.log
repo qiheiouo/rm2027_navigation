@@ -1,0 +1,28 @@
+[INFO] [1791082257.955245142] [planner_server]: 
+	planner_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791082257.957166547] [planner_server]: Creating
+[INFO] [1791082257.961261153] [global_costmap.global_costmap]: 
+	global_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791082257.961795352] [global_costmap.global_costmap]: Creating Costmap
+[INFO] [1791082257.984784617] [planner_server]: Configuring
+[INFO] [1791082257.984826097] [global_costmap.global_costmap]: Configuring
+[INFO] [1791082257.987839825] [global_costmap.global_costmap]: Using plugin "static_layer"
+[INFO] [1791082257.990703998] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[INFO] [1791082257.991688523] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[INFO] [1791082257.991712575] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[INFO] [1791082257.992087012] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1791082257.996969232] [planner_server]: Created global planner plugin GridBased of type nav2_navfn_planner/NavfnPlanner
+[INFO] [1791082257.997006859] [planner_server]: Configuring plugin GridBased of type NavfnPlanner
+[INFO] [1791082257.997288368] [planner_server]: Planner Server has GridBased  planners available.
+[INFO] [1791082258.676181170] [planner_server]: Activating
+[INFO] [1791082258.676262379] [global_costmap.global_costmap]: Activating
+[INFO] [1791082258.676291720] [global_costmap.global_costmap]: Checking transform
+[INFO] [1791082258.676352706] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[INFO] [1791082258.955560496] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 500 X 140 at 0.050000 m/pix
+[INFO] [1791082259.176547985] [global_costmap.global_costmap]: start
+[INFO] [1791082259.226756110] [planner_server]: Activating plugin GridBased of type NavfnPlanner
+[INFO] [1791082259.227966479] [planner_server]: Creating bond (planner_server) to lifecycle manager.

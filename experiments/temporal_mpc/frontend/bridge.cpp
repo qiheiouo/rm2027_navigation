@@ -6,7 +6,9 @@
 #include <iomanip>
 #include <algorithm>
 
-int main() {
+int main(int argc, char **argv) {
+  const bool supplied_path = argc == 2 && std::string(argv[1]) == "--path";
+  if(argc > 1 && !supplied_path) return 2;
   int w, h; float r, ox, oy, sx, sy, gx, gy;
   if (!(std::cin >> w >> h >> r >> ox >> oy >> sx >> sy >> gx >> gy) ||
       w < 3 || h < 3 || w > 1000 || h > 1000 || w*h > 100000 ||
@@ -26,10 +28,19 @@ int main() {
   YAstar planner(w,h,r,ox,oy); planner.setMap(w,h,free.data());
   planner.setCostWeight(.5f); planner.initCostMap();
   auto begin=std::chrono::steady_clock::now();
-  auto path=planner.search({sx,sy},{gx,gy},[&](){return
-    std::chrono::duration<double>(std::chrono::steady_clock::now()-begin).count()>.25;});
+  std::vector<Eigen::Vector2f> path;
+  if(supplied_path) {
+    int count; if(!(std::cin >> count) || count<2 || count>256) return 2;
+    for(int i=0;i<count;i++) {float x,y; if(!(std::cin>>x>>y) || !std::isfinite(x) || !std::isfinite(y)) return 2;
+      if(x<=ox || y<=oy || x>=ox+w*r || y>=oy+h*r) return 4;
+      path.emplace_back(x,y);
+    }
+  } else {
+    path=planner.search({sx,sy},{gx,gy},[&](){return
+      std::chrono::duration<double>(std::chrono::steady_clock::now()-begin).count()>.25;});
+  }
   if(path.empty()) return 3;
-  path=planner.simplifyPath(path,.1f);
+  if(!supplied_path) path=planner.simplifyPath(path,.1f);
   path.front()={sx,sy};path.back()={gx,gy};
   for(size_t i=1;i<path.size();i++) if(planner.lineInObsticle(path[i-1],path[i])) return 4;
   // SfcSquare's frozen offset convention differs from YAstar's map origin.

@@ -117,6 +117,12 @@ def test_actual_tdt_frontend_routes_around_static_wall(tmp_path):
     grid=np.zeros((80,160),np.uint8);grid[33:47,70:80]=254
     p=prepare_route(binary,grid,.05,(-1.,-2.),(0.,0.),(5.6,0.))
     assert len(p.path)>2 and np.max(np.abs(p.path[:,1]))>.8
+    # Consume externally planned topology unchanged. A colliding supplied path
+    # must be rejected rather than silently replaced with a new search route.
+    external=prepare_route(binary,grid,.05,(-1.,-2.),p.path[0],p.path[-1],supplied_path=p.path)
+    np.testing.assert_allclose(external.path,p.path,atol=1e-6)
+    with pytest.raises(ContractError,match='frontend failed'):
+        prepare_route(binary,grid,.05,(-1.,-2.),(0.,0.),(5.6,0.),supplied_path=[[0.,0.],[5.6,0.]])
     w=p.window(np.zeros(6),0,RealtimeMPC().times)
     assert w.plan_id==p.plan_id
     for bad in [np.full((8,8),300),np.full((8,8),-1),np.full((8,8),1.5)]:
@@ -130,3 +136,31 @@ def test_actual_tdt_frontend_routes_around_static_wall(tmp_path):
     grid[:,70:80]=255
     with pytest.raises(ContractError,match='frontend failed'):
         prepare_route(binary,grid,.05,(-1.,-2.),(0.,0.),(5.6,0.))
+
+
+def test_ros_jitter_warm_inputs_do_not_reuse_old_verdict():
+    m=RealtimeMPC();x=np.zeros(6)
+    r=m.solve(x,0,Snapshot(0,()),window(m,x))
+    assert r.model_feasible
+    shifted=m._shift_previous(63_000_000,'one')
+    assert shifted.shape==(30,3)
+    # Integral of each fractional old interval is preserved, including zero tail.
+    expected=.037*r.controls[1]+.013*r.controls[2]
+    np.testing.assert_allclose(shifted[0]*.05,expected,atol=1e-12)
+    assert m._shift_previous(0,'one') is None
+    assert m._shift_previous(151_000_000,'one') is None
+    assert m._shift_previous(63_000_000,'changed') is None
+
+
+def test_numeric_projection_preserves_limits_and_requires_geometry_recheck():
+    m=RealtimeMPC();x=np.zeros(6)
+    z=np.zeros(30);z[0]=1.000002;z[2]=-.99999
+    repaired=m._repair_iterate(x,z)
+    from temporal_mpc.dynamics import rollout
+    states=rollout(x,repaired,.05)
+    assert np.max(np.abs(repaired))<=1
+    assert np.max(np.abs(states[-1,3:]))<1e-12
+    # A bad obstacle trajectory cannot be rescued merely by actuator projection.
+    obstacle=Track(1,(0.,0.),(0.,0.),0,'confirmed',Geometry('circle',radius=.2,source='test'))
+    r=m.solve(x,0,Snapshot(0,(obstacle,)),window(m,x))
+    assert not r.model_feasible and r.fallback_id==MPPI
