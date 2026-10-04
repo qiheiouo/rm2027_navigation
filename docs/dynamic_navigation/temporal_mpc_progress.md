@@ -1,8 +1,10 @@
 # Temporal MPC 进度与结果
 
-2026-10-04，Asia/Shanghai。工程状态：审计、架构、离线原型和验证完成。
-**候选状态：M1离线切片及M3双插件工程链路已完成；M2真实输入/Gazebo、
-M3配对物理门仍未完成，不进入部署。旧SLSQP与迎面接触失败保留。**
+2026-10-04，Asia/Shanghai。用户已要求冻结本路线，状态为
+**Research Frozen / Not Accepted for Deployment**；[冻结记录](temporal_mpc_freeze_20261004.md)。
+M1离线、M2真实输入/Gazebo及M3双插件工程取得限定验证；完整物理任务、连续性
+和部署门未通过。停止继续实验与自动续跑；下列next step仅保留为阶段历史。
+旧SLSQP、迎面接触及全部后续失败保留，不改变正式默认或已迁移规划器。
 
 ## 分支与保留边界
 

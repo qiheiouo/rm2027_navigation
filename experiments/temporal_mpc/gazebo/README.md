@@ -1,5 +1,8 @@
 # Isolated actual Gazebo research
 
+2026-10-04用户要求研究冻结；[冻结记录](../../../docs/dynamic_navigation/temporal_mpc_freeze_20261004.md)。
+所有物理失败与原始证据保留，以下命令/下一步为历史资料，不启动新试次。
+
 [登记](../../../docs/dynamic_navigation/temporal_mpc_gazebo_registration_20261004.md)、
 [结果与限制](../../../docs/dynamic_navigation/temporal_mpc_gazebo_results_20261004.md)、
 [进度](../../../docs/dynamic_navigation/temporal_mpc_progress.md)。

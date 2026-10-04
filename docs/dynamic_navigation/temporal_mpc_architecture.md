@@ -1,6 +1,7 @@
 # Temporal MPC：独立最小研究架构
 
-2026-10-04，Asia/Shanghai。状态：第一阶段审计与离线验证完成；当前采用T-DT问题压缩 + 实时QP。不是部署接受。
+2026-10-04，Asia/Shanghai。状态：用户要求 **Research Frozen / Not Accepted for Deployment**；
+[冻结记录](temporal_mpc_freeze_20261004.md)。保留T-DT问题压缩＋实时QP，不继续实现或运行新试次。
 旧SLSQP仅保留为失败对照，第10节及最新进度记录是当前实施边界。
 本轮由用户新请求授权，不恢复旧 R1/R2、一个月计划或自动续跑安排。
 实现位于直接从 main 创建的独立 `experiment/temporal-mpc-main-20261004` 分支及

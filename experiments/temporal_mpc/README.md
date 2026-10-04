@@ -1,5 +1,8 @@
 # Temporal MPC offline prototype
 
+2026-10-04用户要求研究冻结；[冻结记录](../../docs/dynamic_navigation/temporal_mpc_freeze_20261004.md)。
+停止新实现/试次；保留全部命令为历史复现资料，不自动续跑，不具备部署接受。
+
 独立研究候选；`COLCON_IGNORE`阻止常规workspace构建自动接入。核心没有TF/costmap/goal/velocity发布者、Nav2插件或串口依赖。
 `integration/`有未接入正式launch的选择监督器及明确标记为示例的未来双插件/BT片段。正式MPPI与所有已有研究保留。
 

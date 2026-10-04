@@ -1,0 +1,164 @@
+{
+  "schema": "rm_temporal_mpc_research_freeze/v1",
+  "date": "2026-10-04",
+  "timezone": "Asia/Shanghai",
+  "research_status": "frozen_by_user",
+  "deployment_status": "not_accepted",
+  "dynamic_acceptance": false,
+  "candidate_frozen_for_deployment": false,
+  "branch": "experiment/temporal-mpc-main-20261004",
+  "main_base": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "last_implementation_commit": "2d95b02648723eca52373a81aed70c4cf72077d7",
+  "freeze_tag": "research/temporal-mpc-frozen-20261004",
+  "freeze_tag_target": "Documentation freeze commit containing this record",
+  "latest_integrity": {
+    "errors": [],
+    "manifest_files": 140,
+    "stored_bytes_excluding_manifest": 22143632,
+    "jsonl_streams": 8,
+    "jsonl_rows": 68032,
+    "streams": [
+      {
+        "path": "head_on_b0_01/events.jsonl.gz",
+        "rows": 31858,
+        "uncompressed_bytes": 66416111
+      },
+      {
+        "path": "head_on_b0_01/model_occupancy.jsonl.gz",
+        "rows": 644,
+        "uncompressed_bytes": 300964
+      },
+      {
+        "path": "head_on_b0_01/worker_timing_joined.jsonl.gz",
+        "rows": 1000,
+        "uncompressed_bytes": 1511499
+      },
+      {
+        "path": "head_on_portfolio_01/events.jsonl.gz",
+        "rows": 31834,
+        "uncompressed_bytes": 66318777
+      },
+      {
+        "path": "head_on_portfolio_01/model_occupancy.jsonl.gz",
+        "rows": 629,
+        "uncompressed_bytes": 279386
+      },
+      {
+        "path": "head_on_portfolio_01/worker_timing_joined.jsonl.gz",
+        "rows": 998,
+        "uncompressed_bytes": 1505417
+      },
+      {
+        "path": "nav2_portfolio_01/events.jsonl.gz",
+        "rows": 1054,
+        "uncompressed_bytes": 940453
+      },
+      {
+        "path": "worker_clock_01/events.jsonl.gz",
+        "rows": 15,
+        "uncompressed_bytes": 26569
+      }
+    ],
+    "source_hash_groups_verified": true,
+    "prestart_binary_copies_verified": true,
+    "old_input_lineage_verified": true,
+    "scope": "Independent stored hashes, lossless complete gzip bytes, every JSON row, manifest coverage, frozen source/binary checks and committed prerequisite hashes. No performance/safety inference.",
+    "pass": true
+  },
+  "retained_evidence_directories": [
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_20261004/branch_provenance.json",
+          "sha256": "607d3a14e5200bebc637d4c830d7c5a48ab52f317b2119ea1329d96defbca3cc",
+          "bytes": 389
+        }
+      ]
+    },
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_candidates_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_candidates_20261004/manifest.json",
+          "sha256": "a60725f951c68c85655423d0a06a3a26c808f16e7bc5b688f5c9d0585d0193e5",
+          "bytes": 55737
+        }
+      ]
+    },
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_execution_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_execution_20261004/manifest.json",
+          "sha256": "69dee2006d13edefb7efeb19cc6c66f0e77d58494a09cfc4d6f531056daa38e4",
+          "bytes": 39615
+        }
+      ]
+    },
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_gazebo_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_gazebo_20261004/manifest.json",
+          "sha256": "0ba4f9dfeeccee3f73301008b4c339dc70216ae06a8950b24b3567ae5f3908ba",
+          "bytes": 73685
+        }
+      ]
+    },
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_lateral_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_lateral_20261004/manifest.json",
+          "sha256": "cd6f8127e221c2831d3ba5f576437e7e7710c66686146d44ddfcd3aa7945d544",
+          "bytes": 31827
+        }
+      ]
+    },
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_nav2_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_nav2_20261004/source_identity.json",
+          "sha256": "033e83ac48697ca00710321c46cde64e16004157da34999270654e2281d65b85",
+          "bytes": 12234
+        }
+      ]
+    },
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_projection_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_projection_20261004/manifest.json",
+          "sha256": "68152c6f22336367d7060bce43ae87ad169e7159d10b025300be268e0f22ddfb",
+          "bytes": 28176
+        }
+      ]
+    },
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_realtime_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_realtime_20261004/manifest.json",
+          "sha256": "6576ebe197897442ec7deac4ee2810a17475c9618a5610f435167695c9b2a5b1",
+          "bytes": 4186
+        }
+      ]
+    },
+    {
+      "directory": "docs/dynamic_navigation/evidence/temporal_mpc_timing_20261004",
+      "identity_files": [
+        {
+          "path": "docs/dynamic_navigation/evidence/temporal_mpc_timing_20261004/manifest.json",
+          "sha256": "16020d53dc7629ccd5e3c424a778b12374433200c4f26068e685160385c52052",
+          "bytes": 25042
+        }
+      ]
+    }
+  ],
+  "no_new_experiments": true,
+  "no_runtime_changes": true,
+  "no_merge_push_deployment": true,
+  "scope": "User-authorized research freeze and history preservation. Existing next-step prose and example commands do not authorize execution. Source, failures, runtime identities and original dirty workspace retained."
+}

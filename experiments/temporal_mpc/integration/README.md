@@ -1,5 +1,8 @@
 # Humble 双控制器实验
 
+2026-10-04用户要求研究冻结；[冻结记录](../../../docs/dynamic_navigation/temporal_mpc_freeze_20261004.md)。
+双插件与既有证据保留，以下启动/测试命令仅供将来明确授权后的复现，不继续运行。
+
 本目录现在包含可构建的 `rm_temporal_mpc::Controller` 原生 Nav2 插件、异步
 OSQP worker、选择监督器、完整隔离参数和 BT。正式 `src/`、Mission、Planner、
 NavigateToPose、启动与硬件接口未改动；父目录 `COLCON_IGNORE` 保持隔离。
