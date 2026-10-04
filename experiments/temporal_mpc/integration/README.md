@@ -71,3 +71,11 @@ worker / supervisor / 受控测试模型。依赖轮子版本和 sha256 见
 [FollowPath action](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_behavior_tree/plugins/action/follow_path_action.cpp)、
 [ControllerSelector](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_behavior_tree/plugins/action/controller_selector_node.cpp)。
 当前构建还直接验证该镜像安装头文件和真实加载结果。
+
+## 实际输入后续
+
+上述M3合成fixture和14故障证据保留。后续`../gazebo/`已完成主线物理底盘/激光、
+冻结v2 tracker、canonical测量odom、源TF CDR重放、真实STVL、T-DT路径动作和
+实际MPC/BT交接的隔离仿真。两组物理配对仍失败，未达到部署接受。
+见[实际结果](../../../docs/dynamic_navigation/temporal_mpc_gazebo_results_20261004.md)。
+消费者新增合法tentative漏检旧观察epoch支持，既有stale/future/confirmed/coasting门不变。

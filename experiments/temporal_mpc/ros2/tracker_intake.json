@@ -1,0 +1,66 @@
+{
+  "source_commit": "b5645ecaf6b4575a6537a0a0a9907f4891955955",
+  "source_repository": "local rm2027_navigation git object; own project package, not external module",
+  "license": "Apache-2.0 package declaration retained",
+  "scope": [
+    "README.md",
+    "config/dynamic_obstacle_tracking_shadow.yaml",
+    "package.xml",
+    "resource/rm_dynamic_obstacle_tracking",
+    "rm_dynamic_obstacle_tracking/__init__.py",
+    "rm_dynamic_obstacle_tracking/core.py",
+    "rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+    "setup.cfg",
+    "setup.py"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "source_sha256": "38bf44e26112cbfce2eba4be5dff0da7f9a9400217bec689de674f5f86f27868",
+      "unchanged": true
+    },
+    {
+      "path": "config/dynamic_obstacle_tracking_shadow.yaml",
+      "source_sha256": "bff48a224494814295a21d1d7481d2635b51f5896fd2f769a15b5dcf40fa63f1",
+      "unchanged": true
+    },
+    {
+      "path": "package.xml",
+      "source_sha256": "b4f880565921751869ac96960f053ade989da38b5cb1bd27d57481c19807323d",
+      "unchanged": true
+    },
+    {
+      "path": "resource/rm_dynamic_obstacle_tracking",
+      "source_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "unchanged": true
+    },
+    {
+      "path": "rm_dynamic_obstacle_tracking/__init__.py",
+      "source_sha256": "2d12368e35f04139d2022076e9d6b928ea26c524e49bbb872b4c9b17a0008e24",
+      "unchanged": true
+    },
+    {
+      "path": "rm_dynamic_obstacle_tracking/core.py",
+      "source_sha256": "f10c5306355e0f21117adf1c45ca7a5b1b11fbea1e31c9cae1f26b7706f8ea20",
+      "unchanged": true
+    },
+    {
+      "path": "rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+      "source_sha256": "60076d2455ac63f43fd9470f1fbff0c5fa323f9da499a195b7c4d4b1b7835a42",
+      "unchanged": true
+    },
+    {
+      "path": "setup.cfg",
+      "source_sha256": "1cc1f1f8fd98b7960b1c1844ba0bfd61939da1d6b14443311d46132778f6ef02",
+      "unchanged": true
+    },
+    {
+      "path": "setup.py",
+      "source_sha256": "9bfd32cbfebc20213ffa963ce7e1c4eb5451ebfaa50baeaa489a0be41fbd380a",
+      "unchanged": true
+    }
+  ],
+  "local_modifications": "none; experiment parameter file separately enables v2/scan/map topics",
+  "boundary": "map and actual scan -> shadow-only public predictions; no TF/cmd_vel/goal publishing",
+  "removal": "delete experimental package; COLCON_IGNORE keeps formal discovery unchanged"
+}

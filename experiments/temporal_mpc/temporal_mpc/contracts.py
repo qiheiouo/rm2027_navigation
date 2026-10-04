@@ -130,7 +130,7 @@ def predict(snapshot, evaluation_ns, times, max_age=0.4):
         observation_age = (evaluation_ns - track.observation_ns) * 1e-9
         if not 0 <= observation_age <= max_age or track.observation_ns > snapshot.source_ns:
             raise ContractError("observation stale or future")
-        if snapshot.schema == V2 and ((track.state != "coasting" and track.observation_ns != snapshot.source_ns)
+        if snapshot.schema == V2 and ((track.state == "confirmed" and track.observation_ns != snapshot.source_ns)
                 or (track.state == "coasting" and track.observation_ns >= snapshot.source_ns)):
             raise ContractError("v2 observation/scan epoch relation")
         p, v = np.asarray(track.position, float), np.asarray(track.velocity, float)

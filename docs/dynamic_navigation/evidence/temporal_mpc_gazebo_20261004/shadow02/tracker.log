@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node", line 33, in <module>
+    sys.exit(load_entry_point('rm-dynamic-obstacle-tracking==0.1.0', 'console_scripts', 'dynamic_obstacle_tracker_node')())
+  File "/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/python3.10/site-packages/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py", line 589, in main
+    node = DynamicObstacleTrackerNode()
+  File "/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/python3.10/site-packages/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py", line 124, in __init__
+    self._tracker = MultiObjectTracker(
+  File "/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/python3.10/site-packages/rm_dynamic_obstacle_tracking/core.py", line 514, in __init__
+    raise ValueError("observation anchor requires unclipped, undecayed CV display")
+ValueError: observation anchor requires unclipped, undecayed CV display
+[ros2run]: Process exited with failure 1

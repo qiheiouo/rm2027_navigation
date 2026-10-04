@@ -177,7 +177,7 @@ private:
       const double fields[]={t.position.x,t.position.y,t.position.z,t.velocity.x,t.velocity.y,t.velocity.z,t.size.x,t.size.y,t.size.z};
       for(double v:fields) if(!std::isfinite(v)) return;
       if(!ids.insert(t.track_id).second || t.state<1 || t.state>3 || observation<0 || observation>source ||
-        (t.state==3 ? observation>=source : observation!=source) || t.size.x<=0 || t.size.y<=0 ||
+        ((t.state==3 && observation>=source) || (t.state==2 && observation!=source)) || t.size.x<=0 || t.size.y<=0 ||
         t.size.x>3 || t.size.y>3 || t.size.z<0 || std::abs(t.position.z)>1e-6 ||
         std::abs(t.velocity.z)>1e-6 || std::hypot(t.velocity.x,t.velocity.y)>3 || t.prediction.size()!=15) return;
       for(const auto &v:t.prediction) if(!std::isfinite(v.x) || !std::isfinite(v.y) || !std::isfinite(v.z)) return;

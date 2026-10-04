@@ -1,0 +1,57 @@
+[INFO] [launch]: All log files can be found below /home/rmnav/.ros/log/2026-10-04-03-31-14-672349-3cddd5e1019a-35
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [ign gazebo-1]: process started with pid [174]
+[INFO] [parameter_bridge-2]: process started with pid [176]
+[INFO] [scan_frame_adapter-3]: process started with pid [179]
+[INFO] [robot_state_publisher-4]: process started with pid [181]
+[INFO] [map_odom_stub-5]: process started with pid [183]
+[INFO] [lio_adapter-6]: process started with pid [185]
+[INFO] [gimbal_state_adapter-7]: process started with pid [187]
+[INFO] [imu_frame_adapter-8]: process started with pid [189]
+[INFO] [chassis_interface_stub-9]: process started with pid [191]
+[map_odom_stub-5] [WARN] [1791084675.156180959] [map_odom_stub]: Phase 1 placeholder: publishing dynamic identity map -> odom. Remove this node when real global localization is connected.
+[chassis_interface_stub-9] [WARN] [1791084675.156574846] [chassis_interface_stub]: Phase 1 chassis stub only: no TF, no odom, no nav goals, no real serial.
+[gimbal_state_adapter-7] [WARN] [1791084675.157647533] [gimbal_state_adapter]: Phase 1 skeleton: publishing gimbal_yaw_joint on /joint_states. Real hardware must provide timestamped gimbal yaw before rotating-gimbal localization is accepted.
+[scan_frame_adapter-3] [WARN] [1791084675.162087828] [scan_frame_adapter]: Simulation-only scan adapter: /simulation/scan_raw -> /scan with frame_id=sim_lidar_link. No TF is published.
+[robot_state_publisher-4] [INFO] [1791084675.163345321] [robot_state_publisher]: got segment base_imu_link
+[robot_state_publisher-4] [INFO] [1791084675.163450335] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-4] [INFO] [1791084675.163462512] [robot_state_publisher]: got segment gimbal_yaw_link
+[robot_state_publisher-4] [INFO] [1791084675.163470763] [robot_state_publisher]: got segment lio_imu_link
+[robot_state_publisher-4] [INFO] [1791084675.163478632] [robot_state_publisher]: got segment mid360_left_frame
+[robot_state_publisher-4] [INFO] [1791084675.163486779] [robot_state_publisher]: got segment mid360_right_frame
+[robot_state_publisher-4] [INFO] [1791084675.163495114] [robot_state_publisher]: got segment sim_lidar_link
+[imu_frame_adapter-8] [WARN] [1791084675.169153764] [imu_frame_adapter]: Phase 1 IMU frame adapter: /livox/lio_imu_raw -> /livox/lio_imu, output frame_id=lio_imu_link. This node only rewrites header.frame_id; it does not publish TF, filter IMU data, or modify measurements.
+[lio_adapter-6] [WARN] [1791084675.170470220] [lio_adapter]: Canonical LIO adapter: adapting /simulation/ground_truth/odom to /odometry/lio through TF base_link->sensor with gimbal frame gimbal_yaw_link. raw_odom_parent_frame_mode=canonical_odom. twist_mode=passthrough. Real hardware still requires calibrated and timestamped gimbal yaw.
+[parameter_bridge-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ign gazebo-1] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ign gazebo-1] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ign gazebo-1] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ign gazebo-1] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-2] [INFO] [1791084676.232428278] [simulation_bridge]: Creating GZ->ROS Bridge: [/clock (ignition.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791084676.234905110] [simulation_bridge]: Creating ROS->GZ Bridge: [/simulation/chassis/cmd_vel (geometry_msgs/msg/Twist) -> /model/rm_sentry_2027/cmd_vel (ignition.msgs.Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791084676.237816522] [simulation_bridge]: Creating GZ->ROS Bridge: [/model/rm_sentry_2027/odometry (ignition.msgs.Odometry) -> /simulation/ground_truth/odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791084676.240617973] [simulation_bridge]: Creating GZ->ROS Bridge: [/model/rm_sentry_2027/sim_lidar/scan (ignition.msgs.LaserScan) -> /simulation/scan_raw (sensor_msgs/msg/LaserScan)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791084676.242925077] [simulation_bridge]: Creating ROS->GZ Bridge: [/simulation/moving_obstacle/target (std_msgs/msg/Float64) -> /simulation/moving_obstacle/gz_target (ignition.msgs.Double)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791084676.244133231] [simulation_bridge]: Creating GZ->ROS Bridge: [/model/rm_sentry_2027/pose (ignition.msgs.Pose_V) -> /simulation/oracle/rm_sentry_2027 (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791084676.246523308] [simulation_bridge]: Creating GZ->ROS Bridge: [/model/moving_obstacle/pose (ignition.msgs.Pose_V) -> /simulation/oracle/moving_obstacle (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791084676.247479983] [simulation_bridge]: Creating GZ->ROS Bridge: [/world/phase1_omni/dynamic_pose/info (ignition.msgs.Pose_V) -> /simulation/oracle/world (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1791084678.086541669] [simulation_bridge]: Passing message from ROS std_msgs/msg/Float64 to Gazebo gz.msgs.Double (showing msg only once per type)
+[scan_frame_adapter-3] [INFO] [1791084678.135367956] [scan_frame_adapter]: Gazebo raw scan frame_id is 'rm_sentry_2027/sim_lidar_link/phase1_planar_lidar'; canonical simulation frame is 'sim_lidar_link'.
+[chassis_interface_stub-9] [INFO] [1791084689.152741712] [chassis_interface_stub]: Mock chassis packet vx=0.018 vy=0.003 wz=0.000
+[parameter_bridge-2] [INFO] [1791084689.152836374] [simulation_bridge]: Passing message from ROS geometry_msgs/msg/Twist to Gazebo gz.msgs.Twist (showing msg only once per type)
+[chassis_interface_stub-9] [INFO] [1791084690.152752786] [chassis_interface_stub]: Mock chassis packet vx=0.406 vy=0.030 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084691.152763952] [chassis_interface_stub]: Mock chassis packet vx=0.397 vy=0.039 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084692.152664018] [chassis_interface_stub]: Mock chassis packet vx=0.413 vy=0.040 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084693.152769763] [chassis_interface_stub]: Mock chassis packet vx=0.403 vy=0.037 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084694.152703854] [chassis_interface_stub]: Mock chassis packet vx=0.409 vy=0.041 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084695.152667884] [chassis_interface_stub]: Mock chassis packet vx=0.384 vy=0.033 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084696.152716582] [chassis_interface_stub]: Mock chassis packet vx=0.421 vy=0.041 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084697.152826000] [chassis_interface_stub]: Mock chassis packet vx=0.394 vy=0.036 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084698.152622164] [chassis_interface_stub]: Mock chassis packet vx=0.387 vy=0.024 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084699.152685108] [chassis_interface_stub]: Mock chassis packet vx=0.358 vy=0.028 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084700.152566258] [chassis_interface_stub]: Mock chassis packet vx=0.250 vy=0.091 wz=0.000
+[chassis_interface_stub-9] [INFO] [1791084701.152496711] [chassis_interface_stub]: Mock chassis packet vx=0.326 vy=0.266 wz=0.000
+[chassis_interface_stub-9] [WARN] [1791084702.606239564] [chassis_interface_stub]: Watchdog timeout. Mock chassis command forced to zero.

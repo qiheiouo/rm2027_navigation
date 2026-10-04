@@ -224,3 +224,18 @@ M2历史输入审计：[787条真实捕获预测](evidence/temporal_mpc_nav2_202
 分支仍从main@d735ee12直接派生，继续提交接在M1之后，不接旧研究分支。
 规范接口包只在实验overlay增加冻结公开预测msg，正式src/TF/默认配置不改。
 二进制/源码快照、依赖wheel/tag/commit/许可、原工作区保留记录存于本轮证据。
+
+## 2026-10-04 后续：真实输入与Gazebo固定配对检查点
+
+- hypothesis：已有路径前端和异步QP能在实际激光/tracker/测量odom下运行，并通过原生重验及BT退化保持输出。
+- change：选择性引入未修改b5645eca tracker；隔离main物理SDF/定位适配器；记录完整CDR/源TF/物理pose/Contact；以T-DT标准路径action供参考与认证走廊，加入真实扫描STVL、公共VelocitySmoother；修复合法tentative一次漏检旧epoch消费。
+- result：真实公共输入及canonical源TF重放通过；实际MPC在横穿69/70、迎面5/6次原生计算通过，双向选择和回退发生。候选最终cmd间隔max60.872/68.946ms；迎面中间controller cmd78.706ms超75ms观察门。85项测试主机/Humble都通过、无skip。
+- evidence：[本轮完整结果](temporal_mpc_gazebo_results_20261004.md)、[配对与实时汇总](evidence/temporal_mpc_gazebo_20261004/paired_summary.json)、[源消息/配置/源码快照与hash](evidence/temporal_mpc_gazebo_20261004/manifest.json)、[仿真复现](../../experiments/temporal_mpc/gazebo/README.md)。
+- conclusion：输入/执行/交接从合成fixture推进到实际Gazebo；**动态接受仍false**。横穿B0 aborted、候选到达但双方真实接触；迎面双方40s取消。保持false_block=null，不冻结部署候选，不改正式默认MPPI。
+- next step：细化native新测量重验拒绝和执行误差界、T-DT静态走廊侧向余量、回退策略净空/减速保护，再注册安全B0与候选配对。完整course仅静态前端通过（拒绝窄通道捷径、外侧绕行），没有动态course成功。
+
+生成器ns0命名错误导致的shadow04/calibration01/head_on01运动比较全部撤回并保留；
+不是主线底盘失败。修复后实际全向脉冲稳定响应通过，但实际瞬态accel约1.94，
+模型1.0的连续响应界尚未认证。source/TF回放完整与模型可行都不等于物理安全。
+四轮最终配对每场景SDF/profile/tracker/bridge逐字节一致；单次、MPPI随机seed未锁定，
+不得根据候选到达或无接触超时声称统计净收益。

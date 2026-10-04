@@ -1,0 +1,68 @@
+[INFO] [1791084560.914906223] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791084560.919790908] [controller_server]: Creating controller server
+[INFO] [1791084560.924489237] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791084560.925125739] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1791084560.925611697] [controller_server]: Configuring controller interface
+[INFO] [1791084560.925665013] [controller_server]: getting goal checker plugins..
+[INFO] [1791084560.925676175] [controller_server]: Controller frequency set to 20.0000Hz
+[INFO] [1791084560.925693644] [local_costmap.local_costmap]: Configuring
+[INFO] [1791084560.928653121] [local_costmap.local_costmap]: Using plugin "static_layer"
+[INFO] [1791084560.931599692] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[INFO] [1791084560.932477053] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[INFO] [1791084560.932501570] [local_costmap.local_costmap]: Using plugin "stvl_layer"
+[INFO] [1791084560.963105000] [local_costmap.local_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[INFO] [1791084560.963145550] [local_costmap.local_costmap]: stvl_layer's global frame is map.
+[INFO] [1791084560.963501371] [local_costmap.local_costmap]: stvl_layer loaded parameters from parameter server.
+[INFO] [1791084560.964438811] [local_costmap.local_costmap]: stvl_layer created underlying voxel grid.
+[INFO] [1791084560.965056038] [local_costmap.local_costmap]: Voxel filter activated.
+[INFO] [1791084560.967489212] [local_costmap.local_costmap]: Passthough filter activated.
+[INFO] [1791084560.968209762] [local_costmap.local_costmap]: stvl_layer initialization complete!
+[INFO] [1791084560.968232959] [local_costmap.local_costmap]: Initialized plugin "stvl_layer"
+[INFO] [1791084560.968239787] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1791084560.968662190] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1791084560.973392957] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1791084560.973888707] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1791084560.974007623] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1791084560.974911987] [controller_server]: Created controller : FollowPathMPPI of type nav2_mppi_controller::MPPIController
+[INFO] [1791084560.975497227] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1791084560.976598650] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1791084560.976624834] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1791084560.976889289] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1791084560.976902570] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1791084560.977018498] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1791084560.977025781] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1791084560.977159516] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1791084560.977813649] [controller_server]: Optimizer reset
+[INFO] [1791084560.979606761] [MPPIController]: Configured MPPI Controller: FollowPathMPPI
+[INFO] [1791084560.983380570] [controller_server]: Created controller : FollowPathTemporalMPC of type rm_temporal_mpc::Controller
+[INFO] [1791084560.987510123] [controller_server]: Controller Server has FollowPathMPPI FollowPathTemporalMPC  controllers available.
+[INFO] [1791084561.037475995] [controller_server]: Activating
+[INFO] [1791084561.037563757] [local_costmap.local_costmap]: Activating
+[INFO] [1791084561.037594370] [local_costmap.local_costmap]: Checking transform
+[INFO] [1791084561.037645667] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[INFO] [1791084561.537699900] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[INFO] [1791084562.037831201] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791084562.537698777] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791084563.037703629] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791084563.537707356] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791084564.037715794] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791084564.517177371] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 160 X 120 at 0.050000 m/pix
+[INFO] [1791084564.537811935] [local_costmap.local_costmap]: start
+[INFO] [1791084564.537888565] [local_costmap.local_costmap]: stvl_layer was activated.
+[WARN] [1791084564.639221042] [controller_server]: Parameter controller_server.verbose not found
+[INFO] [1791084564.639613253] [controller_server]: Optimizer reset
+[INFO] [1791084564.639724403] [MPPIController]: Activated MPPI Controller: FollowPathMPPI
+[INFO] [1791084564.639741127] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[WARN] [1791084567.238051112] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.22s, it should be updated every 0.20s.
+[WARN] [1791084567.288015317] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.27s, it should be updated every 0.20s.
+[WARN] [1791084567.338007782] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.32s, it should be updated every 0.20s.
+[WARN] [1791084567.388015771] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.37s, it should be updated every 0.20s.
+[WARN] [1791084567.438014932] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.42s, it should be updated every 0.20s.
+[WARN] [1791084567.488033939] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.47s, it should be updated every 0.20s.
+[WARN] [1791084567.538016702] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.52s, it should be updated every 0.20s.

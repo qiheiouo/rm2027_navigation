@@ -89,3 +89,8 @@ handoff均未完成；[集成边界](integration/README.md)明确下一阶段的
 2026-10-04继续轮已实现隔离 Humble 原生双插件和异步 QP，运行命令、约束与
 尚未完成的真实输入/部署门见 [integration/README.md](integration/README.md)。
 独立主线派生分支和默认src/正式配置保持；历史离线碰撞与失败证据不覆盖。
+
+2026-10-04后续已完成真实Gazebo扫描/tracker/测量TF/物理pose的隔离配对，见
+[gazebo/README.md](gazebo/README.md)和[实际结果](../../docs/dynamic_navigation/temporal_mpc_gazebo_results_20261004.md)。
+前述M1/M3历史“尚未完成”状态保留为阶段记录；当前动态接受仍false，85项测试
+两环境通过。MPC实际短暂参与，整体策略接触/超时，没有冻结部署候选。

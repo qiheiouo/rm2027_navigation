@@ -143,3 +143,19 @@ def test_causal_ros_history_handles_interleaving_without_backdating():
     selected=causal_snapshot(history,650_000_000)
     with pytest.raises(ContractError,match='source stale'):
         predict(selected,650_000_000,[0.,.1])
+
+
+def test_tentative_missed_scan_retains_older_observation_without_second_coast():
+    # Frozen tracker keeps tentative tracks for one miss, without changing their
+    # state to coasting. Its v2 position is already advanced to this array epoch.
+    msg = message()
+    msg.header.stamp = stamp(1,100_000_000)
+    msg.tracks[0].state = 1
+    msg.tracks[0].position.x = 2.05
+    snapshot = PublicAdapter().consume(msg,1_200_000_000)
+    result = predict(snapshot,1_200_000_000,[0.,.1,1.5])
+    np.testing.assert_allclose(result.centers[0],[[2.05,0.]]*3)
+    # Observation age and future checks still apply to tentative tracks.
+    with pytest.raises(ContractError):predict(snapshot,1_400_000_001,[0.,.1])
+    msg.tracks[0].last_observation_stamp=stamp(1,100_000_001)
+    with pytest.raises(ContractError):PublicAdapter().consume(msg,1_200_000_000)

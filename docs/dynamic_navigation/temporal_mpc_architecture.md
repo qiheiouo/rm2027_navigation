@@ -299,3 +299,17 @@ receipt立刻清空；不回填新扫描到过去。Nav2实际保持速度，原
 原生检查10ms、worker40ms/solver15ms均为预算/迟到拒绝；不是操作系统硬实时。
 当前costmap try-lock与零等待TF避免原生shadow锁反转；仍需实际负载和独立wall
 watchdog验证。健康ready只是本周期工程条件，不授予比赛部署资格。
+
+## 实际Gazebo阶段边界补充（2026-10-04后续）
+
+[真实输入与配对结果](temporal_mpc_gazebo_results_20261004.md)已完成输入CDR/源epoch TF、
+标准T-DT路径action、实际STVL端点、测量odom、双控制器与BT交接的隔离仿真。
+固定仿真map原点用唯一static map->odom，lio_adapter仍持有odom->base；oracle位姿
+是单独话题，不接TF/预测/controller。主线包复用，tracker只选择性引入未改代码。
+
+v2 tentative允许一次漏检时观察epoch<array epoch，当前position已推进，消费不
+第二次coast。confirmed仍要求同源，coasting仍要求旧源，观察TTL等检查不变。
+物理完整机械包络（含球形轮）和Contact独立；仅采样净空诊断，不声称连续响应证书。
+
+阶段状态：M2真实输入成立、M3实际MPC短暂参与和交接成立；两组物理接受失败，
+候选不进入部署冻结。正式src/默认MPPI保持。静态course可外侧绕行，控制不搜索。
