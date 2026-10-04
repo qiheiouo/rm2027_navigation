@@ -1,0 +1,404 @@
+{
+  "schema": "rm2027_r4_hws_prediction_consumption_audit_sources/v1",
+  "date": "2026-10-04",
+  "timezone": "Asia/Shanghai",
+  "status": "audit_complete_architecture_pending_no_controller_implementation",
+  "branch": "experiment/r4-hws-prediction-consumption",
+  "main_base": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "worktree": "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption",
+  "upstream": {
+    "url": "https://github.com/Polyacetone/HWSentryNav26",
+    "branch": "main",
+    "commit": "f5f941288197e14c867d711a4c4cd85bfd7a3194",
+    "remote_head_and_main_verified": true,
+    "license": "MIT; Copyright 2025 Polyacetone",
+    "import_scope": "none; read-only source audit",
+    "local_source_modifications": false,
+    "runtime_dependency_changes": false,
+    "sources": [
+      {
+        "path": "map_server/config/params.yaml",
+        "sha256": "f929d87d5a52c9a42418f1677716de09ca41c446b82b3748b5319fa0d88ff3f2",
+        "git_blob": "5e6ee9a81794015b5a5ece751fca5104c2cc1005",
+        "lines": 66
+      },
+      {
+        "path": "map_server/src/map_server_node.cpp",
+        "sha256": "4d5ae3a53f3973f1cfd0a0d3b5ae067b358d3780c90c102e3b2c7acdd9be892b",
+        "git_blob": "d27c8e94ad3cf426612da38bcc3a4f8d4bcc985a",
+        "lines": 855
+      },
+      {
+        "path": "map_server/src/object_tracker.cpp",
+        "sha256": "da034322b18a545e57700510800ffc49310526d25665bfc260bee80ab6ec2f1d",
+        "git_blob": "7fdab56342e798f33545f7d72c837b119cfbe2d2",
+        "lines": 484
+      },
+      {
+        "path": "map_server/src/prediction_cost_map_renderer.cpp",
+        "sha256": "3dceb16f097add6be956487895df21a5b0326bd491aa6e4242634e71d5ecb4f4",
+        "git_blob": "f9120065687849c1dedf68d18421f9c4590fc1d6",
+        "lines": 130
+      },
+      {
+        "path": "map_server/src/utils.cpp",
+        "sha256": "182645719e92c524750d7c52457cfe01cbb5a21d2e6407155b72684ef2e8fa5c",
+        "git_blob": "42e3bd56138e084f9ad0aa5777bc5b26370e606f",
+        "lines": 589
+      },
+      {
+        "path": "nav_executor/config/path_executor.yaml",
+        "sha256": "a89eae35f922fd61bd7bc7f90db095f5537e05eceeb124c3f8c032f8f6db57f8",
+        "git_blob": "378211bd8bfbcc05821da14f449173aec6dc410b",
+        "lines": 185
+      },
+      {
+        "path": "nav_executor/include/nav_executor/path_executor/mpc/fddp_solver.hpp",
+        "sha256": "385be6e382cb569ac7b24f2200e6ece7018cb72dd044b1895aae521f83e4cd9d",
+        "git_blob": "e4ba0adfd5985bf06102ebe33d4a21470a67a6fb",
+        "lines": 762
+      },
+      {
+        "path": "nav_executor/include/nav_executor/path_executor/mpc/mpc_types.hpp",
+        "sha256": "21c771e1c82cb493bc5951db6faaf3e89836a9564d983c177650f763ecbc7cc8",
+        "git_blob": "4cacb8c9f2a7ea693f438dcad5a8e6627987c127",
+        "lines": 398
+      },
+      {
+        "path": "nav_executor/include/nav_executor/path_executor/mpc/mpc_utils.hpp",
+        "sha256": "88103d062faea1864b2bd6c0df8a2f7b77111e6c8ade851cc74140572fc9fd1e",
+        "git_blob": "f620bb99de869ba7d40668cf09f3c94da295ba9b",
+        "lines": 163
+      },
+      {
+        "path": "nav_executor/src/common/environment/nav_map.cpp",
+        "sha256": "c8038dd3e113ac43924bf40b0b87177207067fc108c6e040fcdfee22e76bee80",
+        "git_blob": "ab915d2189a50fb45d04d5c5fe9edbdfeefe83da",
+        "lines": 402
+      },
+      {
+        "path": "nav_executor/src/common/environment/obstacle_semantics.cpp",
+        "sha256": "83c755e7d0dd866e866cba813d2fc83451d591a364d8dd357a641d27bf611a4a",
+        "git_blob": "684a6eaf752a1aa18bbe9c6ce7db1b8859f40383",
+        "lines": 118
+      },
+      {
+        "path": "nav_executor/src/nav_executor_init.cpp",
+        "sha256": "098d4578d16f6182f0c72135e7a4f3fc4f5562461feea575cf115c2353697f72",
+        "git_blob": "c0aba0a3424f62f17311ab4f84f28f67dfb8c8be",
+        "lines": 1349
+      },
+      {
+        "path": "nav_executor/src/nav_executor_node.cpp",
+        "sha256": "2bf22e33a2950c6d1afc72c9e0fdbac91aab534a099beb3f2932979e06ff325c",
+        "git_blob": "38c214df28a60bff5f2d2aac854273288e7aa105",
+        "lines": 719
+      },
+      {
+        "path": "nav_executor/src/path_executor/mpc/follow_problem.cpp",
+        "sha256": "5089954b29837e42f9882eba7920de244f8b34c61d3f55d5c3b7f98c47a86625",
+        "git_blob": "7137977b95be395c27a3fa6c1892e26c0b976f63",
+        "lines": 333
+      },
+      {
+        "path": "nav_executor/src/path_executor/mpc/hold_problem.cpp",
+        "sha256": "cc8061d31774b7dc596e443181efb4a6517b4a053f2d648eec36d96ae8461ad3",
+        "git_blob": "4c3fe85e477d1382fab11442605243dd8d91df6d",
+        "lines": 145
+      },
+      {
+        "path": "nav_executor/src/path_executor/mpc/lpv_model.cpp",
+        "sha256": "c6f188c46179e5c660923a31b1872e9ee2d9bd813f93b925ffe1b09c9cdd4382",
+        "git_blob": "fbb90565193ba7d89879071f388a1596dce7bfc9",
+        "lines": 113
+      },
+      {
+        "path": "nav_executor/src/path_executor/mpc/mpc_solver.cpp",
+        "sha256": "e8493bbad421f2e9561715aa9e79aa64311bf853a123b5d5d71fddb505ce1ba5",
+        "git_blob": "960f2483ac55b377c93f513a09dbefbdec910883",
+        "lines": 779
+      },
+      {
+        "path": "nav_executor/src/path_executor/mpc/mpc_utils.cpp",
+        "sha256": "4b036299f7815aeb8470837122c0c7ca6dcdfccf14b3f657d9dd5f6c40e862f1",
+        "git_blob": "769e885fb43bbad438af34ea79767af1fd153afd",
+        "lines": 250
+      },
+      {
+        "path": "nav_executor/src/path_executor/mpc/stop_problem.cpp",
+        "sha256": "59dcd5c14dfaff521467b7a0b63a2c24d20bab93825d961c858090935e0ca37a",
+        "git_blob": "4b349521fc71b3d97d9c9c2bc5fad04003a7425c",
+        "lines": 122
+      },
+      {
+        "path": "nav_executor/src/path_executor/path_executor.cpp",
+        "sha256": "7a91163e33c18147cec984e998798ee5b2e03837280c223a4feb2d11ae0e427a",
+        "git_blob": "5e9f46a745d9024016933c495ea162a48ef8f418",
+        "lines": 769
+      },
+      {
+        "path": "nav_executor/src/task_manager/route_monitor.cpp",
+        "sha256": "80073311d6396ff75196c115084b2dff6a813456caf743ea645d323087bfe05c",
+        "git_blob": "dd81e9213bd4acc76ffef71d1f71faeb2fae6abf",
+        "lines": 270
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "07e9b47b40139392fe632e433252a6a60f7756b684068aab3f985282114cb990",
+        "git_blob": "d256dad44c9d5906465870eed45a34b3a0dccbf5",
+        "lines": 21
+      },
+      {
+        "path": "DESIGN.md",
+        "sha256": "a0397de89cfa56c1b24546c7132f066bdefc77e7a0efb3d3cdf5b65fa61185b6",
+        "git_blob": "affbed9566d408debdd3a6cb61327ad9ca456002",
+        "lines": 366
+      },
+      {
+        "path": "nav_executor/config/node_params.yaml",
+        "sha256": "d3df8e7ed82b36f6168d3b3abf8d8d95dc834037b1737e37d69a41e9bd87ae75",
+        "git_blob": "f087a05c95d7a25b68b1d0ba0dd691100f3b5cfc",
+        "lines": 31
+      },
+      {
+        "path": "nav_executor/config/path_planner.yaml",
+        "sha256": "86e60b3ae2336f5bcb78157e003dd1ba229ad2c5324411ad57fba15028a8214d",
+        "git_blob": "aa7f11a012ef85661d1aed0c01d68f3ddfec361e",
+        "lines": 132
+      },
+      {
+        "path": "nav_executor/src/path_executor/state/state_machine.cpp",
+        "sha256": "b14e44dae0654a1d48d782d5bf05d73a73147402a184d15497e0a54e6bd3af10",
+        "git_blob": "df8427d87516837b1f3b0e1f55296ea415ca403a",
+        "lines": 477
+      },
+      {
+        "path": "nav_executor/launch/nav_executor.launch.py",
+        "sha256": "84f4b49b0b6c8f11512ffff62cc7047496eb7aa9023fe800a7bed6d2750d913a",
+        "git_blob": "181d6fd9b39eb66c9bcf8a4136a5abe6e1a54061",
+        "lines": 32
+      },
+      {
+        "path": "nav_executor/CMakeLists.txt",
+        "sha256": "ff49c17516e28fa2b0e7dca31330b9426cc07a9758a6ca401421f9f4f0b45120",
+        "git_blob": "4fa526651b764956ee404974c346344618e9b8e4",
+        "lines": 46
+      }
+    ]
+  },
+  "r3": {
+    "tag": "research/temporal-mpc-frozen-20261004",
+    "commit": "04291a410f193c009e043af88e014cf420e1f68b",
+    "read_only": true,
+    "sources": [
+      {
+        "path": "docs/dynamic_navigation/temporal_mpc_freeze_20261004.md",
+        "sha256": "7ba4f245537b9d043108c87c5e3a031154a04100a899a94b9bb15e060b87c611",
+        "git_blob": "b26985d3027cd9f2d7c0750877ddda373f4d5d77",
+        "lines": 62
+      },
+      {
+        "path": "docs/dynamic_navigation/temporal_mpc_timing_results_20261004.md",
+        "sha256": "eec372c79bc9b1a96c453a8423b979a0fbabb60af80646255f6aaac48ef5c3ba",
+        "git_blob": "22a7d451d4beb0ad836a13921896da19edbf8351",
+        "lines": 147
+      },
+      {
+        "path": "experiments/temporal_mpc/temporal_mpc/realtime_qp.py",
+        "sha256": "e6b4277191fad3b895702bb5ea05daa62e4281e8264a9ec62ae35605fd2d8b54",
+        "git_blob": "3c83ef14bb8416e65f8e0f58758d8654975956d6",
+        "lines": 319
+      },
+      {
+        "path": "experiments/temporal_mpc/temporal_mpc/contracts.py",
+        "sha256": "63481a2bada67e13919a74d5c187c4b7ad32fa25f8195f5e0e7a36ba4bfc9479",
+        "git_blob": "d6ecbda95aca37b0a9962279ae7033e7dbfdb598",
+        "lines": 215
+      },
+      {
+        "path": "experiments/temporal_mpc/temporal_mpc/dynamics.py",
+        "sha256": "7b5e62dcaa7a5d0781577d914ef3f68a3a6368eb98441f3f89c1467bae2750a1",
+        "git_blob": "3b4da034d89de3b0a1320e3493b1aba80038416c",
+        "lines": 51
+      },
+      {
+        "path": "experiments/temporal_mpc/temporal_mpc/execution_guard.py",
+        "sha256": "c12c23e68ecc46cdff347b089449b4ad1f4a8d9c9eaba5ab2771be6f713d523d",
+        "git_blob": "2d5f8f9e275158126ac0bde591e928a0365b31b7",
+        "lines": 142
+      },
+      {
+        "path": "experiments/temporal_mpc/integration/worker_node.py",
+        "sha256": "0e913776ece5b7c017a7524dc7ed2ca50f387a463b25b59ef57787b678762759",
+        "git_blob": "f8da7846d5eed057cf01211d37e4e5f9bfab7630",
+        "lines": 281
+      },
+      {
+        "path": "experiments/temporal_mpc/integration/execution_guard_node.py",
+        "sha256": "61b32210fb19ee6a1158f26c288cde876d5b80262aa39a81dd9aaa3bb98a71bb",
+        "git_blob": "13ed86139aefcebf1912b7865cea14f3477cfb8e",
+        "lines": 134
+      },
+      {
+        "path": "experiments/temporal_mpc/ros2/rm_temporal_mpc_controller/src/controller.cpp",
+        "sha256": "6705b91a48b19ee2c1d630c87c4c7bc596b6577e3bfeac79efb4d4b7847f3d8d",
+        "git_blob": "98ada5a36cb75f2f4063eedccacf1d663fe43c6d",
+        "lines": 375
+      },
+      {
+        "path": "experiments/temporal_mpc/reference_inputs/DynamicObstaclePrediction.msg",
+        "sha256": "3fc1458ef9efab481377d96c1ef2e1b872045ebef72a160182196627f9a4eeae",
+        "git_blob": "3d128dd1c2dacc77a531f0d3bd6d98586ca8c967",
+        "lines": 24
+      },
+      {
+        "path": "experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+        "sha256": "f10c5306355e0f21117adf1c45ca7a5b1b11fbea1e31c9cae1f26b7706f8ea20",
+        "git_blob": "a272186a958530298e2222834fb65a4c3f669f8c",
+        "lines": 720
+      },
+      {
+        "path": "experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+        "sha256": "60076d2455ac63f43fd9470f1fbff0c5fa323f9da499a195b7c4d4b1b7835a42",
+        "git_blob": "1261e4f6673f4adcc50855c3d634408a5c3b0f76",
+        "lines": 601
+      },
+      {
+        "path": "experiments/temporal_mpc/gazebo/prepare_scene.py",
+        "sha256": "ab8d51751fdeaf966734cc4b27b0cb4279fc0ab8018b21164eb14db5a17fecc9",
+        "git_blob": "be3b168e9f7b220ee0fd5c027090d1d7ac11ee64",
+        "lines": 122
+      },
+      {
+        "path": "experiments/temporal_mpc/gazebo/fixture_profile.py",
+        "sha256": "50daf7d65fc2cffb48018f6a8944abfa441b678b015378ffae49f18ed43ded5a",
+        "git_blob": "a8875c801b3b3e829b81ced05dbd6e5ff7f5ea03",
+        "lines": 10
+      }
+    ]
+  },
+  "historical_documents": [
+    {
+      "commit": "f85149e08cb116a53159b0482ae1db5993ae3a06",
+      "path": "docs/dynamic_navigation/v1_research_freeze_20260925.md",
+      "sha256": "ad7e5811f22a62664c34555d3e7b4a897de290757d6cdd9848a9cfaca605e59b",
+      "read_scope": "targeted sections / freeze conclusions"
+    },
+    {
+      "commit": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "docs/dynamic_navigation/research_stage_conclusion_20261001.md",
+      "sha256": "fc56d52407de40fcb587fcaefa37ae78b3216d83ba8e160a6b702025433c1bf0",
+      "read_scope": "targeted sections / freeze conclusions"
+    },
+    {
+      "commit": "1229583ff5811bc42671188f05332d0b3780ebd2",
+      "path": "docs/dynamic_obstacle_critic/observation_diameter_consumption_experiment.md",
+      "sha256": "85714ed003eb53fba68297750ae0b0d68d1b2bb705d9ceb6dfe57fbf85fa1fb0",
+      "read_scope": "targeted sections / freeze conclusions"
+    },
+    {
+      "commit": "1229583ff5811bc42671188f05332d0b3780ebd2",
+      "path": "docs/dynamic_navigation/dynamic_obstacle_prediction_full_history_20261004.md",
+      "sha256": "d095d7c6ebd9cbe16f206e0c62629f0232b63440fcbdd70fd7c656e20b795171",
+      "read_scope": "targeted sections / freeze conclusions"
+    }
+  ],
+  "frozen_refs": {
+    "dynamic-prediction-v1-frozen-20260925": "f85149e08cb116a53159b0482ae1db5993ae3a06",
+    "research/dynamic-differential-risk-frozen-20261001": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+    "research/temporal-mpc-frozen-20261004": "04291a410f193c009e043af88e014cf420e1f68b"
+  },
+  "preservation": {
+    "original_checkout": "experiment/dynamic-documents-archive-20261004",
+    "original_head": "1229583ff5811bc42671188f05332d0b3780ebd2",
+    "protected_dirty_paths": [
+      {
+        "status": " M",
+        "path": "docs/dynamic_obstacle_critic/observed_surface_members_experiment.md",
+        "size": 3216,
+        "sha256": "ab57c13a60d77f3a84074474df80682bbe07eb0355be6cc369da56da5faac611"
+      },
+      {
+        "status": " M",
+        "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+        "size": 29390,
+        "sha256": "fc2d231376eadded0cfea47db8e6ed7eef6f43e3d58116f13e95ed91703b056a"
+      },
+      {
+        "status": " M",
+        "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+        "size": 32295,
+        "sha256": "fcb3cefbecc269b8ed46593392517ce208590c609142e6b3ba6817a3343aee65"
+      },
+      {
+        "status": "??",
+        "path": "core",
+        "size": 795242496,
+        "sha256": null
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/surface_member_evidence.py",
+        "size": 3383,
+        "sha256": "ed9fcd9ea4b9543cc31e9a05dbc73c91bc55b373961cbf495b864cbfa2c8d8e5"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/test/test_surface_member_evidence.py",
+        "size": 3533,
+        "sha256": "126992399ca3eed086edd80649eae65d8ed3d95fdc7b51f86f73d98dab1c9439"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/test/test_surface_member_ros.py",
+        "size": 8905,
+        "sha256": "82f30ff783e23562a6aeecd9ccd6e711616bd92176ce7068f6082193ac68a50f"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/tools/audit_actual_surface_members.py",
+        "size": 10374,
+        "sha256": "0dbe62d22ae3737e9121e4e93d18cd429336051482d6af7e63373807482b5bec"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/tools/audit_surface_member_core.py",
+        "size": 4144,
+        "sha256": "a6a6c68c0ddaca8702c4d91e5f6e226f516b19789a2183e05ad5ca020a68da73"
+      },
+      {
+        "status": "??",
+        "path": "src/rm_dynamic_obstacle_tracking/tools/verify_actual_surface_members.py",
+        "size": 4190,
+        "sha256": "9efd5f072e9ea3aa51d724540eb94cf5e1cceb32e70b1f90a657bed92fb114d9"
+      }
+    ],
+    "dirty_status_and_content_unchanged": true,
+    "core_verification": "size only; large pre-existing untracked core not read or removed",
+    "hws_and_r3_worktrees_clean": true,
+    "non_r4_refs_unchanged": true,
+    "protected_ref_count": 97
+  },
+  "validation": {
+    "source_files_match_pinned_git_blobs": true,
+    "markdown_links_and_line_anchors": {
+      "passed": true,
+      "links_checked": 34,
+      "mermaid_structure": [
+        {
+          "nodes": 26,
+          "edges": 30
+        },
+        {
+          "nodes": 13,
+          "edges": 14
+        }
+      ],
+      "external_visual_render": false
+    },
+    "mermaid": "2 flowcharts delivered as source; structural node/edge check only; no external render",
+    "runtime_experiments": false,
+    "new_controller_code": false,
+    "merge_push_deploy": false
+  }
+}
