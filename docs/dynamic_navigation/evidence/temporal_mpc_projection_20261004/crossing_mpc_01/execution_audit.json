@@ -1,0 +1,101 @@
+{
+  "guard_exact_input_replays": 1081,
+  "native_zoh_state_replays": 458,
+  "native_model_error": {
+    "count": 458,
+    "p50": 2.949029909160572e-17,
+    "p95": 4.440892098500626e-16,
+    "min": 0.0,
+    "max": 1.3322676295501878e-15
+  },
+  "native_dynamic_rejection_checks": 9,
+  "native_constraint_counts": {
+    "input": 725,
+    "accepted": 449,
+    "dynamic_clearance": 9
+  },
+  "executed_rejections": [
+    {
+      "ready": false,
+      "fallback_requested": true,
+      "reason": "reanchored trajectory rejected",
+      "executed": true,
+      "compute_count": 176,
+      "elapsed_s": 8.107e-05,
+      "evaluation_ns": 20202000000,
+      "proposal_ns": 20172000000,
+      "prediction_ns": 20131000000,
+      "generation": 2,
+      "model": "fixed_yaw_velocity_zoh/v1",
+      "constraint": "dynamic_clearance",
+      "reanchor_projection": "velocity_and_stop/v2",
+      "step": 27,
+      "track_id": 1,
+      "slack": -0.003330680344070483,
+      "initial_state": [
+        2.215995383694554,
+        -1.7375989822494917,
+        5.456258435410485e-09,
+        0.04099952766890551,
+        -0.4590008809955327,
+        0
+      ],
+      "checked_state": [
+        2.6323340706951246,
+        -1.5819116579971968,
+        5.456258435410485e-09,
+        0.1147831978743302,
+        0.13099899191314684,
+        0
+      ]
+    }
+  ],
+  "guard_statuses": {
+    "uncertified_brake": 565,
+    "certified_brake": 283,
+    "pass": 233
+  },
+  "guard_slew_max": 0.050000000000000044,
+  "guard_core_s": {
+    "count": 1081,
+    "p50": 0.0021474480017786846,
+    "p95": 0.004791078994458076,
+    "min": 4.626799636753276e-05,
+    "max": 0.005979913999908604
+  },
+  "guard_tick_to_output_s": {
+    "count": 1081,
+    "p50": 0.002454342997225467,
+    "p95": 0.005299807002302259,
+    "min": 0.00018862399883801118,
+    "max": 0.006546321994392201
+  },
+  "guard_producer_start_interval_s": {
+    "count": 1080,
+    "p50": 0.049831309000000004,
+    "p95": 0.05043293095,
+    "min": 0.045931309000000003,
+    "max": 0.051662929
+  },
+  "guard_producer_output_interval_s": {
+    "count": 1080,
+    "p50": 0.0497594935,
+    "p95": 0.05284224945,
+    "min": 0.045828345,
+    "max": 0.054251243000000005
+  },
+  "guard_tick_to_output_cpu_s": {
+    "count": 1081,
+    "p50": 0.002541039,
+    "p95": 0.005421934000000001,
+    "min": 0.000181707,
+    "max": 0.00674165
+  },
+  "guard_nominal_missed_slots": 0,
+  "guard_record_tick_gaps": [],
+  "guard_observed_10ms_gate": true,
+  "errors": [],
+  "missing_inputs": {},
+  "all_model_replays_pass": true,
+  "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+}

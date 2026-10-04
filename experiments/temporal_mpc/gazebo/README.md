@@ -31,6 +31,7 @@ Server中，由既有标准BT/action选择。VelocitySmoother输出`/temporal_mp
 python3 gazebo/audit_ros_capture.py /absolute/run  # Humble overlay：CDR和exact-source canonical TF
 python3 gazebo/audit_run.py /absolute/run
 python3 gazebo/audit_execution.py /absolute/run  # 精确回放共同保护输入及原生模型/净空拒绝
+python3 gazebo/audit_model_occupancy.py /absolute/run  # 当前模型目标位置容差区/认证截面，拒绝覆盖
 python3 gazebo/calibration_audit.py /absolute/calibration
 python3 gazebo/entry_gate.py /absolute/shadow /absolute/calibration /absolute/entry_gate.json
 python3 gazebo/static_frontend_audit.py /absolute/frontend /absolute/static-audit.json
@@ -66,3 +67,9 @@ monotonic与CPU字段，不将低CPU耗时或接收间隔误当硬实时证书�
 每新run启动前生成`runtime_identity.json`，记录实际frontend/native二进制hash、
 Python依赖版本及CPU affinity。仍每次新隔离容器、唯一输出目录、完整失败保存。
 论文新线索只登记对照；未导入T-MPC++、Scenario或CBF实现，未改变正式v2消息含义。
+
+v2投影独立物理复验见[结果](../../../docs/dynamic_navigation/temporal_mpc_projection_results_20261004.md)。
+四轮控制源码/实际启动前二进制身份一致；横穿175/176、迎面62/63次MPC检查通过后
+未来净空拒绝回退，任务全取消。横穿模型在所有目标后有效源采样排除固定yaw=0
+位置容差区；只读工具不缩几何、不补造完整物体中心、不将当前空间当时域证书。
+原始记录、失败与首版审计筛选修正均保存，动态接受仍false。

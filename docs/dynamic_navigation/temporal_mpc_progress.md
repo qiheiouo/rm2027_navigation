@@ -258,3 +258,12 @@ M2历史输入审计：[787条真实捕获预测](evidence/temporal_mpc_nav2_202
 - evidence：[登记](temporal_mpc_lateral_registration_20261004.md)、[结果](temporal_mpc_lateral_results_20261004.md)、[新聊天论文核验](temporal_mpc_literature_review_20261004.md)、[完整证据](evidence/temporal_mpc_lateral_20261004/manifest.json)。
 - conclusion：定位了真实执行边界缺陷，并改进保护可观测性；动态接受仍false。不把几何未知等同运动covariance，也不把每次拒绝归因于预测或局部最优。四轮实际启动前行为源码和二进制均一致，后续v2单列。
 - next step：新登记v2物理双方配对与失败分类，然后有共同总预算的左右/等待候选；以完整留出试次校准不确定性，再考虑Scenario/Chance与相同表示MPPI对照。
+
+## 2026-10-04 后续：v2物理复验与模型目标可达性
+
+- hypothesis：固定速度/停止投影能解除新状态重锚的速度拒绝，当前模型目标占用可帮助区分任务/表示限制和求解失败。
+- change：冻结e310控制实现做横穿/迎面各一对新容器物理试次；采集后新增只读当前目标容差区、认证截面与确切原生epoch诊断，完整D及原约束保持。
+- result：MPC实际175/176与62/63次检查通过，选中约9.036/3.333s，旧速度拒绝未出现，随后未来动态净空拒绝回退。四轮均40s取消、无正Contact；迎面两组cmd接收gap86.961/80.478ms失败。横穿610+612个有效源采样及候选458个原生几何epoch全部排除固定yaw的位置目标容差区。4,291个保护/818个原生状态/45个动态拒绝重放匹配，68,159条CDR及3,048条源TF核对通过；新增4项审计测试两环境通过。
+- evidence：[登记](temporal_mpc_projection_registration_20261004.md)、[结果](temporal_mpc_projection_results_20261004.md)、[完整证据](evidence/temporal_mpc_projection_20261004/manifest.json)。
+- conclusion：执行投影已从工程检查推进到持续物理参与，仍没有任务成功或部署净收益。横穿失败含当前模型目标排除，不能只责归QP；迎面后期目标开放仍失败。原生未来净空veto并非物理碰撞，预测更新与新测量贡献尚不能唯一分解。初版审计的旧步号input筛选修正并保留，原物理配对未重跑。
+- next step：在原几何下另登记目标可开放的场景，补worker实际预测身份/余量分解，再做同总预算的左右/等待候选与独立几何/运动不确定性校准。

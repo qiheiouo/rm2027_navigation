@@ -361,3 +361,11 @@ TimerInfo，也不是DDS接收时延；CPU测量截止输出后的诊断构造�
 仍以全量硬几何和当前raw STVL重验。不是允许速度超限的容差。健康新增
 `reanchor_projection`用于历史版本重放；缺字段保持旧投影。新投影已做模型/ROS
 工程验证，本轮物理配对使用的是旧投影，见[结果](temporal_mpc_lateral_results_20261004.md)。
+
+随后完成v2独立物理配对，见[结果与模型占用诊断](temporal_mpc_projection_results_20261004.md)。
+控制实现未再改动；横穿/迎面持续MPC参与后因未来净空veto回退，动态接受仍false。
+新增只读`gazebo/audit_model_occupancy.py`以原公共v2、实际目标/容差及确切native epoch
+检查当前目标容差区和认证截面；source采样不重复coast，没有oracle输入。固定yaw
+模型的采样目标排除不等于连续或真实任务不可行，正宽度当前截面也不是时域轨迹。
+几何检查样本必须有明确constraint，不能仅凭input健康残留step。worker目前未记录
+确切消费的prediction identity，因此暂不唯一分解预测更新与测量重锚的余量损失。
