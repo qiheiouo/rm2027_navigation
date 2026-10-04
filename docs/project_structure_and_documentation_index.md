@@ -210,3 +210,11 @@ mapping artifact, mission priority or failure policy, update at least:
 - [Audit inventory](dynamic_navigation/hws_migration_audit_inventory_20261003.json): all locally available refs at the audit snapshot, canonical related paths, path history and consumer-reference scan.
 
 These documents do not enable prediction, change formal navigation or relax safety gates. Existing uncommitted surface instrumentation remains outside the audit document change.
+
+## Dynamic Avoidance Documentation Archive (2026-10-04)
+
+- [All three research rounds: pause record and full document catalogue](dynamic_navigation/all_dynamic_avoidance_documents_20261004.md).
+- [Document provenance and historical refs](dynamic_navigation/all_dynamic_avoidance_documents_20261004.json).
+- [Historical reading copies](dynamic_navigation/history_documents_20261004/README.md): exact document copies from pinned Git revisions, without copying code or raw experimental data.
+
+The user has temporarily stopped the research. The latest one-month experiment plan has not started; its dates and budgets remain historical plan records.
