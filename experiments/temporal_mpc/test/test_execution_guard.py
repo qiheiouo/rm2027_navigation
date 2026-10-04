@@ -74,7 +74,7 @@ def test_guard_unknown_static_cell_stale_state_and_prediction_deadline(monkeypat
     r=g.step(np.zeros(6),[.8,0.,0.],0,Snapshot(0,()),cells(),.151)
     assert not r.model_certified
     import temporal_mpc.execution_guard as module
-    times=iter([0.,.011]);monkeypatch.setattr(module.time,'perf_counter',lambda:next(times))
+    times=iter([0.,.011]);monkeypatch.setattr(module.time,'perf_counter',lambda:next(times,.011))
     r=g.step(np.zeros(6),[.8,0.,0.],0,Snapshot(0,()),cells())
     assert not r.model_certified and r.reason=='guard deadline'
 
@@ -95,3 +95,37 @@ def test_invalid_command_can_have_certified_brake_without_being_normal_pass():
     r=g.step([0.,0.,0.,.4,0.,0.],[np.nan,0.,0.],0,Snapshot(0,()),cells())
     assert r.model_certified and r.status=='certified_brake'
     assert r.command[0]==pytest.approx(.35) and r.reason.startswith('invalid requested velocity')
+
+
+def test_indexed_static_clearance_matches_independent_exhaustive_cells():
+    rng=np.random.default_rng(8104)
+    for shape,density in [((120,160),0.),((120,160),.02),((300,300),.8)]:
+        grid=np.where(rng.random(shape)<density,255,0).astype(np.uint8)
+        grid[[0,-1],:]=254;grid[:,[0,-1]]=254
+        c=StaticCells(grid,.05,(-1.,-3.))
+        for _ in range(30):
+            states=np.zeros((31,6));states[:,:2]=rng.uniform([-1.3,-3.3],[shape[1]*.05-.7,shape[0]*.05-2.7],(31,2))
+            reserve=rng.uniform(0,.15)
+            iy,ix=np.where(grid>=253)
+            left=-1.+ix*.05;bottom=-3.+iy*.05
+            dx=np.maximum(np.maximum(left-states[:,0,None],states[:,0,None]-left-.05),0.)
+            dy=np.maximum(np.maximum(bottom-states[:,1,None],states[:,1,None]-bottom-.05),0.)
+            reach=np.hypot(.355,.330)+.02+reserve;b=c.bounds
+            expected=min(np.min(np.hypot(dx,dy))-reach,np.min(states[:,0])-b[0]-reach,
+                         b[1]-np.max(states[:,0])-reach,np.min(states[:,1])-b[2]-reach,b[3]-np.max(states[:,1])-reach)
+            assert c.minimum(states,reserve)==pytest.approx(expected,abs=2e-14)
+
+
+def test_deadline_inside_all_track_check_preserves_output(monkeypatch):
+    import temporal_mpc.execution_guard as module
+    calls=[]
+    original=module.clearance
+    def slow(*args):
+        calls.append(1)
+        return original(*args)
+    monkeypatch.setattr(module,'clearance',slow)
+    monkeypatch.setattr(module.time,'perf_counter',lambda: .011 if calls else 0.)
+    tracks=tuple(Track(i,(5.,0.),(0.,0.),0,'confirmed',Geometry('circle',radius=.1,source='test')) for i in range(64))
+    r=ExecutionGuard().step(np.zeros(6),[.8,0.,0.],0,Snapshot(0,tracks),cells())
+    assert len(calls)==1 and not r.model_certified and r.reason=='guard deadline'
+    np.testing.assert_allclose(r.command,0.)

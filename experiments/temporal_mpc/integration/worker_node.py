@@ -190,6 +190,7 @@ class Worker(Node):
         self.output.publish(result)
         self.diagnostic.publish(String(data=json.dumps({"epoch_ns":stamp_ns(request.header.stamp),
             "elapsed_s":elapsed,"iterations":iterations,"feasible":result.model_feasible,
+            "local_reference_mode":self.mpc.lateral.mode,"local_reference_track":self.mpc.lateral.track,
             "fallback":result.fallback_requested,"reason":result.reason,"constraint_min":constraint_min,"solver_status":solver_status})))
 
 

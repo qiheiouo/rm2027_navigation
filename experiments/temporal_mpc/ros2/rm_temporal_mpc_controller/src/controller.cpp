@@ -284,8 +284,8 @@ private:
       // enough remaining acceleration authority to stop INSIDE this horizon.
       // All repaired positions are subsequently rechecked against every track.
       const double remaining=(29-k)*period;
-      ax=stopping_acceleration(vx,ax,remaining);
-      ay=stopping_acceleration(vy,ay,remaining);
+      ax=bounded_stopping_acceleration(vx,ax,remaining,-.5,.8);
+      ay=bounded_stopping_acceleration(vy,ay,remaining,-.5,.5);
       if(k==0) {cmd.linear.x=vx+period*ax; cmd.linear.y=vy+period*ay;}
       // Same velocity ZOH model as the condensed worker QP. Acceleration
       // bounds describe command differences; they do not certify wheel transients.
@@ -318,6 +318,7 @@ private:
        <<",\"proposal_ns\":"<<(proposal_?ns(proposal_->header.stamp):-1)
        <<",\"prediction_ns\":"<<last_source_<<",\"generation\":"<<generation_
        <<",\"model\":\"fixed_yaw_velocity_zoh/v1\",\"constraint\":\""<<constraint_
+       <<"\",\"reanchor_projection\":\"velocity_and_stop/v2"
        <<"\",\"step\":"<<step_<<",\"track_id\":"<<track_<<",\"slack\":";
     if(std::isfinite(slack_)) out<<slack_; else out<<"null";
     auto state=[&](const char *name,const std::array<double,6> &v) {

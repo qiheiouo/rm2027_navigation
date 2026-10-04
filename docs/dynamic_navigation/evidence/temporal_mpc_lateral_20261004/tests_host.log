@@ -1,0 +1,26 @@
+....................................................F................... [ 74%]
+.........................                                                [100%]
+=================================== FAILURES ===================================
+_______ test_early_side_reference_is_bounded_and_latches_without_oracle ________
+
+    def test_early_side_reference_is_bounded_and_latches_without_oracle():
+        m=RealtimeMPC();x=np.zeros(6);w,s=fixture(m,x,radius=NOMINAL_DIAMETER,center=(4.7,0.))
+        local=LateralReference();r=local.apply(x,w,predict(s,0,m.times))
+        assert local.mode=='shift' and local.side==1
+        assert np.max(r[:,0])==0. and np.min(r[:,1])>2.3
+        x[1]=-.01
+        w,s=fixture(m,x,50_000_000,radius=NOMINAL_DIAMETER,center=(4.7,.01))
+        r=local.apply(x,w,predict(s,50_000_000,m.times))
+        assert local.side==1 and np.min(r[:,1])>2.3
+        # A new planner route resets the preference, not a feasible verdict.
+        x[1]=-.1;w,s=fixture(m,x,100_000_000,radius=NOMINAL_DIAMETER,plan='new')
+        local.apply(x,w,predict(s,100_000_000,m.times))
+>       assert local.side==-1
+E       assert 1.0 == -1
+E        +  where 1.0 = <temporal_mpc.local_reference.LateralReference object at 0x773b5a6badb0>.side
+
+experiments/temporal_mpc/test/test_local_reference.py:29: AssertionError
+- generated xml file: /home/qihei/rm2027_navigation/build/temporal_mpc_main_20261004/build/temporal_mpc_lateral_20261004/tests_host.xml -
+=========================== short test summary info ============================
+FAILED experiments/temporal_mpc/test/test_local_reference.py::test_early_side_reference_is_bounded_and_latches_without_oracle
+1 failed, 96 passed in 22.42s

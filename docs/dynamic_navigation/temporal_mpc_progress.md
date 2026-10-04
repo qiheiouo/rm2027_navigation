@@ -249,3 +249,12 @@ M2历史输入审计：[787条真实捕获预测](evidence/temporal_mpc_nav2_202
 - evidence：[登记](temporal_mpc_execution_registration_20261004.md)、[完整结果与限制](temporal_mpc_execution_results_20261004.md)、[配对汇总](evidence/temporal_mpc_execution_20261004/paired_summary.json)、[完整证据](evidence/temporal_mpc_execution_20261004/manifest.json)。
 - conclusion：核心链路/可观测性推进，动态接受仍false；新B0为MPPI+共同保护，不混称原未保护B0。8类保护故障减速/恢复成立但gap136.625ms使总门false，保留且不重跑挑最好。原生Nav214类故障/worker SIGKILL与活跃输出门另通过。
 - next step：认证走廊内局部侧向参考/分离面初始化、异步测量/预测变化的保守余量、共同保护的最坏负载/生产节拍/独立wall watchdog。保留默认MPPI和独立main分支，不冻结部署。
+
+## 2026-10-04 后续：侧向参考、生产节拍与速度投影
+
+- hypothesis：认证矩形内提前侧移能改善局部初始化，等价格索引与生产端记录能区分计算和接收间隔。
+- change：加入侧向方向偏好＋有界可达seed，仍单QP/原硬约束；共同保护精确cKDTree方格查询和中途deadline，新增producer/CPU节拍与启动前binary身份。物理采集后另修正原生重锚的固定速度/停止区间投影，标记v2，旧v1审计保持。
+- result：98项最终主机/Humble测试通过；四物理配对全40s取消、无正Contact消息，MPC分别2/3和1/2检查通过，因未来vy超过±.5拒绝。迎面候选接收gap78.296ms超75ms而生产发布max53.603ms；两类证据分开。8类保护故障新版本全部通过；v2原生14类工程故障和真实失败提案编译重放通过，但无v2物理效果证据。
+- evidence：[登记](temporal_mpc_lateral_registration_20261004.md)、[结果](temporal_mpc_lateral_results_20261004.md)、[新聊天论文核验](temporal_mpc_literature_review_20261004.md)、[完整证据](evidence/temporal_mpc_lateral_20261004/manifest.json)。
+- conclusion：定位了真实执行边界缺陷，并改进保护可观测性；动态接受仍false。不把几何未知等同运动covariance，也不把每次拒绝归因于预测或局部最优。四轮实际启动前行为源码和二进制均一致，后续v2单列。
+- next step：新登记v2物理双方配对与失败分类，然后有共同总预算的左右/等待候选；以完整留出试次校准不确定性，再考虑Scenario/Chance与相同表示MPPI对照。

@@ -57,3 +57,12 @@ run.sh每个子进程独立process group以清理Gazebo后代；一轮一个全�
 4轮共同保护配对全部超时，无正接触消息；迎面cmd间隔和8故障fixture连续性门失败。
 91项测试及原生14故障门通过，不等于动态接受。共同保护合成fault复现：
 `bash /workspace/experiments/temporal_mpc/integration/run_guard_humble.sh /absolute/new-output`。
+# 侧向参考继续轮
+
+本轮登记见`docs/dynamic_navigation/temporal_mpc_lateral_registration_20261004.md`。
+默认实验worker在现有T-DT认证矩形内产生侧移/通过/回原参考的局部偏好；仍只有
+一个有界QP，所有硬约束保持。共同保护改为等价精确方格索引查询，新增生产端
+monotonic与CPU字段，不将低CPU耗时或接收间隔误当硬实时证书。
+每新run启动前生成`runtime_identity.json`，记录实际frontend/native二进制hash、
+Python依赖版本及CPU affinity。仍每次新隔离容器、唯一输出目录、完整失败保存。
+论文新线索只登记对照；未导入T-MPC++、Scenario或CBF实现，未改变正式v2消息含义。

@@ -26,6 +26,7 @@ class GuardNode(Node):
         self.snapshot=self.cells=self.odom=self.request=None
         self.odom_receipt=self.request_receipt=0.
         self.map_revision=None; self.ticks=0; self.fault=""
+        self.last_tick_ns=self.last_output_ns=None
         self.buffer=Buffer(); self.listener=TransformListener(self.buffer,self)
         qos=QoSProfile(depth=1,reliability=ReliabilityPolicy.RELIABLE,durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.create_subscription(OccupancyGrid,'map',self.map, qos)
@@ -35,6 +36,7 @@ class GuardNode(Node):
         self.create_subscription(String,'temporal_mpc/test_guard_fault',self.test_fault,1)
         self.output=self.create_publisher(Twist,'cmd_vel',1)
         self.diagnostic=self.create_publisher(String,'temporal_mpc/execution_health',10)
+        self.expected_tick_ns=time.monotonic_ns()+50_000_000
         self.create_timer(.05,self.tick,clock=Clock(clock_type=ClockType.STEADY_TIME))
 
     def map(self,m):
@@ -65,6 +67,12 @@ class GuardNode(Node):
 
     def tick(self):
         started=time.perf_counter(); self.ticks+=1
+        start_ns=time.monotonic_ns(); cpu_ns=time.process_time_ns()
+        expected_ns=self.expected_tick_ns
+        missed=max(0,(start_ns-expected_ns)//50_000_000)
+        self.expected_tick_ns=expected_ns+(missed+1)*50_000_000
+        start_gap=None if self.last_tick_ns is None else (start_ns-self.last_tick_ns)*1e-9
+        self.last_tick_ns=start_ns
         previous=self.guard.previous.copy()
         epoch=self.get_clock().now().nanoseconds; wall=time.monotonic()
         initial=np.full(6,np.nan); age=float('inf'); requested=np.full(3,np.nan); odom_ns=None
@@ -98,7 +106,14 @@ class GuardNode(Node):
                                time.perf_counter()-started)
         msg=Twist(); msg.linear.x=float(result.command[0]); msg.linear.y=float(result.command[1])
         self.output.publish(msg)
+        output_ns=time.monotonic_ns()
+        output_gap=None if self.last_output_ns is None else (output_ns-self.last_output_ns)*1e-9
+        self.last_output_ns=output_ns
         data=dict(epoch_ns=epoch,tick_count=self.ticks,map_revision=self.map_revision,
+                  producer_start_ns=start_ns,producer_output_ns=output_ns,nominal_expected_ns=expected_ns,
+                  nominal_lateness_s=max(0,start_ns-expected_ns)*1e-9,nominal_missed_slots=int(missed),
+                  producer_start_interval_s=start_gap,producer_output_interval_s=output_gap,
+                  tick_to_output_cpu_s=(time.process_time_ns()-cpu_ns)*1e-9,
                   initial=[float(v) if math.isfinite(v) else None for v in initial],
                   requested=[float(v) if math.isfinite(v) else None for v in requested],previous=previous.tolist(),
                   odom_ns=odom_ns,source_ns=self.snapshot.source_ns if self.snapshot else None,

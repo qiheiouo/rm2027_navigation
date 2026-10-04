@@ -30,6 +30,8 @@ def native_states(d, proposal):
             control=overlap@a/.05
         remaining=(29-k)*.05
         target=np.clip(x[3:5]+.05*control[:2],-remaining,remaining)
+        if d.get('reanchor_projection') == 'velocity_and_stop/v2':
+            target=np.clip(target,[-.5,-.5],[.8,.5])
         control[:2]=np.clip((target-x[3:5])/.05,-1.,1.)
         x=rollout_zoh(x,control[None,:],.05)[1];result.append(x.copy())
     return np.array(result)
@@ -102,6 +104,10 @@ def evaluate(root):
                 native_constraint_counts=dict(constraints),executed_rejections=executed_rejections,
                 guard_statuses=dict(statuses),guard_slew_max=max(slew) if slew else None,
                 guard_core_s=stats(elapsed),guard_tick_to_output_s=stats(tick_elapsed),
+                guard_producer_start_interval_s=stats([d['producer_start_interval_s'] for e,d in guards if d.get('producer_start_interval_s') is not None]),
+                guard_producer_output_interval_s=stats([d['producer_output_interval_s'] for e,d in guards if d.get('producer_output_interval_s') is not None]),
+                guard_tick_to_output_cpu_s=stats([d['tick_to_output_cpu_s'] for e,d in guards if 'tick_to_output_cpu_s' in d]),
+                guard_nominal_missed_slots=sum(d.get('nominal_missed_slots',0) for e,d in guards),
                 guard_record_tick_gaps=[b-a for a,b in zip(ticks,ticks[1:]) if b-a!=1],
                 guard_observed_10ms_gate=bool(tick_elapsed and max(tick_elapsed)<=.010),
                 errors=errors,missing_inputs=Counter(missing),all_model_replays_pass=bool(guard_count and native_count and not errors and not missing),

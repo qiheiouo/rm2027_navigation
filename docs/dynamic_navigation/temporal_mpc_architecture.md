@@ -331,3 +331,33 @@ T-DT SfcSquare maxRange=6m在控制周期外扩展静态可行空间；raw map�
 保护异常/输入失流保持有限输出；无法认证的减速不叫安全停车。主线默认未接入。
 新增实验topic `/temporal_mpc/smoothed_cmd_vel`、`/temporal_mpc/execution_health`；
 `test_guard_fault`仅隔离测试。标准Mission/Planner/NavigateToPose及双插件IDs不变。
+
+## 侧向参考与生产节拍继续轮
+
+[登记](temporal_mpc_lateral_registration_20261004.md)和[新论文对照](temporal_mpc_literature_review_20261004.md)。
+单QP前增加一个局部侧向偏好：当前公共几何与局部路径方向投影相交、位于前方6m
+以内时，在当前认证矩形中选较近的可容纳侧向目标并锁定方向。目标使用障碍
+包络radius＋padded足迹外接半径＋margin＋采样reserve＋.12m偏好buffer；这是
+偏好初始化，不是新增安全证书。距离目标侧向水平不足.08m前暂停纵向参考推进，
+随后沿原静态路径方向通过，障碍完全在后方后恢复原参考。只有已有矩形空间能
+容纳完整目标才采用；原QP速度/停止/全部几何和native重验决定最终可行性。
+它不搜索静态拓扑，不超过1.5s预测合同，不是T-MPC++多同伦优化器。
+
+共同保护在地图回调建立阻塞方格中心cKDTree；每个状态先取一个方格距离上界，
+枚举该距离＋半格对角线以内的全部中心，再精确计算点到方格距离。因此结果与
+全图穷举一致，地图边界/unknown不变。构建索引在周期外；周期内对剩余track逐个
+检查deadline，迟到立即继续限差制动并取消模型认证。单个调用/OS调度不可抢占，
+预算仍是迟到拒绝，不能写成硬执行时间界。
+
+健康新增producer_start/output整数monotonic epoch、生产开始/发布间隔、到输出CPU
+及墙钟耗时。nominal_expected/lateness/missed_slots是本地50ms参考栅格，非rclpy
+TimerInfo，也不是DDS接收时延；CPU测量截止输出后的诊断构造前，不含诊断发布。
+每实际run增加启动前二进制/dependency/CPU affinity身份文件，镜像身份另记。
+`solver_diagnostic.local_reference_mode/track`为求解完成后的偏好状态；失败reset会
+清除偏好，不能凭该字段推断失败前具体同伦类。
+
+侧向参考四轮物理采集之后，原生执行投影改为velocity_and_stop/v2：新状态重锚
+后将每个下一速度投影到固定vx[-.5,.8]/vy[-.5,.5]与剩余停止区间交集，随后
+仍以全量硬几何和当前raw STVL重验。不是允许速度超限的容差。健康新增
+`reanchor_projection`用于历史版本重放；缺字段保持旧投影。新投影已做模型/ROS
+工程验证，本轮物理配对使用的是旧投影，见[结果](temporal_mpc_lateral_results_20261004.md)。

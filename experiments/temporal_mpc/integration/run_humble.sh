@@ -12,6 +12,7 @@ export PYTHONPATH="$repo/build/temporal_mpc_ros2/python_deps:$repo/experiments/t
 config="$repo/experiments/temporal_mpc/integration/dual_controller_humble.yaml"
 frontend="$repo/build/temporal_mpc_ros2/frontend"
 bash "$repo/experiments/temporal_mpc/frontend/build.sh" "$frontend" > "$output/frontend_build.log" 2>&1
+python3 "$repo/experiments/temporal_mpc/gazebo/runtime_identity.py" "$output/runtime_identity.json"
 pids=()
 finish() {
   for pid in "${pids[@]}"; do kill -INT "$pid" 2>/dev/null || true; done

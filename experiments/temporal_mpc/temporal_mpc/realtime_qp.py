@@ -13,6 +13,7 @@ from .contracts import ContractError, predict
 from .dynamics import braking, rollout, rollout_zoh
 from .frontend import Window
 from .geometry import clearance
+from .local_reference import LateralReference
 
 
 @dataclass(frozen=True)
@@ -75,6 +76,7 @@ class RealtimeMPC:
         self.previous = None
         self.previous_epoch = None
         self.previous_plan = None
+        self.lateral = LateralReference()
         self.times = config.times
         # Condensed fixed-yaw held-velocity integration on the 50 ms grid.
         t, left = self.times[:, None], np.arange(config.nodes)[None, :]*config.node_dt
@@ -86,6 +88,7 @@ class RealtimeMPC:
 
     def reset(self):
         self.previous = self.previous_epoch = self.previous_plan = None
+        self.lateral.reset()
 
     def _expand(self, z):
         return np.c_[np.repeat(np.asarray(z).reshape(-1, 2), 2, axis=0),
@@ -204,6 +207,7 @@ class RealtimeMPC:
             return fallback("assembly deadline")
 
         rot = np.array([[np.cos(x[2]), -np.sin(x[2])], [np.sin(x[2]), np.cos(x[2])]])
+        reference = self.lateral.apply(x, window, timeline)
         pm = np.kron(self.pmap, rot)
         vm = np.kron(self.vmap, np.eye(2))
         p0 = x[:2]+self.times[:, None]*(rot@x[3:5])
@@ -213,7 +217,7 @@ class RealtimeMPC:
         weights = np.repeat(weights, 2)
         diff = np.diff(self.eye.reshape(cfg.nodes, 2, -1), axis=0).reshape(-1, 2*cfg.nodes)
         hessian = 2*(pm.T@(weights[:, None]*pm)+.05*vm.T@vm+.08*self.eye+.2*diff.T@diff)
-        linear = 2*pm.T@(weights*(p0-window.reference[:, :2]).ravel())+.1*vm.T@v0
+        linear = 2*pm.T@(weights*(p0-reference).ravel())+.1*vm.T@v0
         rows = [self.eye, vm, vm[-2:]]
         lower = [-np.tile(cfg.acceleration, cfg.nodes), np.tile(cfg.velocity_lower,len(self.times))-v0, -x[3:5]]
         upper = [np.tile(cfg.acceleration,cfg.nodes), np.tile(cfg.velocity_upper,len(self.times))-v0, -x[3:5]]
@@ -229,11 +233,25 @@ class RealtimeMPC:
         if shifted is not None:
             warm = shifted[:, :2].reshape(cfg.nodes, 2, 2).mean(axis=1).ravel()
         seed = integrate(x, self._expand(warm), cfg.period) if warm is not None else brake_states
+        if self.lateral.mode in ('shift','pass'):
+            # Bounded reachable seed for halfspace choice, not a second solve or
+            # a feasible verdict. Every resulting iterate is still revalidated.
+            z = np.zeros((cfg.nodes,2)); velocity=x[3:5].copy(); position=x[:2].copy()
+            for k in range(cfg.nodes):
+                target = reference[min(2*k+2,len(reference)-1)]
+                desired = np.clip(rot.T@(target-position),cfg.velocity_lower,cfg.velocity_upper)
+                remaining=(cfg.nodes-1-k)*cfg.node_dt
+                desired=np.clip(desired,-remaining,remaining)
+                z[k]=np.clip((desired-velocity)/cfg.node_dt,-1.,1.)
+                velocity += cfg.node_dt*z[k]
+                position += cfg.node_dt*(rot@velocity)
+            seed=integrate(x,self._expand(z),cfg.period)
         relevant = []
         for i, (centers, shape) in enumerate(zip(timeline.centers, timeline.geometries)):
             radius = shape.radius if shape.kind == "circle" else np.max(np.linalg.norm(shape.offsets, axis=1))
             # Both reference and braking/warm trajectories participate in culling.
-            distance = min(np.min(np.linalg.norm(centers-window.reference[:, :2],axis=1)),
+            distance = min(np.min(np.linalg.norm(centers-reference,axis=1)),
+                           np.min(np.linalg.norm(centers-window.reference[:, :2],axis=1)),
                            np.min(np.linalg.norm(centers-seed[:, :2],axis=1))) - radius
             if distance < np.hypot(.355,.330)+.3:
                 relevant.append((float(distance), i))

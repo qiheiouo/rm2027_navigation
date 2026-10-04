@@ -27,6 +27,7 @@ export LIBGL_ALWAYS_SOFTWARE=1 QT_QPA_PLATFORM=offscreen XDG_RUNTIME_DIR=/tmp/te
 mkdir -p "$XDG_RUNTIME_DIR"
 chmod 700 "$XDG_RUNTIME_DIR"
 export PYTHONPATH="$repo/build/temporal_mpc_ros2/python_deps:$repo/experiments/temporal_mpc:${PYTHONPATH:-}"
+python3 "$repo/experiments/temporal_mpc/gazebo/runtime_identity.py" "$output/runtime_identity.json"
 export TEMPORAL_MPC_SCENE="$output/scene" TEMPORAL_MPC_FRONTEND="$repo/build/temporal_mpc_ros2/frontend"
 python3 "$repo/experiments/temporal_mpc/gazebo/prepare_scene.py" "$TEMPORAL_MPC_SCENE" --scenario "$scenario"
 pids=()

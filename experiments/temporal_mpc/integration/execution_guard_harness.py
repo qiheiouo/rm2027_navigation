@@ -110,7 +110,16 @@ class Harness(Node):
         self.mode='';self.fault.publish(String(data=''));self.stage='final_recovery';self.pump(1.)
         gaps=[b[0]-a[0] for a,b in zip(self.commands,self.commands[1:])]
         slew=[abs(b[2]-a[2]) for a,b in zip(self.commands,self.commands[1:])]
+        def maximum(key):
+            values=[d[key] for _,_,d in self.health if d.get(key) is not None]
+            return max(values) if values else None
         result=dict(cases=cases,command_count=len(self.commands),max_command_gap_s=max(gaps),max_observed_vx_change=max(slew),
+                    max_producer_start_interval_s=maximum('producer_start_interval_s'),
+                    max_producer_output_interval_s=maximum('producer_output_interval_s'),
+                    max_tick_to_output_s=maximum('tick_to_output_s'),
+                    max_tick_to_output_cpu_s=maximum('tick_to_output_cpu_s'),
+                    max_nominal_lateness_s=maximum('nominal_lateness_s'),
+                    nominal_missed_slots=sum(d.get('nominal_missed_slots',0) for _,_,d in self.health),
                     health_count=len(self.health),final_recovery=any(s==self.stage and d['model_certified'] and d['status']=='pass' for _,s,d in self.health),
                     all_pass=all(all(c[k] for k in ('recovered_before_fault','moving_before_fault','degraded_seen','stopped_at_end','continuous_output')) for c in cases)
                              and max(slew)<=.05000000001 and max(gaps)<=.075

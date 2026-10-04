@@ -1,0 +1,65 @@
+{
+  "guard_exact_input_replays": 1075,
+  "native_zoh_state_replays": 51,
+  "native_model_error": {
+    "count": 51,
+    "p50": 1.1102230246251565e-16,
+    "p95": 3.2959746043559335e-16,
+    "min": 0.0,
+    "max": 3.885780586188048e-16
+  },
+  "native_dynamic_rejection_checks": 15,
+  "native_constraint_counts": {
+    "input": 948,
+    "accepted": 36,
+    "dynamic_clearance": 15
+  },
+  "guard_statuses": {
+    "uncertified_brake": 822,
+    "certified_brake": 222,
+    "pass": 31
+  },
+  "guard_slew_max": 0.05,
+  "guard_core_s": {
+    "count": 1075,
+    "p50": 0.002041592997557018,
+    "p95": 0.004593512802239274,
+    "min": 4.924200038658455e-05,
+    "max": 0.005231645001913421
+  },
+  "guard_tick_to_output_s": {
+    "count": 1075,
+    "p50": 0.0023662029998376966,
+    "p95": 0.0050955204038473315,
+    "min": 0.00021538299915846437,
+    "max": 0.005774350000137929
+  },
+  "guard_producer_start_interval_s": {
+    "count": 1074,
+    "p50": 0.0500030075,
+    "p95": 0.05035282635,
+    "min": 0.048658197,
+    "max": 0.051321443
+  },
+  "guard_producer_output_interval_s": {
+    "count": 1074,
+    "p50": 0.050004204499999996,
+    "p95": 0.0529146443,
+    "min": 0.046170568,
+    "max": 0.054057730000000005
+  },
+  "guard_tick_to_output_cpu_s": {
+    "count": 1075,
+    "p50": 0.002433217,
+    "p95": 0.0052360653,
+    "min": 0.000201974,
+    "max": 0.005924834
+  },
+  "guard_nominal_missed_slots": 0,
+  "guard_record_tick_gaps": [],
+  "guard_observed_10ms_gate": true,
+  "errors": [],
+  "missing_inputs": {},
+  "all_model_replays_pass": true,
+  "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+}
