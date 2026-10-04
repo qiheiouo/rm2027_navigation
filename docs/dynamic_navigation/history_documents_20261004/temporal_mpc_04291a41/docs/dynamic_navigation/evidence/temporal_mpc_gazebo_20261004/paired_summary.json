@@ -1,0 +1,362 @@
+{
+  "pairs": [
+    {
+      "scenario": "crossing",
+      "config_byte_identical": {
+        "world.sdf": true,
+        "nav2.yaml": true,
+        "tracker.yaml": true,
+        "bridge.yaml": true
+      },
+      "b0": {
+        "run": "shadow06",
+        "action_status": 6,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 21.882,
+        "actual_robot_contact_messages": 720,
+        "first_actual_contact_sim_s": 27.52,
+        "sampled_clearance_m": 0.0,
+        "diagnostic_sweep_lower_m": -0.055,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 0,
+        "native_executed_ready_count": 0,
+        "native_executed_s": null,
+        "feasible_worker_s": {
+          "count": 143,
+          "p50": 0.009881992998998612,
+          "p95": 0.01564933340268908,
+          "min": 0.0051252400007797405,
+          "max": 0.020639361995563377
+        },
+        "worker_all_s": {
+          "count": 619,
+          "p50": 0.005635959998471662,
+          "p95": 0.0121204401992145,
+          "min": 6.25809989287518e-05,
+          "max": 0.020639361995563377
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 223,
+          "primal infeasible inaccurate": 1,
+          "primal infeasible": 238,
+          "fixed-yaw phase-one domain violated": 14
+        },
+        "controller_command_count": 394,
+        "controller_command_gap_wall_s": {
+          "count": 393,
+          "p50": 0.049919135,
+          "p95": 0.05658988799999999,
+          "min": 0.039925306,
+          "max": 0.059812373
+        },
+        "actuator_command_count": 393,
+        "actuator_command_gap_wall_s": {
+          "count": 392,
+          "p50": 0.050109525,
+          "p95": 0.0535389396,
+          "min": 0.04048122,
+          "max": 0.059647375
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 50398022167674,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": null,
+        "accepted_mpc_cycle_share": 0.0,
+        "sensor_contract_gate": true,
+        "measured_model_gate": false,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": true,
+        "physical_fail_reasons": [
+          "action not successful",
+          "actual contact",
+          "clearance lower diagnostic below .05m",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "candidate": {
+        "run": "mpc01",
+        "action_status": 4,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 23.618000000000002,
+        "actual_robot_contact_messages": 706,
+        "first_actual_contact_sim_s": 23.842,
+        "sampled_clearance_m": 0.0,
+        "diagnostic_sweep_lower_m": -0.055,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 70,
+        "native_executed_ready_count": 69,
+        "native_executed_s": {
+          "count": 70,
+          "p50": 0.000128047,
+          "p95": 0.00014871755,
+          "min": 7.9251e-05,
+          "max": 0.000300033
+        },
+        "feasible_worker_s": {
+          "count": 188,
+          "p50": 0.01013432450054097,
+          "p95": 0.018025300550289104,
+          "min": 0.004739458003314212,
+          "max": 0.02051368899992667
+        },
+        "worker_all_s": {
+          "count": 733,
+          "p50": 0.005236802993749734,
+          "p95": 0.013470040803076696,
+          "min": 5.9821999457199126e-05,
+          "max": 0.02051368899992667
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 223,
+          "primal infeasible": 201,
+          "fixed-yaw phase-one domain violated": 17,
+          "ContractError: measured centre outside all static corridors": 104
+        },
+        "controller_command_count": 429,
+        "controller_command_gap_wall_s": {
+          "count": 428,
+          "p50": 0.05033641,
+          "p95": 0.0558243743,
+          "min": 0.002385735,
+          "max": 0.0604907
+        },
+        "actuator_command_count": 427,
+        "actuator_command_gap_wall_s": {
+          "count": 426,
+          "p50": 0.050158561000000004,
+          "p95": 0.05534888675,
+          "min": 0.037028982,
+          "max": 0.060871537
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 50394863538809,
+            "controller": "FollowPathMPPI"
+          },
+          {
+            "sim_s": 11.831,
+            "wall_ns": 50409933298476,
+            "controller": "FollowPathTemporalMPC"
+          },
+          {
+            "sim_s": 15.686,
+            "wall_ns": 50413788783014,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": {
+          "causal_health_receipt_observed_before_selection": false,
+          "nearby_executed_rejection_reason": "reanchored trajectory rejected",
+          "nearby_rejection_receipt_offset_s": 9.6317e-05,
+          "receipt_order_note": "Independent DDS subscriptions; post-selection receipt is correlation, not measured causal latency",
+          "selection_sim_s": 15.686,
+          "health_reason": null,
+          "health_to_selection_wall_s": null
+        },
+        "accepted_mpc_cycle_share": 0.16083916083916083,
+        "sensor_contract_gate": true,
+        "measured_model_gate": false,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": true,
+        "physical_fail_reasons": [
+          "actual contact",
+          "clearance lower diagnostic below .05m",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "repetition_count": 1,
+      "mppi_internal_noise_seed": null,
+      "statistical_net_benefit_established": false
+    },
+    {
+      "scenario": "head_on",
+      "config_byte_identical": {
+        "world.sdf": true,
+        "nav2.yaml": true,
+        "tracker.yaml": true,
+        "bridge.yaml": true
+      },
+      "b0": {
+        "run": "head_on02",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.001,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 0.06479058299391635,
+        "diagnostic_sweep_lower_m": 0.009790582993916351,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 0,
+        "native_executed_ready_count": 0,
+        "native_executed_s": null,
+        "feasible_worker_s": {
+          "count": 34,
+          "p50": 0.009969814000214683,
+          "p95": 0.016844760397361824,
+          "min": 0.006969602000026498,
+          "max": 0.019084564999502618
+        },
+        "worker_all_s": {
+          "count": 1000,
+          "p50": 0.005973190498480108,
+          "p95": 0.012025057946084416,
+          "min": 5.7497003581374884e-05,
+          "max": 0.02931205200002296
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 227,
+          "primal infeasible inaccurate": 1,
+          "primal infeasible": 738
+        },
+        "controller_command_count": 758,
+        "controller_command_gap_wall_s": {
+          "count": 757,
+          "p50": 0.04992819,
+          "p95": 0.055474765999999995,
+          "min": 0.01125781,
+          "max": 0.091499904
+        },
+        "actuator_command_count": 757,
+        "actuator_command_gap_wall_s": {
+          "count": 756,
+          "p50": 0.050042289000000004,
+          "p95": 0.0557855155,
+          "min": 0.020262148,
+          "max": 0.082742861
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 50506681393452,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": null,
+        "accepted_mpc_cycle_share": 0.0,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": false,
+        "logged_controller_75ms_continuity_gate": false,
+        "physical_fail_reasons": [
+          "action not successful",
+          "clearance lower diagnostic below .05m",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "candidate": {
+        "run": "head_on_mpc01",
+        "action_status": 5,
+        "goal_sim_s": 10.0,
+        "duration_sim_s": 40.001,
+        "actual_robot_contact_messages": 0,
+        "first_actual_contact_sim_s": null,
+        "sampled_clearance_m": 0.0664588916596318,
+        "diagnostic_sweep_lower_m": 0.0114588916596318,
+        "oracle_max_gap_s": 0.02,
+        "native_executed_count": 6,
+        "native_executed_ready_count": 5,
+        "native_executed_s": {
+          "count": 6,
+          "p50": 0.0001166995,
+          "p95": 0.00013131075,
+          "min": 8.7367e-05,
+          "max": 0.000132207
+        },
+        "feasible_worker_s": {
+          "count": 44,
+          "p50": 0.009513003002211917,
+          "p95": 0.01685547595261596,
+          "min": 0.0067745859996648505,
+          "max": 0.019065455002419185
+        },
+        "worker_all_s": {
+          "count": 1009,
+          "p50": 0.0059468990002642386,
+          "p95": 0.012031239397765603,
+          "min": 6.302799738477916e-05,
+          "max": 0.019065455002419185
+        },
+        "solver_rejections": {
+          "ContractError: missing plan/map/prediction": 228,
+          "primal infeasible": 737
+        },
+        "controller_command_count": 760,
+        "controller_command_gap_wall_s": {
+          "count": 759,
+          "p50": 0.05003202,
+          "p95": 0.054649571599999995,
+          "min": 0.026690496,
+          "max": 0.078706104
+        },
+        "actuator_command_count": 759,
+        "actuator_command_gap_wall_s": {
+          "count": 758,
+          "p50": 0.0499722275,
+          "p95": 0.0556959414,
+          "min": 0.024970277,
+          "max": 0.068946305
+        },
+        "command_endpoints_unique_at_snapshots": true,
+        "selections": [
+          {
+            "sim_s": 0.0,
+            "wall_ns": 50508369639255,
+            "controller": "FollowPathMPPI"
+          },
+          {
+            "sim_s": 11.719,
+            "wall_ns": 50523132629808,
+            "controller": "FollowPathTemporalMPC"
+          },
+          {
+            "sim_s": 12.347,
+            "wall_ns": 50523758122512,
+            "controller": "FollowPathMPPI"
+          }
+        ],
+        "observed_fallback": {
+          "causal_health_receipt_observed_before_selection": false,
+          "nearby_executed_rejection_reason": "reanchored trajectory rejected",
+          "nearby_rejection_receipt_offset_s": 0.000210222,
+          "receipt_order_note": "Independent DDS subscriptions; post-selection receipt is correlation, not measured causal latency",
+          "selection_sim_s": 12.347,
+          "health_reason": null,
+          "health_to_selection_wall_s": null
+        },
+        "accepted_mpc_cycle_share": 0.006578947368421052,
+        "sensor_contract_gate": true,
+        "measured_model_gate": true,
+        "physical_acceptance": false,
+        "false_block": null,
+        "logged_actuator_75ms_continuity_gate": true,
+        "logged_controller_75ms_continuity_gate": false,
+        "physical_fail_reasons": [
+          "action not successful",
+          "clearance lower diagnostic below .05m",
+          "continuous plant error/speed bound not certified"
+        ]
+      },
+      "repetition_count": 1,
+      "mppi_internal_noise_seed": null,
+      "statistical_net_benefit_established": false
+    }
+  ],
+  "all_pair_config_identical": true,
+  "candidate_frozen_for_deployment": false,
+  "dynamic_acceptance": false,
+  "conclusion": "Real MPC/BT handoff works; both crossing runs contact, both head-on runs timeout. No safe B0 witness or deployment candidate."
+}

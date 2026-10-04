@@ -1,0 +1,867 @@
+# RM2027 动态障碍预测 + MPC 实验方案
+
+请基于当前 `rm2027_navigation` 仓库，启动一条新的 **动态障碍预测 + Temporal MPC** 研究路线。
+
+这是一条独立实验候选，不替换当前正式导航主线。
+
+## 一、项目背景
+
+当前正式/保底导航基线为：
+
+```text
+Localization
+→ Nav2 Global Planner
+→ STVL
+→ MPPI
+→ cmd_vel
+```
+
+这套链路必须完整保留，任何时候都可以回退。
+
+此前针对动态障碍已经研究过两类方案：
+
+### R1：预测占用进入 costmap
+动态障碍跟踪 / KF
+→ future occupancy
+→ costmap
+→ MPPI
+
+主要问题包括：
+- 时序信息被空间化；
+- 不同未来时刻的障碍可能形成 false block；
+- 原本 STVL 可以等待后通过的道路可能被预测占用提前堵死。
+
+### R2：MPPI DynamicObstacleCritic
+动态障碍跟踪 / KF
+→ future prediction
+→ 按 MPPI rollout 时间对齐
+→ custom critic
+→ MPPI
+
+该方案时序表达更加正确，但目前实验仍出现：
+- safe raw candidate 存在但最终没有被采用；
+- start blocked；
+- optimizer failure；
+- 可见几何模式仍可能碰撞；
+- 完整名义尺寸模式过于保守、无法完成任务；
+- 动态预测收益不稳定。
+
+这两个方案当前均保留，不删除、不破坏，作为 Research Frozen / comparison baseline。
+
+目前还有第三条正在尝试的路线：
+
+```text
+prediction
+→ temporal planner / timed reference
+→ MPPI
+```
+
+如果该方案证明 MPPI 无法稳定保留上游的时间规划意图，计划转向本任务所研究的：
+
+```text
+dynamic tracking
+→ prediction
+→ temporal obstacle representation
+→ MPC
+→ cmd_vel
+```
+
+本任务可以先独立研究和搭建，不要求立即替换第三方案。
+
+---
+
+# 二、本任务核心问题
+
+本任务不是简单地“把 MPPI 换成 MPC”。
+
+真正需要验证的问题是：
+
+> 如果把动态障碍预测和机器人未来运动放在同一个时间域优化问题中，是否能比当前 MPPI-based 动态避障方案更自然、更稳定地完成动态避障？
+
+核心逻辑应该是：
+
+```text
+Obstacle:
+O(t0), O(t1), O(t2), ..., O(tN)
+
+Robot MPC prediction:
+X(t0), X(t1), X(t2), ..., X(tN)
+
+对应时间比较：
+X(ti) ↔ O(ti)
+```
+
+而不是：
+
+```text
+X(ti) ↔ union(O(t0)...O(tN))
+```
+
+必须真正保留时间语义。
+
+---
+
+# 三、参考 HWSentryNav26，但不要整套照搬
+
+重点研究并参考：
+
+`Polyacetone/HWSentryNav26`
+
+特别关注其：
+
+- dynamic point extraction
+- clustering
+- tracking
+- KF / velocity estimation
+- track confirmation
+- velocity decay
+- future obstacle prediction
+- future obstacle shape
+- temporal obstacle cost
+- MPC prediction horizon 与 obstacle prediction horizon 对齐
+- stale / uncertain prediction handling
+
+但是：
+
+**不要直接照搬 HWS 的机器人动力学模型。**
+
+HWS 是轮腿机器人，其 LPV / FDDP 动力学模型与本项目四全向轮不一致。
+
+可以复用：
+- tracker/predictor 思想；
+- temporal obstacle representation；
+- MPC cost 设计；
+- solver / optimization architecture 中与机器人模型无关的部分；
+- failure handling；
+- temporal alignment。
+
+必须重新定义：
+- omnidirectional robot dynamics；
+- state；
+- control；
+- velocity / acceleration constraints；
+- yaw dynamics；
+- robot footprint；
+- command interface。
+
+---
+
+# 四、机器人模型
+
+当前底盘为四全向轮，上位机最终给下位机：
+
+```text
+vx
+vy
+wz
+```
+
+下位机当前基本不主动限制加速度，因此控制器应自行考虑控制变化和加速度。
+
+请先从**最简单、可验证的模型**开始，不要一开始就做复杂动力学辨识。
+
+建议优先评估：
+
+## Model A：加速度控制模型
+
+状态：
+
+```text
+x
+y
+yaw
+vx
+vy
+wz
+```
+
+控制：
+
+```text
+ax
+ay
+alpha
+```
+
+离散积分得到下一时刻状态。
+
+或者：
+
+## Model B：一阶速度响应模型
+
+控制输入：
+
+```text
+vx_cmd
+vy_cmd
+wz_cmd
+```
+
+动力学近似：
+
+```text
+dvx/dt = (vx_cmd - vx) / tau_x
+dvy/dt = (vy_cmd - vy) / tau_y
+dwz/dt = (wz_cmd - wz) / tau_w
+```
+
+第一阶段可以先使用合理的实验参数，后续再通过实车阶跃响应进行辨识。
+
+不要为了追求模型复杂度拖慢第一阶段验证。
+
+---
+
+# 五、建议架构
+
+尽量保持现有系统其它模块不变：
+
+```text
+Localization
+FAST-LIO / localization bridge
+        ↓
+robot state
+        │
+        │
+Global Planner / Reference
+        │
+        ↓
+     Temporal MPC
+        ↑
+        │
+Dynamic Tracker
+        ↓
+KF / predictor
+        ↓
+PredictionSequence
+```
+
+MPC 输出：
+
+```text
+vx_cmd
+vy_cmd
+wz_cmd
+```
+
+第一阶段尽量不要修改：
+
+- localization
+- map
+- TF ownership
+- mission
+- behavior tree
+- serial protocol
+- global planner
+- formal main configuration
+
+---
+
+# 六、Nav2 集成方式
+
+优先评估将 MPC 做成独立：
+
+```text
+nav2_core::Controller
+```
+
+目标是最终能够通过 controller plugin 切换：
+
+```text
+FollowPathMPPI
+FollowPathTemporalMPC
+```
+
+例如：
+
+```text
+controller_plugins:
+  - FollowPath
+```
+
+根据配置选择 MPPI 或 Temporal MPC。
+
+这样：
+
+```text
+BT
+Planner Server
+NavigateToPose
+Recovery
+Mission
+```
+
+均不需要重新实现。
+
+但如果第一阶段为了快速验证，完整 Nav2 Controller Plugin 会显著增加工作量，可以：
+
+1. 先做 standalone/offline MPC core；
+2. Gazebo shadow controller；
+3. 验证算法成立以后再包装成 Nav2 plugin。
+
+不要为了接口工程阻塞算法可行性验证。
+
+---
+
+# 七、动态障碍输入接口
+
+优先复用当前项目已有 tracker / predictor，而不是重新写一套完全不同的检测系统。
+
+建议定义清晰接口，例如：
+
+```text
+TrackedObstacle
+{
+    id
+    timestamp
+
+    x
+    y
+
+    vx
+    vy
+
+    confidence
+    track_state
+
+    observed_shape
+}
+```
+
+预测输出：
+
+```text
+PredictedObstacle
+{
+    id
+
+    t[0...N]
+
+    pose[0...N]
+
+    shape[0...N]
+
+    confidence[0...N]
+}
+```
+
+必须明确所有时间是：
+
+```text
+relative_time_from_prediction_epoch
+```
+
+例如：
+
+```text
+0.0
+0.1
+0.2
+...
+2.0 s
+```
+
+不要只依赖 ROS message timestamp 而没有明确的相对时间索引。
+
+---
+
+# 八、障碍物几何
+
+当前这是一个关键研究变量。
+
+至少支持两种模式：
+
+### Mode A：Observed Geometry
+
+只使用当前激光实际观测到的障碍物几何，并随预测质心平移。
+
+原则：
+
+> 看到什么，就基于什么做决策。
+
+优点：
+- 不凭空假设完整机器人尺寸；
+- 更不容易 false block。
+
+风险：
+- 遮挡可能低估真实实体。
+
+### Mode B：Nominal Robot Envelope
+
+假设动态目标为完整 RoboMaster 机器人包络。
+
+优点：
+- 更保守；
+- 减少遮挡导致的低估。
+
+风险：
+- 很容易过度堵塞通道。
+
+两种模式必须作为实验变量比较。
+
+不要偷偷调整几何尺寸让实验通过。
+
+---
+
+# 九、MPC objective
+
+第一阶段保持简单。
+
+至少考虑：
+
+```text
+J =
+  J_reference
++ J_dynamic_obstacle
++ J_static_obstacle
++ J_velocity
++ J_acceleration
++ J_control_smoothness
++ J_terminal
+```
+
+重点是：
+
+## Dynamic obstacle cost
+
+必须满足：
+
+```text
+robot_state(t_i)
+只和
+obstacle_prediction(t_i)
+比较
+```
+
+不能把全部未来位置 union 后计算。
+
+根据距离设置：
+- collision / hard constraint；
+- safety distance；
+- soft cost。
+
+优先明确物理安全边界，不允许仅靠调权重隐藏碰撞。
+
+---
+
+# 十、预测可信度与退化机制
+
+不要假设预测始终正确。
+
+建议明确状态：
+
+```text
+tentative
+confirmed
+coasting
+lost
+```
+
+只有达到足够可信度的 track 才允许未来预测对控制产生强影响。
+
+建议至少实现：
+
+```text
+confirmed + velocity reliable
+→ temporal prediction
+
+confirmed but velocity uncertain
+→ shorter horizon / lower weight
+
+tentative
+→ current occupancy only
+
+prediction stale
+→ discard prediction
+
+lost
+→ STVL/current obstacle/fallback
+```
+
+预测 horizon 不要默认越长越好。
+
+优先实验：
+
+```text
+0.5 s
+1.0 s
+1.5 s
+2.0 s
+```
+
+必要时采用 velocity decay。
+
+---
+
+# 十一、第一阶段不要追求“完整迁移”
+
+先做一个最小 vertical slice。
+
+只验证：
+
+```text
+single moving obstacle
++
+known motion
++
+simple CV prediction
++
+real robot footprint
++
+simple omni dynamics
++
+MPC
+```
+
+场景优先复用当前动态避障已经失败、已有证据链的横穿场景。
+
+固定：
+- map；
+- start；
+- goal；
+- robot geometry；
+- obstacle trajectory；
+- velocity limit；
+- acceleration limit；
+- safety oracle。
+
+先回答：
+
+> 同样的预测信息交给 Temporal MPC 后，能否比现有 DynamicObstacleCritic 更稳定地完成任务？
+
+如果连这个最小场景都没有明显改善，不要继续扩大迁移。
+
+---
+
+# 十二、核心测试场景
+
+最少包含：
+
+1. 静止障碍；
+2. 低速横穿；
+3. 高速横穿；
+4. 迎面接近；
+5. 障碍突然停止；
+6. 障碍突然反向；
+7. 短暂遮挡；
+8. 窄通道附近横穿；
+9. STVL 可以“等待后通过”的场景；
+10. 动态障碍离开道路后重新开放。
+
+特别关注：
+
+```text
+等待
+```
+
+一个好的动态方案不应该只有：
+
+```text
+绕过去
+or
+失败
+```
+
+还应能够自然产生：
+
+```text
+减速
+→ 等待
+→ 障碍离开
+→ 继续通过
+```
+
+---
+
+# 十三、对比对象
+
+保留四组：
+
+### B0
+```text
+STVL + MPPI
+```
+
+### R1
+```text
+Predicted occupancy
+→ costmap
+→ MPPI
+```
+
+### R2
+```text
+Prediction
+→ DynamicObstacleCritic
+→ MPPI
+```
+
+### R3
+```text
+Prediction
+→ Temporal MPC
+```
+
+如果第三种：
+
+```text
+temporal planner
+→ timed reference
+→ MPPI
+```
+
+已经完成，也加入对比。
+
+要求尽可能复用同一个：
+- tracker；
+- predictor；
+- obstacle trajectory；
+- robot geometry；
+- safety oracle。
+
+这样比较的是：
+
+> 同样的预测信息被不同层消费时，最终效果有什么差异？
+
+---
+
+# 十四、指标
+
+必须至少记录：
+
+```text
+action success
+physical collision
+minimum physical clearance
+completion time
+average velocity
+stop / wait duration
+detour distance
+recovery count
+optimizer failure
+control deadline miss
+CPU usage
+max / RMS vx
+max / RMS vy
+max / RMS wz
+max acceleration
+control jerk / delta-u
+```
+
+额外定义：
+
+## false_block
+
+如果：
+
+```text
+STVL baseline
+```
+
+可以通过等待或合理绕行安全完成任务，而预测方案持续判断无解、停止或拒绝通过，则记为：
+
+```text
+false_block
+```
+
+记录：
+
+```text
+false_block_count
+false_block_duration
+```
+
+这是当前研究的重要指标之一。
+
+---
+
+# 十五、安全 oracle
+
+不要仅依赖：
+
+```text
+Nav2 action SUCCEEDED
+```
+
+判断成功。
+
+必须继续使用独立碰撞审计：
+
+```text
+robot swept footprint
+vs
+obstacle geometry
+```
+
+并计算：
+
+```text
+minimum physical clearance
+```
+
+Controller 自己认为安全不能作为最终安全证据。
+
+---
+
+# 十六、开发边界
+
+本研究必须遵守：
+
+1. 不修改正式 `main` 默认导航行为；
+2. 不删除 STVL + MPPI；
+3. 不删除 R1 / R2 已有实验；
+4. 不降低安全门以制造“成功”；
+5. 不偷偷缩小 robot footprint；
+6. 不把 unknown 改成 free 以提高成功率；
+7. 不一次迁移 HWS 整套系统；
+8. 不同时修改定位、全局规划、控制和预测导致变量混杂；
+9. 所有关键实验必须可复现；
+10. 所有失败也要保留证据。
+
+优先建立独立 experiment branch/package。
+
+---
+
+# 十七、停止条件
+
+本路线是研究候选，不是无限期项目。
+
+如果出现以下情况：
+
+### 情况 A
+最小横穿场景中 Temporal MPC 明显优于 R1 / R2：
+
+继续扩展场景。
+
+### 情况 B
+Temporal MPC 与 R1 / R2 表现相近，但复杂度和计算量显著增加：
+
+停止扩大迁移。
+
+### 情况 C
+仍然存在大量：
+- false block；
+- collision；
+- optimizer failure；
+- oscillation；
+- 无法等待后通过；
+
+优先判断问题是否来自：
+- prediction；
+- geometry；
+- feasibility；
+
+不要默认继续换 solver 或增加算法复杂度。
+
+### 情况 D
+出现定位、重定位、TF、串口、基础控制稳定性等影响正式导航系统的高优先级问题：
+
+暂停本研究，优先修正式主线。
+
+---
+
+# 十八、第一轮任务
+
+现在先不要直接大规模写代码。
+
+第一轮请完成：
+
+1. 审计当前 `rm2027_navigation` 中：
+   - tracker；
+   - predictor；
+   - dynamic obstacle messages；
+   - R1；
+   - R2；
+   - STVL；
+   - MPPI；
+   - T-DT planner；
+   - geometry/safety oracle。
+
+2. 审计 HWSentryNav26 中与以下内容有关的实现：
+   - dynamic tracking；
+   - prediction；
+   - temporal obstacle representation；
+   - MPC/FDDP；
+   - robot dynamics；
+   - obstacle cost。
+
+3. 明确：
+   - 哪些代码可以直接复用；
+   - 哪些只能参考思想；
+   - 哪些必须针对四全向轮重写。
+
+4. 设计最小 Temporal MPC 架构。
+
+5. 给出：
+   - state；
+   - control；
+   - discrete dynamics；
+   - horizon；
+   - dt；
+   - objective；
+   - constraints；
+   - obstacle input；
+   - output；
+   - Nav2 integration boundary。
+
+6. 制定第一个横穿动态障碍实验。
+
+7. 在确认架构没有明显问题后，再开始实现最小 prototype。
+
+不要因为看到 HWS 有完整代码就直接整套复制。
+
+---
+
+# 十九、输出文档
+
+先生成：
+
+```text
+docs/dynamic_navigation/temporal_mpc_architecture.md
+```
+
+内容至少包括：
+
+- 当前问题；
+- 为什么尝试 MPC；
+- 与 STVL + MPPI 的关系；
+- 与 R1/R2/R3 的关系；
+- HWS 可复用内容；
+- HWS 不可直接复用内容；
+- omnidirectional dynamics；
+- obstacle prediction contract；
+- MPC formulation；
+- temporal alignment；
+- fallback；
+- Nav2 integration；
+- test plan；
+- metrics；
+- failure criteria；
+- implementation milestones。
+
+并维护：
+
+```text
+docs/dynamic_navigation/temporal_mpc_progress.md
+```
+
+记录每一轮：
+- hypothesis；
+- change；
+- result；
+- evidence；
+- conclusion；
+- next step。
+
+禁止只记录“继续调参”。
+
+---
+
+最终目标不是证明：
+
+> MPC 比 MPPI 高级。
+
+而是回答：
+
+> **在 RoboMaster 动态障碍场景中，把障碍预测和机器人控制放进统一时间域优化问题，是否比现有 STVL + MPPI 或 MPPI temporal critic 提供稳定、可复现、值得部署复杂度的收益？**
+
+如果答案是否定的，应明确冻结该研究路线并继续使用现有基线，而不是为了算法名称继续投入。

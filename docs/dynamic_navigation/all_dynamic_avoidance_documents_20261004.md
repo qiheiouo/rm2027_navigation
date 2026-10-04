@@ -1,8 +1,11 @@
-# 动态避障三轮方案：暂停记录与全部文档目录
+# 动态避障全部方案：R1至Temporal MPC冻结与文档目录
 
 2026-10-04，Asia/Shanghai。用户已明确暂时停止本方案；本次只整理记录，不恢复研究、修改正式导航或运行实验。
 
-## 一、三轮方案对应关系和当前状态
+
+2026-10-04最新冻结补充：Temporal MPC也已按用户要求冻结，`research/temporal-mpc-frozen-20261004`→`04291a41`，未接受部署。完整历程见[总文档](dynamic_obstacle_prediction_full_history_20261004.md)，全部原文见[合订本](dynamic_obstacle_prediction_all_text_20261004.md)。下列三轮统计保留原归档口径，本次另追加25份MPC文档，合计372份Markdown；2份聊天单列参考，不是实验。
+
+## 一、历史三轮与新增Temporal MPC的对应关系和状态
 
 这里按本次对话中的三轮研究归类：旧V1及后续风险研究、重新建立的原生CV critic路线、最新HWS对照与限时净收益计划。可见几何、名义尺寸、observed-surface属于第二轮子实验；STVL基线、HWS前端迁移和T-DT早期guard单列前置记录，不漏记，也不另算第四个方案。
 
@@ -12,7 +15,7 @@
 | 二：原生CV DynamicObstacleCritic + guard | 从main单独建路；静态剔除/KF →公共状态 →原生时间评分 →MPPI/smoother →pass/brake guard；后续机械、地图、可见/名义几何及surface证据 | 已做构建、DDS和隔离闭环/回放；visible接触、nominal未完成任务，两试次综合FAILED。surface只有离线原型；在线成员证据部分改动未提交，C闭环未执行。现暂停 | `feature/dynamic-obstacle-critic`及experiment族；审计前native `b5645eca` |
 | 三：HWS重新对照 / 一个月净收益计划 | 只读迁移审计、逐模块机制对照、STVL基线与短时CV的最小矩阵、false_block及A/B/C退出门 | 审计和计划文档已完成；**计划实验没有启动**。当前部署判断C；2026-10-04用户暂停，原日期/预算仅保留为计划历史 | 文档提交 `652f14ce` |
 
-三轮均不改变正式main；main仍为 `d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。已有未提交实验改动和未知core保留。持续开发goal已是PAUSED，本次不新建续跑安排，不把历史文档中的“下一步”当恢复授权。
+历史三轮及新增MPC均不改变正式main；main仍为 `d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。已有未提交实验改动和未知core保留。旧归档记录中的持续开发goal为PAUSED；本次冻结不新建续跑安排，不把历史文档中的“下一步”当恢复授权。
 
 ## 二、先读这些总结和结果
 
@@ -438,3 +441,42 @@
 本目录与新历史阅读副本、来源清单、计划暂停说明和项目文档索引一起保存在 `experiment/dynamic-documents-archive-20261004`。本次提交只涉及文档，不提交既有tracker/core/member证据工具改动，不移动或删除core，不合并/push，不运行仿真/实车。
 
 校验：清单的每个读取文件存在；历史副本与对应Git blob逐字节相同；本目录的文件链接存在；既有dirty文件摘要/大小、main、旧research与冻结tag保持。没有重新跑旧实验，故暂停记录和文档整理不构成新增安全验收。
+
+## 新增独立路线：Temporal MPC — 25份（已冻结）
+
+直接main派生，最后实现2d95b026，研究冻结04291a41；不恢复原三轮或一个月计划。R1占用层与timed-reference动态闭环未找到已完成证据，旧V1不与R1混称。
+
+| 文档 | 原始路径 | 来源 |
+|---|---|---|
+| [Temporal MPC：独立最小研究架构](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_architecture.md) | `docs/dynamic_navigation/temporal_mpc_architecture.md` | 04291a41，冻结tag逐字节副本 |
+| [目标可开放场景与有限候选登记](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_candidates_registration_20261004.md) | `docs/dynamic_navigation/temporal_mpc_candidates_registration_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [目标开放场景：单候选与有限候选对照](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_candidates_results_20261004.md) | `docs/dynamic_navigation/temporal_mpc_candidates_results_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC 执行模型与回退保护登记](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_execution_registration_20261004.md) | `docs/dynamic_navigation/temporal_mpc_execution_registration_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC 执行重验、静态走廊与回退保护结果](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_execution_results_20261004.md) | `docs/dynamic_navigation/temporal_mpc_execution_results_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC 离线第一轮预登记](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_experiment_registration.md) | `docs/dynamic_navigation/temporal_mpc_experiment_registration.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC 研究冻结记录](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_freeze_20261004.md) | `docs/dynamic_navigation/temporal_mpc_freeze_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC 实际仿真输入与配对实验预登记](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_gazebo_registration_20261004.md) | `docs/dynamic_navigation/temporal_mpc_gazebo_registration_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC 实际输入、Gazebo 配对与阶段结论](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_gazebo_results_20261004.md) | `docs/dynamic_navigation/temporal_mpc_gazebo_results_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC 侧向参考与保护节拍登记](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_lateral_registration_20261004.md) | `docs/dynamic_navigation/temporal_mpc_lateral_registration_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [侧向参考、生产节拍与速度重锚结果](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_lateral_results_20261004.md) | `docs/dynamic_navigation/temporal_mpc_lateral_results_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [新聊天记录中的论文：核验与当前实验对照](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_literature_review_20261004.md) | `docs/dynamic_navigation/temporal_mpc_literature_review_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC 进度与结果](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_progress.md) | `docs/dynamic_navigation/temporal_mpc_progress.md` | 04291a41，冻结tag逐字节副本 |
+| [v2速度重锚投影：物理复验登记](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_projection_registration_20261004.md) | `docs/dynamic_navigation/temporal_mpc_projection_registration_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [v2速度重锚投影物理复验与模型占用诊断](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_projection_results_20261004.md) | `docs/dynamic_navigation/temporal_mpc_projection_results_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Worker时序与提案老化诊断登记](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_timing_registration_20261004.md) | `docs/dynamic_navigation/temporal_mpc_timing_registration_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Worker时序与提案老化诊断结果](history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_timing_results_20261004.md) | `docs/dynamic_navigation/temporal_mpc_timing_results_20261004.md` | 04291a41，冻结tag逐字节副本 |
+| [Temporal MPC offline prototype](history_documents_20261004/temporal_mpc_04291a41/experiments/temporal_mpc/README.md) | `experiments/temporal_mpc/README.md` | 04291a41，冻结tag逐字节副本 |
+| [T-DT前端桥接](history_documents_20261004/temporal_mpc_04291a41/experiments/temporal_mpc/frontend/README.md) | `experiments/temporal_mpc/frontend/README.md` | 04291a41，冻结tag逐字节副本 |
+| [Isolated actual Gazebo research](history_documents_20261004/temporal_mpc_04291a41/experiments/temporal_mpc/gazebo/README.md) | `experiments/temporal_mpc/gazebo/README.md` | 04291a41，冻结tag逐字节副本 |
+| [Humble 双控制器实验](history_documents_20261004/temporal_mpc_04291a41/experiments/temporal_mpc/integration/README.md) | `experiments/temporal_mpc/integration/README.md` | 04291a41，冻结tag逐字节副本 |
+| [Frozen offline project references](history_documents_20261004/temporal_mpc_04291a41/experiments/temporal_mpc/reference_inputs/README.md) | `experiments/temporal_mpc/reference_inputs/README.md` | 04291a41，冻结tag逐字节副本 |
+| [动态障碍公共输入：几何语义与未知边界](history_documents_20261004/temporal_mpc_04291a41/experiments/temporal_mpc/reference_inputs/dynamic_obstacle_geometry_contract_2027.md) | `experiments/temporal_mpc/reference_inputs/dynamic_obstacle_geometry_contract_2027.md` | 04291a41，冻结tag逐字节副本 |
+| [rm_competition_interfaces](history_documents_20261004/temporal_mpc_04291a41/experiments/temporal_mpc/ros2/rm_competition_interfaces/README.md) | `experiments/temporal_mpc/ros2/rm_competition_interfaces/README.md` | 04291a41，冻结tag逐字节副本 |
+| [rm_dynamic_obstacle_tracking](history_documents_20261004/temporal_mpc_04291a41/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking/README.md) | `experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking/README.md` | 04291a41，冻结tag逐字节副本 |
+
+### 原始聊天参考（非指令、非实验接受）
+
+- [mpc_proposal](history_documents_20261004/reference_chats/mpc_proposal.txt).
+- [mpc_literature_chat](history_documents_20261004/reference_chats/mpc_literature_chat.txt).
+
+MPC完整源码/二进制/JSONL/失败保存在冻结tag；阅读副本只含文档及选定引用资产。原347份资料的reading hash保持，逐项原文和来源可在合订本/机器清单查阅。

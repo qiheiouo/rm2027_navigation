@@ -1,0 +1,96 @@
+有，而且我查下来发现：**你们最近这条“动态障碍预测 → 不确定性建模 → T-MPC/MPC 在时间域里做避障”的路线，在论文里其实已经有一条很清晰的技术演进链。** 其中有几篇几乎就是在回答你们这几天碰到的问题。
+
+先给一个重要纠正：你们最近参考的 **T-MPC++（Topology-Driven MPC）原始工作来自 TU Delft 的 Oscar de Groot 等人**。网上那个 `ahrs365/tmpc` 纯 C++ 项目是在这个工作的基础上去 ROS 化重写的，并不是浙大提出的 T-MPC++。它本身也明确引用了 TU Delft 的论文。:chatgpt-content-reference{index="0"}
+
+我建议你按下面这个顺序读：
+
+1. **Topology-Driven Parallel Trajectory Optimization in Dynamic Environments — de Groot et al., IEEE T-RO, 2024/2025**  
+   这篇就是 **T-MPC++ 的核心论文**，也是目前与你们最新实验最直接对应的一篇。核心不是“把 MPC 调得更聪明”，而是承认动态避障优化本身高度非凸：如果只跑一个 MPC，它可能一开始决定从障碍左边过，之后发现右边更好，却因为已经陷入局部最优而出不来，或者左右反复切换。因此作者先产生**不同拓扑/同伦类别的避障方案**，例如左绕、右绕、后方穿过，然后让多个 MPC 并行优化，最后选可行且代价最低的。:chatgpt-content-reference{index="1"}  
+   这对你们非常重要，因为之前你们出现的“预测是对的，但优化器还是给不出一个好的安全候选”，不一定是预测问题，很可能就是**单个局部优化问题选错了拓扑类别**。  
+   [arXiv 论文全文](https://arxiv.org/abs/2401.06021?utm_source=chatgpt.com)  
+   
+
+2. **Scenario-based motion planning with bounded probability of collision — de Groot et al., IJRR, 2025**  
+   **这篇我认为是你们现在最应该仔细看的。** 它专门处理“动态障碍预测有不确定性”以及“预测导致过度保守”的问题。作者指出，一个常见做法是：对每一个未来时刻分别限制碰撞概率。问题是，你把很多时间步的安全约束叠加起来以后，整条路径会变得远比实际需要更保守。论文因此直接处理**整条规划轨迹的碰撞风险**，通过从障碍物未来分布里采样 scenario，再进行几何裁剪，使计算还能实时完成，而且能处理非高斯预测。:chatgpt-content-reference{index="4"}  
+   这和你之前问我的：
+   > “一直预测动态障碍，会不会导致看上去可能能通过的路实际被判定成不能通过？”
+   
+   几乎就是同一个研究问题。你们现在如果还是“未来每帧一个确定位置 + footprint 膨胀”，我会优先研究这里，而不是继续扩大/缩小预测框。  
+   [论文页面](https://doi.org/10.1177/02783649251315203?utm_source=chatgpt.com)  
+   官方 `mpc_planner` 已经集成了对应的 **Safe Horizon MPC / scenario_module**。:chatgpt-content-reference{index="6"}
+
+3. **Trajectory Planning with Model Predictive Control for Obstacle Avoidance Considering Prediction Uncertainty — Schöneberg et al., IFAC, 2025**  
+   这篇特别适合你们，是因为它直接面向 **ROS2 + Nav2**。它没有假定障碍未来一定在 `(x+vx·t, y+vy·t)`，而是用随机 VAR 模型预测未来位置分布，然后根据 **Mahalanobis distance** 建立 MPC 避碰约束。:chatgpt-content-reference{index="7"}  
+   你们不一定要照搬 VAR，但它给了一个很好的工程接口思想：
+   `tracker → 均值轨迹 + covariance → MPC`
+   
+   而不是：
+   `tracker → 一条绝对正确的未来轨迹 → 硬约束 MPC`
+   
+   对你们现在只有 `x,y,vx,vy` 的动态目标接口尤其有参考意义。  
+   [arXiv 全文](https://arxiv.org/abs/2504.19193?utm_source=chatgpt.com)
+
+4. **Dynamic Control Barrier Function-based Model Predictive Control to Safety-Critical Obstacle-Avoidance of Mobile Robot — Jian et al., ICRA 2023**  
+   这篇其实和你们以前做的链路非常像：**LiDAR → DBSCAN → 数据关联 → KF → 动态障碍速度估计 → 未来椭圆序列 → MPC + Dynamic CBF**。:chatgpt-content-reference{index="9"}  
+   所以它很适合拿来当你们当前 `动态障碍跟踪 → 预测 → 控制` 的基线。
+   
+   但这里也有一个我特别希望你注意的地方：它会把障碍物表示为未来的一系列椭圆，而且还会为了不确定性继续扩大椭圆。:chatgpt-content-reference{index="10"} **这正可能复现你们之前“预测越远，占据空间越大，路被堵死”的问题。** 所以我更倾向于把它当作 baseline，而不是最终设计。
+   
+   [论文 arXiv](https://arxiv.org/abs/2209.08539?utm_source=chatgpt.com)  
+   [官方代码 MPC-D-CBF](https://github.com/jianzhuozhuTHU/MPC-D-CBF?utm_source=chatgpt.com)
+
+5. **Moving Obstacle Collision Avoidance via Chance-Constrained MPC With Control Barrier Function — Li et al., IJ Robust and Nonlinear Control, 2026**  
+   这是今年的新论文，非常值得你们看。它直接比较了普通的 **MPC 距离约束（MPC-DC）** 和 **MPC-CBF**，指出 CBF 可以用较短预测时域实现类似的提前避让；随后又把测量/预测不确定性放进 **chance-constrained MPC-CBF**。更有意思的是，他们发现安全约束太多以后可能导致可行域为空，于是改成了“**先正常 MPC，再做 predictive safety filter**”的顺序结构。:chatgpt-content-reference{index="13"}  
+   这对你们最近的现象非常有启发：
+   
+   **“MPC 求不出来”不一定意味着现实中无路可走，可能只是安全约束和动力学约束的交集被我们自己构造成空集了。**
+   
+   这正是你们需要区分的“场景真的不可行”与“优化问题人为不可行”。  
+   [论文页面](https://doi.org/10.1002/rnc.70624?utm_source=chatgpt.com)
+
+6. **Obstacle Avoidance of Mobile Robots Based on MPC with Dynamic Control Barrier Functions — Khaledi & Kiumarsi, European Journal of Control, 2026**  
+   这篇是 **2026 年 9 月 22 日才上线**的，很新。它针对的一个问题就是：如果每个动态障碍分别建立一套 barrier constraint，障碍多了之后约束之间容易冲突，不仅计算量增加，而且会造成 **MPC infeasible**。他们提出把多个障碍组合成一个 composite D-CBF。:chatgpt-content-reference{index="15"}  
+   如果你们以后仿真从“单个横穿机器人”扩展到 RM 场地上同时多个机器人，这篇的重要性会明显上升。
+
+7. **Safety corridor and pedestrian prediction integrated sequential MPC for safe robot navigation in dynamic environments — Qu et al., 2026**  
+   这是今年 8 月的新工作。它的架构很值得借鉴：**静态障碍和动态障碍不要硬塞进同一种表示里。** 静态环境用 safety corridor 最大程度利用真实自由空间；动态目标则使用预测 + robust D-CBF 进入 MPC。:chatgpt-content-reference{index="16"}  
+   这其实和你之前“看到什么就是什么”“动态机器人是不是没必要变成巨大膨胀墙”的思路比较契合。静态几何负责回答“这里客观上能不能过”，动态预测只负责回答“**这个时间点能不能过**”，不要让长期预测永久改变静态自由空间。
+
+8. **Chance-Constrained Sampling-Based MPC for Collision Avoidance in Uncertain Dynamic Environments — Mohamed et al., IEEE RA-L, 2025**  
+   这篇是 C2U-MPPI。虽然你们现在已经倾向从 MPPI 往 MPC/T-MPC 转，但它仍然非常值得作为对照实验：它把 obstacle uncertainty、chance constraint 和 sampling MPC 结合起来，并且在真实动态环境做了验证。:chatgpt-content-reference{index="17"}  
+   对你们最大的价值不是“重新回 MPPI”，而是可以拿它回答一个研究问题：**到底是 MPPI 本身不适合你们，还是以前给 MPPI 的动态障碍表示方式不合适？**
+
+---
+
+把这些论文串起来，我现在反而越来越明确你们下一版动态避障应该长什么样。
+
+**不要再试图把动态障碍未来轨迹预测得“非常准确”。** RM 对手的运动本身就可能突然变向，长时间确定性预测在这里没有太大物理意义。更合理的是：
+
+`当前真实观测`
+→ `tracker: x,y,vx,vy`
+→ `短时预测 μ(t) + 不确定性 Σ(t)`
+→ **多个可能的避让拓扑**
+→ `T-MPC++`
+→ `风险/CBF 安全约束`
+→ `第一步控制`
+→ 下一帧重新求解。
+
+也就是说，未来 0.2、0.4、0.6……秒障碍物**不是一堵越来越大的“绝对禁止墙”**，而应该更接近：
+
+> “它在这里的概率比较高，所以经过这里成本/风险较高；真正接近碰撞的短时区域才是硬安全约束。”
+
+而且 T-MPC++ 再同时保留：
+
+> 左绕 / 右绕 / 后穿 / 减速等待
+
+这些不同拓扑可能性。
+
+这样正好能解决你们前一阶段那个矛盾：**既不能像 STVL 那样完全只看当前帧、等障碍来了才躲；又不能因为预测了未来，就把实际上可以通过的空间全部提前封死。** Scenario MPC / chance constraint 本质上就是在这两者之间找一个数学上更合理的中间点。:chatgpt-content-reference{index="18"}
+
+如果只让我现在挑 **3 篇给 Codex 深读并和你们当前实现逐项对照**，我会选：
+
+**T-MPC++ 原论文 → Scenario-based Motion Planning → 2026 Chance-Constrained MPC-CBF。**
+
+这三篇刚好对应你们现在的三个核心问题：**怎么产生不同绕行方案、怎么避免预测过保守、怎么在安全与 MPC 可行性之间做平衡。**
+
+而且这里已经隐约有一个比“把浙江大学 TMPC 搬过来”更清晰的最终方向：**T-MPC++ 负责多拓扑运动生成，概率预测负责表达“我们不知道对手未来一定去哪”，CBF/安全过滤负责最后一道不可碰撞底线。** 我觉得这个架构比继续在“预测框大小”和“未来几秒算碰撞”上反复调参数更值得你们往下验证。

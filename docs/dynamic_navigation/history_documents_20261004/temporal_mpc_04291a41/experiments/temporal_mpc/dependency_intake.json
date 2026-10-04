@@ -1,0 +1,26 @@
+{
+  "url": "https://github.com/osqp/osqp-python",
+  "branch": "master",
+  "version": "1.0.5",
+  "release_tag": "v1.0.5",
+  "release_commit": "7065b3605925f725b7fa8ac76dc4d0bdbe512c75",
+  "license": "Apache-2.0",
+  "license_file": "OSQP_LICENSE",
+  "scope": "Optional Python dependency used only by isolated M1 QP core; no ROS/main dependency or source vendoring.",
+  "reason": "One bounded convex QP with primal warm start, max_iter and time_limit.",
+  "local_modifications": "none; pip --target /tmp/temporal_mpc_deps_20261004 --no-deps osqp==1.0.5",
+  "boundary": "Consumes condensed matrices; no TF/topic/control publishing.",
+  "removal": "Remove optional realtime dependency/module; archived SLSQP and formal Nav2 remain separate.",
+  "installed_extension_sha256": "c403c4459c67712479f301a204d0bce4cfe7c5cb1fffde2c484955c4e4146913",
+  "metadata_sha256": "95add7e311d6dfbfb9489e207bc0ee2b8656eae4264f1525bddcbacff844caf1",
+  "license_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+  "host_versions": {
+    "numpy": "1.26.4",
+    "scipy": "1.11.4",
+    "pytest": "7.4.4",
+    "jinja2": "3.1.2",
+    "joblib": null,
+    "setuptools": "68.1.2"
+  },
+  "note": "Installed wheel not checked in. Null metadata means unavailable. Only QP solve path exercised; optional code-generation dependencies not tested."
+}

@@ -1,0 +1,88 @@
+{
+  "scope": "experimental overlay only; not src or formal message generation",
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "9442d42052b236e4c78427d45040bb08588b55a99cfce9f6aed64a832a7cef34",
+      "current_sha256": "94c5b8764167069417c54244792ebedb887a9fb43ad26c2245d6dcd96e77bd49",
+      "unchanged": false
+    },
+    {
+      "path": "README.md",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "9bf8a168e6ffa0a6b17c89ce775bf8c4368fb876206733d426b6852e25f3c7ce",
+      "current_sha256": "9bf8a168e6ffa0a6b17c89ce775bf8c4368fb876206733d426b6852e25f3c7ce",
+      "unchanged": true
+    },
+    {
+      "path": "msg/ChassisMode.msg",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "46616771c42326a1f9ab79fbdd3c0583b2caa34243e2a32a8e632fa54240952c",
+      "current_sha256": "46616771c42326a1f9ab79fbdd3c0583b2caa34243e2a32a8e632fa54240952c",
+      "unchanged": true
+    },
+    {
+      "path": "msg/DynamicObstaclePrediction.msg",
+      "source": "frozen public interface b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "source_sha256": "3fc1458ef9efab481377d96c1ef2e1b872045ebef72a160182196627f9a4eeae",
+      "current_sha256": "3fc1458ef9efab481377d96c1ef2e1b872045ebef72a160182196627f9a4eeae",
+      "unchanged": true
+    },
+    {
+      "path": "msg/DynamicObstaclePredictionArray.msg",
+      "source": "frozen public interface b5645ecaf6b4575a6537a0a0a9907f4891955955",
+      "source_sha256": "e462d1cd7ea34b50dd2e45ef37f39f934be6f2913e82377ab14691bde22a74dd",
+      "current_sha256": "e462d1cd7ea34b50dd2e45ef37f39f934be6f2913e82377ab14691bde22a74dd",
+      "unchanged": true
+    },
+    {
+      "path": "msg/MissionState.msg",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "9258d0a6902e60802ea0110b892ef766b2aecd9f828ed6743a36be27101b7229",
+      "current_sha256": "9258d0a6902e60802ea0110b892ef766b2aecd9f828ed6743a36be27101b7229",
+      "unchanged": true
+    },
+    {
+      "path": "msg/RefereeState.msg",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "52c0cd774d432869432de6f7ba57d495aa670db49d1066f74024aaa8d7e49e8e",
+      "current_sha256": "52c0cd774d432869432de6f7ba57d495aa670db49d1066f74024aaa8d7e49e8e",
+      "unchanged": true
+    },
+    {
+      "path": "msg/SystemReadiness.msg",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "978f267d4b6ac6745eb786bec1f15b12f11e2bf4d5bf3830b7de83d6b6f96732",
+      "current_sha256": "978f267d4b6ac6745eb786bec1f15b12f11e2bf4d5bf3830b7de83d6b6f96732",
+      "unchanged": true
+    },
+    {
+      "path": "msg/TargetTrack.msg",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "515aedd0ca5808fb1f9972f3bd3a8ca3e3277526c9cfc659d2b0a58d859a7346",
+      "current_sha256": "515aedd0ca5808fb1f9972f3bd3a8ca3e3277526c9cfc659d2b0a58d859a7346",
+      "unchanged": true
+    },
+    {
+      "path": "package.xml",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "195e6b3838828eca314cdf33a40cfaa591814c6f51f56ae97b400da79cb8caa1",
+      "current_sha256": "8c05ae77dcddc19957db66a8ab229f9fed534db8acb56ac3fa31a6b4933e3480",
+      "unchanged": false
+    },
+    {
+      "path": "srv/SetMissionMode.srv",
+      "source": "main d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "source_sha256": "da9f598c79c7622ba5eaec302f990a4d1647cb4c1008512c500a71db3d5c61d2",
+      "current_sha256": "da9f598c79c7622ba5eaec302f990a4d1647cb4c1008512c500a71db3d5c61d2",
+      "unchanged": true
+    }
+  ],
+  "local_changes": [
+    "CMake/package dependencies add builtin_interfaces and the two frozen public prediction messages",
+    "new own rm_temporal_mpc_msgs/controller packages"
+  ],
+  "license": "retain main Apache-2.0 package declarations; own controller/protocol Apache-2.0",
+  "removal": "delete experimental ros2 directory and build/temporal_mpc_ros2; COLCON_IGNORE excludes normal discovery"
+}
