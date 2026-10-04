@@ -239,3 +239,13 @@ M2历史输入审计：[787条真实捕获预测](evidence/temporal_mpc_nav2_202
 模型1.0的连续响应界尚未认证。source/TF回放完整与模型可行都不等于物理安全。
 四轮最终配对每场景SDF/profile/tracker/bridge逐字节一致；单次、MPPI随机seed未锁定，
 不得根据候选到达或无接触超时声称统计净收益。
+
+
+## 2026-10-04 后续：执行模型、走廊与共同回退保护检查点
+
+- hypothesis：统一实际held-velocity模型、拓宽已认证静态空间和共同制动保护，可定位原生veto并检查回退后物理接近行为。
+- change：QP/native使用50ms ZOH；固定预算/几何保留；T-DT SFC maxRange 2→6m，raw-cell完整证书保留；新增共同保护，最新公共预测+完整制动尾+原始静态地图、限命令差、ROS异常连续减速。具体模型证书不等于连续物理安全。
+- result：91项测试主机/Humble通过；4,298个保护周期、518原生状态、131动态拒绝精确重放匹配；4轮真实预测/CDR/源TF门通过。候选实际MPC横穿66、迎面9周期，之后由shadow动态净空slack -.335/-9.952mm触发回退。四轮无正接触消息但全部40s取消，迎面最终cmd gap88.093/77.022ms超75ms门。
+- evidence：[登记](temporal_mpc_execution_registration_20261004.md)、[完整结果与限制](temporal_mpc_execution_results_20261004.md)、[配对汇总](evidence/temporal_mpc_execution_20261004/paired_summary.json)、[完整证据](evidence/temporal_mpc_execution_20261004/manifest.json)。
+- conclusion：核心链路/可观测性推进，动态接受仍false；新B0为MPPI+共同保护，不混称原未保护B0。8类保护故障减速/恢复成立但gap136.625ms使总门false，保留且不重跑挑最好。原生Nav214类故障/worker SIGKILL与活跃输出门另通过。
+- next step：认证走廊内局部侧向参考/分离面初始化、异步测量/预测变化的保守余量、共同保护的最坏负载/生产节拍/独立wall watchdog。保留默认MPPI和独立main分支，不冻结部署。

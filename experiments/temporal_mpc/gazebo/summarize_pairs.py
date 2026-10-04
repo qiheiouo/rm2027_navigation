@@ -36,7 +36,14 @@ def run(root):
                   and json.loads(e['data']['data'])['executed']
                   and not json.loads(e['data']['data'])['ready']]
             correlated=min(near,key=lambda e:abs(e['receipt_monotonic_ns']-selected['wall_ns'])) if near else None
-            fallback=dict(causal_health_receipt_observed_before_selection=bad is not None,
+            nearby=[e for e in events if e['topic']=='/temporal_mpc/health'
+                    and abs(e['receipt_monotonic_ns']-selected['wall_ns'])<50_000_000
+                    and (not json.loads(e['data']['data'])['ready'] or json.loads(e['data']['data'])['fallback_requested'])]
+            diagnostic=min(nearby,key=lambda e:abs(e['receipt_monotonic_ns']-selected['wall_ns'])) if nearby else None
+            fallback=dict(nearby_health_diagnostic=json.loads(diagnostic['data']['data']) if diagnostic else None,
+                          nearby_health_receipt_offset_s=(diagnostic['receipt_monotonic_ns']-selected['wall_ns'])/1e9 if diagnostic else None,
+                          causal_failure_to_switch_s=None,
+                          causal_health_receipt_observed_before_selection=bad is not None,
                           nearby_executed_rejection_reason=json.loads(correlated['data']['data'])['reason'] if correlated else None,
                           nearby_rejection_receipt_offset_s=(correlated['receipt_monotonic_ns']-selected['wall_ns'])/1e9 if correlated else None,
                           receipt_order_note='Independent DDS subscriptions; post-selection receipt is correlation, not measured causal latency',
@@ -53,7 +60,8 @@ def run(root):
         if e['topic']=='/temporal_mpc/solver_diagnostic':
             d=json.loads(e['data']['data'])
             if not d['feasible']:rejections[d['reason']]+=1
-    return dict(run=root.name,action_status=s['result']['status'] if s['result'] else None,
+    execution=json.loads((root/'execution_audit.json').read_text()) if (root/'execution_audit.json').exists() else None
+    return dict(execution_audit=execution,run=root.name,action_status=s['result']['status'] if s['result'] else None,
                 goal_sim_s=s['goal_epoch_s'],duration_sim_s=s['final_sim_s']-s['goal_epoch_s'],
                 actual_robot_contact_messages=len(contacts),first_actual_contact_sim_s=contacts[0]['sim_s'] if contacts else None,
                 sampled_clearance_m=a['sampled_full_envelope_clearance_m'],diagnostic_sweep_lower_m=a['diagnostic_sweep_lower_m'],
@@ -75,16 +83,19 @@ def run(root):
                     (True,'continuous plant error/speed bound not certified')) if failed])
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('directory');args=parser.parse_args();root=Path(args.directory)
+    parser=argparse.ArgumentParser();parser.add_argument('directory');parser.add_argument('--pairs-file');parser.add_argument('--common-guard',action='store_true');args=parser.parse_args();root=Path(args.directory)
     pairs=[]
-    for scenario,b0,mpc in PAIRS:
+    names=json.loads(Path(args.pairs_file).read_text()) if args.pairs_file else PAIRS
+    for scenario,b0,mpc in names:
         left,right=root/b0,root/mpc
         matched={name:hashlib.sha256((left/'scene'/name).read_bytes()).hexdigest()==hashlib.sha256((right/'scene'/name).read_bytes()).hexdigest()
                  for name in ('world.sdf','nav2.yaml','tracker.yaml','bridge.yaml')}
         pairs.append(dict(scenario=scenario,config_byte_identical=matched,b0=run(left),candidate=run(right),
                           repetition_count=1,mppi_internal_noise_seed=None,statistical_net_benefit_established=False))
-    result=dict(pairs=pairs,all_pair_config_identical=all(all(p['config_byte_identical'].values()) for p in pairs),
+    result=dict(baseline_strategy='MPPI + common ExecutionGuard' if args.common_guard else 'MPPI + VelocitySmoother',
+                candidate_strategy='MPC + MPPI fallback + common ExecutionGuard' if args.common_guard else 'MPC + MPPI fallback + VelocitySmoother',
+                pairs=pairs,all_pair_config_identical=all(all(p['config_byte_identical'].values()) for p in pairs),
                 candidate_frozen_for_deployment=False,dynamic_acceptance=False,
-                conclusion='Real MPC/BT handoff works; both crossing runs contact, both head-on runs timeout. No safe B0 witness or deployment candidate.')
+                conclusion='Recorded engineering/physical results only. No safe successful B0 witness or continuous safety certificate; deployment acceptance remains false.')
     (root/'paired_summary.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))

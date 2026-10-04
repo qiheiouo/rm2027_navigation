@@ -1,0 +1,44 @@
+{
+  "guard_exact_input_replays": 1072,
+  "native_zoh_state_replays": 191,
+  "native_model_error": {
+    "count": 191,
+    "p50": 1.734723475976807e-17,
+    "p95": 4.440892098500626e-16,
+    "min": 0.0,
+    "max": 1.3322676295501878e-15
+  },
+  "native_dynamic_rejection_checks": 37,
+  "native_constraint_counts": {
+    "input": 808,
+    "accepted": 154,
+    "dynamic_clearance": 37
+  },
+  "executed_rejections": [],
+  "guard_statuses": {
+    "uncertified_brake": 673,
+    "certified_brake": 248,
+    "pass": 151
+  },
+  "guard_slew_max": 0.05,
+  "guard_core_s": {
+    "count": 1072,
+    "p50": 0.0022288424988801125,
+    "p95": 0.00489708045424777,
+    "min": 5.9479003539308906e-05,
+    "max": 0.00602756800071802
+  },
+  "guard_tick_to_output_s": {
+    "count": 1072,
+    "p50": 0.002610893498058431,
+    "p95": 0.00542099725062144,
+    "min": 0.00024667399702593684,
+    "max": 0.006681922997813672
+  },
+  "guard_record_tick_gaps": [],
+  "guard_observed_10ms_gate": true,
+  "errors": [],
+  "missing_inputs": {},
+  "all_model_replays_pass": true,
+  "scope": "Model replay and recorded timing only; no continuous actuator or detection safety certificate; no oracle inputs"
+}

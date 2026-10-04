@@ -1,0 +1,362 @@
+[INFO] [1791090132.673821201] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791090132.679044240] [controller_server]: Creating controller server
+[INFO] [1791090132.683412620] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791090132.684107615] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1791090132.776434905] [controller_server]: Configuring controller interface
+[INFO] [1791090132.776566636] [controller_server]: getting goal checker plugins..
+[INFO] [1791090132.776580213] [controller_server]: Controller frequency set to 20.0000Hz
+[INFO] [1791090132.776601412] [local_costmap.local_costmap]: Configuring
+[INFO] [1791090132.779788402] [local_costmap.local_costmap]: Using plugin "static_layer"
+[INFO] [1791090132.782786427] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[INFO] [1791090132.783678340] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[INFO] [1791090132.783706813] [local_costmap.local_costmap]: Using plugin "stvl_layer"
+[INFO] [1791090132.815885056] [local_costmap.local_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[INFO] [1791090132.815937752] [local_costmap.local_costmap]: stvl_layer's global frame is map.
+[INFO] [1791090132.816317553] [local_costmap.local_costmap]: stvl_layer loaded parameters from parameter server.
+[INFO] [1791090132.817250844] [local_costmap.local_costmap]: stvl_layer created underlying voxel grid.
+[INFO] [1791090132.817784080] [local_costmap.local_costmap]: Voxel filter activated.
+[INFO] [1791090132.820097403] [local_costmap.local_costmap]: Passthough filter activated.
+[INFO] [1791090132.820811270] [local_costmap.local_costmap]: stvl_layer initialization complete!
+[INFO] [1791090132.820837448] [local_costmap.local_costmap]: Initialized plugin "stvl_layer"
+[INFO] [1791090132.820845026] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1791090132.821203405] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1791090132.825971635] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1791090132.826504017] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1791090132.826635969] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1791090132.827534988] [controller_server]: Created controller : FollowPathMPPI of type nav2_mppi_controller::MPPIController
+[INFO] [1791090132.828042542] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1791090132.829131630] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1791090132.829161053] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1791090132.829380543] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1791090132.829394948] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1791090132.829509885] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1791090132.829516991] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1791090132.829650793] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1791090132.830292859] [controller_server]: Optimizer reset
+[INFO] [1791090132.836285663] [MPPIController]: Configured MPPI Controller: FollowPathMPPI
+[INFO] [1791090132.840507741] [controller_server]: Created controller : FollowPathTemporalMPC of type rm_temporal_mpc::Controller
+[INFO] [1791090132.850334989] [controller_server]: Controller Server has FollowPathMPPI FollowPathTemporalMPC  controllers available.
+[INFO] [1791090132.882493192] [controller_server]: Activating
+[INFO] [1791090132.882570495] [local_costmap.local_costmap]: Activating
+[INFO] [1791090132.882609904] [local_costmap.local_costmap]: Checking transform
+[INFO] [1791090132.882661308] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[INFO] [1791090133.382720269] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+[INFO] [1791090133.882748646] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791090134.382724560] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791090134.882724010] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791090135.382718422] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791090135.882717185] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791090136.382732762] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
+[INFO] [1791090136.542239196] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 160 X 120 at 0.050000 m/pix
+[INFO] [1791090136.882832398] [local_costmap.local_costmap]: start
+[INFO] [1791090136.882910421] [local_costmap.local_costmap]: stvl_layer was activated.
+[WARN] [1791090136.935132456] [controller_server]: Parameter controller_server.verbose not found
+[INFO] [1791090136.935884552] [controller_server]: Optimizer reset
+[INFO] [1791090136.936114093] [MPPIController]: Activated MPPI Controller: FollowPathMPPI
+[INFO] [1791090136.936146065] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[INFO] [1791090148.358462414] [controller_server]: Received a goal, begin computing control effort.
+[INFO] [1791090148.358953328] [controller_server]: Optimizer reset
+[INFO] [1791090186.458624333] [controller_server]: Goal was canceled. Stopping the robot.
+[INFO] [1791090186.458691434] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+[WARN] [1791090187.233010982] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.22s, it should be updated every 0.20s.
+[WARN] [1791090187.283002063] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.27s, it should be updated every 0.20s.
+[WARN] [1791090187.332990528] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.32s, it should be updated every 0.20s.
+[WARN] [1791090187.383026995] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.37s, it should be updated every 0.20s.
+[WARN] [1791090187.432986417] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.42s, it should be updated every 0.20s.
+[WARN] [1791090187.482989005] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.47s, it should be updated every 0.20s.
+[WARN] [1791090187.532985255] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.52s, it should be updated every 0.20s.
+[WARN] [1791090187.582988845] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.57s, it should be updated every 0.20s.
+[WARN] [1791090187.632992226] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.62s, it should be updated every 0.20s.
+[WARN] [1791090187.682984161] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.67s, it should be updated every 0.20s.
+[WARN] [1791090187.732987004] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.72s, it should be updated every 0.20s.
+[WARN] [1791090187.782988398] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.77s, it should be updated every 0.20s.
+[WARN] [1791090187.833003092] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.82s, it should be updated every 0.20s.
+[WARN] [1791090187.883016785] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.87s, it should be updated every 0.20s.
+[WARN] [1791090187.933036208] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.92s, it should be updated every 0.20s.
+[WARN] [1791090187.983031641] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.97s, it should be updated every 0.20s.
+[WARN] [1791090188.033030425] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.02s, it should be updated every 0.20s.
+[WARN] [1791090188.083036891] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.07s, it should be updated every 0.20s.
+[WARN] [1791090188.133045880] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.12s, it should be updated every 0.20s.
+[WARN] [1791090188.183042299] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.17s, it should be updated every 0.20s.
+[WARN] [1791090188.233035381] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.22s, it should be updated every 0.20s.
+[WARN] [1791090188.283031801] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.27s, it should be updated every 0.20s.
+[WARN] [1791090188.333029454] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.32s, it should be updated every 0.20s.
+[WARN] [1791090188.383037197] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.37s, it should be updated every 0.20s.
+[WARN] [1791090188.433031890] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.42s, it should be updated every 0.20s.
+[WARN] [1791090188.483041958] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.47s, it should be updated every 0.20s.
+[WARN] [1791090188.533037860] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.52s, it should be updated every 0.20s.
+[WARN] [1791090188.582995189] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.57s, it should be updated every 0.20s.
+[WARN] [1791090188.633013378] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.62s, it should be updated every 0.20s.
+[WARN] [1791090188.682989848] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.67s, it should be updated every 0.20s.
+[WARN] [1791090188.732986009] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.72s, it should be updated every 0.20s.
+[WARN] [1791090188.783020775] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.77s, it should be updated every 0.20s.
+[WARN] [1791090188.832994051] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.82s, it should be updated every 0.20s.
+[WARN] [1791090188.882991237] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.87s, it should be updated every 0.20s.
+[WARN] [1791090188.932988067] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.92s, it should be updated every 0.20s.
+[WARN] [1791090188.983013182] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 1.97s, it should be updated every 0.20s.
+[WARN] [1791090189.033031675] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.02s, it should be updated every 0.20s.
+[WARN] [1791090189.083037239] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.07s, it should be updated every 0.20s.
+[WARN] [1791090189.132989876] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.12s, it should be updated every 0.20s.
+[WARN] [1791090189.182978479] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.17s, it should be updated every 0.20s.
+[WARN] [1791090189.232982139] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.22s, it should be updated every 0.20s.
+[WARN] [1791090189.283038500] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.27s, it should be updated every 0.20s.
+[WARN] [1791090189.333034758] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.32s, it should be updated every 0.20s.
+[WARN] [1791090189.383037829] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.37s, it should be updated every 0.20s.
+[WARN] [1791090189.433027485] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.42s, it should be updated every 0.20s.
+[WARN] [1791090189.483114764] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.47s, it should be updated every 0.20s.
+[WARN] [1791090189.533033208] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.52s, it should be updated every 0.20s.
+[WARN] [1791090189.583038217] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.57s, it should be updated every 0.20s.
+[WARN] [1791090189.633027935] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.62s, it should be updated every 0.20s.
+[WARN] [1791090189.683035208] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.67s, it should be updated every 0.20s.
+[WARN] [1791090189.733030793] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.72s, it should be updated every 0.20s.
+[WARN] [1791090189.783038933] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.77s, it should be updated every 0.20s.
+[WARN] [1791090189.833035854] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.82s, it should be updated every 0.20s.
+[WARN] [1791090189.882988237] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.87s, it should be updated every 0.20s.
+[WARN] [1791090189.933007588] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.92s, it should be updated every 0.20s.
+[WARN] [1791090189.982986768] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 2.97s, it should be updated every 0.20s.
+[WARN] [1791090190.033019988] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.02s, it should be updated every 0.20s.
+[WARN] [1791090190.083035451] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.07s, it should be updated every 0.20s.
+[WARN] [1791090190.133026376] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.12s, it should be updated every 0.20s.
+[WARN] [1791090190.183003187] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.17s, it should be updated every 0.20s.
+[WARN] [1791090190.232992650] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.22s, it should be updated every 0.20s.
+[WARN] [1791090190.282995880] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.27s, it should be updated every 0.20s.
+[WARN] [1791090190.332987002] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.31s, it should be updated every 0.20s.
+[WARN] [1791090190.383008695] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.37s, it should be updated every 0.20s.
+[WARN] [1791090190.432991070] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.42s, it should be updated every 0.20s.
+[WARN] [1791090190.482995071] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.46s, it should be updated every 0.20s.
+[WARN] [1791090190.533018979] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.52s, it should be updated every 0.20s.
+[WARN] [1791090190.582991011] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.56s, it should be updated every 0.20s.
+[WARN] [1791090190.632984765] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.62s, it should be updated every 0.20s.
+[WARN] [1791090190.682989016] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.67s, it should be updated every 0.20s.
+[WARN] [1791090190.732987980] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.71s, it should be updated every 0.20s.
+[WARN] [1791090190.783027211] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.77s, it should be updated every 0.20s.
+[WARN] [1791090190.832985271] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.82s, it should be updated every 0.20s.
+[WARN] [1791090190.883026097] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.87s, it should be updated every 0.20s.
+[WARN] [1791090190.933023680] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.92s, it should be updated every 0.20s.
+[WARN] [1791090190.982987883] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 3.97s, it should be updated every 0.20s.
+[WARN] [1791090191.033029011] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.02s, it should be updated every 0.20s.
+[WARN] [1791090191.082983853] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.07s, it should be updated every 0.20s.
+[WARN] [1791090191.133000961] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.12s, it should be updated every 0.20s.
+[WARN] [1791090191.182993292] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.17s, it should be updated every 0.20s.
+[WARN] [1791090191.233005038] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.21s, it should be updated every 0.20s.
+[WARN] [1791090191.283032849] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.26s, it should be updated every 0.20s.
+[WARN] [1791090191.333034084] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.32s, it should be updated every 0.20s.
+[WARN] [1791090191.383032238] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.37s, it should be updated every 0.20s.
+[WARN] [1791090191.433122040] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.42s, it should be updated every 0.20s.
+[WARN] [1791090191.483040176] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.47s, it should be updated every 0.20s.
+[WARN] [1791090191.533032762] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.52s, it should be updated every 0.20s.
+[WARN] [1791090191.583031916] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.57s, it should be updated every 0.20s.
+[WARN] [1791090191.633032446] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.62s, it should be updated every 0.20s.
+[WARN] [1791090191.683055383] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.67s, it should be updated every 0.20s.
+[WARN] [1791090191.733036933] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.72s, it should be updated every 0.20s.
+[WARN] [1791090191.783036237] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.76s, it should be updated every 0.20s.
+[WARN] [1791090191.833034220] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.82s, it should be updated every 0.20s.
+[WARN] [1791090191.883038216] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.87s, it should be updated every 0.20s.
+[WARN] [1791090191.933036304] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.92s, it should be updated every 0.20s.
+[WARN] [1791090191.983034839] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 4.96s, it should be updated every 0.20s.
+[WARN] [1791090192.033028141] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.02s, it should be updated every 0.20s.
+[WARN] [1791090192.083048375] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.07s, it should be updated every 0.20s.
+[WARN] [1791090192.133026535] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.12s, it should be updated every 0.20s.
+[WARN] [1791090192.183026037] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.17s, it should be updated every 0.20s.
+[WARN] [1791090192.233032975] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.22s, it should be updated every 0.20s.
+[WARN] [1791090192.283028888] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.27s, it should be updated every 0.20s.
+[WARN] [1791090192.333026977] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.32s, it should be updated every 0.20s.
+[WARN] [1791090192.383032062] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.37s, it should be updated every 0.20s.
+[WARN] [1791090192.433035237] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.42s, it should be updated every 0.20s.
+[WARN] [1791090192.483042266] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.46s, it should be updated every 0.20s.
+[WARN] [1791090192.533031962] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.51s, it should be updated every 0.20s.
+[WARN] [1791090192.583029415] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.57s, it should be updated every 0.20s.
+[WARN] [1791090192.633031563] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.62s, it should be updated every 0.20s.
+[WARN] [1791090192.683061725] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.67s, it should be updated every 0.20s.
+[WARN] [1791090192.732988323] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.71s, it should be updated every 0.20s.
+[WARN] [1791090192.782989798] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.76s, it should be updated every 0.20s.
+[WARN] [1791090192.832986995] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.82s, it should be updated every 0.20s.
+[WARN] [1791090192.882994198] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.87s, it should be updated every 0.20s.
+[WARN] [1791090192.932992790] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.92s, it should be updated every 0.20s.
+[WARN] [1791090192.982987789] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 5.97s, it should be updated every 0.20s.
+[WARN] [1791090193.032981057] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.02s, it should be updated every 0.20s.
+[WARN] [1791090193.083002472] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.07s, it should be updated every 0.20s.
+[WARN] [1791090193.132986259] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.12s, it should be updated every 0.20s.
+[WARN] [1791090193.182986544] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.17s, it should be updated every 0.20s.
+[WARN] [1791090193.232987412] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.22s, it should be updated every 0.20s.
+[WARN] [1791090193.282989849] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.26s, it should be updated every 0.20s.
+[WARN] [1791090193.332983193] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.32s, it should be updated every 0.20s.
+[WARN] [1791090193.382985426] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.37s, it should be updated every 0.20s.
+[WARN] [1791090193.432984564] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.42s, it should be updated every 0.20s.
+[WARN] [1791090193.483020879] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.46s, it should be updated every 0.20s.
+[WARN] [1791090193.532989967] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.52s, it should be updated every 0.20s.
+[WARN] [1791090193.582987487] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.57s, it should be updated every 0.20s.
+[WARN] [1791090193.632981595] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.62s, it should be updated every 0.20s.
+[WARN] [1791090193.682959095] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.67s, it should be updated every 0.20s.
+[WARN] [1791090193.732989072] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.72s, it should be updated every 0.20s.
+[WARN] [1791090193.782992053] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.77s, it should be updated every 0.20s.
+[WARN] [1791090193.832985545] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.82s, it should be updated every 0.20s.
+[WARN] [1791090193.882987032] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.87s, it should be updated every 0.20s.
+[WARN] [1791090193.932985830] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.92s, it should be updated every 0.20s.
+[WARN] [1791090193.983000667] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 6.97s, it should be updated every 0.20s.
+[WARN] [1791090194.032982591] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.02s, it should be updated every 0.20s.
+[WARN] [1791090194.082987321] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.07s, it should be updated every 0.20s.
+[WARN] [1791090194.132997592] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.12s, it should be updated every 0.20s.
+[WARN] [1791090194.183043494] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.17s, it should be updated every 0.20s.
+[WARN] [1791090194.233032451] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.22s, it should be updated every 0.20s.
+[WARN] [1791090194.283035928] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.26s, it should be updated every 0.20s.
+[WARN] [1791090194.333029961] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.32s, it should be updated every 0.20s.
+[WARN] [1791090194.383050929] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.37s, it should be updated every 0.20s.
+[WARN] [1791090194.433088703] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.42s, it should be updated every 0.20s.
+[WARN] [1791090194.483035777] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.46s, it should be updated every 0.20s.
+[WARN] [1791090194.533033196] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.51s, it should be updated every 0.20s.
+[WARN] [1791090194.583045518] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.57s, it should be updated every 0.20s.
+[WARN] [1791090194.633048132] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.62s, it should be updated every 0.20s.
+[WARN] [1791090194.683032893] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.67s, it should be updated every 0.20s.
+[WARN] [1791090194.733035289] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.72s, it should be updated every 0.20s.
+[WARN] [1791090194.783042557] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.77s, it should be updated every 0.20s.
+[WARN] [1791090194.833032481] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.82s, it should be updated every 0.20s.
+[WARN] [1791090194.883047550] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.87s, it should be updated every 0.20s.
+[WARN] [1791090194.933031110] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.92s, it should be updated every 0.20s.
+[WARN] [1791090194.983034685] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 7.96s, it should be updated every 0.20s.
+[WARN] [1791090195.033038686] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.02s, it should be updated every 0.20s.
+[WARN] [1791090195.083037095] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.07s, it should be updated every 0.20s.
+[WARN] [1791090195.133033151] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.12s, it should be updated every 0.20s.
+[WARN] [1791090195.183038571] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.17s, it should be updated every 0.20s.
+[WARN] [1791090195.233040847] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.22s, it should be updated every 0.20s.
+[WARN] [1791090195.283029640] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.27s, it should be updated every 0.20s.
+[WARN] [1791090195.333032309] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.31s, it should be updated every 0.20s.
+[WARN] [1791090195.383038094] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.37s, it should be updated every 0.20s.
+[WARN] [1791090195.433032485] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.41s, it should be updated every 0.20s.
+[WARN] [1791090195.483035617] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.47s, it should be updated every 0.20s.
+[WARN] [1791090195.533033683] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.52s, it should be updated every 0.20s.
+[WARN] [1791090195.583034336] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.56s, it should be updated every 0.20s.
+[WARN] [1791090195.633034169] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.62s, it should be updated every 0.20s.
+[WARN] [1791090195.683048733] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.67s, it should be updated every 0.20s.
+[WARN] [1791090195.733027204] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.71s, it should be updated every 0.20s.
+[WARN] [1791090195.783037950] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.77s, it should be updated every 0.20s.
+[WARN] [1791090195.833026248] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.81s, it should be updated every 0.20s.
+[WARN] [1791090195.883036678] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.87s, it should be updated every 0.20s.
+[WARN] [1791090195.933033751] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.91s, it should be updated every 0.20s.
+[WARN] [1791090195.982987280] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 8.97s, it should be updated every 0.20s.
+[WARN] [1791090196.032987938] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.02s, it should be updated every 0.20s.
+[WARN] [1791090196.082985076] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.07s, it should be updated every 0.20s.
+[WARN] [1791090196.132979935] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.12s, it should be updated every 0.20s.
+[WARN] [1791090196.182985732] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.17s, it should be updated every 0.20s.
+[WARN] [1791090196.232997765] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.22s, it should be updated every 0.20s.
+[WARN] [1791090196.282978963] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.27s, it should be updated every 0.20s.
+[WARN] [1791090196.332979833] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.32s, it should be updated every 0.20s.
+[WARN] [1791090196.382989602] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.37s, it should be updated every 0.20s.
+[WARN] [1791090196.432982047] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.42s, it should be updated every 0.20s.
+[WARN] [1791090196.482986215] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.47s, it should be updated every 0.20s.
+[WARN] [1791090196.532987098] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.52s, it should be updated every 0.20s.
+[WARN] [1791090196.582985890] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.57s, it should be updated every 0.20s.
+[WARN] [1791090196.633005407] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.62s, it should be updated every 0.20s.
+[WARN] [1791090196.682985136] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.67s, it should be updated every 0.20s.
+[WARN] [1791090196.733033958] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.72s, it should be updated every 0.20s.
+[WARN] [1791090196.782981703] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.77s, it should be updated every 0.20s.
+[WARN] [1791090196.832983929] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.82s, it should be updated every 0.20s.
+[WARN] [1791090196.883000063] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.87s, it should be updated every 0.20s.
+[WARN] [1791090196.932986327] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.91s, it should be updated every 0.20s.
+[WARN] [1791090196.983062906] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 9.97s, it should be updated every 0.20s.
+[WARN] [1791090197.033036761] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.02s, it should be updated every 0.20s.
+[WARN] [1791090197.083037623] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.07s, it should be updated every 0.20s.
+[WARN] [1791090197.133025865] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.12s, it should be updated every 0.20s.
+[WARN] [1791090197.182999470] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.17s, it should be updated every 0.20s.
+[WARN] [1791090197.233001922] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.21s, it should be updated every 0.20s.
+[WARN] [1791090197.282990247] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.27s, it should be updated every 0.20s.
+[WARN] [1791090197.332986061] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.32s, it should be updated every 0.20s.
+[WARN] [1791090197.382985567] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.37s, it should be updated every 0.20s.
+[WARN] [1791090197.433001978] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.42s, it should be updated every 0.20s.
+[WARN] [1791090197.483002453] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.47s, it should be updated every 0.20s.
+[WARN] [1791090197.532988898] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.52s, it should be updated every 0.20s.
+[WARN] [1791090197.582999283] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.57s, it should be updated every 0.20s.
+[WARN] [1791090197.633005797] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.62s, it should be updated every 0.20s.
+[WARN] [1791090197.683033702] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.67s, it should be updated every 0.20s.
+[WARN] [1791090197.733034536] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.71s, it should be updated every 0.20s.
+[WARN] [1791090197.783041927] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.77s, it should be updated every 0.20s.
+[WARN] [1791090197.833034823] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.81s, it should be updated every 0.20s.
+[WARN] [1791090197.882992041] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.87s, it should be updated every 0.20s.
+[WARN] [1791090197.932986184] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.91s, it should be updated every 0.20s.
+[WARN] [1791090197.982983884] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 10.97s, it should be updated every 0.20s.
+[WARN] [1791090198.032996889] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.02s, it should be updated every 0.20s.
+[WARN] [1791090198.082987728] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.06s, it should be updated every 0.20s.
+[WARN] [1791090198.132985081] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.12s, it should be updated every 0.20s.
+[WARN] [1791090198.182988719] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.17s, it should be updated every 0.20s.
+[WARN] [1791090198.233031341] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.21s, it should be updated every 0.20s.
+[WARN] [1791090198.283036749] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.27s, it should be updated every 0.20s.
+[WARN] [1791090198.333037480] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.31s, it should be updated every 0.20s.
+[WARN] [1791090198.383028473] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.37s, it should be updated every 0.20s.
+[WARN] [1791090198.433034861] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.41s, it should be updated every 0.20s.
+[WARN] [1791090198.482988581] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.46s, it should be updated every 0.20s.
+[WARN] [1791090198.532989583] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.52s, it should be updated every 0.20s.
+[WARN] [1791090198.583007169] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.56s, it should be updated every 0.20s.
+[WARN] [1791090198.633054749] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.62s, it should be updated every 0.20s.
+[WARN] [1791090198.683032539] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.67s, it should be updated every 0.20s.
+[WARN] [1791090198.733027475] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.72s, it should be updated every 0.20s.
+[WARN] [1791090198.783035642] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.77s, it should be updated every 0.20s.
+[WARN] [1791090198.833038410] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.81s, it should be updated every 0.20s.
+[WARN] [1791090198.883050282] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.87s, it should be updated every 0.20s.
+[WARN] [1791090198.933070675] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.92s, it should be updated every 0.20s.
+[WARN] [1791090198.983028693] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 11.97s, it should be updated every 0.20s.
+[WARN] [1791090199.033025681] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.02s, it should be updated every 0.20s.
+[WARN] [1791090199.083031749] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.07s, it should be updated every 0.20s.
+[WARN] [1791090199.133007124] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.12s, it should be updated every 0.20s.
+[WARN] [1791090199.183006669] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.17s, it should be updated every 0.20s.
+[WARN] [1791090199.233003100] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.22s, it should be updated every 0.20s.
+[WARN] [1791090199.282990517] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.27s, it should be updated every 0.20s.
+[WARN] [1791090199.333025994] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.32s, it should be updated every 0.20s.
+[WARN] [1791090199.383030027] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.37s, it should be updated every 0.20s.
+[WARN] [1791090199.432991901] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.42s, it should be updated every 0.20s.
+[WARN] [1791090199.482995150] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.46s, it should be updated every 0.20s.
+[WARN] [1791090199.532985158] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.52s, it should be updated every 0.20s.
+[WARN] [1791090199.582990058] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.56s, it should be updated every 0.20s.
+[WARN] [1791090199.632986156] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.62s, it should be updated every 0.20s.
+[WARN] [1791090199.683006475] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.67s, it should be updated every 0.20s.
+[WARN] [1791090199.732982609] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.71s, it should be updated every 0.20s.
+[WARN] [1791090199.782985200] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.77s, it should be updated every 0.20s.
+[WARN] [1791090199.832989802] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.82s, it should be updated every 0.20s.
+[WARN] [1791090199.882992993] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.87s, it should be updated every 0.20s.
+[WARN] [1791090199.932986220] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.92s, it should be updated every 0.20s.
+[WARN] [1791090199.982990113] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 12.97s, it should be updated every 0.20s.
+[WARN] [1791090200.032985445] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.02s, it should be updated every 0.20s.
+[WARN] [1791090200.083021595] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.07s, it should be updated every 0.20s.
+[WARN] [1791090200.133131904] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.11s, it should be updated every 0.20s.
+[WARN] [1791090200.183010586] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.16s, it should be updated every 0.20s.
+[WARN] [1791090200.233085998] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.20s, it should be updated every 0.20s.
+[WARN] [1791090200.283043893] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.24s, it should be updated every 0.20s.
+[WARN] [1791090200.333030154] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.29s, it should be updated every 0.20s.
+[WARN] [1791090200.378402265] [rcl_lifecycle]: No transition matching 1 found for current state active
+[WARN] [1791090200.378434312] [rcl_lifecycle]: No transition matching 1 found for current state active
+[ERROR] [1791090200.378443286] [controller_server]: Unable to start transition 1 from current state active: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[WARN] [1791090200.383060644] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.34s, it should be updated every 0.20s.
+[WARN] [1791090200.433034546] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.39s, it should be updated every 0.20s.
+[WARN] [1791090200.483057651] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.44s, it should be updated every 0.20s.
+[WARN] [1791090200.533059074] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.49s, it should be updated every 0.20s.
+[WARN] [1791090200.582988625] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.54s, it should be updated every 0.20s.
+[WARN] [1791090200.632994465] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.58s, it should be updated every 0.20s.
+[WARN] [1791090200.683044793] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.63s, it should be updated every 0.20s.
+[WARN] [1791090200.733050550] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.67s, it should be updated every 0.20s.
+[WARN] [1791090200.783035906] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.72s, it should be updated every 0.20s.
+[WARN] [1791090200.833034832] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.76s, it should be updated every 0.20s.
+[WARN] [1791090200.883151714] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.81s, it should be updated every 0.20s.
+[WARN] [1791090200.933489993] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.85s, it should be updated every 0.20s.
+[WARN] [1791090200.983122453] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.87s, it should be updated every 0.20s.
+[WARN] [1791090201.033154544] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 13.89s, it should be updated every 0.20s.
+[WARN] [1791090202.073437220] [tf2_buffer]: Detected jump back in time. Clearing TF buffer.
+[WARN] [1791090202.220500927] [tf2_buffer]: Detected jump back in time. Clearing TF buffer.
+[WARN] [1791090202.220925662] [tf2_buffer]: Detected jump back in time. Clearing TF buffer.
+[WARN] [1791090202.266938039] [tf2_buffer]: Detected jump back in time. Clearing TF buffer.
+[WARN] [1791090202.294674149] [tf2_buffer]: Detected jump back in time. Clearing TF buffer.
+[INFO] [1791090202.422878991] [local_costmap.local_costmap]: Message Filter dropping message: frame 'sim_lidar_link' at time 65.341 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[WARN] [1791090202.882988323] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.20s, it should be updated every 0.20s.
+[WARN] [1791090202.933015438] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.25s, it should be updated every 0.20s.
+[WARN] [1791090202.983022893] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.30s, it should be updated every 0.20s.
+[WARN] [1791090203.033029544] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.35s, it should be updated every 0.20s.
+[WARN] [1791090203.074496427] [tf2_buffer]: Detected jump back in time. Clearing TF buffer.
+[WARN] [1791090203.075162483] [tf2_buffer]: Detected jump back in time. Clearing TF buffer.
+[WARN] [1791090203.076330594] [tf2_buffer]: Detected jump back in time. Clearing TF buffer.
+[WARN] [1791090203.093044801] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.41s, it should be updated every 0.20s.
+[WARN] [1791090203.133035088] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.45s, it should be updated every 0.20s.
+[WARN] [1791090203.182986342] [local_costmap.local_costmap]: /simulation/scan_points buffer updated in 0.50s, it should be updated every 0.20s.

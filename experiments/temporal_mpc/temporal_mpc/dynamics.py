@@ -28,3 +28,24 @@ def braking(initial, steps, dt, limits=(1.0, 1.0, 2.0)):
         result.append(acceleration)
         velocity += acceleration * dt
     return np.asarray(result)
+
+
+def rollout_zoh(initial, controls, dt):
+    """Fixed-yaw velocity targets held for each execution tick.
+
+    Controls bound target differences, not an asserted physical acceleration.
+    Actual actuator transient error must be measured separately.
+    """
+    initial = np.asarray(initial, float)
+    controls = np.asarray(controls, float)
+    if (initial.shape != (6,) or controls.ndim != 2 or controls.shape[1] != 3
+            or not np.isfinite(initial).all() or not np.isfinite(controls).all()
+            or not np.isfinite(dt) or dt <= 0 or abs(initial[5]) > 1e-8
+            or np.any(controls[:, 2] != 0)):
+        raise ValueError("invalid fixed-yaw ZOH inputs")
+    velocity = initial[3:] + np.vstack((np.zeros(3), np.cumsum(controls * dt, axis=0)))
+    c, s = np.cos(initial[2]), np.sin(initial[2])
+    held = velocity[1:, :2]
+    delta = dt * np.c_[c * held[:, 0] - s * held[:, 1], s * held[:, 0] + c * held[:, 1]]
+    xy = initial[:2] + np.vstack((np.zeros(2), np.cumsum(delta, axis=0)))
+    return np.c_[xy, np.full(len(velocity), initial[2]), velocity]

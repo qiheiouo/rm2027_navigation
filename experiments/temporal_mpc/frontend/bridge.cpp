@@ -55,7 +55,9 @@ int main(int argc, char **argv) {
     const auto delta=path[i]-path[i-1];int n=std::max(1,(int)std::ceil(delta.norm()/.1f));
     for(int k=(i==1?0:1);k<=n;k++) {
       Eigen::Vector2f p=path[i-1]+delta*((float)k/n);
-      auto b=corridor.getBound(p.x()-ox,p.y()-oy,2.f,.01f);
+      // Expand only in already inflated free space; Python/native still
+      // independently certify the full rectangle against the raw map.
+      auto b=corridor.getBound(p.x()-ox,p.y()-oy,6.f,.01f);
       b[0]+=ox;b[2]+=ox;b[1]+=oy;b[3]+=oy;
       if(!(b[0]<p.x() && p.x()<b[2] && b[1]<p.y() && p.y()<b[3])) return 5;
       if(!first) std::cout<<',';first=false;

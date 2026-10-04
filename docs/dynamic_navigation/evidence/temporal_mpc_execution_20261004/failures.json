@@ -1,0 +1,19 @@
+{
+  "dynamic_acceptance": false,
+  "common_guard_fault_all_pass": false,
+  "failed_or_withdrawn_attempts": {
+    "crossing_b0": "numpy.bool_ JSON serialization terminated guard; invalid paired baseline",
+    "crossing_mpc_01": "old Gazebo clock from same-container child leak; start gate refused, no goal",
+    "guard_faults_01": "test misclassified certified_brake as nondegraded; false overall gate, recorded behavior preserved",
+    "guard_faults_02": "harness syntax error before simulation/fault inputs",
+    "guard_faults_03": "8 reduction/recovery behaviors pass but 136.625ms command receipt gap fails 75ms; retained, no best-run selection"
+  },
+  "valid_paired_runs": [
+    "crossing_b0_02",
+    "crossing_mpc_02",
+    "head_on_b0_01",
+    "head_on_mpc_01"
+  ],
+  "validity_note": "Each scenario has one valid pair. All four timeout. Neither empty contacts nor large sampled clearance proves continuous safety.",
+  "preservation": "Original dirty file hashes/sizes and protected refs preserved; see preservation.json"
+}

@@ -12,7 +12,9 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('directory');args=parser.parse_args();root=Path(args.directory)
     fig,axes=plt.subplots(2,2,figsize=(12,8))
     colors={'b0':'#386cb0','candidate':'#dc6b20'}
-    for row,(scenario,left,right) in enumerate((('Crossing','shadow06','mpc01'),('Head-on','head_on02','head_on_mpc01'))):
+    document=json.loads((root/'paired_summary.json').read_text())
+    pairs=[(p['scenario'],p['b0']['run'],p['candidate']['run']) for p in document['pairs']]
+    for row,(scenario,left,right) in enumerate(pairs):
         for label,name in (('b0',left),('candidate',right)):
             es=[json.loads(line) for line in (root/name/'events.jsonl').open()]
             summary=json.loads((root/name/'run_summary.json').read_text());begin=summary['goal_epoch_s']
@@ -24,7 +26,7 @@ if __name__=='__main__':
                 if ns/1e9>=begin:(robot if m=='rm_sentry_2027' else actor)[ns]=(shape,p)
             pairs=sorted(set(robot)&set(actor))
             xy=[robot[n][1] for n in pairs];at=[actor[n][1] for n in pairs]
-            axes[row,0].plot([p[0] for p in xy],[p[1] for p in xy],color=colors[label],label='MPPI' if label=='b0' else 'MPC + fallback')
+            axes[row,0].plot([p[0] for p in xy],[p[1] for p in xy],color=colors[label],label=document.get('baseline_strategy','MPPI') if label=='b0' else 'MPC + fallback + guard')
             if label=='b0':axes[row,0].plot([p[0] for p in at],[p[1] for p in at],'--',color='#626262',label='actual obstacle')
             clearance=[polygon_distance(robot[n][0],actor[n][0]) for n in pairs]
             axes[row,1].plot([n/1e9-begin for n in pairs],clearance,color=colors[label],label=label)

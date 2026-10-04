@@ -10,7 +10,7 @@ import numpy as np
 from scipy import sparse
 import osqp
 from .contracts import ContractError, predict
-from .dynamics import braking, rollout
+from .dynamics import braking, rollout, rollout_zoh
 from .frontend import Window
 from .geometry import clearance
 
@@ -76,11 +76,12 @@ class RealtimeMPC:
         self.previous_epoch = None
         self.previous_plan = None
         self.times = config.times
-        # Condensed exact fixed-yaw body acceleration integration matrices.
+        # Condensed fixed-yaw held-velocity integration on the 50 ms grid.
         t, left = self.times[:, None], np.arange(config.nodes)[None, :]*config.node_dt
         active = np.clip(t-left, 0., config.node_dt)
         self.vmap = active
-        self.pmap = active*(t-left-.5*active)
+        self.pmap = np.vstack((np.zeros((1, config.nodes)),
+                              np.cumsum(active[1:], axis=0)*config.period))
         self.eye = np.eye(2*config.nodes)
 
     def reset(self):
@@ -132,8 +133,12 @@ class RealtimeMPC:
         if x.shape != (6,) or not np.isfinite(x).all():
             self.reset()
             raise ContractError("invalid measured state; boundary watchdog must stop")
+        if abs(x[5]) <= 1e-8:
+            x = x.copy()
+            x[5] = 0.  # Only project numerical zero within the fixed-yaw gate.
         brake = braking(x, 2*cfg.nodes, cfg.period, (*cfg.acceleration, 2.))
-        brake_states = rollout(x, brake, cfg.period)
+        integrate = rollout_zoh if abs(x[5]) <= 1e-8 else rollout
+        brake_states = integrate(x, brake, cfg.period)
         timeline, selected_ids = None, ()
         status, iterations, minimum = "not_run", 0, None
         valid_window = (isinstance(window, Window) and type(epoch_ns) is int and epoch_ns >= 0
@@ -148,7 +153,7 @@ class RealtimeMPC:
             if timeline is None or not valid_window or abs(x[5]) > 1e-8:
                 return False, None
             b = window.centre_bounds
-            reserve = .5*cfg.period*np.max(np.linalg.norm(states[:, 3:5], axis=1))
+            reserve = .5*cfg.period*np.hypot(.8, .5)
             vals = [states[:, 0]-b[0]-reserve, b[1]-states[:, 0]-reserve,
                     states[:, 1]-b[2]-reserve, b[3]-states[:, 1]-reserve,
                     (states[:, 3:5]-cfg.velocity_lower).ravel(),
@@ -157,7 +162,7 @@ class RealtimeMPC:
             # ALL tracks are revalidated, including those excluded from the QP.
             for centers, shape, speed in zip(timeline.centers, timeline.geometries, timeline.speeds):
                 vals.append(clearance(states, centers, shape, (.355, .330))-cfg.margin
-                            -.5*cfg.period*(np.max(np.linalg.norm(states[:, 3:5], axis=1))+speed))
+                            -.5*cfg.period*(np.hypot(.8, .5)+speed))
             m = float(np.min(np.concatenate(vals)))
             terminal = float(np.max(np.abs(states[-1, 3:])))
             return bool(np.isfinite(states).all() and np.isfinite(controls).all()
@@ -175,7 +180,7 @@ class RealtimeMPC:
             # No old safety verdict survives a state, source, or plan change.
             shifted = self._shift_previous(epoch_ns, window.plan_id) if valid_window else None
             if timeline is not None and shifted is not None:
-                shifted_states = rollout(x, shifted, cfg.period)
+                shifted_states = integrate(x, shifted, cfg.period)
                 ok, minimum = check(shifted, shifted_states)
                 if ok and time.perf_counter()-started < cfg.cycle_budget:
                     self.previous, self.previous_epoch = shifted.copy(), epoch_ns
@@ -223,7 +228,7 @@ class RealtimeMPC:
         shifted = self._shift_previous(epoch_ns, window.plan_id)
         if shifted is not None:
             warm = shifted[:, :2].reshape(cfg.nodes, 2, 2).mean(axis=1).ravel()
-        seed = rollout(x, self._expand(warm), cfg.period) if warm is not None else brake_states
+        seed = integrate(x, self._expand(warm), cfg.period) if warm is not None else brake_states
         relevant = []
         for i, (centers, shape) in enumerate(zip(timeline.centers, timeline.geometries)):
             radius = shape.radius if shape.kind == "circle" else np.max(np.linalg.norm(shape.offsets, axis=1))
@@ -273,7 +278,7 @@ class RealtimeMPC:
             if answer.x is not None and np.isfinite(answer.x).all() and status in (
                     "solved", "solved inaccurate", "maximum iterations reached"):
                 controls = self._repair_iterate(x, answer.x)
-                states = rollout(x,controls,cfg.period)
+                states = integrate(x,controls,cfg.period)
                 ok, minimum = check(controls,states)
                 if ok and time.perf_counter()-started < cfg.cycle_budget:
                     self.previous,self.previous_epoch,self.previous_plan=controls.copy(),epoch_ns,window.plan_id

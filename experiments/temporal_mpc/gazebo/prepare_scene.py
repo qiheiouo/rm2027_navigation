@@ -104,6 +104,7 @@ def prepare(output, scenario="crossing"):
     manifest = dict(scenario=scenario, goal=[5.6,0.], goal_phase_s=2., period_s=8.,
                     robot_half_extent=[.325,.300], actor_half_extent=[.225,.275],
                     geometry_mode="nominal_diameter", clearance_gate_m=.05,
+                    execution_guard=scenario != "actuator",execution_model="fixed_yaw_velocity_zoh/v1",
                     source_inputs={str(p.relative_to(repo)):digest(p) for p in (original,actor_source)},
                     generated={p.name:digest(p) for p in output.iterdir() if p.is_file()},
                     oracle="model-relative PosePublisher links composed with model pose; no TF authority")

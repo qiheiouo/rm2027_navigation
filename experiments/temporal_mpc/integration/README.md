@@ -30,10 +30,20 @@ core40ms。原序列在新状态/预测重验后才可复用。ROS 抖动用真�
 移位 warm inputs；4帧有界历史只选择不晚于状态请求的源帧，异常 receipt 清空
 缓存。数值残差先投影到执行器界限/停止终态，再过原几何门，不放宽门。
 
-Nav2 保持速度指令，worker 使用加速度模型。插件对当次保持速度区间另验当前
-costmap，并对新测量速度预留时域内停止能力，全部修正位置重新验收。当前
-0.02m动态 reserve 覆盖当次 ramp/ZOH 的最大0.00177m差异；**不覆盖整段真实
-未来响应误差**。下位机响应、全负载和独立输出 watchdog 仍待 M2 验证。
+worker QP与原生重验现在共同使用固定yaw的50ms速度ZOH模型；15个100ms
+决策节点仍展开30个速度目标差，加速度上限表示目标差约束，不表示实际底盘瞬态
+已校准。全量采样余量一致使用全局速度上限；新状态重锚与终态停止保留。
+若worker返回重验可行的previous/brake并请求交接，原生执行回调允许重验后当次返回，并
+发布fallback_requested供选择器交MPPI；shadow也会提前请求交接，不保证每次实际经历previous段。不可行提案仍直接原生限差减速。
+健康诊断新增精确输入epoch、step、constraint、track_id、slack和重验状态。
+连续真实响应与检测完整性仍未认证。
+
+Gazebo实验命令链在VelocitySmoother之后增加共同ExecutionGuard，最终唯一
+`/cmd_vel` publisher是该节点；输入`/temporal_mpc/smoothed_cmd_vel`。它只做限差
+和预测/静态制动扫掠重验，不搜索、不优化、不消费oracle。失流/异常继续输出
+有界减速，无法认证时明确uncertified。10ms为core迟到拒绝与整个tick的观察门，
+不是硬实时。节点进程死亡仍需独立下位机wall watchdog；本层不宣称部署安全。
+`execution_guard_harness.py`单独覆盖8类合成ROS异常，不作物理输入接受证据。
 
 选择监督器只发可靠 transient_local ID，健康失流100ms/退化请求 MPPI；恢复
 健康不自动跳回。插件失去 worker 后自身继续制动，不依赖监督器或 BT 活着。

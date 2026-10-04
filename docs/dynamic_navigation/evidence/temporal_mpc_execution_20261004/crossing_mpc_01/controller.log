@@ -1,0 +1,45 @@
+[INFO] [1791090200.152692008] [controller_server]: 
+	controller_server lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791090200.159323153] [controller_server]: Creating controller server
+[INFO] [1791090200.170906683] [local_costmap.local_costmap]: 
+	local_costmap lifecycle node launched. 
+	Waiting on external lifecycle transitions to activate
+	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [1791090200.171805218] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [1791090200.378599713] [controller_server]: Configuring controller interface
+[INFO] [1791090200.379045920] [controller_server]: getting goal checker plugins..
+[INFO] [1791090200.379098325] [controller_server]: Controller frequency set to 20.0000Hz
+[INFO] [1791090200.379159540] [local_costmap.local_costmap]: Configuring
+[INFO] [1791090200.388581652] [local_costmap.local_costmap]: Using plugin "static_layer"
+[INFO] [1791090200.394695150] [local_costmap.local_costmap]: Subscribing to the map topic (/map) with transient local durability
+[INFO] [1791090200.396898437] [local_costmap.local_costmap]: Initialized plugin "static_layer"
+[INFO] [1791090200.396960569] [local_costmap.local_costmap]: Using plugin "stvl_layer"
+[INFO] [1791090200.456149828] [local_costmap.local_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[INFO] [1791090200.456228782] [local_costmap.local_costmap]: stvl_layer's global frame is map.
+[INFO] [1791090200.458055694] [local_costmap.local_costmap]: stvl_layer loaded parameters from parameter server.
+[INFO] [1791090200.460630912] [local_costmap.local_costmap]: stvl_layer created underlying voxel grid.
+[INFO] [1791090200.463989554] [local_costmap.local_costmap]: Voxel filter activated.
+[INFO] [1791090200.472568038] [local_costmap.local_costmap]: Passthough filter activated.
+[INFO] [1791090200.475824422] [local_costmap.local_costmap]: stvl_layer initialization complete!
+[INFO] [1791090200.475906937] [local_costmap.local_costmap]: Initialized plugin "stvl_layer"
+[INFO] [1791090200.475931083] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[INFO] [1791090200.477269450] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[INFO] [1791090200.493518487] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[INFO] [1791090200.494377505] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[INFO] [1791090200.494745198] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[INFO] [1791090200.496700193] [controller_server]: Created controller : FollowPathMPPI of type nav2_mppi_controller::MPPIController
+[INFO] [1791090200.499302611] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[INFO] [1791090200.501525055] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[INFO] [1791090200.501569417] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[INFO] [1791090200.502328296] [controller_server]: InflationCostCritic instantiated with 1 power and 300.000000 / 0.015000 weights. Critic will collision check based on footprint cost.
+[INFO] [1791090200.502367183] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[INFO] [1791090200.502881754] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[INFO] [1791090200.502906973] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[INFO] [1791090200.503561672] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[INFO] [1791090200.504557711] [controller_server]: Optimizer reset
+[INFO] [1791090200.509016738] [MPPIController]: Configured MPPI Controller: FollowPathMPPI
+[INFO] [1791090200.515219422] [controller_server]: Created controller : FollowPathTemporalMPC of type rm_temporal_mpc::Controller
+[INFO] [1791090200.522009659] [controller_server]: Controller Server has FollowPathMPPI FollowPathTemporalMPC  controllers available.
+[INFO] [1791090201.206789953] [local_costmap.local_costmap]: StaticLayer: Resizing static layer to 160 X 120 at 0.050000 m/pix

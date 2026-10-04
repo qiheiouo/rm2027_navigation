@@ -48,6 +48,8 @@ class Recorder(Node):
                 ("/dynamic_obstacle_predictions",DynamicObstaclePredictionArray,10),
                 ("/odometry/lio",Odometry,50),("/simulation/ground_truth/odom",Odometry,50),
                 ("/cmd_vel",Twist,50),("/nav2/cmd_vel",Twist,50),
+                ("/temporal_mpc/smoothed_cmd_vel",Twist,50),
+                ("/temporal_mpc/execution_health",String,100),
                 ("/simulation/chassis/cmd_vel",Twist,50),
                 ("/simulation/oracle/rm_sentry_2027",TFMessage,100),
                 ("/simulation/oracle/world",TFMessage,100),
@@ -86,7 +88,7 @@ class Recorder(Node):
 
     def graph(self):
         evidence={}
-        for topic in ("/cmd_vel","/nav2/cmd_vel","/simulation/chassis/cmd_vel","/dynamic_obstacle_predictions","/tf","/tf_static"):
+        for topic in ("/cmd_vel","/nav2/cmd_vel","/temporal_mpc/smoothed_cmd_vel","/simulation/chassis/cmd_vel","/dynamic_obstacle_predictions","/tf","/tf_static"):
             evidence[topic]=[dict(node_name=i.node_name,node_namespace=i.node_namespace,topic_type=i.topic_type,
                                  endpoint_gid=list(i.endpoint_gid)) for i in self.get_publishers_info_by_topic(topic)]
         self.event("graph_publishers",evidence)

@@ -10,7 +10,10 @@ from rclpy.time import Time
 from rclpy.serialization import deserialize_message
 from tf2_ros import Buffer
 from tf2_msgs.msg import TFMessage
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, OccupancyGrid, Path as PathMessage
+from geometry_msgs.msg import Twist
+from std_msgs.msg import String
+from rm_temporal_mpc_msgs.msg import StateRequest, Proposal, Plan
 from sensor_msgs.msg import LaserScan
 from rm_competition_interfaces.msg import DynamicObstaclePredictionArray
 from rosidl_runtime_py.convert import message_to_ordereddict
@@ -21,7 +24,12 @@ if __name__=='__main__':
     events=[json.loads(line) for line in (root/'events.jsonl').open()]
     rclpy.init();buffer=Buffer(cache_time=Duration(seconds=120.))
     kinds={'/tf':TFMessage,'/tf_static':TFMessage,'/odometry/lio':Odometry,
-           '/scan':LaserScan,'/dynamic_obstacle_predictions':DynamicObstaclePredictionArray}
+           '/scan':LaserScan,'/dynamic_obstacle_predictions':DynamicObstaclePredictionArray,
+           '/cmd_vel':Twist,'/nav2/cmd_vel':Twist,'/temporal_mpc/smoothed_cmd_vel':Twist,
+           '/temporal_mpc/health':String,'/temporal_mpc/execution_health':String,
+           '/temporal_mpc/solver_diagnostic':String,'/controller_selector':String,
+           '/temporal_mpc/proposal':Proposal,'/temporal_mpc/state':StateRequest,'/temporal_mpc/plan':Plan,
+           '/map':OccupancyGrid,'/plan':PathMessage}
     cdr_checked=0;differences=[];predictions=[]
     for i,e in enumerate(events):
         topic=e['topic']

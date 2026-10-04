@@ -19,6 +19,8 @@
 #include <mutex>
 #include <set>
 #include <sstream>
+#include <iomanip>
+#include <limits>
 #include <vector>
 
 namespace rm_temporal_mpc {
@@ -103,7 +105,7 @@ public:
     auto started=Clock::now(); std::lock_guard<std::mutex> lock(mutex_);
     geometry_msgs::msg::TwistStamped out; out.header.stamp=node_->now(); out.header.frame_id=costmap_->getBaseFrameID();
     geometry_msgs::msg::PoseStamped world;
-    std::string reason="invalid state"; bool ready=false;
+    std::string reason="invalid state"; bool ready=false; reset_diagnostic();
     if(active_ && to_map(pose,world) && finite(velocity)) {
       // Revalidation uses THIS callback's measured state, never a cached safety verdict.
       request(world.pose,velocity,out.header.stamp);
@@ -223,6 +225,10 @@ private:
   bool validate(const geometry_msgs::msg::Pose &pose,const geometry_msgs::msg::Twist &v,int64_t now,
     geometry_msgs::msg::Twist &cmd,std::string &reason) {
     validation_started_=Clock::now();
+    evaluation_ns_=now; step_=-1; track_=0; slack_=std::numeric_limits<double>::quiet_NaN();
+    constraint_="input"; handoff_=false;
+    checked_state_={pose.position.x,pose.position.y,tf2::getYaw(pose.orientation),v.linear.x,v.linear.y,v.angular.z};
+    initial_state_=checked_state_;
     auto reject=[&](const char *text) {reason=text; return false;};
     if(!proposal_ || !odom_ || !finite(v)) return reject("missing proposal/state");
     if(std::chrono::duration<double>(Clock::now()-odom_receipt_).count()>.15 ||
@@ -230,7 +236,7 @@ private:
     const auto &p=*proposal_; const auto age=(now-ns(p.header.stamp))*1e-9;
     if(p.header.frame_id!="map" || ns(p.header.stamp)<0 || age<0 || age>.15 ||
       std::chrono::duration<double>(Clock::now()-receipt_).count()>.15 || p.generation!=generation_ ||
-      !map_valid_ || p.map_revision!=revision_ || !p.model_feasible || p.fallback_requested ||
+      !map_valid_ || p.map_revision!=revision_ || !p.model_feasible ||
       p.period!=period || p.accelerations.size()!=30) return reject("proposal stale/rejected/generation");
     if(!predictions_valid_ || now<last_source_ || now-last_source_>400000000) return reject("prediction degraded/stale");
     for(const auto &o:obstacles_) if(now<o.observation || now-o.observation>400000000) return reject("observation stale");
@@ -244,16 +250,24 @@ private:
     const double c=std::cos(yaw),s=std::sin(yaw); const double reserve=.5*period*std::hypot(.8,.5);
     if(!std::isfinite(x) || !std::isfinite(y) || std::abs(vx)>.8 || vx<-.5 || std::abs(vy)>.5) return reject("state bounds");
     auto point_clear=[&](double t) {
-      if(x<b[0]+reserve || x>b[1]-reserve || y<b[2]+reserve || y>b[3]-reserve ||
-        vx<-.5*speed_scale_-1e-6 || vx>.8*speed_scale_+1e-6 || std::abs(vy)>.5*speed_scale_+1e-6) return false;
+      checked_state_={x,y,yaw,vx,vy,0.};
+      const double values[]={x-b[0]-reserve,b[1]-x-reserve,y-b[2]-reserve,b[3]-y-reserve,
+        vx+.5*speed_scale_,.8*speed_scale_-vx,.5*speed_scale_-std::abs(vy)};
+      const char *names[]={"corridor_x_lower","corridor_x_upper","corridor_y_lower","corridor_y_upper",
+        "velocity_x_lower","velocity_x_upper","velocity_y"};
+      for(size_t i=0;i<7;i++) if(values[i] < (i<4?0.:-1e-6)) {
+        constraint_=names[i]; slack_=values[i]; return false;
+      }
       for(const auto &o:obstacles_) {
         double ox=o.x+((now-last_source_)*1e-9+t)*o.vx, oy=o.y+((now-last_source_)*1e-9+t)*o.vy;
         const double dx=c*(ox-x)+s*(oy-y),dy=-s*(ox-x)+c*(oy-y);
         const double distance=std::hypot(std::max(std::abs(dx)-.355,0.),std::max(std::abs(dy)-.330,0.));
-        if(distance-o.r < .02+.5*period*(std::hypot(.8,.5)+std::hypot(o.vx,o.vy))) return false;
+        const double slack=distance-o.r-.02-.5*period*(std::hypot(.8,.5)+std::hypot(o.vx,o.vy));
+        if(slack<0.) {constraint_="dynamic_clearance"; track_=o.id; slack_=slack; return false;}
       }
       return true;
     };
+    step_=0;
     if(!point_clear(0)) return reject("current dynamic/corridor bounds");
     // Align to elapsed proposal time, re-anchor to NEW measured state, and end
     // with bounded braking. The last 150 ms are reserved for terminal correction.
@@ -273,34 +287,51 @@ private:
       ax=stopping_acceleration(vx,ax,remaining);
       ay=stopping_acceleration(vy,ay,remaining);
       if(k==0) {cmd.linear.x=vx+period*ax; cmd.linear.y=vy+period*ay;}
-      x+=period*(c*(vx+.5*period*ax)-s*(vy+.5*period*ay));
-      y+=period*(s*(vx+.5*period*ax)+c*(vy+.5*period*ay)); vx+=period*ax; vy+=period*ay;
+      // Same velocity ZOH model as the condensed worker QP. Acceleration
+      // bounds describe command differences; they do not certify wheel transients.
+      vx+=period*ax; vy+=period*ay;
+      x+=period*(c*vx-s*vy); y+=period*(s*vx+c*vy); step_=k+1;
       if(!point_clear((k+1)*period)) return reject("reanchored trajectory rejected");
     }
     if(std::max(std::abs(vx),std::abs(vy))>1e-5) return reject("terminal stop");
-    // Velocity commands are held by Nav2; check this execution interval as ZOH,
-    // independently of the QP's acceleration-ramp plant, against current grid.
+    // Independently check the first held-command interval against current STVL.
     if(!current_grid_clear(pose.position.x,pose.position.y,yaw,cmd)) return reject("execution grid blocked");
-    // ZOH's extra first-interval displacement is bounded by a*dt^2/2 (.00177m).
-    // The .02m dynamic/static reserve above includes this bound.
-    reason="accepted_reanchored"; return true;
+    handoff_=p.fallback_requested; constraint_="accepted"; slack_=0.;
+    reason=handoff_?"accepted_feasible_handoff":"accepted_reanchored"; return true;
   }
   void request(const geometry_msgs::msg::Pose &pose,const geometry_msgs::msg::Twist &v,const builtin_interfaces::msg::Time &stamp) {
     rm_temporal_mpc_msgs::msg::StateRequest p; p.header.frame_id="map"; p.header.stamp=stamp;
     p.generation=generation_; p.pose=pose; p.velocity=v; request_pub_->publish(p);
   }
+  void reset_diagnostic() {
+    evaluation_ns_=node_->now().nanoseconds(); step_=-1; track_=0; handoff_=false;
+    slack_=std::numeric_limits<double>::quiet_NaN(); constraint_="input";
+    initial_state_.fill(slack_); checked_state_.fill(slack_);
+  }
   void health(bool ready,const std::string &reason,bool executed,double elapsed) {
     std_msgs::msg::String p; std::ostringstream out;
     // Reasons are internal fixed strings, never supplied by a message.
-    out<<"{\"ready\":"<<(ready?"true":"false")<<",\"fallback_requested\":"<<(ready?"false":"true")
+    out<<std::setprecision(17)<<"{\"ready\":"<<(ready?"true":"false")<<",\"fallback_requested\":"<<(!ready || handoff_?"true":"false")
        <<",\"reason\":\""<<reason<<"\",\"executed\":"<<(executed?"true":"false")
-       <<",\"compute_count\":"<<computations_<<",\"elapsed_s\":"<<elapsed<<"}";
+       <<",\"compute_count\":"<<computations_<<",\"elapsed_s\":"<<elapsed
+       <<",\"evaluation_ns\":"<<evaluation_ns_
+       <<",\"proposal_ns\":"<<(proposal_?ns(proposal_->header.stamp):-1)
+       <<",\"prediction_ns\":"<<last_source_<<",\"generation\":"<<generation_
+       <<",\"model\":\"fixed_yaw_velocity_zoh/v1\",\"constraint\":\""<<constraint_
+       <<"\",\"step\":"<<step_<<",\"track_id\":"<<track_<<",\"slack\":";
+    if(std::isfinite(slack_)) out<<slack_; else out<<"null";
+    auto state=[&](const char *name,const std::array<double,6> &v) {
+      out<<",\""<<name<<"\":[";
+      for(size_t i=0;i<v.size();i++) {if(i) out<<','; if(std::isfinite(v[i])) out<<v[i]; else out<<"null";}
+      out<<']';
+    };
+    state("initial_state",initial_state_); state("checked_state",checked_state_); out<<'}';
     p.data=out.str(); health_pub_->publish(p);
   }
   void shadow() {
     std::lock_guard<std::mutex> lock(mutex_); if(!active_) return;
     geometry_msgs::msg::PoseStamped pose,world; geometry_msgs::msg::Twist cmd;
-    std::string reason="missing TF/odom"; bool ready=false; const builtin_interfaces::msg::Time now=node_->now();
+    std::string reason="missing TF/odom"; bool ready=false; reset_diagnostic(); const builtin_interfaces::msg::Time now=node_->now();
     if(odom_) {pose.header=odom_->header; pose.pose=odom_->pose.pose;}
     if(odom_ && to_map(pose,world)) {
       request(world.pose,odom_->twist.twist,now);
@@ -312,6 +343,9 @@ private:
   std::shared_ptr<tf2_ros::Buffer> tf_; std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap_;
   std::string name_; std::mutex mutex_; bool active_=false,nominal_=true,map_valid_=false,predictions_valid_=false;
   uint64_t generation_=0,revision_=0,computations_=0; int64_t last_source_=-1;
+  int64_t evaluation_ns_=-1; int step_=-1; uint64_t track_=0; bool handoff_=false;
+  double slack_=0.; std::string constraint_="input";
+  std::array<double,6> initial_state_{},checked_state_{};
   double resolution_=0,map_right_=0,map_top_=0,speed_scale_=1.; std::array<double,2> origin_{};
   std::vector<std::array<double,2>> blocked_; std::vector<Obstacle> obstacles_,last_obstacles_;
   nav_msgs::msg::Path plan_; nav_msgs::msg::Odometry::SharedPtr odom_; Proposal::SharedPtr proposal_;

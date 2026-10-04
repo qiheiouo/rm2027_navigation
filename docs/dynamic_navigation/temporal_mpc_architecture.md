@@ -313,3 +313,21 @@ v2 tentative允许一次漏检时观察epoch<array epoch，当前position已推�
 
 阶段状态：M2真实输入成立、M3实际MPC短暂参与和交接成立；两组物理接受失败，
 候选不进入部署冻结。正式src/默认MPPI保持。静态course可外侧绕行，控制不搜索。
+
+## 执行模型与共同回退保护继续轮
+
+[运行前登记](temporal_mpc_execution_registration_20261004.md)：实时QP/原生重验统一
+固定yaw速度ZOH，每50ms一次；15个100ms目标差决策、全部预算及安全几何不变。
+旧SLSQP/机械oracle证据不重算。所有形状重验使用全局速度采样reserve。
+重验可行的previous/brake在执行回调可返回当次，同时请求BT交接；shadow也能提前交接，
+不保证每次都实际经历previous段。旧安全verdict从不复用。
+原生健康携带确切epoch/初态/重验状态/步号/约束/track/余量，接收先后不冒充因果。
+
+T-DT SfcSquare maxRange=6m在控制周期外扩展静态可行空间；raw map完整足迹证书
+仍是进入门，不修改vendor、不由MPC全局搜索。开放路径中心y约[-2.44,2.39]。
+实验链为ControllerServer→VelocitySmoother→共同ExecutionGuard→/cmd_vel→主线stub。
+共用保护只限命令差与检查1.5s制动尾，最新公共v2与原始静态地图是输入；无oracle。
+不取代native当次STVL检查，不保证所有未跟踪动态物体或连续底盘误差有界。
+保护异常/输入失流保持有限输出；无法认证的减速不叫安全停车。主线默认未接入。
+新增实验topic `/temporal_mpc/smoothed_cmd_vel`、`/temporal_mpc/execution_health`；
+`test_guard_fault`仅隔离测试。标准Mission/Planner/NavigateToPose及双插件IDs不变。

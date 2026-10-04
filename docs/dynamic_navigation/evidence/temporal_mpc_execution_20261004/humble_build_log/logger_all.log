@@ -1,0 +1,580 @@
+[0.115s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--executor', 'sequential', '--base-paths', '/workspace/experiments/temporal_mpc/ros2', '/workspace/src/rm_simulation', '/workspace/src/rm_description', '/workspace/src/rm_localization_adapters', '/workspace/src/rm_chassis_interface', '--build-base', 'build', '--install-base', 'install', '--cmake-args', '-DCMAKE_BUILD_TYPE=Release']
+[0.115s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='/workspace/build/temporal_mpc_ros2/build', install_base='/workspace/build/temporal_mpc_ros2/install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='sequential', parallel_workers=32, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['/workspace/experiments/temporal_mpc/ros2', '/workspace/src/rm_simulation', '/workspace/src/rm_description', '/workspace/src/rm_localization_adapters', '/workspace/src/rm_chassis_interface'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, cmake_args=['-DCMAKE_BUILD_TYPE=Release'], cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x71fb940d5d80>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x71fb9424b640>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x71fb9424b640>>, mixin_verb=('build',))
+[0.241s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.241s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.241s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.241s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.241s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.241s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/workspace/experiments/temporal_mpc/ros2', '/workspace/src/rm_simulation', '/workspace/src/rm_description', '/workspace/src/rm_localization_adapters', '/workspace/src/rm_chassis_interface'
+[0.241s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extensions ['ignore', 'ignore_ament_install']
+[0.241s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extension 'ignore'
+[0.241s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extension 'ignore_ament_install'
+[0.242s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extensions ['colcon_pkg']
+[0.242s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extension 'colcon_pkg'
+[0.242s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extensions ['colcon_meta']
+[0.242s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extension 'colcon_meta'
+[0.242s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extensions ['ros']
+[0.242s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extension 'ros'
+[0.254s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extensions ['cmake', 'python']
+[0.254s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extension 'cmake'
+[0.254s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extension 'python'
+[0.254s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extensions ['python_setup_py']
+[0.254s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2) by extension 'python_setup_py'
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extensions ['ignore', 'ignore_ament_install']
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extension 'ignore'
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extension 'ignore_ament_install'
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extensions ['colcon_pkg']
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extension 'colcon_pkg'
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extensions ['colcon_meta']
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extension 'colcon_meta'
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extensions ['ros']
+[0.255s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces) by extension 'ros'
+[0.258s] DEBUG:colcon.colcon_core.package_identification:Package '/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces' with type 'ros.ament_cmake' and name 'rm_competition_interfaces'
+[0.258s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extensions ['ignore', 'ignore_ament_install']
+[0.258s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extension 'ignore'
+[0.258s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extension 'ignore_ament_install'
+[0.258s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extensions ['colcon_pkg']
+[0.258s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extension 'colcon_pkg'
+[0.258s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extensions ['colcon_meta']
+[0.258s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extension 'colcon_meta'
+[0.259s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extensions ['ros']
+[0.259s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking) by extension 'ros'
+[0.259s] DEBUG:colcon.colcon_core.package_identification:Package '/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking' with type 'ros.ament_python' and name 'rm_dynamic_obstacle_tracking'
+[0.259s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extensions ['ignore', 'ignore_ament_install']
+[0.260s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extension 'ignore'
+[0.260s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extension 'ignore_ament_install'
+[0.260s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extensions ['colcon_pkg']
+[0.260s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extension 'colcon_pkg'
+[0.260s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extensions ['colcon_meta']
+[0.260s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extension 'colcon_meta'
+[0.260s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extensions ['ros']
+[0.260s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller) by extension 'ros'
+[0.261s] DEBUG:colcon.colcon_core.package_identification:Package '/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller' with type 'ros.ament_cmake' and name 'rm_temporal_mpc_controller'
+[0.261s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.261s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extension 'ignore'
+[0.261s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extension 'ignore_ament_install'
+[0.261s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extensions ['colcon_pkg']
+[0.262s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extension 'colcon_pkg'
+[0.262s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extensions ['colcon_meta']
+[0.262s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extension 'colcon_meta'
+[0.262s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extensions ['ros']
+[0.262s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs) by extension 'ros'
+[0.262s] DEBUG:colcon.colcon_core.package_identification:Package '/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs' with type 'ros.ament_cmake' and name 'rm_temporal_mpc_msgs'
+[0.262s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extensions ['ignore', 'ignore_ament_install']
+[0.263s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extension 'ignore'
+[0.263s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extension 'ignore_ament_install'
+[0.263s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extensions ['colcon_pkg']
+[0.263s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extension 'colcon_pkg'
+[0.263s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extensions ['colcon_meta']
+[0.263s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extension 'colcon_meta'
+[0.263s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extensions ['ros']
+[0.263s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_simulation) by extension 'ros'
+[0.264s] DEBUG:colcon.colcon_core.package_identification:Package '/workspace/src/rm_simulation' with type 'ros.ament_cmake' and name 'rm_simulation'
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extensions ['ignore', 'ignore_ament_install']
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extension 'ignore'
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extension 'ignore_ament_install'
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extensions ['colcon_pkg']
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extension 'colcon_pkg'
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extensions ['colcon_meta']
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extension 'colcon_meta'
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extensions ['ros']
+[0.264s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_description) by extension 'ros'
+[0.265s] DEBUG:colcon.colcon_core.package_identification:Package '/workspace/src/rm_description' with type 'ros.ament_cmake' and name 'rm_description'
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extensions ['ignore', 'ignore_ament_install']
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extension 'ignore'
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extension 'ignore_ament_install'
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extensions ['colcon_pkg']
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extension 'colcon_pkg'
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extensions ['colcon_meta']
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extension 'colcon_meta'
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extensions ['ros']
+[0.265s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_localization_adapters) by extension 'ros'
+[0.266s] DEBUG:colcon.colcon_core.package_identification:Package '/workspace/src/rm_localization_adapters' with type 'ros.ament_cmake' and name 'rm_localization_adapters'
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extensions ['ignore', 'ignore_ament_install']
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extension 'ignore'
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extension 'ignore_ament_install'
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extensions ['colcon_pkg']
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extension 'colcon_pkg'
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extensions ['colcon_meta']
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extension 'colcon_meta'
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extensions ['ros']
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(/workspace/src/rm_chassis_interface) by extension 'ros'
+[0.268s] DEBUG:colcon.colcon_core.package_identification:Package '/workspace/src/rm_chassis_interface' with type 'ros.ament_cmake' and name 'rm_chassis_interface'
+[0.268s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.293s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'cmake_target' from command line to 'None'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'cmake_clean_cache' from command line to 'False'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'cmake_clean_first' from command line to 'False'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'cmake_force_configure' from command line to 'False'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'ament_cmake_args' from command line to 'None'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'catkin_cmake_args' from command line to 'None'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_competition_interfaces' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.294s] DEBUG:colcon.colcon_core.verb:Building package 'rm_competition_interfaces' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces', 'merge_install': False, 'path': '/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces', 'symlink_install': False, 'test_result_base': None}
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'cmake_target' from command line to 'None'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'cmake_clean_cache' from command line to 'False'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'cmake_clean_first' from command line to 'False'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'cmake_force_configure' from command line to 'False'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'ament_cmake_args' from command line to 'None'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'catkin_cmake_args' from command line to 'None'
+[0.294s] Level 5:colcon.colcon_core.verb:set package 'rm_description' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.294s] DEBUG:colcon.colcon_core.verb:Building package 'rm_description' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/temporal_mpc_ros2/build/rm_description', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/build/temporal_mpc_ros2/install/rm_description', 'merge_install': False, 'path': '/workspace/src/rm_description', 'symlink_install': False, 'test_result_base': None}
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'cmake_target' from command line to 'None'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'cmake_clean_cache' from command line to 'False'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'cmake_clean_first' from command line to 'False'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'cmake_force_configure' from command line to 'False'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'ament_cmake_args' from command line to 'None'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'catkin_cmake_args' from command line to 'None'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_msgs' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.295s] DEBUG:colcon.colcon_core.verb:Building package 'rm_temporal_mpc_msgs' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs', 'merge_install': False, 'path': '/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs', 'symlink_install': False, 'test_result_base': None}
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'cmake_target' from command line to 'None'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'cmake_clean_cache' from command line to 'False'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'cmake_clean_first' from command line to 'False'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'cmake_force_configure' from command line to 'False'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'ament_cmake_args' from command line to 'None'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'catkin_cmake_args' from command line to 'None'
+[0.295s] Level 5:colcon.colcon_core.verb:set package 'rm_chassis_interface' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.295s] DEBUG:colcon.colcon_core.verb:Building package 'rm_chassis_interface' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/temporal_mpc_ros2/build/rm_chassis_interface', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface', 'merge_install': False, 'path': '/workspace/src/rm_chassis_interface', 'symlink_install': False, 'test_result_base': None}
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'cmake_target' from command line to 'None'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'cmake_clean_cache' from command line to 'False'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'cmake_clean_first' from command line to 'False'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'cmake_force_configure' from command line to 'False'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'ament_cmake_args' from command line to 'None'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'catkin_cmake_args' from command line to 'None'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_dynamic_obstacle_tracking' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.296s] DEBUG:colcon.colcon_core.verb:Building package 'rm_dynamic_obstacle_tracking' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking', 'merge_install': False, 'path': '/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking', 'symlink_install': False, 'test_result_base': None}
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'cmake_target' from command line to 'None'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'cmake_clean_cache' from command line to 'False'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'cmake_clean_first' from command line to 'False'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'cmake_force_configure' from command line to 'False'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'ament_cmake_args' from command line to 'None'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'catkin_cmake_args' from command line to 'None'
+[0.296s] Level 5:colcon.colcon_core.verb:set package 'rm_localization_adapters' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.296s] DEBUG:colcon.colcon_core.verb:Building package 'rm_localization_adapters' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/temporal_mpc_ros2/build/rm_localization_adapters', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters', 'merge_install': False, 'path': '/workspace/src/rm_localization_adapters', 'symlink_install': False, 'test_result_base': None}
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'cmake_target' from command line to 'None'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'cmake_clean_cache' from command line to 'False'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'cmake_clean_first' from command line to 'False'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'cmake_force_configure' from command line to 'False'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'ament_cmake_args' from command line to 'None'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'catkin_cmake_args' from command line to 'None'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_temporal_mpc_controller' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.297s] DEBUG:colcon.colcon_core.verb:Building package 'rm_temporal_mpc_controller' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller', 'merge_install': False, 'path': '/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller', 'symlink_install': False, 'test_result_base': None}
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'cmake_target' from command line to 'None'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'cmake_clean_cache' from command line to 'False'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'cmake_clean_first' from command line to 'False'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'cmake_force_configure' from command line to 'False'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'ament_cmake_args' from command line to 'None'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'catkin_cmake_args' from command line to 'None'
+[0.297s] Level 5:colcon.colcon_core.verb:set package 'rm_simulation' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.298s] DEBUG:colcon.colcon_core.verb:Building package 'rm_simulation' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/temporal_mpc_ros2/build/rm_simulation', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/build/temporal_mpc_ros2/install/rm_simulation', 'merge_install': False, 'path': '/workspace/src/rm_simulation', 'symlink_install': False, 'test_result_base': None}
+[0.298s] INFO:colcon.colcon_core.executor:Executing jobs using 'sequential' executor
+[0.299s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_competition_interfaces'
+[0.299s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces' with build type 'ament_cmake'
+[0.300s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspace/experiments/temporal_mpc/ros2/rm_competition_interfaces'
+[0.302s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.302s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.303s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.313s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces -- -j32 -l32
+[0.683s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces -- -j32 -l32
+[0.696s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces
+[0.775s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_competition_interfaces)
+[0.780s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_competition_interfaces
+[0.784s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces' for CMake module files
+[0.785s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces' for CMake config files
+[0.785s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_competition_interfaces', 'cmake_prefix_path')
+[0.785s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/cmake_prefix_path.ps1'
+[0.786s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/cmake_prefix_path.dsv'
+[0.786s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/cmake_prefix_path.sh'
+[0.787s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib'
+[0.787s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_competition_interfaces', 'ld_library_path_lib')
+[0.787s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/ld_library_path_lib.ps1'
+[0.788s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/ld_library_path_lib.dsv'
+[0.788s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/ld_library_path_lib.sh'
+[0.788s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/bin'
+[0.788s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib/pkgconfig/rm_competition_interfaces.pc'
+[0.791s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib/python3.10/site-packages'
+[0.791s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/bin'
+[0.791s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.ps1'
+[0.793s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.dsv'
+[0.793s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.sh'
+[0.794s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.bash'
+[0.795s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.zsh'
+[0.795s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/colcon-core/packages/rm_competition_interfaces)
+[0.796s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_competition_interfaces)
+[0.796s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces' for CMake module files
+[0.797s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces' for CMake config files
+[0.797s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_competition_interfaces', 'cmake_prefix_path')
+[0.797s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/cmake_prefix_path.ps1'
+[0.808s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/cmake_prefix_path.dsv'
+[0.808s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/cmake_prefix_path.sh'
+[0.809s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib'
+[0.809s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_competition_interfaces', 'ld_library_path_lib')
+[0.809s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/ld_library_path_lib.ps1'
+[0.810s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/ld_library_path_lib.dsv'
+[0.810s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/hook/ld_library_path_lib.sh'
+[0.810s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/bin'
+[0.810s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib/pkgconfig/rm_competition_interfaces.pc'
+[0.811s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib/python3.10/site-packages'
+[0.811s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/bin'
+[0.811s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.ps1'
+[0.812s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.dsv'
+[0.812s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.sh'
+[0.813s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.bash'
+[0.813s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/rm_competition_interfaces/package.zsh'
+[0.814s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/share/colcon-core/packages/rm_competition_interfaces)
+[0.814s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_competition_interfaces' finished with '0'
+[0.814s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_description'
+[0.814s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspace/src/rm_description' with build type 'ament_cmake'
+[0.814s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspace/src/rm_description'
+[0.814s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.814s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.825s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_description -- -j32 -l32
+[0.872s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_description -- -j32 -l32
+[0.874s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_description
+[0.884s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_description)
+[0.884s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description' for CMake module files
+[0.885s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_description
+[0.886s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description' for CMake config files
+[0.886s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_description', 'cmake_prefix_path')
+[0.886s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/hook/cmake_prefix_path.ps1'
+[0.887s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/hook/cmake_prefix_path.dsv'
+[0.887s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/hook/cmake_prefix_path.sh'
+[0.888s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description/bin'
+[0.888s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description/lib/pkgconfig/rm_description.pc'
+[0.888s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description/lib/python3.10/site-packages'
+[0.888s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description/bin'
+[0.889s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.ps1'
+[0.889s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.dsv'
+[0.889s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.sh'
+[0.890s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.bash'
+[0.890s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.zsh'
+[0.890s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_description/share/colcon-core/packages/rm_description)
+[0.891s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_description)
+[0.891s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description' for CMake module files
+[0.892s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description' for CMake config files
+[0.892s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_description', 'cmake_prefix_path')
+[0.892s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/hook/cmake_prefix_path.ps1'
+[0.892s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/hook/cmake_prefix_path.dsv'
+[0.893s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/hook/cmake_prefix_path.sh'
+[0.893s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description/bin'
+[0.893s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description/lib/pkgconfig/rm_description.pc'
+[0.894s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description/lib/python3.10/site-packages'
+[0.894s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_description/bin'
+[0.894s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.ps1'
+[0.895s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.dsv'
+[0.895s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.sh'
+[0.896s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.bash'
+[0.896s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_description/share/rm_description/package.zsh'
+[0.896s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_description/share/colcon-core/packages/rm_description)
+[0.897s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_description' finished with '0'
+[0.897s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_temporal_mpc_msgs'
+[0.897s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs' with build type 'ament_cmake'
+[0.897s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_msgs'
+[0.897s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.897s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.906s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs -- -j32 -l32
+[1.262s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs -- -j32 -l32
+[1.264s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs
+[1.331s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_temporal_mpc_msgs)
+[1.332s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs' for CMake module files
+[1.340s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_msgs
+[1.340s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs' for CMake config files
+[1.341s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_temporal_mpc_msgs', 'cmake_prefix_path')
+[1.341s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/cmake_prefix_path.ps1'
+[1.342s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/cmake_prefix_path.dsv'
+[1.343s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/cmake_prefix_path.sh'
+[1.344s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib'
+[1.344s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_temporal_mpc_msgs', 'ld_library_path_lib')
+[1.344s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/ld_library_path_lib.ps1'
+[1.345s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/ld_library_path_lib.dsv'
+[1.346s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/ld_library_path_lib.sh'
+[1.346s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/bin'
+[1.347s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib/pkgconfig/rm_temporal_mpc_msgs.pc'
+[1.347s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib/python3.10/site-packages'
+[1.348s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/bin'
+[1.348s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.ps1'
+[1.350s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.dsv'
+[1.351s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.sh'
+[1.351s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.bash'
+[1.352s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.zsh'
+[1.353s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/colcon-core/packages/rm_temporal_mpc_msgs)
+[1.354s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_temporal_mpc_msgs)
+[1.354s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs' for CMake module files
+[1.356s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs' for CMake config files
+[1.356s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_temporal_mpc_msgs', 'cmake_prefix_path')
+[1.356s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/cmake_prefix_path.ps1'
+[1.357s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/cmake_prefix_path.dsv'
+[1.358s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/cmake_prefix_path.sh'
+[1.359s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib'
+[1.359s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_temporal_mpc_msgs', 'ld_library_path_lib')
+[1.360s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/ld_library_path_lib.ps1'
+[1.360s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/ld_library_path_lib.dsv'
+[1.361s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/hook/ld_library_path_lib.sh'
+[1.362s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/bin'
+[1.362s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib/pkgconfig/rm_temporal_mpc_msgs.pc'
+[1.362s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib/python3.10/site-packages'
+[1.363s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/bin'
+[1.364s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.ps1'
+[1.365s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.dsv'
+[1.366s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.sh'
+[1.367s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.bash'
+[1.367s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/rm_temporal_mpc_msgs/package.zsh'
+[1.368s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/share/colcon-core/packages/rm_temporal_mpc_msgs)
+[1.369s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_temporal_mpc_msgs' finished with '0'
+[1.369s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_chassis_interface'
+[1.369s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspace/src/rm_chassis_interface' with build type 'ament_cmake'
+[1.369s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspace/src/rm_chassis_interface'
+[1.369s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.369s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.387s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_chassis_interface': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_chassis_interface -- -j32 -l32
+[1.494s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_chassis_interface' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_chassis_interface -- -j32 -l32
+[1.496s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_chassis_interface': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_chassis_interface
+[1.509s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_chassis_interface)
+[1.509s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface' for CMake module files
+[1.510s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_chassis_interface' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_chassis_interface
+[1.510s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface' for CMake config files
+[1.511s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_chassis_interface', 'cmake_prefix_path')
+[1.511s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/hook/cmake_prefix_path.ps1'
+[1.511s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/hook/cmake_prefix_path.dsv'
+[1.512s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/hook/cmake_prefix_path.sh'
+[1.512s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/lib'
+[1.512s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/bin'
+[1.512s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/lib/pkgconfig/rm_chassis_interface.pc'
+[1.513s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/lib/python3.10/site-packages'
+[1.513s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/bin'
+[1.513s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.ps1'
+[1.514s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.dsv'
+[1.514s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.sh'
+[1.515s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.bash'
+[1.515s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.zsh'
+[1.515s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/colcon-core/packages/rm_chassis_interface)
+[1.516s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_chassis_interface)
+[1.516s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface' for CMake module files
+[1.516s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface' for CMake config files
+[1.517s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_chassis_interface', 'cmake_prefix_path')
+[1.517s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/hook/cmake_prefix_path.ps1'
+[1.517s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/hook/cmake_prefix_path.dsv'
+[1.517s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/hook/cmake_prefix_path.sh'
+[1.518s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/lib'
+[1.518s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/bin'
+[1.518s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/lib/pkgconfig/rm_chassis_interface.pc'
+[1.518s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/lib/python3.10/site-packages'
+[1.519s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/bin'
+[1.519s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.ps1'
+[1.520s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.dsv'
+[1.520s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.sh'
+[1.520s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.bash'
+[1.521s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/rm_chassis_interface/package.zsh'
+[1.521s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface/share/colcon-core/packages/rm_chassis_interface)
+[1.521s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_chassis_interface' finished with '0'
+[1.521s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_dynamic_obstacle_tracking'
+[1.522s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking' with build type 'ament_python'
+[1.522s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_dynamic_obstacle_tracking', 'ament_prefix_path')
+[1.522s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/hook/ament_prefix_path.ps1'
+[1.523s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/hook/ament_prefix_path.dsv'
+[1.523s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/hook/ament_prefix_path.sh'
+[1.524s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.524s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.756s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking'
+[1.757s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.757s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.064s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/python3.10/site-packages:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../../build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking build --build-base /workspace/build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking/build install --record /workspace/build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking/install.log --single-version-externally-managed install_data
+[2.351s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking' for CMake module files
+[2.351s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/python3.10/site-packages:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../../build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking build --build-base /workspace/build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking/build install --record /workspace/build/temporal_mpc_ros2/build/rm_dynamic_obstacle_tracking/install.log --single-version-externally-managed install_data
+[2.352s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking' for CMake config files
+[2.352s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib'
+[2.352s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/bin'
+[2.352s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/pkgconfig/rm_dynamic_obstacle_tracking.pc'
+[2.353s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/lib/python3.10/site-packages'
+[2.353s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_dynamic_obstacle_tracking', 'pythonpath')
+[2.353s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/hook/pythonpath.ps1'
+[2.353s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/hook/pythonpath.dsv'
+[2.354s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/hook/pythonpath.sh'
+[2.355s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/bin'
+[2.355s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_dynamic_obstacle_tracking)
+[2.355s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/package.ps1'
+[2.356s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/package.dsv'
+[2.356s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/package.sh'
+[2.356s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/package.bash'
+[2.357s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/rm_dynamic_obstacle_tracking/package.zsh'
+[2.357s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_dynamic_obstacle_tracking/share/colcon-core/packages/rm_dynamic_obstacle_tracking)
+[2.357s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_dynamic_obstacle_tracking' finished with '0'
+[2.357s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_localization_adapters'
+[2.357s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspace/src/rm_localization_adapters' with build type 'ament_cmake'
+[2.357s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspace/src/rm_localization_adapters'
+[2.358s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.358s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.369s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_localization_adapters': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_description:/opt/ros/humble /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_localization_adapters -- -j32 -l32
+[2.503s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_localization_adapters' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_description:/opt/ros/humble /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_localization_adapters -- -j32 -l32
+[2.505s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_localization_adapters': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_description:/opt/ros/humble /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_localization_adapters
+[2.520s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_localization_adapters)
+[2.521s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters' for CMake module files
+[2.521s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_localization_adapters' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_description:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_description:/opt/ros/humble /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_localization_adapters
+[2.522s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters' for CMake config files
+[2.522s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_localization_adapters', 'cmake_prefix_path')
+[2.522s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/hook/cmake_prefix_path.ps1'
+[2.523s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/hook/cmake_prefix_path.dsv'
+[2.523s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/hook/cmake_prefix_path.sh'
+[2.524s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/lib'
+[2.524s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/bin'
+[2.524s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/lib/pkgconfig/rm_localization_adapters.pc'
+[2.524s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/lib/python3.10/site-packages'
+[2.524s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/bin'
+[2.525s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.ps1'
+[2.525s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.dsv'
+[2.526s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.sh'
+[2.526s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.bash'
+[2.526s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.zsh'
+[2.527s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/colcon-core/packages/rm_localization_adapters)
+[2.527s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_localization_adapters)
+[2.527s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters' for CMake module files
+[2.528s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters' for CMake config files
+[2.528s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_localization_adapters', 'cmake_prefix_path')
+[2.528s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/hook/cmake_prefix_path.ps1'
+[2.554s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/hook/cmake_prefix_path.dsv'
+[2.555s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/hook/cmake_prefix_path.sh'
+[2.555s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/lib'
+[2.555s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/bin'
+[2.555s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/lib/pkgconfig/rm_localization_adapters.pc'
+[2.556s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/lib/python3.10/site-packages'
+[2.556s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/bin'
+[2.556s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.ps1'
+[2.557s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.dsv'
+[2.557s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.sh'
+[2.558s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.bash'
+[2.558s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/rm_localization_adapters/package.zsh'
+[2.558s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters/share/colcon-core/packages/rm_localization_adapters)
+[2.558s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_localization_adapters' finished with '0'
+[2.559s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_temporal_mpc_controller'
+[2.559s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller' with build type 'ament_cmake'
+[2.559s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspace/experiments/temporal_mpc/ros2/rm_temporal_mpc_controller'
+[2.559s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.559s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.576s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/local/lib/python3.10/dist-packages:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller -- -j32 -l32
+[33.530s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/local/lib/python3.10/dist-packages:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller -- -j32 -l32
+[33.533s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/local/lib/python3.10/dist-packages:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller
+[33.558s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_temporal_mpc_controller)
+[33.559s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller' for CMake module files
+[33.560s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/lib:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_msgs/local/lib/python3.10/dist-packages:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_temporal_mpc_controller
+[33.560s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller' for CMake config files
+[33.561s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_temporal_mpc_controller', 'cmake_prefix_path')
+[33.561s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/cmake_prefix_path.ps1'
+[33.562s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/cmake_prefix_path.dsv'
+[33.563s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/cmake_prefix_path.sh'
+[33.564s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/lib'
+[33.564s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_temporal_mpc_controller', 'ld_library_path_lib')
+[33.564s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/ld_library_path_lib.ps1'
+[33.565s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/ld_library_path_lib.dsv'
+[33.566s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/ld_library_path_lib.sh'
+[33.567s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/bin'
+[33.567s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/lib/pkgconfig/rm_temporal_mpc_controller.pc'
+[33.567s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/lib/python3.10/site-packages'
+[33.568s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/bin'
+[33.569s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.ps1'
+[33.570s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.dsv'
+[33.571s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.sh'
+[33.571s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.bash'
+[33.572s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.zsh'
+[33.573s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/colcon-core/packages/rm_temporal_mpc_controller)
+[33.574s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_temporal_mpc_controller)
+[33.574s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller' for CMake module files
+[33.575s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller' for CMake config files
+[33.575s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_temporal_mpc_controller', 'cmake_prefix_path')
+[33.576s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/cmake_prefix_path.ps1'
+[33.577s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/cmake_prefix_path.dsv'
+[33.577s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/cmake_prefix_path.sh'
+[33.578s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/lib'
+[33.578s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_temporal_mpc_controller', 'ld_library_path_lib')
+[33.579s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/ld_library_path_lib.ps1'
+[33.580s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/ld_library_path_lib.dsv'
+[33.580s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/hook/ld_library_path_lib.sh'
+[33.581s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/bin'
+[33.581s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/lib/pkgconfig/rm_temporal_mpc_controller.pc'
+[33.581s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/lib/python3.10/site-packages'
+[33.582s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/bin'
+[33.583s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.ps1'
+[33.584s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.dsv'
+[33.585s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.sh'
+[33.599s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.bash'
+[33.600s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/rm_temporal_mpc_controller/package.zsh'
+[33.600s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_temporal_mpc_controller/share/colcon-core/packages/rm_temporal_mpc_controller)
+[33.601s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_temporal_mpc_controller' finished with '0'
+[33.601s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_simulation'
+[33.601s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspace/src/rm_simulation' with build type 'ament_cmake'
+[33.601s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspace/src/rm_simulation'
+[33.602s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[33.602s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[33.624s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_simulation': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters:/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface:/workspace/build/temporal_mpc_ros2/install/rm_description:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters:/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface:/workspace/build/temporal_mpc_ros2/install/rm_description:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_simulation -- -j32 -l32
+[33.739s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_simulation' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters:/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface:/workspace/build/temporal_mpc_ros2/install/rm_description:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters:/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface:/workspace/build/temporal_mpc_ros2/install/rm_description:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /workspace/build/temporal_mpc_ros2/build/rm_simulation -- -j32 -l32
+[33.741s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/temporal_mpc_ros2/build/rm_simulation': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters:/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface:/workspace/build/temporal_mpc_ros2/install/rm_description:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters:/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface:/workspace/build/temporal_mpc_ros2/install/rm_description:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_simulation
+[33.762s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_simulation)
+[33.763s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation' for CMake module files
+[33.763s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/temporal_mpc_ros2/build/rm_simulation' returned '0': AMENT_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters:/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface:/workspace/build/temporal_mpc_ros2/install/rm_description:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/build/temporal_mpc_ros2/install/rm_localization_adapters:/workspace/build/temporal_mpc_ros2/install/rm_chassis_interface:/workspace/build/temporal_mpc_ros2/install/rm_description:/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces:/opt/ros/humble LD_LIBRARY_PATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/workspace/build/temporal_mpc_ros2/install/rm_competition_interfaces/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /workspace/build/temporal_mpc_ros2/build/rm_simulation
+[33.764s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation' for CMake config files
+[33.764s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_simulation', 'cmake_prefix_path')
+[33.765s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/hook/cmake_prefix_path.ps1'
+[33.765s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/hook/cmake_prefix_path.dsv'
+[33.766s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/hook/cmake_prefix_path.sh'
+[33.766s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/lib'
+[33.766s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/bin'
+[33.766s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/lib/pkgconfig/rm_simulation.pc'
+[33.767s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/lib/python3.10/site-packages'
+[33.767s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/bin'
+[33.767s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.ps1'
+[33.768s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.dsv'
+[33.768s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.sh'
+[33.769s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.bash'
+[33.769s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.zsh'
+[33.769s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/colcon-core/packages/rm_simulation)
+[33.770s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rm_simulation)
+[33.770s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation' for CMake module files
+[33.770s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation' for CMake config files
+[33.771s] Level 1:colcon.colcon_core.shell:create_environment_hook('rm_simulation', 'cmake_prefix_path')
+[33.771s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/hook/cmake_prefix_path.ps1'
+[33.794s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/hook/cmake_prefix_path.dsv'
+[33.795s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/hook/cmake_prefix_path.sh'
+[33.795s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/lib'
+[33.795s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/bin'
+[33.795s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/lib/pkgconfig/rm_simulation.pc'
+[33.796s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/lib/python3.10/site-packages'
+[33.796s] Level 1:colcon.colcon_core.environment:checking '/workspace/build/temporal_mpc_ros2/install/rm_simulation/bin'
+[33.796s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.ps1'
+[33.797s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.dsv'
+[33.797s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.sh'
+[33.798s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.bash'
+[33.798s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/rm_simulation/package.zsh'
+[33.798s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/build/temporal_mpc_ros2/install/rm_simulation/share/colcon-core/packages/rm_simulation)
+[33.799s] DEBUG:colcon.colcon_core.executor.sequential:run_until_complete 'rm_simulation' finished with '0'
+[33.799s] DEBUG:colcon.colcon_core.executor.sequential:closing loop
+[33.799s] DEBUG:colcon.colcon_core.executor.sequential:loop closed
+[33.799s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[33.810s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[33.810s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[33.810s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[33.810s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[33.810s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.NotSupported: Unable to autolaunch a dbus-daemon without a $DISPLAY for X11
+[33.811s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[33.811s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspace/build/temporal_mpc_ros2/install/local_setup.ps1'
+[33.812s] INFO:colcon.colcon_core.shell:Creating prefix util module '/workspace/build/temporal_mpc_ros2/install/_local_setup_util_ps1.py'
+[33.813s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspace/build/temporal_mpc_ros2/install/setup.ps1'
+[33.814s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspace/build/temporal_mpc_ros2/install/local_setup.sh'
+[33.815s] INFO:colcon.colcon_core.shell:Creating prefix util module '/workspace/build/temporal_mpc_ros2/install/_local_setup_util_sh.py'
+[33.815s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspace/build/temporal_mpc_ros2/install/setup.sh'
+[33.816s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspace/build/temporal_mpc_ros2/install/local_setup.bash'
+[33.817s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspace/build/temporal_mpc_ros2/install/setup.bash'
+[33.818s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspace/build/temporal_mpc_ros2/install/local_setup.zsh'
+[33.818s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspace/build/temporal_mpc_ros2/install/setup.zsh'
