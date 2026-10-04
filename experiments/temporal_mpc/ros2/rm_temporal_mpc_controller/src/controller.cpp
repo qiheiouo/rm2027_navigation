@@ -27,6 +27,9 @@ namespace rm_temporal_mpc {
 using Proposal = rm_temporal_mpc_msgs::msg::Proposal;
 using Predictions = rm_competition_interfaces::msg::DynamicObstaclePredictionArray;
 using Clock = std::chrono::steady_clock;
+static int64_t monotonic_ns(Clock::time_point t) {
+  return std::chrono::duration_cast<std::chrono::nanoseconds>(t.time_since_epoch()).count();
+}
 const double period = .05, reach = std::hypot(.355,.330),
   nominal = 1.6970562748477143;
 static int64_t ns(const builtin_interfaces::msg::Time &t) {
@@ -301,12 +304,16 @@ private:
   }
   void request(const geometry_msgs::msg::Pose &pose,const geometry_msgs::msg::Twist &v,const builtin_interfaces::msg::Time &stamp) {
     rm_temporal_mpc_msgs::msg::StateRequest p; p.header.frame_id="map"; p.header.stamp=stamp;
-    p.generation=generation_; p.pose=pose; p.velocity=v; request_pub_->publish(p);
+    p.generation=generation_; p.pose=pose; p.velocity=v;
+    request_epoch_ns_=ns(stamp); request_publish_clock_ns_=node_->now().nanoseconds();
+    request_publish_ns_=monotonic_ns(Clock::now()); request_pub_->publish(p);
+    request_publish_return_ns_=monotonic_ns(Clock::now());
   }
   void reset_diagnostic() {
     evaluation_ns_=node_->now().nanoseconds(); step_=-1; track_=0; handoff_=false;
     slack_=std::numeric_limits<double>::quiet_NaN(); constraint_="input";
     initial_state_.fill(slack_); checked_state_.fill(slack_);
+    request_epoch_ns_=request_publish_clock_ns_=request_publish_ns_=request_publish_return_ns_=-1;
   }
   void health(bool ready,const std::string &reason,bool executed,double elapsed) {
     std_msgs::msg::String p; std::ostringstream out;
@@ -317,6 +324,11 @@ private:
        <<",\"evaluation_ns\":"<<evaluation_ns_
        <<",\"proposal_ns\":"<<(proposal_?ns(proposal_->header.stamp):-1)
        <<",\"prediction_ns\":"<<last_source_<<",\"generation\":"<<generation_
+       <<",\"request_epoch_ns\":"<<request_epoch_ns_
+       <<",\"request_publish_clock_ns\":"<<request_publish_clock_ns_
+       <<",\"request_publish_monotonic_ns\":"<<request_publish_ns_
+       <<",\"request_publish_return_monotonic_ns\":"<<request_publish_return_ns_
+       <<",\"proposal_receipt_monotonic_ns\":"<<(proposal_?monotonic_ns(receipt_):-1)
        <<",\"model\":\"fixed_yaw_velocity_zoh/v1\",\"constraint\":\""<<constraint_
        <<"\",\"reanchor_projection\":\"velocity_and_stop/v2"
        <<"\",\"step\":"<<step_<<",\"track_id\":"<<track_<<",\"slack\":";
@@ -345,6 +357,7 @@ private:
   std::string name_; std::mutex mutex_; bool active_=false,nominal_=true,map_valid_=false,predictions_valid_=false;
   uint64_t generation_=0,revision_=0,computations_=0; int64_t last_source_=-1;
   int64_t evaluation_ns_=-1; int step_=-1; uint64_t track_=0; bool handoff_=false;
+  int64_t request_epoch_ns_=-1,request_publish_clock_ns_=-1,request_publish_ns_=-1,request_publish_return_ns_=-1;
   double slack_=0.; std::string constraint_="input";
   std::array<double,6> initial_state_{},checked_state_{};
   double resolution_=0,map_right_=0,map_top_=0,speed_scale_=1.; std::array<double,2> origin_{};

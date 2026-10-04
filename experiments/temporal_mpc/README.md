@@ -99,3 +99,9 @@ handoff均未完成；[集成边界](integration/README.md)明确下一阶段的
 [最新结果](../../docs/dynamic_navigation/temporal_mpc_candidates_results_20261004.md)。
 strategy=portfolio是实验可选项，single保持默认；静态T-DT职责、双Nav2插件与原硬门
 保留。六有效物理试次全部取消，没有部署资格；全部失败/输入门与工程证据保存。
+
+后续[时序与提案老化结果](../../docs/dynamic_navigation/temporal_mpc_timing_results_20261004.md)
+增加独立callback/严格clock/真实publish与receipt身份，不放宽原门或更改QP/几何。
+128项完整测试及2项新增审计测试两环境通过，真实DDS clock/14类Nav2故障门通过；
+新迎面配对仍40s取消、候选最终接收gap95.474ms失败。提案年龄反事实和实际重锚
+余量分开记录，动态接受保持false，默认MPPI与双插件切换保留。

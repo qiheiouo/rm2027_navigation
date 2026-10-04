@@ -1,0 +1,68 @@
+{
+  "tests": {
+    "host": {
+      "unique_test_cases": 130,
+      "failures": 0,
+      "skipped": 0
+    },
+    "humble": {
+      "unique_test_cases": 130,
+      "failures": 0,
+      "skipped": 0
+    }
+  },
+  "real_clock_checks": 8,
+  "nav2_fault_cases": 14,
+  "all_engineering_and_input_replays_pass": true,
+  "runs": {
+    "head_on_b0_01": {
+      "engineering_replays_pass": true,
+      "cdr": 18493,
+      "source_tf": 762,
+      "guard_replays": 1071,
+      "native_state_and_input_joins": 32,
+      "dynamic_margin_and_age_replays": 15,
+      "request_timing_joins": 1000,
+      "proposal_receipt_joins": 997,
+      "clock_statuses": {
+        "current": 1000
+      }
+    },
+    "head_on_portfolio_01": {
+      "engineering_replays_pass": true,
+      "cdr": 18468,
+      "source_tf": 760,
+      "guard_replays": 1072,
+      "native_state_and_input_joins": 19,
+      "dynamic_margin_and_age_replays": 14,
+      "request_timing_joins": 998,
+      "proposal_receipt_joins": 995,
+      "clock_statuses": {
+        "current": 998
+      }
+    }
+  },
+  "totals": {
+    "cdr": 36961,
+    "source_tf": 1522,
+    "guard_replays": 2143,
+    "native_state_and_input_joins": 51,
+    "dynamic_margin_and_age_replays": 29,
+    "request_timing_joins": 1998,
+    "proposal_receipt_joins": 1992
+  },
+  "observed_physical_continuity": {
+    "b0_controller": false,
+    "b0_final_cmd": true,
+    "candidate_controller": true,
+    "candidate_final_cmd": false
+  },
+  "observed_worker_core_40ms_gate": {
+    "head_on_b0_01": false,
+    "head_on_portfolio_01": true
+  },
+  "physical_acceptance": false,
+  "dynamic_acceptance": false,
+  "candidate_frozen_for_deployment": false,
+  "scope": "Engineering and replay validity explicitly separate from physical success, continuous safety and real-time acceptance. Retain failed continuity and core deadline observations."
+}

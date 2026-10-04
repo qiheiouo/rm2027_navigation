@@ -1,0 +1,1064 @@
+{
+  "head_on_b0_01": {
+    "request_signed_age_s": {
+      "count": 1000,
+      "p50": 0.0,
+      "p95": 0.001,
+      "min": 0.0,
+      "max": 0.013000000000000001
+    },
+    "proposal_callback_body_exceeds_40ms": 1,
+    "core_40ms_rejections": 1,
+    "worker_max_iterations": 390,
+    "solver_s": {
+      "count": 1000,
+      "p50": 0.0004111210073460825,
+      "p95": 0.0008132651564665139,
+      "min": 0.0,
+      "max": 0.003822523998678662
+    },
+    "request_publish_call_s": {
+      "count": 1003,
+      "p50": 5.3426000000000007e-05,
+      "p95": 6.777109999999999e-05,
+      "min": 2.9222000000000002e-05,
+      "max": 0.000143544
+    },
+    "frontend_overlap_cases": [
+      {
+        "schema": "temporal_mpc_worker_timing/v1",
+        "kind": "request",
+        "callback_id": 7,
+        "callback_start_monotonic_ns": 76431957650409,
+        "callback_entry_clock_ns": 299000000,
+        "disposition": "proposal",
+        "proposal_published": true,
+        "dds_source_timestamp_ns": null,
+        "dds_received_timestamp_ns": null,
+        "dds_info_scope": "Installed Humble executor supplies one message argument; metadata unavailable.",
+        "request_epoch_ns": 286000000,
+        "request_frame": "map",
+        "generation": 1,
+        "raw_request_fields": [
+          7.553888323137738e-21,
+          -2.6673424084141934e-20,
+          0.0,
+          3.930349735234959e-19,
+          5.410074655847109e-19,
+          1.5978369445718973e-20,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "raw_request_invalid_indices": [],
+        "decision_clock_ns": 299000000,
+        "request_signed_age_ns": 13000000,
+        "request_clock_status": "current",
+        "exception_reason": "ContractError: missing plan/map/prediction",
+        "cycle_budget_elapsed_s": 0.0001071639999281615,
+        "proposal_feasible": false,
+        "proposal_fallback": true,
+        "proposal_reason": "ContractError: missing plan/map/prediction",
+        "proposal_publish_monotonic_ns": 76431957760043,
+        "proposal_publish_return_monotonic_ns": 76431957813467,
+        "callback_body_end_monotonic_ns": 76431957889484,
+        "callback_exit_clock_ns": 299000000,
+        "native_request_publish_monotonic_ns": 76431943921782,
+        "native_request_publish_clock_ns": 286000000,
+        "publish_start_to_callback_s": 0.013728627,
+        "frontend_overlap_s": 0.012786346,
+        "proposal_publish_start_to_native_receipt_s": 0.000144108,
+        "callback_body_s": 0.00023907500000000002
+      },
+      {
+        "schema": "temporal_mpc_worker_timing/v1",
+        "kind": "request",
+        "callback_id": 442,
+        "callback_start_monotonic_ns": 76444455107863,
+        "callback_entry_clock_ns": 12796000000,
+        "disposition": "proposal",
+        "proposal_published": true,
+        "dds_source_timestamp_ns": null,
+        "dds_received_timestamp_ns": null,
+        "dds_info_scope": "Installed Humble executor supplies one message argument; metadata unavailable.",
+        "request_epoch_ns": 12785000000,
+        "request_frame": "map",
+        "generation": 2,
+        "raw_request_fields": [
+          2.9024180580618105e-20,
+          3.192335787078627e-20,
+          0.0,
+          7.3353932386677195e-19,
+          6.917739277089033e-19,
+          2.339150357155708e-20,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "raw_request_invalid_indices": [],
+        "decision_clock_ns": 12796000000,
+        "request_signed_age_ns": 11000000,
+        "request_clock_status": "current",
+        "solver_start_monotonic_ns": 76444455874275,
+        "solver_end_monotonic_ns": 76444462980079,
+        "cycle_budget_elapsed_s": 0.008014181003090926,
+        "proposal_feasible": true,
+        "proposal_fallback": false,
+        "proposal_reason": "revalidated temporal QP",
+        "proposal_publish_monotonic_ns": 76444463126793,
+        "proposal_publish_return_monotonic_ns": 76444463260314,
+        "callback_body_end_monotonic_ns": 76444463437829,
+        "callback_exit_clock_ns": 12796000000,
+        "native_request_publish_monotonic_ns": 76444443609804,
+        "native_request_publish_clock_ns": 12785000000,
+        "publish_start_to_callback_s": 0.011498059000000001,
+        "frontend_overlap_s": 0.010144543,
+        "proposal_publish_start_to_native_receipt_s": 0.00018844100000000002,
+        "callback_body_s": 0.008329966000000001,
+        "mpc_solve_call_s": 0.007105804
+      }
+    ],
+    "worst_logged_command_gap": {
+      "gap_s": 0.06921901500000001,
+      "left": {
+        "topic": "/cmd_vel",
+        "receipt_monotonic_ns": 76442264559373,
+        "receipt_sim_ns": 10606000000,
+        "data": {
+          "linear": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "angular": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        },
+        "cdr_b64": "AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      },
+      "right": {
+        "topic": "/cmd_vel",
+        "receipt_monotonic_ns": 76442333778388,
+        "receipt_sim_ns": 10671000000,
+        "data": {
+          "linear": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "angular": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        },
+        "cdr_b64": "AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      },
+      "nearby_guard_producer_records": [
+        {
+          "epoch_ns": 10504000000,
+          "tick_count": 276,
+          "map_revision": 100000000,
+          "producer_start_ns": 76442163019890,
+          "producer_output_ns": 76442166203359,
+          "nominal_expected_ns": 76442162779232,
+          "nominal_lateness_s": 0.000240658,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.05016636,
+          "producer_output_interval_s": 0.050303673,
+          "tick_to_output_cpu_s": 0.00333899,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 10500000000,
+          "source_ns": 10429000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; static braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.41795083099686803,
+          "elapsed_s": 0.002680013989447616,
+          "tick_to_output_s": 0.003226554996217601,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.004
+        },
+        {
+          "epoch_ns": 10554000000,
+          "tick_count": 277,
+          "map_revision": 100000000,
+          "producer_start_ns": 76442212703801,
+          "producer_output_ns": 76442214201221,
+          "nominal_expected_ns": 76442212779232,
+          "nominal_lateness_s": 0.0,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.049683911000000004,
+          "producer_output_interval_s": 0.047997862,
+          "tick_to_output_cpu_s": 0.001546964,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 10540000000,
+          "source_ns": 10495000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; static braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.4085168498648114,
+          "elapsed_s": 0.0011975969973718747,
+          "tick_to_output_s": 0.0015273809985956177,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.014
+        },
+        {
+          "epoch_ns": 10604000000,
+          "tick_count": 278,
+          "map_revision": 100000000,
+          "producer_start_ns": 76442262645127,
+          "producer_output_ns": 76442264083510,
+          "nominal_expected_ns": 76442262779232,
+          "nominal_lateness_s": 0.0,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.049941326,
+          "producer_output_interval_s": 0.049882289,
+          "tick_to_output_cpu_s": 0.0015243000000000001,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 10600000000,
+          "source_ns": 10561000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; static braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.41795083099686803,
+          "elapsed_s": 0.0011694580025505275,
+          "tick_to_output_s": 0.0014606019976781681,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.004
+        },
+        {
+          "epoch_ns": 10654000000,
+          "tick_count": 279,
+          "map_revision": 100000000,
+          "producer_start_ns": 76442312780868,
+          "producer_output_ns": 76442315728434,
+          "nominal_expected_ns": 76442312779232,
+          "nominal_lateness_s": 1.636e-06,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.050135741000000004,
+          "producer_output_interval_s": 0.051644924,
+          "tick_to_output_cpu_s": 0.0030654080000000004,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 10640000000,
+          "source_ns": 10561000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; static braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.4085168498648114,
+          "elapsed_s": 0.002507689001504332,
+          "tick_to_output_s": 0.002983690006658435,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.014
+        },
+        {
+          "epoch_ns": 10704000000,
+          "tick_count": 280,
+          "map_revision": 100000000,
+          "producer_start_ns": 76442362681234,
+          "producer_output_ns": 76442364032336,
+          "nominal_expected_ns": 76442362779232,
+          "nominal_lateness_s": 0.0,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.049900366,
+          "producer_output_interval_s": 0.048303902,
+          "tick_to_output_cpu_s": 0.001404613,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 10700000000,
+          "source_ns": 10693000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; static braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.41795083099686803,
+          "elapsed_s": 0.0010903009970206767,
+          "tick_to_output_s": 0.0013723470037803054,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.004
+        },
+        {
+          "epoch_ns": 10754000000,
+          "tick_count": 281,
+          "map_revision": 100000000,
+          "producer_start_ns": 76442412829976,
+          "producer_output_ns": 76442415573627,
+          "nominal_expected_ns": 76442412779232,
+          "nominal_lateness_s": 5.0744e-05,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.050148742,
+          "producer_output_interval_s": 0.051541291,
+          "tick_to_output_cpu_s": 0.002870526,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 10740000000,
+          "source_ns": 10693000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; static braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.4085168498648114,
+          "elapsed_s": 0.0023452539899153635,
+          "tick_to_output_s": 0.002772352992906235,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.014
+        }
+      ],
+      "scope": "Observer commands have no producer sequence id. Nearby production records cannot uniquely match missing/late command delivery; no latency attribution."
+    },
+    "first_dynamic_rejection_age": {
+      "evaluation_ns": 13435000000,
+      "proposal_ns": 13385000000,
+      "age_ns": 50000000,
+      "worker_source_ns": 13333000000,
+      "native_source_ns": 13399000000,
+      "executed": false,
+      "step": 30,
+      "track_id": 1,
+      "recorded_slack_m": -0.0036339011420461684,
+      "actual_replay_match": true,
+      "cases": {
+        "worker_epoch_original": {
+          "recorded_track_step_slack_m": 0.08689982678766225,
+          "full_dynamic_min_m": 0.08689982678766225,
+          "terminal_speed_max": 2.0643209364124004e-16,
+          "velocity_bounds_pass": true
+        },
+        "worker_epoch_native_projection": {
+          "recorded_track_step_slack_m": 0.08577809228091557,
+          "full_dynamic_min_m": 0.08577809228091557,
+          "terminal_speed_max": 0.0,
+          "velocity_bounds_pass": true
+        },
+        "evaluation_original_relative_controls": {
+          "recorded_track_step_slack_m": 0.06257673660898319,
+          "full_dynamic_min_m": 0.06257673660898319,
+          "terminal_speed_max": 2.0643209364124004e-16,
+          "velocity_bounds_pass": true
+        },
+        "evaluation_unshifted_native_projection": {
+          "recorded_track_step_slack_m": 0.06145511995224425,
+          "full_dynamic_min_m": 0.06145511995224425,
+          "terminal_speed_max": 0.0,
+          "velocity_bounds_pass": true
+        },
+        "evaluation_shifted_without_terminal_projection": {
+          "recorded_track_step_slack_m": 0.02869277112189613,
+          "full_dynamic_min_m": 0.02869277112189613,
+          "terminal_speed_max": 0.05000000000000057,
+          "velocity_bounds_pass": true
+        },
+        "evaluation_native_projection_old_inputs": {
+          "recorded_track_step_slack_m": 0.032567983127176646,
+          "full_dynamic_min_m": 0.032567983127176646,
+          "terminal_speed_max": 0.0,
+          "velocity_bounds_pass": true
+        },
+        "actual_native_new_inputs": {
+          "recorded_track_step_slack_m": -0.0036339011420461614,
+          "full_dynamic_min_m": -0.0036339011420461614,
+          "terminal_speed_max": 0.0,
+          "velocity_bounds_pass": true
+        }
+      }
+    },
+    "first_dynamic_rejection_factorial": {
+      "evaluation_ns": 13435000000,
+      "proposal_ns": 13385000000,
+      "worker_source_ns": 13333000000,
+      "native_source_ns": 13399000000,
+      "measured_state_delta": [
+        0.010474203570258606,
+        0.00026285249764348994,
+        -8.725374581588143e-12,
+        0.01288661068104946,
+        0.0030361012154288946,
+        -5.861225946864751e-11
+      ],
+      "recorded_native_constraint": "dynamic_clearance",
+      "recorded_step": 30,
+      "recorded_track_id": 1,
+      "recorded_slack_m": -0.0036339011420461684,
+      "cases": {
+        "worker_state__worker_prediction": {
+          "at_recorded_track_step_m": 0.032567983127176646,
+          "hypothetical_full_min_m": 0.032567983127176646,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "worker_state__native_prediction": {
+          "at_recorded_track_step_m": 0.02394134980065081,
+          "hypothetical_full_min_m": 0.02394134980065081,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "native_state__worker_prediction": {
+          "at_recorded_track_step_m": 0.004993202480429192,
+          "hypothetical_full_min_m": 0.004993202480429192,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "native_state__native_prediction": {
+          "at_recorded_track_step_m": -0.0036339011420461614,
+          "hypothetical_full_min_m": -0.0036339011420461614,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        }
+      },
+      "worker_original_dynamic_min_m": 0.08689982678766225,
+      "worker_constraint_min": 0.0,
+      "executed": false
+    },
+    "age_record_count": 15,
+    "age_actual_replay_matches": true,
+    "age_errors": [],
+    "worker_input_joins": 32,
+    "worker_input_errors": []
+  },
+  "head_on_portfolio_01": {
+    "request_signed_age_s": {
+      "count": 998,
+      "p50": 0.0,
+      "p95": 0.001,
+      "min": 0.0,
+      "max": 0.016
+    },
+    "proposal_callback_body_exceeds_40ms": 0,
+    "core_40ms_rejections": 0,
+    "worker_max_iterations": 390,
+    "solver_s": {
+      "count": 998,
+      "p50": 0.00041433651495026425,
+      "p95": 0.0008114743388432543,
+      "min": 0.0,
+      "max": 0.005553042035899125
+    },
+    "request_publish_call_s": {
+      "count": 1006,
+      "p50": 5.29385e-05,
+      "p95": 6.94065e-05,
+      "min": 1.3567e-05,
+      "max": 0.000114795
+    },
+    "frontend_overlap_cases": [
+      {
+        "schema": "temporal_mpc_worker_timing/v1",
+        "kind": "request",
+        "callback_id": 6,
+        "callback_start_monotonic_ns": 76549684979974,
+        "callback_entry_clock_ns": 184000000,
+        "disposition": "proposal",
+        "proposal_published": true,
+        "dds_source_timestamp_ns": null,
+        "dds_received_timestamp_ns": null,
+        "dds_info_scope": "Installed Humble executor supplies one message argument; metadata unavailable.",
+        "request_epoch_ns": 168000000,
+        "request_frame": "map",
+        "generation": 1,
+        "raw_request_fields": [
+          8.711314763070301e-21,
+          -3.435258600848947e-20,
+          0.0,
+          2.237507507148487e-19,
+          3.768644425142254e-19,
+          8.62872376145242e-21,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "raw_request_invalid_indices": [],
+        "decision_clock_ns": 184000000,
+        "request_signed_age_ns": 16000000,
+        "request_clock_status": "current",
+        "exception_reason": "ContractError: missing plan/map/prediction",
+        "cycle_budget_elapsed_s": 0.00011252600234001875,
+        "proposal_feasible": false,
+        "proposal_fallback": true,
+        "proposal_reason": "ContractError: missing plan/map/prediction",
+        "proposal_publish_monotonic_ns": 76549685095478,
+        "proposal_publish_return_monotonic_ns": 76549685150166,
+        "callback_body_end_monotonic_ns": 76549685223348,
+        "callback_exit_clock_ns": 184000000,
+        "native_request_publish_monotonic_ns": 76549668162193,
+        "native_request_publish_clock_ns": 168000000,
+        "publish_start_to_callback_s": 0.016817781,
+        "frontend_overlap_s": 0.015922778000000002,
+        "proposal_publish_start_to_native_receipt_s": 0.000170358,
+        "callback_body_s": 0.000243374
+      },
+      {
+        "schema": "temporal_mpc_worker_timing/v1",
+        "kind": "request",
+        "callback_id": 459,
+        "callback_start_monotonic_ns": 76562975064792,
+        "callback_entry_clock_ns": 13471000000,
+        "disposition": "proposal",
+        "proposal_published": true,
+        "dds_source_timestamp_ns": null,
+        "dds_received_timestamp_ns": null,
+        "dds_info_scope": "Installed Humble executor supplies one message argument; metadata unavailable.",
+        "request_epoch_ns": 13465000000,
+        "request_frame": "map",
+        "generation": 2,
+        "raw_request_fields": [
+          0.0002668126210570583,
+          5.6365672937301985e-05,
+          0.0,
+          4.472809380399089e-11,
+          -2.2520148271014717e-10,
+          -8.533000504026105e-15,
+          1.0,
+          0.01771061047758078,
+          0.003020353870381174,
+          0.0,
+          0.0,
+          0.0,
+          -4.858083141835918e-13
+        ],
+        "raw_request_invalid_indices": [],
+        "decision_clock_ns": 13471000000,
+        "request_signed_age_ns": 6000000,
+        "request_clock_status": "current",
+        "solver_start_monotonic_ns": 76562975832854,
+        "solver_end_monotonic_ns": 76562991683197,
+        "cycle_budget_elapsed_s": 0.0168895259994315,
+        "proposal_feasible": true,
+        "proposal_fallback": false,
+        "proposal_reason": "revalidated temporal QP",
+        "proposal_publish_monotonic_ns": 76562991962795,
+        "proposal_publish_return_monotonic_ns": 76562992167777,
+        "callback_body_end_monotonic_ns": 76562992427775,
+        "callback_exit_clock_ns": 13471000000,
+        "native_request_publish_monotonic_ns": 76562967889888,
+        "native_request_publish_clock_ns": 13465000000,
+        "publish_start_to_callback_s": 0.007174904,
+        "frontend_overlap_s": 0.004673984,
+        "proposal_publish_start_to_native_receipt_s": 0.000311506,
+        "callback_body_s": 0.017362983000000002,
+        "mpc_solve_call_s": 0.015850343
+      }
+    ],
+    "worst_logged_command_gap": {
+      "gap_s": 0.095474099,
+      "left": {
+        "topic": "/cmd_vel",
+        "receipt_monotonic_ns": 76562496057896,
+        "receipt_sim_ns": 12993000000,
+        "data": {
+          "linear": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "angular": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        },
+        "cdr_b64": "AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      },
+      "right": {
+        "topic": "/cmd_vel",
+        "receipt_monotonic_ns": 76562591531995,
+        "receipt_sim_ns": 13081000000,
+        "data": {
+          "linear": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "angular": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        },
+        "cdr_b64": "AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      },
+      "nearby_guard_producer_records": [
+        {
+          "epoch_ns": 12938000000,
+          "tick_count": 323,
+          "map_revision": 100000000,
+          "producer_start_ns": 76562441203870,
+          "producer_output_ns": 76562442660351,
+          "nominal_expected_ns": 76562441339667,
+          "nominal_lateness_s": 0.0,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.050002068000000004,
+          "producer_output_interval_s": 0.048435384000000005,
+          "tick_to_output_cpu_s": 0.0015287170000000002,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 12920000000,
+          "source_ns": 12871000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; static braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.4047432574119887,
+          "elapsed_s": 0.001166968999314122,
+          "tick_to_output_s": 0.0014799039927311242,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.018000000000000002
+        },
+        {
+          "epoch_ns": 12988000000,
+          "tick_count": 324,
+          "map_revision": 100000000,
+          "producer_start_ns": 76562491271699,
+          "producer_output_ns": 76562494250785,
+          "nominal_expected_ns": 76562491339667,
+          "nominal_lateness_s": 0.0,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.050067829,
+          "producer_output_interval_s": 0.051590434000000004,
+          "tick_to_output_cpu_s": 0.003107692,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 12980000000,
+          "source_ns": 12937000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; static braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.4141772385440453,
+          "elapsed_s": 0.002533395992941223,
+          "tick_to_output_s": 0.003018592993612401,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.008
+        },
+        {
+          "epoch_ns": 13038000000,
+          "tick_count": 325,
+          "map_revision": 100000000,
+          "producer_start_ns": 76562541210108,
+          "producer_output_ns": 76562542580118,
+          "nominal_expected_ns": 76562541339667,
+          "nominal_lateness_s": 0.0,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.049938409,
+          "producer_output_interval_s": 0.048329333,
+          "tick_to_output_cpu_s": 0.001451299,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 13020000000,
+          "source_ns": 13003000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; dynamic braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.3804813403168896,
+          "elapsed_s": 0.0010988340072799474,
+          "tick_to_output_s": 0.001396176012349315,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.018000000000000002
+        },
+        {
+          "epoch_ns": 13088000000,
+          "tick_count": 326,
+          "map_revision": 100000000,
+          "producer_start_ns": 76562591289272,
+          "producer_output_ns": 76562594330269,
+          "nominal_expected_ns": 76562591339667,
+          "nominal_lateness_s": 0.0,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.050079164,
+          "producer_output_interval_s": 0.051750151,
+          "tick_to_output_cpu_s": 0.003105534,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 13080000000,
+          "source_ns": 13003000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; dynamic braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.3667006704695861,
+          "elapsed_s": 0.0025541119975969195,
+          "tick_to_output_s": 0.0030816789949312806,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.008
+        },
+        {
+          "epoch_ns": 13138000000,
+          "tick_count": 327,
+          "map_revision": 100000000,
+          "producer_start_ns": 76562641276544,
+          "producer_output_ns": 76562644241424,
+          "nominal_expected_ns": 76562641339667,
+          "nominal_lateness_s": 0.0,
+          "nominal_missed_slots": 0,
+          "producer_start_interval_s": 0.049987272000000006,
+          "producer_output_interval_s": 0.049911155000000006,
+          "tick_to_output_cpu_s": 0.0030386500000000004,
+          "initial": [
+            2.9024180580618105e-20,
+            3.192335787078627e-20,
+            4.678300714311416e-20,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "requested": [
+            null,
+            null,
+            null
+          ],
+          "previous": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "odom_ns": 13120000000,
+          "source_ns": 13069000000,
+          "model": "fixed_yaw_velocity_zoh/v1",
+          "status": "certified_brake",
+          "reason": "invalid requested velocity; dynamic braking sweep",
+          "model_certified": true,
+          "constraint_min": 0.32675624476803633,
+          "elapsed_s": 0.0025400189915671945,
+          "tick_to_output_s": 0.0029925699927844107,
+          "command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state_age_s": 0.018000000000000002
+        }
+      ],
+      "scope": "Observer commands have no producer sequence id. Nearby production records cannot uniquely match missing/late command delivery; no latency attribution."
+    },
+    "first_dynamic_rejection_age": {
+      "evaluation_ns": 13565000000,
+      "proposal_ns": 13515000000,
+      "age_ns": 50000000,
+      "worker_source_ns": 13465000000,
+      "native_source_ns": 13531000000,
+      "executed": false,
+      "step": 30,
+      "track_id": 1,
+      "recorded_slack_m": -0.014953266913141087,
+      "actual_replay_match": true,
+      "cases": {
+        "worker_epoch_original": {
+          "recorded_track_step_slack_m": 0.08896076404238436,
+          "full_dynamic_min_m": 0.08896076404238436,
+          "terminal_speed_max": 3.3285006695304986e-17,
+          "velocity_bounds_pass": true
+        },
+        "worker_epoch_native_projection": {
+          "recorded_track_step_slack_m": 0.08885617743046342,
+          "full_dynamic_min_m": 0.08885617743046342,
+          "terminal_speed_max": 0.0,
+          "velocity_bounds_pass": true
+        },
+        "evaluation_original_relative_controls": {
+          "recorded_track_step_slack_m": 0.06404932051156104,
+          "full_dynamic_min_m": 0.06404932051156104,
+          "terminal_speed_max": 3.3285006695304986e-17,
+          "velocity_bounds_pass": true
+        },
+        "evaluation_unshifted_native_projection": {
+          "recorded_track_step_slack_m": 0.063944731705813,
+          "full_dynamic_min_m": 0.063944731705813,
+          "terminal_speed_max": 0.0,
+          "velocity_bounds_pass": true
+        },
+        "evaluation_shifted_without_terminal_projection": {
+          "recorded_track_step_slack_m": 0.05644053009556499,
+          "full_dynamic_min_m": 0.05644053009556499,
+          "terminal_speed_max": 0.050000000000000704,
+          "velocity_bounds_pass": true
+        },
+        "evaluation_native_projection_old_inputs": {
+          "recorded_track_step_slack_m": 0.05697981998251195,
+          "full_dynamic_min_m": 0.05697981998251195,
+          "terminal_speed_max": 0.0,
+          "velocity_bounds_pass": true
+        },
+        "actual_native_new_inputs": {
+          "recorded_track_step_slack_m": -0.014953266913141087,
+          "full_dynamic_min_m": -0.014953266913141087,
+          "terminal_speed_max": 0.0,
+          "velocity_bounds_pass": true
+        }
+      }
+    },
+    "first_dynamic_rejection_factorial": {
+      "evaluation_ns": 13565000000,
+      "proposal_ns": 13515000000,
+      "worker_source_ns": 13465000000,
+      "native_source_ns": 13531000000,
+      "measured_state_delta": [
+        0.0029774748750346133,
+        -6.507760088452814e-05,
+        7.934557303402528e-13,
+        0.04928835759924923,
+        -0.0036089329608253212,
+        1.9124024824757106e-11
+      ],
+      "recorded_native_constraint": "dynamic_clearance",
+      "recorded_step": 30,
+      "recorded_track_id": 1,
+      "recorded_slack_m": -0.014953266913141087,
+      "cases": {
+        "worker_state__worker_prediction": {
+          "at_recorded_track_step_m": 0.05697981998251195,
+          "hypothetical_full_min_m": 0.05697981998251195,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "worker_state__native_prediction": {
+          "at_recorded_track_step_m": 0.05472761345198745,
+          "hypothetical_full_min_m": 0.05472761345198745,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "native_state__worker_prediction": {
+          "at_recorded_track_step_m": -0.012701103078478323,
+          "hypothetical_full_min_m": -0.012701103078478323,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        },
+        "native_state__native_prediction": {
+          "at_recorded_track_step_m": -0.014953266913141087,
+          "hypothetical_full_min_m": -0.014953266913141087,
+          "hypothetical_full_min_step": 30,
+          "hypothetical_full_min_track": 1
+        }
+      },
+      "worker_original_dynamic_min_m": 0.08896076404238436,
+      "worker_constraint_min": 0.0,
+      "executed": false
+    },
+    "age_record_count": 14,
+    "age_actual_replay_matches": true,
+    "age_errors": [],
+    "worker_input_joins": 19,
+    "worker_input_errors": []
+  }
+}

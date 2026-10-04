@@ -276,3 +276,12 @@ M2历史输入审计：[787条真实捕获预测](evidence/temporal_mpc_nav2_202
 - evidence：[预登记及采集修正](temporal_mpc_candidates_registration_20261004.md)、[结果与分解](temporal_mpc_candidates_results_20261004.md)、[完整证据](evidence/temporal_mpc_candidates_20261004/manifest.json)。
 - conclusion：候选预算观察门通过，但没有稳定完成任务或统计净收益，动态接受与部署冻结仍false。原迎面基线缺raw静态TF导致进入门失败，采集端回归后另登记全组02，失败证据完整保留。
 - next step：worker判定clock/回调排队证据，以及提案年龄/停止尾余量；几何支持和运动残差分开校准，保持静态规划职责与双插件回退。
+
+## 2026-10-04：Worker时序与提案老化诊断
+
+- goal：分清请求时间合同与求解/重锚失败，检查提案年龄和停止投影的模型余量。
+- change：独立worker_timing实验topic记录全部callback disposition、严格signed clock、原始请求及solver身份；native记录真实请求发布/提案接收时序。有效输入门、QP、几何、执行与selector不改；非法stamp诊断保留nullable身份。只读老化工具拆开模型推进、控制移位与完整停止投影。
+- result：128项完整测试＋新增2项审计测试在主机/Humble通过，受控clock真实DDS 8门及Nav2原14类故障门通过。新迎面B0/portfolio各一次均40s取消、无正Contact；候选实际1/1 MPC计算后shadow动态终态-14.953mm拒绝回退。1,998请求全部current，没有重现旧时间拒绝；候选最终接收gap95.474ms、B0 Controller gap82.702ms失败，B0保留一次40ms worker deadline拒绝。2,143保护/51状态和输入join/29动态余量、36,961 CDR/1,522源TF全部核对；旧63＋新29老化复算匹配。
+- evidence：[预登记](temporal_mpc_timing_registration_20261004.md)、[结果及指标边界](temporal_mpc_timing_results_20261004.md)、[完整证据](evidence/temporal_mpc_timing_20261004/manifest.json)。
+- conclusion：新回退的余量主要对新测量重锚敏感，旧横穿single主要在控制移位损失；停止投影略改善，不能为绕开停止条件提供理由。未复现旧future/stale，不能回填旧因果。动态接受/冻结仍false，主线、默认MPPI及main派生隔离保持。
+- next step：独立标定短时执行误差包络、共同输出最坏负载并注册新配对；有确切新时钟证据再考虑有界等待，几何与运动不确定性分开校准。

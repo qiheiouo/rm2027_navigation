@@ -95,3 +95,22 @@ python3 /workspace/experiments/temporal_mpc/gazebo/verify_static_capture.py /abs
 失败在固定phase前拒绝，不补TF。输入分解工具只适用于Gazebo event schema；
 实际/shadow分开，旧测量替换是反事实，不能当传播后的plant或已执行轨迹。
 六有效试次仍全部取消，另外保留缺静态TF失败基线；不形成部署接受。
+
+时序/提案老化继续轮见[登记](../../../docs/dynamic_navigation/temporal_mpc_timing_registration_20261004.md)
+和[结果](../../../docs/dynamic_navigation/temporal_mpc_timing_results_20261004.md)。
+新实验worker_timing记录全部回调disposition、严格signed clock与monotonic身份，
+原请求wire和100ms/非未来门不变。安装的Humble executor无MessageInfo，DDS时刻
+明确null；不能把同主机总interval解释成唯一传输/排队时延。
+
+```bash
+# 新run采集结束后执行，只读且拒绝覆盖各自结果：
+python3 /workspace/experiments/temporal_mpc/gazebo/audit_worker_timing.py /absolute/finished-run
+python3 /workspace/experiments/temporal_mpc/gazebo/audit_proposal_age.py /absolute/finished-run /absolute/new-age-audit.json
+# 实际DDS/worker受控clock工程检查；不是物理/检测接受：
+python3 /workspace/experiments/temporal_mpc/integration/verify_worker_clock.py /absolute/new-clock-fixture /workspace/build/temporal_mpc_ros2/frontend
+```
+
+本轮双方strategy=portfolio匹配shadow负载，B0进入门通过后各一个新容器迎面run。
+1,998请求均current，候选仅实际1个通过周期，shadow新状态未来净空拒绝后回退。
+双方40s取消，候选最终命令接收gap95.474ms；保留失败，不追跑挑选。老化反事实
+中的未修停止尾移位不是可执行提案，完整slack重放不等于连续物理证书。

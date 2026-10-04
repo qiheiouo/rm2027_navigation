@@ -1,0 +1,18 @@
+[WARN] [1791112037.938700474] [temporal_mpc_worker]: planner/corridor rejected: planner path frame/count
+[WARN] [1791112037.939889945] [temporal_mpc_worker]: planner/corridor rejected: planner path frame/count
+Traceback (most recent call last):
+  File "/workspace/experiments/temporal_mpc/integration/worker_node.py", line 281, in <module>
+    main()
+  File "/workspace/experiments/temporal_mpc/integration/worker_node.py", line 271, in main
+    rclpy.spin(node)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+    executor.spin_once()
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 797, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+  File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 653, in _wait_for_ready_callbacks
+    wait_set = _rclpy.WaitSet(
+rclpy._rclpy_pybind11.RCLError: failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130

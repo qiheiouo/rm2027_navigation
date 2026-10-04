@@ -393,3 +393,24 @@ raw /tf_static独立记录采用可靠transient-local depth100，并在启动前
 
 六有效试次任务均取消，目标模型已开放但有限候选仍未稳定通过；迎面portfolio
 由状态请求合同拒绝、QP未运行，下一阶段需判定时刻与队列证据。动态接受false。
+
+## Worker时序与提案老化继续轮
+
+[登记](temporal_mpc_timing_registration_20261004.md)、[结果](temporal_mpc_timing_results_20261004.md)。
+实验String `/temporal_mpc/worker_timing`分别记录request/frontend/prediction回调，
+含callback_id、原始请求有限字段、signed ROS clock判定、solver/publish/body monotonic。
+duplicate/no causal/silent保留独立disposition，不覆盖有效solver身份。
+solver_diagnostic以timing_callback_id关联，native health包含真实request publish
+前后时刻、ROS clock及proposal receipt。StateRequest与公开消息wire不变。
+
+原map/非未来/age≤100ms条件保持，future/stale/frame分别报错；非法stamp
+诊断使用nullable epoch，避免catch后重解析而丢失诊断，不允许非法控制输入。
+Humble executor只有msg参数，DDS metadata明确不可用，不能将system timestamp
+与ROS/steady混减。同主机monotonic只支持总interval，不能唯一分配DDS/排队原因。
+timing自身发布在callback_body测量之外，worker40ms核心门位置保持。
+
+只读提案老化工具检查不同epoch/相对网格、移位与速度/停止投影，完整实际slack
+复算保留。未修停止尾的轨迹可能终速非零，只作反事实，不能执行或替代安全门。
+新迎面一次配对全部请求current，MPC短暂通过后新测量重锚未来净空拒绝；最终
+接收连续性未通过，不回填旧模糊时钟失败，动态接受false。QP/native validate、
+静态T-DT职责和双插件runtime回退保留。

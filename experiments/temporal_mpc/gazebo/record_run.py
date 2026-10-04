@@ -65,6 +65,7 @@ class Recorder(Node):
                 ("/controller_selector",String,transient),
                 ("/temporal_mpc/health",String,100),
                 ("/temporal_mpc/solver_diagnostic",String,100),
+                ("/temporal_mpc/worker_timing",String,100),
                 ("/temporal_mpc/state",StateRequest,100),("/temporal_mpc/proposal",Proposal,100),
                 ("/temporal_mpc/plan",Plan,transient),
                 ("/simulation/moving_obstacle/target",Float64,100)]

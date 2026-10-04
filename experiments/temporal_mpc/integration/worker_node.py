@@ -19,6 +19,7 @@ from temporal_mpc.frontend import prepare_route
 from temporal_mpc.realtime_qp import RealtimeMPC
 from temporal_mpc.candidates import CandidateMPC
 from temporal_mpc.diagnostics import input_identity, lateral_state
+from temporal_mpc.timing import request_clock_status, raw_request
 
 
 class Worker(Node):
@@ -43,6 +44,8 @@ class Worker(Node):
                          durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.output = self.create_publisher(Proposal, "temporal_mpc/proposal", 1)
         self.diagnostic = self.create_publisher(String, "temporal_mpc/solver_diagnostic", 1)
+        self.timing = self.create_publisher(String, "temporal_mpc/worker_timing", 100)
+        self.callback_sequence=0
         self.create_subscription(Plan, "temporal_mpc/plan", self.on_plan, qos)
         self.create_subscription(OccupancyGrid, "map", self.on_map, qos)
         self.create_subscription(DynamicObstaclePredictionArray, "dynamic_obstacle_predictions", self.on_prediction, 1)
@@ -87,6 +90,14 @@ class Worker(Node):
         self.prepare()
 
     def prepare(self):
+        timing=self.new_timing('frontend')
+        try:self._prepare()
+        finally:
+            timing.update(generation=self.generation,map_revision=self.map_revision,
+                          route_available=self.route is not None)
+            self.emit_timing(timing)
+
+    def _prepare(self):
         if self.plan is None or self.map is None:
             return
         try:
@@ -116,17 +127,46 @@ class Worker(Node):
             self.get_logger().warning(f"planner/corridor rejected: {error}")
 
     def on_prediction(self, message):
+        timing=self.new_timing('prediction')
+        try:timing['source_ns']=stamp_ns(message.header.stamp)
+        except ContractError:timing['source_ns']=None
         self.snapshot = None
+        now=self.get_clock().now().nanoseconds
+        timing['decision_clock_ns']=now
         try:
-            self.snapshot = self.adapter.consume(message, self.get_clock().now().nanoseconds)
+            self.snapshot = self.adapter.consume(message, now)
             self.snapshots.append(self.snapshot)
+            timing['disposition']='accepted'
         except ContractError as error:
             self.snapshots.clear()
             self.get_logger().debug(str(error))
+            timing.update(disposition='rejected',reason=str(error))
+        finally:self.emit_timing(timing)
+
+    def new_timing(self, kind):
+        self.callback_sequence+=1
+        return dict(schema='temporal_mpc_worker_timing/v1',kind=kind,
+                    callback_id=self.callback_sequence,
+                    callback_start_monotonic_ns=time.monotonic_ns(),
+                    callback_entry_clock_ns=self.get_clock().now().nanoseconds,
+                    disposition='not_completed',proposal_published=False,
+                    dds_source_timestamp_ns=None,dds_received_timestamp_ns=None,
+                    dds_info_scope='Installed Humble executor supplies one message argument; metadata unavailable.')
+
+    def emit_timing(self, timing):
+        timing['callback_body_end_monotonic_ns']=time.monotonic_ns()
+        timing['callback_exit_clock_ns']=self.get_clock().now().nanoseconds
+        self.timing.publish(String(data=json.dumps(timing,allow_nan=False)))
 
     def solve(self, request):
         started = time.perf_counter()
+        timing=self.new_timing('request');timing.update(raw_request(request))
+        try:self.solve_request(request,timing,started)
+        finally:self.emit_timing(timing)
+
+    def solve_request(self, request, timing, started):
         if self.fault == "silent":
+            timing['disposition']='injected_silent'
             return
         result = Proposal()
         result.header = request.header
@@ -144,11 +184,15 @@ class Worker(Node):
             epoch = stamp_ns(request.header.stamp)
             # Duplicated timer/compute requests are not queued as extra QPs.
             if epoch <= self.last_request_ns:
+                timing['disposition']='duplicate'
                 return
             self.last_request_ns = epoch
             now = self.get_clock().now().nanoseconds
-            if request.header.frame_id != "map" or not 0 <= now-epoch <= 100_000_000:
-                raise ContractError("state request stale/frame")
+            clock_status=request_clock_status(epoch,request.header.frame_id,now)
+            timing.update(decision_clock_ns=now,request_signed_age_ns=now-epoch,
+                          request_clock_status=clock_status)
+            if clock_status!='current':
+                raise ContractError('state request '+clock_status)
             if self.fault == "timeout":
                 # Delay only the worker, while native control continues braking.
                 time.sleep(.2)
@@ -169,11 +213,14 @@ class Worker(Node):
             if snapshot is None:
                 # A newer scan may arrive before an older state request callback.
                 # Do not backdate it or issue a failure for this ordering alone.
+                timing['disposition']='no_causal_snapshot'
                 return
             predict(snapshot,epoch,self.mpc.times)
             window = self.route.window(x,epoch,self.mpc.times)
             validated=True
-            solved = self.mpc.solve(x,epoch,snapshot,window)
+            timing['solver_start_monotonic_ns']=time.monotonic_ns()
+            try:solved = self.mpc.solve(x,epoch,snapshot,window)
+            finally:timing['solver_end_monotonic_ns']=time.monotonic_ns()
             result.fixed_yaw = yaw
             result.centre_bounds = list(window.centre_bounds)
             result.accelerations = [Vector3(x=float(a[0]),y=float(a[1]),z=float(a[2])) for a in solved.controls]
@@ -191,14 +238,23 @@ class Worker(Node):
             # process is killed before publishing this result.
             self.mpc.reset()
             result.reason = f"{type(error).__name__}: {error}"[:200]
+            timing['exception_reason']=result.reason
         elapsed = time.perf_counter()-started
         if elapsed>.04:
             result.model_feasible=False
             result.fallback_requested=True
             result.reason="worker cycle deadline"
+        timing.update(disposition='proposal',cycle_budget_elapsed_s=elapsed,
+                      proposal_feasible=result.model_feasible,proposal_fallback=result.fallback_requested,
+                      proposal_reason=result.reason)
+        timing['proposal_publish_monotonic_ns']=time.monotonic_ns()
         self.output.publish(result)
-        identity=input_identity(stamp_ns(request.header.stamp),snapshot,x,window,request.generation,self.map_revision,validated)
-        self.diagnostic.publish(String(data=json.dumps({**identity,"epoch_ns":stamp_ns(request.header.stamp),
+        timing['proposal_publish_return_monotonic_ns']=time.monotonic_ns()
+        timing['proposal_published']=True
+        epoch=timing['request_epoch_ns']
+        identity=input_identity(epoch,snapshot,x,window,request.generation,self.map_revision,validated)
+        self.diagnostic.publish(String(data=json.dumps({**identity,"epoch_ns":epoch,
+            "timing_callback_id":timing['callback_id'],
             "elapsed_s":elapsed,"iterations":iterations,"feasible":result.model_feasible,
             "strategy":self.strategy,"solver_s":0. if solved is None else solved.solver_s,
             "candidates":[] if solved is None else solved.candidate_trace,

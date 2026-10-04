@@ -28,6 +28,7 @@ if __name__=='__main__':
            '/cmd_vel':Twist,'/nav2/cmd_vel':Twist,'/temporal_mpc/smoothed_cmd_vel':Twist,
            '/temporal_mpc/health':String,'/temporal_mpc/execution_health':String,
            '/temporal_mpc/solver_diagnostic':String,'/controller_selector':String,
+           '/temporal_mpc/worker_timing':String,
            '/temporal_mpc/proposal':Proposal,'/temporal_mpc/state':StateRequest,'/temporal_mpc/plan':Plan,
            '/map':OccupancyGrid,'/plan':PathMessage}
     cdr_checked=0;differences=[];predictions=[]

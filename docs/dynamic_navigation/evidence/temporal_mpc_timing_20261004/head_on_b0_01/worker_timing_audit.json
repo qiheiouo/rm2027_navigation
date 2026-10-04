@@ -1,0 +1,45 @@
+{
+  "request_callbacks": 1000,
+  "native_request_joins": 1000,
+  "native_proposal_receipt_joins": 997,
+  "clock_classifications_checked": 1000,
+  "dispositions": {
+    "proposal": 1000
+  },
+  "clock_statuses": {
+    "current": 1000
+  },
+  "publish_start_to_callback_s": {
+    "count": 1000,
+    "p50": 0.00043072650000000004,
+    "p95": 0.0008121028999999999,
+    "min": 0.00024201700000000002,
+    "max": 0.013728627
+  },
+  "proposal_publish_start_to_native_receipt_s": {
+    "count": 997,
+    "p50": 0.000198029,
+    "p95": 0.0002829894,
+    "min": 8.4455e-05,
+    "max": 0.0008179740000000001
+  },
+  "callback_body_s": {
+    "count": 1000,
+    "p50": 0.015702312000000003,
+    "p95": 0.03541412155,
+    "min": 0.00023138500000000002,
+    "max": 0.052383092000000006
+  },
+  "frontend_body_s": {
+    "count": 4,
+    "p50": 0.014593881000000001,
+    "p95": 0.15193573264999996,
+    "min": 2.5980000000000002e-05,
+    "max": 0.173681987
+  },
+  "frontend_overlap_callbacks": 2,
+  "future_request_cases": [],
+  "errors": [],
+  "scope": "Exact same-host Linux monotonic joins and signed local ROS clock decisions. Publish-start to callback includes transport/executor/clock-callback order; no unique latency allocation. Timing emission itself follows callback_body end. DDS system timestamps unavailable, never inferred.",
+  "dynamic_acceptance": false
+}

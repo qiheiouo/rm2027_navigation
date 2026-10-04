@@ -1,0 +1,74 @@
+{
+  "goal": [
+    8.5,
+    0.0
+  ],
+  "goal_tolerance_m": 0.15,
+  "current_public_source": {
+    "samples": 610,
+    "nonempty_samples": 610,
+    "point_excluded": 0,
+    "entire_goal_disk_excluded": 0,
+    "point_slack_m": {
+      "count": 610,
+      "p50": 5.228883593319232,
+      "p95": 5.231599053466673,
+      "min": 1.7302788942232938,
+      "max": 5.235236151781915
+    },
+    "goal_disk_upper_slack_m": {
+      "count": 610,
+      "p50": 5.378883593319232,
+      "p95": 5.381599053466673,
+      "min": 1.8802788942232938,
+      "max": 5.385236151781915
+    }
+  },
+  "native_exact_epochs": {
+    "samples": 19,
+    "nonempty_samples": 19,
+    "point_excluded": 0,
+    "entire_goal_disk_excluded": 0,
+    "point_slack_m": {
+      "count": 19,
+      "p50": 3.647693443508275,
+      "p95": 3.8454894688874597,
+      "min": 3.4459436863891684,
+      "max": 3.866681045932794
+    },
+    "goal_disk_upper_slack_m": {
+      "count": 19,
+      "p50": 3.7976934435082748,
+      "p95": 3.9954894688874596,
+      "min": 3.5959436863891683,
+      "max": 4.016681045932794
+    }
+  },
+  "public_receipt_rejections": {},
+  "diagnostic_missing_inputs": {},
+  "native_constraint_counts": {
+    "input": 790,
+    "accepted": 5,
+    "dynamic_clearance": 14
+  },
+  "actual_executed_rejections": [],
+  "worker_postsolve_modes": {
+    "route": 782,
+    "shift": 19
+  },
+  "worker_reasons": {
+    "ContractError: missing plan/map/prediction": 61,
+    "revalidated temporal QP": 19,
+    "maximum iterations reached; trajectory rejected by hard checks": 3,
+    "primal infeasible inaccurate": 10,
+    "primal infeasible": 708
+  },
+  "native_current_section_exists": 19,
+  "native_preference_no_target_but_current_cut_exists": 0,
+  "input_sha256": {
+    "events.jsonl": "0b743baca7fc688933c2b0da6bc1d656d8d4ccb04b1acd07f174b6c88a22dbd1",
+    "scene/nav2.yaml": "12abb65f4a5bf02ba52a644e1269b062745b67104dc0618a9b09866336c38cd0"
+  },
+  "scope": "Recorded current model only. Source rows use source epoch (no double coast); native rows use exact recorded evaluation/prediction. Disk upper bound proves sampled-epoch exclusion only. Free section is not a temporal route. Preference does not reconstruct latch. No oracle, geometry changes, continuous-time infeasibility or physical safety proof.",
+  "dynamic_acceptance": false
+}
