@@ -1,0 +1,16 @@
+[project]
+name = "rm-r4-hws-consumption-core"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24,<2", "scipy>=1.10,<2", "osqp==1.0.5"]
+
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["r4_hws*"]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+pythonpath = ["."]

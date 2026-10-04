@@ -297,7 +297,9 @@ R3 源码定位：`experiments/temporal_mpc/temporal_mpc/realtime_qp.py:20–35,
 
 冻结 tracker `Detection` 没有成员字段，`TrackerUpdate` 不公开 assignment；但 `cluster_point_indices` 可保留成员索引，association 在 tracker 内部。若后续做 sidecar，需要在**R4隔离副本**里增加明确的 detection→track 身份输出/钩子，再使用同次聚类成员；不事后按最近质心猜关联，不在R2/R3上补丁。KF/关联算法本身尽量保持。
 
-## 12. 最小 R4 prototype 设计（待确认，尚未实现）
+## 12. 最小 R4 prototype 设计（A01方案；已授权进入A02）
+
+本节为A01时提出的架构。用户随后回复“继续”，已进入隔离实现；A02离线核心与尚未完成的运行接线见[实现记录](r4_hws_prediction_consumption_implementation.md)。架构确认不等于闭环/部署接受。
 
 ### 12.1 待检验假设与范围
 
@@ -305,7 +307,7 @@ R3 源码定位：`experiments/temporal_mpc/temporal_mpc/realtime_qp.py:20–35,
 
 该问题不是“通过取消保护让命令更容易被接受”。真实机械几何、footprint/padding、当前占用保护、原 oracle 净空门和失败统计保持。shape 是**优化信息**，不升级为隐藏完整物体支持。
 
-第一版仅替换 `prediction → controller` 和为此必要的 shape sidecar；保留 T-DT 静态 reference/corridor、Nav2 action、STVL、默认 MPPI。新包规划为 `experiments/r4_hws_prediction_consumption/` 并隔离构建，**本轮不创建这些源码/运行配置**。
+第一版仅替换 `prediction → controller` 和为此必要的 shape sidecar；保留 T-DT 静态 reference/corridor、Nav2 action、STVL、默认 MPPI。新包范围为 `experiments/r4_hws_prediction_consumption/` 并隔离构建；A01只审计，A02已新增离线核心，运行配置/闭环仍未完成。
 
 ```mermaid
 flowchart LR

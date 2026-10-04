@@ -1,0 +1,2864 @@
+{
+  "scope": "offline_contract_and_numerical_checks_only",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "numpy": "1.26.4",
+  "scipy": "1.11.4",
+  "osqp": "1.0.5",
+  "frontend": {
+    "path": "/home/qihei/rm2027_navigation/build/temporal_mpc_main_20261004/build/temporal_mpc_timing_20261004/binaries/frontend",
+    "sha256": "daa5069041ebb22075f6e7ef94271940a8397e295f40a5378dcf37a55d7e587a",
+    "plan_id": "4fa15a011ed24fdba572e84369fa081824166596106c1c462fcf8849cc65d1c3"
+  },
+  "wait_release": {
+    "kind": "ideal_endpoint_numerical_probe",
+    "cycles": 100,
+    "wait_cycles": 11,
+    "resumes_after_release": true,
+    "final_x": 1.4211658245197483,
+    "solver_failures": 0,
+    "max_cycle_s": 0.010361319,
+    "rows": [
+      {
+        "cycle": 0,
+        "epoch_ns": 1000000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "command": [
+          0.04079984939837045,
+          -1.2108010308198363e-18,
+          0.0
+        ],
+        "progress": 0.0,
+        "solver_status": "solved",
+        "solver_s": 0.0024963980000000004,
+        "elapsed_s": 0.010361319,
+        "digest": "dc9b14ebd3eb9479ce42c80c49812c66db4fbfd7f2a049b9e10debb7c484e02b",
+        "plateau_stages": 10,
+        "dynamic_cost": 15.911153592833081,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 1,
+        "epoch_ns": 1050000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.0020399924699185225,
+          -6.054005154099182e-20,
+          0.0,
+          0.04079984939837045,
+          -1.2108010308198363e-18,
+          0.0
+        ],
+        "command": [
+          0.06764108345932006,
+          -2.237718403931327e-18,
+          0.0
+        ],
+        "progress": 0.002039992469918523,
+        "solver_status": "solved",
+        "solver_s": 0.002066694,
+        "elapsed_s": 0.008813640000000001,
+        "digest": "6552919ddb7233c9b851ff24eab45f5427b0723e861d8eba62bae3c52f0b1935",
+        "plateau_stages": 9,
+        "dynamic_cost": 14.199264084935852,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 2,
+        "epoch_ns": 1100000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.005422046642884526,
+          -1.7242597173755817e-19,
+          0.0,
+          0.06764108345932006,
+          -2.237718403931327e-18,
+          0.0
+        ],
+        "command": [
+          0.0845115119158034,
+          -5.5026513722903495e-19,
+          0.0
+        ],
+        "progress": 0.005422046642884526,
+        "solver_status": "solved",
+        "solver_s": 0.00195959,
+        "elapsed_s": 0.008698402000000001,
+        "digest": "33ad6d2552f4d3f1ccdb2e0aa69934de93294c45056124ea105bc965959c62dc",
+        "plateau_stages": 8,
+        "dynamic_cost": 12.434870864704187,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 3,
+        "epoch_ns": 1150000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.009647622238674696,
+          -1.9993922859900993e-19,
+          0.0,
+          0.0845115119158034,
+          -5.5026513722903495e-19,
+          0.0
+        ],
+        "command": [
+          0.09451537237241449,
+          4.5773166859156905e-18,
+          0.0
+        ],
+        "progress": 0.009647622238674696,
+        "solver_status": "solved",
+        "solver_s": 0.0020149530000000003,
+        "elapsed_s": 0.008645295,
+        "digest": "69722e8e36fab8934565d6987be616968e400aef5435d0c246dd7bb2ddd5c6dc",
+        "plateau_stages": 6,
+        "dynamic_cost": 10.63840788391505,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 4,
+        "epoch_ns": 1200000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.014373390857295422,
+          2.892660569677462e-20,
+          0.0,
+          0.09451537237241449,
+          4.5773166859156905e-18,
+          0.0
+        ],
+        "command": [
+          0.09948752151670646,
+          1.1225846698282885e-17,
+          0.0
+        ],
+        "progress": 0.014373390857295424,
+        "solver_status": "solved",
+        "solver_s": 0.001954897,
+        "elapsed_s": 0.009081075000000001,
+        "digest": "341031fc3da40b367d32dd149a0a48a52a25d76aab01fecd89f305e039482ea1",
+        "plateau_stages": 5,
+        "dynamic_cost": 8.427885523052732,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 5,
+        "epoch_ns": 1250000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.019347766933130745,
+          5.90218940610919e-19,
+          0.0,
+          0.09948752151670646,
+          1.1225846698282885e-17,
+          0.0
+        ],
+        "command": [
+          0.10032345350582196,
+          1.8647894411967102e-17,
+          0.0
+        ],
+        "progress": 0.01934776693313075,
+        "solver_status": "solved",
+        "solver_s": 0.0020636120000000003,
+        "elapsed_s": 0.009005078,
+        "digest": "12af072cf4f39ad5487c638414cc01ce4bf5792ee8f64b684858091906756f3e",
+        "plateau_stages": 4,
+        "dynamic_cost": 6.466121788014265,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 6,
+        "epoch_ns": 1300000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.024363939608421842,
+          1.522613661209274e-18,
+          0.0,
+          0.10032345350582196,
+          1.8647894411967102e-17,
+          0.0
+        ],
+        "command": [
+          0.09878397942741583,
+          1.5132988233880434e-17,
+          0.0
+        ],
+        "progress": 0.024363939608421845,
+        "solver_status": "solved",
+        "solver_s": 0.0020503960000000003,
+        "elapsed_s": 0.00871764,
+        "digest": "e5be27e2659b39723d619aa9e0537f948ede9b560f3925ceae39891975aa5d19",
+        "plateau_stages": 3,
+        "dynamic_cost": 4.533746153053794,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 7,
+        "epoch_ns": 1350000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.029303138579792633,
+          2.2792630729032957e-18,
+          0.0,
+          0.09878397942741583,
+          1.5132988233880434e-17,
+          0.0
+        ],
+        "command": [
+          0.09594491248610441,
+          2.2593936044208377e-17,
+          0.0
+        ],
+        "progress": 0.029303138579792637,
+        "solver_status": "solved",
+        "solver_s": 0.0020844970000000003,
+        "elapsed_s": 0.008739751,
+        "digest": "392b5bf7c14eb030f8bb7b256e0a8b8e4f4510d405e63b743aec996e4692f5a0",
+        "plateau_stages": 1,
+        "dynamic_cost": 2.377793953860608,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 8,
+        "epoch_ns": 1400000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.034100384204097854,
+          3.408959875113715e-18,
+          0.0,
+          0.09594491248610441,
+          2.2593936044208377e-17,
+          0.0
+        ],
+        "command": [
+          0.09213883954848416,
+          1.8777075222580306e-17,
+          0.0
+        ],
+        "progress": 0.034100384204097854,
+        "solver_status": "solved",
+        "solver_s": 0.002037095,
+        "elapsed_s": 0.008730068,
+        "digest": "ba959819efd95826547ea9c0107ca4d62f6775dd2c55d5035925aa0b892c2b3b",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.7841333345029669,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 9,
+        "epoch_ns": 1450000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.03870732618152206,
+          4.347813636242731e-18,
+          0.0,
+          0.09213883954848416,
+          1.8777075222580306e-17,
+          0.0
+        ],
+        "command": [
+          0.0881367105964948,
+          5.095746802295641e-17,
+          0.0
+        ],
+        "progress": 0.03870732618152206,
+        "solver_status": "solved",
+        "solver_s": 0.0020539,
+        "elapsed_s": 0.008744933,
+        "digest": "9e36430b48a3a7985d2ea9f09e40ed54b0500a5233713080d638b9729740634d",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.2695275769863306,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 10,
+        "epoch_ns": 1500000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.0431141617113468,
+          6.895687037390551e-18,
+          0.0,
+          0.0881367105964948,
+          5.095746802295641e-17,
+          0.0
+        ],
+        "command": [
+          0.08517021709047178,
+          4.0590121822610706e-17,
+          0.0
+        ],
+        "progress": 0.0431141617113468,
+        "solver_status": "solved",
+        "solver_s": 0.002041007,
+        "elapsed_s": 0.008792985,
+        "digest": "8fb03190b73f0e8a17d9430716b1f45cb2ea2e85ec70b9e4f88c479fdb0dd8fc",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.09725117574421677,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 11,
+        "epoch_ns": 1550000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.04737267256587039,
+          8.925193128521087e-18,
+          0.0,
+          0.08517021709047178,
+          4.0590121822610706e-17,
+          0.0
+        ],
+        "command": [
+          0.08323560448119897,
+          2.883715109375249e-17,
+          0.0
+        ],
+        "progress": 0.04737267256587039,
+        "solver_status": "solved",
+        "solver_s": 0.0020310560000000003,
+        "elapsed_s": 0.008785425000000001,
+        "digest": "1c1d4f5cb899c09b339f5eb78d3463c3e5b8b6f219312d4341b57b3671bd1c05",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0390944949967189,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 12,
+        "epoch_ns": 1600000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.05153445278993034,
+          1.0367050683208712e-17,
+          0.0,
+          0.08323560448119897,
+          2.883715109375249e-17,
+          0.0
+        ],
+        "command": [
+          0.08121985264147158,
+          1.5925289572644008e-17,
+          0.0
+        ],
+        "progress": 0.05153445278993033,
+        "solver_status": "solved",
+        "solver_s": 0.001990233,
+        "elapsed_s": 0.008866806000000001,
+        "digest": "7b3e9af4bca3fae0b95597f324f819c4f9e292f65842b49e28a1dc3e8df3afbb",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.02497409469189532,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 13,
+        "epoch_ns": 1650000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.05559544542200392,
+          1.1163315161840913e-17,
+          0.0,
+          0.08121985264147158,
+          1.5925289572644008e-17,
+          0.0
+        ],
+        "command": [
+          0.07940449799193709,
+          3.810490922367902e-18,
+          0.0
+        ],
+        "progress": 0.05559544542200392,
+        "solver_status": "solved",
+        "solver_s": 0.001983458,
+        "elapsed_s": 0.008752168000000001,
+        "digest": "64b5a3de210e1da90b0adbac4a101cd41f89a7f6e1a27a77d4428396435caef4",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.030654866366620348,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 14,
+        "epoch_ns": 1700000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.059565670321600775,
+          1.1353839707959309e-17,
+          0.0,
+          0.07940449799193709,
+          3.810490922367902e-18,
+          0.0
+        ],
+        "command": [
+          0.07663102232253093,
+          -7.689511827557839e-18,
+          0.0
+        ],
+        "progress": 0.05956567032160078,
+        "solver_status": "solved",
+        "solver_s": 0.0020049760000000003,
+        "elapsed_s": 0.00953761,
+        "digest": "ca296c2dab81ba911670a549adffdce487191233480b5e56cb0c9303540b0031",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.027273385877373407,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 15,
+        "epoch_ns": 1750000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.06339722143772732,
+          1.0969364116581416e-17,
+          0.0,
+          0.07663102232253093,
+          -7.689511827557839e-18,
+          0.0
+        ],
+        "command": [
+          0.07395446856124271,
+          -1.779613172957948e-17,
+          0.0
+        ],
+        "progress": 0.06339722143772732,
+        "solver_status": "solved",
+        "solver_s": 0.0020076110000000003,
+        "elapsed_s": 0.008891466,
+        "digest": "7fa37e0e3e1acc3a4a1e297b703dbb74815dfba3b8161028d8ddf3d11e8b0368",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.02987257977388835,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 16,
+        "epoch_ns": 1800000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.06709494486578946,
+          1.0079557530102442e-17,
+          0.0,
+          0.07395446856124271,
+          -1.779613172957948e-17,
+          0.0
+        ],
+        "command": [
+          0.07077912074918095,
+          -2.65804254484907e-17,
+          0.0
+        ],
+        "progress": 0.06709494486578946,
+        "solver_status": "solved",
+        "solver_s": 0.001995489,
+        "elapsed_s": 0.00882281,
+        "digest": "5522c8d62df449db2b80fc2919044f1012c9ee765200649281b86ffef2332428",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.028702944552718976,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 17,
+        "epoch_ns": 1850000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.0706339009032485,
+          8.750536257677907e-18,
+          0.0,
+          0.07077912074918095,
+          -2.65804254484907e-17,
+          0.0
+        ],
+        "command": [
+          0.0675919479048797,
+          -3.3665753137228775e-17,
+          0.0
+        ],
+        "progress": 0.0706339009032485,
+        "solver_status": "solved",
+        "solver_s": 0.0019976440000000002,
+        "elapsed_s": 0.009063161,
+        "digest": "4077679febca4dabdd21b34e309c6b90e830c82a5dc772b7bfd1792978949e86",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.029976407250991446,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 18,
+        "epoch_ns": 1900000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.07401349829849249,
+          7.067248600816467e-18,
+          0.0,
+          0.0675919479048797,
+          -3.3665753137228775e-17,
+          0.0
+        ],
+        "command": [
+          0.06416497945087322,
+          -3.959549829553991e-17,
+          0.0
+        ],
+        "progress": 0.07401349829849249,
+        "solver_status": "solved",
+        "solver_s": 0.00199927,
+        "elapsed_s": 0.008992608000000001,
+        "digest": "1c994b27ea9cb09075d47a9cecfd05f5a0e16a1a81a0d1441ede5fba4c4f9347",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.02966491523644732,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 19,
+        "epoch_ns": 1950000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.07722174727103616,
+          5.087473686039472e-18,
+          0.0,
+          0.06416497945087322,
+          -3.959549829553991e-17,
+          0.0
+        ],
+        "command": [
+          0.060724578305759974,
+          -4.379707125970421e-17,
+          0.0
+        ],
+        "progress": 0.07722174727103617,
+        "solver_status": "solved",
+        "solver_s": 0.001953898,
+        "elapsed_s": 0.008568895,
+        "digest": "0b6b39481a8058c144f5e5295341dbdc7a923e1b9f92081203cfccd75484e4b5",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.030364209122883346,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 20,
+        "epoch_ns": 2000000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.08025797618632416,
+          2.8976201230542618e-18,
+          0.0,
+          0.060724578305759974,
+          -4.379707125970421e-17,
+          0.0
+        ],
+        "command": [
+          0.05719377079957456,
+          -4.677332342943642e-17,
+          0.0
+        ],
+        "progress": 0.08025797618632416,
+        "solver_status": "solved",
+        "solver_s": 0.0019361480000000002,
+        "elapsed_s": 0.008654628000000001,
+        "digest": "550dcc93a571e65e94815057cbc79690ad5b8043e9ed040ccae523a5c0076f0e",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.030387770134028116,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 21,
+        "epoch_ns": 2050000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.08311766472630289,
+          5.589539515824409e-19,
+          0.0,
+          0.05719377079957456,
+          -4.677332342943642e-17,
+          0.0
+        ],
+        "command": [
+          0.05368470641054612,
+          -4.892307378902419e-17,
+          0.0
+        ],
+        "progress": 0.08311766472630289,
+        "solver_status": "solved",
+        "solver_s": 0.0019351020000000002,
+        "elapsed_s": 0.008782639,
+        "digest": "c6591a2f2118de7cd0037bbeab7d0e9bdf7fe281650b146bc3faab85c4ab5515",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03082761028176292,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 22,
+        "epoch_ns": 2100000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.08580190004683019,
+          -1.8871997378687687e-18,
+          0.0,
+          0.05368470641054612,
+          -4.892307378902419e-17,
+          0.0
+        ],
+        "command": [
+          0.0501791264284673,
+          -4.9799216685058844e-17,
+          0.0
+        ],
+        "progress": 0.0858019000468302,
+        "solver_status": "solved",
+        "solver_s": 0.002073262,
+        "elapsed_s": 0.009303723,
+        "digest": "8d38194bd2394e0348d45dfb9764a5fcebb9c3981dcaaac2507294a8a3ea2d27",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.030972756972057515,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 23,
+        "epoch_ns": 2150000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.08831085636825356,
+          -4.3771605721217116e-18,
+          0.0,
+          0.0501791264284673,
+          -4.9799216685058844e-17,
+          0.0
+        ],
+        "command": [
+          0.04673671295348453,
+          -4.9608339927208473e-17,
+          0.0
+        ],
+        "progress": 0.08831085636825357,
+        "solver_status": "solved",
+        "solver_s": 0.002041335,
+        "elapsed_s": 0.008969734,
+        "digest": "fcf8696976017c74dfe0d176ddfb9ffec09295ea351fcd08e6ef39d8c0c669a0",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.031284644468739735,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 24,
+        "epoch_ns": 2200000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.09064769201592779,
+          -6.857577568482136e-18,
+          0.0,
+          0.04673671295348453,
+          -4.9608339927208473e-17,
+          0.0
+        ],
+        "command": [
+          0.04335985071338291,
+          -4.850691893000839e-17,
+          0.0
+        ],
+        "progress": 0.09064769201592779,
+        "solver_status": "solved",
+        "solver_s": 0.0020206480000000003,
+        "elapsed_s": 0.008737365,
+        "digest": "789001c65209a4a9cb2a14a08bf56507e0f6013fd09a76e44bcd1fdbdb51a8fd",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.031462345609028664,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 25,
+        "epoch_ns": 2250000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.09281568455159693,
+          -9.282923514982555e-18,
+          0.0,
+          0.04335985071338291,
+          -4.850691893000839e-17,
+          0.0
+        ],
+        "command": [
+          0.04008217753693722,
+          -4.666685379780764e-17,
+          0.0
+        ],
+        "progress": 0.09281568455159693,
+        "solver_status": "solved",
+        "solver_s": 0.001999144,
+        "elapsed_s": 0.00864557,
+        "digest": "3a0bcaf199fe4ac9980cc8fb79851d82c880c8c5539c3a59bb109e8d9450eea0",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03170155413916745,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 26,
+        "epoch_ns": 2300000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.0948197934284438,
+          -1.1616266204872936e-17,
+          0.0,
+          0.04008217753693722,
+          -4.666685379780764e-17,
+          0.0
+        ],
+        "command": [
+          0.03691125461338014,
+          -4.4259716404664555e-17,
+          0.0
+        ],
+        "progress": 0.09481979342844381,
+        "solver_status": "solved",
+        "solver_s": 0.00199254,
+        "elapsed_s": 0.008842331,
+        "digest": "9eec08bf435d5d9f24c832d8cb0e9d9fce01ac47fc35518fb225213c4281e34f",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03187468672226206,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 27,
+        "epoch_ns": 2350000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.0966653561591128,
+          -1.3829252025106164e-17,
+          0.0,
+          0.03691125461338014,
+          -4.4259716404664555e-17,
+          0.0
+        ],
+        "command": [
+          0.03386637434179101,
+          -4.142713556732197e-17,
+          0.0
+        ],
+        "progress": 0.09666535615911281,
+        "solver_status": "solved",
+        "solver_s": 0.0019859400000000003,
+        "elapsed_s": 0.008727212,
+        "digest": "346b6051dfd2ab8cdd852db9083c31cddcc85af377c28f34e3b33d632ddac1c1",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03206510868075476,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 28,
+        "epoch_ns": 2400000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.09835867487620235,
+          -1.5900608803472263e-17,
+          0.0,
+          0.03386637434179101,
+          -4.142713556732197e-17,
+          0.0
+        ],
+        "command": [
+          0.030954290217375384,
+          -3.8300557061571545e-17,
+          0.0
+        ],
+        "progress": 0.09835867487620235,
+        "solver_status": "solved",
+        "solver_s": 0.001999686,
+        "elapsed_s": 0.008710054,
+        "digest": "943034808df93c3a6f9f9af4dbce1fe3686caa4d42d72a30832c4d10e48f0cba",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03221884721630824,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 29,
+        "epoch_ns": 2450000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.09990638938707112,
+          -1.781563665655084e-17,
+          0.0,
+          0.030954290217375384,
+          -3.8300557061571545e-17,
+          0.0
+        ],
+        "command": [
+          0.02818546343584617,
+          -3.516360494834681e-17,
+          0.0
+        ],
+        "progress": 0.09990638938707114,
+        "solver_status": "solved",
+        "solver_s": 0.0019552560000000003,
+        "elapsed_s": 0.008697990000000001,
+        "digest": "e5fd945d91f30ac6fe68778c48aa2a5224cce1deebafcb4f79aad71f54722c71",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.032371718009021465,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 30,
+        "epoch_ns": 2500000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10131566255886343,
+          -1.957381690396818e-17,
+          0.0,
+          0.02818546343584617,
+          -3.516360494834681e-17,
+          0.0
+        ],
+        "command": [
+          0.025563853957005236,
+          -3.223750009681422e-17,
+          0.0
+        ],
+        "progress": 0.10131566255886343,
+        "solver_status": "solved",
+        "solver_s": 0.001908769,
+        "elapsed_s": 0.008574785,
+        "digest": "b38aacdc62cd0f13b075bba983e10f3e68ddf247a9269285a93839dc2fd9568b",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.032501130484999384,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 31,
+        "epoch_ns": 2550000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10259385525671369,
+          -2.118569190880889e-17,
+          0.0,
+          0.025563853957005236,
+          -3.223750009681422e-17,
+          0.0
+        ],
+        "command": [
+          0.023093982307937865,
+          -2.9727732753693716e-17,
+          0.0
+        ],
+        "progress": 0.10259385525671369,
+        "solver_status": "solved",
+        "solver_s": 0.0019148670000000002,
+        "elapsed_s": 0.008617295,
+        "digest": "016a1de465b77a92fc7af8e754a054d92f38d3f43937d5795eb0cd369ae22df1",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.032622769292911184,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 32,
+        "epoch_ns": 2600000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10374855437211059,
+          -2.2672078546493576e-17,
+          0.0,
+          0.023093982307937865,
+          -2.9727732753693716e-17,
+          0.0
+        ],
+        "command": [
+          0.020776704787962393,
+          -2.7072042909402404e-17,
+          0.0
+        ],
+        "progress": 0.10374855437211059,
+        "solver_status": "solved",
+        "solver_s": 0.0019352870000000002,
+        "elapsed_s": 0.008711388,
+        "digest": "8c257319b889d9ee33c7c18e0b295951cabf85c6827218fea5c1e14efff3d4e3",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.032727467462919164,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 33,
+        "epoch_ns": 2650000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.1047873896115087,
+          -2.4025680691963697e-17,
+          0.0,
+          0.020776704787962393,
+          -2.7072042909402404e-17,
+          0.0
+        ],
+        "command": [
+          0.01861235040229606,
+          -2.443911355899308e-17,
+          0.0
+        ],
+        "progress": 0.1047873896115087,
+        "solver_status": "solved",
+        "solver_s": 0.001887219,
+        "elapsed_s": 0.008478564000000001,
+        "digest": "77e93409a12fff41905454b93365489e377b6d3681a8ba752ccde93d0b3f35d8",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03282238784399327,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 34,
+        "epoch_ns": 2700000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.1057180071316235,
+          -2.524763636991335e-17,
+          0.0,
+          0.01861235040229606,
+          -2.443911355899308e-17,
+          0.0
+        ],
+        "command": [
+          0.01659903652542038,
+          -2.183183609090768e-17,
+          0.0
+        ],
+        "progress": 0.1057180071316235,
+        "solver_status": "solved",
+        "solver_s": 0.0019018160000000002,
+        "elapsed_s": 0.008538959,
+        "digest": "79485f9762e803cfaafa08ed91696931b3946f61e3f42d82b2fd513201f4e0b0",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03290411228514738,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 35,
+        "epoch_ns": 2750000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10654795895789453,
+          -2.6339228174458735e-17,
+          0.0,
+          0.01659903652542038,
+          -2.183183609090768e-17,
+          0.0
+        ],
+        "command": [
+          0.014734118086534628,
+          -1.9285280353077964e-17,
+          0.0
+        ],
+        "progress": 0.10654795895789453,
+        "solver_status": "solved",
+        "solver_s": 0.0018963500000000002,
+        "elapsed_s": 0.008675668000000001,
+        "digest": "d6892fe104810f8240dc7694bff7b81f5280a06a0fad1c62efcb6586351e63d5",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03297618582400018,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 36,
+        "epoch_ns": 2800000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10728466486222125,
+          -2.7303492192112634e-17,
+          0.0,
+          0.014734118086534628,
+          -1.9285280353077964e-17,
+          0.0
+        ],
+        "command": [
+          0.013013572066022404,
+          -1.689187250785903e-17,
+          0.0
+        ],
+        "progress": 0.10728466486222125,
+        "solver_status": "solved",
+        "solver_s": 0.0019111260000000002,
+        "elapsed_s": 0.008620008,
+        "digest": "758af7834a0c56012af4137db88ee2dd8aabd1e850c8ccd93dec51438e482243",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03303763822475526,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 37,
+        "epoch_ns": 2850000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10793534346552237,
+          -2.8148085817505583e-17,
+          0.0,
+          0.013013572066022404,
+          -1.689187250785903e-17,
+          0.0
+        ],
+        "command": [
+          0.011432710354017293,
+          -1.4600503629420898e-17,
+          0.0
+        ],
+        "progress": 0.10793534346552237,
+        "solver_status": "solved",
+        "solver_s": 0.001916855,
+        "elapsed_s": 0.008500689,
+        "digest": "f57610dc83b1cd3030a439c3cd0ecf232ab18283bb266c60cf38b61572cd141c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.033090456420020134,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 38,
+        "epoch_ns": 2900000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10850697898322324,
+          -2.887811099897663e-17,
+          0.0,
+          0.011432710354017293,
+          -1.4600503629420898e-17,
+          0.0
+        ],
+        "command": [
+          0.009986003320708696,
+          -1.2436491844438757e-17,
+          0.0
+        ],
+        "progress": 0.10850697898322324,
+        "solver_status": "solved",
+        "solver_s": 0.001904064,
+        "elapsed_s": 0.008579884000000001,
+        "digest": "f76ff2d57883ebc9defb8bd23681d3a9bbaa14a7c82a4b9f54ca408d8258e6c5",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03313468627901083,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 39,
+        "epoch_ns": 2950000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10900627914925867,
+          -2.9499935591198565e-17,
+          0.0,
+          0.009986003320708696,
+          -1.2436491844438757e-17,
+          0.0
+        ],
+        "command": [
+          0.008667461167000196,
+          -1.041821935964685e-17,
+          0.0
+        ],
+        "progress": 0.10900627914925867,
+        "solver_status": "solved",
+        "solver_s": 0.001895118,
+        "elapsed_s": 0.008581359,
+        "digest": "349e9c963eba0f15daf9c9b3b06a7baa7063edb20770d983951dfefc28968fb8",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03317161360690188,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 40,
+        "epoch_ns": 3000000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10943965220760868,
+          -3.0020846559180905e-17,
+          0.0,
+          0.008667461167000196,
+          -1.041821935964685e-17,
+          0.0
+        ],
+        "command": [
+          0.007470627426902045,
+          -8.558122306766392e-18,
+          0.0
+        ],
+        "progress": 0.10943965220760868,
+        "solver_status": "solved",
+        "solver_s": 0.001905893,
+        "elapsed_s": 0.008709625,
+        "digest": "ed297c5a27fc7dd927aac49743735c203bbbccd2fc24c8fe8d734e66168259c7",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03320167323581673,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 41,
+        "epoch_ns": 3050000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.10981318357895378,
+          -3.0448752674519227e-17,
+          0.0,
+          0.007470627426902045,
+          -8.558122306766392e-18,
+          0.0
+        ],
+        "command": [
+          0.0063888018196509855,
+          3.924026897591673e-18,
+          0.0
+        ],
+        "progress": 0.10981318357895378,
+        "solver_status": "solved",
+        "solver_s": 0.0018669790000000002,
+        "elapsed_s": 0.008550849000000001,
+        "digest": "bcff32ce8e16013f738d2efc91fca2d0aa07568628132c5725d7f77c0a0e387f",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0332258024423902,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 42,
+        "epoch_ns": 3100000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.11013262366993633,
+          -3.0252551329639645e-17,
+          0.0,
+          0.0063888018196509855,
+          3.924026897591673e-18,
+          0.0
+        ],
+        "command": [
+          0.005415089680841426,
+          1.417202819014658e-17,
+          0.0
+        ],
+        "progress": 0.11013262366993633,
+        "solver_status": "solved",
+        "solver_s": 0.001842714,
+        "elapsed_s": 0.008466966000000001,
+        "digest": "24e564811627d388a524bec00a768e60a696d6c5b462c1c7c90c346fa6197fad",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.03324454852985335,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 43,
+        "epoch_ns": 3150000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.1104033781539784,
+          -2.954394992013232e-17,
+          0.0,
+          0.005415089680841426,
+          1.417202819014658e-17,
+          0.0
+        ],
+        "command": [
+          0.004542541453744182,
+          2.2387971841692607e-17,
+          0.0
+        ],
+        "progress": 0.1104033781539784,
+        "solver_status": "solved",
+        "solver_s": 0.001877338,
+        "elapsed_s": 0.008591379,
+        "digest": "33f413e198bddc967f794e0ad25c8b852b9306fa43cc1f2d7c036c16660515e9",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.033258644758184186,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 44,
+        "epoch_ns": 3200000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.1106305052266656,
+          -2.842455132804769e-17,
+          0.0,
+          0.004542541453744182,
+          2.2387971841692607e-17,
+          0.0
+        ],
+        "command": [
+          0.0037642111177590074,
+          2.877564410115709e-17,
+          0.0
+        ],
+        "progress": 0.1106305052266656,
+        "solver_status": "solved",
+        "solver_s": 0.001862518,
+        "elapsed_s": 0.008571748,
+        "digest": "da5114eda942f0fcac95cecb3b35bc9af495d186cf9e4fc9b6ba74b55efaf4bf",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.033268630064936425,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 45,
+        "epoch_ns": 3250000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.11081871578255356,
+          -2.6985769122989832e-17,
+          0.0,
+          0.0037642111177590074,
+          2.877564410115709e-17,
+          0.0
+        ],
+        "command": [
+          0.0030732463537480005,
+          3.3536534000430754e-17,
+          0.0
+        ],
+        "progress": 0.11081871578255356,
+        "solver_status": "solved",
+        "solver_s": 0.001877888,
+        "elapsed_s": 0.008526847,
+        "digest": "3485e188a024e140d6f9024873052a5adacaab1d12d6018f08c7e6dd634f7a8c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.033275094766886754,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 46,
+        "epoch_ns": 3300000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.11097237810024096,
+          -2.5308942422968294e-17,
+          0.0,
+          0.0030732463537480005,
+          3.3536534000430754e-17,
+          0.0
+        ],
+        "command": [
+          0.0024629381372494757,
+          3.686659231004924e-17,
+          0.0
+        ],
+        "progress": 0.11097237810024096,
+        "solver_status": "solved",
+        "solver_s": 0.0018783220000000002,
+        "elapsed_s": 0.008512740000000001,
+        "digest": "709634dffea7582543ae99a5bd619ac414b2dad3545f76d8d4da2c2f277e45eb",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.033278519404560565,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 47,
+        "epoch_ns": 3350000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.11109552500710344,
+          -2.3465612807465832e-17,
+          0.0,
+          0.0024629381372494757,
+          3.686659231004924e-17,
+          0.0
+        ],
+        "command": [
+          0.0019267783847394088,
+          3.895365223216542e-17,
+          0.0
+        ],
+        "progress": 0.11109552500710344,
+        "solver_status": "solved",
+        "solver_s": 0.0018714270000000002,
+        "elapsed_s": 0.008556274,
+        "digest": "2519622f79a832751f7a78f81655c7d1bf39d4eeb4a1b62b21e114b5d71bb637",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.033279380463543486,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 48,
+        "epoch_ns": 3400000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.11119186392634041,
+          -2.1517930195857562e-17,
+          0.0,
+          0.0019267783847394088,
+          3.895365223216542e-17,
+          0.0
+        ],
+        "command": [
+          0.003765668770494205,
+          0.001248323965507025,
+          0.0
+        ],
+        "progress": 0.11119186392634041,
+        "solver_status": "solved",
+        "solver_s": 0.0019294310000000001,
+        "elapsed_s": 0.008628646,
+        "digest": "c35e2bc8c0ddcb0df119f1ce84c2a01c91e7f70d7017b6a6638055a832816f6e",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.057069324948349556,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 49,
+        "epoch_ns": 3450000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.11138014736486512,
+          6.241619827532973e-05,
+          0.0,
+          0.003765668770494205,
+          0.001248323965507025,
+          0.0
+        ],
+        "command": [
+          0.01228807327837368,
+          -0.0005918070284718902,
+          0.0
+        ],
+        "progress": 0.11138014736486512,
+        "solver_status": "solved",
+        "solver_s": 0.0019750360000000003,
+        "elapsed_s": 0.008690867,
+        "digest": "3c39b98cdbd1ccd358832a45c214fd1a711c6b50c5f09489d281590b7f6a6502",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.11456962794655699,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 50,
+        "epoch_ns": 3500000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.1119945510287838,
+          3.282584685173522e-05,
+          0.0,
+          0.01228807327837368,
+          -0.0005918070284718902,
+          0.0
+        ],
+        "command": [
+          0.02434276871906955,
+          -0.008481513985075972,
+          0.0
+        ],
+        "progress": 0.1119945510287838,
+        "solver_status": "solved",
+        "solver_s": 0.0019788930000000002,
+        "elapsed_s": 0.008688769,
+        "digest": "36dbe6df3e1e7a8beefb316201378757afdbaf68c3c4e3f1e331565719b3a1e6",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.05136610398243355,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 51,
+        "epoch_ns": 3550000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.11321168946473728,
+          -0.0003912498524020634,
+          0.0,
+          0.02434276871906955,
+          -0.008481513985075972,
+          0.0
+        ],
+        "command": [
+          0.057063833636077324,
+          -0.01615139724949595,
+          0.0
+        ],
+        "progress": 0.11321168946473728,
+        "solver_status": "solved",
+        "solver_s": 0.001941999,
+        "elapsed_s": 0.008487096000000001,
+        "digest": "4a44670a47c13b457a6a24704a0e885640ca01ec20836fe6b922d05deea66c3f",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.05682886007197083,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 52,
+        "epoch_ns": 3600000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.11606488114654115,
+          -0.0011988197148768609,
+          0.0,
+          0.057063833636077324,
+          -0.01615139724949595,
+          0.0
+        ],
+        "command": [
+          0.09682446801399992,
+          -0.02369139817815023,
+          0.0
+        ],
+        "progress": 0.11606488114654115,
+        "solver_status": "solved",
+        "solver_s": 0.001926147,
+        "elapsed_s": 0.008257581,
+        "digest": "c325bdbce33548b35080c7a412adc0e72feb96e3d40a4b9b732dd1f914384325",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.02977715468531822,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 53,
+        "epoch_ns": 3650000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.12090610454724114,
+          -0.0023833896237843728,
+          0.0,
+          0.09682446801399992,
+          -0.02369139817815023,
+          0.0
+        ],
+        "command": [
+          0.14465522725536645,
+          -0.02518296990860195,
+          0.0
+        ],
+        "progress": 0.12090610454724114,
+        "solver_status": "solved",
+        "solver_s": 0.002289661,
+        "elapsed_s": 0.008766604,
+        "digest": "11da96bf0e658e51895b80ac06e2860ac4285ea34692f535d958fcfe940b6dc7",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.01802988052136552,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 54,
+        "epoch_ns": 3700000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.12813886591000948,
+          -0.0036425381192144706,
+          0.0,
+          0.14465522725536645,
+          -0.02518296990860195,
+          0.0
+        ],
+        "command": [
+          0.19378522685641258,
+          -0.023056564234588937,
+          0.0
+        ],
+        "progress": 0.12813886591000948,
+        "solver_status": "solved",
+        "solver_s": 0.0021682480000000002,
+        "elapsed_s": 0.008403115000000001,
+        "digest": "df8cb14b2fa17745a35563606f2856d74ef7b240af9795324143f5382929fd3c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.010745883339141143,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 55,
+        "epoch_ns": 3750000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.1378281272528301,
+          -0.004795366330943918,
+          0.0,
+          0.19378522685641258,
+          -0.023056564234588937,
+          0.0
+        ],
+        "command": [
+          0.24226857653490733,
+          -0.019083324065559182,
+          0.0
+        ],
+        "progress": 0.1378281272528301,
+        "solver_status": "solved",
+        "solver_s": 0.00248694,
+        "elapsed_s": 0.008751156000000001,
+        "digest": "0fc77cc2f6458935aec1b9fb6f0040db47ac091ce634b6b9d6f4b85059e2992c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.006847328010591656,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 56,
+        "epoch_ns": 3800000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.1499415560795755,
+          -0.005749532534221877,
+          0.0,
+          0.24226857653490733,
+          -0.019083324065559182,
+          0.0
+        ],
+        "command": [
+          0.28767108449120965,
+          -0.014508078273464401,
+          0.0
+        ],
+        "progress": 0.1499415560795755,
+        "solver_status": "solved",
+        "solver_s": 0.001890167,
+        "elapsed_s": 0.008137994,
+        "digest": "1932de3ac5fc4980cb56f2e109fe952707f37f10732c2fe5054bc12677414db4",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.004271241437135071,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 57,
+        "epoch_ns": 3850000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.16432511030413596,
+          -0.006474936447895097,
+          0.0,
+          0.28767108449120965,
+          -0.014508078273464401,
+          0.0
+        ],
+        "command": [
+          0.32854594374824,
+          -0.009987467743799161,
+          0.0
+        ],
+        "progress": 0.164325110304136,
+        "solver_status": "solved",
+        "solver_s": 0.001918322,
+        "elapsed_s": 0.008077782,
+        "digest": "4faeeec07511d4253b8e3cb65332d9d913a1b91c1034b06cf69d3abdb2b2e419",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0024075144762565376,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 58,
+        "epoch_ns": 3900000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.18075240749154797,
+          -0.006974309835085055,
+          0.0,
+          0.32854594374824,
+          -0.009987467743799161,
+          0.0
+        ],
+        "command": [
+          0.3649976585401499,
+          -0.005855110691084455,
+          0.0
+        ],
+        "progress": 0.18075240749154797,
+        "solver_status": "solved",
+        "solver_s": 0.0019073220000000001,
+        "elapsed_s": 0.008079678,
+        "digest": "70ec787a553f0d4299088b700fcbec86a0cb0819e43c0d092dff3606c5269dcf",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.001163817014704537,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 59,
+        "epoch_ns": 3950000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.19900229041855547,
+          -0.007267065369639277,
+          0.0,
+          0.3649976585401499,
+          -0.005855110691084455,
+          0.0
+        ],
+        "command": [
+          0.3973721341211449,
+          -0.0022521358499023878,
+          0.0
+        ],
+        "progress": 0.1990022904185555,
+        "solver_status": "solved",
+        "solver_s": 0.0019430100000000002,
+        "elapsed_s": 0.008028103,
+        "digest": "f7d05bce2a51b5e11412c8b7237396124d13c30178ec9e70ae647ae6e05ec879",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.00047593530825550107,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 60,
+        "epoch_ns": 4000000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.21887089712461272,
+          -0.0073796721621343965,
+          0.0,
+          0.3973721341211449,
+          -0.0022521358499023878,
+          0.0
+        ],
+        "command": [
+          0.42608337871892127,
+          0.0007940557758303094,
+          0.0
+        ],
+        "progress": 0.21887089712461272,
+        "solver_status": "solved",
+        "solver_s": 0.001928578,
+        "elapsed_s": 0.008110937,
+        "digest": "347ba5d4a65d274e0c592beae125f971b7dd026bf13d478a4cacc514e43990d1",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.00016558907614308698,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 61,
+        "epoch_ns": 4050000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.24017506606055877,
+          -0.007339969373342881,
+          0.0,
+          0.42608337871892127,
+          0.0007940557758303094,
+          0.0
+        ],
+        "command": [
+          0.4515348931423226,
+          0.003306481717311047,
+          0.0
+        ],
+        "progress": 0.24017506606055877,
+        "solver_status": "solved",
+        "solver_s": 0.001928121,
+        "elapsed_s": 0.007948504,
+        "digest": "784b5a30acc550a64b7ed2746660bb7b4c9a388b4788459a7bd0f097539584d5",
+        "plateau_stages": 0,
+        "dynamic_cost": 4.631632242402312e-05,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 62,
+        "epoch_ns": 4100000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.2627518107176749,
+          -0.007174645287477329,
+          0.0,
+          0.4515348931423226,
+          0.003306481717311047,
+          0.0
+        ],
+        "command": [
+          0.4740939114286761,
+          0.0053251172359348505,
+          0.0
+        ],
+        "progress": 0.2627518107176749,
+        "solver_status": "solved",
+        "solver_s": 0.0019040980000000001,
+        "elapsed_s": 0.007974575000000001,
+        "digest": "973b695a49da9b96828759eafa417e989cf01dc1872da2f098226e9ccc46a63f",
+        "plateau_stages": 0,
+        "dynamic_cost": 1.0022160234776819e-05,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 63,
+        "epoch_ns": 4150000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.2864565062891087,
+          -0.006908389425680586,
+          0.0,
+          0.4740939114286761,
+          0.0053251172359348505,
+          0.0
+        ],
+        "command": [
+          0.4940887033912214,
+          0.006897721984166249,
+          0.0
+        ],
+        "progress": 0.2864565062891087,
+        "solver_status": "solved",
+        "solver_s": 0.0019004990000000002,
+        "elapsed_s": 0.007870238,
+        "digest": "57488b323a16f6bce2c23e840828139a115265ddc8946e64f825bab66cee794c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 64,
+        "epoch_ns": 4200000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.31116094145866974,
+          -0.006563503326472274,
+          0.0,
+          0.4940887033912214,
+          0.006897721984166249,
+          0.0
+        ],
+        "command": [
+          0.5118107380830458,
+          0.008073194506008883,
+          0.0
+        ],
+        "progress": 0.31116094145866974,
+        "solver_status": "solved",
+        "solver_s": 0.00196211,
+        "elapsed_s": 0.007940598,
+        "digest": "46a62690f60bebdcb70216f4c1fd20eea710d50bcb24bd3e34c1619f5b35a68d",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 65,
+        "epoch_ns": 4250000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.33675147836282204,
+          -0.006159843601171829,
+          0.0,
+          0.5118107380830458,
+          0.008073194506008883,
+          0.0
+        ],
+        "command": [
+          0.5275183540259794,
+          0.008899131462853834,
+          0.0
+        ],
+        "progress": 0.33675147836282204,
+        "solver_status": "solved",
+        "solver_s": 0.0019141330000000002,
+        "elapsed_s": 0.007935437,
+        "digest": "2bd5ce2dc223bba3f1599a06195ecc66a3fbcb2d44f67d11e5070b3486463ec8",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 66,
+        "epoch_ns": 4300000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.36312739606412103,
+          -0.005714887028029137,
+          0.0,
+          0.5275183540259794,
+          0.008899131462853834,
+          0.0
+        ],
+        "command": [
+          0.5414411053385783,
+          0.009421193760917438,
+          0.0
+        ],
+        "progress": 0.36312739606412103,
+        "solver_status": "solved",
+        "solver_s": 0.001895313,
+        "elapsed_s": 0.00776747,
+        "digest": "472d19ea4de07c7106441a5b7e70c4660aa2f2ae9cd106de99937f2126dadc4c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 67,
+        "epoch_ns": 4350000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.39019945133104994,
+          -0.005243827339983265,
+          0.0,
+          0.5414411053385783,
+          0.009421193760917438,
+          0.0
+        ],
+        "command": [
+          0.5537812388373498,
+          0.009682616838240416,
+          0.0
+        ],
+        "progress": 0.39019945133104994,
+        "solver_status": "solved",
+        "solver_s": 0.0019303760000000001,
+        "elapsed_s": 0.008030135,
+        "digest": "88368433dc2a37c386c0a36d4d27711f554b107ba8d239c27785322f285db4a0",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 68,
+        "epoch_ns": 4400000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.41788851327291743,
+          -0.004759696498071244,
+          0.0,
+          0.5537812388373498,
+          0.009682616838240416,
+          0.0
+        ],
+        "command": [
+          0.5647186488373455,
+          0.00972385064469616,
+          0.0
+        ],
+        "progress": 0.41788851327291743,
+        "solver_status": "solved",
+        "solver_s": 0.001853508,
+        "elapsed_s": 0.007898812,
+        "digest": "6e96c9e8a5868fe62bd4571f5d4af5d87ea1c9c1aa536f7e878ab46b9a6c2728",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 69,
+        "epoch_ns": 4450000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.4461244457147847,
+          -0.004273503965836436,
+          0.0,
+          0.5647186488373455,
+          0.00972385064469616,
+          0.0
+        ],
+        "command": [
+          0.5744127834350853,
+          0.009582311643580043,
+          0.0
+        ],
+        "progress": 0.4461244457147847,
+        "solver_status": "solved",
+        "solver_s": 0.0018657250000000002,
+        "elapsed_s": 0.007959332000000001,
+        "digest": "d6fef6e4abf9963db34cfbef148717b94ea09b6552a1a53c0629f5cb534541d4",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 70,
+        "epoch_ns": 4500000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.474845084886539,
+          -0.0037943883836574336,
+          0.0,
+          0.5744127834350853,
+          0.009582311643580043,
+          0.0
+        ],
+        "command": [
+          0.583004966622336,
+          0.00929223275369304,
+          0.0
+        ],
+        "progress": 0.474845084886539,
+        "solver_status": "solved",
+        "solver_s": 0.001871243,
+        "elapsed_s": 0.007724608000000001,
+        "digest": "0642a2ee1683fb64222faebcfb04f0dcb6acea05f22b76d0545650a0a6a3580b",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 71,
+        "epoch_ns": 4550000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.5039953332176558,
+          -0.0033297767459727814,
+          0.0,
+          0.583004966622336,
+          0.00929223275369304,
+          0.0
+        ],
+        "command": [
+          0.5906204583092586,
+          0.008884596797245055,
+          0.0
+        ],
+        "progress": 0.5039953332176558,
+        "solver_status": "solved",
+        "solver_s": 0.001852048,
+        "elapsed_s": 0.007845935,
+        "digest": "d5b2e09fb372a47c8e266c5a9ddb7b98a4c19cc5416a642a37d0fa82308fd416",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 72,
+        "epoch_ns": 4600000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.5335263561331187,
+          -0.0028855469061105287,
+          0.0,
+          0.5906204583092586,
+          0.008884596797245055,
+          0.0
+        ],
+        "command": [
+          0.5973702802303197,
+          0.00838714018320292,
+          0.0
+        ],
+        "progress": 0.5335263561331187,
+        "solver_status": "solved",
+        "solver_s": 0.001833463,
+        "elapsed_s": 0.007825780000000001,
+        "digest": "1d9fd48587d260b01505c32d44d47a08803810a2eeedb691bf59bf13e91d6cf7",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 73,
+        "epoch_ns": 4650000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.5633948701446347,
+          -0.0024661898969503826,
+          0.0,
+          0.5973702802303197,
+          0.00838714018320292,
+          0.0
+        ],
+        "command": [
+          0.6033528343285526,
+          0.00782441458704514,
+          0.0
+        ],
+        "progress": 0.5633948701446347,
+        "solver_status": "solved",
+        "solver_s": 0.0018477220000000002,
+        "elapsed_s": 0.0077747580000000005,
+        "digest": "0f2802fdfd08d0f855db7c52ea3c2ee43a844d48bb6f4065dee3177f3b522727",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 74,
+        "epoch_ns": 4700000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.5935625118610623,
+          -0.0020749691675981258,
+          0.0,
+          0.6033528343285526,
+          0.00782441458704514,
+          0.0
+        ],
+        "command": [
+          0.6086553371992066,
+          0.0072178954615310115,
+          0.0
+        ],
+        "progress": 0.5935625118610623,
+        "solver_status": "solved",
+        "solver_s": 0.001869931,
+        "elapsed_s": 0.007842915,
+        "digest": "c922cea72c5d97c8a83e506f5ae9f4bac78fad4597ebf3a1bd44bfb0e6a3143c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 75,
+        "epoch_ns": 4750000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.6239952787210227,
+          -0.0017140743945215752,
+          0.0,
+          0.6086553371992066,
+          0.0072178954615310115,
+          0.0
+        ],
+        "command": [
+          0.6133550914955922,
+          0.006586127302327936,
+          0.0
+        ],
+        "progress": 0.6239952787210227,
+        "solver_status": "solved",
+        "solver_s": 0.001855604,
+        "elapsed_s": 0.007886250000000001,
+        "digest": "3ac8fdd5554094293182bbb32a3bba99ec0ea2c45416c24131a0b6405453fd2c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 76,
+        "epoch_ns": 4800000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.6546630332958023,
+          -0.0013847680294051784,
+          0.0,
+          0.6133550914955922,
+          0.006586127302327936,
+          0.0
+        ],
+        "command": [
+          0.6175206128254371,
+          0.005944896674791829,
+          0.0
+        ],
+        "progress": 0.6546630332958023,
+        "solver_status": "solved",
+        "solver_s": 0.001845711,
+        "elapsed_s": 0.007704964000000001,
+        "digest": "138ea149f207090ac2a700bb48890cdc919fe8556d4ba2f690cae58786dc1427",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 77,
+        "epoch_ns": 4850000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.6855390639370742,
+          -0.001087523195665587,
+          0.0,
+          0.6175206128254371,
+          0.005944896674791829,
+          0.0
+        ],
+        "command": [
+          0.6212126285610792,
+          0.005307425065488904,
+          0.0
+        ],
+        "progress": 0.6855390639370742,
+        "solver_status": "solved",
+        "solver_s": 0.001867975,
+        "elapsed_s": 0.007844052,
+        "digest": "14cfbd450cb2413fc464aa101a0904c0b687d5da8b69414769d46af1006814ae",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 78,
+        "epoch_ns": 4900000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.7165996953651281,
+          -0.0008221519423911418,
+          0.0,
+          0.6212126285610792,
+          0.005307425065488904,
+          0.0
+        ],
+        "command": [
+          0.6244849631207846,
+          0.004684574639444469,
+          0.0
+        ],
+        "progress": 0.7165996953651281,
+        "solver_status": "solved",
+        "solver_s": 0.001854228,
+        "elapsed_s": 0.007825361000000001,
+        "digest": "1bc211b5036ab380aa5558be7f2f7dc78ddb2aae2e9dde962dee66efa27e5375",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 79,
+        "epoch_ns": 4950000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.7478239435211673,
+          -0.0005879232104189184,
+          0.0,
+          0.6244849631207846,
+          0.004684574639444469,
+          0.0
+        ],
+        "command": [
+          0.6273853226243231,
+          0.004085060950145911,
+          0.0
+        ],
+        "progress": 0.7478239435211673,
+        "solver_status": "solved",
+        "solver_s": 0.0018644190000000002,
+        "elapsed_s": 0.007849871000000001,
+        "digest": "d5e1c737d16852735dbcf6af21601c1a3a9c75bc72f22d43263f9e2659137308",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 80,
+        "epoch_ns": 5000000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.7791932096523835,
+          -0.0003836701629116228,
+          0.0,
+          0.6273853226243231,
+          0.004085060950145911,
+          0.0
+        ],
+        "command": [
+          0.6299559903596941,
+          0.003515667555462899,
+          0.0
+        ],
+        "progress": 0.7791932096523835,
+        "solver_status": "solved",
+        "solver_s": 0.0018662910000000002,
+        "elapsed_s": 0.007766735,
+        "digest": "4f4f2e34e4549d18b4275557348f1b270bb4475b08297f1c8ab29c802b05ca37",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 81,
+        "epoch_ns": 5050000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.8106910091703682,
+          -0.00020788678513847784,
+          0.0,
+          0.6299559903596941,
+          0.003515667555462899,
+          0.0
+        ],
+        "command": [
+          0.632234443198178,
+          0.0029814583328950746,
+          0.0
+        ],
+        "progress": 0.8106910091703682,
+        "solver_status": "solved",
+        "solver_s": 0.0018408460000000001,
+        "elapsed_s": 0.0078013940000000006,
+        "digest": "fe1130a2b43140153d746d6c258352d46c62241c325d35e9f9352fd4a6de0050",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 82,
+        "epoch_ns": 5100000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.8423027313302771,
+          -5.88138684937241e-05,
+          0.0,
+          0.632234443198178,
+          0.0029814583328950746,
+          0.0
+        ],
+        "command": [
+          0.6342538979428315,
+          0.0024859840581587848,
+          0.0
+        ],
+        "progress": 0.8423027313302771,
+        "solver_status": "solved",
+        "solver_s": 0.0018818880000000002,
+        "elapsed_s": 0.007892364,
+        "digest": "2118e026ee30f570441a8023edb50cfb8c657a2a1c699b0784e1a847d15c766d",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 83,
+        "epoch_ns": 5150000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.8740154262274187,
+          6.548533441421515e-05,
+          0.0,
+          0.6342538979428315,
+          0.0024859840581587848,
+          0.0
+        ],
+        "command": [
+          0.6360437955743964,
+          0.0020314805102307834,
+          0.0
+        ],
+        "progress": 0.8740154262274187,
+        "solver_status": "solved",
+        "solver_s": 0.001862504,
+        "elapsed_s": 0.007801316000000001,
+        "digest": "0a2bfb703df9f2084bfd90b5b5145c1bad9e03b2a32b13927319b0d1c44a71e6",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 84,
+        "epoch_ns": 5200000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.9058176160061385,
+          0.00016705935992575432,
+          0.0,
+          0.6360437955743964,
+          0.0020314805102307834,
+          0.0
+        ],
+        "command": [
+          0.6376302304534576,
+          0.0016190559933432207,
+          0.0
+        ],
+        "progress": 0.9058176160061385,
+        "solver_status": "solved",
+        "solver_s": 0.0018797400000000002,
+        "elapsed_s": 0.007901072,
+        "digest": "86e1e62de91cab53ab6757c89867b3e13a4b9c589da21fcbe2c3e146a6e1daf1",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 85,
+        "epoch_ns": 5250000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.9376991275288113,
+          0.00024801215959291536,
+          0.0,
+          0.6376302304534576,
+          0.0016190559933432207,
+          0.0
+        ],
+        "command": [
+          0.6390363307354224,
+          0.0012488667231703398,
+          0.0
+        ],
+        "progress": 0.9376991275288113,
+        "solver_status": "solved",
+        "solver_s": 0.0018575100000000002,
+        "elapsed_s": 0.007893102,
+        "digest": "e1f8f6412eb9fa73a2b36e87dc493f8f80c36857da8a1b84fc63f24d1264f878",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 86,
+        "epoch_ns": 5300000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          0.9696509440655825,
+          0.00031045549575143237,
+          0.0,
+          0.6390363307354224,
+          0.0012488667231703398,
+          0.0
+        ],
+        "command": [
+          0.6402825955437533,
+          0.0009202790127477837,
+          0.0
+        ],
+        "progress": 0.9696509440655825,
+        "solver_status": "solved",
+        "solver_s": 0.001978512,
+        "elapsed_s": 0.007979431,
+        "digest": "0de58f541e436be47697fedff32c08151b1e54b055bb5268eb8cccde12f88360",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 87,
+        "epoch_ns": 5350000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.0016650738427701,
+          0.00035646944638882157,
+          0.0,
+          0.6402825955437533,
+          0.0009202790127477837,
+          0.0
+        ],
+        "command": [
+          0.6413871938166427,
+          0.0006320176165644088,
+          0.0
+        ],
+        "progress": 1.0016650738427701,
+        "solver_status": "solved",
+        "solver_s": 0.0018712660000000001,
+        "elapsed_s": 0.007877306,
+        "digest": "1a2e464d6d9ddf4ae30880ac67d19ce7bf45cac110fab78fd7f667f5d959bb65",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 88,
+        "epoch_ns": 5400000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.0337344335336023,
+          0.000388070327217042,
+          0.0,
+          0.6413871938166427,
+          0.0006320176165644088,
+          0.0
+        ],
+        "command": [
+          0.6423662291835931,
+          0.0003822999524593799,
+          0.0
+        ],
+        "progress": 1.0337344335336023,
+        "solver_status": "solved",
+        "solver_s": 0.001945246,
+        "elapsed_s": 0.008001476,
+        "digest": "aab83783289b4550471fdb2d02852913c569ebbb5614a4ded2a306bc7b43f3e9",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 89,
+        "epoch_ns": 5450000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.065852744992782,
+          0.000407185324840011,
+          0.0,
+          0.6423662291835931,
+          0.0003822999524593799,
+          0.0
+        ],
+        "command": [
+          0.6432339747164799,
+          0.00016895622461997973,
+          0.0
+        ],
+        "progress": 1.065852744992782,
+        "solver_status": "solved",
+        "solver_s": 0.001896913,
+        "elapsed_s": 0.007955367,
+        "digest": "db1d938df4a778a8b5f8fad132e78e4755e22480e46341bf593f1672c526b677",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 90,
+        "epoch_ns": 5500000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.098014443728606,
+          0.00041563313607101003,
+          0.0,
+          0.6432339747164799,
+          0.00016895622461997973,
+          0.0
+        ],
+        "command": [
+          0.6440030810800034,
+          -1.0464278445981536e-05,
+          0.0
+        ],
+        "progress": 1.098014443728606,
+        "solver_status": "solved",
+        "solver_s": 0.0019052600000000002,
+        "elapsed_s": 0.007819473,
+        "digest": "d0e2734676b91f39be411de000222245a7ee3fc15a7d0e59904be55a4fd46f2d",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 91,
+        "epoch_ns": 5550000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.1302145977826061,
+          0.00041510992214871095,
+          0.0,
+          0.6440030810800034,
+          -1.0464278445981536e-05,
+          0.0
+        ],
+        "command": [
+          0.6446847608539378,
+          -0.00015860023476218986,
+          0.0
+        ],
+        "progress": 1.1302145977826061,
+        "solver_status": "solved",
+        "solver_s": 0.001846362,
+        "elapsed_s": 0.007869274,
+        "digest": "ad3a7aca3dd96dd7a0531c185b10247b958def6e9e76bdc12385cdff9dd20d25",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 92,
+        "epoch_ns": 5600000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.1624488358253031,
+          0.0004071799104106015,
+          0.0,
+          0.6446847608539378,
+          -0.00015860023476218986,
+          0.0
+        ],
+        "command": [
+          0.6452889520703763,
+          -0.0002781980539451128,
+          0.0
+        ],
+        "progress": 1.1624488358253031,
+        "solver_status": "solved",
+        "solver_s": 0.0019138550000000001,
+        "elapsed_s": 0.007992867,
+        "digest": "dcbcfc14e4a06429919cd6b31c256855566ede512ddc3de4edcd56ff40edbbd7",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 93,
+        "epoch_ns": 5650000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.1947132834288219,
+          0.00039327000771334584,
+          0.0,
+          0.6452889520703763,
+          -0.0002781980539451128,
+          0.0
+        ],
+        "command": [
+          0.6458244630280034,
+          -0.0003720436020422457,
+          0.0
+        ],
+        "progress": 1.1947132834288219,
+        "solver_status": "solved",
+        "solver_s": 0.0019048280000000001,
+        "elapsed_s": 0.0078102480000000005,
+        "digest": "1925a14a00411025f714f7db3ecf3f34668eaec9fb175beb71ca7322f7e9b15b",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 94,
+        "epoch_ns": 5700000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.227004506580222,
+          0.00037466782761123353,
+          0.0,
+          0.6458244630280034,
+          -0.0003720436020422457,
+          0.0
+        ],
+        "command": [
+          0.646299100411896,
+          -0.00044290504651904605,
+          0.0
+        ],
+        "progress": 1.227004506580222,
+        "solver_status": "solved",
+        "solver_s": 0.0018751210000000002,
+        "elapsed_s": 0.007837701,
+        "digest": "7cb7aad63b3ed30eb8e6143053f4b29de01f8b19b25e80825a721b91e9017e52",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 95,
+        "epoch_ns": 5750000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.2593194616008168,
+          0.00035252257528528124,
+          0.0,
+          0.646299100411896,
+          -0.00044290504651904605,
+          0.0
+        ],
+        "command": [
+          0.646719784704092,
+          -0.000493485926913901,
+          0.0
+        ],
+        "progress": 1.2593194616008168,
+        "solver_status": "solved",
+        "solver_s": 0.001856903,
+        "elapsed_s": 0.007732689,
+        "digest": "2119d460def21fab047ea8bed44eec2f513d4ad4ae5e7d70a8527442a547fc98",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 96,
+        "epoch_ns": 5800000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.2916554508360214,
+          0.0003278482789395862,
+          0.0,
+          0.646719784704092,
+          -0.000493485926913901,
+          0.0
+        ],
+        "command": [
+          0.6470926485232212,
+          -0.0005263875252467475,
+          0.0
+        ],
+        "progress": 1.2916554508360214,
+        "solver_status": "solved",
+        "solver_s": 0.0018780390000000002,
+        "elapsed_s": 0.007884681000000001,
+        "digest": "95aee634c7b2d9377c67df821f7b2e5b3ed4438bf6ca3e7d1a21c997ed95b46c",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 97,
+        "epoch_ns": 5850000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.3240100832621824,
+          0.00030152890267724883,
+          0.0,
+          0.6470926485232212,
+          -0.0005263875252467475,
+          0.0
+        ],
+        "command": [
+          0.6474231279740292,
+          -0.0005440796059000281,
+          0.0
+        ],
+        "progress": 1.3240100832621824,
+        "solver_status": "solved",
+        "solver_s": 0.0018845690000000002,
+        "elapsed_s": 0.007736867000000001,
+        "digest": "a613c8b4ba5168c972abe6ed86be26736e811c28be187bd4b674a675e7bba436",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 98,
+        "epoch_ns": 5900000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.3563812396608839,
+          0.0002743249223822474,
+          0.0,
+          0.6474231279740292,
+          -0.0005440796059000281,
+          0.0
+        ],
+        "command": [
+          0.6477160404407579,
+          -0.0005488786013655094,
+          0.0
+        ],
+        "progress": 1.3563812396608839,
+        "solver_status": "solved",
+        "solver_s": 0.001862015,
+        "elapsed_s": 0.00779291,
+        "digest": "c06df7390bd6811fd89357ddc1b901d4709fef4f3fd8c0b7effcd0ddc61933a7",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "cycle": 99,
+        "epoch_ns": 5950000000,
+        "status": "follow",
+        "reason": "solved_soft_dynamic",
+        "state": [
+          1.3887670416829219,
+          0.0002468809923139719,
+          0.0,
+          0.6477160404407579,
+          -0.0005488786013655094,
+          0.0
+        ],
+        "command": [
+          0.6479756567365269,
+          -0.0005429323485453368,
+          0.0
+        ],
+        "progress": 1.3887670416829219,
+        "solver_status": "solved",
+        "solver_s": 0.0018771360000000002,
+        "elapsed_s": 0.007828898,
+        "digest": "a147e7b1256c801cf856f8fec986da1b486ea02dcfea0a2bf86ed4f2fc76d974",
+        "plateau_stages": 0,
+        "dynamic_cost": 0.0,
+        "dynamic_long_horizon_vetoes": 0
+      }
+    ],
+    "physical_acceptance": "NOT_EVALUATED",
+    "B0_comparison": "NOT_RUN"
+  },
+  "independent_output": {
+    "kind": "offline_output_process_probe",
+    "compute_block_s": 0.35,
+    "current_guard": "simulated_clear",
+    "physical_braking_certified": false,
+    "max_output_gap_s": 0.050079825,
+    "rows": [
+      {
+        "steady_ns": 83526691809421,
+        "command": [
+          0.25,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "no_offer",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83526741851422,
+        "command": [
+          0.3,
+          0.0,
+          0.0
+        ],
+        "mode": "follow",
+        "reason": "current_guard_clear",
+        "source": "r4",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83526791851673,
+        "command": [
+          0.25,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "command_lease_expired_or_future",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83526841848570,
+        "command": [
+          0.200003103,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "command_lease_expired_or_future",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83526891843406,
+        "command": [
+          0.15000826699999997,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "command_lease_expired_or_future",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83526941923231,
+        "command": [
+          0.10000826699999997,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "command_lease_expired_or_future",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83526991865432,
+        "command": [
+          0.050066065999999965,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "command_lease_expired_or_future",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83527041849473,
+        "command": [
+          8.202499999996476e-05,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "command_lease_expired_or_future",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83527091850458,
+        "command": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "command_lease_expired_or_future",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      },
+      {
+        "steady_ns": 83527141858617,
+        "command": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mode": "stop",
+        "reason": "command_lease_expired_or_future",
+        "source": "brake",
+        "brake_certified": false,
+        "dynamic_long_horizon_vetoes": 0
+      }
+    ]
+  }
+}

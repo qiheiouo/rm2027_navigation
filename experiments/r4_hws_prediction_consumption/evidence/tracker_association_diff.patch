@@ -1,0 +1,15 @@
+--- frozen_R3_tracker
++++ R4_tracker
+@@ -53,0 +54,3 @@
++    # R4-only evidence: (persistent track ID, index in this update's detections).
++    # Emitted where assignment is known, never reconstructed by proximity.
++    associations: tuple[tuple[int, int], ...] = ()
+@@ -599,0 +603 @@
++        associations = []
+@@ -604,0 +609 @@
++                associations.append((track.track_id, detection_index))
+@@ -666,0 +672 @@
++            associations.append((track.track_id, detection_index))
+@@ -671 +677 @@
+-        return TrackerUpdate(snapshots, created, deleted, time_reset)
++        return TrackerUpdate(snapshots, created, deleted, time_reset, tuple(associations))

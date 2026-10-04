@@ -1,0 +1,78 @@
+{
+  "scope": "offline_only_not_deployment",
+  "main_base": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "frozen_R3_unchanged": true,
+  "original_checkout_unchanged": true,
+  "original_dirty_paths_preserved": 10,
+  "large_untracked_core": "size_only; other dirty files hashed",
+  "protected_refs_preserved": 96,
+  "excluded_refs": "R4 branch may advance; app-managed turn-diff capture refs excluded (one A01 capture ref no longer present); no agent mutation of capture refs",
+  "tests": {
+    "result": "46 passed",
+    "duration_s": 1.2,
+    "skipped": 0,
+    "frontend": "actual pinned frozen binary",
+    "command": "R4_TDT_BRIDGE=<frozen frontend> PYTHONPATH=/tmp/temporal_mpc_deps_20261004:. python3 -m pytest -q -x"
+  },
+  "imports": [
+    {
+      "source": "experiments/temporal_mpc/ros2/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+      "destination": "r4_hws/tracker_core.py",
+      "source_sha256": "f10c5306355e0f21117adf1c45ca7a5b1b11fbea1e31c9cae1f26b7706f8ea20",
+      "current_sha256": "9b7d0bf4a57284ba4b4706cc1e23f9be681669af93d322f51bcbe19e8305180b",
+      "unchanged": false
+    },
+    {
+      "source": "experiments/temporal_mpc/temporal_mpc/frontend.py",
+      "destination": "r4_hws/frontend.py",
+      "source_sha256": "f906ea1dc66e746c63fba77e436e38c996206eadd38249f33108a29ba1bb56e5",
+      "current_sha256": "f906ea1dc66e746c63fba77e436e38c996206eadd38249f33108a29ba1bb56e5",
+      "unchanged": true
+    },
+    {
+      "source": "experiments/temporal_mpc/OSQP_LICENSE",
+      "destination": "OSQP_LICENSE",
+      "source_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "current_sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "unchanged": true
+    }
+  ],
+  "source_files_sha256": {
+    ".gitignore": "68d31e70b8239ed9bf655b17db0e6e2a78c2fed56923a57b6b6eed3389585225",
+    "COLCON_IGNORE": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pyproject.toml": "5427a920a51dc4552a9d424143b1b4df2e9e4428f1b8fabbd0bd644fcf0dafa2",
+    "OSQP_LICENSE": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+    "intake.json": "6f314f26c5cb5dc8fb2f30196adc6781e97f815370aed3f043109c4b52bd220d",
+    "README.md": "7be900e0caa38cff677febc30db2485993ae70cb687903b655af68e1a2f8d779",
+    "test/test_soft_follow.py": "6a4207c2b93519bf4285755bef5b18d80efd4166a9f30e5a6c0eaaffcb35bdde",
+    "test/test_execution.py": "3fce779ed472aff5eb7ded8c568482d74271e1affccbbb558971fc009990eb7a",
+    "test/conftest.py": "550bf77489f8fcc4bc29e94eb53aaecdb77e8e3c1fbfd3ba411cbc98de70310e",
+    "test/test_reuse.py": "6ede0ad61bcce4c5dd7b94bf8bccc3a3dc0b81e52c9bbda2efc38a2d9f21ec31",
+    "test/test_consumer.py": "20fd39e1bd5cbd800e7a9dfacc9704467f8b841109f300d2945c09dad8fccfeb",
+    "test/test_contracts.py": "63cede36d4b40264d9ec87afb8de63fc239db330914fb0bc1841e214df163d82",
+    "tools/validate_core.py": "db51d3c8554523787b6c743cc2fcdfbf17f846ee3de20a96c9bc626f472b114e",
+    "r4_hws/soft_field.py": "89a89623f4ad979d0ad074ef96ed65d5d119553721389bbed047a576c13e5d2e",
+    "r4_hws/fault_probe.py": "b05d855c2a73946bc6b911134b105b267b4ade957c4d682aaea3803074336bb3",
+    "r4_hws/probes.py": "2052bd5eb8895fa9e79e8d270a50ec64df98dc15e2064d84e8bfd04f2f71451a",
+    "r4_hws/execution.py": "d72704ce2832ba7e675b24a250bd6f4c0c8933f8acb8b46103492c7653557f9a",
+    "r4_hws/tracker_core.py": "9b7d0bf4a57284ba4b4706cc1e23f9be681669af93d322f51bcbe19e8305180b",
+    "r4_hws/contracts.py": "f3891d6c0a4fc86b846b12d02db2195e8678db3636094aa205af4619c149c716",
+    "r4_hws/__init__.py": "7ce1cd4ca980c1fd3864f22e76463d1bfa4ae5ce8d9941472cfc097e51a3acef",
+    "r4_hws/observed_shape.py": "eb93e7b89fd301e0f2412fedb0eacf2040a46c36f3962283c4684722aa83ca88",
+    "r4_hws/consumer.py": "088a1157c2e9de1a5ce3337f7b4e9283753908e49d53c1e088ca0b45518f5a9a",
+    "r4_hws/frontend.py": "f906ea1dc66e746c63fba77e436e38c996206eadd38249f33108a29ba1bb56e5",
+    "r4_hws/follow.py": "f4ace3ff3bbef007593c822f401023d74ec084a2f02f89557f1865a4a9110df4"
+  },
+  "local_links_checked": 12,
+  "evidence": {
+    "probe_sha256": "0b022d1f26c7bc2ad0198a016e85f40706cd491fc8d00aaab60c736fb285ac42"
+  },
+  "not_performed": [
+    "ROS shape sidecar publication",
+    "Nav2 synchronous plugin",
+    "actual MPPI fallback",
+    "Gazebo paired benchmark",
+    "full body physical oracle acceptance",
+    "deployment"
+  ]
+}

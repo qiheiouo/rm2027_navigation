@@ -2,7 +2,7 @@
 
 2026-10-04，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**第一轮源码审计完成；架构待确认；未开始控制器编码、物理实验或部署。** R1/R2/R3 保持冻结，正式MPPI配置保持。
+状态：**A01审计已完成；用户回复“继续”后进入A02，离线最小消费核心及46项检查已完成。Nav2/真实sidecar接线、Gazebo配对与部署验收尚未完成。** R1/R2/R3保持冻结，正式MPPI配置保持。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -41,6 +41,38 @@ ExecutionGuard不能整套原样加载；其未来硬动态门会恢复R3消费�
 
 ### next step
 
-等待用户确认 [审计第12节](r4_hws_prediction_consumption_audit.md#12-最小-r4-prototype-设计待确认尚未实现) 的最小架构，尤其是：observed shape仅作soft引导、自由s与无强制Follow终态停车、固定yaw全向首切片、1.5s复用网格、同步Nav2消费、当前执行保护/fallback边界。
+以下为A01交付时的下一步；后续授权与实现见A02。
+
+等待用户确认 [审计第12节](r4_hws_prediction_consumption_audit.md#12-最小-r4-prototype-设计a01方案已授权进入a02) 的最小架构，尤其是：observed shape仅作soft引导、自由s与无强制Follow终态停车、固定yaw全向首切片、1.5s复用网格、同步Nav2消费、当前执行保护/fallback边界。
 
 确认后才在隔离experiment目录开始最小编码与开源/冻结资产intake，先验证snapshot、stage-age、关联、静止保底、soft梯度和故障输出，再预登记模型有效的五场景B0/R4配对。R3只使用冻结结果，不启动修改或新试次；不自动扩成R5/R6。
+
+## A02 — 离线 observed-shape / fixed-cycle Follow 核心
+
+### hypothesis
+
+先在严格输入合同下验证observed shape、逐stage soft cost、自由进度和固定snapshot能形成可计算的omni Follow，并在失效时保持唯一输出责任；这一步不判断优于B0或物理安全。
+
+### change
+
+用户在A01后回复“继续”，进入隔离最小实现。先建立[intake](r4_hws_prediction_consumption_intake.md)，再在`experiments/r4_hws_prediction_consumption/`引入冻结tracker的association输出钩子与原样static frontend；实现实验raster sidecar、immutable snapshot、stage-age CV renderer、单次OSQP自由进度Follow、当前50ms连续footprint保护、75ms命令租约和输入/solver异常撤销。
+
+不修改正式ROS接口/TF/launch/YAML，不创建异步worker冒充同步，不增加solver/候选/动态硬veto或终态停车。Stop输出有界但不称物理认证。MPPI offer接口已留出，实际fallback仍未接线。HWS源码没有导入。
+
+### result
+
+46项检查通过，包含实际冻结T-DT桥接和逐步tracker行为对照，无skip。100拍理想端点等待释放探针出现等待后恢复，solver失败0、未来整段dynamic veto=0；max cycle10.361ms、max solver2.496ms。离线独立输出进程在计算端停顿350ms期间继续发令并有界减速，max gap50.080ms。
+
+这些是本机离线数值/合同结果；不是Gazebo、实际STVL/MPPI或完整体oracle结果。full physical acceptance=NOT_EVALUATED，B0=NOT_RUN。满代价平台零梯度及局部QP能力限制照实保留。
+
+### evidence
+
+[实现与限制](r4_hws_prediction_consumption_implementation.md)、[代码入口/重现方式](../../experiments/r4_hws_prediction_consumption/README.md)、[完整cycle/tick数值记录](../../experiments/r4_hws_prediction_consumption/evidence/core_checks_20261004.json)、[验证清单](../../experiments/r4_hws_prediction_consumption/evidence/validation_20261004.json)。实现期NumPy标量适配/空场QP尺度失败和修正也记录，没有通过放宽迭代/预算/几何来隐藏失败。
+
+### conclusion
+
+离线消费原型已可测试、可审阅，核心进入门/输出责任的单元边界成立；仍不能宣布完整HWS-style闭环复现或动态部署PASS。一次局部QP+soft cost不提供隐藏体/连续物理净空证书，独立输出探针不替代实际Nav2故障注入。
+
+### next step
+
+在同一R4分支接真实ROS关联sidecar、Nav2 synchronous compute与实际独立输出/MPPI回退；之后冻结五场景进入门和30run配对协议，再运行有限Gazebo矩阵。保留原body≥.05m、padded>0、15/40ms预算和失败统计。R3仍只读冻结，有限有效基础验证若失败则冻结复杂预测控制研究，不继续R5/R6。
