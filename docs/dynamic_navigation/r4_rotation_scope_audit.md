@@ -1,5 +1,9 @@
 # A17：真实转动的最小消费模型范围审阅
 
+2026-10-05 后续状态：用户已授权本审阅推荐的 A05/A08 离线数学范围，并要求遵循主线分级验证规范。
+[A18 结果](r4_rotation_value_experiment.md) 将近期重点收缩为最小转动输入消费 adapter；以下审阅保留当时的范围与尚待验证条件。
+
+
 2026-10-05，Asia/Shanghai。基线`0c03dbbb2cf9e18242a7dccba93dbdedb707c15c`，A08数学/A09–A12接口仍冻结`e137635e`，承接[A16](r4_corrected_runtime_shadow.md)。
 
 ## 分析前范围登记

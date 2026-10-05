@@ -1,0 +1,29 @@
+diff --git a/src/rm_r4_prediction_consumption/src/follow.cpp b/src/rm_r4_prediction_consumption/src/follow.cpp
+index a72e9546..5eb2bb74 100644
+--- a/src/rm_r4_prediction_consumption/src/follow.cpp
++++ b/src/rm_r4_prediction_consumption/src/follow.cpp
+@@ -422,10 +422,13 @@ FollowResultValue<Proposal> solve_model(Input in, SolverCache<S> & cache)
+     Matrix transform = Matrix::Zero(); Vector offset = Vector::Zero();
+     for (int k = 0; k < nodes; ++k) {
+       offset.template segment<2>(S * k) = vec(in.state.last_applied_body_velocity);
+-      if constexpr (S == 4) {offset[S * k + 2] = in.state.last_applied_yaw_rate;}
++      // Translation retains the original acceleration coordinates. Angular
++      // velocity has no acceleration objective: keep it in direct coordinates
++      // to avoid an unnecessary lower-triangular integration of this weak block.
++      if constexpr (S == 4) {transform(S * k + 2, S * k + 2) = 1.;}
+       transform(S * k + S - 1, S * k + S - 1) = 1.;
+       for (int j = 0; j <= k; ++j) {
+-        for (int axis = 0; axis < axes; ++axis) {transform(S * k + axis, S * j + axis) = j == 0 ? period : decision_dt;}
++        for (int axis = 0; axis < 2; ++axis) {transform(S * k + axis, S * j + axis) = j == 0 ? period : decision_dt;}
+       }
+     }
+     const Matrix rate_P = transform.transpose() * P * transform;
+@@ -434,7 +437,7 @@ FollowResultValue<Proposal> solve_model(Input in, SolverCache<S> & cache)
+     Eigen::VectorXd rate_lo = lo - A * offset, rate_hi = hi - A * offset;
+     Vector warm = seed;
+     for (int k = 0; k < nodes; ++k) {
+-      for (int axis = 0; axis < axes; ++axis) {
++      for (int axis = 0; axis < 2; ++axis) {
+         const double last = k == 0 ? offset[S * k + axis] : seed[S * (k - 1) + axis];
+         warm[S * k + axis] = (seed[S * k + axis] - last) / (k == 0 ? period : decision_dt);
+       }

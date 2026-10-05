@@ -4,18 +4,21 @@
 
 int main(int argc,char ** argv)
 {
-  if(argc!=4) return 2;
+  if(argc!=4&&argc!=5) return 2;
+  const bool locked=argc==5&&std::string(argv[4])=="locked";
+  if(argc==5&&!locked) return 2;
   try {
     std::ofstream out(std::filesystem::path(argv[3])/"replay.csv");
     out<<std::setprecision(17)<<"scene,cycle,epoch_ns,baseline_valid,valid,reason,status,iterations,vx,vy,wz,progress_end,yaw_delta,nominal_cost,solved_cost,solver_ms,elapsed_ms,used_warm,minimum_clearance,plateau_stages\n";
     for(const std::string scene:{"S0","S1","S2"}) {
+      if(!std::filesystem::exists(std::filesystem::path(argv[2])/(scene+"_native.csv"))) {continue;}
       const auto data=load(std::filesystem::path(argv[1])/scene/"rosbag");
       const auto input=rows(std::filesystem::path(argv[2])/(scene+"_native.csv"));
       v::ReceiptGate gate; v::RotatingFollowSolver solver;
       std::optional<v::PredictionSnapshot> previous;
       std::optional<v::PreparedCorridor> corridor; uint64_t revision=0;
       v::Vec2 seed{}; double seed_wz=0.; int64_t seed_epoch=0;
-      const v::RotatingFollowLimits limits{{{-.5,-.5},{.8,.5},{1.,1.},.4,.5},-1.2,1.2,2.};
+      const v::RotatingFollowLimits limits{{{-.5,-.5},{.8,.5},{1.,1.},.4,.5},locked?0.:-1.2,locked?0.:1.2,2.};
       for(const auto & r:input) {
         const auto acquired=v::FollowClock::now(); const int64_t epoch=n(r,"acquire_ros_ns");
         std::string reason,status="not_run"; int iterations=0,plateau=0;

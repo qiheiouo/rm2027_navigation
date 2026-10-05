@@ -1,8 +1,18 @@
 # R4：Prediction Consumption 进度
 
-2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
+2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A17真实转动范围审阅完成，推荐同一Follow内SE(2)+free-s，复用原积分/几何、Sfc、OSQP与唯一owner；需要明确调整A05几何/A08数学相关冻结后才编码。** A16原持续停车漂移未复现，但native导航期间R4有效仅6/223、5/230、5/223，关键动态窗口0/40、0/160；输入适用性FAILED，动态行为INCONCLUSIVE，production接线暂停，closed-loop NOT_ELIGIBLE。当前只有只读来源/1200行条件几何诊断，没有新Follow模型或runtime run。`e137635e`的实现/接口及public v2、main、原dirty与R3保持。75ms仅离线估计，unit/value历史PASS保留，closed-loop/deployment未评估。[A17范围/复用矩阵](r4_rotation_scope_audit.md)、[A16行为判决](r4_corrected_runtime_shadow.md)、[A15生成根因](r4_native_stop_audit.md)为当前入口；A13/A14原证据保留。
+状态：**A18 Research 有限值实验完成，近期重点收缩为转动源状态时间对齐 + query-yaw prediction consumption 的最小 adapter。** 已按用户授权解除 A05/A08 的相关数学冻结，并合入 `main@2849cbe4` 分级验证规范。自由角速度 60 变量模型及等价坐标对照未提供可靠 proposal；受限未来 wz=0 的同库值对照在 A16 已有关键窗口达到 S1 40/40、S2 160/160（原均 0），最大 solver 5.960ms，合成 hold→clear 60/60 有效并产生虚拟响应，但前 6 个 hold proposal 有预测支持重叠。判决 **Modify：缩小候选，继续 Research；Integration/closed-loop 尚不具备条件**。不扩建 ROS/Nav2 接线，A09–A12、public v2、实际输出与主线保持。最小候选尚未验证终点朝向、真实转动时延或实际避障。[A18 判决与结果](r4_rotation_value_experiment.md) 为当前入口；A17/A16 保留历史范围和失败证据。
+
+## A18 — Research 分级规范下的最小转动值实验
+
+- 假设：同一 observed-shape/CV、Sfc、free-s、OSQP 预算下，表达转动源输入可恢复可用消费，并影响 proposal。
+- 实现：共享 Follow 装配/工作区的显式 SE(2) 值入口，复用原 held-twist 积分；增加 query-yaw 支持/梯度与原认证 Sfc 矩形的只读视图。原固定朝向数值入口保留。
+- 实验：676 个已有 native 窗口记录；两个自由角速度坐标的有限 probes；最小受限角速度对照的 200 个已有动态窗口与 stationary hold→clear 值样本。没有新运行链或 Gazebo 场景。
+- 结果：自由角速度原坐标仅 176/676 有效，428 solver 未严格 solved、72 连续静态支持拒绝；直接角速度坐标的小型响应仍不可用。最小受限候选恢复关键动态窗口并产生非零 dynamic cost 与虚拟停滞/清除响应；早期预测重叠和部分 soft cost 上升仍需解释。
+- 判决：Modify。先最小 adapter/有限 Research shadow，再按结果考虑 Integration。保留 source pose/stamp 与模型派生姿态的区别；没有改实际角速度状态来绕过 gate。
+- 文档：[实验假设、结果、条件与下一步](r4_rotation_value_experiment.md)，[基本证据条件](../../experiments/r4_rotation_value/evidence/README.md)。原四个 fixed probe 控制/状态数值差异为 0，零未来角速度切片约 1e-15，朝向梯度误差约 1.1e-10；这些局部检查不替代算法行为结论。
+
 
 ## A01 — 固定版本源码审计与最小架构
 

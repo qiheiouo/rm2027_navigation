@@ -33,9 +33,14 @@ recheck. The fixed-yaw entrance remains available as the numerical baseline.
 `local_free_bounds` exposes the same certified Sfc rectangle before body erosion;
 it does not introduce a frontend. Source state/stamps remain raw; advancing pose
 to the prediction epoch assumes held measured twist and is a model estimate.
-No angular objective is added. The first research result is **Modify** because
-free-yaw solves do not yet provide reliable proposals; this entrance has no ROS
-caller or execution integration. See [A18 experiment](../../docs/dynamic_navigation/r4_rotation_value_experiment.md).
+No angular objective is added. The research decision is **Modify**: free-yaw
+solves are unreliable, while a restricted future-yaw-rate-zero proposal restores
+200/200 recorded dynamic-window value inputs and produces a virtual hold/clear
+response. The latter retains nonzero measured yaw rate and raw source stamps;
+it is not an actual chassis-limit change or physical stopping guarantee. Early
+synthetic predicted overlap remains. This entrance has no ROS caller or execution
+integration; the next candidate should retain only the necessary consumption
+adapter rather than requiring all 60 variables. See [A18 experiment](../../docs/dynamic_navigation/r4_rotation_value_experiment.md).
 
 The caller must copy its existing state/TF/last-applied values under its existing
 synchronization, reset on acquisition/lifecycle failure, and validate the active

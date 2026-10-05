@@ -29,3 +29,18 @@ difference. Rejected/stale input clears the virtual seed. Steady times are fresh
 offline acquisition times, not original runtime timing or lease evidence.
 
 See [hypothesis, decision and limits](../../docs/dynamic_navigation/r4_rotation_value_experiment.md).
+
+The restricted candidate reuses the first compiled library. To run its bounded
+probes or just the existing S1/S2 200-sample dynamic windows:
+
+```bash
+bash experiments/r4_rotation_value/run_bounded.sh build/r4_rotation_locked_probe_recheck probe
+bash experiments/r4_rotation_value/run_bounded.sh build/r4_rotation_locked_dynamic_recheck dynamic
+```
+
+Its proposal yaw-rate bounds are [0,0]; measured yaw rate remains the recorded
+value. This restricts the proposal, not the actual chassis or state. The probe
+also checks a 30ms source-pose advancement with measured wz=0.6rad/s. Results,
+failed free-yaw coordinate variation and limits are in `evidence/README.md`.
+The initial free-yaw model source is `87f5c1ad`; the direct-coordinate experiment
+is captured as a small patch and was not retained in the working model.

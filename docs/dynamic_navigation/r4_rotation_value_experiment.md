@@ -39,4 +39,45 @@ A09–A12 无接线改动，无 ROS 节点、速度 publisher、实际输出或�
 Sfc/provider/认证门没有改动；这些准备失败不计入模型样本。
 
 完整首轮结果见 `experiments/r4_rotation_value/evidence/rate_coordinates/`。
-所有值实验只描述 proposal/模型行为，不证明实际避障、导航完成或安全停车。
+
+## 等价坐标与最小受限候选
+
+角速度直接坐标没有改善 clear/hold/cross 或 60 次 hold→clear：仍全不可用。
+只保留实验 patch/CSV，工作模型回到 `87f5c1ad` 的原坐标；没有继续放宽求解状态、预算或认证门。
+
+随后只利用已有接口，将 **proposal 的未来角速度限制为零**，保留非零 measured wz、raw source pose/stamp，
+用 held-measured 推导本拍模型姿态。这是受限研究候选，不是把实际底盘角速度界设为零。
+它也不证明机器人会在源时刻后立即停止旋转。
+
+| 既有动态窗口回放 | 固定朝向基线 | 最小受限候选 | 有动态 soft cost | 最大 solver / acquire→finish |
+| --- | --- | --- | --- | --- |
+| S1，goal+1..3s | 0/40 | 40/40 | 31/40 | 3.657 / 6.425ms |
+| S2，goal+1..9s | 0/160 | 160/160 | 127/160 | 5.960 / 7.784ms |
+
+这 200 个已有记录值在已查询的 30 个 running stages（0..29）中没有 observed-support 重叠；S1/S2 分别有 7/24 个 proposal 的真实 soft cost 高于 nominal。
+单次局部 QP 不保证这个代价项逐次下降。这些数据不测量实际 robot execution、goal success 或隐藏物体支持。
+
+合成 stationary 值场景在 measured wz=0.6rad/s、source pose age=30ms 下，模型 yaw 从 0.35 推到 0.368rad。
+受限 clear/hold 均可用，hold→clear 60/60 可用；hold/clear 阶段的虚拟 world-forward 速度中位数为
+-0.0054 / 0.2908m/s，1.5s 末端 free-s 从 hold 最后一次的 1.2139 变为 clear 最后的 1.5324。
+最大 solver 4.236ms。最初 6 个 hold proposal 仍出现预测支持重叠；不能据此宣布 WAIT、安全停车或实际恢复。
+
+## 判决与近期重点
+
+**Modify：缩小到最小转动输入消费候选，继续 Research。**
+自由角速度这版停止扩展；等价坐标尝试不能解决其收敛问题。
+近期优先验证 source→epoch 对齐、随 query yaw 的 shape 消费和受限 proposal 是否带来可重复收益，
+再决定是否需要角速度决策。60 变量模型不是下一阶段必须保留的生产架构。
+
+下一步仍应是有限 Research：优先把上述必要逻辑整理为现有 Follow 的最小 adapter，保留 raw source 证据，
+不得用“将 measured wz 改成零”伪造输入；随后做有限只读 shadow 对比。
+进入 Integration 前需解决终点朝向、真实转动/响应时延与现有 owner 的接纳条件，以及 early overlap 的行为含义。
+受限回放的上一虚拟 yaw 命令为零；真实 owner 上一发送 wz 非零时，[0,0] 的当前输入限制可能不成立，
+需要在已有 owner 内明确过渡/接纳条件。不得以虚拟零替换真实 last-applied 证据来绕过 slew 或输入检查。
+因此 200/200 是受限 counterfactual 值结果，不是实际控制接纳率。
+不把 free-s 当作实际底盘进度，不引入第二个 controller/output owner 或未来动态硬 veto 来掩盖结果。
+
+所有证据与基本条件见 `experiments/r4_rotation_value/evidence/README.md`；
+复现入口为 `run.sh` 和复用已编译库的 `run_bounded.sh`。
+A09–A12、实际输出、main 和原研究工作区均未改动；未运行新的 Gazebo 场景。
+本轮在上述 Research 判决处收尾，实际避障、导航完成和安全停车尚未验证。

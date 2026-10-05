@@ -38,19 +38,23 @@ int main(int argc, char ** argv)
     auto midpoint=path_value.poses.front(); midpoint.pose.position.x=-.5;
     path_value.poses.insert(path_value.poses.begin()+1,midpoint);
     midpoint.pose.position.x=.5; path_value.poses.insert(path_value.poses.begin()+3,midpoint);
-    for (const std::string kind : {"zero_slice", "rotating_clear", "rotating_hold", "rotating_cross", "hold_clear_sequence"}) {
+    for (const std::string kind : {"zero_slice", "rotating_clear", "rotating_hold", "rotating_cross", "hold_clear_sequence",
+      "locked_future_clear", "locked_future_hold", "locked_future_hold_clear"}) {
       RotatingFollowSolver solver; Vec2 seed{.35,0.}; double seed_wz = 0.;
-      const int count = kind == "hold_clear_sequence" ? 60 : 1;
+      const bool locked = kind.find("locked_future_") == 0;
+      const int count = kind == "hold_clear_sequence" || kind == "locked_future_hold_clear" ? 60 : 1;
       for (int i = 0; i < count; ++i) {
         const auto epoch = source + i * 50000000;
         auto b = body(); b.yaw = .35;
-        const bool occupied = kind == "rotating_hold" || kind == "rotating_cross" || (kind == "hold_clear_sequence" && i < 30);
+        const bool occupied = kind == "rotating_hold" || kind == "rotating_cross" || kind == "locked_future_hold" ||
+          ((kind == "hold_clear_sequence" || kind == "locked_future_hold_clear") && i < 30);
         auto snapshot = PredictionSnapshot::freeze(fixture(epoch, occupied, kind == "rotating_cross"), epoch, "map", b);
         auto route = PreparedCorridor::prepare(path_value, grid(), b, 1);
-        RotatingFollowInput in{snapshot, route, b, {limits, kind == "zero_slice" ? 0. : -1.2,
-          kind == "zero_slice" ? 0. : 1.2, 2.}, {"probe",kind,"base_link",1,uint64_t(i+1)},
+        const int64_t pose_epoch=locked ? epoch-30000000 : epoch;
+        RotatingFollowInput in{snapshot, route, b, {limits, kind == "zero_slice" || locked ? 0. : -1.2,
+          kind == "zero_slice" || locked ? 0. : 1.2, 2.}, {"probe",kind,"base_link",1,uint64_t(i+1)},
           {{0.,0.},{.35,0.},seed,b.yaw,kind == "zero_slice" ? 0. : .6,seed_wz,
-          epoch,epoch,epoch,epoch,"map","base_link"}, 1., FollowClock::now(),false};
+          pose_epoch,pose_epoch,pose_epoch,epoch,"map","base_link"}, 1., FollowClock::now(),false};
         const auto result = solver.solve(in); double slice_error = 0., gradient_error = 0.;
         if (kind == "zero_slice") {
           FollowSolver fixed; FollowInput old{snapshot,route,b,limits,in.identity,in.state,1.,FollowClock::now(),false};

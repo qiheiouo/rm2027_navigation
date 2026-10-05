@@ -2,12 +2,15 @@
 set -euo pipefail
 R4_VALUE_ROOT=$(cd "$(dirname "$0")/../.." && pwd)
 R4_VALUE_OUT=${1:-"$R4_VALUE_ROOT/build/r4_rotation_value_20261005"}
+R4_VALUE_MODE=${2:-all}
+case "$R4_VALUE_MODE" in all|probe) ;; *) exit 2;; esac
 mkdir -p "$R4_VALUE_OUT"
+R4_VALUE_OUT=$(cd "$R4_VALUE_OUT" && pwd)
 python3 "$R4_VALUE_ROOT/experiments/r4_rotation_value/select_inputs.py" "$R4_VALUE_ROOT" "$R4_VALUE_OUT/inputs"
 docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
   --user 1000:1000 --tmpfs /tmp:rw --tmpfs /home/rmnav:rw,uid=1000,gid=1000 \
   -v /home/qihei/rm2027_navigation:/home/qihei/rm2027_navigation:ro \
-  -v "$R4_VALUE_OUT:/check:rw" -w "$R4_VALUE_ROOT" \
+  -v "$R4_VALUE_OUT:/check:rw" -w "$R4_VALUE_ROOT" -e R4_VALUE_MODE="$R4_VALUE_MODE" \
   sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3 bash -c '
 set -e
 source /opt/ros/humble/setup.bash
@@ -25,5 +28,7 @@ cmake -S experiments/r4_rotation_value -B /check/probes -DCMAKE_BUILD_TYPE=Relea
 cmake --build /check/probes -j2
 /check/probes/fixed_probe > /check/fixed_after.json
 /check/probes/probe /check/probe.csv
-/check/probes/replay build/r4_corrected_runtime_shadow_20261005 /check/inputs /check
+if [ "$R4_VALUE_MODE" = all ]; then
+  /check/probes/replay build/r4_corrected_runtime_shadow_20261005 /check/inputs /check
+fi
 ' > "$R4_VALUE_OUT/run.log" 2>&1

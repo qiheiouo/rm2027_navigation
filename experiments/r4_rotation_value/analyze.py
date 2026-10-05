@@ -1,6 +1,7 @@
 """Effect-oriented A18 summary. No hash registry or broad regression suite."""
 import csv
 import json
+import math
 import statistics
 import sys
 from collections import Counter
@@ -41,20 +42,22 @@ def flatten(value):
 
 
 folder = Path(sys.argv[1])
-before = json.loads((folder/"fixed_before.json").read_text())
-after = json.loads((folder/"fixed_after.json").read_text())
+before = json.loads((folder/"fixed_before.json").read_text()) if (folder/"fixed_before.json").exists() else []
+after = json.loads((folder/"fixed_after.json").read_text()) if (folder/"fixed_after.json").exists() else []
 fixed = []
 for a, b in zip(before, after, strict=True):
     controls = max(abs(x-y) for x,y in zip(flatten(a["controls"]), flatten(b["controls"]), strict=True))
     stages = max(abs(x-y) for x,y in zip(flatten(a["stages"]), flatten(b["stages"]), strict=True))
     assert controls < 2e-5 and stages < 2e-5
     fixed.append(dict(scenario=a["scenario"], max_control_difference=controls, max_stage_difference=stages))
-replay = read(folder/"replay.csv")
-probe = read(folder/"probe.csv")
+replay = read(folder/"replay.csv") if (folder/"replay.csv").exists() else []
+probe = read(folder/"probe.csv") if (folder/"probe.csv").exists() else []
 result = dict(stage="Research", scope="offline recorded values and synthetic stationary probes; no actual output",
               fixed_baseline_comparison=fixed, recorded={}, probes={})
 for scene in ("S0", "S1", "S2"):
     selected = [r for r in replay if r["scene"] == scene]
+    if not selected:
+        continue
     value = summary(selected)
     value["recorded_fixed_baseline_valid"] = sum(r["baseline_valid"] == "1" for r in selected)
     value["absolute_horizon_yaw_delta"] = stats([abs(float(r["yaw_delta"])) for r in selected if r["valid"] == "1"])
@@ -63,9 +66,14 @@ for case in sorted(set(r["case"] for r in probe)):
     selected = [r for r in probe if r["case"] == case]
     value = summary(selected)
     value["rows"] = selected if len(selected) == 1 else [selected[0], selected[29], selected[30], selected[-1]]
-    if case == "hold_clear_sequence":
+    if case in ("hold_clear_sequence", "locked_future_hold_clear"):
         value["hold"] = summary(selected[:30])
         value["clear"] = summary(selected[30:])
+        if case == "locked_future_hold_clear":
+            for phase, phase_rows in (("hold", selected[:30]), ("clear", selected[30:])):
+                value[phase]["virtual_world_forward_mps"] = stats([
+                    float(r["vx"])*math.cos(float(r["yaw_end"])) -
+                    float(r["vy"])*math.sin(float(r["yaw_end"])) for r in phase_rows if r["valid"] == "1"])
         value["max_virtual_seed_delta"] = {
             axis: max((abs(float(b[axis])-float(a[axis])) for a,b in zip(selected, selected[1:])
                       if a["valid"] == b["valid"] == "1"), default=None) for axis in ("vx", "vy", "wz")}

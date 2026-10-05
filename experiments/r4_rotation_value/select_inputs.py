@@ -4,13 +4,20 @@ import json
 import sys
 from pathlib import Path
 
-root, output = map(Path, sys.argv[1:])
+root, output = map(Path, sys.argv[1:3])
+mode = sys.argv[3] if len(sys.argv) == 4 else "native"
+assert mode in ("native", "dynamic")
 output.mkdir(parents=True, exist_ok=True)
 for scene in ("S0", "S1", "S2"):
+    if mode == "dynamic" and scene == "S0":
+        continue
     evidence = root / "experiments/r4_corrected_runtime_shadow/evidence"
     events = json.loads((evidence / f"{scene}_events.json").read_text())["events"]
     begin = next(e["ROS_ns"] for e in events if e["kind"] == "goal_accepted")
     end = next(e["ROS_ns"] for e in events if e["kind"] == "native_goal_result")
+    if mode == "dynamic":
+        end = begin + (3 if scene == "S1" else 9)*1_000_000_000
+        begin += 1_000_000_000
     with (evidence / f"{scene}_cycles.csv").open() as stream:
         reader = csv.DictReader(stream)
         fields = reader.fieldnames
