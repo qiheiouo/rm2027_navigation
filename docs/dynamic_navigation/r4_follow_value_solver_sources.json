@@ -1,0 +1,400 @@
+{
+  "stage": "A08",
+  "date": "2026-10-05",
+  "base_R4_commit": "a0a47ff5eb394fae35d279e9af8d9f1522b1a1ea",
+  "main_commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "branch": "experiment/r4-hws-prediction-consumption",
+  "scope": "optional bounded Follow value solver only; no ROS/Nav2 wiring or output owner",
+  "new_and_modified_assets": [
+    {
+      "path": "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/follow.hpp",
+      "sha256": "cd1c902cbb0c56df713d16b45633c38190d21a973775b1ca75c50ff247edd206",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/follow.cpp",
+      "sha256": "817af438e42a0e661ae2b7388ab88afb7dac48a675ed7710649d2e4d7dc34d66",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_follow.cpp",
+      "sha256": "4d20d11355f81852f859ff2fef6408cb4737518271d351e36c321b58f203504d",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/follow_probe.cpp",
+      "sha256": "cff8bb31029eb1fabe663de72acd734273ae23b640c9399f1231695ab8aef24a",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_follow_reference.py",
+      "sha256": "ec0371c946043d6df56d263773510eb21aaf4a436d4f2f49d16bcd52a3f3ce92",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/CMakeLists.txt",
+      "sha256": "ab7a4c0ea07997496bd638adb341644bbcd3681e14bfcf6a01f5ae36dcff21ea",
+      "status": "modified"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/README.md",
+      "sha256": "881dd847853fb9ef119427bc3cfd0b428d39d399b7354c4b1780c466be013039",
+      "status": "modified"
+    }
+  ],
+  "pinned_repository_sources": [
+    {
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_nav_config/config/nav2_old_car_2026_left_stvl.yaml",
+      "sha256": "f50751cbf4b7c069810b6e810fa0613f389b4ed0c7cf26a0be38227437e5e701"
+    },
+    {
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_competition_mission/src/competition_mission_node.cpp",
+      "sha256": "7079df5b4f479f1dc6cacc8a27a48cabee365bb92bdaf4d580753d86e96344da"
+    },
+    {
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "docs/external/tdt_nav_kit.md",
+      "sha256": "3c8a0c549a19c299c3217e2a1a12b0695d9bad65a267a7e1a9432ddb1fafc712"
+    },
+    {
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/CMakeLists.txt",
+      "sha256": "d33939972c82eeed337c9514fb6b0239cb93ebbb825ea969260c42e2ff744ff5"
+    }
+  ],
+  "algorithm_references": [
+    {
+      "version": "b95a4222",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/follow.py",
+      "sha256": "f4ace3ff3bbef007593c822f401023d74ec084a2f02f89557f1865a4a9110df4"
+    },
+    {
+      "version": "b95a4222",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/contracts.py",
+      "sha256": "f3891d6c0a4fc86b846b12d02db2195e8678db3636094aa205af4619c149c716"
+    },
+    {
+      "version": "b95a4222",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/soft_field.py",
+      "sha256": "89a89623f4ad979d0ad074ef96ed65d5d119553721389bbed047a576c13e5d2e"
+    }
+  ],
+  "solver_intake": {
+    "reuses_existing_TDT_kernel": true,
+    "cpp_OSQP": "0.6.3",
+    "OSQP_commit": "0dd00a578cf1c2691c5c379965d504c75bf6cfad",
+    "QDLDL_commit": "7d16b70a10a152682204d745d814b6eb63dc5cd2",
+    "OsqpEigen_required": false,
+    "wrapper": "local Eigen dense to legacy OSQP C CSC API; no alternative solver",
+    "source_modified": false,
+    "source_in_repository": false,
+    "system_install": false,
+    "network_during_build": false,
+    "archives": [
+      {
+        "repository": "https://github.com/osqp/osqp",
+        "commit": "0dd00a578cf1c2691c5c379965d504c75bf6cfad",
+        "archive_url": "https://codeload.github.com/osqp/osqp/tar.gz/0dd00a578cf1c2691c5c379965d504c75bf6cfad",
+        "archive_sha256": "bbfd9e7747bf4e90186b12cb3155968f4048638e6650a3d320f0d198ffb77f71",
+        "source_files": 330
+      },
+      {
+        "repository": "https://github.com/osqp/qdldl",
+        "commit": "7d16b70a10a152682204d745d814b6eb63dc5cd2",
+        "archive_url": "https://codeload.github.com/osqp/qdldl/tar.gz/7d16b70a10a152682204d745d814b6eb63dc5cd2",
+        "archive_sha256": "d623b341960152951d67c76637b18af728c636ab120beb06f88442ff896a681d",
+        "source_files": 26
+      }
+    ],
+    "licenses": {
+      "OSQP Apache-2.0": {
+        "source_path": "LICENSE",
+        "sha256": "ae5e69b1fea4c316b80e4bc2cb49ac82c0e9b34785415e128e00c975bd10f687"
+      },
+      "OSQP NOTICE": {
+        "source_path": "NOTICE",
+        "sha256": "3fdcb6e49c21d6aee32e1b09c7a9f7890511cdef83abe141915036f1f49f8dd6"
+      },
+      "QDLDL Apache-2.0": {
+        "source_path": "lin_sys/direct/qdldl/qdldl_sources/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      "AMD BSD-3-Clause": {
+        "source_path": "lin_sys/direct/qdldl/amd/LICENSE",
+        "sha256": "09d5c2e5ee64fd5fd338ca8d0fce940385ef61bb0d36b855531a675a46176f00"
+      }
+    },
+    "configured_ABI": {
+      "PROFILING": true,
+      "DFLOAT": false,
+      "DLONG": true,
+      "EMBEDDED": false
+    },
+    "default_Follow_build": false
+  },
+  "environment": {
+    "image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+    "GCC": "11.4.0",
+    "Eigen": "3.4.0",
+    "ROS": "Humble",
+    "network": "none",
+    "devices": false,
+    "formal_repository_mount": "read-only"
+  },
+  "model": {
+    "nodes": 15,
+    "decision_dt_seconds": 0.1,
+    "stages": 31,
+    "stage_dt_seconds": 0.05,
+    "variables": 45,
+    "constraints": 168,
+    "fixed_yaw": true,
+    "terminal_Follow_cost": 0,
+    "future_dynamic_hard_veto": false,
+    "cycle_budget_seconds": 0.04,
+    "setup_solve_budget_seconds": 0.015,
+    "max_iterations": 400,
+    "source_deadline_ms_from_original_acquisition": 75,
+    "state_max_age_ns": 100000000,
+    "TF_stamp_equals_pose_stamp": true,
+    "proposal_failure": "empty optional; no brake or velocity output"
+  },
+  "validation": {
+    "Follow_GTest_cases": 12,
+    "A05_GTest_cases": 23,
+    "CTest_groups": 5,
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "leak_detection": false,
+    "third_party_C_solver_instrumented": true,
+    "ROS_system_libraries_instrumented": false,
+    "installed_CXX17_downstream": "PASS",
+    "default_without_solver": "PASS",
+    "math_reference": {
+      "scope": "four numerical references only; no closed loop or runtime owner",
+      "cpp_osqp": "0.6.3",
+      "python_osqp": "1.0.5",
+      "adaptations": [
+        "actual velocity and target rate bounds, seed and projection",
+        "actual body and padding",
+        "explicit cruise/progress limits",
+        "reserve from actual velocity maxima"
+      ],
+      "reference_source_sha256": {
+        "follow.py": "f4ace3ff3bbef007593c822f401023d74ec084a2f02f89557f1865a4a9110df4",
+        "contracts.py": "f3891d6c0a4fc86b846b12d02db2195e8678db3636094aa205af4619c149c716",
+        "soft_field.py": "89a89623f4ad979d0ad074ef96ed65d5d119553721389bbed047a576c13e5d2e"
+      },
+      "cases": [
+        {
+          "scenario": 0,
+          "control_error": 1.4432899320127035e-15,
+          "stage_error": 1.4432899320127035e-15,
+          "nominal_dynamic_cost_error": 0.0,
+          "solved_dynamic_cost_error": 0.0,
+          "cpp_solver_s": 0.002481167,
+          "cpp_elapsed_s": 0.003291393,
+          "cpp_iterations": 230,
+          "python_solver_s": 0.005164754000000001
+        },
+        {
+          "scenario": 1,
+          "control_error": 2.7755575615628914e-16,
+          "stage_error": 2.7755575615628914e-16,
+          "nominal_dynamic_cost_error": 0.0,
+          "solved_dynamic_cost_error": 0.0,
+          "cpp_solver_s": 0.001600128,
+          "cpp_elapsed_s": 0.002135193,
+          "cpp_iterations": 140,
+          "python_solver_s": 0.004079737
+        },
+        {
+          "scenario": 2,
+          "control_error": 1.1102230246251565e-15,
+          "stage_error": 1.1102230246251565e-15,
+          "nominal_dynamic_cost_error": 0.0,
+          "solved_dynamic_cost_error": 0.0,
+          "cpp_solver_s": 0.003464876,
+          "cpp_elapsed_s": 0.003983536,
+          "cpp_iterations": 230,
+          "python_solver_s": 0.005472334000000001
+        },
+        {
+          "scenario": 3,
+          "control_error": 9.83859675292298e-07,
+          "stage_error": 9.83859675292298e-07,
+          "nominal_dynamic_cost_error": 0.0,
+          "solved_dynamic_cost_error": 1.420529638807011e-06,
+          "cpp_solver_s": 0.000830911,
+          "cpp_elapsed_s": 0.001357512,
+          "cpp_iterations": 40,
+          "python_solver_s": 0.0033624960000000004
+        }
+      ],
+      "test_only_source_substitutions": {
+        "math.hypot(.8, .5)": "math.hypot(max(-cfg.velocity_lower[0], cfg.velocity_upper[0]), max(-cfg.velocity_lower[1], cfg.velocity_upper[1]))",
+        "target-velocity, -limit, limit": "target-velocity, -limit*np.asarray(cfg.command_rate), limit*np.asarray(cfg.command_rate)",
+        "last-interval": "last-interval*np.asarray(cfg.command_rate)",
+        "last+interval": "last+interval*np.asarray(cfg.command_rate)"
+      },
+      "imported_harness_modules": [
+        "contracts",
+        "soft_field",
+        "follow reference only"
+      ],
+      "tracker_frontend_execution_imported": false
+    },
+    "failed_checks_retained": [
+      {
+        "check": "first static infeasible fixture",
+        "reason": "point lay within adjacent overlapping certified box; use outermost corridor edge",
+        "budgets_or_geometry_relaxed": false
+      },
+      {
+        "check": "first actual-profile A02 reference",
+        "reason": "prototype unit target rate remained in seed/projection; test-only actual-rate substitution required",
+        "initial_soft_control_error": 0.03967307430182948,
+        "tolerance_relaxed": false
+      },
+      {
+        "check": "first standalone downstream invocation",
+        "reason": "direct CMake install overwrote colcon extra environment-hook metadata; standard colcon install restored it",
+        "runtime_source_changed_for_this_fix": false
+      }
+    ],
+    "test_reference_dependency_cache": {
+      "path": "/home/qihei/rm2027_navigation/build/temporal_mpc_main_20261004/build/temporal_mpc_ros2/python_deps",
+      "mount": "read-only",
+      "Python_OSQP": "1.0.5",
+      "R3_algorithm_or_tests_executed": false,
+      "osqp_extension_sha256": "0b5df02cf148b1a55d6ac369ff87e36cc68971cf1558a37fdf1c6b4ccb60d5f6"
+    },
+    "evidence": [
+      {
+        "path": "build/r4_follow_humble_check_20261005/build.log",
+        "sha256": "932ee6895d21c9c6c11101b5bbfc560ea3bd96a4f147ac31db85650675faafbd"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/tests.log",
+        "sha256": "c0543696e6297fb5270336a19d415acfc157f7de4079aee356e4adc17ff1938d"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/follow_tests.log",
+        "sha256": "749e2b2d14f99d2e1b3267e9215f6f892dc30b19b3ea47256b41de43b0e5e02e"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/sanitized_build.log",
+        "sha256": "52e4d2e3b8ece1ee0198f8a7c6a29699c0d0f1ec5c4f1bfb13b2f6f4d1221dce"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/sanitized_tests.log",
+        "sha256": "f3a15fc550aecefd1dfab1da9e1f1a2c49e01062b224d7e30295bb7cd0b27168"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/sanitized_follow_final.log",
+        "sha256": "5e03208ddc3aeb142a5c81b6824adaa5424b02bbc333b55ce7be6028a254ec45"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/math_reference_initial.log",
+        "sha256": "88e0c091123dd3690cc9621c09ee752cca06f9613864165c36ef0bd57a78795d"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/math_reference.log",
+        "sha256": "d53067ab12d6d346b00a341d72c22c67f6401d449ce2e744bf9e80f7be9f9589"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/math_reference.json",
+        "sha256": "52ef7b8538357cc9e5efcebe1e36d3cf9d2ca943e4b99cc61cd9d6bbc28132f3"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/downstream.log",
+        "sha256": "a92e0f6b0208be4f381cd6ade9552d48e3b3db9d104c8e3c127b257383171d44"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/downstream_final.log",
+        "sha256": "a0d58d822872bc8372f2fb9bc88dd4ba565ffbf3246b14950ab3d7a48d454915"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/final_colcon.log",
+        "sha256": "5b9290a8ea7ba5dce38e04f3db551f30132e3c94c9da85d9ca490ebbea65c282"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/default_configuration.log",
+        "sha256": "0b1b71b051da35c6bab09fade54cce021ff75f6fca604cc3e49ef9772b962d86"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/release_ldd.txt",
+        "sha256": "503d6866644480416692a91010a5b1f1bd6d639ad0ebe01cf4a20998d6699ba6"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/sanitized_ldd.txt",
+        "sha256": "63f48e91ada20fb64d107b013b57fe84f560fee99a2a7507df40f79fcd503832"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/dependencies/release.log",
+        "sha256": "51a97ec6a66d614c86c42d0447b5cb2a5758feb82b82923724024fc289e51c9d"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/dependencies/sanitized.log",
+        "sha256": "fd15308e81693617eecca76366d92b1f94b5004f6a901b8794123d275229342e"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/dependencies/intake.json",
+        "sha256": "1f11b15f396eab83cc61dd114da536c03696b185bc9699ac5f6aa8b1b75e548e"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/dependencies/source_preservation.json",
+        "sha256": "b2f63d154a35dc6403d9ad5c282d27f85f8fc352bc8603f3e2ff070c6964a1ec"
+      },
+      {
+        "path": "build/r4_follow_humble_check_20261005/preservation.json",
+        "sha256": "6c74f10ba359bdc6755c1af8d93cd52bef0a8e1fa091298718d7a99c519371c7"
+      }
+    ]
+  },
+  "preservation": {
+    "A03_fixed_source_hashes_and_key_lines_verified": 63,
+    "protected_refs_unchanged_excluding_R4": 92,
+    "A03_branch_head_inventory_rechecked": 33,
+    "original_checkout_head_branch_and_10_dirty_paths_unchanged": true,
+    "large_untracked_core_read_or_deleted": false,
+    "frozen_R3_head_and_clean_status_unchanged": true,
+    "R4_existing_branch_based_on_main": true,
+    "formal_entry_profile_controller_output_transport_paths_match_main": true,
+    "unchanged_A04_A05_assets": 39,
+    "intentionally_changed_A05_assets": [
+      "src/rm_r4_prediction_consumption/CMakeLists.txt",
+      "src/rm_r4_prediction_consumption/README.md"
+    ],
+    "A02_non_Markdown_files_unchanged": 26,
+    "public_v2_wire_unchanged": true,
+    "formal_worktree_sources_also_match_main": true,
+    "producer_private_interface_canonical_Sfc_unchanged": true,
+    "release_and_sanitized_kernel_loading_verified": true,
+    "default_configuration_requires_no_solver": true
+  },
+  "remaining_acceptance": {
+    "Nav2_controller_integration": false,
+    "active_grant_fence": false,
+    "shared_rotating_continuous_current_admission": false,
+    "atomic_source_deadline_transport": false,
+    "owner_timer_IO_WCET": false,
+    "native_MPPI_fallback_wiring": false,
+    "physical_or_closed_loop": false,
+    "existing_A07_timing_counterexample_unchanged": true
+  },
+  "integration": {
+    "new_tracker": false,
+    "new_prediction_pipeline": false,
+    "new_frontend": false,
+    "new_MPPI": false,
+    "new_final_publisher_or_owner": false,
+    "new_ROS_nodes": false,
+    "formal_config_or_launch_modified": false,
+    "large_experiments": false
+  }
+}

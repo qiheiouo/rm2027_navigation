@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A05 C++预测消费值库与既有Sfc绑定已实现：原子输入冻结、observed raster、stage soft residual及free-s residual具备Humble小范围证据。完整Follow求解、Nav2 controller适配及原owner lease/current admission尚未实现。** 不把A02 harness全部ROS化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A04](r4_minimal_adapter_contracts.md) 与 [A05](r4_consumer_library.md) 为准。
+状态：**A08 可选 C++ fixed-yaw Follow 值求解已实现，默认关闭：复用 A04/A05 输入、observed soft cost/free-s 数学、既有 Sfc 与固定 OSQP0.6.3，输出 proposal 或 unavailable。Nav2 controller 接线及原 owner 的 grant/lease/current admission 尚未实现。** 不把 A02 harness 全部 ROS 化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A06 复核矩阵](r4_reuse_audit_checkpoint.md)、[A07 原责任接口](r4_owner_adapter_design.md) 与 [A08 值求解](r4_follow_value_solver.md) 为准。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -236,3 +236,33 @@ leased 与 legacy 模式只选择原 publisher/consumer 的一种 command 接口
 ### next step
 
 以 A07 的原调用点与三类值合同作为后续最小适配规格；具体 profile 的 active grant、执行图获取、期限预算和 transport 行为须通过有限证明再接真实输出。R4 核心仍只复用 A04/A05 输入与既有 provider；本阶段没有开始 Follow 求解、插件接线、大规模实验或物理部署。
+
+## A08 — 可选的最小 Follow 值求解
+
+### hypothesis
+
+复用审计和具体输出合同已完成后，A02 中的单次 soft/free-s QP 可作为 A05 值库的可选 target；不需要 ROS 化其 tracker/frontend/execution，也不需要建立第二输出责任。
+
+### change
+
+用户继续后，先在 [A08](r4_follow_value_solver.md) 登记依赖与范围，再恢复 T-DT 已固定的 OSQP0.6.3/QDLDL 到隔离 build 前缀，源码未改、无系统安装。最小 C API/CSC 适配复用同一 kernel，无额外 OsqpEigen wrapper。新增 owned `FollowInput`、显式实际状态/TF/frame/限值/last-applied、一次固定 yaw 局部 QP、完整静态/命令约束重验和带 acquisition 身份的 `FollowProposal`。
+
+默认 Follow 关闭；成功只给 proposal，失败/超时清 warm 并返回 unavailable，没有 brake/MPPI worker/速度发布者。原 15/40ms 拒收预算、400 iterations、源 acquisition+75ms 保持，deadline 不移到解后。主线 controller/behavior/smoother/serial、v2/private wire 与 A04 producer/Sfc provider 未修改。
+
+### result
+
+12 个 Follow GTest 与原 23 个 A05 GTest 通过；同范围五个 CTest 组 ASan/UBSan 通过，最终 frame/source-time TF/时间负例另复核 Follow。四个固定 A02 数学参考通过，最大 control/rollout 差约 9.84e-7；参考显式适配实际限值/body/rate/reserve，未变动 harness 源码。安装后 C++17 下游链接/运行与默认无 solver 配置通过。
+
+原 main mission 异步 cancel 后清本地 handle 的次序不等于通用 active-grant acknowledgment 屏障；A07 三项执行边界和 25ms 时间反例仍未关闭。短样本值求解耗时不形成 WCET、闭环或物理安全证据。
+
+### evidence
+
+[值接口、依赖、失败记录和最小接线图](r4_follow_value_solver.md)、[来源/检查摘要](r4_follow_value_solver_sources.json)、[C++17 接口](../../src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/follow.hpp)。静态负例误选重叠 box、参考漏适配单位 seed/projection rate、直接 cmake install 影响 colcon metadata 的失败与修正均保留；未通过放宽预算/几何/数值门限解决。
+
+### conclusion
+
+被验证的最小 prediction-consumption 逻辑已可通过可选 C++ 值接口嵌入既有 host，尚未嵌入正式运行链。没有第二 tracker/prediction/frontend/MPPI/owner，也没有新增 ROS/Nav2 runtime 接线或大规模实验。main、原十个 dirty/untracked、冻结 R3 与 A02 26 个非 Markdown 文件保持。
+
+### next step
+
+按 A07 在原调用点收敛 active grant/fence、共用 current admission 与原子期限 transport 的最小适配；继续复用标准 lifecycle/controller/action 和原唯一输出责任。未获相应有限证据，不接真实输出、不宣布 fallback/75ms/物理 PASS、不扩大场景或恢复独立 owner 方案。

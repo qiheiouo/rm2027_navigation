@@ -16,12 +16,25 @@ Neighbouring rectangles must also cover each original path segment continuously.
 A rejection is retained instead of repairing or replacing the Sfc algorithm.
 `local_bounds` checks centre membership; `project` only computes arc length.
 
-The package has no ROS node, subscriber, worker, solver, action or command
-publisher. It is a value seam for a later existing-controller adapter. Its
-receipt and geometry checks are not output admission or a command lease;
-shadow authority is not promoted. Full control state/TF freezing, bounded
-Follow solving and original-owner integration remain to be implemented.
+The default package has no solver dependency. Set `RM_R4_BUILD_FOLLOW=ON` and
+provide the existing fixed OSQP 0.6.3 install prefix to additionally export
+`rm_r4_prediction_consumption::rm_r4_prediction_consumption_follow` and
+`follow.hpp`. This optional value solver accepts owned state/TF/applied-command
+values and explicit actual limits, performs one bounded local QP, and returns
+a proposal or unavailable result. There is no ROS node, subscription, worker,
+action or command publisher. Its 40ms acquisition and 15ms solver budgets reject
+late results; they cannot preempt compute or prove real-time execution.
+
+The caller must copy its existing state/TF/last-applied values under its existing
+synchronization, reset on acquisition/lifecycle failure, and validate the active
+execution grant. Receipt and static geometry checks are not final output admission;
+shadow authority is not promoted. The source deadline is acquisition + 75ms in
+the local process, not a transferable clock or an execution guarantee. Existing
+host/owner integration, rotating current admission and native MPPI fallback
+wiring remain to be implemented.
 
 See [A05 contracts and validation](../../docs/dynamic_navigation/r4_consumer_library.md)
 and [pinned source intake](../../docs/dynamic_navigation/r4_consumer_library_sources.json).
 Canonical vendor code is MIT; local adapter/consumption code is Apache-2.0.
+See [A08 Follow interface and fixed solver intake](../../docs/dynamic_navigation/r4_follow_value_solver.md)
+for exact dependency commits/licenses, bounded validation and remaining limits.
