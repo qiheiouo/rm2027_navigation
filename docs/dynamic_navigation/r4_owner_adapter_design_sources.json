@@ -1,0 +1,362 @@
+{
+  "stage": "A07",
+  "date": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "scope": "design and read-only interface audit; no runtime interface/code/config change or runtime test",
+  "base_R4_commit": "0cc2f068aef622ac4a89d55721bceff700c59fd5",
+  "main_commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "Nav2_upstream": {
+    "url": "https://github.com/ros-navigation/navigation2",
+    "tag": "1.1.20",
+    "commit": "a097086719c88f781aa59788eca29ac6ca5e56db",
+    "release_url": "https://github.com/ros-navigation/navigation2/releases/tag/1.1.20",
+    "scope": "9 files read into /tmp audit cache only; not vendored/imported/compiled/patched",
+    "source_files": [
+      {
+        "path": "nav2_behaviors/include/nav2_behaviors/plugins/drive_on_heading.hpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_behaviors/include/nav2_behaviors/plugins/drive_on_heading.hpp",
+        "sha256": "0ac55fb3bcc8282cd67474060f43964701576d6176a1f6430b247b2c1f0735c0",
+        "lines": 276,
+        "license": "Apache-2.0 header notice",
+        "key_line_numbers": [
+          95,
+          99,
+          123,
+          166,
+          172
+        ]
+      },
+      {
+        "path": "nav2_behaviors/include/nav2_behaviors/timed_behavior.hpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_behaviors/include/nav2_behaviors/timed_behavior.hpp",
+        "sha256": "db7260945fc77b8e4323abf2d8dc1a399a2bbadcadb7be67534a90d6635390cf",
+        "lines": 275,
+        "license": "Apache-2.0 header notice",
+        "key_line_numbers": [
+          84,
+          130,
+          213,
+          215,
+          228,
+          235,
+          262,
+          269
+        ]
+      },
+      {
+        "path": "nav2_behaviors/plugins/spin.cpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_behaviors/plugins/spin.cpp",
+        "sha256": "e3b24b73d76b083edb84797cde941d5993343c9c610252ebcdca9cd3c77df132",
+        "lines": 192,
+        "license": "Apache-2.0 header notice",
+        "key_line_numbers": [
+          99,
+          155
+        ]
+      },
+      {
+        "path": "nav2_controller/include/nav2_controller/controller_server.hpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_controller/include/nav2_controller/controller_server.hpp",
+        "sha256": "b607b9d512a830046b26130e240655098bac6c17ec6a5596d4f604a172237e09",
+        "lines": 278,
+        "license": "Apache-2.0 header notice"
+      },
+      {
+        "path": "nav2_controller/src/controller_server.cpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_controller/src/controller_server.cpp",
+        "sha256": "b9bc6dc7bb90602f65971d8c5eed2b73ffeaf5aa3e9ebd4ec1de3e725552d705",
+        "lines": 681,
+        "license": "Apache-2.0 header notice",
+        "key_line_numbers": [
+          261,
+          393,
+          396,
+          406,
+          408,
+          423,
+          428,
+          437,
+          465,
+          483,
+          534,
+          537,
+          566,
+          568,
+          574,
+          577,
+          578,
+          579,
+          580,
+          581,
+          582,
+          585
+        ]
+      },
+      {
+        "path": "nav2_costmap_2d/src/footprint_collision_checker.cpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_costmap_2d/src/footprint_collision_checker.cpp",
+        "sha256": "dedc7441a1c6404ae99f17632d2f0770c08677a37cf80c04316441d9f2d70c59",
+        "lines": 149,
+        "license": "Apache-2.0 header notice",
+        "key_line_numbers": [
+          48,
+          64,
+          70,
+          84,
+          88,
+          135,
+          142
+        ]
+      },
+      {
+        "path": "nav2_dwb_controller/nav_2d_utils/include/nav_2d_utils/odom_subscriber.hpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_dwb_controller/nav_2d_utils/include/nav_2d_utils/odom_subscriber.hpp",
+        "sha256": "a382eb4055af7ba64a6a6f970d92ec0ca91404ab9e1a643000bbe35e4d061711",
+        "lines": 101,
+        "license": "BSD header notice",
+        "key_line_numbers": [
+          80,
+          81,
+          87,
+          88
+        ]
+      },
+      {
+        "path": "nav2_velocity_smoother/include/nav2_velocity_smoother/velocity_smoother.hpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_velocity_smoother/include/nav2_velocity_smoother/velocity_smoother.hpp",
+        "sha256": "0c1c4f3b1609e9eddb4a2f3c6029ceff6b1247cffaf7fb0725e010fb75aaaedd",
+        "lines": 161,
+        "license": "Apache-2.0 header notice"
+      },
+      {
+        "path": "nav2_velocity_smoother/src/velocity_smoother.cpp",
+        "url": "https://raw.githubusercontent.com/ros-navigation/navigation2/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_velocity_smoother/src/velocity_smoother.cpp",
+        "sha256": "788822f4ac41a03a46e73b6a7a73f876a75792e093d6c3f7b3dceecb69bcc50d",
+        "lines": 421,
+        "license": "Apache-2.0 header notice",
+        "key_line_numbers": [
+          100,
+          105,
+          137,
+          182,
+          191,
+          248,
+          259,
+          315,
+          318,
+          319,
+          321,
+          323,
+          345,
+          388
+        ]
+      }
+    ]
+  },
+  "installed_Humble": {
+    "image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+    "packages": [
+      "ros-humble-nav-2d-utils 1.1.20-1jammy.20260607.080246",
+      "ros-humble-nav2-behaviors 1.1.20-1jammy.20260607.083738",
+      "ros-humble-nav2-bt-navigator 1.1.20-1jammy.20260607.083735",
+      "ros-humble-nav2-controller 1.1.20-1jammy.20260607.083252",
+      "ros-humble-nav2-costmap-2d 1.1.20-1jammy.20260607.080735",
+      "ros-humble-nav2-util 1.1.20-1jammy.20260607.072743",
+      "ros-humble-nav2-velocity-smoother 1.1.20-1jammy.20260607.080005"
+    ],
+    "headers": [
+      {
+        "path": "/opt/ros/humble/include/nav2_controller/controller_server.hpp",
+        "sha256": "b607b9d512a830046b26130e240655098bac6c17ec6a5596d4f604a172237e09",
+        "line_count": 278
+      },
+      {
+        "path": "/opt/ros/humble/include/nav2_velocity_smoother/velocity_smoother.hpp",
+        "sha256": "0c1c4f3b1609e9eddb4a2f3c6029ceff6b1247cffaf7fb0725e010fb75aaaedd",
+        "line_count": 161
+      },
+      {
+        "path": "/opt/ros/humble/include/nav2_behaviors/timed_behavior.hpp",
+        "sha256": "db7260945fc77b8e4323abf2d8dc1a399a2bbadcadb7be67534a90d6635390cf",
+        "line_count": 275
+      },
+      {
+        "path": "/opt/ros/humble/include/nav2_behaviors/behavior_server.hpp",
+        "sha256": "1a59a669c7a4301dd796d42f01fc532f5e323ae4725cc2afce87d3d998c615cb",
+        "line_count": 99
+      },
+      {
+        "path": "/opt/ros/humble/include/nav2_costmap_2d/nav2_costmap_2d/costmap_2d_ros.hpp",
+        "sha256": "4461c24745e84ba70c766bd7f53b17e592a93f2857b1e3b1a8c6f3f8ff7d18fe",
+        "line_count": 419
+      },
+      {
+        "path": "/opt/ros/humble/include/nav2_costmap_2d/nav2_costmap_2d/costmap_2d.hpp",
+        "sha256": "170ad89c0581223539174db07bfdb914a0b850f7855b05a9d675ff24d02f0599",
+        "line_count": 572
+      },
+      {
+        "path": "/opt/ros/humble/include/nav2_costmap_2d/nav2_costmap_2d/footprint_collision_checker.hpp",
+        "sha256": "59d56f67348dbd71e79a779d7a78e167349cc20c74b7471d5e73b4bbc1940ef1",
+        "line_count": 89
+      },
+      {
+        "path": "/opt/ros/humble/include/nav2_costmap_2d/nav2_costmap_2d/costmap_subscriber.hpp",
+        "sha256": "810ec647dc303ef30d405130a44ac82e25259b02fe005fa819a270c5a8aa2dc3",
+        "line_count": 78
+      },
+      {
+        "path": "/opt/ros/humble/include/nav_2d_utils/odom_subscriber.hpp",
+        "sha256": "a382eb4055af7ba64a6a6f970d92ec0ca91404ab9e1a643000bbe35e4d061711",
+        "line_count": 101
+      },
+      {
+        "path": "/opt/ros/humble/include/nav2_util/simple_action_server.hpp",
+        "sha256": "942c09496c49f8343e360a549819582b299ddae7b07fc3e2678a57568d2df8cc",
+        "line_count": 613
+      }
+    ],
+    "header_matches_with_fixed_upstream": [
+      {
+        "upstream_path": "nav2_behaviors/include/nav2_behaviors/timed_behavior.hpp",
+        "installed_path": "/opt/ros/humble/include/nav2_behaviors/timed_behavior.hpp",
+        "sha256": "db7260945fc77b8e4323abf2d8dc1a399a2bbadcadb7be67534a90d6635390cf",
+        "match": true
+      },
+      {
+        "upstream_path": "nav2_controller/include/nav2_controller/controller_server.hpp",
+        "installed_path": "/opt/ros/humble/include/nav2_controller/controller_server.hpp",
+        "sha256": "b607b9d512a830046b26130e240655098bac6c17ec6a5596d4f604a172237e09",
+        "match": true
+      },
+      {
+        "upstream_path": "nav2_dwb_controller/nav_2d_utils/include/nav_2d_utils/odom_subscriber.hpp",
+        "installed_path": "/opt/ros/humble/include/nav_2d_utils/odom_subscriber.hpp",
+        "sha256": "a382eb4055af7ba64a6a6f970d92ec0ca91404ab9e1a643000bbe35e4d061711",
+        "match": true
+      },
+      {
+        "upstream_path": "nav2_velocity_smoother/include/nav2_velocity_smoother/velocity_smoother.hpp",
+        "installed_path": "/opt/ros/humble/include/nav2_velocity_smoother/velocity_smoother.hpp",
+        "sha256": "0c1c4f3b1609e9eddb4a2f3c6029ceff6b1247cffaf7fb0725e010fb75aaaedd",
+        "match": true
+      }
+    ],
+    "read_only_report_sha256": "2775f0bfd70add217193702ed7b38a8c0180113bcd76014e6430206bb28a88cc",
+    "network": "none",
+    "ROS_nodes_started": 0
+  },
+  "local_sources": [
+    {
+      "commit": "0cc2f068aef622ac4a89d55721bceff700c59fd5",
+      "path": "src/rm_serial_driver/src/serial_transport_node.cpp",
+      "sha256": "cdc0a9ce2d364761ba46039a8b3c51372b721ea7567631a4cce8c3150ce86b49"
+    },
+    {
+      "commit": "0cc2f068aef622ac4a89d55721bceff700c59fd5",
+      "path": "src/rm_chassis_interface/src/chassis_interface_stub.cpp",
+      "sha256": "6e5128c485f240d76e64fc18ad0c0686012d9ac26321c6d8a6ccc281c14eaff1"
+    },
+    {
+      "commit": "0cc2f068aef622ac4a89d55721bceff700c59fd5",
+      "path": "src/rm_nav_config/config/nav2_old_car_2026_left_stvl.yaml",
+      "sha256": "f50751cbf4b7c069810b6e810fa0613f389b4ed0c7cf26a0be38227437e5e701"
+    },
+    {
+      "commit": "0cc2f068aef622ac4a89d55721bceff700c59fd5",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/execution.py",
+      "sha256": "d72704ce2832ba7e675b24a250bd6f4c0c8933f8acb8b46103492c7653557f9a"
+    },
+    {
+      "commit": "0cc2f068aef622ac4a89d55721bceff700c59fd5",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/follow.py",
+      "sha256": "f4ace3ff3bbef007593c822f401023d74ec084a2f02f89557f1865a4a9110df4"
+    },
+    {
+      "commit": "0cc2f068aef622ac4a89d55721bceff700c59fd5",
+      "path": "src/rm_r4_interfaces/msg/ObservedPredictionEnvelope.msg",
+      "sha256": "97da73bf100f52d476397dea3a93145b1dc2ab07eff34e5fa6a7d90a7caf6af8"
+    }
+  ],
+  "proposed_contracts": [
+    "ControlCycleContext",
+    "CommandProposal",
+    "AppliedCommand"
+  ],
+  "interface_status": {
+    "new_message_definitions_created": false,
+    "public_v2_changed": false,
+    "Nav2_patched": false,
+    "R4_solver_or_plugin_added": false,
+    "new_owner_or_final_publisher_added": false,
+    "native_MPPI_reimplemented": false,
+    "active_motion_grant_adapted": false,
+    "shared_continuous_admission_implemented": false,
+    "source_lease_through_transport_implemented": false
+  },
+  "timing_worksheet": {
+    "is_measurement": false,
+    "units": "ms",
+    "source_lease": 75,
+    "control_period_A02": 50,
+    "cycle_budget_A02": 40,
+    "owner_period_main": 50,
+    "main_controller_period": 100,
+    "first_acquire": 0,
+    "first_deadline": 75,
+    "first_solve_finish": 40,
+    "first_owner_send": 50,
+    "second_acquire": 50,
+    "second_deadline": 125,
+    "second_solve_finish": 90,
+    "second_owner_send": 100,
+    "lease_gap_to_second_send": 25,
+    "continuous_output_implied_by_original_parameters": false,
+    "lease_rebased_to_solve_finish": false
+  },
+  "remaining_acceptance": [
+    "unique active motion grant/fence from existing BT/mission/action responsibility",
+    "filled footprint plus rotation/continuous interval geometry",
+    "same actual smoothed/encoded command and source deadline",
+    "clock domain and transport delay bound",
+    "timer/lock/copy/write bounds and publisher exclusivity",
+    "native fallback after blocked compute recovers"
+  ],
+  "read_failures_and_corrections": [
+    "Web GitHub ref API/selected immutable raw fetches did not return content; used official fixed-commit temporary source read fallback.",
+    "Initial source read used nonexistent root nav_2d_utils path; corrected to nav2_dwb_controller/nav_2d_utils; all nine fixed sources saved and hashed.",
+    "Two initial installed costmap header paths lacked the nested include directory; inventory located all ten installed headers; no source or acceptance policy changed."
+  ],
+  "runtime_validation": {
+    "runtime_tests_run": 0,
+    "ROS_nodes_started": 0,
+    "Nav2_started": false,
+    "Gazebo_started": false,
+    "hardware_connected": false,
+    "large_experiments_started": false,
+    "strict_lease_or_physical_acceptance": false
+  },
+  "verification": {
+    "only_document_files_changed": [
+      "docs/dynamic_navigation/r4_owner_adapter_design.md",
+      "docs/dynamic_navigation/r4_owner_adapter_design_sources.json",
+      "docs/dynamic_navigation/r4_reuse_audit_checkpoint.md",
+      "docs/dynamic_navigation/r4_minimal_adapter_contracts.md",
+      "docs/dynamic_navigation/r4_hws_prediction_consumption_progress.md"
+    ],
+    "local_links_checked": 42,
+    "whitespace": "passed",
+    "fixed_upstream_file_hashes_and_key_lines": 9,
+    "installed_headers_recorded": 10,
+    "upstream_installed_header_hash_matches": 4,
+    "A04_A05_asset_hashes_rechecked": 41,
+    "protected_heads_tags_remotes_unchanged_excluding_R4": 92,
+    "main_merge_base_unchanged": true,
+    "original_head_branch_and_10_dirty_paths_unchanged": true,
+    "large_untracked_core_read_or_deleted": false,
+    "frozen_R3_head_and_clean_status_unchanged": true,
+    "public_v2_bytes_match_canonical": true,
+    "no_runtime_code_or_configuration_changed": true,
+    "timing_worksheet": "arithmetic counterexample only; no measured latency or new experiment"
+  }
+}

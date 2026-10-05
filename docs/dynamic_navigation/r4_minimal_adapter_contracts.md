@@ -62,3 +62,5 @@ current admission输入为最后实际输出/本次平滑后命令、measured st
 容器无网络、无设备，源码只读，仅R4隔离build目录可写。记录与结果文件摘要见 [A04来源及验证记录](r4_minimal_adapter_sources.json)。收尾核对确认main、冻结R3、原checkout的10处dirty文件及A02非Markdown源码保持原状态；未启动Nav2/Gazebo/串口/底盘或新大规模实验。上述结果仅覆盖本producer切片，不构成控制接线、实时或实车验收。
 
 后续用户授权继续后的Sfc绑定与消费值库见 [A05](r4_consumer_library.md)。本A04记录仍仅覆盖producer切片；command lease/controller/MPPI回退未因此完成。
+
+A07 的 [原输出链接口设计](r4_owner_adapter_design.md) 补充了本节拟议边界的具体限制：behavior 的原速度调用点还在 TimedBehavior/Spin/DriveOnHeading 中；若要保留源 lease 至现有 transport，plain Twist 输出不足，原 publisher/consumer 应以互斥模式选择原子来源接口。active motion grant、共用旋转/连续 current admission 以及时间上界仍未实现/验证，不将 A04 的边界描述当成已完成的执行合同。

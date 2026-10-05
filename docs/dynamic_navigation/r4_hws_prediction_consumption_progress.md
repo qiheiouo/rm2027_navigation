@@ -204,3 +204,35 @@ R4 proposal 仍应进入既有 controller_server/所选末级 owner。普通入�
 ### next step
 
 后续工作的最小范围与检查已固定在 A06 第 6 节。先选定并收敛既有入口、落实原 owner 的必要来源/撤销/current-admission 接口和 Sfc 共用条件，再实施有限的 R4 核心与标准插件接线；本阶段止于审计，不自动开始新的运行编码或大规模实验。
+
+## A07 — 原输出责任的具体接口设计（仅文档）
+
+### hypothesis
+
+R4 进入标准 controller 并不能自动覆盖 native MPPI/behavior 与串口持有旧命令的边界。具体化原模块中缺失的来源、grant、撤销和实际 command 合同，才能判断所需适配确属最小范围。
+
+### change
+
+新增 [A07 接口设计](r4_owner_adapter_design.md) 与 [来源/版本/时间计算](r4_owner_adapter_design_sources.json)。沿原 controller、behavior plugins、smoother、odom/costmap 只读 API 和 serial/stub 列出具体变更点；设计 ControlCycleContext/CommandProposal/AppliedCommand 三个值合同，没有创建消息定义或运行代码。
+
+leased 与 legacy 模式只选择原 publisher/consumer 的一种 command 接口，避免速度/metadata 异步拼接或并行最终输出。明确 source identity 不等于 active motion grant；保留既有 BT/mission/action 权限，不另建安全 FSM。current admission 必须覆盖实际平滑/编码命令、filled footprint 和 native MPPI/behavior 旋转，A02 fixed-yaw guard 不晋升。
+
+### result
+
+只读核对固定 Humble 镜像十个接口头文件与包版本；官方 Nav2 1.1.20 解析到 a097086719c88f781aa59788eca29ac6ca5e56db，九个固定源码只保存在临时审计缓存。四个对应头文件与安装字节摘要一致，未导入、patch、编译或运行 Nav2。
+
+发现 behavior 发送不全在 behavior_server，OdomSubscriber 的既有 stamped getter 不加读锁，smoother 的 last_cmd_ 在 deadband 前更新，现有 footprint primitive 只沿边评分。相应合同的最小缺口已定位；没有因这些发现修改旧实现。
+
+按 A02 acquire+75ms、50ms 周期/40ms 总预算及 main smoother 50ms 周期，构造前一拍期限 t=75、新实际发送 t=100 的 25ms 间隔。该计算不是运行测量，表明原参数不能承诺连续有效 normal 输出；没有延长 lease 或将其起点移到求解完成。
+
+### evidence
+
+[具体接口、原责任内撤销路径与有限检查](r4_owner_adapter_design.md)、[固定源码/安装 SHA256 与时间反例](r4_owner_adapter_design_sources.json)。读取时初次 nav_2d_utils 路径与 costmap include 路径定位错误已更正，九个固定文件和十个安装头文件最终均记录；没有通过改版本或放宽期限解决。
+
+### conclusion
+
+现有 owner/transport 仍可承担责任，新增独立 owner/MPPI worker 没有必要性依据；但标准 Twist、路由 remap 与 health 心跳不足以表达原来源与共同执行合同。active grant、旋转/连续 admission、clock/传输与原 timer/I/O 上界仍未通过，R4 不具备部署或无间断 fallback 结论。
+
+### next step
+
+以 A07 的原调用点与三类值合同作为后续最小适配规格；具体 profile 的 active grant、执行图获取、期限预算和 transport 行为须通过有限证明再接真实输出。R4 核心仍只复用 A04/A05 输入与既有 provider；本阶段没有开始 Follow 求解、插件接线、大规模实验或物理部署。

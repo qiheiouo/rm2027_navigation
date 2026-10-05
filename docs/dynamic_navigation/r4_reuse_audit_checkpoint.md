@@ -4,6 +4,8 @@
 
 **结论：继续沿现有 Nav2/controller/velocity_smoother/串口链提供 R4 proposal。A02 的 tracker_core、frontend、execution 不晋升为运行模块；没有依据建立第二个最终输出 owner 或 MPPI worker。** A04/A05 是工作分支中可选的 producer 适配和消费值库，尚未进入 main 的默认导航链；“已有可链接代码”与“正式链已使用”分别记录。
 
+后续 [A07 接口设计](r4_owner_adapter_design.md) 已定位 behavior 插件的各个原发布点，补充原来源期限需要保留到 transport、active motion grant 与旋转/filled footprint 的共用 admission 条件，并给出 50/40/75ms 参数下的时间反例；仍未新增运行编码。
+
 本次承接 [A03 全仓审计与 63 项源码索引](r4_repository_reuse_audit.md)，复核其固定来源与 33 个 branch heads，并补查 main 的导航入口、时钟语义、当前 A04/A05 调用边界及 Sfc 构建责任。逐文件摘要、检索结果与保留核对见 [A06 证据清单](r4_reuse_audit_checkpoint_sources.json)。两个全量历史汇编仍无需通读。
 
 ## 1. 十二项 reuse matrix（截至 dc473636）
