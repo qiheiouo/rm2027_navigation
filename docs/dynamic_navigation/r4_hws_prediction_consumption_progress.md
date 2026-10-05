@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**已在A12有限验收点停止持续开发；A08–A12消费核心、值适配和可选标准Controller/source mapper已实现，尚未接入正式运行链。** Follow与插件默认关闭；原host bind/take、live grant/clock/transport与原owner实际发送仍待接线/验收。源75ms acquisition租约与原15/40ms预算保持。不把A02 harness全部ROS化；main默认Nav2/MPPI/速度/串口接线、原dirty研究checkout和冻结R3保持。最新结论、十二项矩阵与拟议图见 [返回验收记录](r4_return_checkpoint_20261005.md)；来源与历史分别见A03/A06/A07及下列阶段记录。
+状态：**近期重点已调整为A13真实ROS/Nav2 runtime shadow行为验证；本次完成A12基线冻结与阶段计划，shadow场景尚未运行。** 冻结`e137635e`的A08数学和A09–A12接口，生产输出基础设施暂缓。native MPPI保持控制责任，R4仅记录proposal与完整timing；先S0空场、S1横穿、S2停留后离开，75ms只离线模拟，不作算法提前否定条件。Follow/插件默认关闭，main、public v2、原dirty与冻结R3保持。当前只有unit/value PASS；shadow/closed-loop/deployment未评估。当前工作顺序与判决以 [A13计划](r4_runtime_shadow_plan.md) 为准；[A12历史结论与矩阵](r4_return_checkpoint_20261005.md) 保留。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -370,3 +370,23 @@ Certified 只指固定 current map 和显式 tracking 假设下的几何区间�
 ### next step / stop
 
 用户已返回，允许必要结论处停止；本次停在A12，不继续自动新增运行接线或大规模实验。下一阶段需在选定原profile/host/owner完成授权、时钟/原子transport、本拍状态与同actual发送候选的有限故障验收；保持现有输出责任，不恢复A02独立arbiter，不扩展R5/R6。
+
+## A13计划 — runtime shadow优先，生产输出接线后移
+
+### hypothesis
+
+先用真实ROS感知/预测/Path/TF/odom判断同一A08 Follow的proposal是否提前响应、等待后恢复且具有时间意义；不让75ms生产执行缺口阻塞纯shadow行为研究。
+
+### change
+
+用户调整方向后，固定`e137635e`基线；新增shadow阶段计划/源码冻结清单，更新当前工作顺序。A12生产grant/owner/lease enforcement/serial/fallback适配暂缓，不改算法或接口。拟议最薄caller只链接原A08值库，native MPPI仍控制机器人；任何新增adapter/instrumentation/launch须先说明具体缺口与关闭方式。
+
+### result / evidence
+
+基线HEAD和clean工作区核实，A12既有资产摘要、main/R3/原十个dirty路径/public v2/A02与canonical provider保护检查通过。只读复核既有MPPI仿真profile、scan与tracker参数、A08输入/日志接口；记录仿真和老车参数差异、raw-static来源、固定yaw及shadow seed语义等前置输入问题。未新增runtime源码、未运行S0/S1/S2或数值重测。
+
+[阶段顺序/日志/行为指标与判决](r4_runtime_shadow_plan.md)、[精确基线与冻结摘要](r4_runtime_shadow_checkpoint_sources.json)。历史101个GTest仍只支持unit/value PASS。
+
+### conclusion / next step
+
+本次交付近期重点调整，runtime shadow为NOT_EVALUATED。下一步先验证一个现有Humble/ROS仿真profile的数据输入与依赖，再预登记/实现最小caller与日志，按S0→S1→S2完成首轮短运行；不调参救结果。shadow通过才讨论有限1–2场景闭环，仍不自动打开生产接线或30-run实验。

@@ -1,0 +1,553 @@
+{
+  "stage": "A13 planning and freeze checkpoint",
+  "date": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "branch": "experiment/r4-hws-prediction-consumption",
+  "baseline_HEAD": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+  "baseline_worktree_clean_before_document_edits": true,
+  "main_commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "human_instruction": {
+    "path": "/home/qihei/.codex/attachments/b413c7ad-1184-469b-87eb-39f962a1b52e/已粘贴的文本.txt",
+    "sha256": "67c0ebfaefc158364b317b1427c81dff886b0bb7ac9456df1943d4bbe26e47dd",
+    "scope": "adjust near-term priorities to true ROS/Nav2 runtime shadow; freeze current algorithms/contracts and defer production output expansion"
+  },
+  "scope": "documentation, A12 exact source freeze and read-only existing input/profile/interface audit only",
+  "frozen_assets": [
+    {
+      "path": "experiments/r4_hws_prediction_consumption/.gitignore",
+      "sha256": "68d31e70b8239ed9bf655b17db0e6e2a78c2fed56923a57b6b6eed3389585225"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/COLCON_IGNORE",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/OSQP_LICENSE",
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/README.md",
+      "sha256": "d7016e4d49ebe136226dc6a6adce928f04b959cab87c60f0631cb63a6e3248fb"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/evidence/core_checks_20261004.json",
+      "sha256": "0b022d1f26c7bc2ad0198a016e85f40706cd491fc8d00aaab60c736fb285ac42"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/evidence/tracker_association_diff.patch",
+      "sha256": "4f87ef3fcb772b8162bfc2c336d8badfd8f2592975aadc537f686c26b628627b"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/evidence/validation_20261004.json",
+      "sha256": "cfa4444bf2c54dfc280d4ee9a2c5e78e4c23f14afad41f9a9140a97ea88c52c3"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/intake.json",
+      "sha256": "6f314f26c5cb5dc8fb2f30196adc6781e97f815370aed3f043109c4b52bd220d"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/pyproject.toml",
+      "sha256": "5427a920a51dc4552a9d424143b1b4df2e9e4428f1b8fabbd0bd644fcf0dafa2"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/__init__.py",
+      "sha256": "7ce1cd4ca980c1fd3864f22e76463d1bfa4ae5ce8d9941472cfc097e51a3acef"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/consumer.py",
+      "sha256": "088a1157c2e9de1a5ce3337f7b4e9283753908e49d53c1e088ca0b45518f5a9a"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/contracts.py",
+      "sha256": "f3891d6c0a4fc86b846b12d02db2195e8678db3636094aa205af4619c149c716"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/execution.py",
+      "sha256": "d72704ce2832ba7e675b24a250bd6f4c0c8933f8acb8b46103492c7653557f9a"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/fault_probe.py",
+      "sha256": "b05d855c2a73946bc6b911134b105b267b4ade957c4d682aaea3803074336bb3"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/follow.py",
+      "sha256": "f4ace3ff3bbef007593c822f401023d74ec084a2f02f89557f1865a4a9110df4"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/frontend.py",
+      "sha256": "f906ea1dc66e746c63fba77e436e38c996206eadd38249f33108a29ba1bb56e5"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/observed_shape.py",
+      "sha256": "eb93e7b89fd301e0f2412fedb0eacf2040a46c36f3962283c4684722aa83ca88"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/probes.py",
+      "sha256": "2052bd5eb8895fa9e79e8d270a50ec64df98dc15e2064d84e8bfd04f2f71451a"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/soft_field.py",
+      "sha256": "89a89623f4ad979d0ad074ef96ed65d5d119553721389bbed047a576c13e5d2e"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/tracker_core.py",
+      "sha256": "9b7d0bf4a57284ba4b4706cc1e23f9be681669af93d322f51bcbe19e8305180b"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/test/conftest.py",
+      "sha256": "550bf77489f8fcc4bc29e94eb53aaecdb77e8e3c1fbfd3ba411cbc98de70310e"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/test/test_consumer.py",
+      "sha256": "20fd39e1bd5cbd800e7a9dfacc9704467f8b841109f300d2945c09dad8fccfeb"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/test/test_contracts.py",
+      "sha256": "63cede36d4b40264d9ec87afb8de63fc239db330914fb0bc1841e214df163d82"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/test/test_execution.py",
+      "sha256": "3fce779ed472aff5eb7ded8c568482d74271e1affccbbb558971fc009990eb7a"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/test/test_reuse.py",
+      "sha256": "6ede0ad61bcce4c5dd7b94bf8bccc3a3dc0b81e52c9bbda2efc38a2d9f21ec31"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/test/test_soft_follow.py",
+      "sha256": "6a4207c2b93519bf4285755bef5b18d80efd4166a9f30e5a6c0eaaffcb35bdde"
+    },
+    {
+      "path": "experiments/r4_hws_prediction_consumption/tools/validate_core.py",
+      "sha256": "db51d3c8554523787b6c743cc2fcdfbf17f846ee3de20a96c9bc626f472b114e"
+    },
+    {
+      "path": "experiments/tdt_planner/COLCON_IGNORE",
+      "sha256": "7ac090062ea58bd2454a26d35a9405cf15155fe278fa6cad370c174a01429b97"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/LICENSE",
+      "sha256": "5bf99991aa11fd4aa72450d53ad7e1d2970d92f7ef4a4e8b1874b648de8bcc3f"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/planner.hpp",
+      "sha256": "5ad91c7cfa44db6380ba0d0ddf6a841c27b17cbd40d719357cbd047d015322fa"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/pose_geometry.hpp",
+      "sha256": "993a9516bb24427796fb9fd23d6a54b571d460ad110bceec01545043875c1201"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/src/pose_geometry.cpp",
+      "sha256": "87cf2a07174b7e4be68ddc03ebfde04b4b6789b5ed6b186b3278db3ec1240e87"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/test/test_pose_geometry.cpp",
+      "sha256": "6b0e5098d98e3c2e50da290557fa126cf6b6310608b7717af8aaa99a4d7a22f1"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/LICENCE",
+      "sha256": "fab3c8fd7e83f54e1d8a45d08d3683eb8ba47a52a08bb7dbaac550d7160677a0"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/LOCAL_CHANGES.patch",
+      "sha256": "891845e3911c9d1acd1dec4b144cdc60a04554e7d4f06453aaadf5529fdc4995"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp",
+      "sha256": "05f9d5c028af2d0a353abf2a85ff44ef7569877758cf3c374cc735e8050986dd"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.hpp",
+      "sha256": "58c9b489b9eb4e5db6754f5350a7882a270caa19b269f4307e6234b0f29c51e7"
+    },
+    {
+      "path": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/UPSTREAM.json",
+      "sha256": "befbd3185191f6b24244cd315e1ee44c7bfa7d9fa43d226c89ef782aeee25a2a"
+    },
+    {
+      "path": "src/rm_competition_interfaces/msg/DynamicObstaclePrediction.msg",
+      "sha256": "3fc1458ef9efab481377d96c1ef2e1b872045ebef72a160182196627f9a4eeae"
+    },
+    {
+      "path": "src/rm_competition_interfaces/msg/DynamicObstaclePredictionArray.msg",
+      "sha256": "e462d1cd7ea34b50dd2e45ef37f39f934be6f2913e82377ab14691bde22a74dd"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/README.md",
+      "sha256": "c3db027f7f9aa202af6a58ad6ffe178e5d65ad1127bc7d8ba7d7692b3f162939"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/config/dynamic_obstacle_tracking_shadow.yaml",
+      "sha256": "bff48a224494814295a21d1d7481d2635b51f5896fd2f769a15b5dcf40fa63f1"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/launch/dynamic_obstacle_tracking_shadow.launch.py",
+      "sha256": "8e74beaf4a7116c002c4f155701b86b4794043462940a38b9e427a72b4329edd"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/package.xml",
+      "sha256": "21505f3382d257db16d47b82c0fdd60abbceae7acbf294a3c5fa289df80e3e94"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/resource/rm_dynamic_obstacle_tracking",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/__init__.py",
+      "sha256": "2d12368e35f04139d2022076e9d6b928ea26c524e49bbb872b4c9b17a0008e24"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+      "sha256": "bf5c7151529bff73853baaaecf971157a3f47d6a555a9f297012d95d945e4969"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+      "sha256": "3662d49ea1ed8bb81b3695e0916d527a3bb0831fa73e0ef6f961b080d6ac298a"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/observed_members.py",
+      "sha256": "cc735573a644ed4f886f82890c3db65c3a7868a7335db59402e428b6fa08bfe6"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/setup.cfg",
+      "sha256": "1cc1f1f8fd98b7960b1c1844ba0bfd61939da1d6b14443311d46132778f6ef02"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/setup.py",
+      "sha256": "9bfd32cbfebc20213ffa963ce7e1c4eb5451ebfaa50baeaa489a0be41fbd380a"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/test/test_core.py",
+      "sha256": "6885b6aba7cac23f8be5f3e209d49d2e755fdc3068298990a5ce3524f42ee230"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/test/test_observation_anchor.py",
+      "sha256": "a475f4919d7fae41a7cfe58aa3888e7885259b6dbd8651fc91df486ed3c353fc"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/test/test_observed_members.py",
+      "sha256": "662bb7821d398f0d8158bdb0641132577f77df10cb7b3cd1db5a50efc9379cef"
+    },
+    {
+      "path": "src/rm_dynamic_obstacle_tracking/test/test_observed_members_ros.py",
+      "sha256": "329aa5392870725755016fe3a04bd6ec177e0f1291553b69d9d88836e76f3501"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/CMakeLists.txt",
+      "sha256": "2da123d63f660e6818860b3bb8677531c16a4fd1ae2fc233d08fa9c3828734d9"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/README.md",
+      "sha256": "77a27e9a79fab0e181eaf6afe2c659aecfcca111ec6c4adb2b842e21b890cb25"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/include/rm_navigation_execution_adapters/current_geometry.hpp",
+      "sha256": "7d288592780d6cd99ac9c53d290a3b32bcea9930b317e3ab981ae369391da5d5"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/include/rm_navigation_execution_adapters/lease_fence.hpp",
+      "sha256": "bd51eb4371bf585503a6a92b46d11262dc34d61a16f83d38bd967f1e9b21dbb2"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/package.xml",
+      "sha256": "6e703f8336c8e6276e6a1eab7f7dcfeb5f11daba18418f521859b93eca4c8f0d"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/src/current_geometry.cpp",
+      "sha256": "e538ea67b38d58930da0925f724e03e992768b081fbc402067efbabe68b7b6f0"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/src/lease_fence.cpp",
+      "sha256": "3d4e9cc6cc9e208023cd6d881b3adc64b2ed8c7518759e244108ccfab3dbd976"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/test/test_current_geometry.cpp",
+      "sha256": "fb573276eae1d9848c32d71dd2b6080d621cc0c29055a89fb97545c4b6574503"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/test/test_lease_fence.cpp",
+      "sha256": "a19d99db10d9a9bbe6485753452ea180e0254273cd1be801857195542707e638"
+    },
+    {
+      "path": "src/rm_r4_interfaces/CMakeLists.txt",
+      "sha256": "60a3fd3b3c42669f838d76616cc4d346c08ea6b46aa15c3c327f85e2c62b0d30"
+    },
+    {
+      "path": "src/rm_r4_interfaces/README.md",
+      "sha256": "6e9ba7b9c1b4fadaf5269bf7128838b8a8aa5ac5a04b1aa5196f3e6e7bb01963"
+    },
+    {
+      "path": "src/rm_r4_interfaces/msg/ObservedPredictionEnvelope.msg",
+      "sha256": "97da73bf100f52d476397dea3a93145b1dc2ab07eff34e5fa6a7d90a7caf6af8"
+    },
+    {
+      "path": "src/rm_r4_interfaces/msg/ObservedTrackMembers.msg",
+      "sha256": "1885613d697833ac056ca3aa973d663d1aa06077d1856a47e03ff400a9a89673"
+    },
+    {
+      "path": "src/rm_r4_interfaces/package.xml",
+      "sha256": "8fdb100c8b1d6f6382edab3202d83350211df72315e2c1ef5b98e4d43e7a6643"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/CMakeLists.txt",
+      "sha256": "3c093bd7dc0ad87e1005ef3235a5fc108df91bd615cf1efb30373b80780a94df"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/README.md",
+      "sha256": "1c23c768b52df91a8233727ddbb476ce05aa126d0c4f2d28914ad5369dc115af"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/include/rm_r4_nav2_controller/controller.hpp",
+      "sha256": "fe2d86700dd566b7cd3a065255462e832049c2263b9247399215ce03925ee5e6"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/include/rm_r4_nav2_controller/proposal_bridge.hpp",
+      "sha256": "17a233bafd92a17efa12941b7a4be87edbe25a491ff85f48c84bb032fe335a83"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/package.xml",
+      "sha256": "c0a897724ec62b14284df685dbc14010d101b86ce30034c053944ad8c9b809e2"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/plugin.xml",
+      "sha256": "6388f6d9c2b3dd13227eee1b203aa87abafa88e9f89ce24f5c4f5f71ed5a9c6f"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/src/controller.cpp",
+      "sha256": "80c87d95e8e9f53424231e2170016a2800d3c9532e1d47320ec8ec09c363724d"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/src/proposal_bridge.cpp",
+      "sha256": "32baa786bea8f6573f82493a04f94b3e390c9b89e0a86fa3944654d7e7d12aa5"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/test/test_controller.cpp",
+      "sha256": "3139312b87d7a51ca995a3dd8725b47ee92b3b05cddec3e33ff7e0adbd5936b1"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/CMakeLists.txt",
+      "sha256": "ab7a4c0ea07997496bd638adb341644bbcd3681e14bfcf6a01f5ae36dcff21ea"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/README.md",
+      "sha256": "881dd847853fb9ef119427bc3cfd0b428d39d399b7354c4b1780c466be013039"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/consumption.hpp",
+      "sha256": "a1ab97090fcfd8f8ffd0b81e09a28366f4372806ec63893d21e1746a7c6ac893"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/follow.hpp",
+      "sha256": "7feef4fb4b790324c40c6ec816c36c1246d6dbe29bb3ead522d7a84591b822b0"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/package.xml",
+      "sha256": "96a61325a183665d3c9c7353355f0310ab92bb4ce03000e5723933e296fba7b2"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/consumption.cpp",
+      "sha256": "cfa2281d4a669af334865bacafc0b273df96471111115c69174ff56123036367"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/corridor.cpp",
+      "sha256": "b4d8f5330bd4ec4e73d5f771abe55a53e6c3967b997792157c706bfe92933171"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/digest.hpp",
+      "sha256": "98466c0ba439a1ba2443484bd86aa21811af10328a9f9823d8acdfa8abf48652"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/follow.cpp",
+      "sha256": "a1895b54f58e5c39c6418985ec95922afc1e96ccfbd1983e312cc975dbc143a4"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/fixtures.hpp",
+      "sha256": "94189155587b953a2241db2734a76b588e984b04989532de7fa49e3dc835e5c4"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/follow_probe.cpp",
+      "sha256": "cff8bb31029eb1fabe663de72acd734273ae23b640c9399f1231695ab8aef24a"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/math_probe.cpp",
+      "sha256": "2722337da5509b32fb5d4bd2da73da054c5d40c74b5300e13baf41fc4d0f391d"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_consumption.cpp",
+      "sha256": "efda4c95012de26fe0b616745c8d495a8656976352b66fdd2cf4fe160cb04612"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_corridor.cpp",
+      "sha256": "07f392870126829798c2a99a596ccef2813fc54e20ae8e8cb94451d66652dcd2"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_follow.cpp",
+      "sha256": "4d20d11355f81852f859ff2fef6408cb4737518271d351e36c321b58f203504d"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_follow_reference.py",
+      "sha256": "ec0371c946043d6df56d263773510eb21aaf4a436d4f2f49d16bcd52a3f3ce92"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_math_reference.py",
+      "sha256": "9d835af536601956be948ea6cc7e826237cdef1f71e3380c3ed102836689e8e4"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/write_canonical_cdr.py",
+      "sha256": "2e8d02962d155fb278e398566e38a613eb6829296ffcecea4f887101bf5e263c"
+    }
+  ],
+  "frozen_asset_count": 96,
+  "frozen_source_tree_sha256": "92b0475c0ec45269005a5007e71971679241ef01e10b6eaa2b806de7b8f101f1",
+  "freeze": {
+    "A08_math_and_parameters": "byte-identical to A12",
+    "A09_A12_interfaces": "byte-identical to A12",
+    "public_v2": "two messages byte-identical to canonical b5645eca and A12",
+    "A02_tracker_frontend_execution": "harness only; non-Markdown 26 preserved",
+    "canonical_tracker_and_Sfc_geometry_provider": "unchanged",
+    "solver_budget_ns": 15000000,
+    "acquisition_budget_ns": 40000000,
+    "source_lease_ns": 75000000,
+    "max_iterations": 400,
+    "runtime_shadow_exception": "only preregistered minimal necessary adapter/instrumentation/launch; none implemented in this commit"
+  },
+  "prior_A12_manifest": {
+    "path": "docs/dynamic_navigation/r4_source_proposal_bridge_sources.json",
+    "sha256": "4367266603fc8239fb27aaf17e51ec307a69c476fcf9baa4ca4461973c4653af"
+  },
+  "prior_A08_dependency_manifest": {
+    "path": "docs/dynamic_navigation/r4_follow_value_solver_sources.json",
+    "sha256": "8168379bd00f237aa3d36645620a8437f0a870e077c19be5822a85ebbb207a5f",
+    "kernel": "same pinned OSQP0.6.3/QDLDL references; this planning checkpoint did not rebuild or re-audit every ignored dependency source"
+  },
+  "read_only_environment_candidates": [
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "src/rm_simulation/launch/phase1_5_mppi.launch.py",
+      "sha256": "588bf4b910593e02e22907d8e05e2d26b56cd993544b815e8bad54c110f4a405"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "src/rm_simulation/launch/phase1_5_gazebo.launch.py",
+      "sha256": "c1d1931b6e24fcae786fbf7a93f59aac59647ffaa20600f64b60784b9f07f991"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "src/rm_simulation/launch/phase1_5_mppi_course.launch.py",
+      "sha256": "04bb82b1370151c6dc88c3f2689f78c9d74d12c9000289fcb548d01740c4fbbb"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "src/rm_simulation/src/moving_obstacle_controller.cpp",
+      "sha256": "1132fbb34b88548fd141cf5b1a128407aac8b50937343e9908558657c53e3f22"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "src/rm_nav_config/config/nav2_phase1_5_mppi.yaml",
+      "sha256": "0e2020c8eb5001e3f57c3626353a99fdad785cb6a716abd9d6fd89ae88628caf"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "src/rm_nav_config/config/nav2_old_car_2026_left_stvl.yaml",
+      "sha256": "f50751cbf4b7c069810b6e810fa0613f389b4ed0c7cf26a0be38227437e5e701"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "src/rm_nav_config/maps/phase1_empty.yaml",
+      "sha256": "d7aae4fdf8bd890c384e77318cf0b7f640dcbf8820ec02f6ec2855dd2e01a075"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "src/rm_nav_config/maps/phase1_empty.pgm",
+      "sha256": "a5a68a24ddb462fee9cb6931685e63412a42009876081b489114c95522ad904f"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "docs/phase1_5c_mppi_validation.md",
+      "sha256": "dfbd1dcc1ae82bb18d39797c060960b1b4e5ee4fe97f888661b1b5260aad08c0"
+    },
+    {
+      "version": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+      "path": "docs/phase1_5_gazebo_validation.md",
+      "sha256": "48d140fbc83de4e2be03b0620cbaacf241260772ded3d248ad65d14c4559c227"
+    }
+  ],
+  "environment_readiness": "NOT_CHECKED; profile source reviewed, no container or Gazebo graph launch",
+  "near_term_priority": [
+    "select and verify existing Humble/ROS simulation native MPPI input flow",
+    "preregister minimal shadow caller linked to frozen A08",
+    "complete source/steady timing and offline 75ms analysis",
+    "one initial short S0/S1/S2 run each with raw evidence",
+    "make runtime-shadow-only behavioral decision before limited closed-loop"
+  ],
+  "deferred": [
+    "production grant/cancel/owner integration",
+    "A10 production lease enforcement",
+    "A10/A12 production contract expansion",
+    "serial or final velocity routing changes",
+    "live MPPI fallback acceptance",
+    "full TDT provider co-deployment"
+  ],
+  "compatibility_findings": [
+    "simulation profile limits/body differ from old-car STVL; actual chosen profile values required",
+    "raw-static source must be established separately from current obstacle costmap",
+    "simulation /scan vs default tracker /local_scan remap and existing v2/member opt-in required",
+    "fixed-yaw real measured-rate/state-age/source-TF constraints must not be falsified or relaxed",
+    "MPPI command reference only; shadow virtual previous proposal seed is explicitly counterfactual, never actual applied",
+    "same-route progress windows and replan/restart/callback delay must be logged"
+  ],
+  "preservation": {
+    "A03_fixed_source_hashes_and_key_lines_verified": 63,
+    "protected_refs_unchanged_excluding_R4": 92,
+    "A03_branch_head_inventory_rechecked": 33,
+    "original_checkout_head_branch_and_10_dirty_paths_unchanged": true,
+    "large_untracked_core_read_or_deleted": false,
+    "frozen_R3_head_and_clean_status_unchanged": true,
+    "R4_existing_branch_based_on_main": true,
+    "formal_entry_profile_controller_output_transport_paths_match_main": true,
+    "formal_worktree_paths_match_main": true,
+    "A06_fixed_source_files_verified": 24,
+    "A04_A05_assets_unchanged_except_documented_A08_A11_changes": 37,
+    "r4_follow_value_solver_sources.json_unchanged_assets": 5,
+    "r4_follow_value_solver_sources.json_A12_documented_updates": [
+      "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/follow.hpp",
+      "src/rm_r4_prediction_consumption/src/follow.cpp"
+    ],
+    "r4_lease_fence_adapter_sources.json_unchanged_assets": 6,
+    "r4_lease_fence_adapter_sources.json_A12_documented_updates": [
+      "src/rm_navigation_execution_adapters/include/rm_navigation_execution_adapters/lease_fence.hpp",
+      "src/rm_navigation_execution_adapters/src/lease_fence.cpp",
+      "src/rm_navigation_execution_adapters/test/test_lease_fence.cpp"
+    ],
+    "r4_standard_controller_adapter_sources.json_unchanged_assets": 5,
+    "r4_standard_controller_adapter_sources.json_A12_documented_updates": [
+      "src/rm_r4_nav2_controller/CMakeLists.txt",
+      "src/rm_r4_nav2_controller/README.md",
+      "src/rm_r4_nav2_controller/package.xml",
+      "src/rm_r4_nav2_controller/test/test_controller.cpp"
+    ],
+    "canonical_pose_geometry_provider_5_assets_unchanged": true,
+    "A02_non_Markdown_files_byte_unchanged": 26,
+    "public_v2_two_messages_byte_unchanged": true,
+    "new_R4_and_execution_runtime_sources_have_no_IO_or_harness_dependency": 7,
+    "canonical_Sfc_provider_cpp_count": 1
+  },
+  "validation": {
+    "unit_value": "prior A12 finite PASS retained, not rerun in this stage",
+    "runtime_shadow": "NOT_EVALUATED",
+    "closed_loop": "NOT_EVALUATED",
+    "deployment": "NOT_EVALUATED",
+    "runtime_source_added": false,
+    "algorithm_changed": false,
+    "production_contract_changed": false,
+    "formal_chain_changed": false,
+    "S0_S1_S2_runs": 0,
+    "Nav2_or_Gazebo_graph_started": false,
+    "new_numerical_tests": 0,
+    "large_or_paired_runs": 0,
+    "frozen_R3_reruns": 0,
+    "hardware": false
+  },
+  "next_action": "P1 existing environment/input availability check and P2 minimal caller preregistration; do not resume production infrastructure work"
+}

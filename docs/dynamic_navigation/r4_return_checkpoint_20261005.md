@@ -4,6 +4,8 @@
 
 **结论：R4应嵌入现有导航架构，成为原controller host的prediction-consumption提案源。最小消费核心、共用值适配、可选标准Controller与源proposal mapper已通过有限验收；正式运行接线、闭环收益、真实75ms执行及MPPI fallback尚未验收。当前停在A12，保持Follow/插件默认关闭。**
 
+2026-10-05后续方向调整：以本停止点`e137635e`冻结算法/接口，近期优先 [A13真实ROS runtime shadow](r4_runtime_shadow_plan.md)，native MPPI继续控制机器人。下文生产授权/lease/owner条件保留为闭环前要求，暂不继续扩展，也不作为shadow行为验证的前置阻塞；75ms只做离线时序模拟。此处保留A12交付时的结论，不表示shadow已运行。
+
 没有新增第二tracker、prediction pipeline、T-DT frontend、MPPI、最终cmd publisher/owner或串口通路。A02的tracker/frontend/execution/独立arbiter仍是测试harness，没有自动升级生产身份。A09/A10 execution包是原owner可调用的被动值函数，没有速度生成、选择或发布；不是第二套导航链。
 
 ## 证据与审计范围
