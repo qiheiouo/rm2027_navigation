@@ -2,9 +2,19 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A19 Research 最小 epoch 对齐消费适配完成。** 同一 45 变量 Follow 恢复 A18 受限结果：S1 40/40、S2 160/160 有效，首命令最大差 5.74e-15，solver 最大 2.840ms；hold→clear 60/60 的虚拟响应保留，前 6 拍预测支持重叠也保留。当前库已移除失败的自由角速度扩展，历史源码/evidence 保留。原四个 fixed probe 数值差异为 0，raw source/stamps 与新输入身份明确区分于模型派生状态。
+状态：**A20 既有 owner 角命令过渡审阅完成，判决 Modify 最小消费模型，运行接线继续暂停。** 复用原 20Hz smoother、Nav2 selection/GoalChecker 和所选 transport，不新增 owner/MPPI/生产接口。A19 数值收益保留，但非零真实历史不能由一个零目标立即转换成恒定未来 yaw。
 
-判决 **Go：最小消费 Research 假设；Modify：实际接纳/转动过渡，Integration/closed-loop 仍 NOT_ELIGIBLE**。同一 200 窗口最近的真实 `/cmd_vel` receipt 观测代理全部 wz 非零，不满足零 last-applied-wz 限制；不能把虚拟值有效率称为实际接纳率。下一步先只读审阅已有 controller/owner 的真实历史、平滑/限速、角命令过渡和 terminal yaw 条件，不扩建输出链或自动恢复自由角速度研究。A09–A12、public v2、实际输出与 main 保持。[A19 判决、复用边界和拟议图](r4_aligned_follow_adapter.md) 是当前入口；A18/A17/A16 保留历史失败与适用性证据。
+同一 200 个窗口的只读 receipt 代理与原限速条件下，176 个需超过一拍归零；S1/S2 首 tick 等 50ms 的条件归零时刻中位数 200/150ms，最大 400ms，额外 yaw 最大 0.159/0.150rad。它们不是实测停止时间或 lease failure；75ms 仍绑定每次 acquisition。原 server 异常发零不会自动调用 MPPI，smoother last_cmd/receipt 不是 transport applied grant。
+
+下一步优先有限 Research：在同一 45 变量 Follow 消费已知角过渡，并重用原 shape/Sfc/OSQP；不自动恢复自由角速度优化、不补 A10/A12 输出设施。零历史启动与中途切入须分开判断，终点朝向仍留原 goal/controller 责任。[A20 复用矩阵、条件结果与最小实验](r4_angular_handoff_audit.md) 是当前入口；[A19 值结果](r4_aligned_follow_adapter.md) 保持，runtime/closed-loop 仍未通过。
+
+## A20 — 原 owner 角命令过渡适用性
+
+- 假设/最小判定：原 smoother 是否足以使 A19 零目标模型直接切入；固定 Humble源码、A09–A12/transport 和同一 200 个已有窗口，只做条件计算，无运行实验。
+- 结果：唯一输出责任可复用，内部 last_cmd、ROS receipt、串口 write 与物理 applied 必须区分。持续零目标过渡产生未来 yaw，A19 恒定 future yaw 不能表达；原异常 zero/selector 也不是自动安全回退证明。
+- 判决：Modify；下一候选保留 45 变量、输入已知角 profile 的逐 stage 消费。既有零历史启动不因 MPPI 记录而被否定；不把条件几何/112 个中途 yaw 超差样本当作 R4 实际失败或物理证书。
+- [源码边界/矩阵与结果](r4_angular_handoff_audit.md)、[最小复现/逐行证据](../../experiments/r4_angular_handoff_audit/README.md)。本轮零次 library build/solver/ROS/Gazebo/current-admission/transport 调用；无 production code/config、main/public v2/A09–A12 或原 dirty 改动。
+
 
 ## A19 — 最小 45 变量 epoch 对齐消费适配
 

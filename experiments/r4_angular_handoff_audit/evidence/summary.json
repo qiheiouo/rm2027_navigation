@@ -1,0 +1,195 @@
+{
+  "stage": "Research A20",
+  "baseline": "c744d4e7",
+  "scope": "source review and conditional geometry; zero runtime calls",
+  "assumptions": {
+    "previous_wz": "nearest earlier actual_output receipt proxy; not send/last-applied evidence",
+    "target": "persistent zero angular target with no scaling/deadband, nominal timer, no replacement/cancel",
+    "phase_seconds": [
+      0.0,
+      0.05
+    ],
+    "clock": "nominal 1:1 ROS/model and wall progression; actual wall-timer phase is not measured",
+    "deceleration_rad_s2": 2.0,
+    "dt_seconds": 0.05,
+    "translation": "hold source measured body velocity for 1.5s; not solved controls or actual motion",
+    "lease_comparison": "ideal target arrival at epoch; excludes compute/transport/jitter; not lease PASS"
+  },
+  "scenes": {
+    "S1": {
+      "samples": 40,
+      "proxy_previous_wz_nonzero": 40,
+      "more_than_one_tick": 34,
+      "even_ideal_immediate_zero_exceeds_75ms": 30,
+      "one_period_phase_zero_exceeds_75ms": 34,
+      "epoch_yaw_outside_goal_tolerance": 16,
+      "one_period_terminal_yaw_outside_tolerance": 19,
+      "metrics": {
+        "immediate_zero_ms": {
+          "n": 40,
+          "median": 150.00000000000003,
+          "p95": 350.0,
+          "min": 0.0,
+          "max": 350.0
+        },
+        "immediate_ticks": {
+          "n": 40,
+          "median": 4.0,
+          "p95": 8.0,
+          "min": 1,
+          "max": 8
+        },
+        "immediate_yaw_shift_rad": {
+          "n": 40,
+          "median": 0.02015346407890317,
+          "p95": 0.11532682493329041,
+          "min": 0.0,
+          "max": 0.12175697147846226
+        },
+        "immediate_constant_body_1500ms_endpoint_delta_m": {
+          "n": 40,
+          "median": 0.015039794006137572,
+          "p95": 0.08368203757772802,
+          "min": 2.220717083251841e-16,
+          "max": 0.0874796853696009
+        },
+        "immediate_swept_support_expansion_m": {
+          "n": 40,
+          "median": 0.002375201987012965,
+          "p95": 0.023584850141413725,
+          "min": 0,
+          "max": 0.027624137514132174
+        },
+        "one_period_zero_ms": {
+          "n": 40,
+          "median": 200.0,
+          "p95": 399.99999999999994,
+          "min": 50.0,
+          "max": 399.99999999999994
+        },
+        "one_period_ticks": {
+          "n": 40,
+          "median": 4.0,
+          "p95": 8.0,
+          "min": 1,
+          "max": 8
+        },
+        "one_period_yaw_shift_rad": {
+          "n": 40,
+          "median": 0.03687128543853757,
+          "p95": 0.1518020856380462,
+          "min": 0.0003295783419162033,
+          "max": 0.159150824546814
+        },
+        "one_period_constant_body_1500ms_endpoint_delta_m": {
+          "n": 40,
+          "median": 0.027212706785051985,
+          "p95": 0.10879197081235771,
+          "min": 0.0002276122601626542,
+          "max": 0.1129317834374012
+        },
+        "one_period_swept_support_expansion_m": {
+          "n": 40,
+          "median": 0.004964031141038272,
+          "p95": 0.030105891106381066,
+          "min": 0,
+          "max": 0.03514147471321094
+        }
+      },
+      "native_goal_pose_observation": {
+        "x": 3.8783662247509345,
+        "y": -0.05222278353003744,
+        "yaw": -0.013896826981017466,
+        "wz": 0.027661762942443602
+      }
+    },
+    "S2": {
+      "samples": 160,
+      "proxy_previous_wz_nonzero": 160,
+      "more_than_one_tick": 142,
+      "even_ideal_immediate_zero_exceeds_75ms": 95,
+      "one_period_phase_zero_exceeds_75ms": 142,
+      "epoch_yaw_outside_goal_tolerance": 96,
+      "one_period_terminal_yaw_outside_tolerance": 99,
+      "metrics": {
+        "immediate_zero_ms": {
+          "n": 160,
+          "median": 100.0,
+          "p95": 252.49999999999915,
+          "min": 0.0,
+          "max": 350.0
+        },
+        "immediate_ticks": {
+          "n": 160,
+          "median": 3.0,
+          "p95": 6.049999999999983,
+          "min": 1,
+          "max": 8
+        },
+        "immediate_yaw_shift_rad": {
+          "n": 160,
+          "median": 0.0075473366677761,
+          "p95": 0.06655363327264756,
+          "min": 0.0,
+          "max": 0.1133209472894669
+        },
+        "immediate_constant_body_1500ms_endpoint_delta_m": {
+          "n": 160,
+          "median": 0.004700426161871144,
+          "p95": 0.04598315184799293,
+          "min": 0.0,
+          "max": 0.07876650701437464
+        },
+        "immediate_swept_support_expansion_m": {
+          "n": 160,
+          "median": 0.00012238267535352731,
+          "p95": 0.014589479473432315,
+          "min": 0,
+          "max": 0.02452403374313028
+        },
+        "one_period_zero_ms": {
+          "n": 160,
+          "median": 150.00000000000003,
+          "p95": 302.49999999999915,
+          "min": 50.0,
+          "max": 399.99999999999994
+        },
+        "one_period_ticks": {
+          "n": 160,
+          "median": 3.0,
+          "p95": 6.049999999999983,
+          "min": 1,
+          "max": 8
+        },
+        "one_period_yaw_shift_rad": {
+          "n": 160,
+          "median": 0.018821005001664157,
+          "p95": 0.09484878605604137,
+          "min": 0.00019867592491209542,
+          "max": 0.14950965404510502
+        },
+        "one_period_constant_body_1500ms_endpoint_delta_m": {
+          "n": 160,
+          "median": 0.011959331461832805,
+          "p95": 0.06504688797387914,
+          "min": 0.00013687332326489782,
+          "max": 0.10267868733266788
+        },
+        "one_period_swept_support_expansion_m": {
+          "n": 160,
+          "median": 0.0010984651003316248,
+          "p95": 0.019473530894348445,
+          "min": 0,
+          "max": 0.03145928159595124
+        }
+      },
+      "native_goal_pose_observation": {
+        "x": 3.863130812263164,
+        "y": 0.030607477985958937,
+        "yaw": -0.07850234463675766,
+        "wz": 0.24001031852094457
+      }
+    }
+  },
+  "decision": "Modify: zero-target ownership is reusable but A19 constant future yaw cannot express the nonzero-history transition. No production wiring."
+}
