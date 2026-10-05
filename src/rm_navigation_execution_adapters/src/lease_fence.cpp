@@ -12,6 +12,8 @@ namespace
 bool text(const std::string & s) {return !s.empty() && s.size() <= 128;}
 bool stamp(int64_t n) {return n > 0 && n <= std::numeric_limits<int64_t>::max() - 1000000000;}
 bool finite(Twist v) {return std::isfinite(v.vx) && std::isfinite(v.vy) && std::isfinite(v.wz);}
+bool digest(const std::string & s)
+{return s.size() == 64 && std::all_of(s.begin(), s.end(), [](char c) {return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f');});}
 bool equal(Twist a, Twist b) {return a.vx == b.vx && a.vy == b.vy && a.wz == b.wz;}
 bool valid(const ExecutionFence & f)
 {
@@ -58,6 +60,12 @@ ProposalReceipt ProposalReceiptGate::receive(const ProposalPacket & p, const Tra
     w.transport_delay_bound_ns < 0 || w.transport_delay_bound_ns > 10000000)
   {revoked_ = true; return reject("unverified_transport_clock");}
   last_receipt_steady_ = w.receipt_steady_ns;
+  if (p.provenance) {
+    const auto & q = *p.provenance;
+    for (const auto * s : {&q.input_digest, &q.receipt_digest, &q.path_digest, &q.map_digest, &q.limits_digest, &q.body_digest}) {
+      if (!digest(*s)) {return reject("malformed_atomic_provenance");}
+    }
+  }
   if (p.cycle_sequence == 0 || p.cycle_sequence <= high_water_ || !finite(p.command) ||
     (p.kind != ProposalKind::Normal && p.kind != ProposalKind::Revoke) ||
     !stamp(p.acquired_epoch_ns) || !stamp(p.sent_epoch_ns) || p.sent_epoch_ns < p.acquired_epoch_ns ||

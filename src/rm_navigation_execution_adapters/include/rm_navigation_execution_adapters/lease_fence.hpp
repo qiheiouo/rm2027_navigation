@@ -17,6 +17,10 @@ struct ExecutionFence
 };
 bool same_fence(const ExecutionFence & a, const ExecutionFence & b);
 enum class ProposalKind {Normal, Revoke};
+struct ProposalProvenance
+{
+  std::string input_digest, receipt_digest, path_digest, map_digest, limits_digest, body_digest;
+};
 struct ProposalPacket
 {
   ExecutionFence fence;
@@ -24,6 +28,7 @@ struct ProposalPacket
   ProposalKind kind{ProposalKind::Normal};
   Twist command;
   int64_t acquired_epoch_ns{}, sent_epoch_ns{}, source_elapsed_ns{}, remaining_ns{};
+  std::optional<ProposalProvenance> provenance{};  // Atomic R4 identity; native sources may omit.
 };
 struct TransportWitness
 {

@@ -168,6 +168,7 @@ struct FollowSolver::Impl
   int64_t previous_epoch{}, seen_epoch{};
   void clear_warm() {previous.reset(); key.clear(); previous_epoch = 0;}
 };
+std::string fingerprint_follow_input(const FollowInput & input) {return validate(input);}
 FollowSolver::FollowSolver() : impl_(std::make_unique<Impl>()) {}
 FollowSolver::~FollowSolver() = default;
 void FollowSolver::reset() {impl_ = std::make_unique<Impl>();}
@@ -184,7 +185,7 @@ FollowResult FollowSolver::solve(FollowInput in)
     if (in.acquired.time_since_epoch().count() <= 0 || in.acquired > FollowClock::now()) {return fail("invalid_acquisition");}
     if (seconds(in.acquired) >= cycle_budget) {return fail("cycle_deadline_before_assembly");}
     if (std::strcmp(osqp_version(), "0.6.3") != 0) {return fail("solver_version");}
-    const auto digest = validate(in); const auto key = warm_key(in);
+    const auto digest = fingerprint_follow_input(in); const auto key = warm_key(in);
     if (impl_->seen_host == in.identity.host_instance && impl_->seen_execution == in.identity.execution_id &&
       impl_->seen_authority == in.identity.authority_epoch &&
       (in.identity.cycle_sequence <= impl_->seen_sequence || in.prediction.epoch_ns() <= impl_->seen_epoch))

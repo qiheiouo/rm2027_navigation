@@ -47,6 +47,8 @@ struct FollowInput
   bool reset_warm{};
 };
 struct FollowControl {Vec2 body_velocity; double progress_rate{};};
+// Shared original input validation/identity; no solver call or new acquisition.
+std::string fingerprint_follow_input(const FollowInput & input);
 struct FollowStage {Vec2 position, body_velocity; double yaw{}, progress{};};
 struct FollowProposal
 {

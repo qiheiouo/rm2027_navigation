@@ -16,3 +16,10 @@ must use its native fallback, with the common owner/lease/current-admission.
 
 This plugin has finite loading/call checks only; no production host is wired.
 See [A11 contract](../../docs/dynamic_navigation/r4_standard_controller_adapter.md).
+
+The A12 passive source mapper captures the original bound cycle before compute,
+then checks its typed result, standard return value, current fence and verified
+source clock. It emits one value packet containing the original remaining lease
+and all six provenance digests. It creates no grant or publication, and cannot
+renew the acquisition deadline. The original host and owner still need wiring.
+See [A12 contract](../../docs/dynamic_navigation/r4_source_proposal_bridge.md).

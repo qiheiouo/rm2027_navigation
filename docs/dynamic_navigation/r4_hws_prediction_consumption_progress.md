@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A08–A10 值适配及 A11 可选标准 Controller 薄适配已实现；尚未接入正式运行链。** Follow 默认关闭，复用 A04/A05 输入、既有 Sfc 与固定 OSQP0.6.3，输出 proposal 或 unavailable；当前几何复用唯一 T-DT provider，不消费 future prediction。原 host bind/take、live grant/clock/transport 与原 owner 的实际发送接线尚待实现/验收；插件默认关闭。不把 A02 harness 全部 ROS 化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A06](r4_reuse_audit_checkpoint.md)、[A07](r4_owner_adapter_design.md)、[A08](r4_follow_value_solver.md) 、[A09](r4_current_geometry_adapter.md) 、[A10](r4_lease_fence_adapter.md) 与 [A11](r4_standard_controller_adapter.md) 为准。
+状态：**已在A12有限验收点停止持续开发；A08–A12消费核心、值适配和可选标准Controller/source mapper已实现，尚未接入正式运行链。** Follow与插件默认关闭；原host bind/take、live grant/clock/transport与原owner实际发送仍待接线/验收。源75ms acquisition租约与原15/40ms预算保持。不把A02 harness全部ROS化；main默认Nav2/MPPI/速度/串口接线、原dirty研究checkout和冻结R3保持。最新结论、十二项矩阵与拟议图见 [返回验收记录](r4_return_checkpoint_20261005.md)；来源与历史分别见A03/A06/A07及下列阶段记录。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -344,3 +344,29 @@ Certified 只指固定 current map 和显式 tracking 假设下的几何区间�
 ### next step
 
 将原host本拍acquisition与typed结果映射为A10原子proposal，验证token/fence/source预算及relay只减不续；再收敛原profile切换/发送适配。保持默认输出接线关闭，不扩大实验或接实车。
+
+## A12 — 原acquisition到原子proposal及返回验收点
+
+### hypothesis
+
+原host可通过一个passive mapper把本拍typed结果与标准返回值绑定到原fence/acquisition；完整provenance随同command和remaining lease传递，不需要metadata旁路或新output owner。
+
+### change
+
+扩展默认OFF的标准Controller adapter：compute前捕获原owned输入与acquisition，compute/take后核对同token/result/native Twist/fence/clock，生成A10单个ProposalPacket。Follow只公开已有validation/fingerprint；input/receipt/path/map/limits/body六项摘要原子保留到receipt/admission。原host/owner没有接线，无新ROS IO、grant issuer、MPPI或串口模块。
+
+### result
+
+消费35、execution46、插件/mapper20，共101个不同GTest用例在普通与同范围ASan/UBSan下通过；九组CTest、安装后C++17和默认OFF检查通过。最后provenance补充后重新验证受影响execution/plugin，未变动消费核心的本轮日志继续有效。原60ms延迟发布最多剩15ms、75ms拒收、重复/旧fence/未知clock/typed失败/native值不符及同actual candidate admission均有有限证据。
+
+### evidence
+
+[A12合同与有限结果](r4_source_proposal_bridge.md)、[源码/日志摘要及保护核对](r4_source_proposal_bridge_sources.json)、[返回结论/矩阵/拟议图](r4_return_checkpoint_20261005.md)。首轮测试代码的两个ROS初始化警告修正后复核，保留原日志；未放宽任何门限。main、原十个dirty路径、冻结R3、public v2、canonical Sfc和A02二十六个非Markdown文件保持。
+
+### conclusion
+
+复用审计已闭合到最小值实现与可选插件/mapper，仍不是正式运行链或闭环PASS。当前几何只能证明冻结raw-current图和显式tracking模型；grant/clock/transport测试使用合成witness。native MPPI fallback实际接线、75ms真实执行、输出独占与算法相对B0收益未证明。
+
+### next step / stop
+
+用户已返回，允许必要结论处停止；本次停在A12，不继续自动新增运行接线或大规模实验。下一阶段需在选定原profile/host/owner完成授权、时钟/原子transport、本拍状态与同actual发送候选的有限故障验收；保持现有输出责任，不恢复A02独立arbiter，不扩展R5/R6。

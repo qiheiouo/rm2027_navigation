@@ -122,6 +122,15 @@ TEST(LeaseFence, LatePacketOrForgedRemainingCannotRebaseLease)
     EXPECT_FALSE(g.receive(p, w).proposal);
   }
 }
+TEST(LeaseFence, MalformedAtomicProvenanceDoesNotConsumeSequenceOrAuthorize)
+{
+  auto g = gate(); ASSERT_TRUE(g.observe_fence(fence())); auto p = packet();
+  p.provenance = ex::ProposalProvenance{std::string(64, 'a'), std::string(64, 'b'), std::string(64, 'c'),
+    std::string(64, 'd'), std::string(64, 'e'), std::string(64, 'f')};
+  auto bad = p; bad.provenance->receipt_digest = "wrong"; EXPECT_FALSE(g.receive(bad, witness()).proposal);
+  auto r = g.receive(p, witness()); ASSERT_TRUE(r.proposal); ASSERT_TRUE(r.proposal->source().provenance);
+  EXPECT_EQ(r.proposal->source().provenance->receipt_digest, p.provenance->receipt_digest);
+}
 TEST(LeaseFence, ActualSmoothingResultUsesSameGeometryAndTruncatedOriginalLease)
 {
   auto g = gate(); ASSERT_TRUE(g.observe_fence(fence())); auto r = g.receive(packet(), witness()); ASSERT_TRUE(r.proposal);
