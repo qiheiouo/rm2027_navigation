@@ -63,7 +63,11 @@ GeometryResult inspect_current_command(const CurrentCommandInput & in, const Geo
   const auto started = Clock::now(); GeometryResult result;
   result.candidate_identity = in.candidate_identity; result.candidate = in.candidate;
   result.map_revision = in.grid.metadata().revision; result.body_revision = in.body.revision;
+  result.frame = in.frame; result.base_frame = in.base_frame; result.limits_revision = in.bounds.revision;
   result.epoch_ns = in.epoch_ns; result.hold_ns = in.hold_ns;
+  if (std::isfinite(cfg.budget_seconds) && cfg.budget_seconds > 0 && cfg.budget_seconds <= .010) {
+    result.processing_budget_ns = static_cast<int64_t>(std::ceil(cfg.budget_seconds * 1e9));
+  }
   auto finish = [&](GeometryStatus status, const std::string & reason) {
       result.status = status; result.reason = reason; result.elapsed_seconds = elapsed(started);
       if (std::isfinite(cfg.budget_seconds) && cfg.budget_seconds > 0 &&
@@ -80,7 +84,7 @@ GeometryResult inspect_current_command(const CurrentCommandInput & in, const Geo
       cfg.update_ttl_ns <= 0 || cfg.update_ttl_ns > 150000000 || cfg.receipt_ttl_ns <= 0 || cfg.receipt_ttl_ns > 250000000 ||
       in.epoch_ns <= 0 || in.epoch_ns > std::numeric_limits<int64_t>::max() - 1000000000 ||
       in.hold_ns <= 0 || in.hold_ns > 50000000 || !text(in.frame) || !text(in.base_frame) ||
-      !text(in.candidate_identity) || !text(in.body.revision) || in.frame != grid.frame || !grid.current ||
+      !text(in.candidate_identity) || !text(in.body.revision) || !text(b.revision) || in.frame != grid.frame || !grid.current ||
       in.tf_stamp_ns != in.pose_stamp_ns || !finite(Point{in.pose.x, in.pose.y}) || !std::isfinite(in.pose.yaw) ||
       !finite(b.lower) || !finite(b.upper) || b.lower.x > 0 || b.lower.y > 0 || b.upper.x < 0 || b.upper.y < 0 ||
       b.lower.x >= b.upper.x || b.lower.y >= b.upper.y || b.lower.x < -3 || b.lower.y < -3 || b.upper.x > 3 || b.upper.y > 3 ||

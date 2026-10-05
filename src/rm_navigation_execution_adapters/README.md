@@ -18,4 +18,8 @@ its offline regression behavior remains. Centre-only 253 and filled lethal/
 unknown/boundary semantics remain distinct. No future prediction is an input.
 
 See [A09 contracts and source intake](../../docs/dynamic_navigation/r4_current_geometry_adapter.md).
+The passive lease/fence adapter consumes explicit original-host registration,
+rejects replay and unverified clock transport, and composes the original source
+deadline with the same final candidate's geometry. It grants no execution and
+owns no output. See [A10 contract](../../docs/dynamic_navigation/r4_lease_fence_adapter.md).
 Wrapper: Apache-2.0. Existing RM Navigation geometry provider: MIT.

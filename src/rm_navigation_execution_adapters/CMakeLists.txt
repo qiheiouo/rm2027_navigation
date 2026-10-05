@@ -3,7 +3,7 @@ project(rm_navigation_execution_adapters LANGUAGES CXX)
 find_package(ament_cmake REQUIRED)
 set(TDT_GEOMETRY ${CMAKE_CURRENT_SOURCE_DIR}/../../experiments/tdt_planner/rm_tdt_planner)
 # Single existing geometry provider; no planner/frontend source is compiled.
-add_library(${PROJECT_NAME} SHARED src/current_geometry.cpp ${TDT_GEOMETRY}/src/pose_geometry.cpp)
+add_library(${PROJECT_NAME} SHARED src/current_geometry.cpp src/lease_fence.cpp ${TDT_GEOMETRY}/src/pose_geometry.cpp)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
@@ -18,6 +18,8 @@ if(BUILD_TESTING)
   ament_add_gtest(test_existing_pose_geometry ${TDT_GEOMETRY}/test/test_pose_geometry.cpp TIMEOUT 60)
   target_include_directories(test_existing_pose_geometry PRIVATE ${TDT_GEOMETRY}/include)
   target_link_libraries(test_existing_pose_geometry ${PROJECT_NAME})
+  ament_add_gtest(test_lease_fence test/test_lease_fence.cpp TIMEOUT 30)
+  target_link_libraries(test_lease_fence ${PROJECT_NAME})
 endif()
 install(TARGETS ${PROJECT_NAME} EXPORT export_${PROJECT_NAME}
   LIBRARY DESTINATION lib ARCHIVE DESTINATION lib RUNTIME DESTINATION bin)

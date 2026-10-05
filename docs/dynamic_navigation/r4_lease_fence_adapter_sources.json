@@ -1,0 +1,218 @@
+{
+  "stage": "A10",
+  "date": "2026-10-05",
+  "base_R4_commit": "a20aeac552d8af05b672f3b862e7b7fff33677e3",
+  "main_commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "branch": "experiment/r4-hws-prediction-consumption",
+  "scope": "passive existing-owner fence/source lease/same-candidate admission values; no runtime IO or second output owner",
+  "assets": [
+    {
+      "path": "src/rm_navigation_execution_adapters/CMakeLists.txt",
+      "sha256": "2da123d63f660e6818860b3bb8677531c16a4fd1ae2fc233d08fa9c3828734d9",
+      "status": "modified"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/README.md",
+      "sha256": "77a27e9a79fab0e181eaf6afe2c659aecfcca111ec6c4adb2b842e21b890cb25",
+      "status": "modified"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/include/rm_navigation_execution_adapters/current_geometry.hpp",
+      "sha256": "7d288592780d6cd99ac9c53d290a3b32bcea9930b317e3ab981ae369391da5d5",
+      "status": "modified"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/include/rm_navigation_execution_adapters/lease_fence.hpp",
+      "sha256": "82a1b17db1e6a301c64df1dbc338e7b6ee93e18e826252f2f25a44b234cfa868",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/package.xml",
+      "sha256": "6e703f8336c8e6276e6a1eab7f7dcfeb5f11daba18418f521859b93eca4c8f0d",
+      "status": "modified"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/src/current_geometry.cpp",
+      "sha256": "e538ea67b38d58930da0925f724e03e992768b081fbc402067efbabe68b7b6f0",
+      "status": "modified"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/src/lease_fence.cpp",
+      "sha256": "6e99dae3f2aa0e09f761f3c191a866d8d9a6734caca56f8b32a449f0ae5f0e3b",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/test/test_current_geometry.cpp",
+      "sha256": "fb573276eae1d9848c32d71dd2b6080d621cc0c29055a89fb97545c4b6574503",
+      "status": "modified"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/test/test_lease_fence.cpp",
+      "sha256": "96d0dcc92d8baf7554ef9da4e34c393f00b653d422cde6d674c93669ad0e4093",
+      "status": "new"
+    }
+  ],
+  "upstream_readonly": [
+    {
+      "installed_path": "/opt/ros/humble/include/nav2_util/simple_action_server.hpp",
+      "sha256": "942c09496c49f8343e360a549819582b299ddae7b07fc3e2678a57568d2df8cc",
+      "official_source_url": "https://github.com/ros-navigation/navigation2/blob/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_util/include/nav2_util/simple_action_server.hpp",
+      "scope": "read-only installed header audit; no import/build/modification"
+    },
+    {
+      "installed_path": "/opt/ros/humble/include/nav2_behavior_tree/bt_action_node.hpp",
+      "sha256": "9326d231811df810cb7abbcd3a4f32a63e775311d1b91debdcc54e655a4c77b9",
+      "official_source_url": "https://github.com/ros-navigation/navigation2/blob/a097086719c88f781aa59788eca29ac6ca5e56db/nav2_behavior_tree/include/nav2_behavior_tree/bt_action_node.hpp",
+      "scope": "read-only installed header audit; no import/build/modification"
+    }
+  ],
+  "main_mission_source": {
+    "commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+    "path": "src/rm_competition_mission/src/competition_mission_node.cpp",
+    "sha256": "7079df5b4f479f1dc6cacc8a27a48cabee365bb92bdaf4d580753d86e96344da"
+  },
+  "environment": {
+    "image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+    "ROS": "Humble",
+    "Nav2": "1.1.20",
+    "CXX17": true,
+    "network": false,
+    "devices": false,
+    "runtime_ROS_nodes_started": 0
+  },
+  "validation": {
+    "release": "PASS",
+    "sanitized": "PASS",
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "leak_detection": false,
+    "installed_CXX17": "PASS",
+    "GTest_cases": {
+      "build/rm_navigation_execution_adapters/test_current_geometry.gtest.xml": 13,
+      "build/rm_navigation_execution_adapters/test_existing_pose_geometry.gtest.xml": 19,
+      "build/rm_navigation_execution_adapters/test_lease_fence.gtest.xml": 13,
+      "sanitized/test_current_geometry.gtest.xml": 13,
+      "sanitized/test_existing_pose_geometry.gtest.xml": 19,
+      "sanitized/test_lease_fence.gtest.xml": 13
+    },
+    "CTest_groups": 3,
+    "initial_failure": "colcon global --log-base argument placed after build; corrected invocation only",
+    "final_frame_limits_processing_binding_rebuilt": true,
+    "scope": "finite contract checks and actual existing geometry composition; no timing/ROS graph/physical certificate"
+  },
+  "lease_contract": {
+    "original_source_ns": 75000000,
+    "max_clock_offset_witness_ns": 1000000,
+    "max_source_clock_drift_witness_ns": 1000000,
+    "max_transport_witness_ns": 10000000,
+    "unknown_witness_default_reject": true,
+    "source_elapsed_plus_remaining_ns": 75000000,
+    "duplicate_or_old_acquisition_renews": false,
+    "revoke_invalidates_already_received": true,
+    "source_local_steady_compared_across_processes": false,
+    "actual_grant_or_clock_witness_proven": false,
+    "schedule_counterexample_ms": {
+      "first_acquire": 0,
+      "first_compute_done": 40,
+      "first_receipt": 42,
+      "first_owner": 50,
+      "first_expiry": 75,
+      "next_acquire": 50,
+      "next_compute_done": 90,
+      "next_receipt": 92,
+      "next_owner": 100,
+      "normal_gap": 25
+    }
+  },
+  "evidence": [
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/build.log",
+      "sha256": "0eac40915a9119626056e4f9e23b14806759fe823717ce61a2cb75dbfccb259c",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/tests.log",
+      "sha256": "0f16e3191d7b6346eceec4a9929faccac2c230320589219d151c79d6a200bf02",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/sanitized_build.log",
+      "sha256": "01da7fbeaf2b003f783b26da3beedaf325337b61e907c469f3df09d97e761103",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/sanitized_tests.log",
+      "sha256": "3470f4167d6d8a2d1951e73f4371debcbf40d02f737c8d313df54bd221359c7a",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/initial_invocation_failure.log",
+      "sha256": "8cd71c56427d71707f035f4347e884e2a14e4cfbce4489534674a8ef653d14a6",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/downstream.log",
+      "sha256": "ec2bbd28e058d100efadb68aa71ec2a2d04bb604cf3909e5ad0016ff41bd5260",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/build/rm_navigation_execution_adapters/test_results/rm_navigation_execution_adapters/test_current_geometry.gtest.xml",
+      "sha256": "933b24bf534a0d40275b9334830eb2cc4a2380cdef8ea365e78a89e8687fed11",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/build/rm_navigation_execution_adapters/test_results/rm_navigation_execution_adapters/test_existing_pose_geometry.gtest.xml",
+      "sha256": "6523a53b4e9253ba194f9d429c70559d6cc5e6886bff1e9c6266fdd71d63c6bc",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/build/rm_navigation_execution_adapters/test_results/rm_navigation_execution_adapters/test_lease_fence.gtest.xml",
+      "sha256": "8eebb6624500e6e9f2894af01d9450b037202772c960e7557a61df1b7e65b2e6",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/sanitized/test_results/rm_navigation_execution_adapters/test_current_geometry.gtest.xml",
+      "sha256": "41c02fc667075db03e4766777cb0e92a16aa7babb9bcfd99c97e9e65e725f259",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/sanitized/test_results/rm_navigation_execution_adapters/test_existing_pose_geometry.gtest.xml",
+      "sha256": "2b3ee1b828a6e2adf25da04f072f24b49a7d3f8f6f7a945519eec5454583f84b",
+      "committed": false
+    },
+    {
+      "path": "build/r4_lease_fence_humble_check_20261005/sanitized/test_results/rm_navigation_execution_adapters/test_lease_fence.gtest.xml",
+      "sha256": "85c3b3e797a11f131b09cda478688fb5f9485f5082019dace05b65b2c8ea4a6c",
+      "committed": false
+    }
+  ],
+  "preservation": {
+    "A03_fixed_source_hashes_and_key_lines_verified": 63,
+    "protected_refs_unchanged_excluding_R4": 92,
+    "A03_branch_head_inventory_rechecked": 33,
+    "original_checkout_head_branch_and_10_dirty_paths_unchanged": true,
+    "large_untracked_core_read_or_deleted": false,
+    "frozen_R3_head_and_clean_status_unchanged": true,
+    "R4_existing_branch_based_on_main": true,
+    "formal_entry_profile_controller_output_transport_paths_match_main": true,
+    "formal_worktree_paths_match_main": true,
+    "A04_A05_unchanged_assets_excluding_A08_recorded_updates": 39,
+    "A08_unchanged_assets": 7,
+    "A09_canonical_provider_and_regression_5_assets_unchanged": true,
+    "A02_unchanged_non_Markdown_files": 26,
+    "public_v2_unchanged": true
+  },
+  "remaining_acceptance": {
+    "original_host_controller_plugin_wiring": false,
+    "active_grant_switch_acknowledgment": false,
+    "clock_and_transport_witness_live_validation": false,
+    "atomic_private_transport_to_original_serial_or_stub": false,
+    "original_owner_current_geometry_call_site": false,
+    "live_publisher_exclusivity": false,
+    "75ms_physical_response": false,
+    "continuous_MPPI_fallback": false,
+    "physical_closed_loop": false
+  }
+}

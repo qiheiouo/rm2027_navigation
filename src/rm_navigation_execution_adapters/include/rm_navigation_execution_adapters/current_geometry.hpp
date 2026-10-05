@@ -45,6 +45,7 @@ struct MotionBounds
   Point lower, upper;
   double yaw_rate{};  // Explicit bound; command slew is not physical tracking.
   double position_error{}, yaw_error{}, tracking_position_error{}, tracking_yaw_error{};
+  std::string revision;
 };
 struct GeometryPolicy
 {
@@ -74,8 +75,9 @@ struct GeometryResult
 {
   GeometryStatus status{GeometryStatus::Unavailable};
   std::string reason, candidate_identity, map_revision, body_revision;
+  std::string frame, base_frame, limits_revision;
   Twist candidate;
-  int64_t epoch_ns{}, hold_ns{};
+  int64_t epoch_ns{}, hold_ns{}, processing_budget_ns{};
   int collision_branch{-1};  // 0 measured-held, 1 candidate-held.
   double elapsed_seconds{};
   size_t cell_checks{}, intervals_examined{};

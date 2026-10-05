@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A08 可选 Follow 值求解与 A09 当前几何值适配已实现；尚未接入正式运行链。** Follow 默认关闭，复用 A04/A05 输入、既有 Sfc 与固定 OSQP0.6.3，输出 proposal 或 unavailable；当前几何复用唯一 T-DT provider，不消费 future prediction。原 owner 的 active grant/lease/实际发送 admission 及 Nav2 controller 接线尚待实现/验收。不把 A02 harness 全部 ROS 化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A06](r4_reuse_audit_checkpoint.md)、[A07](r4_owner_adapter_design.md)、[A08](r4_follow_value_solver.md) 与 [A09](r4_current_geometry_adapter.md) 为准。
+状态：**A08 可选 Follow、A09 当前几何及 A10 fence/lease 值适配已实现；尚未接入正式运行链。** Follow 默认关闭，复用 A04/A05 输入、既有 Sfc 与固定 OSQP0.6.3，输出 proposal 或 unavailable；当前几何复用唯一 T-DT provider，不消费 future prediction。原 owner 的 live grant/clock/transport、实际发送 admission 及 Nav2 controller 接线尚待实现/验收。不把 A02 harness 全部 ROS 化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A06](r4_reuse_audit_checkpoint.md)、[A07](r4_owner_adapter_design.md)、[A08](r4_follow_value_solver.md) 、[A09](r4_current_geometry_adapter.md) 与 [A10](r4_lease_fence_adapter.md) 为准。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -292,3 +292,29 @@ Certified 只指固定 current map 和显式 tracking 假设下的几何区间�
 ### next step
 
 继续在原调用点落实 grant/fence 与 acquisition deadline 的值合同，组合相同 actual candidate 的几何证据；不得因当前图通过而续期旧 proposal。再做有限原 host/owner 接线，保持 native MPPI 与唯一输出责任；不扩大实验或接实车。
+
+## A10 — 原责任的 fence / acquisition lease 值适配
+
+### hypothesis
+
+原 host 的显式 active fence 与剩余 acquisition budget 可在既有输入/发送边界校验，不需要第二 owner、安全 FSM 或 command cache。相同实际命令的 current geometry 通过不应续期旧 proposal。
+
+### change
+
+被动 execution-adapter 包增加 ProposalReceiptGate/ReceivedProposal/admit_for_send；只消费原 host 注册/切换给出的 fence，不签发权限。源75ms减去 steady compute与保守传输消耗；未知 clock witness 默认拒绝。序号/原 acquisition、防重放、revoke、inactive、restart 与同 candidate/frame/body/limits/processing budget 绑定进入原调用合同，无速度生成或发布。
+
+### result
+
+13 个 lease/fence、13 个 current geometry 与19个原 provider GTest 在固定 Humble 与相同 ASan/UBSan 下通过；安装后 C++17 接口通过。平滑实际候选 .16/.08 与源提案 .2/.1 分别保留；通过的发送有效期仍截在 acquisition+75ms，25ms原反例保留。
+
+### evidence
+
+[A10 合同与结果](r4_lease_fence_adapter.md)、[来源/源码/日志与保留核对](r4_lease_fence_adapter_sources.json)。既有带锁 action UUID getter可复用；BT halt超时返回和main异步cancel仍不构成通用授权屏障。colcon调用选项位置失败保留并修复，没有调整门限。
+
+### conclusion
+
+值适配合同具备有限证据，正式运行链尚未消费。可信 clock/active fence/transport witness来自实际host的证明仍缺失；没有真实75ms、物理安全或无间断fallback结论。main、原dirty、冻结R3、public v2与A02保持。
+
+### next step
+
+继续最小标准 Controller typed-cycle 适配与有限加载/调用检查，保留已有action/lifecycle/native MPPI与唯一输出责任。不得把未知的host/owner条件设为已验证，不接实车或扩大实验。

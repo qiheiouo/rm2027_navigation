@@ -20,7 +20,7 @@ ex::CurrentCommandInput input(ex::RawCurrentGrid g = grid())
 {
   return {ex::CurrentGridSnapshot(std::move(g)),
     {{{-.34, -.29}, {.34, -.29}, {.34, .29}, {-.34, .29}}, .02, .05, "actual-oldcar-body"},
-    {{-.3, -.5}, {.5, .5}, 1.2, 0., 0., 0., 0.}, {0., 0., 0.}, {0., 0., 0.}, {0., 0., 0.},
+    {{-.3, -.5}, {.5, .5}, 1.2, 0., 0., 0., 0., "actual-limits"}, {0., 0., 0.}, {0., 0., 0.}, {0., 0., 0.},
     "odom", "base_link", "final-candidate-1", epoch, epoch, epoch, epoch, 50000000};
 }
 void cover(const ex::GeometryResult & result)
