@@ -4,7 +4,12 @@ Research only: reuse A14's bag decoder and A05/A08's same solver/Sfc library.
 No ROS node, live replay, tracker, prediction producer, controller or publisher.
 Baseline: A16 native-navigation CSV/bags and the preserved fixed-yaw probe.
 
-From the isolated R4 worktree:
+Historical A18 runner: check out `3218fb6c` in an isolated worktree before
+building this free-yaw model. A19 removes its failed free-yaw API from the
+current value library and reuses only the fixtures and recorded-message loop.
+For the current minimal candidate use [A19](../r4_aligned_follow/README.md).
+
+From the isolated R4 worktree at the A18 revision:
 
 ```bash
 bash experiments/r4_rotation_value/run.sh

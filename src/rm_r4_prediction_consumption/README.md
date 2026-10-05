@@ -25,22 +25,27 @@ a proposal or unavailable result. There is no ROS node, subscription, worker,
 action or command publisher. Its 40ms acquisition and 15ms solver budgets reject
 late results; they cannot preempt compute or prove real-time execution.
 
-Research A18 adds an explicit `RotatingFollowSolver` value entrance to the same
-QP assembly and OSQP workspace code. Its `(vx_body, vy_body, yaw_rate, s_dot)`
-controls use the existing A09 pure held-body-twist integrator at 50ms stages,
-yaw-dependent body support/dynamic gradients and a continuous static rectangle
-recheck. The fixed-yaw entrance remains available as the numerical baseline.
-`local_free_bounds` exposes the same certified Sfc rectangle before body erosion;
-it does not introduce a frontend. Source state/stamps remain raw; advancing pose
-to the prediction epoch assumes held measured twist and is a model estimate.
-No angular objective is added. The research decision is **Modify**: free-yaw
-solves are unreliable, while a restricted future-yaw-rate-zero proposal restores
-200/200 recorded dynamic-window value inputs and produces a virtual hold/clear
-response. The latter retains nonzero measured yaw rate and raw source stamps;
-it is not an actual chassis-limit change or physical stopping guarantee. Early
-synthetic predicted overlap remains. This entrance has no ROS caller or execution
-integration; the next candidate should retain only the necessary consumption
-adapter rather than requiring all 60 variables. See [A18 experiment](../../docs/dynamic_navigation/r4_rotation_value_experiment.md).
+Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
+same original 45-variable Follow assembly and OSQP solve. It retains raw source
+state/stamps, derives a model pose at the prediction epoch with the existing
+A09 pure held-body-twist integrator, and samples support/soft costs at that
+model yaw. Future command yaw rate is intrinsically zero. `local_free_bounds`
+is a read-only view of the same certified Sfc rectangle; it is not a frontend.
+The fixed-yaw entrance and numerical baseline remain unchanged. Separate
+input/result wrappers and a distinct fingerprint prevent implicit legacy-host
+use; the legacy fingerprint still rejects rotating source input. No A09–A12
+host was changed to admit this result.
+
+The minimal Research hypothesis passes: the same 200 existing dynamic-window
+values and virtual hold/clear response match A18 restricted results within
+roundoff. Failed free-yaw decisions, yaw derivatives and swept-support branches
+are removed from the current library; A18 is reproducible at `3218fb6c`.
+Early synthetic predicted overlap remains. A nonzero actual last-applied yaw
+command returns unavailable before solving; actual-source evidence is never
+replaced by virtual zero. All 200 nearest earlier actual-output receipt proxies
+in the existing records had nonzero wz, so value validity does not establish
+actual admission. Production integration remains paused. See
+[A19 hypothesis, results and limits](../../docs/dynamic_navigation/r4_aligned_follow_adapter.md).
 
 The caller must copy its existing state/TF/last-applied values under its existing
 synchronization, reset on acquisition/lifecycle failure, and validate the active

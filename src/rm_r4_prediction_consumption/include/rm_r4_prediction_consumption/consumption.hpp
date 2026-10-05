@@ -16,7 +16,6 @@ namespace rm_r4_prediction_consumption
 struct ContractError : std::invalid_argument {using std::invalid_argument::invalid_argument;};
 struct Vec2 {double x{}, y{};};
 struct Bounds {double xmin{}, xmax{}, ymin{}, ymax{};};
-struct BodySupport {Bounds bounds, yaw_derivative;};
 
 // Caller supplies the actual footprint and fixed world yaw, not harness geometry.
 // Keep the registered positive padding and at least 0.05 m static clearance.
@@ -27,8 +26,7 @@ struct BodyPolicy
   double yaw{};
   double static_clearance{};
   Bounds support() const;
-  BodySupport support_at(double query_yaw) const;
-  Bounds swept_support(double begin_yaw, double end_yaw) const;
+  Bounds support_at(double query_yaw) const;
   std::string geometry_digest() const;
   std::string digest() const;
 };
@@ -110,7 +108,6 @@ struct SoftSample
   std::optional<double> clearance;
   std::optional<uint64_t> track_id;
   bool plateau{};
-  double yaw_gradient{};
 };
 
 class TemporalSoftField
@@ -124,7 +121,7 @@ public:
   const std::string & body_digest() const {return snapshot_.body_digest();}
 private:
   PredictionSnapshot snapshot_;
-  SoftSample sample_support(Vec2 position, size_t stage, BodySupport support) const;
+  SoftSample sample_support(Vec2 position, size_t stage, Bounds support) const;
 };
 
 struct PathSample {Vec2 position, tangent;};
@@ -151,7 +148,7 @@ public:
   Bounds local_bounds(Vec2 position) const;
   // Read-only view of the same certified Sfc rectangles, before body erosion.
   Bounds local_free_bounds(Vec2 position, const BodyPolicy & query_body) const;
-  const std::string & rotating_policy_digest() const {return rotating_policy_digest_;}
+  const std::string & geometry_policy_digest() const {return geometry_policy_digest_;}
 private:
   PreparedCorridor() = default;
   std::vector<Vec2> points_;
@@ -160,7 +157,7 @@ private:
   std::vector<Bounds> free_bounds_;
   std::vector<size_t> indices_;
   std::string frame_, path_digest_, map_digest_, policy_digest_, body_digest_;
-  std::string rotating_policy_digest_;
+  std::string geometry_policy_digest_;
   uint64_t generation_{};
 };
 

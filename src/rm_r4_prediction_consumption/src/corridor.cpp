@@ -167,9 +167,9 @@ PreparedCorridor PreparedCorridor::prepare(
   out.path_digest_ = path_digest; out.map_digest_ = map_hash.finish();
   out.body_digest_ = body.digest();
   policy_hash.text(out.body_digest_); policy_hash.number(max_range); out.policy_digest_ = policy_hash.finish();
-  Digest rotating; rotating.text("r4_rotating_corridor/v2");
-  rotating.text(body.geometry_digest()); rotating.number(max_range);
-  out.rotating_policy_digest_ = rotating.finish();
+  Digest geometry; geometry.text("r4_corridor_geometry/v1");
+  geometry.text(body.geometry_digest()); geometry.number(max_range);
+  out.geometry_policy_digest_ = geometry.finish();
   return out;
 }
 PathSample PreparedCorridor::sample(double progress) const

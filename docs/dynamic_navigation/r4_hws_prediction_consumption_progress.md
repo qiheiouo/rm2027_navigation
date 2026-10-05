@@ -2,7 +2,19 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A18 Research 有限值实验完成，近期重点收缩为转动源状态时间对齐 + query-yaw prediction consumption 的最小 adapter。** 已按用户授权解除 A05/A08 的相关数学冻结，并合入 `main@2849cbe4` 分级验证规范。自由角速度 60 变量模型及等价坐标对照未提供可靠 proposal；受限未来 wz=0 的同库值对照在 A16 已有关键窗口达到 S1 40/40、S2 160/160（原均 0），最大 solver 5.960ms，合成 hold→clear 60/60 有效并产生虚拟响应，但前 6 个 hold proposal 有预测支持重叠。判决 **Modify：缩小候选，继续 Research；Integration/closed-loop 尚不具备条件**。不扩建 ROS/Nav2 接线，A09–A12、public v2、实际输出与主线保持。最小候选尚未验证终点朝向、真实转动时延或实际避障。[A18 判决与结果](r4_rotation_value_experiment.md) 为当前入口；A17/A16 保留历史范围和失败证据。
+状态：**A19 Research 最小 epoch 对齐消费适配完成。** 同一 45 变量 Follow 恢复 A18 受限结果：S1 40/40、S2 160/160 有效，首命令最大差 5.74e-15，solver 最大 2.840ms；hold→clear 60/60 的虚拟响应保留，前 6 拍预测支持重叠也保留。当前库已移除失败的自由角速度扩展，历史源码/evidence 保留。原四个 fixed probe 数值差异为 0，raw source/stamps 与新输入身份明确区分于模型派生状态。
+
+判决 **Go：最小消费 Research 假设；Modify：实际接纳/转动过渡，Integration/closed-loop 仍 NOT_ELIGIBLE**。同一 200 窗口最近的真实 `/cmd_vel` receipt 观测代理全部 wz 非零，不满足零 last-applied-wz 限制；不能把虚拟值有效率称为实际接纳率。下一步先只读审阅已有 controller/owner 的真实历史、平滑/限速、角命令过渡和 terminal yaw 条件，不扩建输出链或自动恢复自由角速度研究。A09–A12、public v2、实际输出与 main 保持。[A19 判决、复用边界和拟议图](r4_aligned_follow_adapter.md) 是当前入口；A18/A17/A16 保留历史失败与适用性证据。
+
+## A19 — 最小 45 变量 epoch 对齐消费适配
+
+- 假设：保留 raw measured twist/source stamps，在派生 epoch yaw 消费 shape 与同一 Sfc，可以去掉 60 变量决策并保留 A18 受限响应。
+- 改动：显式 AlignedFollowAdapter 共用原 Follow 内核、原 A09 纯积分和原支持/Sfc；future wz 恒零，非零 last-applied-wz 在 solver 前 unavailable。独立输入/结果包装和新身份不自动进入冻结 host。
+- 最小实验：已有 200 个 S1/S2 动态输入、60 拍 held-source hold→clear、少量状态/身份/拒绝 probes及原四个 fixed probe；没有新 ROS/Gazebo/运行接线或大规模实验。
+- 结果：动态有效性、warm、非零 cost、free-s/command 响应与 A18 保持；控制和 cost 差为 roundoff，固定基线差异 0，保留早期 overlap。最近真实命令 receipt 全部非零 wz，真实接纳条件仍未成立。
+- 判决：Research 最小适配 Go；整体接纳设计 Modify。不得伪造实际零历史、新增 owner、把 receipt 当 send grant 或把虚拟 seed 当真实 applied。当前在此可判定边界收尾。
+- [假设/结果/接线边界](r4_aligned_follow_adapter.md)、[复现及证据](../../experiments/r4_aligned_follow/README.md)。首次 probe 编译换行错误修复后完成有限实验，未放宽预算/solver状态/静态界；没有重复历史套件或 hash/binary 清单。
+
 
 ## A18 — Research 分级规范下的最小转动值实验
 

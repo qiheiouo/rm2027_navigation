@@ -25,6 +25,7 @@ auto fixture(int64_t epoch, bool obstacle, bool crossing = false)
   }}
   align(e); return e;
 }
+#ifndef R4_ROTATION_PROBE_LIBRARY_ONLY
 int main(int argc, char ** argv)
 {
   if (argc != 2) {return 2;}
@@ -93,3 +94,5 @@ int main(int argc, char ** argv)
     }
   } catch(const std::exception & e) {std::cerr<<e.what()<<'\n';return 1;}
 }
+
+#endif

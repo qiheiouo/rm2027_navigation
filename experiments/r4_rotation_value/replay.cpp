@@ -14,11 +14,21 @@ int main(int argc,char ** argv)
       if(!std::filesystem::exists(std::filesystem::path(argv[2])/(scene+"_native.csv"))) {continue;}
       const auto data=load(std::filesystem::path(argv[1])/scene/"rosbag");
       const auto input=rows(std::filesystem::path(argv[2])/(scene+"_native.csv"));
-      v::ReceiptGate gate; v::RotatingFollowSolver solver;
+      v::ReceiptGate gate;
+#ifdef R4_ALIGNED_REPLAY
+      v::AlignedFollowAdapter solver;
+#else
+      v::RotatingFollowSolver solver;
+#endif
       std::optional<v::PredictionSnapshot> previous;
       std::optional<v::PreparedCorridor> corridor; uint64_t revision=0;
       v::Vec2 seed{}; double seed_wz=0.; int64_t seed_epoch=0;
+      #ifdef R4_ALIGNED_REPLAY
+      const v::FollowLimits limits{{-.5,-.5},{.8,.5},{1.,1.},.4,.5};
+      if (!locked) {throw std::runtime_error("aligned replay requires restricted future yaw");}
+#else
       const v::RotatingFollowLimits limits{{{-.5,-.5},{.8,.5},{1.,1.},.4,.5},locked?0.:-1.2,locked?0.:1.2,2.};
+#endif
       for(const auto & r:input) {
         const auto acquired=v::FollowClock::now(); const int64_t epoch=n(r,"acquire_ros_ns");
         std::string reason,status="not_run"; int iterations=0,plateau=0;
@@ -41,11 +51,21 @@ int main(int argc,char ** argv)
           if(stale_seed) {seed={};seed_wz=0.;seed_epoch=epoch;}
           const bool reset=new_path||stale_seed||(gate_reset&&context_changed);
           previous=snapshot;
-          v::RotatingFollowInput in{snapshot,*corridor,b,limits,{"recorded/"+scene,scene,"base_link",1,uint64_t(n(r,"cycle"))},
+#ifdef R4_ALIGNED_REPLAY
+          v::FollowInput in{snapshot,*corridor,b,limits,
+#else
+          v::RotatingFollowInput in{snapshot,*corridor,b,limits,
+#endif
+          {"recorded/"+scene,scene,"base_link",1,uint64_t(n(r,"cycle"))},
             {{d(r,"x"),d(r,"y")},{d(r,"measured_vx"),d(r,"measured_vy")},seed,d(r,"yaw"),d(r,"measured_wz"),seed_wz,
             n(r,"pose_source_ns"),n(r,"velocity_source_ns"),n(r,"tf_source_ns"),seed_epoch,"map","base_link"},
             d(r,"progress_input"),acquired,reset};
-          const auto result=solver.solve(in); reason=result.reason; status=result.solver_status; iterations=result.iterations;
+#ifdef R4_ALIGNED_REPLAY
+          const auto adapted=solver.solve({in}); const auto & result=adapted.value;
+#else
+          const auto result=solver.solve(in);
+#endif
+          reason=result.reason; status=result.solver_status; iterations=result.iterations;
           nominal=result.nominal_dynamic_cost; cost=result.solved_dynamic_cost;
           solver_ms=result.solver_seconds*1000; elapsed_ms=result.elapsed_seconds*1000; warm=result.used_warm;
           if(result.proposal) {
