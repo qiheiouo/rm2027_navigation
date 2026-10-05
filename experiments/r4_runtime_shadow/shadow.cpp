@@ -1,5 +1,6 @@
 // Experimental ROS input/telemetry adapter. No robot velocity publisher.
 #include <rm_r4_prediction_consumption/follow.hpp>
+#include "shadow_seed.hpp"
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <nav_msgs/msg/odometry.hpp>
@@ -35,7 +36,7 @@ const std::vector<std::string> columns={
  "producer_id","producer_generation","receipt_sequence","receipt_digest","tracks","members_json",
  "pose_source_ns","velocity_source_ns","tf_requested_ns","tf_source_ns","latest_odom_ns","x","y","yaw","measured_vx","measured_vy","measured_wz",
  "path_revision","path_stamp_ns","static_revision","path_digest","map_digest","body_digest","limits_digest","corridor_rebuilt","corridor_prepare_ms",
- "seed_kind","seed_vx","seed_vy","seed_stamp_ns","reset_warm","used_warm","progress_input","route_tangent_x","route_tangent_y",
+ "seed_kind","seed_vx","seed_vy","seed_stamp_ns","reset_seed","reset_warm","used_warm","progress_input","route_tangent_x","route_tangent_y",
  "solve_invoked","follow_start_steady_ns","follow_finish_steady_ns","solver_status","reason","iterations","solver_ms","follow_call_ms","acquire_to_solve_finish_ms",
  "valid","vx","vy","wz","progress_next","progress_end","progress_rate","nominal_dynamic_cost","dynamic_cost","slack","min_predicted_observed_clearance","plateau_stages","stages_json","controls_json",
  "observation_age_at_acquire_ms","prediction_age_at_acquire_ms","state_age_at_acquire_ms","velocity_age_at_acquire_ms","observation_to_proposal_age_ms","prediction_to_proposal_age_ms","remaining_75ms_at_proposal_ms","diagnostics_ms"};
@@ -121,14 +122,15 @@ private:
    if(rebuild) {route_=v::PreparedCorridor::prepare(*path_,*grid_,body,path_revision_);prepared_path_=path_revision_;prepared_static_=static_revision_;}
    r["corridor_prepare_ms"]=value((steady_ns()-steady_ns(prep))/1e6);r["path_digest"]=route_->path_digest();r["map_digest"]=route_->map_digest();
    auto consumed=gate_.consume(*envelope_,epoch,"map",body);r["receipt_digest"]=consumed.snapshot.receipt_digest();
-   const bool cold=!seed_||epoch-seed_epoch_>100000000||rebuild||consumed.reset_warm;
-   const v::Vec2 seed=cold?v::Vec2{}:*seed_;const int64_t seed_stamp=cold?epoch:seed_epoch_;
-   r["seed_kind"]=cold?"shadow_virtual_cold_zero":"shadow_virtual_previous_proposal";
-   r["seed_vx"]=value(seed.x);r["seed_vy"]=value(seed.y);r["seed_stamp_ns"]=value(seed_stamp);r["reset_warm"]=value(cold);
+   const auto decision=r4_runtime_shadow::decide_seed(seed_,seed_epoch_,epoch,rebuild||consumed.reset_warm);
+   const auto seed=decision.velocity;const auto seed_stamp=decision.stamp_ns;
+   r["seed_kind"]=decision.reset_seed?"shadow_virtual_cold_zero":"shadow_virtual_previous_proposal";
+   r["seed_vx"]=value(seed.x);r["seed_vy"]=value(seed.y);r["seed_stamp_ns"]=value(seed_stamp);
+   r["reset_seed"]=value(decision.reset_seed);r["reset_warm"]=value(decision.reset_warm);
    const double progress=route_->project({xy.x(),xy.y()});r["progress_input"]=value(progress);
    const auto tangent=route_->sample(progress).tangent;r["route_tangent_x"]=value(tangent.x);r["route_tangent_y"]=value(tangent.y);
    v::FollowInput input{consumed.snapshot,*route_,body,limits_,{"shadow_no_actuation/"+run_,run_,"base_link",generation_,sequence_},
-    {{xy.x(),xy.y()},{twist.linear.x,twist.linear.y},seed,yaw,twist.angular.z,0.,ns,ns,stamp(tf.header.stamp),seed_stamp,"map","base_link"},progress,acquired,cold};
+    {{xy.x(),xy.y()},{twist.linear.x,twist.linear.y},seed,yaw,twist.angular.z,0.,ns,ns,stamp(tf.header.stamp),seed_stamp,"map","base_link"},progress,acquired,decision.reset_warm};
    const auto start=Clock::now();r["solve_invoked"]="1";r["follow_start_steady_ns"]=value(steady_ns(start));
    const auto result=solver_.solve(std::move(input));const auto finish=Clock::now();const auto finish_ros=now().nanoseconds();
    r["follow_finish_steady_ns"]=value(steady_ns(finish));r["follow_call_ms"]=value((steady_ns(finish)-steady_ns(start))/1e6);

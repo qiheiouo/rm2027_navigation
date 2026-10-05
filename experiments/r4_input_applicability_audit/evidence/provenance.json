@@ -1,0 +1,94 @@
+{
+  "stage": "A14 recorded-input analysis only; seed replay is separately indexed",
+  "base_commit": "0266f2ba1b7e708e42e888f6b68e4dfaf8ea5867",
+  "algorithm_baseline": "e137635e",
+  "source_files": {
+    "src/rm_r4_prediction_consumption/src/follow.cpp": "a1895b54f58e5c39c6418985ec95922afc1e96ccfbd1983e312cc975dbc143a4",
+    "src/rm_r4_prediction_consumption/src/consumption.cpp": "cfa2281d4a669af334865bacafc0b273df96471111115c69174ff56123036367",
+    "experiments/r4_runtime_shadow/shadow.cpp": "a0ce37abbcd84ef0e51a2c8a312d0d63fd772b3336f59d3bbb00a406c1be0c4d",
+    "src/rm_simulation/worlds/phase1_omni.sdf": "8c37e8003fd55f6418c8cb9a407a5c5198adfc5b561b50f0bfd88ac918dc97b3",
+    "src/rm_simulation/config/ros_gz_bridge.yaml": "68d643c81a5d708c550cbe100fc53035f21a947e0a0f765cd9974eb02c9df82d",
+    "src/rm_localization_adapters/src/lio_adapter.cpp": "7b0499645ef4ea698b9acaa8fc79f64b88e73a8c04876dc58987aa322e2a7bbc",
+    "src/rm_localization_adapters/config/lio_adapter.yaml": "756c216e17e36bcfe2268b37d9976242e5d1b9b3c2803e6a491339e9cdbce9ed",
+    "src/rm_localization_adapters/launch/localization_adapters.launch.py": "154eaab990b2fb86485e291cebfe88667cec5ad728eeb8d7ca731c8aa2f39b76",
+    "src/rm_nav_config/config/nav2_phase1_5_mppi.yaml": "0e2020c8eb5001e3f57c3626353a99fdad785cb6a716abd9d6fd89ae88628caf"
+  },
+  "historical_source_files": {
+    "experiments/r4_runtime_shadow/shadow.cpp": "A13 executed caller at 0266f2ba, before A14 patch"
+  },
+  "analysis_script_sha256": "8496e9ff3c13cfbebc498887e8a4aa4562dd33ab85b0af396ddedf1282ac80c8",
+  "decoded_manifest": {
+    "S0": {
+      "topic_counts": {
+        "/tf_static": 1,
+        "/map": 1,
+        "/tf": 3105,
+        "/clock": 23174,
+        "/scan": 351,
+        "/odometry/lio": 1158,
+        "/perception/dynamic_obstacles_shadow/predictions": 347,
+        "/perception/dynamic_obstacles_shadow/observed_predictions": 347,
+        "/plan": 17,
+        "/cmd_vel_nav": 172,
+        "/cmd_vel": 357,
+        "/simulation/chassis/cmd_vel": 358
+      },
+      "input_files": {
+        "build/r4_runtime_shadow_20261005/S0/rosbag/metadata.yaml": "2a6f30234845fd4e976b0a70e9b8f245634547b1e3dc8035d4dcc170ea424bab",
+        "build/r4_runtime_shadow_20261005/S0/rosbag/rosbag_0.db3": "593e67fc73ac88167f9ebc4fd4d6dd639cbb20567235df823417f4866b5ba545"
+      }
+    },
+    "S1": {
+      "topic_counts": {
+        "/tf": 3143,
+        "/tf_static": 1,
+        "/map": 1,
+        "/clock": 23456,
+        "/scan": 356,
+        "/odometry/lio": 1172,
+        "/perception/dynamic_obstacles_shadow/predictions": 351,
+        "/perception/dynamic_obstacles_shadow/observed_predictions": 351,
+        "/plan": 9,
+        "/cmd_vel_nav": 91,
+        "/cmd_vel": 194,
+        "/simulation/chassis/cmd_vel": 195
+      },
+      "input_files": {
+        "build/r4_runtime_shadow_20261005/S1/rosbag/metadata.yaml": "9475099444e7a2dceaf3293f0767b69c4da90a80a26852225c88c424ee5eb41e",
+        "build/r4_runtime_shadow_20261005/S1/rosbag/rosbag_0.db3": "18b39c923b370c905630fff51e626b7801be3eac6a2c7120b6acadcd77098a20"
+      }
+    },
+    "S2": {
+      "topic_counts": {
+        "/tf_static": 1,
+        "/map": 1,
+        "/tf": 3101,
+        "/clock": 23124,
+        "/scan": 351,
+        "/odometry/lio": 1156,
+        "/perception/dynamic_obstacles_shadow/predictions": 345,
+        "/perception/dynamic_obstacles_shadow/observed_predictions": 345,
+        "/plan": 22,
+        "/cmd_vel_nav": 223,
+        "/cmd_vel": 439,
+        "/simulation/chassis/cmd_vel": 439
+      },
+      "input_files": {
+        "build/r4_runtime_shadow_20261005/S2/rosbag/metadata.yaml": "f2131388eeedde8a232268b1b3cbeaa10d802cda74bb9c2dbec7fa5ac1197dae",
+        "build/r4_runtime_shadow_20261005/S2/rosbag/rosbag_0.db3": "ba9c3a23a61c5023394decfd106e28ccf4ea8f61b29b11e1f52107bc3be48ed0"
+      }
+    }
+  },
+  "meaning": "Pose derivatives and recorded future yaw are offline diagnostics, not new runtime inputs/predictions or physical safety bounds.",
+  "execution": {
+    "ROS_nodes_started": 0,
+    "new_scenarios": 0,
+    "Follow_calls": 0,
+    "algorithm_changes": false
+  },
+  "results_sha256": {
+    "input_applicability.png": "c307369385bbebee2a13c13c668fa2844a36b793ec121548845780b1b469c620",
+    "summary.json": "452ec8e01693631a7908ccd13f3649dda0a26187aac144bb85ec5af3369ace75",
+    "recorded_yaw_differences.csv": "1e3e3c6864c498a05c986666823bd45f1b5c583da4a284263c201164db873481"
+  }
+}

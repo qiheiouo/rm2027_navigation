@@ -8,9 +8,11 @@ Scope and decision: [execution report](../../docs/dynamic_navigation/r4_runtime_
 
 `shadow.launch.py` defaults to `enabled=false`; `output` must be explicit. It reuses the installed Humble Nav2 navigation launch, its standard component container and parameter rewriting, original MPPI profile, original description/localization/scan/stub nodes, canonical tracker and native map server. Generated experimental worlds reuse the original robot/physics/lidar and moving obstacle model. The raw static map represents the generated empty plane; it is not a second costmap pipeline.
 
-The caller subscribes to the private atomic envelope (including unchanged public v2), `/map`, `/plan`, `/odometry/lio`, `/scan`, source-time TF and command reference topics. It links the existing A05/A08 libraries and canonical T-DT Sfc provider. Measured yaw/rate and timestamps are never falsified. Progress is projected from real measured position. A virtual previous shadow proposal is used as the rate seed, reset to zero on rebuild/failure/gaps, and logged; it is not an actually applied command. MPPI commands are only references.
+The caller subscribes to the private atomic envelope (including unchanged public v2), `/map`, `/plan`, `/odometry/lio`, `/scan`, source-time TF and command reference topics. It links the existing A05/A08 libraries and canonical T-DT Sfc provider. Measured yaw/rate and timestamps are never falsified. Progress is projected from real measured position. A virtual previous shadow proposal is used as the rate seed and logged; it is not an actually applied command. In the historical A13 run it was reset on rebuild/failure/gaps. The A14 diagnostic correction now separates seed expiry/failure from optimizer warm reset: a context rebuild keeps fresh virtual history while clearing warm state. Both reset flags are logged. MPPI commands are only references. See the [A14 audit](../../docs/dynamic_navigation/r4_input_applicability_audit.md).
 
 ## Exact executed entry points
+
+The commands below describe the historical A13 run at `0266f2ba`, before the A14 seed correction. The original binary and evidence are preserved. Checking out that commit in a separate workspace is required to reproduce its exact caller behavior; the current caller includes A14. A14 only rebuilt it in a separate directory and replayed existing bags; no new ROS scene was run.
 
 Run from the isolated worktree:
 

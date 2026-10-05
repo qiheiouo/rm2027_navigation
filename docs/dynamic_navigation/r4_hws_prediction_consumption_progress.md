@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A13真实ROS/Nav2 shadow三个短场景完成；输入适用性FAILED，动态prediction-consumption行为INCONCLUSIVE，暂停production接线，closed-loop NOT_ELIGIBLE。** `e137635e`的A08数学和A09–A12接口保持冻结；native MPPI实际控制，R4只有诊断proposal。75ms仅离线估计，不作算法否定或执行PASS。Follow/插件默认关闭，main、public v2、原dirty与冻结R3保持。unit/value历史PASS保留，closed-loop/deployment未评估。当前判决以 [A13执行报告](r4_runtime_shadow_execution.md) 为准；[预登记计划](r4_runtime_shadow_plan.md)与[A12历史结论](r4_return_checkpoint_20261005.md)保留。
+状态：**A14完成A13原输入审计及shadow seed/warm最小诊断修复；有限离线回归PASS，但runtime输入适用性仍FAILED，动态prediction-consumption行为仍INCONCLUSIVE，production接线暂停，closed-loop NOT_ELIGIBLE。** `e137635e`的A08数学和A09–A12接口保持冻结；native MPPI实际控制，R4只有诊断proposal。75ms仅离线估计，不作算法否定或执行PASS。Follow/插件默认关闭，main、public v2、原dirty与冻结R3保持。unit/value历史PASS保留，closed-loop/deployment未评估。当前输入核查/修复以 [A14审计](r4_input_applicability_audit.md) 为准，真实运行判决保留 [A13执行报告](r4_runtime_shadow_execution.md)；[预登记计划](r4_runtime_shadow_plan.md)与[A12历史结论](r4_return_checkpoint_20261005.md)保留。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -410,3 +410,27 @@ S0/S1/S2各一个有效20秒观察窗口、400拍：valid分别62/48/5（15.50%/
 ### conclusion / next step
 
 **runtime输入适用性FAILED，动态消费效果INCONCLUSIVE；停止继续production接线，不具备闭环资格。** 真实MPPI测量角速度与冻结fixed-yaw切片不兼容，有限成功片段不能评估提前响应/WAIT/释放/稳定性。没有证据证明永久future封锁或soft机制失败；也没有动态避障PASS。A12继续冻结，后续先判断fixed-yaw适用范围或另立建模阶段，不在A13通过置零实测wz、改门限/权重或增加复杂层救结果。
+
+## A14 — 原输入适用性与shadow seed/warm最小修复
+
+### hypothesis
+
+核查A13 fixed-yaw失效是否来自source/TF/单位错误，并区分几何版本的warm重置与虚拟command历史；优先用原bag，不以修改真实wz或新增ROS场景取得兼容输入。
+
+### change
+
+只读解码原Odometry/Path/TF并与caller逐source stamp对照。登记后修改实验caller的seed bookkeeping：100ms内有效上一虚拟proposal可在上下文warm重置时保留，缺失/失败/clock reset/gap仍清空。新增独立离线回放/核查目标，链接同一冻结A05/A08/Sfc；API、数学、15/40/75ms、public v2和正式接线不变。
+
+### result
+
+三个goal窗口pose/twist及同stamp TF不匹配数为0，pose yaw差分支持实际转动；S1动态40拍、S2动态160拍的fixed-yaw兼容数仍0。两策略各1331个owned输入、共2662条回放记录；legacy全部可用性/reason与A13一致，补丁不改变可用性/reason。goal窗口valid仍62/48/5，warm重置时保留fresh seed的有效拍为54/42/0；原速度/rate/history/digest检查通过。patched caller与replay Release编译通过，无新ROS scene。
+
+S1 native goal后真实位置变化约2.44m，修正后counterfactual proposal达到轴速度边界；负面结果保留，不当作dynamic resume或改进。原2个QP infeasible、corridor/TTL/fixed-yaw失败保留。
+
+### evidence
+
+[A14报告/最小后续范围](r4_input_applicability_audit.md)、[精确命令](../../experiments/r4_input_applicability_audit/README.md)、[回归与原始行](../../experiments/r4_input_applicability_audit/evidence/seed_replay_summary.json)、[source/hash](../../experiments/r4_input_applicability_audit/evidence/seed_replay_provenance.json)。原A13证据与历史commit逐字节核对，96个冻结asset、main、R3和原dirty保持；没有重跑历史GTest、R3或新大规模实验。
+
+### conclusion / next step
+
+仅diagnostic recorded-input regression PASS；runtime input FAILED、dynamic behavior INCONCLUSIVE、closed-loop NOT_ELIGIBLE。下一步优先只读核查native停止/plant适用性；支持真实转动属于需单独审阅的建模阶段，本次未自动解除A08/A09–A12冻结。production输出接线继续后移，不增加tracker/预测/frontend/solver/owner。

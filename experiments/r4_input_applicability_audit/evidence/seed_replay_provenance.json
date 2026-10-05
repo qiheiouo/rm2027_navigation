@@ -1,0 +1,65 @@
+{
+  "stage": "A14 offline seed replay verification",
+  "base_commit": "0266f2ba1b7e708e42e888f6b68e4dfaf8ea5867",
+  "image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+  "frozen_asset_count": 96,
+  "sources": {
+    "experiments/r4_input_applicability_audit/verify_replay.py": "b58237f290277522d91c9631e8e0d91685875f676374fd415091ff3135921601",
+    "experiments/r4_input_applicability_audit/decode_odometry.py": "26fe39189704f1fdcfdb7be0f70dbaacf1287ee2f65a4cdc610d94bc5a74130c",
+    "experiments/r4_input_applicability_audit/analyze.py": "8496e9ff3c13cfbebc498887e8a4aa4562dd33ab85b0af396ddedf1282ac80c8",
+    "experiments/r4_input_applicability_audit/replay.cpp": "8f5f6828fdf5e71b8c62a8cf0c7e85aa685e0a3da61976d560cb8a8f0926319e",
+    "experiments/r4_input_applicability_audit/CMakeLists.txt": "0ad8e6540d49f8dbef001b0b91c99099d00622c7573d9404e3b76d530c984664",
+    "experiments/r4_runtime_shadow/shadow.cpp": "0616e05de8d49cacbddb3e01f0ac2d68ba8b18e0f7a5323fa787d79a15b9526f",
+    "experiments/r4_runtime_shadow/shadow_seed.hpp": "bae5e307cc4e9164d8645e8efe37e3f0457f2909a8656e0121d36a9a311954fb"
+  },
+  "generated": {
+    "build/r4_input_applicability_audit_20261005/seed_replay.csv": "7d52d1e36782bd1015692190c8947cba2ae0afa4d353e938120468276783114a",
+    "build/r4_input_applicability_audit_20261005/seed_replay_summary.json": "b4ad874fd19caae6b46f75a108d19fe5961592ed20775c783ba21e0cdf02d8b9",
+    "build/r4_input_applicability_audit_20261005/seed_replay.png": "015cd71d83d5b18613ea74d2659e6ab178d60cbe63bbd57a27363f71251c5b25",
+    "build/r4_input_applicability_audit_20261005/replay_build/replay": "120b226d48ee7022abb99f3df91cc75ce447ed124f20ab9b701d40c7b0829453",
+    "build/r4_input_applicability_audit_20261005/caller_build/r4_shadow": "ace8b0fe4119455119d9e39dc90db85fd5fc91adc55566dea9bb0118cd5012d3",
+    "build/r4_input_applicability_audit_20261005/replay_build.log": "316a9aeb975fb9e0eef77638f693f541106f3b65efda2fe010f8cbc86b4aece1",
+    "build/r4_input_applicability_audit_20261005/replay_ldd.txt": "a9a065e4b6ae5df05abf269c8c940015978995ed0a79765ff556ba5e34fa6243"
+  },
+  "historical_a13_evidence": {
+    "experiments/r4_runtime_shadow/evidence/S0_cycles.csv": "438fbed91bfbfc03253063661bb50e4e497adca048e28abbe85355777a4eaebe",
+    "experiments/r4_runtime_shadow/evidence/S0_events.json": "002670b18790312467f3da3277a39b75b9870130dcb4c0065b47944d275188e8",
+    "experiments/r4_runtime_shadow/evidence/S0_lease_estimates.csv": "be736614d9f27a40a675f4894ecb73f47032f7d3364abb87597f5df3bda05e64",
+    "experiments/r4_runtime_shadow/evidence/S0_references.csv": "2995aaccbc87a9a39e188798f884350cf0e0f7c4c01e1fa45a92e46c35e55799",
+    "experiments/r4_runtime_shadow/evidence/S0_summary.json": "739d505971a4445c3b05930511599862efcc77bb2751c4515c06a8fb14bbd963",
+    "experiments/r4_runtime_shadow/evidence/S0_timeseries.png": "c22cdd3499dfb5723ab944112cb30ca270ec36a282e30a8b2fd4cded95bf0dcc",
+    "experiments/r4_runtime_shadow/evidence/S1_cycles.csv": "b4e3a6c99071e466d90ad325ba9405b360bcb5a12e0b7e8b1ea2ed6b082a34b6",
+    "experiments/r4_runtime_shadow/evidence/S1_events.json": "9b84c106f412040b98d407bb6a67e813fd94db634c8cf3a343dae55c5ee08aa3",
+    "experiments/r4_runtime_shadow/evidence/S1_lease_estimates.csv": "b12090aa6a5b44d28ffb4aa29f410d4f9fe4881bed30af21f488f5cfb1dfc5b5",
+    "experiments/r4_runtime_shadow/evidence/S1_references.csv": "ef0a5956de3171aa385514b636be02ff28bf26b9f19e8e977cbe15dc9ea38500",
+    "experiments/r4_runtime_shadow/evidence/S1_summary.json": "26f996d477fa9d7968fa23f4c22544e64bd4dc12ef3021a97a61af0726f3d6ad",
+    "experiments/r4_runtime_shadow/evidence/S1_timeseries.png": "35fd955325d36feaeb0e54a2439c0176c936ac6c3b27c0b00529f637cff62ce8",
+    "experiments/r4_runtime_shadow/evidence/S2_cycles.csv": "8cf76ec69487d131cdc1eda53e018aab99f64638bf31ca574bfc3128955ef354",
+    "experiments/r4_runtime_shadow/evidence/S2_events.json": "501b10bec9f01bddab3448ae6dc20ccf02658e09a933adb70737a4d9938a0131",
+    "experiments/r4_runtime_shadow/evidence/S2_lease_estimates.csv": "d1155f4f523cc0e7f3ab53fdc2d2ef03de0de49e8e52a2c859b0374a767a126b",
+    "experiments/r4_runtime_shadow/evidence/S2_references.csv": "7d2195c3432e88b9748c7070383d9ce7b36d4090704d6169172e22df71cec659",
+    "experiments/r4_runtime_shadow/evidence/S2_summary.json": "5099944f33a9b95b4b15da1d607df2adfb7c4cdad14c98dbde80452f13461a11",
+    "experiments/r4_runtime_shadow/evidence/S2_timeseries.png": "1c09320d4df86657ef069422f4e8e950b13b137aec5a59de090b0d5d2c49ba1e",
+    "experiments/r4_runtime_shadow/evidence/observed_members.csv": "e623d277e3918fb926545a614a6928bc46c375df5306132179863313e247816d",
+    "experiments/r4_runtime_shadow/evidence/provenance.json": "198ffe499accb059bfcf721f0d8c80a2b1df4bf57778e7089cf8850497e9e780",
+    "experiments/r4_runtime_shadow/evidence/raw_evidence_hashes.json": "ec651ee1333bfcff2c1f5df8b578cf418ee1d5e91f5f918d38ccbaafc30c95ec",
+    "experiments/r4_runtime_shadow/evidence/startup_failures.json": "0410b12329401e050d8343f223a525b2bc1eb1f0a7b0bd4646726591ced62e68",
+    "experiments/r4_runtime_shadow/evidence/summary.json": "ab1144bf501af98b828bf01bf0ea920396103b01ed3f979d103933445b232cfc",
+    "experiments/r4_runtime_shadow/evidence/verification.json": "918c91cb4ba1c2882830aabe06c42adae4fe514fea296dfd29ecdc56163018f9"
+  },
+  "unchanged_workspace_dependencies": {
+    "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_source_bridge_humble_check_20261005/install/rm_r4_prediction_consumption/lib/librm_r4_prediction_consumption_follow.so": "5b0a58ddbc707dc6dee7be6ef7a99c3353fe6b923aa74ff8211edc1a31ed8f1f",
+    "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_source_bridge_humble_check_20261005/install/rm_r4_prediction_consumption/lib/librm_r4_prediction_consumption.so": "c713d2488dec1401805e6f87b45a42a68e4fa4877639d59d806e3a1301421b73",
+    "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_adapter_humble_check_20261004/install/rm_r4_interfaces/lib/librm_r4_interfaces__rosidl_typesupport_cpp.so": "4dbaaddb1ce603001f6d8d893c47e047523dca490c371a68e595a7f12688820d",
+    "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_follow_humble_check_20261005/dependencies/install/lib/libosqp.so": "b4ddedc04bfa77b6b5451187e840479fcd9a8911bf8380da6a34d806d7753558"
+  },
+  "execution": {
+    "new_ROS_nodes": 0,
+    "new_scenes": 0,
+    "frozen_Follow_API_used": true,
+    "acquisition_clock": "fresh offline steady clock, not original runtime acquisition",
+    "actual_commands_used_as_seed": false,
+    "algorithm_changes": false
+  },
+  "regression_checks": "PASS"
+}

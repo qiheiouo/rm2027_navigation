@@ -1,0 +1,319 @@
+{
+  "base_commit": "0266f2ba1b7e708e42e888f6b68e4dfaf8ea5867",
+  "algorithm_baseline": "e137635e",
+  "checks": {
+    "S0": {
+      "legacy_availability_and_reason_mismatch": 0,
+      "legacy_valid_command_mismatch": 0,
+      "policy_availability_and_reason_mismatch": 0,
+      "recorded_digest_mismatch": 0,
+      "rate_or_velocity_bound_violation": 0,
+      "invalid_virtual_history_carry": 0,
+      "owned_rows_per_policy": 444,
+      "original_unowned_rows": 76
+    },
+    "S1": {
+      "legacy_availability_and_reason_mismatch": 0,
+      "legacy_valid_command_mismatch": 0,
+      "policy_availability_and_reason_mismatch": 0,
+      "recorded_digest_mismatch": 0,
+      "rate_or_velocity_bound_violation": 0,
+      "invalid_virtual_history_carry": 0,
+      "owned_rows_per_policy": 446,
+      "original_unowned_rows": 81
+    },
+    "S2": {
+      "legacy_availability_and_reason_mismatch": 0,
+      "legacy_valid_command_mismatch": 0,
+      "policy_availability_and_reason_mismatch": 0,
+      "recorded_digest_mismatch": 0,
+      "rate_or_velocity_bound_violation": 0,
+      "invalid_virtual_history_carry": 0,
+      "owned_rows_per_policy": 441,
+      "original_unowned_rows": 80
+    }
+  },
+  "scenes": {
+    "S0": {
+      "original_goal_cycles": 400,
+      "excluded_goal_rows": 0,
+      "all_owned": {
+        "legacy": {
+          "owned_rows": 444,
+          "valid": 106,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 338
+          },
+          "retained_history_on_warm_reset": 0,
+          "used_warm": 6,
+          "vx_range": [
+            0.03513356012468973,
+            0.2448362073096937
+          ],
+          "vy_range": [
+            -0.0020068584085520206,
+            0.040788234791444944
+          ],
+          "dynamic_cost_max": 0.0
+        },
+        "separate_seed_warm": {
+          "owned_rows": 444,
+          "valid": 106,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 338
+          },
+          "retained_history_on_warm_reset": 98,
+          "used_warm": 6,
+          "vx_range": [
+            0.03513356012468973,
+            0.2448362073096937
+          ],
+          "vy_range": [
+            -0.004506388665174666,
+            0.22188839169259017
+          ],
+          "dynamic_cost_max": 0.0
+        }
+      },
+      "goal": {
+        "legacy": {
+          "owned_rows": 400,
+          "valid": 62,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 338
+          },
+          "retained_history_on_warm_reset": 0,
+          "used_warm": 6,
+          "vx_range": [
+            0.03513356012468973,
+            0.2448362073096937
+          ],
+          "vy_range": [
+            -0.0020068584085520206,
+            0.021670418894931806
+          ],
+          "dynamic_cost_max": 0.0
+        },
+        "separate_seed_warm": {
+          "owned_rows": 400,
+          "valid": 62,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 338
+          },
+          "retained_history_on_warm_reset": 54,
+          "used_warm": 6,
+          "vx_range": [
+            0.03513356012468973,
+            0.2448362073096937
+          ],
+          "vy_range": [
+            -0.004506388665174666,
+            0.11040211564844006
+          ],
+          "dynamic_cost_max": 0.0
+        }
+      },
+      "max_valid_command_component_difference_mps": 0.20549786677562604,
+      "changed_valid_goal_commands": 54
+    },
+    "S1": {
+      "original_goal_cycles": 400,
+      "excluded_goal_rows": 0,
+      "all_owned": {
+        "legacy": {
+          "owned_rows": 446,
+          "valid": 48,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 180,
+            "solver_not_solved": 2,
+            "invalid_or_failed_input: state outside certified static corridor": 216
+          },
+          "retained_history_on_warm_reset": 0,
+          "used_warm": 4,
+          "vx_range": [
+            -0.05,
+            0.19715467086513533
+          ],
+          "vy_range": [
+            5.500412424063928e-05,
+            0.05
+          ],
+          "dynamic_cost_max": 0.0
+        },
+        "separate_seed_warm": {
+          "owned_rows": 446,
+          "valid": 48,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 180,
+            "solver_not_solved": 2,
+            "invalid_or_failed_input: state outside certified static corridor": 216
+          },
+          "retained_history_on_warm_reset": 42,
+          "used_warm": 4,
+          "vx_range": [
+            -0.4999999884164666,
+            0.19715467086513533
+          ],
+          "vy_range": [
+            5.500412424063928e-05,
+            0.5
+          ],
+          "dynamic_cost_max": 0.0
+        }
+      },
+      "goal": {
+        "legacy": {
+          "owned_rows": 400,
+          "valid": 48,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 180,
+            "solver_not_solved": 2,
+            "invalid_or_failed_input: state outside certified static corridor": 170
+          },
+          "retained_history_on_warm_reset": 0,
+          "used_warm": 4,
+          "vx_range": [
+            -0.05,
+            0.19715467086513533
+          ],
+          "vy_range": [
+            5.500412424063928e-05,
+            0.05
+          ],
+          "dynamic_cost_max": 0.0
+        },
+        "separate_seed_warm": {
+          "owned_rows": 400,
+          "valid": 48,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 180,
+            "solver_not_solved": 2,
+            "invalid_or_failed_input: state outside certified static corridor": 170
+          },
+          "retained_history_on_warm_reset": 42,
+          "used_warm": 4,
+          "vx_range": [
+            -0.4999999884164666,
+            0.19715467086513533
+          ],
+          "vy_range": [
+            5.500412424063928e-05,
+            0.5
+          ],
+          "dynamic_cost_max": 0.0
+        }
+      },
+      "max_valid_command_component_difference_mps": 0.4500000410123582,
+      "changed_valid_goal_commands": 42,
+      "dynamic_event": {
+        "owned_rows": 40,
+        "valid": 0,
+        "reasons": {
+          "invalid_or_failed_input: fixed-yaw coherent control values": 40
+        },
+        "retained_history_on_warm_reset": 0,
+        "used_warm": 0,
+        "vx_range": null,
+        "vy_range": null,
+        "dynamic_cost_max": null
+      }
+    },
+    "S2": {
+      "original_goal_cycles": 400,
+      "excluded_goal_rows": 2,
+      "all_owned": {
+        "legacy": {
+          "owned_rows": 441,
+          "valid": 5,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 436
+          },
+          "retained_history_on_warm_reset": 0,
+          "used_warm": 4,
+          "vx_range": [
+            0.04988305496317363,
+            0.19715463302265748
+          ],
+          "vy_range": [
+            5.457825512083461e-05,
+            0.0002254126589371093
+          ],
+          "dynamic_cost_max": 0.0
+        },
+        "separate_seed_warm": {
+          "owned_rows": 441,
+          "valid": 5,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 436
+          },
+          "retained_history_on_warm_reset": 0,
+          "used_warm": 4,
+          "vx_range": [
+            0.04988305496317363,
+            0.19715463302265748
+          ],
+          "vy_range": [
+            5.457825512083461e-05,
+            0.0002254126589371093
+          ],
+          "dynamic_cost_max": 0.0
+        }
+      },
+      "goal": {
+        "legacy": {
+          "owned_rows": 398,
+          "valid": 5,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 393
+          },
+          "retained_history_on_warm_reset": 0,
+          "used_warm": 4,
+          "vx_range": [
+            0.04988305496317363,
+            0.19715463302265748
+          ],
+          "vy_range": [
+            5.457825512083461e-05,
+            0.0002254126589371093
+          ],
+          "dynamic_cost_max": 0.0
+        },
+        "separate_seed_warm": {
+          "owned_rows": 398,
+          "valid": 5,
+          "reasons": {
+            "invalid_or_failed_input: fixed-yaw coherent control values": 393
+          },
+          "retained_history_on_warm_reset": 0,
+          "used_warm": 4,
+          "vx_range": [
+            0.04988305496317363,
+            0.19715463302265748
+          ],
+          "vy_range": [
+            5.457825512083461e-05,
+            0.0002254126589371093
+          ],
+          "dynamic_cost_max": 0.0
+        }
+      },
+      "max_valid_command_component_difference_mps": 0.0,
+      "changed_valid_goal_commands": 0,
+      "dynamic_event": {
+        "owned_rows": 158,
+        "valid": 0,
+        "reasons": {
+          "invalid_or_failed_input: fixed-yaw coherent control values": 158
+        },
+        "retained_history_on_warm_reset": 0,
+        "used_warm": 0,
+        "vx_range": null,
+        "vy_range": null,
+        "dynamic_cost_max": null
+      }
+    }
+  },
+  "interpretation": "Recorded-input regression PASS only. No new ROS run, runtime behavior PASS, source lease PASS or closed-loop eligibility.",
+  "owned_replay_rows": 2662,
+  "original_goal_denominator": 1200
+}
