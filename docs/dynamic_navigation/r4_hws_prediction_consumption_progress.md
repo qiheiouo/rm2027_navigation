@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A16修正场景后的三个有限shadow已完成：原持续停车漂移未复现，但native导航期间R4有效仅6/223、5/230、5/223，关键动态窗口0/40、0/160。输入适用性FAILED，动态prediction-consumption行为INCONCLUSIVE，production接线暂停，closed-loop NOT_ELIGIBLE。** `e137635e`的A08数学和A09–A12接口保持冻结；native MPPI实际控制，R4只有诊断proposal。近期重点是单独审阅真实yaw/wz下消费建模的最小范围，当前不自动解除数学冻结。75ms仅离线估计，不作算法否定或执行PASS。main、public v2、原dirty与冻结R3保持。unit/value历史PASS保留，closed-loop/deployment未评估。最新判决见[A16有限复核](r4_corrected_runtime_shadow.md)，生成根因见[A15审计](r4_native_stop_audit.md)；[A14](r4_input_applicability_audit.md)与[A13](r4_runtime_shadow_execution.md)原数据和代表性更正保留，[预登记计划](r4_runtime_shadow_plan.md)与[A12历史结论](r4_return_checkpoint_20261005.md)保留。
+状态：**A17真实转动范围审阅完成，推荐同一Follow内SE(2)+free-s，复用原积分/几何、Sfc、OSQP与唯一owner；需要明确调整A05几何/A08数学相关冻结后才编码。** A16原持续停车漂移未复现，但native导航期间R4有效仅6/223、5/230、5/223，关键动态窗口0/40、0/160；输入适用性FAILED，动态行为INCONCLUSIVE，production接线暂停，closed-loop NOT_ELIGIBLE。当前只有只读来源/1200行条件几何诊断，没有新Follow模型或runtime run。`e137635e`的实现/接口及public v2、main、原dirty与R3保持。75ms仅离线估计，unit/value历史PASS保留，closed-loop/deployment未评估。[A17范围/复用矩阵](r4_rotation_scope_audit.md)、[A16行为判决](r4_corrected_runtime_shadow.md)、[A15生成根因](r4_native_stop_audit.md)为当前入口；A13/A14原证据保留。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -470,3 +470,21 @@ goal窗口solver最大4.774/4.827/4.874ms，acquire→finish最大5.824/6.073/6.
 ### conclusion / next step
 
 场景静态语义和有限停止复核PASS；runtime input FAILED、dynamic behavior INCONCLUSIVE、closed-loop NOT_ELIGIBLE。暂停production输出扩展。后续若解除A08 fixed-yaw冻结，应先单独审阅真实yaw/wz、逐stage旋转footprint、body/world控制与rate/history一致性的最小消费模型；继续复用public v2、Sfc、OSQP及既有唯一owner。当前未改转动数学，不删gate、不置零实测wz、不加复杂预测/硬veto/输出框架来绕过输入合同。
+
+## A17 — 转动消费模型与复用范围审阅
+
+### hypothesis / change
+
+按“继续”推进A16提出的最小转动范围审阅，仍不解除算法冻结。只读21项源码和A16已完成记录；新增独立标准库离线诊断与文档，对1200条goal-window记录计算条件held-twist几何，零次Follow/solver/预测/ROS/current-admission调用。可选evidence目标复核只重复纯记录分析，数值证据完全相同。
+
+### result / evidence
+
+fixed-yaw假设贯穿Follow平移矩阵/rollout、snapshot body support、soft query、static corridor erosion及warm identity。A09已含≤50ms完整body twist积分和连续旋转geometry，A10/A11/A12已含三轴command/value表达；没有新增owner、MPPI或安全框架的必要。
+
+在每拍实测twist假设保持1.5s的条件计算中，native导航端点偏差最大0.131/0.423/0.396m，连续角区间的支持框单侧扩张最大0.0985/0.1113/0.1112m；这是模型敏感性，不是实际future/物理误差证书。以0 cold angular seed和原2rad/s²率界为例，直接复制measured wz有125/223、162/230、191/223拍超出首步0.1rad/s命令变幅度，不能把状态/原MPPI reference冒称虚拟已施加command。
+
+[模型范围/十二项转动复用矩阵/拟议图](r4_rotation_scope_audit.md)、[精确纯分析命令](../../experiments/r4_rotation_scope_audit/README.md)、[来源与输入hash](../../experiments/r4_rotation_scope_audit/evidence/provenance.json)、[逐拍条件计算](../../experiments/r4_rotation_scope_audit/evidence/sensitivity.csv)。96冻结asset、全部既有A13–A16 evidence、main、R3与原dirty保持，无新ROS场景/库构建/历史测试或大规模实验。
+
+### conclusion / next step
+
+仅review/recorded-geometry诊断完成，A16行为判决不变。建议下一阶段先明确解除A05几何与A08转动消费范围，实施同一Follow的60维SE(2)+free-s单次QP离线值验证，保留原残差/权重/预算/public wire；明确stage0条件对齐、angular数值约定及static连续包络复核。A09–A12保持冻结/关闭，生产输出接线继续暂停。没有授权前不编码新模型，不能仅删gate取得“兼容”；角目标政策/typed兼容与新runtime行为仍须分阶段验证。

@@ -4,6 +4,8 @@
 
 **有限复核完成：修正后没有复现原post-zero持续横向漂移；fixed-yaw输入适用性仍FAILED，动态消费行为INCONCLUSIVE，closed-loop NOT_ELIGIBLE。** 本次三场各一次，不调参、不改数学，不继续production输出接线。近期重点转为审阅真实转动下prediction-consumption所需的最小建模范围。
 
+后续：[A17转动范围审阅](r4_rotation_scope_audit.md)已完成，列出原几何/命令接口的复用及A05/A08最小差异；当前没有解除冻结或新增转动运行模型，下文A16结果保持。
+
 ## 运行前范围登记
 
 A15确认原A13生成的DART摩擦参考frame不同，旧数据不代表原world。为完成诊断修复的实际验证，本阶段只将原S0/S1/S2各重跑一次：同goal=(4,0,0)、20ROS秒、原障碍时间表、原MPPI/轮几何/物理数值、15/40/75ms门限；唯一场景修正是保留原namespace prefix，caller已带A14虚拟seed/warm诊断修正。不是新场景或大规模配对，不以原A13作严格同随机种子的因果配对。

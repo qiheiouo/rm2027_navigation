@@ -1,0 +1,504 @@
+{
+  "stage": "A17 recorded-input rotation scope sensitivity",
+  "profile": {
+    "footprint": [
+      [
+        -0.3,
+        -0.25
+      ],
+      [
+        -0.3,
+        0.25
+      ],
+      [
+        0.3,
+        0.25
+      ],
+      [
+        0.3,
+        -0.25
+      ]
+    ],
+    "padding": 0.03,
+    "angular_first_step_from_zero": 0.1
+  },
+  "scenes": {
+    "S0": {
+      "goal": {
+        "cycles": 400,
+        "metrics": {
+          "absolute_measured_wz": {
+            "n": 400,
+            "median": 0.022166794224176556,
+            "p95": 0.2887165552238,
+            "min": 0.0,
+            "max": 0.533641898073256
+          },
+          "held_50ms_angle_rad": {
+            "n": 400,
+            "median": 0.0011083397112088278,
+            "p95": 0.01443582776119,
+            "min": 0.0,
+            "max": 0.0266820949036628
+          },
+          "fixed_yaw_50ms_endpoint_bias_m": {
+            "n": 400,
+            "median": 7.469138658892613e-06,
+            "p95": 0.00013248387032460557,
+            "min": 0.0,
+            "max": 0.00014658241025769037
+          },
+          "held_50ms_support_face_expansion_m": {
+            "n": 400,
+            "median": 0.0,
+            "p95": 0.003336587049660713,
+            "min": 0,
+            "max": 0.00406031785143679
+          },
+          "held_1500ms_angle_rad": {
+            "n": 400,
+            "median": 0.033250191336264834,
+            "p95": 0.43307483283570003,
+            "min": 0.0,
+            "max": 0.800462847109884
+          },
+          "fixed_yaw_1500ms_endpoint_bias_m": {
+            "n": 400,
+            "median": 0.006721161326069071,
+            "p95": 0.11720826961023811,
+            "min": 0.0,
+            "max": 0.13124921319707775
+          },
+          "held_1500ms_support_face_expansion_m": {
+            "n": 400,
+            "median": 0.0,
+            "p95": 0.07768844733598468,
+            "min": 0,
+            "max": 0.0984966961706174
+          }
+        },
+        "measured_wz_exceeds_first_step_from_zero": 125
+      },
+      "native_navigation": {
+        "cycles": 223,
+        "metrics": {
+          "absolute_measured_wz": {
+            "n": 223,
+            "median": 0.12766622239723802,
+            "p95": 0.4306336824083694,
+            "min": 0.0,
+            "max": 0.533641898073256
+          },
+          "held_50ms_angle_rad": {
+            "n": 223,
+            "median": 0.006383311119861901,
+            "p95": 0.021531684120418473,
+            "min": 0.0,
+            "max": 0.0266820949036628
+          },
+          "fixed_yaw_50ms_endpoint_bias_m": {
+            "n": 223,
+            "median": 5.156389673659084e-05,
+            "p95": 0.00013581044532201276,
+            "min": 0.0,
+            "max": 0.00014658241025769037
+          },
+          "held_50ms_support_face_expansion_m": {
+            "n": 223,
+            "median": 0.00038769480486100516,
+            "p95": 0.00364411837678965,
+            "min": 0,
+            "max": 0.00406031785143679
+          },
+          "held_1500ms_angle_rad": {
+            "n": 223,
+            "median": 0.19149933359585702,
+            "p95": 0.6459505236125541,
+            "min": 0.0,
+            "max": 0.800462847109884
+          },
+          "fixed_yaw_1500ms_endpoint_bias_m": {
+            "n": 223,
+            "median": 0.04638857374311849,
+            "p95": 0.12167263559830063,
+            "min": 0.0,
+            "max": 0.13124921319707775
+          },
+          "held_1500ms_support_face_expansion_m": {
+            "n": 223,
+            "median": 0.026488028955675147,
+            "p95": 0.08534518344507609,
+            "min": 0,
+            "max": 0.0984966961706174
+          }
+        },
+        "measured_wz_exceeds_first_step_from_zero": 125
+      },
+      "dynamic_event": {
+        "cycles": 0,
+        "metrics": {},
+        "measured_wz_exceeds_first_step_from_zero": 0
+      },
+      "identity_diagnostics": {
+        "same_path_map_limits_adjacent_pairs": 389,
+        "body_digest_changed": 210,
+        "exact_yaw_changed": 210,
+        "corridor_rebuilt_cycles": 221
+      }
+    },
+    "S1": {
+      "goal": {
+        "cycles": 400,
+        "metrics": {
+          "absolute_measured_wz": {
+            "n": 400,
+            "median": 0.05376496847020462,
+            "p95": 0.5055529961828139,
+            "min": 0.0,
+            "max": 0.7478769985027611
+          },
+          "held_50ms_angle_rad": {
+            "n": 400,
+            "median": 0.002688248423510231,
+            "p95": 0.025277649809140695,
+            "min": 0.0,
+            "max": 0.037393849925138056
+          },
+          "fixed_yaw_50ms_endpoint_bias_m": {
+            "n": 400,
+            "median": 1.9974222682812554e-05,
+            "p95": 0.0002543569752103291,
+            "min": 0.0,
+            "max": 0.00048679905956240937
+          },
+          "held_50ms_support_face_expansion_m": {
+            "n": 400,
+            "median": 0.0,
+            "p95": 0.0034515888098906955,
+            "min": 0,
+            "max": 0.008577064883038554
+          },
+          "held_1500ms_angle_rad": {
+            "n": 400,
+            "median": 0.08064745270530693,
+            "p95": 0.7583294942742208,
+            "min": 0.0,
+            "max": 1.1218154977541417
+          },
+          "fixed_yaw_1500ms_endpoint_bias_m": {
+            "n": 400,
+            "median": 0.017961666167818666,
+            "p95": 0.2255468413319907,
+            "min": 0.0,
+            "max": 0.4230330226102418
+          },
+          "held_1500ms_support_face_expansion_m": {
+            "n": 400,
+            "median": 0.0,
+            "p95": 0.0625002337344097,
+            "min": 0,
+            "max": 0.11128619548323926
+          }
+        },
+        "measured_wz_exceeds_first_step_from_zero": 162
+      },
+      "native_navigation": {
+        "cycles": 230,
+        "metrics": {
+          "absolute_measured_wz": {
+            "n": 230,
+            "median": 0.15128419909160584,
+            "p95": 0.5608174949884414,
+            "min": 0.0,
+            "max": 0.7478769985027611
+          },
+          "held_50ms_angle_rad": {
+            "n": 230,
+            "median": 0.007564209954580292,
+            "p95": 0.028040874749422066,
+            "min": 0.0,
+            "max": 0.037393849925138056
+          },
+          "fixed_yaw_50ms_endpoint_bias_m": {
+            "n": 230,
+            "median": 7.14900511591648e-05,
+            "p95": 0.00034849406335975497,
+            "min": 0.0,
+            "max": 0.00048679905956240937
+          },
+          "held_50ms_support_face_expansion_m": {
+            "n": 230,
+            "median": 0.0,
+            "p95": 0.004911836424068346,
+            "min": 0,
+            "max": 0.008577064883038554
+          },
+          "held_1500ms_angle_rad": {
+            "n": 230,
+            "median": 0.22692629863740876,
+            "p95": 0.8412262424826621,
+            "min": 0.0,
+            "max": 1.1218154977541417
+          },
+          "fixed_yaw_1500ms_endpoint_bias_m": {
+            "n": 230,
+            "median": 0.06422489140422286,
+            "p95": 0.3084746496999856,
+            "min": 0.0,
+            "max": 0.4230330226102418
+          },
+          "held_1500ms_support_face_expansion_m": {
+            "n": 230,
+            "median": 0.010018001270726773,
+            "p95": 0.08193535438477066,
+            "min": 0,
+            "max": 0.11128619548323926
+          }
+        },
+        "measured_wz_exceeds_first_step_from_zero": 162
+      },
+      "dynamic_event": {
+        "cycles": 40,
+        "metrics": {
+          "absolute_measured_wz": {
+            "n": 40,
+            "median": 0.33435638761147857,
+            "p95": 0.7287571835331619,
+            "min": 0.006591565170310787,
+            "max": 0.7478769985027611
+          },
+          "held_50ms_angle_rad": {
+            "n": 40,
+            "median": 0.01671781938057393,
+            "p95": 0.036437859176658094,
+            "min": 0.00032957825851553935,
+            "max": 0.037393849925138056
+          },
+          "fixed_yaw_50ms_endpoint_bias_m": {
+            "n": 40,
+            "median": 0.00020861425706618895,
+            "p95": 0.00047734171394003935,
+            "min": 3.902927499434164e-06,
+            "max": 0.00048679905956240937
+          },
+          "held_50ms_support_face_expansion_m": {
+            "n": 40,
+            "median": 0.002584765883149709,
+            "p95": 0.008172174078629512,
+            "min": 0,
+            "max": 0.008577064883038554
+          },
+          "held_1500ms_angle_rad": {
+            "n": 40,
+            "median": 0.5015345814172179,
+            "p95": 1.0931357752997428,
+            "min": 0.00988734775546618,
+            "max": 1.1218154977541417
+          },
+          "fixed_yaw_1500ms_endpoint_bias_m": {
+            "n": 40,
+            "median": 0.18644608647215122,
+            "p95": 0.4155596151590388,
+            "min": 0.003512625221379426,
+            "max": 0.4230330226102418
+          },
+          "held_1500ms_support_face_expansion_m": {
+            "n": 40,
+            "median": 0.04639139663748776,
+            "p95": 0.1079214389810671,
+            "min": 0,
+            "max": 0.11128619548323926
+          }
+        },
+        "measured_wz_exceeds_first_step_from_zero": 34
+      },
+      "identity_diagnostics": {
+        "same_path_map_limits_adjacent_pairs": 388,
+        "body_digest_changed": 217,
+        "exact_yaw_changed": 217,
+        "corridor_rebuilt_cycles": 229
+      }
+    },
+    "S2": {
+      "goal": {
+        "cycles": 400,
+        "metrics": {
+          "absolute_measured_wz": {
+            "n": 400,
+            "median": 0.0811753881862387,
+            "p95": 0.5133554327767331,
+            "min": 0.0,
+            "max": 0.723774079233408
+          },
+          "held_50ms_angle_rad": {
+            "n": 400,
+            "median": 0.004058769409311935,
+            "p95": 0.025667771638836656,
+            "min": 0.0,
+            "max": 0.0361887039616704
+          },
+          "fixed_yaw_50ms_endpoint_bias_m": {
+            "n": 400,
+            "median": 3.7857065356185145e-05,
+            "p95": 0.0002119119997307194,
+            "min": 0.0,
+            "max": 0.0004543163703419243
+          },
+          "held_50ms_support_face_expansion_m": {
+            "n": 400,
+            "median": 0.0,
+            "p95": 0.003929922910108753,
+            "min": 0,
+            "max": 0.008041775587988798
+          },
+          "held_1500ms_angle_rad": {
+            "n": 400,
+            "median": 0.12176308227935806,
+            "p95": 0.7700331491650997,
+            "min": 0.0,
+            "max": 1.085661118850112
+          },
+          "fixed_yaw_1500ms_endpoint_bias_m": {
+            "n": 400,
+            "median": 0.03400354485825256,
+            "p95": 0.1893532601906344,
+            "min": 0.0,
+            "max": 0.39571837876253785
+          },
+          "held_1500ms_support_face_expansion_m": {
+            "n": 400,
+            "median": 0.0,
+            "p95": 0.08068077165607121,
+            "min": 0,
+            "max": 0.11119233301942522
+          }
+        },
+        "measured_wz_exceeds_first_step_from_zero": 193
+      },
+      "native_navigation": {
+        "cycles": 223,
+        "metrics": {
+          "absolute_measured_wz": {
+            "n": 223,
+            "median": 0.22930015984456986,
+            "p95": 0.5681900103809311,
+            "min": 0.0,
+            "max": 0.723774079233408
+          },
+          "held_50ms_angle_rad": {
+            "n": 223,
+            "median": 0.011465007992228493,
+            "p95": 0.028409500519046556,
+            "min": 0.0,
+            "max": 0.0361887039616704
+          },
+          "fixed_yaw_50ms_endpoint_bias_m": {
+            "n": 223,
+            "median": 0.0001134072977149515,
+            "p95": 0.00033559252717294853,
+            "min": 0.0,
+            "max": 0.0004543163703419243
+          },
+          "held_50ms_support_face_expansion_m": {
+            "n": 223,
+            "median": 0.0003536535545997088,
+            "p95": 0.0052383880554012965,
+            "min": 0,
+            "max": 0.008041775587988798
+          },
+          "held_1500ms_angle_rad": {
+            "n": 223,
+            "median": 0.3439502397668548,
+            "p95": 0.8522850155713967,
+            "min": 0.0,
+            "max": 1.085661118850112
+          },
+          "fixed_yaw_1500ms_endpoint_bias_m": {
+            "n": 223,
+            "median": 0.10186194483196698,
+            "p95": 0.29637084322181934,
+            "min": 0.0,
+            "max": 0.39571837876253785
+          },
+          "held_1500ms_support_face_expansion_m": {
+            "n": 223,
+            "median": 0.02872753942023243,
+            "p95": 0.09438712866860063,
+            "min": 0,
+            "max": 0.11119233301942522
+          }
+        },
+        "measured_wz_exceeds_first_step_from_zero": 191
+      },
+      "dynamic_event": {
+        "cycles": 160,
+        "metrics": {
+          "absolute_measured_wz": {
+            "n": 160,
+            "median": 0.22024761346983723,
+            "p95": 0.5687529436545435,
+            "min": 0.0039735182326694485,
+            "max": 0.723774079233408
+          },
+          "held_50ms_angle_rad": {
+            "n": 160,
+            "median": 0.011012380673491862,
+            "p95": 0.028437647182727177,
+            "min": 0.00019867591163347242,
+            "max": 0.0361887039616704
+          },
+          "fixed_yaw_50ms_endpoint_bias_m": {
+            "n": 160,
+            "median": 0.00012722495211801458,
+            "p95": 0.00036032019709478366,
+            "min": 2.361244898812153e-06,
+            "max": 0.0004543163703419243
+          },
+          "held_50ms_support_face_expansion_m": {
+            "n": 160,
+            "median": 0.0008587800514637811,
+            "p95": 0.006090482506918739,
+            "min": 0,
+            "max": 0.008041775587988798
+          },
+          "held_1500ms_angle_rad": {
+            "n": 160,
+            "median": 0.33037142020475585,
+            "p95": 0.8531294154818153,
+            "min": 0.005960277349004173,
+            "max": 1.085661118850112
+          },
+          "fixed_yaw_1500ms_endpoint_bias_m": {
+            "n": 160,
+            "median": 0.11417366636667196,
+            "p95": 0.3183311507761866,
+            "min": 0.0021251183141867648,
+            "max": 0.39571837876253785
+          },
+          "held_1500ms_support_face_expansion_m": {
+            "n": 160,
+            "median": 0.034748575443517726,
+            "p95": 0.09453503085589887,
+            "min": 0,
+            "max": 0.11119233301942522
+          }
+        },
+        "measured_wz_exceeds_first_step_from_zero": 142
+      },
+      "identity_diagnostics": {
+        "same_path_map_limits_adjacent_pairs": 389,
+        "body_digest_changed": 212,
+        "exact_yaw_changed": 212,
+        "corridor_rebuilt_cycles": 223
+      }
+    }
+  },
+  "meaning": "Conditional constant measured body-twist geometry at 50ms/1.5s. Not actual future, obstacle prediction, Follow result, physical safety or runtime behavioral PASS.",
+  "runtime_calls": {
+    "Follow": 0,
+    "solver": 0,
+    "prediction": 0,
+    "ROS": 0,
+    "current_admission": 0
+  }
+}

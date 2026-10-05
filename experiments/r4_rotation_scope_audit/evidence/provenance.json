@@ -1,0 +1,40 @@
+{
+  "baseline_HEAD": "0c03dbbb2cf9e18242a7dccba93dbdedb707c15c",
+  "script_sha256": "a741d81937687b8b2de9db509e03f8fc49393eebc72059d7b51dee0d2cc38e3a",
+  "inputs": {
+    "experiments/r4_corrected_runtime_shadow/evidence/S0_cycles.csv": "8976115ef0882ee8d9faefe352eb6e078e8198fa5d2dfa371f9de5f758384070",
+    "experiments/r4_corrected_runtime_shadow/evidence/S0_events.json": "3045ec7fdc2dc1ec759420f76fdcd1c064a68d15e9bd5956287803cc29967d3f",
+    "experiments/r4_corrected_runtime_shadow/evidence/S1_cycles.csv": "5e6d8aa6be287f9273950d23a1736f80b2e30506a3095518a90c2bb9b1d60660",
+    "experiments/r4_corrected_runtime_shadow/evidence/S1_events.json": "f9928137a5b7502236c823299f6148f7a2eac82d8423e2adb8dffbd373094e8f",
+    "experiments/r4_corrected_runtime_shadow/evidence/S2_cycles.csv": "967172a95ad98f28d643a14b6706b2367cbfad73c0e391dbca15bfffb0badb2c",
+    "experiments/r4_corrected_runtime_shadow/evidence/S2_events.json": "0dec58ee4c845acad932b351c8773e758237832ab64e8561cf3d3af2badec737"
+  },
+  "audited_sources": {
+    "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/follow.hpp": "7feef4fb4b790324c40c6ec816c36c1246d6dbe29bb3ead522d7a84591b822b0",
+    "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/consumption.hpp": "a1ab97090fcfd8f8ffd0b81e09a28366f4372806ec63893d21e1746a7c6ac893",
+    "src/rm_r4_prediction_consumption/src/follow.cpp": "a1895b54f58e5c39c6418985ec95922afc1e96ccfbd1983e312cc975dbc143a4",
+    "src/rm_r4_prediction_consumption/src/consumption.cpp": "cfa2281d4a669af334865bacafc0b273df96471111115c69174ff56123036367",
+    "src/rm_r4_prediction_consumption/src/corridor.cpp": "b4d8f5330bd4ec4e73d5f771abe55a53e6c3967b997792157c706bfe92933171",
+    "src/rm_r4_prediction_consumption/CMakeLists.txt": "ab7a4c0ea07997496bd638adb341644bbcd3681e14bfcf6a01f5ae36dcff21ea",
+    "src/rm_navigation_execution_adapters/include/rm_navigation_execution_adapters/current_geometry.hpp": "7d288592780d6cd99ac9c53d290a3b32bcea9930b317e3ab981ae369391da5d5",
+    "src/rm_navigation_execution_adapters/src/current_geometry.cpp": "e538ea67b38d58930da0925f724e03e992768b081fbc402067efbabe68b7b6f0",
+    "src/rm_navigation_execution_adapters/include/rm_navigation_execution_adapters/lease_fence.hpp": "bd51eb4371bf585503a6a92b46d11262dc34d61a16f83d38bd967f1e9b21dbb2",
+    "src/rm_navigation_execution_adapters/src/lease_fence.cpp": "3d4e9cc6cc9e208023cd6d881b3adc64b2ed8c7518759e244108ccfab3dbd976",
+    "src/rm_navigation_execution_adapters/CMakeLists.txt": "2da123d63f660e6818860b3bb8677531c16a4fd1ae2fc233d08fa9c3828734d9",
+    "src/rm_r4_nav2_controller/src/controller.cpp": "80c87d95e8e9f53424231e2170016a2800d3c9532e1d47320ec8ec09c363724d",
+    "src/rm_r4_nav2_controller/src/proposal_bridge.cpp": "32baa786bea8f6573f82493a04f94b3e390c9b89e0a86fa3944654d7e7d12aa5",
+    "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp": "05f9d5c028af2d0a353abf2a85ff44ef7569877758cf3c374cc735e8050986dd",
+    "experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/pose_geometry.hpp": "993a9516bb24427796fb9fd23d6a54b571d460ad110bceec01545043875c1201",
+    "experiments/tdt_planner/rm_tdt_planner/src/pose_geometry.cpp": "87cf2a07174b7e4be68ddc03ebfde04b4b6789b5ed6b186b3278db3ec1240e87",
+    "experiments/r4_runtime_shadow/shadow.cpp": "0616e05de8d49cacbddb3e01f0ac2d68ba8b18e0f7a5323fa787d79a15b9526f",
+    "experiments/r4_runtime_shadow/shadow_seed.hpp": "bae5e307cc4e9164d8645e8efe37e3f0457f2909a8656e0121d36a9a311954fb",
+    "src/rm_nav_config/config/nav2_phase1_5_mppi.yaml": "0e2020c8eb5001e3f57c3626353a99fdad785cb6a716abd9d6fd89ae88628caf",
+    "src/rm_competition_interfaces/msg/DynamicObstaclePredictionArray.msg": "e462d1cd7ea34b50dd2e45ef37f39f934be6f2913e82377ab14691bde22a74dd",
+    "src/rm_competition_interfaces/msg/DynamicObstaclePrediction.msg": "3fc1458ef9efab481377d96c1ef2e1b872045ebef72a160182196627f9a4eeae"
+  },
+  "outputs": {
+    "summary.json": "9e193f77125dbc3dd5506f1ad3c8630ddd683643719f1d5628443eb19a80e3da",
+    "sensitivity.csv": "407c834b62dba58cc829c87ca3ae01286a2bc6e2bf81aeff0b2b097cd12ac1fc"
+  },
+  "formula_checks": "zero rotation and independent quarter-turn endpoint identities PASS; analytical extrema include endpoints and interior stationary angles; not runtime validation"
+}
