@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A14完成A13原输入审计及shadow seed/warm最小诊断修复；有限离线回归PASS，但runtime输入适用性仍FAILED，动态prediction-consumption行为仍INCONCLUSIVE，production接线暂停，closed-loop NOT_ELIGIBLE。** `e137635e`的A08数学和A09–A12接口保持冻结；native MPPI实际控制，R4只有诊断proposal。75ms仅离线估计，不作算法否定或执行PASS。Follow/插件默认关闭，main、public v2、原dirty与冻结R3保持。unit/value历史PASS保留，closed-loop/deployment未评估。当前输入核查/修复以 [A14审计](r4_input_applicability_audit.md) 为准，真实运行判决保留 [A13执行报告](r4_runtime_shadow_execution.md)；[预登记计划](r4_runtime_shadow_plan.md)与[A12历史结论](r4_return_checkpoint_20261005.md)保留。
+状态：**A15确认并最小修复实验world生成的摩擦参考frame丢失；静态检查PASS，旧A13/A14记录保留但不代表原world物理语义，需独立有限shadow复核。动态prediction-consumption行为仍INCONCLUSIVE，production接线暂停，closed-loop NOT_ELIGIBLE。** `e137635e`的A08数学和A09–A12接口保持冻结；native MPPI实际控制，R4只有诊断proposal。75ms仅离线估计，不作算法否定或执行PASS。Follow/插件默认关闭，main、public v2、原dirty与冻结R3保持。unit/value历史PASS保留，closed-loop/deployment未评估。当前根因/最小修复以 [A15审计](r4_native_stop_audit.md) 为准，[A14输入审计](r4_input_applicability_audit.md)与 [A13执行报告](r4_runtime_shadow_execution.md)保留原数据并注明代表性更正；[预登记计划](r4_runtime_shadow_plan.md)与[A12历史结论](r4_return_checkpoint_20261005.md)保留。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -434,3 +434,19 @@ S1 native goal后真实位置变化约2.44m，修正后counterfactual proposal�
 ### conclusion / next step
 
 仅diagnostic recorded-input regression PASS；runtime input FAILED、dynamic behavior INCONCLUSIVE、closed-loop NOT_ELIGIBLE。下一步优先只读核查native停止/plant适用性；支持真实转动属于需单独审阅的建模阶段，本次未自动解除A08/A09–A12冻结。production输出接线继续后移，不增加tracker/预测/frontend/solver/owner。
+
+## A15 — native停止链与场景生成语义修正
+
+### hypothesis / change
+
+只读原command/odom，核查S1成功后2.44m位移来源。发现ElementTree重命名XML前缀，DART后端按literal `ignition:expressed_in`读取，因此错误改变wheel friction reference frame。登记后仅修实验generator namespace registration；新增独立离线bag decoder、分析及同版本SDFormat静态checker，不改正式world/profile/API/数学。
+
+### result / evidence
+
+三个bag共2468条command，native references逐值对应，stub relay无value差异，S0/S1各多一条watchdog zero。S1原ROS输出10.398..10.399s归零，而post-zero+1s后实测vy仍-0.22174m/s，pose差分支持实际运动。同版本parser原world4/4能读取literal reference frame，A13旧scene0/12，修正后12/12；robot expanded XML/numerics不变，静态后端回归PASS。
+
+[A15来源/根因/修正/边界](r4_native_stop_audit.md)、[精确复现](../../experiments/r4_native_stop_audit/README.md)及[evidence](../../experiments/r4_native_stop_audit/evidence/summary.json)。原A13/A14证据、main、R3、原dirty及96冻结asset保持。执行环境/metadata失败日志保留，A15无新ROS run。
+
+### conclusion / next step
+
+原停止owner链已记录到zero，不应新增owner/安全层/MPPI来补偿生成物理错误。旧scene代表性更正，不能直接泛化为正式profile的fixed-yaw不适用或物理漂移。下一阶段应先登记并做同三个短scene各一次独立shadow复核，再决定是否需要转动建模；闭环仍NOT_ELIGIBLE，数学冻结继续。

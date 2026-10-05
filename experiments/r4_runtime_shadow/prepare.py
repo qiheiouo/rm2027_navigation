@@ -6,6 +6,8 @@ import yaml
 p=argparse.ArgumentParser();p.add_argument('root',type=pathlib.Path);p.add_argument('output',type=pathlib.Path)
 a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
 source=a.root/'src/rm_simulation/worlds/phase1_omni.sdf'
+# gz-physics 5 DART checks the literal attribute prefix, not only its XML URI.
+ET.register_namespace('ignition', 'http://ignitionrobotics.org/schema')
 for scene in ['S0','S1','S2']:
     tree=ET.parse(source);world=tree.getroot().find('world')
     for model in list(world.findall('model')):

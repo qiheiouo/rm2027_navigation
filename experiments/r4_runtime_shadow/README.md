@@ -2,7 +2,7 @@
 
 This experiment calls the frozen A08 C++ Follow library with real ROS inputs. It has **no robot velocity publisher**. Native Nav2 MPPI, its smoother, the existing chassis stub and Gazebo remain responsible for actual motion. A09–A12 enforcement/controller/mapper are not activated.
 
-Scope and decision: [execution report](../../docs/dynamic_navigation/r4_runtime_shadow_execution.md). Baseline: `e137635e`; plan: `f138c72d`. The original A02 harness is not used. Source/algorithms/thresholds remain frozen; runtime shadow did not pass behavioral acceptance.
+Scope and decision: [execution report](../../docs/dynamic_navigation/r4_runtime_shadow_execution.md). Baseline: `e137635e`; plan: `f138c72d`. The original A02 harness is not used. Algorithms/thresholds remain frozen; runtime shadow did not pass behavioral acceptance. A15 identified a namespace-prefix serialization defect in the experimental scene generator that changed the DART friction frame. The current generator preserves the original prefix; historical A13 assets/data are retained and cannot represent the original physics semantics. See the [A15 audit](../../docs/dynamic_navigation/r4_native_stop_audit.md).
 
 ## Wiring
 
