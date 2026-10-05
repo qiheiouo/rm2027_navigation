@@ -2,7 +2,7 @@
 
 隔离研究核心，从 main 新分支实现。`COLCON_IGNORE` 防止正式 colcon 发现；没有 ROS publisher、Nav2 插件、正式 launch/YAML 修改或实车部署。
 
-**A03边界：** `tracker_core.py/frontend.py/execution.py`仅为测试harness，不能自动升级为生产实现。后续R4在已有Nav2/controller/输出owner之前提供proposal，复用唯一tracker、public v2、T-DT与原生MPPI；不建立第二个最终publisher。接线设计见 [全仓复用审计](../../docs/dynamic_navigation/r4_repository_reuse_audit.md)。当前新增运行编码暂停。
+**A03边界：** `tracker_core.py/frontend.py/execution.py`仅为测试harness，不能自动升级为生产实现。后续R4在已有Nav2/controller/输出owner之前提供proposal，复用唯一tracker、public v2、T-DT与原生MPPI；不建立第二个最终publisher。用户在A03后授权继续；[A04](../../docs/dynamic_navigation/r4_minimal_adapter_contracts.md)只接入canonical producer的同次members最小适配，没有迁入这些harness或完成导航输出接线。
 
 已实现：
 

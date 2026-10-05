@@ -154,6 +154,8 @@ flowchart TD
 
 **接线前仍需决定/核实：** (1) canonical tracker的最小member hook接入来源，不能使用未接受dirty代码；(2) corridor导出API与静态certificate；(3) 目标Humble版本下现有owner的lease/admission窄扩展点和profile实际输出路由；(4) fallback selector与生命周期撤销合同。未完成这些具体边界前，保持运行编码暂停，不能以“ROS化A02”代替接口审阅。
 
+以上是A03交付时的暂停点。用户随后回复“继续吧”，A04先固定具体接口并接入单producer的members最小适配，见 [A04](r4_minimal_adapter_contracts.md)。Sfc可直接调用已有公开API；lease/current-admission的原owner窄扩展仍是后续工作，A03关于不新增并行最终publisher的结论保持。
+
 审计后下一阶段先形成上述薄适配的具体接口变更清单与小范围验证计划，沿现有owner接线；本次没有开始这些编码，也没有运行新的大规模实验。原机械body/padding、物理净空、时延观察门和R3冻结规则保持其已登记值；A02速度/几何数值不会自动覆盖main旧车profile。最终目标仍是嵌入已验证有价值的prediction-consumption逻辑，不是把离线harness全部转成ROS节点。
 
 ## 7. 源码索引与核查记录

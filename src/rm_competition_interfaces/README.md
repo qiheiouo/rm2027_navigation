@@ -13,3 +13,11 @@ protocol.
   motion authority.
 - `SetMissionMode` is the explicit enable/mode gate for competition mission
   execution.
+
+## R4 branch reuse note
+
+The public `DynamicObstaclePrediction.msg` and
+`DynamicObstaclePredictionArray.msg` are reused byte-for-byte from the committed
+canonical producer at `b5645eca`. Their v1/v2 fields and authority are unchanged.
+Observed members and perception receipt identity are private adapters in
+`rm_r4_interfaces`; no sequence/shape/command-ownership fields are added to v2.

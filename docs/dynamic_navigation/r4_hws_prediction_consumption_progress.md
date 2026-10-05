@@ -1,8 +1,8 @@
 # R4：Prediction Consumption 进度
 
-2026-10-04，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
+2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A01/A02已完成其审计与离线范围；A03全仓复用审计已完成。按用户最新要求暂停新增运行编码；下一步先落实最小接口边界，不把A02 harness全部ROS化。** Nav2/真实sidecar接线、Gazebo配对与部署验收尚未完成；R1/R2/R3保持冻结，正式MPPI配置保持。当前架构以 [A03复用矩阵与接线图](r4_repository_reuse_audit.md) 为准。
+状态：**A03复用审计完成后，用户回复“继续吧”，进入A04最小接口/producer适配。单tracker同次members接口与Humble回环检查已完成；R4 controller、Sfc绑定与现有owner的lease/admission尚未实现。** 不把A02 harness全部ROS化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md) 和 [A04具体接口](r4_minimal_adapter_contracts.md) 为准。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -106,3 +106,36 @@ A02已验证的prediction-consumption逻辑可以作为现有导航架构内的�
 ### next step
 
 先明确canonical tracker member hook来源、private shape合同、迁移库corridor导出，以及目标Nav2版本中既有owner的lease/admission窄扩展点。保持当前运行编码暂停；后续工作以A03最小边界为准，不自动恢复ROS化A02或批量实验。
+
+## A04 — 最小接口与同次 observed-members adapter
+
+### hypothesis
+
+已有canonical tracker可用同次assignment导出观测支持，而无需运行A02的第二tracker；公开v2与members放入一个private envelope，可避免消费端错配两个topic的接收顺序。
+
+### change
+
+用户在A03交付后回复“继续吧”。先记录 [具体接口/intake](r4_minimal_adapter_contracts.md)，再从固定 `b5645eca` 接入14个canonical producer/public-v2资产文件。核心修改仅保留现有cluster成员、在原assignment/new-track分支导出ID；新增有界member cache和opt-in private envelope序列化。新增private接口包，不改v2 wire；shadow launch默认关闭，private参数默认false，正式Nav2/速度/串口入口未修改。
+
+Sfc调用接口已明确为既有 `SfcSquare::getCorridor`，无需复制frontend或先改T-DT Result。Humble1.1.20的controller publish/smoother callback/timer窄扩展位置已核实，但此阶段没有patch上游、实现command lease或共用admission。
+
+### result
+
+- tracker/v2来源回归45项通过，包括4种配置×32帧与固定canonical源码逐值对照；关联、预测与生命周期数值保持。
+- 3个接口/producer包在既有Humble环境构建通过；4项ROS消息/节点回环通过，public值与envelope的序列化完全一致；每次scan只调用一次tracker。
+- coasting保存原整数观测epoch/member IDs，reset提升perception generation；不完整/错身份/预算超限不伪造shape；默认没有private/velocity publisher。
+- 没有新增tracker/predictor/frontend/MPPI/final publisher，没有启动Nav2/Gazebo/底盘或新的paired实验；没有完成R4闭环/lease/physical acceptance。
+
+### evidence
+
+[接口与适配边界](r4_minimal_adapter_contracts.md)、[来源/修改/验证清单](r4_minimal_adapter_sources.json)。Humble原有镜像固定ID和Nav2包版本记录在清单；构建及45项回归与4项回环分别采集结果，不冒称Jazzy检查等同Humble。
+
+实现期检查失败保留：宿主ROS日志默认落入只读目录，改为R4 build目录；测试UUID话题可能以数字开头，改为run_前缀；Humble测试缺少Jazzy subscription查询API，改为共有的Node.count_publishers。最后一项只修测试查询，运行adapter未因它改变；未放宽shape/完整性/预算/TTL要求。
+
+### conclusion
+
+同次members最小适配已具备可构建和小范围ROS证据，可作为后续R4消费的输入。public v2不变，perception receipt generation不是command lease。A02 tracker_core/frontend/execution继续仅作为harness，原正式唯一速度输出责任不变。
+
+### next step
+
+绑定迁移库现有Sfc API，接入仅含snapshot/observed-raster/stage soft cost/free-s Follow的R4消费核心。运行输出接线前落实原controller/behavior发送边界到既有smoother的原子lease来源和实际平滑后命令的共用current admission；不另建最终owner，不以独立健康心跳续旧Twist，不重跑冻结R3或启动大规模实验。
