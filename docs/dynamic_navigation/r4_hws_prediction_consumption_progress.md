@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A03复用审计完成后，用户回复“继续吧”，进入A04最小接口/producer适配。单tracker同次members接口与Humble回环检查已完成；R4 controller、Sfc绑定与现有owner的lease/admission尚未实现。** 不把A02 harness全部ROS化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md) 和 [A04具体接口](r4_minimal_adapter_contracts.md) 为准。
+状态：**A05 C++预测消费值库与既有Sfc绑定已实现：原子输入冻结、observed raster、stage soft residual及free-s residual具备Humble小范围证据。完整Follow求解、Nav2 controller适配及原owner lease/current admission尚未实现。** 不把A02 harness全部ROS化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A04](r4_minimal_adapter_contracts.md) 与 [A05](r4_consumer_library.md) 为准。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -139,3 +139,38 @@ Sfc调用接口已明确为既有 `SfcSquare::getCorridor`，无需复制fronten
 ### next step
 
 绑定迁移库现有Sfc API，接入仅含snapshot/observed-raster/stage soft cost/free-s Follow的R4消费核心。运行输出接线前落实原controller/behavior发送边界到既有smoother的原子lease来源和实际平滑后命令的共用current admission；不另建最终owner，不以独立健康心跳续旧Twist，不重跑冻结R3或启动大规模实验。
+
+
+## A05 — C++ prediction-consumption值库与既有Sfc绑定
+
+### hypothesis
+
+A02中有价值的stage soft cost/free-s数学可以落入供既有controller调用的值库，而不引入其tracker/frontend/execution。A04的atomic envelope可形成唯一消费输入；既有Sfc API可直接供静态方框适配，但必须补独立支持核对。
+
+### change
+
+用户在A04交付后回复“继续”。先登记 [A05 intake与边界](r4_consumer_library.md)，再从固定迁移e680b143接入五个Sfc/来源许可文件，vendor字节不变；新C++值库直接编译此唯一provider。未导入YAstar/MinimumSnap或复制A02 frontend。
+
+新增ReceiptGate::consume原子校验/只读snapshot、同次members raster、按stage-source单次推进、soft残差/梯度与free-s running residual/局部线性化。actual footprint/padding/fixed yaw显式传入；保留positive padding与至少0.05m static clearance；cruise reference也须显式传入。终端Follow cost为零，不求解、不输出速度。
+
+PreparedCorridor直接接既有Path/raw-static OccupancyGrid，适配Sfc zero-origin cell-centre/黑边/端点；独立核对机械支持与边界，并要求相邻方框沿原path整段覆盖。无法认证则拒绝，不补点、不另写寻路/扩张算法。导出接口保持C++17可调用，provider内部单独使用所需C++20。
+
+### result
+
+- Humble值库构建成功，23个C++用例通过，4个CTest组通过；同范围ASan/UBSan检查通过，未扩展为全栈安全或实时证明。
+- 真实既有producer发出的observed/coasting/reset三份CDR消息由C++解码/消费通过；没有以手填fixture冒称唯一ROS证据。
+- 48个软场查询与固定A02数学对照一致（显式替换实际车体，2种yaw×4stage×6query），覆盖梯度/plateau/halo与时间推进。
+- 独立C++17下游目标从install导出接口链接并运行通过；此检查不是Nav2插件加载或controller闭环。
+- 当前默认正式Nav2/配置/速度/串口接线、A04 producer/public v2、A02非Markdown源码、main/原dirty/冻结R3保持。
+
+### evidence
+
+[库接口与验证边界](r4_consumer_library.md)、[来源/哈希/检查记录](r4_consumer_library_sources.json)、[代码入口](../../src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/consumption.hpp)。先期编译失败为测试缺少cmath/serialized_message头文件，补引用后通过；未通过调宽TTL/几何或禁用失败检查解决。
+
+### conclusion
+
+最小预测消费数学与静态适配已成为可链接的C++值库，没有新tracker/prediction pipeline/frontend/MPPI/final owner。observed geometry和CV仍是未认证输入，receipt digest也不是command lease。静态路径支持证据不替代平滑后实际待发送命令的current admission。
+
+### next step
+
+在实际profile约束和既有C++求解依赖上实现单次有界Follow proposal，复用标准controller接口；不运行A02 tracker/frontend/execution。原controller/behavior→smoother发送链的来源lease和实际命令共用admission落实后，再进行有限Nav2接线检查；不新增最终publisher，不以心跳续旧Twist，不重跑冻结R3或自动扩为大规模实验。

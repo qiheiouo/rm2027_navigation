@@ -60,3 +60,5 @@ current admission输入为最后实际输出/本次平滑后命令、measured st
 第一次Humble全套运行中47项通过、2项失败，原因是测试使用了Jazzy订阅查询API；改用两版本共用的 `Node.count_publishers` 后单独重跑4项ROS检查全部通过。45项核心与4项ROS为分批结果，不冒称一次49项无失败运行。主机Jazzy仅为先期smoke，不代替Humble验证。
 
 容器无网络、无设备，源码只读，仅R4隔离build目录可写。记录与结果文件摘要见 [A04来源及验证记录](r4_minimal_adapter_sources.json)。收尾核对确认main、冻结R3、原checkout的10处dirty文件及A02非Markdown源码保持原状态；未启动Nav2/Gazebo/串口/底盘或新大规模实验。上述结果仅覆盖本producer切片，不构成控制接线、实时或实车验收。
+
+后续用户授权继续后的Sfc绑定与消费值库见 [A05](r4_consumer_library.md)。本A04记录仍仅覆盖producer切片；command lease/controller/MPPI回退未因此完成。

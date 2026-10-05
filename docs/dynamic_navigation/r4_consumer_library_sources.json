@@ -1,0 +1,336 @@
+{
+  "stage": "A05",
+  "date": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "status": "implemented_and_finite_Humble_checks_passed",
+  "source_commit": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+  "source_type": "existing_committed_TDT_migration",
+  "upstream": {
+    "url": "https://github.com/T-DT-Algorithm-2026/tdt-nav-kit",
+    "branch": "main",
+    "commit": "a4bddc467f84d2418a4de06c65c8c79403eb4a13",
+    "license": "MIT",
+    "files": {
+      "YAstar/yastar.hpp": {
+        "upstream_sha256": "0baf0b584d33f586bb20b269fd85b3a6356921cae5b9346189341a85375bce8d",
+        "local_sha256": "59a8c8d5e48ce3dcffe69ab508c2593178559ccd78849c2257e835a8eefac7c3"
+      },
+      "YAstar/yastar.cpp": {
+        "upstream_sha256": "382e95043448f42493a7b5b79052e7cb103ac7406ec4428cdfb6d03e989b90a3",
+        "local_sha256": "51a3dba93b01421b0c44460a5299f6b0f4fb67242bf70dd2dce9bb74ef7d0cae"
+      },
+      "MinimumSnapOsqp/minimumSnap.hpp": {
+        "upstream_sha256": "1dff6839799fe7f8a6193eabbec2d9adce985d2c69bc5f0c423fb838b9439b3c",
+        "local_sha256": "1dff6839799fe7f8a6193eabbec2d9adce985d2c69bc5f0c423fb838b9439b3c"
+      },
+      "MinimumSnapOsqp/minimumSnap.cpp": {
+        "upstream_sha256": "368e220c8cfc4928decd8668c3d09c7bebaf8492b59be134a8337b5f5a56d1c0",
+        "local_sha256": "368e220c8cfc4928decd8668c3d09c7bebaf8492b59be134a8337b5f5a56d1c0"
+      },
+      "MinimumSnapOsqp/sfcSquare.hpp": {
+        "upstream_sha256": "bfaee73cbfda1f46aea794b80da29d7ea3651ed80a45efd50a5f05fe57145c8b",
+        "local_sha256": "58c9b489b9eb4e5db6754f5350a7882a270caa19b269f4307e6234b0f29c51e7"
+      },
+      "MinimumSnapOsqp/sfcSquare.cpp": {
+        "upstream_sha256": "05f9d5c028af2d0a353abf2a85ff44ef7569877758cf3c374cc735e8050986dd",
+        "local_sha256": "05f9d5c028af2d0a353abf2a85ff44ef7569877758cf3c374cc735e8050986dd"
+      }
+    }
+  },
+  "intake_files": [
+    {
+      "source": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.hpp",
+      "destination": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.hpp",
+      "source_sha256": "58c9b489b9eb4e5db6754f5350a7882a270caa19b269f4307e6234b0f29c51e7",
+      "modified": false,
+      "current_sha256": "58c9b489b9eb4e5db6754f5350a7882a270caa19b269f4307e6234b0f29c51e7"
+    },
+    {
+      "source": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp",
+      "destination": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp",
+      "source_sha256": "05f9d5c028af2d0a353abf2a85ff44ef7569877758cf3c374cc735e8050986dd",
+      "modified": false,
+      "current_sha256": "05f9d5c028af2d0a353abf2a85ff44ef7569877758cf3c374cc735e8050986dd"
+    },
+    {
+      "source": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/LICENCE",
+      "destination": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/LICENCE",
+      "source_sha256": "fab3c8fd7e83f54e1d8a45d08d3683eb8ba47a52a08bb7dbaac550d7160677a0",
+      "modified": false,
+      "current_sha256": "fab3c8fd7e83f54e1d8a45d08d3683eb8ba47a52a08bb7dbaac550d7160677a0"
+    },
+    {
+      "source": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/UPSTREAM.json",
+      "destination": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/UPSTREAM.json",
+      "source_sha256": "befbd3185191f6b24244cd315e1ee44c7bfa7d9fa43d226c89ef782aeee25a2a",
+      "modified": false,
+      "current_sha256": "befbd3185191f6b24244cd315e1ee44c7bfa7d9fa43d226c89ef782aeee25a2a"
+    },
+    {
+      "source": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/LOCAL_CHANGES.patch",
+      "destination": "experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav/LOCAL_CHANGES.patch",
+      "source_sha256": "891845e3911c9d1acd1dec4b144cdc60a04554e7d4f06453aaadf5529fdc4995",
+      "modified": false,
+      "current_sha256": "891845e3911c9d1acd1dec4b144cdc60a04554e7d4f06453aaadf5529fdc4995"
+    }
+  ],
+  "algorithm_references": [
+    {
+      "commit": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/soft_field.py",
+      "sha256": "89a89623f4ad979d0ad074ef96ed65d5d119553721389bbed047a576c13e5d2e",
+      "imported": false,
+      "use": "translate prediction-consumption mathematics only; discard harness dependencies and prototype vehicle constants"
+    },
+    {
+      "commit": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/follow.py",
+      "sha256": "f4ace3ff3bbef007593c822f401023d74ec084a2f02f89557f1865a4a9110df4",
+      "imported": false,
+      "use": "translate prediction-consumption mathematics only; discard harness dependencies and prototype vehicle constants"
+    },
+    {
+      "commit": "b95a4222408b7fcfbbb4a2e1b7b6c5b311372f49",
+      "path": "experiments/r4_hws_prediction_consumption/r4_hws/contracts.py",
+      "sha256": "f3891d6c0a4fc86b846b12d02db2195e8678db3636094aa205af4619c149c716",
+      "imported": false,
+      "use": "translate prediction-consumption mathematics only; discard harness dependencies and prototype vehicle constants"
+    }
+  ],
+  "scope": "C++ value library: atomic-envelope validation, observed raster, stage soft residual, free-progress residuals, and direct existing Sfc API adapter; no solver/controller/output wiring",
+  "excluded": [
+    "YAstar",
+    "minimumSnap",
+    "A02 tracker_core/frontend/execution",
+    "new tracker or prediction pipeline",
+    "Nav2 lifecycle or controller plumbing",
+    "MPPI implementation",
+    "velocity publisher/output owner",
+    "physical or large experiments"
+  ],
+  "dependencies": [
+    "existing Humble generated public/private messages",
+    "existing Eigen3",
+    "existing OpenSSL crypto for canonical content SHA256"
+  ],
+  "modification_policy": "TDT vendor bytes unchanged; local thin adapter validates map coordinates/bounds and raw-static mechanical support, rejecting unverifiable rectangles",
+  "replacement": "remove optional value package; replace its direct Sfc provider with an exported canonical TDT target if that target is subsequently deployed; no default navigation launch change",
+  "new_files": [
+    {
+      "path": "src/rm_r4_prediction_consumption/CMakeLists.txt",
+      "sha256": "91e66df073977df18c60cba5e6ab0af0057089f21ea73d5cdffc7c38c7b9d7eb"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/README.md",
+      "sha256": "559e963c130e0ab64a045210c32893e73b53d34c7c7de9898de1ba316527a0c6"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/consumption.hpp",
+      "sha256": "3f5555eca0c00eb25cfe5b6ba91ffe8c081846cbc61f57ffd3a4026dfbc7764d"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/package.xml",
+      "sha256": "96a61325a183665d3c9c7353355f0310ab92bb4ce03000e5723933e296fba7b2"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/consumption.cpp",
+      "sha256": "cfa2281d4a669af334865bacafc0b273df96471111115c69174ff56123036367"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/corridor.cpp",
+      "sha256": "9ac60fe8c2c94879b640210555f7698b850c13dd8984cea0f6a685accea72deb"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/digest.hpp",
+      "sha256": "98466c0ba439a1ba2443484bd86aa21811af10328a9f9823d8acdfa8abf48652"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/fixtures.hpp",
+      "sha256": "94189155587b953a2241db2734a76b588e984b04989532de7fa49e3dc835e5c4"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/math_probe.cpp",
+      "sha256": "2722337da5509b32fb5d4bd2da73da054c5d40c74b5300e13baf41fc4d0f391d"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_consumption.cpp",
+      "sha256": "efda4c95012de26fe0b616745c8d495a8656976352b66fdd2cf4fe160cb04612"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_corridor.cpp",
+      "sha256": "07f392870126829798c2a99a596ccef2813fc54e20ae8e8cb94451d66652dcd2"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/test_math_reference.py",
+      "sha256": "9d835af536601956be948ea6cc7e826237cdef1f71e3380c3ed102836689e8e4"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/test/write_canonical_cdr.py",
+      "sha256": "2e8d02962d155fb278e398566e38a613eb6829296ffcecea4f887101bf5e263c"
+    },
+    {
+      "path": "experiments/tdt_planner/COLCON_IGNORE",
+      "sha256": "7ac090062ea58bd2454a26d35a9405cf15155fe278fa6cad370c174a01429b97"
+    }
+  ],
+  "validation": {
+    "Humble_image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+    "compiler": "GCC 11.4.0",
+    "OpenSSL": "3.0.2",
+    "source_read_only": true,
+    "network": "none",
+    "devices": "none",
+    "writable_scope": "isolated R4 build output only",
+    "Humble_build_passed": true,
+    "Cxx17_downstream_link_and_run_passed": true,
+    "public_standard": "C++17",
+    "private_provider_standard": "C++20",
+    "Cxx17_downstream_source_sha256": "f5c7536e637a3a4760efbda59264de4ff30b13733145cc9f38641037218bc7f6",
+    "Cxx17_downstream_CMake_sha256": "9174beb782ecf1cf012d90dab64e36f58e4758fe7ded3976b2bacceee03c752f",
+    "GTest_passed_per_configuration": 23,
+    "CTest_groups_passed_per_configuration": 4,
+    "skipped": 0,
+    "actual_producer_CDR_cases": [
+      "observed",
+      "coasting",
+      "reset"
+    ],
+    "fixed_A02_soft_math_queries": 48,
+    "ASan_UBSan_same_scope_passed": true,
+    "ASAN_OPTIONS": "detect_leaks=0",
+    "instrumentation_limit": "new value library and selected unchanged Sfc provider only; no whole-stack/leak/unused-API proof",
+    "failure_history": [
+      "first build: value library compiled, two test compile errors due missing cmath/serialized_message includes; corrected references without relaxing input/geometry requirements"
+    ],
+    "reports": [
+      {
+        "mode": "Humble",
+        "path": "build/r4_consumer_humble_check_20261005/build/rm_r4_prediction_consumption/test_results/rm_r4_prediction_consumption/test_consumption.gtest.xml",
+        "sha256": "320fb507412ced7d2d0c9672b28d9872b8102f0e597ca56629b5ff4eb893d391",
+        "passed": 15
+      },
+      {
+        "mode": "Humble",
+        "path": "build/r4_consumer_humble_check_20261005/build/rm_r4_prediction_consumption/test_results/rm_r4_prediction_consumption/test_corridor.gtest.xml",
+        "sha256": "2a2caae3fc85857f3e4b0b89481c510598768701b224aabaa6730f5afc08bc8d",
+        "passed": 8
+      },
+      {
+        "mode": "Humble",
+        "path": "build/r4_consumer_humble_check_20261005/build/rm_r4_prediction_consumption/Testing/Temporary/LastTest.log",
+        "sha256": "c50f1ae863f52e6471e21275171d8734c4f8d57b320b94f6eb5a78f33dc4139e",
+        "CTest_groups_passed": 4
+      },
+      {
+        "mode": "Humble",
+        "kind": "actual_canonical_producer_cdr",
+        "path": "build/r4_consumer_humble_check_20261005/build/rm_r4_prediction_consumption/producer_cdr/coasting.cdr",
+        "sha256": "37d5062ec28c135201713658711f7c4e9508020a162eb3ade0f9b9183ce91e3c",
+        "bytes": 876
+      },
+      {
+        "mode": "Humble",
+        "kind": "actual_canonical_producer_cdr",
+        "path": "build/r4_consumer_humble_check_20261005/build/rm_r4_prediction_consumption/producer_cdr/observed.cdr",
+        "sha256": "190bd6a762a2f256d72912a35c672d5be7f6d6c157006d2a1667996e830d725a",
+        "bytes": 876
+      },
+      {
+        "mode": "Humble",
+        "kind": "actual_canonical_producer_cdr",
+        "path": "build/r4_consumer_humble_check_20261005/build/rm_r4_prediction_consumption/producer_cdr/reset.cdr",
+        "sha256": "6c9720dce677cc0ea791ff7a8ea22bf5cd48f0bdd84c8710fc1e4e7227b606b8",
+        "bytes": 876
+      },
+      {
+        "mode": "ASan_UBSan",
+        "path": "build/r4_consumer_humble_check_20261005/sanitized/test_results/rm_r4_prediction_consumption/test_consumption.gtest.xml",
+        "sha256": "b2f4c019f3c3776e6d7065383c89d1b08c3dcc7b37e543c9b7ea488adefe780f",
+        "passed": 15
+      },
+      {
+        "mode": "ASan_UBSan",
+        "path": "build/r4_consumer_humble_check_20261005/sanitized/test_results/rm_r4_prediction_consumption/test_corridor.gtest.xml",
+        "sha256": "d667eba93a958a03c01137bb336f0100f55e7411b443ccb2e3e2dea6d092173f",
+        "passed": 8
+      },
+      {
+        "mode": "ASan_UBSan",
+        "path": "build/r4_consumer_humble_check_20261005/sanitized/Testing/Temporary/LastTest.log",
+        "sha256": "4ce39c91c3c1728dad1a9c7bdbe135771a1d2cb5abfcc520692cc1bccabfad36",
+        "CTest_groups_passed": 4
+      },
+      {
+        "mode": "ASan_UBSan",
+        "kind": "actual_canonical_producer_cdr",
+        "path": "build/r4_consumer_humble_check_20261005/sanitized/producer_cdr/coasting.cdr",
+        "sha256": "5d1b86641408a3bd243eac58d0c0d410a2daddb29b63a2769fb72a53c22e4c53",
+        "bytes": 876
+      },
+      {
+        "mode": "ASan_UBSan",
+        "kind": "actual_canonical_producer_cdr",
+        "path": "build/r4_consumer_humble_check_20261005/sanitized/producer_cdr/observed.cdr",
+        "sha256": "0370c28b7d39f819072555c7dae8b194b051316fb800d92ca5391a53b4fdfbe9",
+        "bytes": 876
+      },
+      {
+        "mode": "ASan_UBSan",
+        "kind": "actual_canonical_producer_cdr",
+        "path": "build/r4_consumer_humble_check_20261005/sanitized/producer_cdr/reset.cdr",
+        "sha256": "ee0bd4bc1580fec1a89460600aaaa9ba2621530f0d227af8c30be03d4ac78f64",
+        "bytes": 876
+      },
+      {
+        "mode": "Humble_and_ASan_UBSan",
+        "kind": "final_math_script_entry_guard_check",
+        "path": "build/r4_consumer_humble_check_20261005/final_math_reference.log",
+        "sha256": "823de35f9baf55f6cf2d7741a30166aa38c07203be21070a70f403902675e109",
+        "queries_per_mode": 48
+      }
+    ],
+    "local_markdown_links_checked": 34,
+    "preservation": {
+      "main": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "original_head": "1229583ff5811bc42671188f05332d0b3780ebd2",
+      "original_dirty_paths_unchanged": 10,
+      "huge_existing_core": "size only; not read, deleted or imported",
+      "frozen_R3": "04291a410f193c009e043af88e014cf420e1f68b",
+      "frozen_R3_clean": true,
+      "non_R4_heads_tags_remotes_unchanged": 92,
+      "A02_non_markdown_files_unchanged": 26,
+      "A04_producer_private_public_assets_unchanged": true,
+      "formal_paths_match_main": [
+        "src/rm_navigation_bringup",
+        "src/rm_nav_config",
+        "src/rm_serial_driver",
+        "src/rm_chassis_interface"
+      ],
+      "public_v2_wire_change": false
+    },
+    "not_performed": [
+      "full control state/TF freezing",
+      "bounded Follow solving or actual velocity proposal",
+      "Nav2 controller/lifecycle loading",
+      "command lease/current admission or MPPI fallback",
+      "parallel final command publisher",
+      "Nav2/Gazebo/serial/chassis/physical output",
+      "R3 rerun or new large paired experiments",
+      "merge/push/deploy"
+    ],
+    "source_review": {
+      "no_runtime_node_subscriber_worker_action_or_command_publisher": true,
+      "no_runtime_A02_tracker_frontend_execution_import": true,
+      "canonical_vendor_bytes_unchanged": true,
+      "actual_body_minimum_and_explicit_cruise_kept": true,
+      "continuous_static_support_required": true,
+      "consume_exceptions_clear_usable": true
+    },
+    "diff_whitespace": {
+      "local_code_and_documents_passed": true,
+      "canonical_source_and_patch_trailing_whitespace_warnings": 13,
+      "canonical_bytes_preserved": true,
+      "reason": "retain exact existing migration source and patch; warnings confined to three pinned canonical files, no local-code whitespace exceptions"
+    }
+  }
+}

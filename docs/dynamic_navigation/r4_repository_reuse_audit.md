@@ -233,3 +233,5 @@ flowchart TD
 本次新增本审计和来源/验证清单，并在A01设计、A02实现/README与progress中明确撤销“新建独立实际输出所有者”的后续方向；保留历史数值结果。没有修改 `src/`、运行launch/YAML、公开v2接口或A02实验代码；不重跑46项离线测试来冒充此次运行集成验收。
 
 验证包含：Markdown链接与源码索引存在性、固定源码SHA256、12项能力覆盖、两幅图的节点/边界检查、仅文档diff，以及main/origin-main、原checkout/head/dirty内容、冻结R3/head/clean和研究heads/tags/remotes保持核查。对大untracked `core`只核对size，未读入/删除。结果与精确保护范围写入 [来源/验证清单](r4_repository_reuse_sources.json)；最终publisher排他性、租约与物理输出仍未运行验证。
+
+A05继续落实唯一producer下游的C++消费值库与原Sfc provider薄绑定，见 [A05](r4_consumer_library.md)；没有恢复A02 tracker/frontend/execution生产化或新增输出owner。
