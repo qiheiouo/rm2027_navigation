@@ -174,3 +174,33 @@ PreparedCorridor直接接既有Path/raw-static OccupancyGrid，适配Sfc zero-or
 ### next step
 
 在实际profile约束和既有C++求解依赖上实现单次有界Follow proposal，复用标准controller接口；不运行A02 tracker/frontend/execution。原controller/behavior→smoother发送链的来源lease和实际命令共用admission落实后，再进行有限Nav2接线检查；不新增最终publisher，不以心跳续旧Twist，不重跑冻结R3或自动扩为大规模实验。
+
+## A06 — 接线前复用复核（仅文档）
+
+### hypothesis
+
+A04/A05 的可选资产与值库不应被视为正式链已使用；后续接线仍需按实际入口复用现有输出责任。核对输入、frontend、controller、fallback 和最终发送边界可避免将 A02 harness 继续扩成第二套导航链。
+
+### change
+
+继续按接线前审计范围工作，没有执行 A05 next step 中的 Follow 求解或新增运行代码。[A06](r4_reuse_audit_checkpoint.md) 重新列出十二项能力的源码/接口/正式状态/复用分类及必要缺口，给出最小接线图、具体变更边界与有限验收清单；A03 增加当前复核入口。
+
+补查 main 八个导航入口/parent wrapper：老车 validation/competition 复用统一 smoother 路由，普通 Phase 1/通用/仿真入口缺少 behavior 的同类 remap；old-car AMCL/GICP 测试 wrapper 明确禁用 Nav2。补充 stub/mode gate 使用 ROS age、serial 使用 steady receive age 的差异，以及完整 T-DT 与 R4 同时启用时须共享 Sfc provider target 的条件。
+
+### result
+
+63 项原 A03 源码摘要/关键行（含三个保持原摘要的未接受 U 参考）、33 个 branch heads、排除 R4 后的 92 个受保护 heads/tags/remotes 核对通过；补充 24 项固定源码证据及八个入口清单。A04/A05 来源清单中的资产摘要、public v2 canonical 字节与 A02 的 26 个非 Markdown 文件保持。
+
+本轮只有文档变更，不改 main/正式配置/运行代码，不启动 ROS/Nav2/Gazebo/串口，不重跑已有测试或新增实验。没有 live publisher、lease 或物理验收结论。
+
+### evidence
+
+[十二项矩阵与最小接线图](r4_reuse_audit_checkpoint.md)、[固定来源/检索/保留核对](r4_reuse_audit_checkpoint_sources.json)。核对脚本仅位于临时目录，未新增项目 harness 或运行工具。
+
+### conclusion
+
+R4 proposal 仍应进入既有 controller_server/所选末级 owner。普通入口路由缺口、来源 lease 和平滑后 current admission 是现有责任的具体适配条件，不是新增独立 owner、MPPI worker 或安全 FSM 的理由。A05 值库存在不等于完成 Follow/插件/真实 fallback；A02 tracker/frontend/execution 身份保持。
+
+### next step
+
+后续工作的最小范围与检查已固定在 A06 第 6 节。先选定并收敛既有入口、落实原 owner 的必要来源/撤销/current-admission 接口和 Sfc 共用条件，再实施有限的 R4 核心与标准插件接线；本阶段止于审计，不自动开始新的运行编码或大规模实验。

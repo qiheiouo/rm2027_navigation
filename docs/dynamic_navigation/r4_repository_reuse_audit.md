@@ -4,6 +4,8 @@
 
 **结论：R4 应成为现有 Nav2 控制器中的 prediction-consumption 提案源，继续经过既有速度输出链。A02 的 tracker、frontend、OutputArbiter 和独立输出进程保持测试 harness 身份。没有证据支持新增第二个 tracker、prediction pipeline、T-DT frontend、MPPI 或并行最终输出 owner。**
 
+2026-10-05 的 [A06 接线前复核](r4_reuse_audit_checkpoint.md) 更新了十二项能力在 A04/A05 后的状态，并补充两个条件：普通 Phase 1/通用/仿真入口没有老车的 behavior 统一 remap，不能把老车 smoother 所有权推成全仓保证；若后续同时启用完整 T-DT，须共享 canonical Sfc provider target。A06 仅改文档，未开始 Follow 求解或 ROS/Nav2 接线。
+
 main 中尚无动态 tracker/v2 prediction、迁移 T-DT、R2 critic/guard 和 integrity 包；这些是仓库已有、但未进入 main 的研究资产。复用它们需要限定范围的资产接入记录，不能把整个研究分支合并进正式链，也不能把“目录中存在”写成“正式运行中已使用”。
 
 ## 1. 范围、版本与证据等级

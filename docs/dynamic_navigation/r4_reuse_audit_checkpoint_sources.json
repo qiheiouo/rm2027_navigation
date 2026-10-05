@@ -1,0 +1,1390 @@
+{
+  "stage": "A06",
+  "date": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "scope": "repository reuse audit checkpoint only; no new runtime code, solver, ROS/Nav2 wiring, configuration or experiments",
+  "base_R4_commit": "dc47363652f53da63203a16a8f910652e0b83ccc",
+  "main_commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "branch": "experiment/r4-hws-prediction-consumption",
+  "prior_repository_audit": {
+    "path": "docs/dynamic_navigation/r4_repository_reuse_sources.json",
+    "sha256": "3d80ff775d7323bdb2fb97161e86c6921bad9634ed304bc76f68138a130a27c8",
+    "checked_source_ids": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M7",
+      "M7b",
+      "M8",
+      "M9",
+      "M10",
+      "M11",
+      "M12",
+      "M13",
+      "M14",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "L7",
+      "L8",
+      "L9",
+      "L10",
+      "L11",
+      "L12",
+      "L13",
+      "L14",
+      "L15",
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "D6",
+      "D7",
+      "D8",
+      "D9",
+      "D10",
+      "D11",
+      "D12",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F4b",
+      "F5",
+      "F5b",
+      "F6",
+      "F7",
+      "F8",
+      "H1",
+      "H2",
+      "H3",
+      "H4",
+      "H5",
+      "H5b",
+      "H6",
+      "H7",
+      "U1",
+      "U2",
+      "U3"
+    ]
+  },
+  "source_files": [
+    {
+      "id": "P1",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_validation.launch.py",
+      "sha256": "d34177ef8453169878bb0bea290305955077c1bd80b43d380e4738862b3108fc",
+      "lines": 452,
+      "key_lines": [
+        {
+          "line": 4,
+          "text": "    GroupAction,"
+        },
+        {
+          "line": 16,
+          "text": "from launch_ros.actions import Node, SetRemap"
+        },
+        {
+          "line": 383,
+          "text": "        GroupAction("
+        },
+        {
+          "line": 391,
+          "text": "                SetRemap(src=\"cmd_vel\", dst=\"cmd_vel_nav\"),"
+        },
+        {
+          "line": 424,
+          "text": "                \"cmd_vel_topic\": \"/cmd_vel\","
+        },
+        {
+          "line": 435,
+          "text": "                \"cmd_vel_topic\": \"/cmd_vel\","
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_competition.launch.py",
+      "sha256": "8aef8031f10656ef49780d8463e950231d001329ab50e8069ad50865d326455b",
+      "lines": 494,
+      "key_lines": [
+        {
+          "line": 26,
+          "text": "    use_nav2 = _as_bool(context, \"use_nav2\")"
+        },
+        {
+          "line": 37,
+          "text": "    use_chassis_mode = _as_bool(context, \"use_chassis_mode_interface\")"
+        },
+        {
+          "line": 50,
+          "text": "    if use_nav2 and backend == \"none\":"
+        },
+        {
+          "line": 54,
+          "text": "    if use_real_serial and not use_nav2:"
+        },
+        {
+          "line": 55,
+          "text": "        raise RuntimeError(\"competition real serial requires use_nav2:=true\")"
+        },
+        {
+          "line": 73,
+          "text": "    if use_mission and (not use_nav2 or backend == \"none\" or not use_referee):"
+        },
+        {
+          "line": 78,
+          "text": "        use_chassis_mode or use_safety_mock or use_operator_authority"
+        },
+        {
+          "line": 84,
+          "text": "    if use_operator_authority and use_chassis_mode:"
+        },
+        {
+          "line": 129,
+          "text": "    use_nav2 = LaunchConfiguration(\"use_nav2\")"
+        },
+        {
+          "line": 156,
+          "text": "    use_chassis_mode = LaunchConfiguration(\"use_chassis_mode_interface\")"
+        },
+        {
+          "line": 181,
+          "text": "    old_car_launch = PathJoinSubstitution([share, \"launch\", \"old_car_2026_validation.launch.py\"])"
+        },
+        {
+          "line": 201,
+          "text": "    chassis_mode_launch = PathJoinSubstitution(["
+        },
+        {
+          "line": 202,
+          "text": "        FindPackageShare(\"rm_chassis_interface\"), \"launch\", \"chassis_mode_gate.launch.py\""
+        },
+        {
+          "line": 258,
+          "text": "        DeclareLaunchArgument(\"use_nav2\", default_value=\"false\"),"
+        },
+        {
+          "line": 310,
+          "text": "        DeclareLaunchArgument(\"use_chassis_mode_interface\", default_value=\"false\"),"
+        },
+        {
+          "line": 331,
+          "text": "            PythonLaunchDescriptionSource(old_car_launch),"
+        },
+        {
+          "line": 339,
+          "text": "                \"use_nav2\": use_nav2,"
+        },
+        {
+          "line": 443,
+          "text": "                \"require_chassis_mode\": mission_requires_chassis,"
+        },
+        {
+          "line": 450,
+          "text": "            PythonLaunchDescriptionSource(chassis_mode_launch),"
+        },
+        {
+          "line": 453,
+          "text": "                \"enable_chassis_mode_gate\": use_chassis_mode,"
+        },
+        {
+          "line": 484,
+          "text": "                \"require_nav2\": ParameterValue(use_nav2, value_type=bool),"
+        },
+        {
+          "line": 486,
+          "text": "                \"require_chassis_mode\": ParameterValue("
+        }
+      ]
+    },
+    {
+      "id": "P3",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/navigation.launch.py",
+      "sha256": "37915ce984c7dee2a4ef2d54dc1556b5f6215c4934d81263dba27686740dd22a",
+      "lines": 316,
+      "key_lines": [
+        {
+          "line": 81,
+          "text": "        \"navigation_launch.py\","
+        },
+        {
+          "line": 299,
+          "text": "            PythonLaunchDescriptionSource(nav2_launch),"
+        },
+        {
+          "line": 300,
+          "text": "            condition=IfCondition(use_nav2),"
+        }
+      ]
+    },
+    {
+      "id": "P4",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/bag_replay.launch.py",
+      "sha256": "65164b3ca58220bdca339d1d6fdcf45b8e9f1953b5f4330da9fe80cd3f326fbb",
+      "lines": 120,
+      "key_lines": [
+        {
+          "line": 57,
+          "text": "        \"navigation.launch.py\","
+        },
+        {
+          "line": 95,
+          "text": "        DeclareLaunchArgument(\"use_nav2\", default_value=\"false\"),"
+        },
+        {
+          "line": 112,
+          "text": "                \"use_nav2\": use_nav2,"
+        }
+      ]
+    },
+    {
+      "id": "P5",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/phase1_bringup.launch.py",
+      "sha256": "195626fb12eec557c9d6d19f3c3794660c68cb4caa6e6792b39210346769b2d3",
+      "lines": 107,
+      "key_lines": [
+        {
+          "line": 37,
+          "text": "        \"navigation_launch.py\","
+        },
+        {
+          "line": 52,
+          "text": "        DeclareLaunchArgument(\"use_nav2\", default_value=\"true\"),"
+        },
+        {
+          "line": 78,
+          "text": "                \"cmd_vel_topic\": \"/cmd_vel\","
+        },
+        {
+          "line": 90,
+          "text": "            PythonLaunchDescriptionSource(nav2_launch),"
+        }
+      ]
+    },
+    {
+      "id": "P6",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_simulation/launch/phase1_5_gazebo.launch.py",
+      "sha256": "c1d1931b6e24fcae786fbf7a93f59aac59647ffaa20600f64b60784b9f07f991",
+      "lines": 145,
+      "key_lines": [
+        {
+          "line": 41,
+          "text": "        \"navigation_launch.py\","
+        },
+        {
+          "line": 61,
+          "text": "        DeclareLaunchArgument(\"use_nav2\", default_value=\"true\"),"
+        },
+        {
+          "line": 123,
+          "text": "                \"cmd_vel_topic\": \"/cmd_vel\","
+        },
+        {
+          "line": 124,
+          "text": "                \"mock_output_cmd_vel_topic\": \"/simulation/chassis/cmd_vel\","
+        },
+        {
+          "line": 128,
+          "text": "            PythonLaunchDescriptionSource(nav2_launch),"
+        }
+      ]
+    },
+    {
+      "id": "P7",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_amcl_relocalization.launch.py",
+      "sha256": "1db0c81f1ae74914c2c1f91807c6151e2a36fdf440f2371497a9fd2d89ac5036",
+      "lines": 191,
+      "key_lines": [
+        {
+          "line": 77,
+          "text": "        \"old_car_2026_validation.launch.py\","
+        },
+        {
+          "line": 146,
+          "text": "                \"use_nav2\": \"false\","
+        }
+      ]
+    },
+    {
+      "id": "P8",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_gicp_relocalization.launch.py",
+      "sha256": "dc855a83a48b8e505025a8ae57dc91054002fd278548c111f4407d11574fc704",
+      "lines": 162,
+      "key_lines": [
+        {
+          "line": 75,
+          "text": "        \"old_car_2026_validation.launch.py\","
+        },
+        {
+          "line": 124,
+          "text": "                \"use_nav2\": \"false\","
+        }
+      ]
+    },
+    {
+      "id": "P9",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_chassis_interface/src/chassis_interface_stub.cpp",
+      "sha256": "6e5128c485f240d76e64fc18ad0c0686012d9ac26321c6d8a6ccc281c14eaff1",
+      "lines": 162,
+      "key_lines": [
+        {
+          "line": 21,
+          "text": "    watchdog_timeout_sec_ = declare_parameter<double>(\"watchdog_timeout_sec\", 0.5);"
+        },
+        {
+          "line": 24,
+          "text": "    mock_output_cmd_vel_topic_ ="
+        },
+        {
+          "line": 25,
+          "text": "      declare_parameter<std::string>(\"mock_output_cmd_vel_topic\", \"\");"
+        },
+        {
+          "line": 31,
+          "text": "    if (!mock_output_cmd_vel_topic_.empty()) {"
+        },
+        {
+          "line": 32,
+          "text": "      if (mock_output_cmd_vel_topic_ == cmd_vel_topic_) {"
+        },
+        {
+          "line": 35,
+          "text": "          \"mock_output_cmd_vel_topic must differ from cmd_vel_topic; relay is disabled.\");"
+        },
+        {
+          "line": 38,
+          "text": "          mock_output_cmd_vel_topic_, 10);"
+        },
+        {
+          "line": 47,
+          "text": "    watchdog_timer_ = create_wall_timer("
+        },
+        {
+          "line": 84,
+          "text": "    last_cmd_time_ = now();"
+        },
+        {
+          "line": 102,
+          "text": "    const double age = (now() - last_cmd_time_).seconds();"
+        },
+        {
+          "line": 103,
+          "text": "    if (age > watchdog_timeout_sec_ && !watchdog_active_) {"
+        },
+        {
+          "line": 141,
+          "text": "  double watchdog_timeout_sec_;"
+        },
+        {
+          "line": 146,
+          "text": "  std::string mock_output_cmd_vel_topic_;"
+        }
+      ]
+    },
+    {
+      "id": "P10",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_chassis_interface/src/chassis_mode_gate_node.cpp",
+      "sha256": "a007fa87c1a5a5e155ddb67334fc61cc05762b6a8ca622da9482511c4bf84789",
+      "lines": 136,
+      "key_lines": [
+        {
+          "line": 21,
+          "text": "    state_timeout_sec_ = declare_parameter<double>(\"state_timeout_sec\", 0.5);"
+        },
+        {
+          "line": 22,
+          "text": "    if (max_source_age_sec_ < 0.0 || state_timeout_sec_ < 0.0) {"
+        },
+        {
+          "line": 35,
+          "text": "    timer_ = create_wall_timer("
+        },
+        {
+          "line": 76,
+          "text": "    last_receive_time_ = now();"
+        },
+        {
+          "line": 84,
+          "text": "    if (received_ && (now() - last_receive_time_).seconds() > state_timeout_sec_) {"
+        },
+        {
+          "line": 96,
+          "text": "    state.emergency_stop = true;"
+        },
+        {
+          "line": 119,
+          "text": "  double state_timeout_sec_;"
+        }
+      ]
+    },
+    {
+      "id": "P11",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_serial_driver/src/serial_transport_node.cpp",
+      "sha256": "cdc0a9ce2d364761ba46039a8b3c51372b721ea7567631a4cce8c3150ce86b49",
+      "lines": 402,
+      "key_lines": [
+        {
+          "line": 185,
+          "text": "    cmd_vel_timeout_sec_ = declare_parameter<double>(\"cmd_vel_timeout_sec\", 0.2);"
+        },
+        {
+          "line": 207,
+          "text": "    if (!std::isfinite(cmd_vel_timeout_sec_) || cmd_vel_timeout_sec_ < 0.0) {"
+        },
+        {
+          "line": 224,
+          "text": "    cmd_vel_sub_ = create_subscription<geometry_msgs::msg::Twist>("
+        },
+        {
+          "line": 228,
+          "text": "    last_cmd_time_ = std::chrono::steady_clock::now() - std::chrono::hours(24);"
+        },
+        {
+          "line": 232,
+          "text": "      std::bind(&SerialTransportNode::writeFrame, this));"
+        },
+        {
+          "line": 269,
+          "text": "    latest_command_.vx = static_cast<float>(clamp_symmetric(msg->linear.x, max_vx_));"
+        },
+        {
+          "line": 270,
+          "text": "    latest_command_.vy = static_cast<float>(clamp_symmetric(msg->linear.y, max_vy_));"
+        },
+        {
+          "line": 271,
+          "text": "    latest_command_.wz = static_cast<float>(clamp_symmetric(msg->angular.z, max_wz_));"
+        },
+        {
+          "line": 276,
+          "text": "    last_cmd_time_ = std::chrono::steady_clock::now();"
+        },
+        {
+          "line": 279,
+          "text": "  void writeFrame()"
+        },
+        {
+          "line": 282,
+          "text": "    const auto now = std::chrono::steady_clock::now();"
+        },
+        {
+          "line": 283,
+          "text": "    const auto age = std::chrono::duration<double>(now - last_cmd_time_).count();"
+        },
+        {
+          "line": 284,
+          "text": "    if (age > cmd_vel_timeout_sec_) {"
+        },
+        {
+          "line": 293,
+          "text": "      const auto frame = rm_serial_driver::legacy_v1::encode_command(command);"
+        },
+        {
+          "line": 300,
+          "text": "      const auto frame = rm_serial_driver::hpm_crc_v1::encode_command(command);"
+        },
+        {
+          "line": 373,
+          "text": "  double cmd_vel_timeout_sec_;"
+        },
+        {
+          "line": 387,
+          "text": "  std::chrono::steady_clock::time_point last_cmd_time_;"
+        }
+      ]
+    },
+    {
+      "id": "P12",
+      "version": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+      "path": "src/rm_nav_config/config/nav2_old_car_2026_left_stvl.yaml",
+      "sha256": "f50751cbf4b7c069810b6e810fa0613f389b4ed0c7cf26a0be38227437e5e701",
+      "lines": 329,
+      "key_lines": [
+        {
+          "line": 16,
+          "text": "    global_frame: map"
+        },
+        {
+          "line": 26,
+          "text": "    controller_frequency: 10.0"
+        },
+        {
+          "line": 30,
+          "text": "    failure_tolerance: 0.3"
+        },
+        {
+          "line": 33,
+          "text": "    controller_plugins: [FollowPath]"
+        },
+        {
+          "line": 47,
+          "text": "      plugin: nav2_mppi_controller::MPPIController"
+        },
+        {
+          "line": 59,
+          "text": "      vx_max: 0.50"
+        },
+        {
+          "line": 60,
+          "text": "      vx_min: -0.30"
+        },
+        {
+          "line": 61,
+          "text": "      vy_max: 0.50"
+        },
+        {
+          "line": 62,
+          "text": "      wz_max: 1.20"
+        },
+        {
+          "line": 83,
+          "text": "        consider_footprint: true"
+        },
+        {
+          "line": 167,
+          "text": "    global_frame: odom"
+        },
+        {
+          "line": 190,
+          "text": "    smoothing_frequency: 20.0"
+        },
+        {
+          "line": 193,
+          "text": "    max_velocity: [0.50, 0.50, 1.20]"
+        },
+        {
+          "line": 194,
+          "text": "    min_velocity: [-0.30, -0.50, -1.20]"
+        },
+        {
+          "line": 195,
+          "text": "    max_accel: [0.80, 0.80, 2.00]"
+        },
+        {
+          "line": 196,
+          "text": "    max_decel: [-0.80, -0.80, -2.00]"
+        },
+        {
+          "line": 200,
+          "text": "    velocity_timeout: 1.0"
+        },
+        {
+          "line": 208,
+          "text": "      global_frame: odom"
+        },
+        {
+          "line": 222,
+          "text": "      footprint: \"[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]\""
+        },
+        {
+          "line": 223,
+          "text": "      footprint_padding: 0.02"
+        },
+        {
+          "line": 301,
+          "text": "      global_frame: map"
+        },
+        {
+          "line": 310,
+          "text": "      footprint: \"[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]\""
+        },
+        {
+          "line": 311,
+          "text": "      footprint_padding: 0.02"
+        }
+      ]
+    },
+    {
+      "id": "P13",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "docs/tdt_migration/evidence/dynamic_failure_analysis_20260922/installed_mppi_and_command_route.txt",
+      "sha256": "0181e2b1a6cae94b00adf597d878c5e519b271cc02b0c87fa4c2a725d9baec7d",
+      "lines": 376,
+      "key_lines": [
+        {
+          "line": 139,
+          "text": "    use_composition = LaunchConfiguration('use_composition')"
+        },
+        {
+          "line": 148,
+          "text": "                       'behavior_server',"
+        },
+        {
+          "line": 197,
+          "text": "    declare_use_composition_cmd = DeclareLaunchArgument("
+        },
+        {
+          "line": 198,
+          "text": "        'use_composition', default_value='False',"
+        },
+        {
+          "line": 214,
+          "text": "        condition=IfCondition(PythonExpression(['not ', use_composition])),"
+        },
+        {
+          "line": 217,
+          "text": "                package='nav2_controller',"
+        },
+        {
+          "line": 224,
+          "text": "                remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),"
+        },
+        {
+          "line": 234,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 244,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 246,
+          "text": "                package='nav2_behaviors',"
+        },
+        {
+          "line": 247,
+          "text": "                executable='behavior_server',"
+        },
+        {
+          "line": 248,
+          "text": "                name='behavior_server',"
+        },
+        {
+          "line": 254,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 264,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 274,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 276,
+          "text": "                package='nav2_velocity_smoother',"
+        },
+        {
+          "line": 284,
+          "text": "                remappings=remappings +"
+        },
+        {
+          "line": 285,
+          "text": "                        [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),"
+        },
+        {
+          "line": 299,
+          "text": "        condition=IfCondition(use_composition),"
+        },
+        {
+          "line": 303,
+          "text": "                package='nav2_controller',"
+        },
+        {
+          "line": 304,
+          "text": "                plugin='nav2_controller::ControllerServer',"
+        },
+        {
+          "line": 307,
+          "text": "                remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),"
+        },
+        {
+          "line": 313,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 319,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 321,
+          "text": "                package='nav2_behaviors',"
+        },
+        {
+          "line": 322,
+          "text": "                plugin='behavior_server::BehaviorServer',"
+        },
+        {
+          "line": 323,
+          "text": "                name='behavior_server',"
+        },
+        {
+          "line": 325,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 331,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 337,
+          "text": "                remappings=remappings),"
+        },
+        {
+          "line": 339,
+          "text": "                package='nav2_velocity_smoother',"
+        },
+        {
+          "line": 340,
+          "text": "                plugin='nav2_velocity_smoother::VelocitySmoother',"
+        },
+        {
+          "line": 343,
+          "text": "                remappings=remappings +"
+        },
+        {
+          "line": 344,
+          "text": "                           [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),"
+        },
+        {
+          "line": 366,
+          "text": "    ld.add_action(declare_use_composition_cmd)"
+        }
+      ]
+    },
+    {
+      "id": "P14",
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/CMakeLists.txt",
+      "sha256": "d33939972c82eeed337c9514fb6b0239cb93ebbb825ea969260c42e2ff744ff5",
+      "lines": 95,
+      "key_lines": [
+        {
+          "line": 9,
+          "text": "find_package(OsqpEigen 0.8.1 EXACT REQUIRED)"
+        },
+        {
+          "line": 12,
+          "text": "add_library(tdt_nav_core STATIC"
+        },
+        {
+          "line": 15,
+          "text": "  vendor/tdt_nav/MinimumSnapOsqp/sfcSquare.cpp)"
+        },
+        {
+          "line": 19,
+          "text": "target_link_libraries(tdt_nav_core PUBLIC Eigen3::Eigen OsqpEigen::OsqpEigen Threads::Threads)"
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "version": "dc47363652f53da63203a16a8f910652e0b83ccc",
+      "path": "src/rm_r4_prediction_consumption/CMakeLists.txt",
+      "sha256": "91e66df073977df18c60cba5e6ab0af0057089f21ea73d5cdffc7c38c7b9d7eb",
+      "lines": 51,
+      "key_lines": [
+        {
+          "line": 10,
+          "text": "set(TDT_SFC ${CMAKE_CURRENT_SOURCE_DIR}/../../experiments/tdt_planner/rm_tdt_planner/vendor/tdt_nav)"
+        },
+        {
+          "line": 11,
+          "text": "add_library(${PROJECT_NAME} SHARED src/consumption.cpp src/corridor.cpp"
+        },
+        {
+          "line": 12,
+          "text": "  ${TDT_SFC}/MinimumSnapOsqp/sfcSquare.cpp)"
+        },
+        {
+          "line": 18,
+          "text": "target_include_directories(${PROJECT_NAME} PRIVATE ${TDT_SFC}/MinimumSnapOsqp)"
+        },
+        {
+          "line": 44,
+          "text": "install(TARGETS ${PROJECT_NAME} EXPORT export_${PROJECT_NAME}"
+        },
+        {
+          "line": 47,
+          "text": "install(FILES README.md ${TDT_SFC}/LICENCE ${TDT_SFC}/UPSTREAM.json"
+        },
+        {
+          "line": 48,
+          "text": "  ${TDT_SFC}/LOCAL_CHANGES.patch DESTINATION share/${PROJECT_NAME})"
+        },
+        {
+          "line": 49,
+          "text": "ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)"
+        },
+        {
+          "line": 50,
+          "text": "ament_export_dependencies(nav_msgs rm_r4_interfaces)"
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "version": "dc47363652f53da63203a16a8f910652e0b83ccc",
+      "path": "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/consumption.hpp",
+      "sha256": "3f5555eca0c00eb25cfe5b6ba91ffe8c081846cbc61f57ffd3a4026dfbc7764d",
+      "lines": 164,
+      "key_lines": [
+        {
+          "line": 51,
+          "text": "class PredictionSnapshot"
+        },
+        {
+          "line": 54,
+          "text": "  static PredictionSnapshot freeze("
+        },
+        {
+          "line": 85,
+          "text": "class ReceiptGate"
+        },
+        {
+          "line": 88,
+          "text": "  ConsumptionInput consume("
+        },
+        {
+          "line": 109,
+          "text": "class TemporalSoftField"
+        },
+        {
+          "line": 122,
+          "text": "class PreparedCorridor"
+        },
+        {
+          "line": 125,
+          "text": "  static PreparedCorridor prepare("
+        },
+        {
+          "line": 160,
+          "text": "FollowResidual free_progress_residual("
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "version": "dc47363652f53da63203a16a8f910652e0b83ccc",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py",
+      "sha256": "3662d49ea1ed8bb81b3695e0916d527a3bb0831fa73e0ef6f961b080d6ac298a",
+      "lines": 640,
+      "key_lines": [
+        {
+          "line": 43,
+          "text": "from .observed_members import ObservedMemberStore, make_envelope"
+        },
+        {
+          "line": 167,
+          "text": "        self._members_enabled = self.declare_parameter(\"observed_members.enabled\", False).value"
+        },
+        {
+          "line": 169,
+          "text": "            raise ValueError(\"observed_members.enabled must be bool\")"
+        },
+        {
+          "line": 175,
+          "text": "            topic = self.declare_parameter(\"observed_members.topic\","
+        },
+        {
+          "line": 176,
+          "text": "                \"/perception/dynamic_obstacles_shadow/observed_predictions\").value"
+        },
+        {
+          "line": 180,
+          "text": "            self._members_pub = self.create_publisher(ObservedPredictionEnvelope, topic, 1)"
+        },
+        {
+          "line": 198,
+          "text": "        self._markers_pub = self.create_publisher(MarkerArray, self._markers_topic, 10)"
+        },
+        {
+          "line": 199,
+          "text": "        self._diagnostics_pub = self.create_publisher("
+        },
+        {
+          "line": 202,
+          "text": "        self._predictions_pub = self.create_publisher("
+        },
+        {
+          "line": 354,
+          "text": "        update = self._tracker.update(detections, stamp.nanoseconds / 1.0e9,"
+        },
+        {
+          "line": 367,
+          "text": "            batch = self._members.update(update, detections, members, candidates,"
+        }
+      ]
+    },
+    {
+      "id": "R4",
+      "version": "dc47363652f53da63203a16a8f910652e0b83ccc",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py",
+      "sha256": "bf5c7151529bff73853baaaecf971157a3f47d6a555a9f297012d95d945e4969",
+      "lines": 741,
+      "key_lines": [
+        {
+          "line": 55,
+          "text": "    associations: tuple[tuple[int, int], ...] = ()  # (track_id, detection_index)"
+        },
+        {
+          "line": 490,
+          "text": "class MultiObjectTracker:"
+        },
+        {
+          "line": 550,
+          "text": "               capture_associations: bool = False) -> TrackerUpdate:"
+        },
+        {
+          "line": 583,
+          "text": "            assignments = optimal_gated_assignment("
+        },
+        {
+          "line": 604,
+          "text": "            assignments = {}"
+        },
+        {
+          "line": 613,
+          "text": "                assignments[track_index] = detection_index"
+        },
+        {
+          "line": 614,
+          "text": "        matched_detections = set(assignments.values())"
+        },
+        {
+          "line": 616,
+          "text": "        associations: list[tuple[int, int]] = []"
+        },
+        {
+          "line": 618,
+          "text": "            if track_index in assignments:"
+        },
+        {
+          "line": 619,
+          "text": "                detection_index = assignments[track_index]"
+        },
+        {
+          "line": 621,
+          "text": "                if capture_associations:"
+        },
+        {
+          "line": 622,
+          "text": "                    associations.append((track.track_id, detection_index))"
+        },
+        {
+          "line": 685,
+          "text": "            if capture_associations:"
+        },
+        {
+          "line": 686,
+          "text": "                associations.append((track.track_id, detection_index))"
+        },
+        {
+          "line": 692,
+          "text": "            tuple(sorted(associations, key=lambda pair: pair[1])))"
+        }
+      ]
+    },
+    {
+      "id": "R5",
+      "version": "dc47363652f53da63203a16a8f910652e0b83ccc",
+      "path": "src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/observed_members.py",
+      "sha256": "cc735573a644ed4f886f82890c3db65c3a7868a7335db59402e428b6fa08bfe6",
+      "lines": 133,
+      "key_lines": [
+        {
+          "line": 13,
+          "text": "class MemberRecord:"
+        },
+        {
+          "line": 24,
+          "text": "class MemberBatch:"
+        },
+        {
+          "line": 30,
+          "text": "class ObservedMemberStore:"
+        },
+        {
+          "line": 92,
+          "text": "def make_envelope(prediction, batch, producer_id, generation, sequence):"
+        },
+        {
+          "line": 96,
+          "text": "    from rm_r4_interfaces.msg import ObservedPredictionEnvelope, ObservedTrackMembers"
+        },
+        {
+          "line": 98,
+          "text": "    output = ObservedPredictionEnvelope()"
+        }
+      ]
+    },
+    {
+      "id": "R6",
+      "version": "dc47363652f53da63203a16a8f910652e0b83ccc",
+      "path": "src/rm_r4_interfaces/msg/ObservedPredictionEnvelope.msg",
+      "sha256": "97da73bf100f52d476397dea3a93145b1dc2ab07eff34e5fa6a7d90a7caf6af8",
+      "lines": 13,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "string SCHEMA=rm_r4_observed_predictions/private_v1"
+        },
+        {
+          "line": 2,
+          "text": "string EVIDENCE=associated_observed_endpoints_uncertified"
+        },
+        {
+          "line": 3,
+          "text": "string schema"
+        },
+        {
+          "line": 4,
+          "text": "string producer_id"
+        },
+        {
+          "line": 5,
+          "text": "uint64 producer_generation"
+        },
+        {
+          "line": 6,
+          "text": "uint64 sequence"
+        },
+        {
+          "line": 7,
+          "text": "# The exact public value built once by the existing producer. Its schema,"
+        },
+        {
+          "line": 8,
+          "text": "# authority, source epoch, observation stamps and prediction math are unchanged."
+        },
+        {
+          "line": 9,
+          "text": "rm_competition_interfaces/DynamicObstaclePredictionArray prediction"
+        },
+        {
+          "line": 10,
+          "text": "# Completeness of members for ALL public tracks, not physical visibility."
+        },
+        {
+          "line": 11,
+          "text": "bool complete"
+        },
+        {
+          "line": 12,
+          "text": "string reason"
+        },
+        {
+          "line": 13,
+          "text": "rm_r4_interfaces/ObservedTrackMembers[<=256] tracks"
+        }
+      ]
+    },
+    {
+      "id": "R7",
+      "version": "dc47363652f53da63203a16a8f910652e0b83ccc",
+      "path": "src/rm_r4_interfaces/msg/ObservedTrackMembers.msg",
+      "sha256": "1885613d697833ac056ca3aa973d663d1aa06077d1856a47e03ff400a9a89673",
+      "lines": 11,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "# Private measured support from the same tracker assignment; never a full body."
+        },
+        {
+          "line": 2,
+          "text": "uint64 track_id"
+        },
+        {
+          "line": 3,
+          "text": "builtin_interfaces/Time last_observation_stamp"
+        },
+        {
+          "line": 4,
+          "text": "uint64 association_sequence"
+        },
+        {
+          "line": 5,
+          "text": "uint32 detection_index"
+        },
+        {
+          "line": 6,
+          "text": "# Centroid in prediction.header.frame_id at last_observation_stamp."
+        },
+        {
+          "line": 7,
+          "text": "geometry_msgs/Point centroid_at_observation"
+        },
+        {
+          "line": 8,
+          "text": "# Same-frame axes, relative to centroid_at_observation; no extrapolation here."
+        },
+        {
+          "line": 9,
+          "text": "geometry_msgs/Point[<=4096] local_endpoints"
+        },
+        {
+          "line": 10,
+          "text": "# Original LaserScan beam indices, in one-to-one order with local_endpoints."
+        },
+        {
+          "line": 11,
+          "text": "uint32[<=4096] source_member_ids"
+        }
+      ]
+    },
+    {
+      "id": "F1",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/integration/runtime_tree.xml",
+      "sha256": "740012bca5dbae8ee54c1dabd633d42e0604e2e06d4d840c01166b6a5d85fc62",
+      "lines": 12,
+      "key_lines": [
+        {
+          "line": 7,
+          "text": "        <ControllerSelector selected_controller=\"{selected_controller}\" default_controller=\"FollowPathMPPI\" topic_name=\"controller_selector\"/>"
+        },
+        {
+          "line": 8,
+          "text": "        <FollowPath path=\"{path}\" controller_id=\"{selected_controller}\" goal_checker_id=\"general_goal_checker\"/>"
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/integration/selector_node.py",
+      "sha256": "b28970f21552d7f28376d7ba839271aba18bdf19d363053711541500e3adf3f8",
+      "lines": 67,
+      "key_lines": [
+        {
+          "line": 4,
+          "text": "It cannot enable MPC without fresh health and never publishes cmd_vel. Neither"
+        },
+        {
+          "line": 23,
+          "text": "        self.output = self.create_publisher(String, \"controller_selector\", qos)"
+        },
+        {
+          "line": 26,
+          "text": "        self.create_timer(.02, self.publish_selection)"
+        },
+        {
+          "line": 27,
+          "text": "        self.publish_selection()"
+        },
+        {
+          "line": 34,
+          "text": "        self.publish_selection()"
+        },
+        {
+          "line": 43,
+          "text": "        self.publish_selection()"
+        },
+        {
+          "line": 45,
+          "text": "    def publish_selection(self):"
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "version": "04291a410f193c009e043af88e014cf420e1f68b",
+      "path": "experiments/temporal_mpc/temporal_mpc/selection.py",
+      "sha256": "df1fa722cf7d1fbfcaa73469473b2225009819d4831f81da8d1150585ab85db8",
+      "lines": 42,
+      "key_lines": [
+        {
+          "line": 1,
+          "text": "\"\"\"Runtime controller selection policy; never publishes chassis commands.\"\"\""
+        },
+        {
+          "line": 5,
+          "text": "MPPI = \"FollowPathMPPI\""
+        },
+        {
+          "line": 6,
+          "text": "MPC = \"FollowPathTemporalMPC\""
+        },
+        {
+          "line": 12,
+          "text": "    health_time: float | None = None"
+        },
+        {
+          "line": 19,
+          "text": "        if self.health_time is not None and now < self.health_time:"
+        },
+        {
+          "line": 22,
+          "text": "        self.health_time = now"
+        },
+        {
+          "line": 29,
+          "text": "        if (not math.isfinite(now) or self.health_time is None or now < self.health_time"
+        },
+        {
+          "line": 30,
+          "text": "                or now-self.health_time > .1):"
+        },
+        {
+          "line": 34,
+          "text": "    def request(self, controller_id, now):"
+        }
+      ]
+    }
+  ],
+  "main_launch_inventory": [
+    {
+      "path": "src/rm_navigation_bringup/launch/bag_replay.launch.py",
+      "includes": [
+        "navigation.launch.py"
+      ],
+      "has_SetRemap": false,
+      "sha256": "65164b3ca58220bdca339d1d6fdcf45b8e9f1953b5f4330da9fe80cd3f326fbb"
+    },
+    {
+      "path": "src/rm_navigation_bringup/launch/navigation.launch.py",
+      "includes": [
+        "navigation_launch.py"
+      ],
+      "has_SetRemap": false,
+      "sha256": "37915ce984c7dee2a4ef2d54dc1556b5f6215c4934d81263dba27686740dd22a"
+    },
+    {
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_amcl_relocalization.launch.py",
+      "includes": [
+        "old_car_2026_validation.launch.py"
+      ],
+      "has_SetRemap": false,
+      "sha256": "1db0c81f1ae74914c2c1f91807c6151e2a36fdf440f2371497a9fd2d89ac5036"
+    },
+    {
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_competition.launch.py",
+      "includes": [
+        "old_car_2026_validation.launch.py"
+      ],
+      "has_SetRemap": false,
+      "sha256": "8aef8031f10656ef49780d8463e950231d001329ab50e8069ad50865d326455b"
+    },
+    {
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_gicp_relocalization.launch.py",
+      "includes": [
+        "old_car_2026_validation.launch.py"
+      ],
+      "has_SetRemap": false,
+      "sha256": "dc855a83a48b8e505025a8ae57dc91054002fd278548c111f4407d11574fc704"
+    },
+    {
+      "path": "src/rm_navigation_bringup/launch/old_car_2026_validation.launch.py",
+      "includes": [
+        "navigation_launch.py"
+      ],
+      "has_SetRemap": true,
+      "sha256": "d34177ef8453169878bb0bea290305955077c1bd80b43d380e4738862b3108fc"
+    },
+    {
+      "path": "src/rm_navigation_bringup/launch/phase1_bringup.launch.py",
+      "includes": [
+        "navigation_launch.py"
+      ],
+      "has_SetRemap": false,
+      "sha256": "195626fb12eec557c9d6d19f3c3794660c68cb4caa6e6792b39210346769b2d3"
+    },
+    {
+      "path": "src/rm_simulation/launch/phase1_5_gazebo.launch.py",
+      "includes": [
+        "navigation_launch.py"
+      ],
+      "has_SetRemap": false,
+      "sha256": "c1d1931b6e24fcae786fbf7a93f59aac59647ffaa20600f64b60784b9f07f991"
+    }
+  ],
+  "findings": {
+    "existing_owner_reused": true,
+    "new_final_publisher_justified": false,
+    "old_car_route_has_shared_smoother_upstream": true,
+    "generic_phase1_simulation_route_lacks_old_car_behavior_remap": true,
+    "route_claim_basis": "fixed main launch plus historical installed Humble Nav2 1.1.20 launch; inference, not live publisher evidence",
+    "public_v2_unchanged": true,
+    "A02_tracker_frontend_execution_remain_harness": true,
+    "A05_is_value_library_not_formal_chain": true,
+    "lease_shared_admission_R4_plugin_and_native_fallback_wiring_implemented": false,
+    "stub_and_mode_watchdog_age_clock": "ROS now(), despite wall timer",
+    "serial_receive_watchdog_age_clock": "std::chrono::steady_clock",
+    "Sfc_co_deployment_condition": "share canonical exported provider target when full TDT planner is enabled; current direct compilation is not a co-deployment validation"
+  },
+  "preservation_checks": {
+    "A03_fixed_source_hashes_and_key_lines_verified": {
+      "total": 63,
+      "pinned_git_sources": 60,
+      "unaccepted_original_working_tree_references": 3,
+      "all_hashes_and_key_lines_match": true
+    },
+    "protected_refs_unchanged_excluding_R4": 92,
+    "A03_branch_head_inventory_rechecked": 33,
+    "original_checkout_head_branch_and_10_dirty_paths_unchanged": true,
+    "large_untracked_core_read_or_deleted": false,
+    "frozen_R3_head_and_clean_status_unchanged": true,
+    "R4_existing_branch_based_on_main": true,
+    "formal_entry_profile_controller_output_transport_paths_match_main": true,
+    "A04_A05_recorded_asset_hashes_unchanged": [
+      {
+        "path": "docs/dynamic_navigation/r4_minimal_adapter_sources.json",
+        "sha256": "f623b4b7e8ea4aa24fcda57c1d31781797e8be99d3f78a40a639db973a485fad",
+        "files_rechecked": 22
+      },
+      {
+        "path": "docs/dynamic_navigation/r4_consumer_library_sources.json",
+        "sha256": "54754718a92a30403057384a2e46f9400685c52f583938910884656ef569e067",
+        "files_rechecked": 19
+      }
+    ],
+    "A02_non_Markdown_tracked_files_unchanged": 26,
+    "public_v2_wire_matches_canonical_source": true,
+    "main_direct_nav2_and_parent_launch_inventory": 8,
+    "formal_integration_roots_have_no_R4_runtime_binding": true,
+    "consumer_runtime_has_no_node_publisher_controller_solver_or_harness_runtime": true,
+    "R4_checkout_Sfc_source_provider_count": 1,
+    "full_TDT_CMake_not_present_in_R4": true
+  },
+  "runtime_validation": {
+    "tests_rerun": 0,
+    "ROS_nodes_started": 0,
+    "Nav2_started": false,
+    "Gazebo_started": false,
+    "hardware_connected": false,
+    "large_experiments_started": false,
+    "live_publisher_exclusivity_verified": false,
+    "lease_or_physical_output_acceptance_verified": false
+  },
+  "document_validation": {
+    "local_links_checked": 73,
+    "reuse_matrix_rows": 12,
+    "source_records": 24,
+    "main_launch_records": 8,
+    "mermaid": "structure checked; no renderer run",
+    "JSON": "parsed",
+    "whitespace": "passed",
+    "new_runtime_files": 0,
+    "runtime_tests_rerun": 0,
+    "only_document_files_changed": true,
+    "files": [
+      "docs/dynamic_navigation/r4_reuse_audit_checkpoint.md",
+      "docs/dynamic_navigation/r4_reuse_audit_checkpoint_sources.json",
+      "docs/dynamic_navigation/r4_repository_reuse_audit.md",
+      "docs/dynamic_navigation/r4_hws_prediction_consumption_progress.md"
+    ]
+  },
+  "audit_check_utility_corrections": [
+    "Original A03 key-line text omits indentation; compare stripped key-line text after file SHA256 equality.",
+    "Protected ref scope is heads/tags/remotes, matching A03 baseline; app-internal refs/codex turn captures are outside that baseline. No protected ref changed."
+  ]
+}
