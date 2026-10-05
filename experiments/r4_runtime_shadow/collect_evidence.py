@@ -19,8 +19,12 @@ def ns(stamp):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('output',type=pathlib.Path)
+    parser.add_argument('--evidence',type=pathlib.Path)
+    parser.add_argument('--stage',default='A13 real ROS runtime shadow')
+    parser.add_argument('--runtime-base-commit',default='f138c72d772163b16372e3a1ed7261262e0d37b5')
     args=parser.parse_args();out=args.output.resolve();root=pathlib.Path(__file__).resolve().parents[2]
-    evidence=root/'experiments/r4_runtime_shadow/evidence';evidence.mkdir(exist_ok=True)
+    evidence=args.evidence.resolve() if args.evidence else root/'experiments/r4_runtime_shadow/evidence'
+    evidence.mkdir(parents=True,exist_ok=True)
     consistency={};observations=[];runs={}
     for scene in ['S0','S1','S2']:
         run=out/scene
@@ -62,8 +66,8 @@ def main():
                               json.loads((p/'failure_manifest.json').read_text()) if (p/'failure_manifest.json').exists() else None,
                               behavioral_evidence=False)
     dependencies=json.loads((out/'dependency_provenance.json').read_text())
-    provenance=dict(stage='A13 real ROS runtime shadow',algorithm_baseline='e137635ee8c59888ffad853d1cd9ababb8df8ea6',
-                    runtime_base_commit='f138c72d772163b16372e3a1ed7261262e0d37b5',
+    provenance=dict(stage=args.stage,algorithm_baseline='e137635ee8c59888ffad853d1cd9ababb8df8ea6',
+                    runtime_base_commit=args.runtime_base_commit,
                     source_version='Base commit plus exact per-run uncommitted adapter hashes and caller binary hash below; final Git commit contains these adapters.',
                     branch=subprocess.check_output(['git','branch','--show-current'],cwd=root,text=True).strip(),
                     runs=runs,dependencies=dependencies,preservation=json.loads((out/'preservation_checks.json').read_text()),

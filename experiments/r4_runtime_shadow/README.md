@@ -4,6 +4,8 @@ This experiment calls the frozen A08 C++ Follow library with real ROS inputs. It
 
 Scope and decision: [execution report](../../docs/dynamic_navigation/r4_runtime_shadow_execution.md). Baseline: `e137635e`; plan: `f138c72d`. The original A02 harness is not used. Algorithms/thresholds remain frozen; runtime shadow did not pass behavioral acceptance. A15 identified a namespace-prefix serialization defect in the experimental scene generator that changed the DART friction frame. The current generator preserves the original prefix; historical A13 assets/data are retained and cannot represent the original physics semantics. See the [A15 audit](../../docs/dynamic_navigation/r4_native_stop_audit.md).
 
+The separately recorded [A16 corrected runs](../r4_corrected_runtime_shadow/README.md) use `run_corrected.sh` and a separate evidence/output destination. Three finite corrected runs completed; active-navigation and dynamic-window input applicability still failed. Original A13 evidence below is historical and remains unchanged.
+
 ## Wiring
 
 `shadow.launch.py` defaults to `enabled=false`; `output` must be explicit. It reuses the installed Humble Nav2 navigation launch, its standard component container and parameter rewriting, original MPPI profile, original description/localization/scan/stub nodes, canonical tracker and native map server. Generated experimental worlds reuse the original robot/physics/lidar and moving obstacle model. The raw static map represents the generated empty plane; it is not a second costmap pipeline.

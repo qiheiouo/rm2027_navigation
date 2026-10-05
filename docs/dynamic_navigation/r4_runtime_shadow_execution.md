@@ -2,6 +2,8 @@
 
 > A15后续更正：本报告原始数值/失败保留，但A13实验world的XML重写丢失DART按literal读取的摩擦参考frame。此前“物理保持原值”的判断不完整，旧运行不能代表原始world物理语义；见[A15根因与最小修正](r4_native_stop_audit.md)。原数据仍是该生成scene的真实ROS/pose记录，动态行为及closed-loop均未通过。
 
+> [A16修正后有限复核](r4_corrected_runtime_shadow.md)已完成，停车持续漂移未复现，关键动态窗口仍无兼容输入。当前判决以A16为准，下文保留A13记录。
+
 2026-10-05，Asia/Shanghai；算法/接口基线e137635e，阶段计划f138c72d。[计划](r4_runtime_shadow_plan.md)与[96项冻结资产](r4_runtime_shadow_checkpoint_sources.json)保持。
 
 ## 实现前登记

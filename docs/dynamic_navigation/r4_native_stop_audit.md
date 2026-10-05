@@ -2,6 +2,8 @@
 
 2026-10-05，Asia/Shanghai；研究分支基线`ce87459b`，A08/A09–A12/public v2仍冻结于`e137635e`。
 
+后续：[A16](r4_corrected_runtime_shadow.md)已在独立目录完成修正后的三个有限shadow，未复现原post-zero持续横向漂移；fixed-yaw关键动态窗口仍无有效proposal，闭环仍不具备资格。下文保留A15当时的静态审计与原始数据边界。
+
 ## 分析前范围登记
 
 用户“继续”后，优先回答A14发现的S1 native goal后位移，而非扩展R4输出或转动数学。只读原A13三个bag、references/events/odom、既有profile/world/底盘stub源码和固定版本上游代码。独立`experiments/r4_native_stop_audit`只包含离线decoder/analysis、README、COLCON_IGNORE及证据；不创建ROS node、publisher、预测、solver、owner或新导航链。生成物放新的`build/r4_native_stop_audit_20261005`，不覆盖A13/A14。

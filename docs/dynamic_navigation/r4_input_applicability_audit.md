@@ -2,6 +2,8 @@
 
 > A15后续更正：A14逐stamp一致性与回放结果仍成立，但它们只对应A13错误生成的物理场景。原profile代表性和post-goal漂移原因已在[A15](r4_native_stop_audit.md)进一步定位；需要修正scene后复核，不能据旧yaw数据推断正式链路必然同样不兼容。
 
+> [A16](r4_corrected_runtime_shadow.md)已完成修正后的同规模shadow，重新确认关键动态窗口与fixed-yaw合同不兼容。原A14回放/来源保持，下文没有替换为新run。
+
 2026-10-05，Asia/Shanghai；基线`0266f2ba`，A08/A09–A12继续冻结于`e137635e`。用户“继续”后，先完成原始数据和模型适用性核查，不默认解除数学冻结。
 
 ## 分析前范围登记

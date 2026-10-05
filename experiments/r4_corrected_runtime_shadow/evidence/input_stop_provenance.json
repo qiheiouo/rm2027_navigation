@@ -1,0 +1,96 @@
+{
+  "stage": "A16 input/stop analysis",
+  "script_sha256": "f0af1f06ec60e298772e47b078b5253220876dbff573b32a60a45ba044d83e33",
+  "helper_sources": {
+    "experiments/r4_input_applicability_audit/analyze.py": "8496e9ff3c13cfbebc498887e8a4aa4562dd33ab85b0af396ddedf1282ac80c8",
+    "experiments/r4_native_stop_audit/analyze.py": "9e53db6e1c9b41ed6a83e500883e3997ae57477602294cd821358db967c0be43"
+  },
+  "bag_input_manifest": {
+    "S0": {
+      "counts": {
+        "/tf_static": 1,
+        "/map": 1,
+        "/tf": 3128,
+        "/clock": 23375,
+        "/scan": 355,
+        "/odometry/lio": 1168,
+        "/perception/dynamic_obstacles_shadow/predictions": 352,
+        "/perception/dynamic_obstacles_shadow/observed_predictions": 352,
+        "/plan": 11,
+        "/cmd_vel_nav": 113,
+        "/cmd_vel": 238,
+        "/simulation/chassis/cmd_vel": 239
+      },
+      "command_rows": 590,
+      "clock_rows": 23375,
+      "bag_sha256": {
+        "/check/S0/rosbag/metadata.yaml": "8a9d5bfc6cddc35cfe3bde8cf0ea986fdfb45eefe41e85b7b0d427072bf6e1bb",
+        "/check/S0/rosbag/rosbag_0.db3": "ef70ca9c743fbd72129d0e42de62e7f0c60379ae3b4be114f457cd8d9355f7bd"
+      },
+      "meaning": "Recorder receipt clock brackets only; Twist has no source/send stamp. No Gazebo delivery acknowledgement recorded."
+    },
+    "S1": {
+      "counts": {
+        "/map": 1,
+        "/tf": 3144,
+        "/tf_static": 1,
+        "/clock": 23478,
+        "/scan": 356,
+        "/odometry/lio": 1173,
+        "/perception/dynamic_obstacles_shadow/predictions": 348,
+        "/perception/dynamic_obstacles_shadow/observed_predictions": 348,
+        "/plan": 12,
+        "/cmd_vel_nav": 116,
+        "/cmd_vel": 244,
+        "/simulation/chassis/cmd_vel": 245
+      },
+      "command_rows": 605,
+      "clock_rows": 23478,
+      "bag_sha256": {
+        "/check/S1/rosbag/metadata.yaml": "fc371da3c037d5f1b3af0bb8846c8c7253273f2b8c71fceff43e7acd1e3f233b",
+        "/check/S1/rosbag/rosbag_0.db3": "a1742d61c08b258666bef93d00909d90dec6e736ef34b1634b4d905178d2a0db"
+      },
+      "meaning": "Recorder receipt clock brackets only; Twist has no source/send stamp. No Gazebo delivery acknowledgement recorded."
+    },
+    "S2": {
+      "counts": {
+        "/tf_static": 1,
+        "/tf": 3143,
+        "/map": 1,
+        "/clock": 23462,
+        "/scan": 356,
+        "/odometry/lio": 1173,
+        "/perception/dynamic_obstacles_shadow/predictions": 350,
+        "/perception/dynamic_obstacles_shadow/observed_predictions": 350,
+        "/plan": 11,
+        "/cmd_vel_nav": 113,
+        "/cmd_vel": 238,
+        "/simulation/chassis/cmd_vel": 239
+      },
+      "command_rows": 590,
+      "clock_rows": 23462,
+      "bag_sha256": {
+        "/check/S2/rosbag/metadata.yaml": "775a4a1937a561b027907d91aca91bc7463b0637c2dfa464f85916889c065f99",
+        "/check/S2/rosbag/rosbag_0.db3": "fc2e5783880df6416d6e145adf1fd1738b7a5c645ecc538ca65bda98282869ee"
+      },
+      "meaning": "Recorder receipt clock brackets only; Twist has no source/send stamp. No Gazebo delivery acknowledgement recorded."
+    }
+  },
+  "evidence": {
+    "input_stop_summary.json": "98ab3378036c91867ae47f883b1d02d9d8954611246da1ceb18766055c9edaab",
+    "sdf_semantics.tsv": "0d7ca7f6908fda10dcff70d13578b9a851e58cafd0306b513e50ef0b85740b1c",
+    "decoding.log": "ae78a7f3b741d377d1d21911c71c52c971a2d8c5eeee6b1603e5cfa5bb918fa8",
+    "S0_odometry.csv": "bfeca207f99ebdc83ecfc670457a1f203620435f6a335513aac6a931b0dca193",
+    "S0_commands.csv": "2f91f89d0a0e91cf37365f3d5723284b7d31e00fa1f1bd1f2ccdac3fd98c98d1",
+    "S1_odometry.csv": "fb2a0dae6f9b1dac4097b8df2a12756ca29d8ab881ad49d2a95add45023292ea",
+    "S1_commands.csv": "a6cb2a7faa1cdb927fd26bdb4e71c61df32e0045e83fbf10fbbd18f4a31364d0",
+    "S2_odometry.csv": "4a59a72189363e9a1f3ec0ff8a74f3619d9e1c1903ef2e1f6ee29885a27f1b58",
+    "S2_commands.csv": "ba599285bbb302705b972c7718bae68beda7b2f33a775903440d677466da611a"
+  },
+  "new_calls": {
+    "Follow": 0,
+    "prediction": 0,
+    "ROS_nodes": 0
+  },
+  "checks": "recorded source/TF and ROS relay consistency PASS"
+}

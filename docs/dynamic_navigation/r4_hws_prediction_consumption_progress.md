@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A15确认并最小修复实验world生成的摩擦参考frame丢失；静态检查PASS，旧A13/A14记录保留但不代表原world物理语义，需独立有限shadow复核。动态prediction-consumption行为仍INCONCLUSIVE，production接线暂停，closed-loop NOT_ELIGIBLE。** `e137635e`的A08数学和A09–A12接口保持冻结；native MPPI实际控制，R4只有诊断proposal。75ms仅离线估计，不作算法否定或执行PASS。Follow/插件默认关闭，main、public v2、原dirty与冻结R3保持。unit/value历史PASS保留，closed-loop/deployment未评估。当前根因/最小修复以 [A15审计](r4_native_stop_audit.md) 为准，[A14输入审计](r4_input_applicability_audit.md)与 [A13执行报告](r4_runtime_shadow_execution.md)保留原数据并注明代表性更正；[预登记计划](r4_runtime_shadow_plan.md)与[A12历史结论](r4_return_checkpoint_20261005.md)保留。
+状态：**A16修正场景后的三个有限shadow已完成：原持续停车漂移未复现，但native导航期间R4有效仅6/223、5/230、5/223，关键动态窗口0/40、0/160。输入适用性FAILED，动态prediction-consumption行为INCONCLUSIVE，production接线暂停，closed-loop NOT_ELIGIBLE。** `e137635e`的A08数学和A09–A12接口保持冻结；native MPPI实际控制，R4只有诊断proposal。近期重点是单独审阅真实yaw/wz下消费建模的最小范围，当前不自动解除数学冻结。75ms仅离线估计，不作算法否定或执行PASS。main、public v2、原dirty与冻结R3保持。unit/value历史PASS保留，closed-loop/deployment未评估。最新判决见[A16有限复核](r4_corrected_runtime_shadow.md)，生成根因见[A15审计](r4_native_stop_audit.md)；[A14](r4_input_applicability_audit.md)与[A13](r4_runtime_shadow_execution.md)原数据和代表性更正保留，[预登记计划](r4_runtime_shadow_plan.md)与[A12历史结论](r4_return_checkpoint_20261005.md)保留。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -450,3 +450,23 @@ S1 native goal后真实位置变化约2.44m，修正后counterfactual proposal�
 ### conclusion / next step
 
 原停止owner链已记录到zero，不应新增owner/安全层/MPPI来补偿生成物理错误。旧scene代表性更正，不能直接泛化为正式profile的fixed-yaw不适用或物理漂移。下一阶段应先登记并做同三个短scene各一次独立shadow复核，再决定是否需要转动建模；闭环仍NOT_ELIGIBLE，数学冻结继续。
+
+## A16 — 修正world后的有限runtime shadow复核
+
+### hypothesis / change
+
+以A15 `13b81775`为基线，预登记后只将原S0/S1/S2各执行一次20ROS秒shadow。修正的namespace保留原DART摩擦frame，数学/参数/原障碍时间表不变，caller保留A14 bookkeeping。新增独立输出runner与离线input/stop分析，collector增加可选证据目标/stage/base参数以复用同一收集流程。没有新tracker/预测/frontend/solver/owner，native MPPI仍实际控制。
+
+### result / evidence
+
+startup failures=0，native三场均SUCCEEDED，实际asset literal frame12/12。goal后至窗口末实测位移约1.16/4.69/5.04mm；末级永久zero+1s后实测平面速度与wz均0，原持续vy漂移未复现。没有相同MPPI随机种子的严格因果配对，不泛化到硬件安全。
+
+goal窗口400拍有效182/174/179，多数在native完成后静止期间。实际导航有效仅6/223、5/230、5/223（2.69%/2.17%/2.24%），S1动态40拍、S2动态160拍全部fixed-yaw不兼容。source-time pose/twist/TF逐值匹配；1050对public/private一致，698行observed members支持原动态事件，没有producer restart。有效proposal WAIT/cost峰值均0，关键窗口无提案，不能宣称提前响应或恢复。
+
+goal窗口solver最大4.774/4.827/4.874ms，acquire→finish最大5.824/6.073/6.231ms；未触发15/40ms，原75ms剩余最小均>68ms。next actual receipt代理仅24/22/21样本，其余有效proposal保持NA，不能宣称lease PASS或75ms结构性不可行。
+
+[判决/最小后续范围](r4_corrected_runtime_shadow.md)、[精确入口](../../experiments/r4_corrected_runtime_shadow/README.md)、[原始逐拍与来源](../../experiments/r4_corrected_runtime_shadow/evidence/provenance.json)记录全部结果。45个依赖hash匹配A13、96冻结asset及48个既有A13/A14/A15 evidence保持；main、R3、原dirty和正式入口未改，未重跑历史GTest/R3或增加场景/大规模实验。
+
+### conclusion / next step
+
+场景静态语义和有限停止复核PASS；runtime input FAILED、dynamic behavior INCONCLUSIVE、closed-loop NOT_ELIGIBLE。暂停production输出扩展。后续若解除A08 fixed-yaw冻结，应先单独审阅真实yaw/wz、逐stage旋转footprint、body/world控制与rate/history一致性的最小消费模型；继续复用public v2、Sfc、OSQP及既有唯一owner。当前未改转动数学，不删gate、不置零实测wz、不加复杂预测/硬veto/输出框架来绕过输入合同。
