@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**近期重点已调整为A13真实ROS/Nav2 runtime shadow行为验证；本次完成A12基线冻结与阶段计划，shadow场景尚未运行。** 冻结`e137635e`的A08数学和A09–A12接口，生产输出基础设施暂缓。native MPPI保持控制责任，R4仅记录proposal与完整timing；先S0空场、S1横穿、S2停留后离开，75ms只离线模拟，不作算法提前否定条件。Follow/插件默认关闭，main、public v2、原dirty与冻结R3保持。当前只有unit/value PASS；shadow/closed-loop/deployment未评估。当前工作顺序与判决以 [A13计划](r4_runtime_shadow_plan.md) 为准；[A12历史结论与矩阵](r4_return_checkpoint_20261005.md) 保留。
+状态：**A13真实ROS/Nav2 shadow三个短场景完成；输入适用性FAILED，动态prediction-consumption行为INCONCLUSIVE，暂停production接线，closed-loop NOT_ELIGIBLE。** `e137635e`的A08数学和A09–A12接口保持冻结；native MPPI实际控制，R4只有诊断proposal。75ms仅离线估计，不作算法否定或执行PASS。Follow/插件默认关闭，main、public v2、原dirty与冻结R3保持。unit/value历史PASS保留，closed-loop/deployment未评估。当前判决以 [A13执行报告](r4_runtime_shadow_execution.md) 为准；[预登记计划](r4_runtime_shadow_plan.md)与[A12历史结论](r4_return_checkpoint_20261005.md)保留。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -390,3 +390,23 @@ Certified 只指固定 current map 和显式 tracking 假设下的几何区间�
 ### conclusion / next step
 
 本次交付近期重点调整，runtime shadow为NOT_EVALUATED。下一步先验证一个现有Humble/ROS仿真profile的数据输入与依赖，再预登记/实现最小caller与日志，按S0→S1→S2完成首轮短运行；不调参救结果。shadow通过才讨论有限1–2场景闭环，仍不自动打开生产接线或30-run实验。
+
+## A13执行 — 真实ROS runtime shadow与输入适用性停止点
+
+### hypothesis / change
+
+按用户“继续”，只在独立实验目录预登记并实现最薄ROS caller、launch与日志分析。真实scan进入原canonical tracker/public v2+A04 envelope；原Nav2 Path/raw-static进入canonical Sfc；实测odom/source-time TF进入原A08 Follow。R4没有速度publisher/active Controller/A10 enforcement；native MPPI继续实际控制。原算法、接口、参数与15/40/75ms保持。
+
+### result / evidence
+
+S0/S1/S2各一个有效20秒观察窗口、400拍：valid分别62/48/5（15.50%/12.00%/1.25%）。fixed-yaw拒绝338/180/393；S1另170 corridor拒绝和2次primal infeasible，S2另2次envelope/TTL拒绝。实际导航期间valid仅7/342、5/179、5/400；关键动态冲突窗口几乎无输出。原canonical观测确认S1横穿和S2停留后离开，1043对public/private消息逐值相同；不能把场景target或MPPI恢复当作R4响应。
+
+实际solver最大2.352/6.096/2.498ms，acquire到Follow返回最大6.169/8.323/6.274ms，未触发15/40ms超时。有效proposal prediction年龄最大167/204/93ms；S2短时输入age达437ms并被拒绝。75ms从原acquire计算；next-output receipt仅代理估计、含NA/启动或goal结束phase，不宣称生产lease PASS或结构性不可行。
+
+[执行报告](r4_runtime_shadow_execution.md)、[可复现入口](../../experiments/r4_runtime_shadow/README.md)、[完整紧凑证据](../../experiments/r4_runtime_shadow/evidence/summary.json)记录全部cycles、原生reference、observed members、timing、图与来源hash。五次最小启动/清理问题保留各自数据；诊断修复只涉及实验wrapper时间API、原v2参数、Nav2原生container/完整配置和scenario等待active。
+
+96项A12冻结资产、63项历史来源、92项保护refs、原十个dirty/untracked和冻结R3核对通过；正式入口/MPPI配置/串口与main一致，未重跑R3或历史GTests，没有第二tracker/预测/frontend/solver/owner。
+
+### conclusion / next step
+
+**runtime输入适用性FAILED，动态消费效果INCONCLUSIVE；停止继续production接线，不具备闭环资格。** 真实MPPI测量角速度与冻结fixed-yaw切片不兼容，有限成功片段不能评估提前响应/WAIT/释放/稳定性。没有证据证明永久future封锁或soft机制失败；也没有动态避障PASS。A12继续冻结，后续先判断fixed-yaw适用范围或另立建模阶段，不在A13通过置零实测wz、改门限/权重或增加复杂层救结果。

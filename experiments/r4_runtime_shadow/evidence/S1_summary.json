@@ -1,0 +1,573 @@
+{
+  "scene": "S1",
+  "all_cycles": {
+    "cycles": 527,
+    "valid_proposals": 48,
+    "valid_ratio": 0.09108159392789374,
+    "unavailable_ratio": 0.9089184060721063,
+    "follow_calls": 446,
+    "osqp_calls": 50,
+    "osqp_failure_ratio": 0.04,
+    "reasons": {
+      "missing_prediction_map_path_or_odom": 81,
+      "solved_soft_dynamic": 48,
+      "invalid_or_failed_input: fixed-yaw coherent control values": 180,
+      "solver_not_solved": 2,
+      "invalid_or_failed_input: state outside certified static corridor": 216
+    },
+    "solver_statuses": {
+      "not_invoked": 81,
+      "solved": 48,
+      "not_run": 396,
+      "primal infeasible": 2
+    },
+    "solver_ms": {
+      "n": 50,
+      "median": 2.2040005,
+      "p95": 5.022921149999999,
+      "max": 6.096474,
+      "min": 1.115208
+    },
+    "follow_call_ms": {
+      "n": 446,
+      "median": 0.0374695,
+      "p95": 2.9838597499999997,
+      "max": 6.909266,
+      "min": 0.017229
+    },
+    "acquire_to_finish_ms": {
+      "n": 446,
+      "median": 1.639976,
+      "p95": 4.41884125,
+      "max": 8.323374,
+      "min": 0.949325
+    },
+    "corridor_prepare_ms": {
+      "n": 446,
+      "median": 1.182181,
+      "p95": 1.65558675,
+      "max": 2.321163,
+      "min": 9.4e-05
+    },
+    "prediction_age_at_acquire_ms": {
+      "n": 467,
+      "median": 88.0,
+      "p95": 140.7,
+      "max": 205.0,
+      "min": 34.0
+    },
+    "observation_age_at_acquire_ms": {
+      "n": 467,
+      "median": 88.0,
+      "p95": 140.7,
+      "max": 205.0,
+      "min": 34.0
+    },
+    "state_age_at_acquire_ms": {
+      "n": 446,
+      "median": 24.0,
+      "p95": 43.0,
+      "max": 51.0,
+      "min": 2.0
+    },
+    "observation_to_proposal_ms": {
+      "n": 48,
+      "median": 94.5,
+      "p95": 155.3,
+      "max": 204.0,
+      "min": 44.0
+    },
+    "prediction_to_proposal_ms": {
+      "n": 48,
+      "median": 94.5,
+      "p95": 155.3,
+      "max": 204.0,
+      "min": 44.0
+    },
+    "remaining_75ms_at_proposal": {
+      "n": 48,
+      "median": 70.624118,
+      "p95": 72.225634,
+      "max": 72.560347,
+      "min": 66.676626
+    },
+    "valid_wait_like": 0,
+    "valid_forward": 47,
+    "warm_proposals": 4,
+    "adjacent_valid_pairs": 46,
+    "vx_delta": {
+      "n": 46,
+      "median": 6.938893903907228e-18,
+      "p95": 0.032759653243116915,
+      "max": 0.044960237458778564,
+      "min": 0.0
+    },
+    "vy_delta": {
+      "n": 46,
+      "median": 2.915896690769415e-10,
+      "p95": 3.923034112097941e-05,
+      "max": 5.082147629492317e-05,
+      "min": 0.0
+    },
+    "direction_reversals": {
+      "vx": 0,
+      "vy": 0
+    },
+    "same_route_progress_pairs": 46,
+    "measured_progress_decreases": 0,
+    "same_path_static_body_limits_pairs": 4,
+    "same_context_progress_decreases": 0,
+    "proposal_stage_progress_decreases": 0,
+    "progress_rate": {
+      "n": 48,
+      "median": 0.0,
+      "p95": 0.2330175884200141,
+      "max": 0.27952854711434083,
+      "min": 0.0
+    },
+    "dynamic_cost": {
+      "n": 48,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "min": 0.0
+    },
+    "predicted_observed_clearance": {
+      "n": 0,
+      "median": null,
+      "p95": null,
+      "max": null,
+      "min": null
+    },
+    "valid_plateau_stages": 0,
+    "nominal_dynamic_cost": {
+      "n": 50,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "min": 0.0
+    },
+    "nonzero_track_cycles": 467,
+    "fixed_yaw_incompatible_cycles": 180,
+    "absolute_measured_wz": {
+      "n": 446,
+      "median": 2.298161660974074e-12,
+      "p95": 1.1689148203004152,
+      "max": 2.220259257592261,
+      "min": 0.0
+    },
+    "body_versions": 442,
+    "path_versions": 9,
+    "producer_generations": [
+      [
+        "4a010ed1f7af4ac29e58b230f72f190a",
+        "0"
+      ]
+    ]
+  },
+  "goal_window": {
+    "cycles": 400,
+    "valid_proposals": 48,
+    "valid_ratio": 0.12,
+    "unavailable_ratio": 0.88,
+    "follow_calls": 400,
+    "osqp_calls": 50,
+    "osqp_failure_ratio": 0.04,
+    "reasons": {
+      "solved_soft_dynamic": 48,
+      "invalid_or_failed_input: fixed-yaw coherent control values": 180,
+      "solver_not_solved": 2,
+      "invalid_or_failed_input: state outside certified static corridor": 170
+    },
+    "solver_statuses": {
+      "solved": 48,
+      "not_run": 350,
+      "primal infeasible": 2
+    },
+    "solver_ms": {
+      "n": 50,
+      "median": 2.2040005,
+      "p95": 5.022921149999999,
+      "max": 6.096474,
+      "min": 1.115208
+    },
+    "follow_call_ms": {
+      "n": 400,
+      "median": 0.036296,
+      "p95": 3.351773049999999,
+      "max": 6.909266,
+      "min": 0.017229
+    },
+    "acquire_to_finish_ms": {
+      "n": 400,
+      "median": 1.6084985,
+      "p95": 4.609519349999986,
+      "max": 8.323374,
+      "min": 0.949325
+    },
+    "corridor_prepare_ms": {
+      "n": 400,
+      "median": 1.1429315,
+      "p95": 1.65585855,
+      "max": 2.321163,
+      "min": 9.4e-05
+    },
+    "prediction_age_at_acquire_ms": {
+      "n": 400,
+      "median": 88.0,
+      "p95": 142.0,
+      "max": 205.0,
+      "min": 34.0
+    },
+    "observation_age_at_acquire_ms": {
+      "n": 400,
+      "median": 88.0,
+      "p95": 142.0,
+      "max": 205.0,
+      "min": 34.0
+    },
+    "state_age_at_acquire_ms": {
+      "n": 400,
+      "median": 24.0,
+      "p95": 43.0,
+      "max": 44.0,
+      "min": 3.0
+    },
+    "observation_to_proposal_ms": {
+      "n": 48,
+      "median": 94.5,
+      "p95": 155.3,
+      "max": 204.0,
+      "min": 44.0
+    },
+    "prediction_to_proposal_ms": {
+      "n": 48,
+      "median": 94.5,
+      "p95": 155.3,
+      "max": 204.0,
+      "min": 44.0
+    },
+    "remaining_75ms_at_proposal": {
+      "n": 48,
+      "median": 70.624118,
+      "p95": 72.225634,
+      "max": 72.560347,
+      "min": 66.676626
+    },
+    "valid_wait_like": 0,
+    "valid_forward": 47,
+    "warm_proposals": 4,
+    "adjacent_valid_pairs": 46,
+    "vx_delta": {
+      "n": 46,
+      "median": 6.938893903907228e-18,
+      "p95": 0.032759653243116915,
+      "max": 0.044960237458778564,
+      "min": 0.0
+    },
+    "vy_delta": {
+      "n": 46,
+      "median": 2.915896690769415e-10,
+      "p95": 3.923034112097941e-05,
+      "max": 5.082147629492317e-05,
+      "min": 0.0
+    },
+    "direction_reversals": {
+      "vx": 0,
+      "vy": 0
+    },
+    "same_route_progress_pairs": 46,
+    "measured_progress_decreases": 0,
+    "same_path_static_body_limits_pairs": 4,
+    "same_context_progress_decreases": 0,
+    "proposal_stage_progress_decreases": 0,
+    "progress_rate": {
+      "n": 48,
+      "median": 0.0,
+      "p95": 0.2330175884200141,
+      "max": 0.27952854711434083,
+      "min": 0.0
+    },
+    "dynamic_cost": {
+      "n": 48,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "min": 0.0
+    },
+    "predicted_observed_clearance": {
+      "n": 0,
+      "median": null,
+      "p95": null,
+      "max": null,
+      "min": null
+    },
+    "valid_plateau_stages": 0,
+    "nominal_dynamic_cost": {
+      "n": 50,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "min": 0.0
+    },
+    "nonzero_track_cycles": 400,
+    "fixed_yaw_incompatible_cycles": 180,
+    "absolute_measured_wz": {
+      "n": 400,
+      "median": 2.2995494397548555e-12,
+      "p95": 1.1765615083277225,
+      "max": 2.220259257592261,
+      "min": 0.0
+    },
+    "body_versions": 396,
+    "path_versions": 9,
+    "producer_generations": [
+      [
+        "4a010ed1f7af4ac29e58b230f72f190a",
+        "0"
+      ]
+    ]
+  },
+  "native_motion_window": {
+    "cycles": 179,
+    "valid_proposals": 5,
+    "valid_ratio": 0.027932960893854747,
+    "unavailable_ratio": 0.9720670391061452,
+    "follow_calls": 179,
+    "osqp_calls": 5,
+    "osqp_failure_ratio": 0.0,
+    "reasons": {
+      "solved_soft_dynamic": 5,
+      "invalid_or_failed_input: fixed-yaw coherent control values": 174
+    },
+    "solver_statuses": {
+      "solved": 5,
+      "not_run": 174
+    },
+    "solver_ms": {
+      "n": 5,
+      "median": 2.1468949999999998,
+      "p95": 2.177106,
+      "max": 2.183383,
+      "min": 1.867234
+    },
+    "follow_call_ms": {
+      "n": 179,
+      "median": 0.032096,
+      "p95": 0.04866089999999999,
+      "max": 2.908834,
+      "min": 0.017229
+    },
+    "acquire_to_finish_ms": {
+      "n": 179,
+      "median": 1.491763,
+      "p95": 2.0150482,
+      "max": 7.500607,
+      "min": 0.949325
+    },
+    "corridor_prepare_ms": {
+      "n": 179,
+      "median": 1.170623,
+      "p95": 1.6840404,
+      "max": 2.321163,
+      "min": 9.4e-05
+    },
+    "prediction_age_at_acquire_ms": {
+      "n": 179,
+      "median": 89.0,
+      "p95": 135.39999999999998,
+      "max": 205.0,
+      "min": 35.0
+    },
+    "observation_age_at_acquire_ms": {
+      "n": 179,
+      "median": 89.0,
+      "p95": 135.39999999999998,
+      "max": 205.0,
+      "min": 35.0
+    },
+    "state_age_at_acquire_ms": {
+      "n": 179,
+      "median": 24.0,
+      "p95": 44.0,
+      "max": 44.0,
+      "min": 3.0
+    },
+    "observation_to_proposal_ms": {
+      "n": 5,
+      "median": 82.0,
+      "p95": 110.0,
+      "max": 113.0,
+      "min": 66.0
+    },
+    "prediction_to_proposal_ms": {
+      "n": 5,
+      "median": 82.0,
+      "p95": 110.0,
+      "max": 113.0,
+      "min": 66.0
+    },
+    "remaining_75ms_at_proposal": {
+      "n": 5,
+      "median": 71.81503,
+      "p95": 72.302174,
+      "max": 72.394559,
+      "min": 67.499393
+    },
+    "valid_wait_like": 0,
+    "valid_forward": 4,
+    "warm_proposals": 4,
+    "adjacent_valid_pairs": 4,
+    "vx_delta": {
+      "n": 4,
+      "median": 0.03645227524152797,
+      "p95": 0.04407029524235365,
+      "max": 0.044960237458778564,
+      "min": 0.0294068295711373
+    },
+    "vy_delta": {
+      "n": 4,
+      "median": 4.2738365576352796e-05,
+      "p95": 4.996327321450588e-05,
+      "max": 5.082147629492317e-05,
+      "min": 3.5791538302224596e-05
+    },
+    "direction_reversals": {
+      "vx": 0,
+      "vy": 0
+    },
+    "same_route_progress_pairs": 4,
+    "measured_progress_decreases": 0,
+    "same_path_static_body_limits_pairs": 4,
+    "same_context_progress_decreases": 0,
+    "proposal_stage_progress_decreases": 0,
+    "progress_rate": {
+      "n": 5,
+      "median": 0.24127452026422444,
+      "p95": 0.27597337338427297,
+      "max": 0.27952854711434083,
+      "min": 0.18832497152793967
+    },
+    "dynamic_cost": {
+      "n": 5,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "min": 0.0
+    },
+    "predicted_observed_clearance": {
+      "n": 0,
+      "median": null,
+      "p95": null,
+      "max": null,
+      "min": null
+    },
+    "valid_plateau_stages": 0,
+    "nominal_dynamic_cost": {
+      "n": 5,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "min": 0.0
+    },
+    "nonzero_track_cycles": 179,
+    "fixed_yaw_incompatible_cycles": 174,
+    "absolute_measured_wz": {
+      "n": 179,
+      "median": 0.45107507903594524,
+      "p95": 1.8405840243212874,
+      "max": 2.220259257592261,
+      "min": 0.0
+    },
+    "body_versions": 175,
+    "path_versions": 9,
+    "producer_generations": [
+      [
+        "4a010ed1f7af4ac29e58b230f72f190a",
+        "0"
+      ]
+    ]
+  },
+  "events": {
+    "scene": "S1",
+    "events": [
+      {
+        "kind": "goal_accepted",
+        "ROS_ns": 1138000000,
+        "steady_ns": 21046983045410
+      },
+      {
+        "kind": "obstacle_motion_start",
+        "ROS_ns": 2138000000,
+        "steady_ns": 21047980735629
+      },
+      {
+        "kind": "crossed_or_hold",
+        "ROS_ns": 4138000000,
+        "steady_ns": 21049980619916
+      },
+      {
+        "kind": "clear_target",
+        "ROS_ns": 4138000000,
+        "steady_ns": 21049980628138
+      },
+      {
+        "kind": "native_goal_result",
+        "ROS_ns": 10110000000,
+        "steady_ns": 21055954180122,
+        "status": 4
+      },
+      {
+        "kind": "observation_end",
+        "ROS_ns": 21138000000,
+        "steady_ns": 21066982331949
+      }
+    ],
+    "last_input_stamps": {
+      "scan": 21121000000,
+      "odom": 21120000000
+    }
+  },
+  "clock_nonincreasing_cycles": 55,
+  "goal_window_real_time_factor": 0.9999224251580864,
+  "offline_75ms": {
+    "estimated_cycles": 18,
+    "valid_ratio": 0.8333333333333334,
+    "next_phase_ms": {
+      "n": 18,
+      "median": 10.863407500000001,
+      "p95": 168.47808939999993,
+      "max": 206.807221,
+      "min": 7.756635
+    },
+    "meaning": "Next actual cmd RECEIPT after Follow finish; proxy only, no owner send stamp/production enforcement/lease PASS."
+  },
+  "first_three_forward_after_clear_target_seconds": 6.395,
+  "dynamic_resume_confirmed": null,
+  "clear_meaning": "Target schedule event only. Actual sensed obstacle clearance must be checked separately; NA is not WAIT/resume.",
+  "references": {
+    "mppi_upstream": 91,
+    "actual_output": 194
+  },
+  "native_actual_vx": {
+    "n": 194,
+    "median": 0.0,
+    "p95": 0.5384603381156922,
+    "max": 0.5663522481918335,
+    "min": -0.3144890069961548
+  },
+  "bag_counts": {
+    "/tf": 3143,
+    "/tf_static": 1,
+    "/map": 1,
+    "/clock": 23456,
+    "/scan": 356,
+    "/odometry/lio": 1172,
+    "/perception/dynamic_obstacles_shadow/predictions": 351,
+    "/perception/dynamic_obstacles_shadow/observed_predictions": 351,
+    "/plan": 9,
+    "/cmd_vel_nav": 91,
+    "/cmd_vel": 194,
+    "/simulation/chassis/cmd_vel": 195
+  }
+}

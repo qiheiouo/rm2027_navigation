@@ -1,0 +1,243 @@
+{
+  "S0_container_params_failure": {
+    "cycles": 636,
+    "valid": 0,
+    "events": {
+      "scene": "S0",
+      "events": [
+        {
+          "kind": "startup_not_ready",
+          "ROS_ns": 26807000000,
+          "steady_ns": 20731080647829
+        }
+      ],
+      "last_input_stamps": {
+        "scan": 26797000000,
+        "odom": 26800000000
+      }
+    },
+    "manifest": {
+      "scene": "S0",
+      "launch_command": [
+        "ros2",
+        "launch",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/shadow.launch.py",
+        "enabled:=true",
+        "scene:=S0",
+        "output:=/check/S0"
+      ],
+      "scenario_command": [
+        "python3",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/scenario.py",
+        "S0",
+        "/check/S0"
+      ],
+      "environment": {
+        "ROS_DOMAIN_ID": "147",
+        "ROS_LOCALHOST_ONLY": "1",
+        "IGN_PARTITION": "r4_runtime_shadow_20261005",
+        "IGN_IP": "127.0.0.1",
+        "LIBGL_ALWAYS_SOFTWARE": "true"
+      },
+      "sources": {
+        "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+        "experiments/r4_runtime_shadow/scenario.py": "962f75ac71491394bd11d05230318af30b78a786e1c846064e60d8fb2cc66d4b",
+        "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+        "experiments/r4_runtime_shadow/run.sh": "f6d1485f6e9cbb67fe26f0bec858b9adac7733ac244d8f9af1cc2bf85ccf601e",
+        "experiments/r4_runtime_shadow/shadow.cpp": "a0ce37abbcd84ef0e51a2c8a312d0d63fd772b3336f59d3bbb00a406c1be0c4d",
+        "experiments/r4_runtime_shadow/extract.py": "89a7ca963656015c44ffc63356c7260251b6f0654e7469766f7a99fb8359c3e0",
+        "experiments/r4_runtime_shadow/shadow.launch.py": "0258474a7a67b19b8ecc09f636c90ec4d5bc8d4ee2cbf5c6ad2de2a479225eb2",
+        "experiments/r4_runtime_shadow/run_scene.py": "3aa78d6d3052dc779602b6792e94a3ed9303689fca12dc3e5fa52bb646e23fd8"
+      },
+      "caller_binary_sha256": "1cb6a66910299aa859fc68a0fcab9bb9d4e02efb5f2d1dd0ad14153bccbe3660"
+    },
+    "behavioral_evidence": false
+  },
+  "S0_initial_launch_failure": {
+    "cycles": 3680,
+    "valid": 0,
+    "events": {
+      "scene": "S0",
+      "events": [],
+      "last_input_stamps": {
+        "scan": 0,
+        "odom": 0
+      }
+    },
+    "manifest": {
+      "stage": "launch failure before goal",
+      "reason": "rclpy Time.nanoseconds is a property; wrong callable use. Initial launch cleanup did not terminate graph promptly. Not a behavioral run.",
+      "source_hashes": {
+        "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+        "experiments/r4_runtime_shadow/scenario.py": "4645920b057eea853093ddb0c268e08703ae651048f1ebbe99160d185e830467",
+        "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+        "experiments/r4_runtime_shadow/run.sh": "e4a2b70d2336900163e8c9ecf65cc1d0550dbe874f408ee6c4e9e0cb4eb7230b",
+        "experiments/r4_runtime_shadow/shadow.cpp": "37bc509c18983ddcbb507fca45b29628e12e031008dc6a967fda0b84f7ad3911",
+        "experiments/r4_runtime_shadow/shadow.launch.py": "d0acf3190cdb047ba4d5409ce09ade50c09b1567bf24c80f3bf002e729295823"
+      },
+      "binary_sha256": "dee26f7208e3848b3cb8ffddb686c6efe6ade7dee8098210e4cab3812efa0593"
+    },
+    "behavioral_evidence": false
+  },
+  "S0_missing_container_failure": {
+    "cycles": 637,
+    "valid": 0,
+    "events": {
+      "scene": "S0",
+      "events": [
+        {
+          "kind": "startup_not_ready",
+          "ROS_ns": 26720000000,
+          "steady_ns": 20263209833437
+        }
+      ],
+      "last_input_stamps": {
+        "scan": 26665000000,
+        "odom": 26720000000
+      }
+    },
+    "manifest": {
+      "scene": "S0",
+      "launch_command": [
+        "ros2",
+        "launch",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/shadow.launch.py",
+        "enabled:=true",
+        "scene:=S0",
+        "output:=/check/S0"
+      ],
+      "scenario_command": [
+        "python3",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/scenario.py",
+        "S0",
+        "/check/S0"
+      ],
+      "environment": {
+        "ROS_DOMAIN_ID": "147",
+        "ROS_LOCALHOST_ONLY": "1",
+        "IGN_PARTITION": "r4_runtime_shadow_20261005",
+        "IGN_IP": "127.0.0.1",
+        "LIBGL_ALWAYS_SOFTWARE": "true"
+      },
+      "sources": {
+        "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+        "experiments/r4_runtime_shadow/scenario.py": "962f75ac71491394bd11d05230318af30b78a786e1c846064e60d8fb2cc66d4b",
+        "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+        "experiments/r4_runtime_shadow/run.sh": "f6d1485f6e9cbb67fe26f0bec858b9adac7733ac244d8f9af1cc2bf85ccf601e",
+        "experiments/r4_runtime_shadow/shadow.cpp": "37bc509c18983ddcbb507fca45b29628e12e031008dc6a967fda0b84f7ad3911",
+        "experiments/r4_runtime_shadow/extract.py": "89a7ca963656015c44ffc63356c7260251b6f0654e7469766f7a99fb8359c3e0",
+        "experiments/r4_runtime_shadow/shadow.launch.py": "b2317f4acce51ce50e63a348592154a8a0b0978e2ceb726dbbaeb936b4f170fd",
+        "experiments/r4_runtime_shadow/run_scene.py": "3aa78d6d3052dc779602b6792e94a3ed9303689fca12dc3e5fa52bb646e23fd8"
+      },
+      "caller_binary_sha256": "dee26f7208e3848b3cb8ffddb686c6efe6ade7dee8098210e4cab3812efa0593"
+    },
+    "behavioral_evidence": false
+  },
+  "S0_preactivation_goal_failure": {
+    "cycles": 103,
+    "valid": 0,
+    "events": {
+      "scene": "S0",
+      "events": [
+        {
+          "kind": "goal_rejected",
+          "ROS_ns": 20000000,
+          "steady_ns": 20791823528757
+        }
+      ],
+      "last_input_stamps": {
+        "scan": 2000000,
+        "odom": 20000000
+      }
+    },
+    "manifest": {
+      "scene": "S0",
+      "launch_command": [
+        "ros2",
+        "launch",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/shadow.launch.py",
+        "enabled:=true",
+        "scene:=S0",
+        "output:=/check/S0"
+      ],
+      "scenario_command": [
+        "python3",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/scenario.py",
+        "S0",
+        "/check/S0"
+      ],
+      "environment": {
+        "ROS_DOMAIN_ID": "147",
+        "ROS_LOCALHOST_ONLY": "1",
+        "IGN_PARTITION": "r4_runtime_shadow_20261005",
+        "IGN_IP": "127.0.0.1",
+        "LIBGL_ALWAYS_SOFTWARE": "true"
+      },
+      "sources": {
+        "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+        "experiments/r4_runtime_shadow/scenario.py": "962f75ac71491394bd11d05230318af30b78a786e1c846064e60d8fb2cc66d4b",
+        "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+        "experiments/r4_runtime_shadow/run.sh": "f6d1485f6e9cbb67fe26f0bec858b9adac7733ac244d8f9af1cc2bf85ccf601e",
+        "experiments/r4_runtime_shadow/shadow.cpp": "a0ce37abbcd84ef0e51a2c8a312d0d63fd772b3336f59d3bbb00a406c1be0c4d",
+        "experiments/r4_runtime_shadow/extract.py": "89a7ca963656015c44ffc63356c7260251b6f0654e7469766f7a99fb8359c3e0",
+        "experiments/r4_runtime_shadow/shadow.launch.py": "853c38640cd0be7fb02be96ceffdff84cb497bc29c434e6969d6281c3e1e27c8",
+        "experiments/r4_runtime_shadow/run_scene.py": "3aa78d6d3052dc779602b6792e94a3ed9303689fca12dc3e5fa52bb646e23fd8"
+      },
+      "caller_binary_sha256": "1cb6a66910299aa859fc68a0fcab9bb9d4e02efb5f2d1dd0ad14153bccbe3660"
+    },
+    "behavioral_evidence": false
+  },
+  "S0_startup_failure": {
+    "cycles": 1845,
+    "valid": 0,
+    "events": {
+      "scene": "S0",
+      "events": [
+        {
+          "kind": "wall_cap",
+          "ROS_ns": 86973000000,
+          "steady_ns": 20049835076320
+        }
+      ],
+      "last_input_stamps": {
+        "scan": 86923000000,
+        "odom": 86960000000
+      }
+    },
+    "manifest": {
+      "scene": "S0",
+      "launch_command": [
+        "ros2",
+        "launch",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/shadow.launch.py",
+        "enabled:=true",
+        "scene:=S0",
+        "output:=/check/S0"
+      ],
+      "scenario_command": [
+        "python3",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/scenario.py",
+        "S0",
+        "/check/S0"
+      ],
+      "environment": {
+        "ROS_DOMAIN_ID": "147",
+        "ROS_LOCALHOST_ONLY": "1",
+        "IGN_PARTITION": "r4_runtime_shadow_20261005",
+        "IGN_IP": "127.0.0.1",
+        "LIBGL_ALWAYS_SOFTWARE": "true"
+      },
+      "sources": {
+        "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+        "experiments/r4_runtime_shadow/scenario.py": "6c4a3c106cf7e10a3ee0713e55055b67e97cb4bc3d9a4dfcbb3cb12e28c9b024",
+        "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+        "experiments/r4_runtime_shadow/run.sh": "b8fb72ac6c4b6bd7312148f627ab02bc407b1c5d18e5487f648e515bf2ff7d5f",
+        "experiments/r4_runtime_shadow/shadow.cpp": "37bc509c18983ddcbb507fca45b29628e12e031008dc6a967fda0b84f7ad3911",
+        "experiments/r4_runtime_shadow/shadow.launch.py": "d0acf3190cdb047ba4d5409ce09ade50c09b1567bf24c80f3bf002e729295823",
+        "experiments/r4_runtime_shadow/run_scene.py": "3aa78d6d3052dc779602b6792e94a3ed9303689fca12dc3e5fa52bb646e23fd8"
+      },
+      "caller_binary_sha256": "dee26f7208e3848b3cb8ffddb686c6efe6ade7dee8098210e4cab3812efa0593"
+    },
+    "behavioral_evidence": false
+  }
+}

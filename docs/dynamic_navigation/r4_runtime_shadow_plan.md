@@ -2,7 +2,7 @@
 
 2026-10-05，Asia/Shanghai。用户要求继续同一`experiment/r4-hws-prediction-consumption`，固定A12基线`e137635ee8c59888ffad853d1cd9ababb8df8ea6`，停止扩展生产输出基础设施，先回答真实感知/预测/Path/TF/odom下Follow提案是否合理、稳定且具有时间意义。
 
-**本次交付为重点调整、冻结登记和阶段计划。runtime shadow caller、启动环境和S0/S1/S2尚未实现/运行；当前只有既有unit/value PASS，runtime shadow/closed-loop/deployment均未评估。** [冻结源码与保留清单](r4_runtime_shadow_checkpoint_sources.json)记录调整前HEAD、算法/接口摘要和既有环境候选来源。
+**当前状态：A13最小shadow caller与三个真实ROS短场景已完成，runtime输入适用性未通过，dynamic behavior为INCONCLUSIVE；暂停production接线，closed-loop NOT_ELIGIBLE。** [执行报告](r4_runtime_shadow_execution.md)是当前判决。[冻结源码与保留清单](r4_runtime_shadow_checkpoint_sources.json)及下列计划保留f138c72d制定时的预登记，不把历史计划状态当作实际验收。
 
 ## 工作顺序与暂缓项
 
@@ -135,4 +135,4 @@ shadow通过后另开有限阶段，先1–2个Gazebo闭环场景，再启用既
 
 最终需要：shadow接线说明、精确且已执行的启动命令、环境/commit/dependency hash、原始cycle evidence、timing summary、S0/S1/S2行为报告、异常与修复记录、是否可进入有限闭环的明确判决和Git commit。unit/value、runtime shadow、closed-loop、deployment四级分开记录，本阶段最多前两级。
 
-本次完成计划和冻结核对，未新增runtime源码、未运行场景、未重跑数值测试。当前shadow结果为**NOT_EVALUATED**；下一项具体工作为P1环境/input可用性检查与P2最小caller预登记。此前A12的生产接线清单保留为后续条件，不再作为shadow行为验证的前置阻塞。
+f138c72d完成时只有计划和冻结核对，shadow为NOT_EVALUATED。之后用户“继续”授权按本计划执行：最小caller链接同一冻结A08，S0/S1/S2各完成20秒真实输入观察；五轮启动失败保留。当前输入适用性FAILED、动态行为INCONCLUSIVE，不能进入闭环。详见[实际执行、timing和停止判决](r4_runtime_shadow_execution.md)。此前A12的生产清单继续后移；不追加新输出基础设施或调参救结果。

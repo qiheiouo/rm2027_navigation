@@ -1,0 +1,418 @@
+{
+  "stage": "A13 real ROS runtime shadow",
+  "algorithm_baseline": "e137635ee8c59888ffad853d1cd9ababb8df8ea6",
+  "runtime_base_commit": "f138c72d772163b16372e3a1ed7261262e0d37b5",
+  "source_version": "Base commit plus exact per-run uncommitted adapter hashes and caller binary hash below; final Git commit contains these adapters.",
+  "branch": "experiment/r4-hws-prediction-consumption",
+  "runs": {
+    "S0": {
+      "scene": "S0",
+      "launch_command": [
+        "ros2",
+        "launch",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/shadow.launch.py",
+        "enabled:=true",
+        "scene:=S0",
+        "output:=/check/S0"
+      ],
+      "scenario_command": [
+        "python3",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/scenario.py",
+        "S0",
+        "/check/S0"
+      ],
+      "environment": {
+        "ROS_DOMAIN_ID": "147",
+        "ROS_LOCALHOST_ONLY": "1",
+        "IGN_PARTITION": "r4_runtime_shadow_20261005",
+        "IGN_IP": "127.0.0.1",
+        "LIBGL_ALWAYS_SOFTWARE": "true"
+      },
+      "sources": {
+        "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+        "experiments/r4_runtime_shadow/scenario.py": "123a761195ab7b3ae8ca752bfac68f70d06f0a2f11f8b8eeb31d9e1813774a1d",
+        "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+        "experiments/r4_runtime_shadow/run.sh": "f6d1485f6e9cbb67fe26f0bec858b9adac7733ac244d8f9af1cc2bf85ccf601e",
+        "experiments/r4_runtime_shadow/shadow.cpp": "a0ce37abbcd84ef0e51a2c8a312d0d63fd772b3336f59d3bbb00a406c1be0c4d",
+        "experiments/r4_runtime_shadow/extract.py": "89a7ca963656015c44ffc63356c7260251b6f0654e7469766f7a99fb8359c3e0",
+        "experiments/r4_runtime_shadow/shadow.launch.py": "853c38640cd0be7fb02be96ceffdff84cb497bc29c434e6969d6281c3e1e27c8",
+        "experiments/r4_runtime_shadow/run_scene.py": "3aa78d6d3052dc779602b6792e94a3ed9303689fca12dc3e5fa52bb646e23fd8"
+      },
+      "caller_binary_sha256": "1cb6a66910299aa859fc68a0fcab9bb9d4e02efb5f2d1dd0ad14153bccbe3660"
+    },
+    "S1": {
+      "scene": "S1",
+      "launch_command": [
+        "ros2",
+        "launch",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/shadow.launch.py",
+        "enabled:=true",
+        "scene:=S1",
+        "output:=/check/S1"
+      ],
+      "scenario_command": [
+        "python3",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/scenario.py",
+        "S1",
+        "/check/S1"
+      ],
+      "environment": {
+        "ROS_DOMAIN_ID": "147",
+        "ROS_LOCALHOST_ONLY": "1",
+        "IGN_PARTITION": "r4_runtime_shadow_20261005",
+        "IGN_IP": "127.0.0.1",
+        "LIBGL_ALWAYS_SOFTWARE": "true"
+      },
+      "sources": {
+        "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+        "experiments/r4_runtime_shadow/scenario.py": "123a761195ab7b3ae8ca752bfac68f70d06f0a2f11f8b8eeb31d9e1813774a1d",
+        "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+        "experiments/r4_runtime_shadow/run.sh": "f6d1485f6e9cbb67fe26f0bec858b9adac7733ac244d8f9af1cc2bf85ccf601e",
+        "experiments/r4_runtime_shadow/shadow.cpp": "a0ce37abbcd84ef0e51a2c8a312d0d63fd772b3336f59d3bbb00a406c1be0c4d",
+        "experiments/r4_runtime_shadow/report.py": "a7acd79abbbdc3318af90c4632bea0cc65eeda0a31434f9d45f7cbe1bf8bdee0",
+        "experiments/r4_runtime_shadow/extract.py": "89a7ca963656015c44ffc63356c7260251b6f0654e7469766f7a99fb8359c3e0",
+        "experiments/r4_runtime_shadow/shadow.launch.py": "853c38640cd0be7fb02be96ceffdff84cb497bc29c434e6969d6281c3e1e27c8",
+        "experiments/r4_runtime_shadow/run_scene.py": "3aa78d6d3052dc779602b6792e94a3ed9303689fca12dc3e5fa52bb646e23fd8"
+      },
+      "caller_binary_sha256": "1cb6a66910299aa859fc68a0fcab9bb9d4e02efb5f2d1dd0ad14153bccbe3660"
+    },
+    "S2": {
+      "scene": "S2",
+      "launch_command": [
+        "ros2",
+        "launch",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/shadow.launch.py",
+        "enabled:=true",
+        "scene:=S2",
+        "output:=/check/S2"
+      ],
+      "scenario_command": [
+        "python3",
+        "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/experiments/r4_runtime_shadow/scenario.py",
+        "S2",
+        "/check/S2"
+      ],
+      "environment": {
+        "ROS_DOMAIN_ID": "147",
+        "ROS_LOCALHOST_ONLY": "1",
+        "IGN_PARTITION": "r4_runtime_shadow_20261005",
+        "IGN_IP": "127.0.0.1",
+        "LIBGL_ALWAYS_SOFTWARE": "true"
+      },
+      "sources": {
+        "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+        "experiments/r4_runtime_shadow/scenario.py": "123a761195ab7b3ae8ca752bfac68f70d06f0a2f11f8b8eeb31d9e1813774a1d",
+        "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+        "experiments/r4_runtime_shadow/run.sh": "f6d1485f6e9cbb67fe26f0bec858b9adac7733ac244d8f9af1cc2bf85ccf601e",
+        "experiments/r4_runtime_shadow/shadow.cpp": "a0ce37abbcd84ef0e51a2c8a312d0d63fd772b3336f59d3bbb00a406c1be0c4d",
+        "experiments/r4_runtime_shadow/report.py": "a7acd79abbbdc3318af90c4632bea0cc65eeda0a31434f9d45f7cbe1bf8bdee0",
+        "experiments/r4_runtime_shadow/extract.py": "89a7ca963656015c44ffc63356c7260251b6f0654e7469766f7a99fb8359c3e0",
+        "experiments/r4_runtime_shadow/shadow.launch.py": "853c38640cd0be7fb02be96ceffdff84cb497bc29c434e6969d6281c3e1e27c8",
+        "experiments/r4_runtime_shadow/run_scene.py": "3aa78d6d3052dc779602b6792e94a3ed9303689fca12dc3e5fa52bb646e23fd8"
+      },
+      "caller_binary_sha256": "1cb6a66910299aa859fc68a0fcab9bb9d4e02efb5f2d1dd0ad14153bccbe3660"
+    }
+  },
+  "dependencies": {
+    "image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+    "package_versions": [
+      "g++-11 11.4.0-1ubuntu1~22.04.3",
+      "libeigen3-dev 3.4.0-2ubuntu2",
+      "libignition-gazebo6 6.18.0-1~jammy",
+      "libssl3 3.0.2-0ubuntu1.23",
+      "ros-humble-nav2-bringup 1.1.20-1jammy.20260612.221202",
+      "ros-humble-nav2-mppi-controller 1.1.20-1jammy.20260607.083249",
+      "ros-humble-rclcpp 16.0.19-1jammy.20260421.025847",
+      "ros-humble-ros-gz-bridge 0.244.25-1jammy.20260608.160002",
+      "ros-humble-ros-gz-sim 0.244.25-1jammy.20260608.150939",
+      "ros-humble-tf2 0.25.20-2jammy.20260414.140805"
+    ],
+    "linked_and_installed_files": [
+      {
+        "path": "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_source_bridge_humble_check_20261005/install/rm_r4_prediction_consumption/lib/librm_r4_prediction_consumption_follow.so",
+        "sha256": "5b0a58ddbc707dc6dee7be6ef7a99c3353fe6b923aa74ff8211edc1a31ed8f1f"
+      },
+      {
+        "path": "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_source_bridge_humble_check_20261005/install/rm_r4_prediction_consumption/lib/librm_r4_prediction_consumption.so",
+        "sha256": "c713d2488dec1401805e6f87b45a42a68e4fa4877639d59d806e3a1301421b73"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libnav_msgs__rosidl_typesupport_cpp.so",
+        "sha256": "542089daef776e6f95a357099f6c52a3dbdd74f3bdb03464efd3ae598fa393d4"
+      },
+      {
+        "path": "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_adapter_humble_check_20261004/install/rm_r4_interfaces/lib/librm_r4_interfaces__rosidl_typesupport_cpp.so",
+        "sha256": "4dbaaddb1ce603001f6d8d893c47e047523dca490c371a68e595a7f12688820d"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_cpp.so",
+        "sha256": "6e59ac218c1fecd5284d957cc82d1e9f4f4c508e949264a3524020993d6e646f"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libtf2_ros.so",
+        "sha256": "396eab3ec8ab2937f5c4f76058ff20c466b96bbba46a4840ded0dfc0b20907ca"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librclcpp.so",
+        "sha256": "20640a059215a771eb2d3ededa04ba99a13b39256711b2cfae853777ac35b5ac"
+      },
+      {
+        "path": "/opt/ros/humble/lib/liblibstatistics_collector.so",
+        "sha256": "462a23a53cc6404d3e6a57988cb222d3e798897dcade56b09fd74cc44620616d"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libstatistics_msgs__rosidl_typesupport_cpp.so",
+        "sha256": "7310ba40d5e8a3af61dd0482651818d01062cc9b2429302a21cba0cc752c6f95"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcl.so",
+        "sha256": "ef5a6dfdf39d5dd0e3d80eb4c43eb230a8be57ca12406b42977fe6c564582ade"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libtracetools.so",
+        "sha256": "1bf5e82bedef882ea90fc4d2e9b72fb3ca9421734d3f3462e3b7936982d67851"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librmw.so",
+        "sha256": "6301cef6523967fa4d04e10504ed688caaecabf085e1045f75f2676415cc06c6"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libgeometry_msgs__rosidl_typesupport_cpp.so",
+        "sha256": "0d747e1fc1b3f7d5188c81cf68c91940e043828de9f9cd7072c6157986d3d2d7"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcutils.so",
+        "sha256": "7f204739601728084595837ddd9c728b2cdf2709453145f97644d31e94e8d595"
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/libstdc++.so.6",
+        "sha256": "ff0825e113603c3866680d5d52216bc6d8eedf3a59f52a0aef67ff01994db128"
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/libm.so.6",
+        "sha256": "00830df310aac5023e10bd7b715149ab8ddc682277fd8ae3539a7a44fcdd6c38"
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+        "sha256": "fc9d43b2f6c20e53b009238f767c5b949d202389e20de9e202ea684b4ba3729a"
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/libc.so.6",
+        "sha256": "c53819710b163d3f1d2541778590d58d3ef31cb0ed75adcbe059faac68c1e72d"
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/libcrypto.so.3",
+        "sha256": "da84c5153ecbfb9cd3df51e81c868353c718f04a126c7bf579569cc3ee13a982"
+      },
+      {
+        "path": "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_follow_humble_check_20261005/dependencies/install/lib/libosqp.so",
+        "sha256": "b4ddedc04bfa77b6b5451187e840479fcd9a8911bf8380da6a34d806d7753558"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librosidl_typesupport_cpp.so",
+        "sha256": "2e874108f801d810853258f8b6b45927338cddc86ccf5868a4afe5362953e33c"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librclcpp_action.so",
+        "sha256": "1a799632e9b227abe598a5a0dbd7a9c81ba6750ad7129e80c3bc2d8a55ea5162"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libtf2.so",
+        "sha256": "ab97a943f3c12148b03724ff4d48533082f6780ce84f5022efab7970149c391e"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libtf2_msgs__rosidl_typesupport_cpp.so",
+        "sha256": "485ffe16aa53c99d86ccebd181b69ef2f6cd2a23f4d9090aae272d6189494a7e"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcl_interfaces__rosidl_typesupport_cpp.so",
+        "sha256": "d9818bd7b5bdd2a2bb0a3feca004bfcada12f40ea488def8717cf763e9affca1"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcl_yaml_param_parser.so",
+        "sha256": "d4f121bb50e30372236df66ed3dd5147ddc18e2c4f4687c85db7c85891583778"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_cpp.so",
+        "sha256": "4e4990e900d0debbbe9f8a51a9473062cc604e333d751a0d54f38f25bded05e6"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librmw_implementation.so",
+        "sha256": "0ded14f25759e7bb5a389c1e04f006c833e98e2f28704f27a8301eb7ec7212b2"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libament_index_cpp.so",
+        "sha256": "512d31ee3ace65980c2daefbf529289179b8324da00b5c3d89dc3e93998d95bf"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcl_logging_interface.so",
+        "sha256": "39ef13b9d92727835d9d37434be461868c80173970abe8000966a625d267de20"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcpputils.so",
+        "sha256": "92f1083af887460e44783905f31045ed4feacaedb9ab9d6b845044ecce797a7f"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcl_logging_spdlog.so",
+        "sha256": "054cb1535d4e3f6847f2085577cf473f5e803b48c968340d4b1992497b047ec2"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcl_interfaces__rosidl_typesupport_c.so",
+        "sha256": "1899b64c701d020e09ea062b3dc0f295e2341c2eecb8fc097a0efac93354c800"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcl_interfaces__rosidl_generator_c.so",
+        "sha256": "55812d4f9133861a56e4e068385a979ea09f8520880ca84e4241b1f4b0e25fb5"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librosidl_runtime_c.so",
+        "sha256": "2dd9b20363ff871ec3b8dec54f81ba47072dc7c30597e8f500fd86b702d735b3"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librcl_action.so",
+        "sha256": "6e33d93aab6f5aea35fe81db75308a559f11084375c99aebd3090310ca2b4e17"
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/libconsole_bridge.so.1.0",
+        "sha256": "e5c857beaaa32a74078a1192b37fba8e299fee1e893f2091f29ca246018517a7"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libaction_msgs__rosidl_typesupport_cpp.so",
+        "sha256": "fc8ab99472cfa75792fe88f364fa99c10132e6cc27bc5fdbbbe8896c5839b37b"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libyaml.so",
+        "sha256": "627ead721f568545018a0608ae514937255dc0304c8dec4bd1b98914102d6f5c"
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/libspdlog.so.1",
+        "sha256": "1de96ba8296808433bf3ad601f2410c179a3e422a05ad012b49e4ad364f72bc0"
+      },
+      {
+        "path": "/opt/ros/humble/lib/librosidl_typesupport_c.so",
+        "sha256": "77bf79cce29d27c0771f1d21122f868dd2b782bf7f6e00d2b0a883c80dae95d0"
+      },
+      {
+        "path": "/opt/ros/humble/lib/libbuiltin_interfaces__rosidl_generator_c.so",
+        "sha256": "306fa173a0dc60c785f36d378accebe9d7eac045aeb2f17950bab28947ae9e2e"
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/libfmt.so.8",
+        "sha256": "d463bedd51d449b2346d329fad8080e0900120ad0aeab8bf93e325b6cff4a587"
+      },
+      {
+        "path": "/opt/ros/humble/share/nav2_bringup/launch/navigation_launch.py",
+        "sha256": "11438a4bc65def4a3d5805919e82bc52ff6008ee6d1fd7c5dd90a29c2f50f56f"
+      },
+      {
+        "path": "/opt/ros/humble/share/nav2_bringup/launch/bringup_launch.py",
+        "sha256": "91460eb80d7b5d0bbb72eb5ac52bad6439ae2175c31be86c8ec256fd4bbee3c6"
+      }
+    ],
+    "caller_binary_sha256": "1cb6a66910299aa859fc68a0fcab9bb9d4e02efb5f2d1dd0ad14153bccbe3660",
+    "compiler": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+    "build_configuration": [
+      "CMAKE_BUILD_TYPE:STRING=Release",
+      "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG"
+    ]
+  },
+  "preservation": {
+    "base": "f138c72d772163b16372e3a1ed7261262e0d37b5",
+    "checks": {
+      "A03_fixed_source_hashes_and_key_lines_verified": 63,
+      "protected_refs_unchanged_excluding_R4": 92,
+      "A03_branch_head_inventory_rechecked": 33,
+      "original_checkout_head_branch_and_10_dirty_paths_unchanged": true,
+      "large_untracked_core_read_or_deleted": false,
+      "frozen_R3_head_and_clean_status_unchanged": true,
+      "R4_existing_branch_based_on_main": true,
+      "formal_entry_profile_controller_output_transport_paths_match_main": true,
+      "A12_frozen_source_assets_unchanged": 96,
+      "formal_worktree_paths_match_main": true,
+      "public_v2_unchanged": true,
+      "shadow_robot_velocity_publishers_in_source": 0
+    }
+  },
+  "public_private_consistency": {
+    "S0": {
+      "public_messages": 347,
+      "private_messages": 347,
+      "public_embedded_multiset_identical": true,
+      "receipt_sequence_strictly_increasing": true,
+      "nonempty_member_messages": 0,
+      "meaning": "Recorded public wire values compared with the same private envelope; no prediction recomputation."
+    },
+    "S1": {
+      "public_messages": 351,
+      "private_messages": 351,
+      "public_embedded_multiset_identical": true,
+      "receipt_sequence_strictly_increasing": true,
+      "nonempty_member_messages": 351,
+      "meaning": "Recorded public wire values compared with the same private envelope; no prediction recomputation."
+    },
+    "S2": {
+      "public_messages": 345,
+      "private_messages": 345,
+      "public_embedded_multiset_identical": true,
+      "receipt_sequence_strictly_increasing": true,
+      "nonempty_member_messages": 345,
+      "meaning": "Recorded public wire values compared with the same private envelope; no prediction recomputation."
+    }
+  },
+  "raw_output_directory": "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_runtime_shadow_20261005",
+  "raw_evidence_hash_index": {
+    "path": "/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_runtime_shadow_20261005/evidence_hashes.json",
+    "sha256": "ec651ee1333bfcff2c1f5df8b578cf418ee1d5e91f5f918d38ccbaafc30c95ec"
+  },
+  "current_adapter_sources": {
+    "experiments/r4_runtime_shadow/prepare.py": "bfafea34a2234b2a26ba0bce79fe2f09cb47ffb4214af7c7f8ed357f37195280",
+    "experiments/r4_runtime_shadow/scenario.py": "123a761195ab7b3ae8ca752bfac68f70d06f0a2f11f8b8eeb31d9e1813774a1d",
+    "experiments/r4_runtime_shadow/CMakeLists.txt": "14061e8129132231d3d6ed115dc00072e9dddfbdcbcf9c7c8d9cf2d5f6ffa9ce",
+    "experiments/r4_runtime_shadow/run.sh": "f6d1485f6e9cbb67fe26f0bec858b9adac7733ac244d8f9af1cc2bf85ccf601e",
+    "experiments/r4_runtime_shadow/shadow.cpp": "a0ce37abbcd84ef0e51a2c8a312d0d63fd772b3336f59d3bbb00a406c1be0c4d",
+    "experiments/r4_runtime_shadow/report.py": "820d8735d3efd7884c90ef2dc13efed29a07cb4cf982a9bbb957e664aed8df8d",
+    "experiments/r4_runtime_shadow/COLCON_IGNORE": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "experiments/r4_runtime_shadow/collect_evidence.py": "9cb306c6311446b5d7a015bcc794913dab3805ac3c9a4aec8b47a307bae25a2a",
+    "experiments/r4_runtime_shadow/extract.py": "89a7ca963656015c44ffc63356c7260251b6f0654e7469766f7a99fb8359c3e0",
+    "experiments/r4_runtime_shadow/shadow.launch.py": "853c38640cd0be7fb02be96ceffdff84cb497bc29c434e6969d6281c3e1e27c8",
+    "experiments/r4_runtime_shadow/run_scene.py": "3aa78d6d3052dc779602b6792e94a3ed9303689fca12dc3e5fa52bb646e23fd8",
+    "experiments/r4_runtime_shadow/README.md": "db4cbf53e18e5f39bd5e192a1737de96548da086513d6aab30c3cf0bfb95246e"
+  },
+  "generated_scene_assets": {
+    "assets/S1.sdf": "3714f61295061160bf2a5d31ba5c4a28d933ed424a7c9df157bc47155387b924",
+    "assets/S2.sdf": "3714f61295061160bf2a5d31ba5c4a28d933ed424a7c9df157bc47155387b924",
+    "assets/shadow_profile.yaml": "213863bce5e25c231f55e7474e18d53d587a841df2a86a8c28e1881a23ed2934",
+    "assets/empty.pgm": "af541b37b8638e1e96b75555bf9fbf7d6298f9e313934b721c4607c1282b12cf",
+    "assets/map.yaml": "56eae72ee6ee8e0fd67ab9d44ed95768db5b0887f8aab57402ecbef41dc9bdd9",
+    "assets/S0.sdf": "573e1a8ed1636a9816f42de5c959a4c3bdc1feca99917efcf16c300f1a4ed310",
+    "assets/preregistration.json": "d13cfac49d3f3dd703b61f3c67b386ae7407c7cbf4097c8f061e6d400e81d7f9"
+  },
+  "logs": {
+    "caller_build.log": "206ab9845beb6f173bbb159f7ef6519810026a6c259c9059a488e7f3bd7cd0f5",
+    "environment_probe_complete.log": "e26c98afa12bbba328b5bbccb1fbf1121a9ffd78df975548c38857e00fc0eb22",
+    "profile_build.log": "469d1707108d47d83bb2ad25b54d62014e4947958c72a65d90edfbbc47567ea8",
+    "caller_ldd.txt": "e88a2aae21fded5b619075a04450c117b5b8d6b83f1ae173d042e7a7c719ffb0",
+    "environment_probe.log": "215dfc458a962f806cb39426b1e6ceb8aea81625080eee7975ceb17739528a0d"
+  },
+  "verdict": {
+    "unit_value": "Prior finite A12 PASS retained, not rerun",
+    "runtime_shadow": "FAILED_INPUT_APPLICABILITY; dynamic consumption behavior INCONCLUSIVE",
+    "closed_loop": "NOT_EVALUATED; NOT_ELIGIBLE",
+    "deployment": "NOT_EVALUATED"
+  },
+  "scope": {
+    "behavioral_scenes": 3,
+    "seconds_per_scene": 20,
+    "large_paired_experiments": false,
+    "new_tracker": false,
+    "new_prediction_pipeline": false,
+    "new_frontend": false,
+    "new_solver": false,
+    "R4_robot_command_publishers": 0,
+    "R4_active_controller": false,
+    "A10_enforcement": false,
+    "algorithm_changes": false,
+    "production_contract_changes": false,
+    "hardware": false
+  }
+}
