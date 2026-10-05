@@ -59,6 +59,52 @@ std::string BodyPolicy::digest() const
   for (auto p : footprint) {d.point(p);}
   d.number(padding); d.number(yaw); d.number(static_clearance); return d.finish();
 }
+std::string BodyPolicy::geometry_digest() const
+{
+  support(); Digest d; d.text("r4_body_geometry/v2"); d.integer(footprint.size());
+  for (auto p : footprint) {d.point(p);}
+  d.number(padding); d.number(static_clearance); return d.finish();
+}
+BodySupport BodyPolicy::support_at(double angle) const
+{
+  auto query = *this; query.yaw = angle;
+  BodySupport out{query.support(), {}};
+  const double c = std::cos(angle), s = std::sin(angle);
+  Bounds selected{2., -2., 2., -2.};
+  // Strict comparisons choose the first vertex at an exact support tie.
+  for (auto p : footprint) {
+    const Vec2 r{c * p.x - s * p.y, s * p.x + c * p.y};
+    if (r.x < selected.xmin) {selected.xmin = r.x; out.yaw_derivative.xmin = -r.y;}
+    if (r.x > selected.xmax) {selected.xmax = r.x; out.yaw_derivative.xmax = -r.y;}
+    if (r.y < selected.ymin) {selected.ymin = r.y; out.yaw_derivative.ymin = r.x;}
+    if (r.y > selected.ymax) {selected.ymax = r.y; out.yaw_derivative.ymax = r.x;}
+  }
+  return out;
+}
+Bounds BodyPolicy::swept_support(double begin, double end) const
+{
+  support();
+  if (!std::isfinite(begin) || !std::isfinite(end)) {throw ContractError("yaw interval");}
+  const double lo = std::min(begin, end), hi = std::max(begin, end), pi = std::acos(-1.);
+  auto a = support_at(lo).bounds, b = support_at(hi).bounds;
+  Bounds out{std::min(a.xmin, b.xmin), std::max(a.xmax, b.xmax),
+    std::min(a.ymin, b.ymin), std::max(a.ymax, b.ymax)};
+  for (auto p : footprint) {
+    const double radius = norm(p), phi = std::atan2(p.y, p.x);
+    for (int axis = 0; axis < 2; ++axis) {
+      const double root = axis * pi / 2 - phi;
+      const auto first = static_cast<int64_t>(std::ceil((lo - root) / pi));
+      const auto last = static_cast<int64_t>(std::floor((hi - root) / pi));
+      // At most two distinct extremum signs, even for a complete revolution.
+      for (auto n = first; n <= std::min(last, first + 1); ++n) {
+        const double value = n % 2 == 0 ? radius : -radius;
+        if (axis == 0) {out.xmin = std::min(out.xmin, value - padding); out.xmax = std::max(out.xmax, value + padding);}
+        else {out.ymin = std::min(out.ymin, value - padding); out.ymax = std::max(out.ymax, value + padding);}
+      }
+    }
+  }
+  return out;
+}
 void ConsumptionPolicy::validate() const
 {
   if (prediction_ttl_ns <= 0 || prediction_ttl_ns > 400000000 ||
@@ -105,7 +151,7 @@ PredictionSnapshot PredictionSnapshot::freeze(
   PredictionSnapshot out; out.epoch_ns_ = epoch_ns; out.source_ns_ = source;
   out.frame_ = expected_frame; out.producer_id_ = envelope.producer_id;
   out.generation_ = envelope.producer_generation; out.sequence_ = envelope.sequence;
-  out.body_support_ = support; out.policy_ = policy;
+  out.body_support_ = support; out.body_ = body; out.policy_ = policy;
   out.body_digest_ = body.digest();
   Digest pd; pd.text(out.body_digest_); pd.text(policy.digest()); out.policy_digest_ = pd.finish();
   Digest d; d.text(envelope.schema); d.text(envelope.producer_id);
@@ -249,16 +295,25 @@ std::vector<Vec2> TemporalSoftField::translated_cells(size_t track, size_t stage
 }
 SoftSample TemporalSoftField::sample(Vec2 position, size_t stage) const
 {
+  return sample_support(position, stage, {snapshot_.body_support(), {}});
+}
+SoftSample TemporalSoftField::sample(Vec2 position, double yaw, size_t stage) const
+{
+  return sample_support(position, stage, snapshot_.body_policy().support_at(yaw));
+}
+SoftSample TemporalSoftField::sample_support(Vec2 position, size_t stage, BodySupport support) const
+{
   const auto stamp = snapshot_.stage_epoch(stage);
   if (!finite(position)) {throw ContractError("soft query");}
-  SoftSample best; const auto & cfg = snapshot_.policy(); const auto b = snapshot_.body_support();
+  SoftSample best; const auto & cfg = snapshot_.policy(); const auto b = support.bounds;
+  const auto db = support.yaw_derivative;
   for (size_t i = 0; i < snapshot_.tracks().size(); ++i) {
     const auto & t = snapshot_.tracks()[i];
     const double extra = cfg.raster_resolution / 2 + cfg.geometric_margin +
       cfg.motion_error_speed * (stamp - t.observation_ns) * 1e-9;
     const Vec2 mid{-(b.xmin + b.xmax) / 2, -(b.ymin + b.ymax) / 2};
     const Vec2 half{(b.xmax - b.xmin) / 2 + extra, (b.ymax - b.ymin) / 2 + extra};
-    double minimum = std::numeric_limits<double>::infinity(); Vec2 normal{};
+    double minimum = std::numeric_limits<double>::infinity(); Vec2 normal{}; double yaw_normal{};
     for (auto cell : translated_cells(i, stage)) {
       const Vec2 offset{position.x - cell.x - mid.x, position.y - cell.y - mid.y};
       const Vec2 d{std::abs(offset.x) - half.x, std::abs(offset.y) - half.y};
@@ -267,9 +322,12 @@ SoftSample TemporalSoftField::sample(Vec2 position, size_t stage) const
       const double distance = length + std::min(std::max(d.x, d.y), 0.);
       if (distance < minimum) {
         minimum = distance; normal = {};
+        yaw_normal = 0.;
         if (distance > 0.) {
           normal = {outside.x / length * (offset.x < 0 ? -1 : 1),
             outside.y / length * (offset.y < 0 ? -1 : 1)};
+          yaw_normal = std::abs(normal.x) * (offset.x < 0 ? -db.xmax : db.xmin) +
+            std::abs(normal.y) * (offset.y < 0 ? -db.ymax : db.ymin);
         }
       }
     }
@@ -277,7 +335,7 @@ SoftSample TemporalSoftField::sample(Vec2 position, size_t stage) const
     const double residual = cfg.residual_scale * std::exp(-cfg.slope * std::max(minimum, 0.));
     if (residual > best.residual) {
       best = {residual, {-cfg.slope * residual * normal.x, -cfg.slope * residual * normal.y},
-        minimum, t.track_id, minimum <= 0.};
+        minimum, t.track_id, minimum <= 0., -cfg.slope * residual * yaw_normal};
     }
   }
   return best;

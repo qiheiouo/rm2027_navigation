@@ -3,7 +3,9 @@
 #include <rclcpp/serialization.hpp>
 #include <rclcpp/serialized_message.hpp>
 #include <rosbag2_cpp/reader.hpp>
+#ifndef R4_REPLAY_LIBRARY_ONLY
 #include "shadow_seed.hpp"
+#endif
 #include <filesystem>
 #include <cmath>
 #include <fstream>
@@ -61,6 +63,7 @@ Recorded load(const std::filesystem::path & bag)
 double d(const Row & r,const std::string & key) {return std::stod(r.at(key));}
 int64_t n(const Row & r,const std::string & key) {return std::stoll(r.at(key));}
 std::string quote(const std::string & s) {std::string o="\"";for(char c:s) {if(c=='"') o+='"';o+=c;}return o+'"';}
+#ifndef R4_REPLAY_LIBRARY_ONLY
 struct Policy
 {
   v::ReceiptGate gate;v::FollowSolver solver;std::optional<v::Vec2> seed;int64_t seed_epoch{},previous_epoch{};
@@ -112,3 +115,4 @@ int main(int argc,char ** argv)
   }catch(const std::exception & e) {std::cerr<<e.what()<<'\n';return 1;}
   return 0;
 }
+#endif

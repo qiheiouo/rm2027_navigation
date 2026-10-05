@@ -25,6 +25,18 @@ a proposal or unavailable result. There is no ROS node, subscription, worker,
 action or command publisher. Its 40ms acquisition and 15ms solver budgets reject
 late results; they cannot preempt compute or prove real-time execution.
 
+Research A18 adds an explicit `RotatingFollowSolver` value entrance to the same
+QP assembly and OSQP workspace code. Its `(vx_body, vy_body, yaw_rate, s_dot)`
+controls use the existing A09 pure held-body-twist integrator at 50ms stages,
+yaw-dependent body support/dynamic gradients and a continuous static rectangle
+recheck. The fixed-yaw entrance remains available as the numerical baseline.
+`local_free_bounds` exposes the same certified Sfc rectangle before body erosion;
+it does not introduce a frontend. Source state/stamps remain raw; advancing pose
+to the prediction epoch assumes held measured twist and is a model estimate.
+No angular objective is added. The first research result is **Modify** because
+free-yaw solves do not yet provide reliable proposals; this entrance has no ROS
+caller or execution integration. See [A18 experiment](../../docs/dynamic_navigation/r4_rotation_value_experiment.md).
+
 The caller must copy its existing state/TF/last-applied values under its existing
 synchronization, reset on acquisition/lifecycle failure, and validate the active
 execution grant. Receipt and static geometry checks are not final output admission;

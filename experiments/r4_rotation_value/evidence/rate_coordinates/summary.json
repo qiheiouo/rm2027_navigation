@@ -1,0 +1,542 @@
+{
+  "stage": "Research",
+  "scope": "offline recorded values and synthetic stationary probes; no actual output",
+  "fixed_baseline_comparison": [
+    {
+      "scenario": 0,
+      "max_control_difference": 0.0,
+      "max_stage_difference": 0
+    },
+    {
+      "scenario": 1,
+      "max_control_difference": 0.0,
+      "max_stage_difference": 0
+    },
+    {
+      "scenario": 2,
+      "max_control_difference": 0.0,
+      "max_stage_difference": 0
+    },
+    {
+      "scenario": 3,
+      "max_control_difference": 0.0,
+      "max_stage_difference": 0
+    }
+  ],
+  "recorded": {
+    "S0": {
+      "samples": 223,
+      "valid": 54,
+      "valid_ratio": 0.242152466367713,
+      "reasons": {
+        "solved_soft_dynamic": 54,
+        "solver_not_solved": 137,
+        "nonlinear_static_support": 32
+      },
+      "solver_ms": {
+        "n": 223,
+        "median": 7.227554,
+        "p95": 7.616236,
+        "max": 8.271073
+      },
+      "elapsed_ms": {
+        "n": 223,
+        "median": 8.833498,
+        "p95": 9.447607,
+        "max": 10.194563
+      },
+      "warm": 16,
+      "nominal_nonzero": 0,
+      "valid_dynamic_nonzero": 0,
+      "solved_cost": {
+        "n": 54,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "cost_increased": 0,
+      "absolute_wz": {
+        "n": 54,
+        "median": 0.09999999999999999,
+        "p95": 0.29260727734574693,
+        "max": 0.30459986597488053
+      },
+      "predicted_overlap_samples": 0,
+      "recorded_fixed_baseline_valid": 6,
+      "absolute_horizon_yaw_delta": {
+        "n": 54,
+        "median": 0.14751867711695893,
+        "p95": 1.0014240797711005,
+        "max": 1.1469438454349372
+      }
+    },
+    "S1": {
+      "samples": 230,
+      "valid": 46,
+      "valid_ratio": 0.2,
+      "reasons": {
+        "solved_soft_dynamic": 46,
+        "solver_not_solved": 155,
+        "nonlinear_static_support": 29
+      },
+      "solver_ms": {
+        "n": 230,
+        "median": 7.307881,
+        "p95": 7.746684999999999,
+        "max": 8.122366000000001
+      },
+      "elapsed_ms": {
+        "n": 230,
+        "median": 9.075345500000001,
+        "p95": 9.619343,
+        "max": 9.985097999999999
+      },
+      "warm": 15,
+      "nominal_nonzero": 125,
+      "valid_dynamic_nonzero": 27,
+      "solved_cost": {
+        "n": 46,
+        "median": 0.0005239312959260248,
+        "p95": 0.05426170218775556,
+        "max": 0.2775092170516354
+      },
+      "cost_increased": 3,
+      "absolute_wz": {
+        "n": 46,
+        "median": 0.09999999999999999,
+        "p95": 0.39999932311941955,
+        "max": 0.5999993231194195
+      },
+      "predicted_overlap_samples": 0,
+      "recorded_fixed_baseline_valid": 5,
+      "absolute_horizon_yaw_delta": {
+        "n": 46,
+        "median": 0.19864435682588782,
+        "p95": 0.915860877524818,
+        "max": 1.190238805540889
+      }
+    },
+    "S2": {
+      "samples": 223,
+      "valid": 76,
+      "valid_ratio": 0.34080717488789236,
+      "reasons": {
+        "solved_soft_dynamic": 76,
+        "solver_not_solved": 136,
+        "nonlinear_static_support": 11
+      },
+      "solver_ms": {
+        "n": 223,
+        "median": 7.28473,
+        "p95": 7.6541559999999995,
+        "max": 8.036855000000001
+      },
+      "elapsed_ms": {
+        "n": 223,
+        "median": 8.950393,
+        "p95": 9.57161,
+        "max": 10.015838
+      },
+      "warm": 34,
+      "nominal_nonzero": 128,
+      "valid_dynamic_nonzero": 49,
+      "solved_cost": {
+        "n": 76,
+        "median": 0.005266094150900746,
+        "p95": 0.13262789767339594,
+        "max": 1.2010002270323248
+      },
+      "cost_increased": 11,
+      "absolute_wz": {
+        "n": 76,
+        "median": 0.1,
+        "p95": 0.39999879718470327,
+        "max": 0.4999987971847033
+      },
+      "predicted_overlap_samples": 0,
+      "recorded_fixed_baseline_valid": 5,
+      "absolute_horizon_yaw_delta": {
+        "n": 76,
+        "median": 0.1487908255445615,
+        "p95": 1.1805396781326147,
+        "max": 1.3171273531264158
+      }
+    }
+  },
+  "probes": {
+    "hold_clear_sequence": {
+      "samples": 60,
+      "valid": 0,
+      "valid_ratio": 0.0,
+      "reasons": {
+        "solver_not_solved": 60
+      },
+      "solver_ms": {
+        "n": 60,
+        "median": 7.209113500000001,
+        "p95": 7.783113999999999,
+        "max": 12.984574
+      },
+      "elapsed_ms": {
+        "n": 60,
+        "median": 7.895199999999999,
+        "p95": 8.464219,
+        "max": 14.298910999999999
+      },
+      "warm": 0,
+      "nominal_nonzero": 30,
+      "valid_dynamic_nonzero": 0,
+      "solved_cost": null,
+      "cost_increased": 0,
+      "absolute_wz": null,
+      "predicted_overlap_samples": 0,
+      "rows": [
+        {
+          "case": "hold_clear_sequence",
+          "cycle": "0",
+          "valid": "0",
+          "reason": "solver_not_solved",
+          "vx": "0",
+          "vy": "0",
+          "wz": "0",
+          "progress_end": "0",
+          "yaw_end": "0",
+          "nominal_cost": "28.072802268984908",
+          "solved_cost": "0",
+          "solver_ms": "7.2717169999999998",
+          "elapsed_ms": "7.9392240000000003",
+          "slice_error": "0",
+          "gradient_error": "1.0874057210230603e-10",
+          "minimum_clearance": "1000000000",
+          "plateau_stages": "0",
+          "used_warm": "0"
+        },
+        {
+          "case": "hold_clear_sequence",
+          "cycle": "29",
+          "valid": "0",
+          "reason": "solver_not_solved",
+          "vx": "0",
+          "vy": "0",
+          "wz": "0",
+          "progress_end": "0",
+          "yaw_end": "0",
+          "nominal_cost": "22.840417417182",
+          "solved_cost": "0",
+          "solver_ms": "6.9688850000000002",
+          "elapsed_ms": "7.6224850000000002",
+          "slice_error": "0",
+          "gradient_error": "1.0874057210230603e-10",
+          "minimum_clearance": "1000000000",
+          "plateau_stages": "0",
+          "used_warm": "0"
+        },
+        {
+          "case": "hold_clear_sequence",
+          "cycle": "30",
+          "valid": "0",
+          "reason": "solver_not_solved",
+          "vx": "0",
+          "vy": "0",
+          "wz": "0",
+          "progress_end": "0",
+          "yaw_end": "0",
+          "nominal_cost": "0",
+          "solved_cost": "0",
+          "solver_ms": "6.9767669999999997",
+          "elapsed_ms": "7.6253510000000002",
+          "slice_error": "0",
+          "gradient_error": "0",
+          "minimum_clearance": "1000000000",
+          "plateau_stages": "0",
+          "used_warm": "0"
+        },
+        {
+          "case": "hold_clear_sequence",
+          "cycle": "59",
+          "valid": "0",
+          "reason": "solver_not_solved",
+          "vx": "0",
+          "vy": "0",
+          "wz": "0",
+          "progress_end": "0",
+          "yaw_end": "0",
+          "nominal_cost": "0",
+          "solved_cost": "0",
+          "solver_ms": "7.2623379999999997",
+          "elapsed_ms": "7.9153789999999997",
+          "slice_error": "0",
+          "gradient_error": "0",
+          "minimum_clearance": "1000000000",
+          "plateau_stages": "0",
+          "used_warm": "0"
+        }
+      ],
+      "hold": {
+        "samples": 30,
+        "valid": 0,
+        "valid_ratio": 0.0,
+        "reasons": {
+          "solver_not_solved": 30
+        },
+        "solver_ms": {
+          "n": 30,
+          "median": 7.242932,
+          "p95": 8.163684,
+          "max": 12.984574
+        },
+        "elapsed_ms": {
+          "n": 30,
+          "median": 7.919173,
+          "p95": 9.380121,
+          "max": 14.298910999999999
+        },
+        "warm": 0,
+        "nominal_nonzero": 30,
+        "valid_dynamic_nonzero": 0,
+        "solved_cost": null,
+        "cost_increased": 0,
+        "absolute_wz": null,
+        "predicted_overlap_samples": 0
+      },
+      "clear": {
+        "samples": 30,
+        "valid": 0,
+        "valid_ratio": 0.0,
+        "reasons": {
+          "solver_not_solved": 30
+        },
+        "solver_ms": {
+          "n": 30,
+          "median": 6.988185,
+          "p95": 7.262338,
+          "max": 7.2734499999999995
+        },
+        "elapsed_ms": {
+          "n": 30,
+          "median": 7.6431945,
+          "p95": 7.941217,
+          "max": 7.954065999999999
+        },
+        "warm": 0,
+        "nominal_nonzero": 0,
+        "valid_dynamic_nonzero": 0,
+        "solved_cost": null,
+        "cost_increased": 0,
+        "absolute_wz": null,
+        "predicted_overlap_samples": 0
+      },
+      "max_virtual_seed_delta": {
+        "vx": null,
+        "vy": null,
+        "wz": null
+      }
+    },
+    "rotating_clear": {
+      "samples": 1,
+      "valid": 0,
+      "valid_ratio": 0.0,
+      "reasons": {
+        "solver_not_solved": 1
+      },
+      "solver_ms": {
+        "n": 1,
+        "median": 7.615547,
+        "p95": 7.615547,
+        "max": 7.615547
+      },
+      "elapsed_ms": {
+        "n": 1,
+        "median": 8.297585,
+        "p95": 8.297585,
+        "max": 8.297585
+      },
+      "warm": 0,
+      "nominal_nonzero": 0,
+      "valid_dynamic_nonzero": 0,
+      "solved_cost": null,
+      "cost_increased": 0,
+      "absolute_wz": null,
+      "predicted_overlap_samples": 0,
+      "rows": [
+        {
+          "case": "rotating_clear",
+          "cycle": "0",
+          "valid": "0",
+          "reason": "solver_not_solved",
+          "vx": "0",
+          "vy": "0",
+          "wz": "0",
+          "progress_end": "0",
+          "yaw_end": "0",
+          "nominal_cost": "0",
+          "solved_cost": "0",
+          "solver_ms": "7.6155470000000003",
+          "elapsed_ms": "8.2975849999999998",
+          "slice_error": "0",
+          "gradient_error": "0",
+          "minimum_clearance": "1000000000",
+          "plateau_stages": "0",
+          "used_warm": "0"
+        }
+      ]
+    },
+    "rotating_cross": {
+      "samples": 1,
+      "valid": 0,
+      "valid_ratio": 0.0,
+      "reasons": {
+        "solver_not_solved": 1
+      },
+      "solver_ms": {
+        "n": 1,
+        "median": 7.207465,
+        "p95": 7.207465,
+        "max": 7.207465
+      },
+      "elapsed_ms": {
+        "n": 1,
+        "median": 7.865278,
+        "p95": 7.865278,
+        "max": 7.865278
+      },
+      "warm": 0,
+      "nominal_nonzero": 1,
+      "valid_dynamic_nonzero": 0,
+      "solved_cost": null,
+      "cost_increased": 0,
+      "absolute_wz": null,
+      "predicted_overlap_samples": 0,
+      "rows": [
+        {
+          "case": "rotating_cross",
+          "cycle": "0",
+          "valid": "0",
+          "reason": "solver_not_solved",
+          "vx": "0",
+          "vy": "0",
+          "wz": "0",
+          "progress_end": "0",
+          "yaw_end": "0",
+          "nominal_cost": "28.072802268984908",
+          "solved_cost": "0",
+          "solver_ms": "7.207465",
+          "elapsed_ms": "7.865278",
+          "slice_error": "0",
+          "gradient_error": "1.0874057210230603e-10",
+          "minimum_clearance": "1000000000",
+          "plateau_stages": "0",
+          "used_warm": "0"
+        }
+      ]
+    },
+    "rotating_hold": {
+      "samples": 1,
+      "valid": 0,
+      "valid_ratio": 0.0,
+      "reasons": {
+        "solver_not_solved": 1
+      },
+      "solver_ms": {
+        "n": 1,
+        "median": 7.220785,
+        "p95": 7.220785,
+        "max": 7.220785
+      },
+      "elapsed_ms": {
+        "n": 1,
+        "median": 7.900143999999999,
+        "p95": 7.900143999999999,
+        "max": 7.900143999999999
+      },
+      "warm": 0,
+      "nominal_nonzero": 1,
+      "valid_dynamic_nonzero": 0,
+      "solved_cost": null,
+      "cost_increased": 0,
+      "absolute_wz": null,
+      "predicted_overlap_samples": 0,
+      "rows": [
+        {
+          "case": "rotating_hold",
+          "cycle": "0",
+          "valid": "0",
+          "reason": "solver_not_solved",
+          "vx": "0",
+          "vy": "0",
+          "wz": "0",
+          "progress_end": "0",
+          "yaw_end": "0",
+          "nominal_cost": "28.072802268984908",
+          "solved_cost": "0",
+          "solver_ms": "7.2207850000000002",
+          "elapsed_ms": "7.9001439999999992",
+          "slice_error": "0",
+          "gradient_error": "1.0874057210230603e-10",
+          "minimum_clearance": "1000000000",
+          "plateau_stages": "0",
+          "used_warm": "0"
+        }
+      ]
+    },
+    "zero_slice": {
+      "samples": 1,
+      "valid": 1,
+      "valid_ratio": 1.0,
+      "reasons": {
+        "solved_soft_dynamic": 1
+      },
+      "solver_ms": {
+        "n": 1,
+        "median": 4.957356,
+        "p95": 4.957356,
+        "max": 4.957356
+      },
+      "elapsed_ms": {
+        "n": 1,
+        "median": 6.890822,
+        "p95": 6.890822,
+        "max": 6.890822
+      },
+      "warm": 0,
+      "nominal_nonzero": 0,
+      "valid_dynamic_nonzero": 0,
+      "solved_cost": {
+        "n": 1,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "cost_increased": 0,
+      "absolute_wz": {
+        "n": 1,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "predicted_overlap_samples": 0,
+      "rows": [
+        {
+          "case": "zero_slice",
+          "cycle": "0",
+          "valid": "1",
+          "reason": "solved_soft_dynamic",
+          "vx": "0.34461537202380049",
+          "vy": "-0.020176658217299914",
+          "wz": "0",
+          "progress_end": "1.534506654976683",
+          "yaw_end": "0.34999999999999998",
+          "nominal_cost": "0",
+          "solved_cost": "0",
+          "solver_ms": "4.9573559999999999",
+          "elapsed_ms": "6.890822",
+          "slice_error": "9.9920072216264089e-16",
+          "gradient_error": "0",
+          "minimum_clearance": "1000000000",
+          "plateau_stages": "0",
+          "used_warm": "0"
+        }
+      ]
+    }
+  }
+}

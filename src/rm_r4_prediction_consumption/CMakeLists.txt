@@ -24,14 +24,17 @@ if(RM_R4_BUILD_FOLLOW)
   # Installed by the existing fixed dependency intake, never fetched at configure.
   # 0.6.3 exports no CMake version file: follow.cpp checks header and runtime ABI.
   find_package(osqp REQUIRED CONFIG)
+  find_package(rm_navigation_execution_adapters REQUIRED)
   add_library(${PROJECT_NAME}_follow SHARED src/follow.cpp)
   target_compile_features(${PROJECT_NAME}_follow PUBLIC cxx_std_17 PRIVATE cxx_std_20)
   target_link_libraries(${PROJECT_NAME}_follow PUBLIC ${PROJECT_NAME}
-    PRIVATE Eigen3::Eigen OpenSSL::Crypto osqp::osqp)
+    PRIVATE Eigen3::Eigen OpenSSL::Crypto osqp::osqp
+    rm_navigation_execution_adapters::rm_navigation_execution_adapters)
   target_compile_options(${PROJECT_NAME}_follow PRIVATE -Wall -Wextra -Wpedantic)
   install(TARGETS ${PROJECT_NAME}_follow EXPORT export_${PROJECT_NAME}
     LIBRARY DESTINATION lib ARCHIVE DESTINATION lib RUNTIME DESTINATION bin)
   install(FILES include/${PROJECT_NAME}/follow.hpp DESTINATION include/${PROJECT_NAME})
+  ament_export_dependencies(rm_navigation_execution_adapters)
 endif()
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)

@@ -16,6 +16,7 @@ namespace rm_r4_prediction_consumption
 struct ContractError : std::invalid_argument {using std::invalid_argument::invalid_argument;};
 struct Vec2 {double x{}, y{};};
 struct Bounds {double xmin{}, xmax{}, ymin{}, ymax{};};
+struct BodySupport {Bounds bounds, yaw_derivative;};
 
 // Caller supplies the actual footprint and fixed world yaw, not harness geometry.
 // Keep the registered positive padding and at least 0.05 m static clearance.
@@ -26,6 +27,9 @@ struct BodyPolicy
   double yaw{};
   double static_clearance{};
   Bounds support() const;
+  BodySupport support_at(double query_yaw) const;
+  Bounds swept_support(double begin_yaw, double end_yaw) const;
+  std::string geometry_digest() const;
   std::string digest() const;
 };
 
@@ -67,6 +71,7 @@ public:
   const std::string & body_digest() const {return body_digest_;}
   const std::vector<ObservedRaster> & tracks() const {return tracks_;}
   const Bounds & body_support() const {return body_support_;}
+  const BodyPolicy & body_policy() const {return body_;}
   const ConsumptionPolicy & policy() const {return policy_;}
 private:
   PredictionSnapshot() = default;
@@ -74,6 +79,7 @@ private:
   uint64_t generation_{}, sequence_{};
   std::string frame_, producer_id_, receipt_digest_, policy_digest_, body_digest_;
   Bounds body_support_;
+  BodyPolicy body_;
   ConsumptionPolicy policy_;
   std::vector<ObservedRaster> tracks_;
 };
@@ -104,6 +110,7 @@ struct SoftSample
   std::optional<double> clearance;
   std::optional<uint64_t> track_id;
   bool plateau{};
+  double yaw_gradient{};
 };
 
 class TemporalSoftField
@@ -112,10 +119,12 @@ public:
   explicit TemporalSoftField(PredictionSnapshot snapshot);
   std::vector<Vec2> translated_cells(size_t track, size_t stage) const;
   SoftSample sample(Vec2 position, size_t stage) const;
+  SoftSample sample(Vec2 position, double yaw, size_t stage) const;
   const std::string & frame() const {return snapshot_.frame();}
   const std::string & body_digest() const {return snapshot_.body_digest();}
 private:
   PredictionSnapshot snapshot_;
+  SoftSample sample_support(Vec2 position, size_t stage, BodySupport support) const;
 };
 
 struct PathSample {Vec2 position, tangent;};
@@ -140,13 +149,18 @@ public:
   PathSample sample(double progress) const;
   double project(Vec2 position) const;
   Bounds local_bounds(Vec2 position) const;
+  // Read-only view of the same certified Sfc rectangles, before body erosion.
+  Bounds local_free_bounds(Vec2 position, const BodyPolicy & query_body) const;
+  const std::string & rotating_policy_digest() const {return rotating_policy_digest_;}
 private:
   PreparedCorridor() = default;
   std::vector<Vec2> points_;
   std::vector<double> arcs_;
   std::vector<Bounds> bounds_;
+  std::vector<Bounds> free_bounds_;
   std::vector<size_t> indices_;
   std::string frame_, path_digest_, map_digest_, policy_digest_, body_digest_;
+  std::string rotating_policy_digest_;
   uint64_t generation_{};
 };
 

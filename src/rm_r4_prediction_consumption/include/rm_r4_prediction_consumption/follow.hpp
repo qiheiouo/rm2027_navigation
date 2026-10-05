@@ -61,15 +61,50 @@ struct FollowProposal
   std::array<FollowControl, 15> controls;
   std::array<FollowStage, 31> stages;
 };
-struct FollowResult
+template<class Proposal> struct FollowResultValue
 {
-  std::optional<FollowProposal> proposal;
+  std::optional<Proposal> proposal;
   std::string reason, solver_status{"not_run"};
   int iterations{};
   double solver_seconds{}, elapsed_seconds{}, nominal_dynamic_cost{}, solved_dynamic_cost{};
   std::optional<double> minimum_constraint_slack;
   bool used_warm{};
 };
+using FollowResult = FollowResultValue<FollowProposal>;
+
+// Research-only value interface. Existing fixed-yaw host keeps its own input,
+// result and fingerprint; no implicit conversion into execution adapters.
+struct RotatingFollowLimits
+{
+  FollowLimits translation;
+  double yaw_lower{}, yaw_upper{}, yaw_command_rate{};
+  std::string digest() const;
+};
+struct RotatingFollowInput
+{
+  PredictionSnapshot prediction;
+  PreparedCorridor route;
+  BodyPolicy body;
+  RotatingFollowLimits limits;
+  FollowIdentity identity;
+  FollowState state;  // Raw source pose/stamps retained; stage zero is derived.
+  double progress{};
+  FollowClock::time_point acquired;
+  bool reset_warm{};
+};
+struct RotatingFollowControl {Vec2 body_velocity; double yaw_rate{}, progress_rate{};};
+struct RotatingFollowProposal
+{
+  FollowIdentity identity;
+  std::string input_digest, receipt_digest, path_digest, map_digest, limits_digest;
+  int64_t epoch_ns{};
+  FollowClock::time_point acquired, source_deadline;
+  Vec2 body_velocity;
+  double yaw_rate{};
+  std::array<RotatingFollowControl, 15> controls;
+  std::array<FollowStage, 31> stages;
+};
+using RotatingFollowResult = FollowResultValue<RotatingFollowProposal>;
 
 // One synchronous local QP. Caller serializes calls; no worker or ROS/output API.
 // Budgets reject late results but do not preempt assembly, factorization or solve.
@@ -82,6 +117,19 @@ public:
   FollowSolver & operator=(const FollowSolver &) = delete;
   FollowResult solve(FollowInput input);
   void reset();  // Existing host invokes this on lifecycle/input acquisition failure.
+private:
+  struct Impl;
+  std::unique_ptr<Impl> impl_;
+};
+class RotatingFollowSolver
+{
+public:
+  RotatingFollowSolver();
+  ~RotatingFollowSolver();
+  RotatingFollowSolver(const RotatingFollowSolver &) = delete;
+  RotatingFollowSolver & operator=(const RotatingFollowSolver &) = delete;
+  RotatingFollowResult solve(RotatingFollowInput input);
+  void reset();
 private:
   struct Impl;
   std::unique_ptr<Impl> impl_;

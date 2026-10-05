@@ -133,10 +133,11 @@ PreparedCorridor PreparedCorridor::prepare(
     if (!std::isfinite(b.xmin) || !std::isfinite(b.xmax) || !std::isfinite(b.ymin) ||
       !std::isfinite(b.ymax) || b.xmin >= b.xmax || b.ymin >= b.ymax || !inside(out.points_[i], b))
     {throw ContractError("Sfc degenerate or anchor outside centre bounds");}
-    certify(grid, {b.xmin + support.xmin - body.static_clearance,
+    const Bounds free{b.xmin + support.xmin - body.static_clearance,
       b.xmax + support.xmax + body.static_clearance,
       b.ymin + support.ymin - body.static_clearance,
-      b.ymax + support.ymax + body.static_clearance});
+      b.ymax + support.ymax + body.static_clearance};
+    certify(grid, free); out.free_bounds_.push_back(free);
     out.bounds_.push_back(b);
   }
   // Every original line segment must be covered by its neighbouring certified
@@ -166,6 +167,9 @@ PreparedCorridor PreparedCorridor::prepare(
   out.path_digest_ = path_digest; out.map_digest_ = map_hash.finish();
   out.body_digest_ = body.digest();
   policy_hash.text(out.body_digest_); policy_hash.number(max_range); out.policy_digest_ = policy_hash.finish();
+  Digest rotating; rotating.text("r4_rotating_corridor/v2");
+  rotating.text(body.geometry_digest()); rotating.number(max_range);
+  out.rotating_policy_digest_ = rotating.finish();
   return out;
 }
 PathSample PreparedCorridor::sample(double progress) const
@@ -204,5 +208,22 @@ Bounds PreparedCorridor::local_bounds(Vec2 position) const
   }
   if (!selected) {throw ContractError("state outside certified static corridor");}
   return bounds_[*selected];
+}
+Bounds PreparedCorridor::local_free_bounds(Vec2 position, const BodyPolicy & body) const
+{
+  const auto support = body.support();
+  std::optional<size_t> selected; double best = std::numeric_limits<double>::infinity();
+  for (size_t i = 0; i < free_bounds_.size(); ++i) {
+    const auto b = free_bounds_[i];
+    if (inside(position, {b.xmin - support.xmin + body.static_clearance,
+      b.xmax - support.xmax - body.static_clearance,
+      b.ymin - support.ymin + body.static_clearance,
+      b.ymax - support.ymax - body.static_clearance})) {
+      const double error = distance(position, points_[i]);
+      if (error < best) {selected = i; best = error;}
+    }
+  }
+  if (!selected) {throw ContractError("rotating state outside certified static corridor");}
+  return free_bounds_[*selected];
 }
 }  // namespace rm_r4_prediction_consumption
