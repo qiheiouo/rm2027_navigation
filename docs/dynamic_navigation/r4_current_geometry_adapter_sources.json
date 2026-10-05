@@ -1,0 +1,351 @@
+{
+  "stage": "A09",
+  "intake_before_implementation": [
+    {
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/planner.hpp",
+      "original_sha256": "5ad91c7cfa44db6380ba0d0ddf6a841c27b17cbd40d719357cbd047d015322fa",
+      "license": "MIT",
+      "role": "single existing geometry provider; no planner code compiled",
+      "current_sha256": "5ad91c7cfa44db6380ba0d0ddf6a841c27b17cbd40d719357cbd047d015322fa",
+      "modified": false
+    },
+    {
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/pose_geometry.hpp",
+      "original_sha256": "6efdd3766dd39fa0584713e5c09441ef5f1b34c9fa5d43c04775a57d1f26c41e",
+      "license": "MIT",
+      "role": "single existing geometry provider; no planner code compiled",
+      "current_sha256": "993a9516bb24427796fb9fd23d6a54b571d460ad110bceec01545043875c1201",
+      "modified": true
+    },
+    {
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/src/pose_geometry.cpp",
+      "original_sha256": "031b6ee87e486b610af5a507ae799d1c2b61dc957491a8b339f91a9c33bd50f2",
+      "license": "MIT",
+      "role": "single existing geometry provider; no planner code compiled",
+      "current_sha256": "87cf2a07174b7e4be68ddc03ebfde04b4b6789b5ed6b186b3278db3ec1240e87",
+      "modified": true
+    },
+    {
+      "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+      "path": "experiments/tdt_planner/rm_tdt_planner/LICENSE",
+      "original_sha256": "5bf99991aa11fd4aa72450d53ad7e1d2970d92f7ef4a4e8b1874b648de8bcc3f",
+      "license": "MIT",
+      "role": "single existing geometry provider; no planner code compiled",
+      "current_sha256": "5bf99991aa11fd4aa72450d53ad7e1d2970d92f7ef4a4e8b1874b648de8bcc3f",
+      "modified": false
+    }
+  ],
+  "status": "finite_value_validation_passed_not_runtime_wired",
+  "test_only_intake": {
+    "path": "experiments/tdt_planner/rm_tdt_planner/test/test_pose_geometry.cpp",
+    "version": "e680b1430db6efd8dc601d5585ee207e5f9b42a4",
+    "sha256": "6b0e5098d98e3c2e50da290557fa126cf6b6310608b7717af8aaa99a4d7a22f1",
+    "scope": "unchanged 19 provider regression cases, never linked into runtime"
+  },
+  "date": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "base_R4_commit": "fef971aa6a1fda015587b7b9187e8fe27f8ab037",
+  "main_commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "branch": "experiment/r4-hws-prediction-consumption",
+  "scope": "reuse canonical T-DT continuous geometry via passive existing-owner value adapter; no new output owner or pipeline",
+  "minimal_provider_patch": "--- canonical/experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/pose_geometry.hpp\n+++ R4/experiments/tdt_planner/rm_tdt_planner/include/rm_tdt_planner/pose_geometry.hpp\n@@ -40,6 +40,9 @@\n   size_t max_intervals = 8191;\n   size_t max_cell_checks = 2000000;\n   unsigned int max_depth = 20;\n+  // Minimal current-command adapter extension: centre trajectory error reserve.\n+  // Default zero preserves the original offline linear-motion interpretation.\n+  double centre_reserve = 0.0;\n };\n enum class Status {Certified, Collision, Unresolved};\n enum class Constraint {Footprint, InscribedCentre, MapExtent};\n@@ -57,7 +60,8 @@\n {\n   double begin = 0.0, end = 0.0;\n   // Lower bound on distance minus required clearance for ALL constraints,\n-  // including centre-only 253 (required=0). Not a physical body clearance.\n+  // including centre-only 253 (required=centre_reserve, default 0).\n+  // Not a physical body clearance.\n   double constraint_margin_lower_bound = 0.0;\n };\n struct Result\n--- canonical/experiments/tdt_planner/rm_tdt_planner/src/pose_geometry.cpp\n+++ R4/experiments/tdt_planner/rm_tdt_planner/src/pose_geometry.cpp\n@@ -123,6 +123,7 @@\n     };\n   double radius=0.0;\n   if (!valid_budget || !std::isfinite(limits.clearance) || limits.clearance<0.0 || limits.clearance>2.0 ||\n+    !std::isfinite(limits.centre_reserve) || limits.centre_reserve<0.0 || limits.centre_reserve>2.0 ||\n     limits.max_intervals<1 || limits.max_intervals>65535 ||\n     limits.max_cell_checks<1 || limits.max_cell_checks>100000000 || limits.max_depth>30 ||\n     !bounded_pose(motion.start) || !bounded_pose(motion.goal) ||\n@@ -159,7 +160,7 @@\n         const bool hard=cell.boundary || cell.cost>=254;\n         const double d=hard ? polygon_square(polygon,x,y,g.resolution) :\n           std::hypot(std::max({x,0.0,-x-g.resolution}),std::max({y,0.0,-y-g.resolution}));\n-        const double required=hard ? limits.clearance : 0.0;\n+        const double required=hard ? limits.clearance : limits.centre_reserve;\n         if (d<=required) {\n           result.status=Status::Collision; result.reason=hard ? \"footprint clearance violated\" : \"centre touches inscribed cell\";\n           result.witness=Witness{hard ? Constraint::Footprint : Constraint::InscribedCentre,\n",
+  "new_assets": [
+    {
+      "path": "src/rm_navigation_execution_adapters/CMakeLists.txt",
+      "sha256": "8511c660c74ebadb1c9200efebe1dfcae8123a2226ee8f6bea4c33e487a64e67"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/README.md",
+      "sha256": "9e195ff2bc62b463498068a985349c544725b30a161727189edb65b9948c3923"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/include/rm_navigation_execution_adapters/current_geometry.hpp",
+      "sha256": "2276e11e5b8c84b4cf14ee875e059d236595efa17bbb9667b77f345a191c933b"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/package.xml",
+      "sha256": "6e703f8336c8e6276e6a1eab7f7dcfeb5f11daba18418f521859b93eca4c8f0d"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/src/current_geometry.cpp",
+      "sha256": "ea9052657c2bb356066802e2306d85b0bd76487656b18aebb3f69a6d000ac9c9"
+    },
+    {
+      "path": "src/rm_navigation_execution_adapters/test/test_current_geometry.cpp",
+      "sha256": "b4a890a3155bb3394313504b2cf285fe4b0f8849723715113984efa2f6c58d31"
+    }
+  ],
+  "environment": {
+    "image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+    "ROS": "Humble",
+    "Nav2": "1.1.20",
+    "CXX": "GCC11.4 C++17",
+    "network": false,
+    "hardware": false,
+    "runtime_ROS_nodes_started": 0
+  },
+  "evidence": [
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/build.log",
+      "sha256": "78f9641a86c4c5d0406a4a530eb809221b393fafa9b8385703b859b7f569d5ac",
+      "size": 137,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/tests.log",
+      "sha256": "501b9af44f1fe875f45542e60be66702e0235855532ff99eda7a678b63b23de4",
+      "size": 498,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/sanitized_build.log",
+      "sha256": "aeab528179dbe2cdda1939cfe323c9778e5d2ef4ff8e66f33520168734da8ee6",
+      "size": 1259,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/sanitized_tests.log",
+      "sha256": "b0986b3feb0470d955ac9acc9a54f11fa7a23a49ce7f7593c4483accb66e2210",
+      "size": 440,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/initial_build_failure.log",
+      "sha256": "1a3f25451a003ff48656fe1f51712a0393f0309b22812eb5672b118546fdfd37",
+      "size": 3663,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/initial_sanitized_build_failure.log",
+      "sha256": "0dc8ccdf614825a5aab79759bc0b6f56764d5d5d8a645409577e4cc83f1566e9",
+      "size": 5746,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/downstream.log",
+      "sha256": "ec2bbd28e058d100efadb68aa71ec2a2d04bb604cf3909e5ad0016ff41bd5260",
+      "size": 618,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/actual_local_size_probe.json",
+      "sha256": "b74579dca99391965c36d4b565f46cc57edd9a9fd1495212af0aeb6852bc32ed",
+      "size": 304,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/main_profile_values.json",
+      "sha256": "e8c4ccdf377edb0cbf354527e2033f0da58039c5fa36fa98304c95309f0875c0",
+      "size": 2710,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/build/rm_navigation_execution_adapters/test_results/rm_navigation_execution_adapters/test_current_geometry.gtest.xml",
+      "sha256": "4022aa5599ff27859d28ce6522a763cddc4067c181f9a56cc32db8aadadc83eb",
+      "size": 3016,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/build/rm_navigation_execution_adapters/test_results/rm_navigation_execution_adapters/test_existing_pose_geometry.gtest.xml",
+      "sha256": "757e212480e5627ce5537fb61332b99c45828589711ed37d49550215bb95691a",
+      "size": 4165,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/sanitized/test_results/rm_navigation_execution_adapters/test_current_geometry.gtest.xml",
+      "sha256": "50a09b67334247027938347876c410c98050f356e86fab0b5aebee778f8171b0",
+      "size": 3020,
+      "committed": false
+    },
+    {
+      "path": "build/r4_current_geometry_humble_check_20261005/sanitized/test_results/rm_navigation_execution_adapters/test_existing_pose_geometry.gtest.xml",
+      "sha256": "72013ed74ad191e266bad329972c694530ae5433b1b9bdd575c1449e43b9f572",
+      "size": 4173,
+      "committed": false
+    }
+  ],
+  "validation": {
+    "adapter_GTest_cases": 13,
+    "unchanged_provider_GTest_cases": 19,
+    "CTest_groups": 2,
+    "release": "PASS",
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "sanitized": "PASS",
+    "leak_detection": false,
+    "ROS_system_libraries_instrumented": false,
+    "installed_CXX17_downstream": "PASS",
+    "independent_curved_samples": 404,
+    "independent_held_twist_cases": 4,
+    "installed_Nav2_perimeter_interior_gap_reproduced": true,
+    "actual_50ms_1_2rads_spin_endpoint_counterexample_reproduced": true,
+    "short_actual_local_grid_probes": [
+      {
+        "case": 0,
+        "elapsed_s": 0.002740122,
+        "cell_checks": 3816,
+        "intervals": 2
+      },
+      {
+        "case": 1,
+        "elapsed_s": 0.001833349,
+        "cell_checks": 3816,
+        "intervals": 2
+      },
+      {
+        "case": 2,
+        "elapsed_s": 0.001800179,
+        "cell_checks": 3816,
+        "intervals": 2
+      },
+      {
+        "case": 3,
+        "elapsed_s": 0.001769047,
+        "cell_checks": 3816,
+        "intervals": 2
+      }
+    ],
+    "actual_main_profile_values": {
+      "local": {
+        "use_sim_time": false,
+        "update_frequency": 10.0,
+        "publish_frequency": 5.0,
+        "global_frame": "odom",
+        "robot_base_frame": "base_link",
+        "rolling_window": true,
+        "width": 8,
+        "height": 8,
+        "resolution": 0.05,
+        "footprint": "[[-0.32, -0.27], [-0.32, 0.27], [0.32, 0.27], [0.32, -0.27]]",
+        "footprint_padding": 0.02,
+        "plugins": [
+          "stvl_layer",
+          "inflation_layer"
+        ],
+        "stvl_layer": {
+          "plugin": "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer",
+          "enabled": true,
+          "voxel_decay": 0.5,
+          "decay_model": 0,
+          "voxel_size": 0.05,
+          "track_unknown_space": false,
+          "observation_persistence": 0.0,
+          "max_obstacle_height": 2.0,
+          "mark_threshold": 1,
+          "update_footprint_enabled": true,
+          "footprint_clearing_enabled": true,
+          "combination_method": 1,
+          "obstacle_range": 3.5,
+          "origin_z": -0.2,
+          "publish_voxel_map": false,
+          "transform_tolerance": 0.3,
+          "mapping_mode": false,
+          "observation_sources": "left_mid360_mark left_mid360_clear",
+          "left_mid360_mark": {
+            "topic": "/livox/left/pointcloud_filtered",
+            "data_type": "PointCloud2",
+            "marking": true,
+            "clearing": false,
+            "observation_persistence": 0.2,
+            "expected_update_rate": 0.2,
+            "min_obstacle_height": 0.18,
+            "max_obstacle_height": 2.0,
+            "obstacle_min_range": 0.45,
+            "obstacle_max_range": 3.5,
+            "clear_after_reading": true,
+            "filter": "voxel",
+            "voxel_min_points": 1
+          },
+          "left_mid360_clear": {
+            "topic": "/livox/left/pointcloud_filtered",
+            "data_type": "PointCloud2",
+            "marking": false,
+            "clearing": true,
+            "min_z": 0.0,
+            "max_z": 6.0,
+            "horizontal_fov_angle": 4.71239,
+            "vertical_fov_angle": 1.03,
+            "vertical_fov_offset": 0.3927,
+            "decay_acceleration": 1.0,
+            "model_type": 1
+          }
+        },
+        "inflation_layer": {
+          "plugin": "nav2_costmap_2d::InflationLayer",
+          "cost_scaling_factor": 6.0,
+          "inflation_radius": 0.3
+        },
+        "always_send_full_costmap": true
+      },
+      "limits": {
+        "use_sim_time": false,
+        "smoothing_frequency": 20.0,
+        "scale_velocities": false,
+        "feedback": "OPEN_LOOP",
+        "max_velocity": [
+          0.5,
+          0.5,
+          1.2
+        ],
+        "min_velocity": [
+          -0.3,
+          -0.5,
+          -1.2
+        ],
+        "max_accel": [
+          0.8,
+          0.8,
+          2.0
+        ],
+        "max_decel": [
+          -0.8,
+          -0.8,
+          -2.0
+        ],
+        "odom_topic": "/odometry/lio",
+        "odom_duration": 0.1,
+        "deadband_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "velocity_timeout": 1.0
+      }
+    },
+    "timing_is_WCET": false,
+    "initial_failures": [
+      "ambiguous Point/Twist finite initializer overload in release and sanitized build; explicit Point construction fixed"
+    ]
+  },
+  "preservation": {
+    "A03_fixed_source_hashes_and_key_lines_verified": 63,
+    "protected_refs_unchanged_excluding_R4": 92,
+    "A03_branch_head_inventory_rechecked": 33,
+    "original_checkout_head_branch_and_10_dirty_paths_unchanged": true,
+    "large_untracked_core_read_or_deleted": false,
+    "frozen_R3_head_and_clean_status_unchanged": true,
+    "R4_existing_branch_based_on_main": true,
+    "formal_entry_profile_controller_output_transport_paths_match_main": true,
+    "formal_worktree_paths_match_main": true,
+    "A04_A05_unchanged_asset_hashes_excluding_A08_documented_updates": 39,
+    "A08_asset_hashes_unchanged": 7,
+    "A02_non_Markdown_files_match_frozen_A02": 26,
+    "public_v2_bytes_unchanged": true,
+    "canonical_Sfc_5_assets_unchanged": 5
+  },
+  "remaining_acceptance": {
+    "active_grant_and_fence": false,
+    "original_acquisition_lease_transport": false,
+    "actual_actuator_tracking_tube": false,
+    "physical_sensor_current_age": false,
+    "owner_schedule_lock_IO_bounds": false,
+    "native_MPPI_fallback_runtime": false,
+    "75ms_continuous_output_guarantee": false,
+    "closed_loop_and_physical_safety": false
+  }
+}

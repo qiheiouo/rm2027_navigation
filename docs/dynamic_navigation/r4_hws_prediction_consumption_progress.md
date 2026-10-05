@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A08 可选 C++ fixed-yaw Follow 值求解已实现，默认关闭：复用 A04/A05 输入、observed soft cost/free-s 数学、既有 Sfc 与固定 OSQP0.6.3，输出 proposal 或 unavailable。Nav2 controller 接线及原 owner 的 grant/lease/current admission 尚未实现。** 不把 A02 harness 全部 ROS 化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A06 复核矩阵](r4_reuse_audit_checkpoint.md)、[A07 原责任接口](r4_owner_adapter_design.md) 与 [A08 值求解](r4_follow_value_solver.md) 为准。
+状态：**A08 可选 Follow 值求解与 A09 当前几何值适配已实现；尚未接入正式运行链。** Follow 默认关闭，复用 A04/A05 输入、既有 Sfc 与固定 OSQP0.6.3，输出 proposal 或 unavailable；当前几何复用唯一 T-DT provider，不消费 future prediction。原 owner 的 active grant/lease/实际发送 admission 及 Nav2 controller 接线尚待实现/验收。不把 A02 harness 全部 ROS 化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A06](r4_reuse_audit_checkpoint.md)、[A07](r4_owner_adapter_design.md)、[A08](r4_follow_value_solver.md) 与 [A09](r4_current_geometry_adapter.md) 为准。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -266,3 +266,29 @@ leased 与 legacy 模式只选择原 publisher/consumer 的一种 command 接口
 ### next step
 
 按 A07 在原调用点收敛 active grant/fence、共用 current admission 与原子期限 transport 的最小适配；继续复用标准 lifecycle/controller/action 和原唯一输出责任。未获相应有限证据，不接真实输出、不宣布 fallback/75ms/物理 PASS、不扩大场景或恢复独立 owner 方案。
+
+## A09 — 既有连续几何的当前命令值适配
+
+### hypothesis
+
+原 T-DT filled/continuous pose geometry 可供 R4、native MPPI 和 behaviors 共用；actual body Twist 的弧线与 253 centre error reserve 只需窄扩展，不应复制几何算法或引入另一个 costmap/owner。
+
+### change
+
+用户授权离开期间持续开发和有限实验。先登记既有迁移源码，再在原 canonical 路径接入唯一 `pose_geometry::certify` provider；原 planner/frontend 不编译。provider 最小增加默认零的 `centre_reserve`，其余算法保持。新被动 `rm_navigation_execution_adapters` 接 actual raw current map/padded footprint/限值与实际待发送 Twist，精确积分 endpoint，使用 chord/pose-age/tracking tube 保守区间适配。
+
+### result
+
+13 个 adapter 和 19 个原 provider GTest 在固定 Humble 与同范围 ASan/UBSan 下通过；安装后 C++17 接口通过。复现安装版 Nav2 perimeter-only 的内部障碍缺口，以及实际 50ms Spin 在安全端点间的碰撞。四轨迹 404 个独立积分查询核对 chord bound；实际 160×160 local-grid 四调用短样本 1.769–2.740ms，不形成 WCET。
+
+### evidence
+
+[接口/模型假设与有限证据](r4_current_geometry_adapter.md)、[固定来源/最小补丁/日志摘要及保留核对](r4_current_geometry_adapter_sources.json)。初次 Point/Twist 重载编译失败已修复并保留日志；没有放宽实际限值、时间门、填充几何或误差界。
+
+### conclusion
+
+Certified 只指固定 current map 和显式 tracking 假设下的几何区间；不是 active grant、source lease、actuator/sensor 物理认证。新增代码没有 ROS IO、速度选择、brake 或 publisher；原 main/profile/output、public v2、A02 与冻结 R3 保持。尚未完成 fallback/75ms 或闭环验收。
+
+### next step
+
+继续在原调用点落实 grant/fence 与 acquisition deadline 的值合同，组合相同 actual candidate 的几何证据；不得因当前图通过而续期旧 proposal。再做有限原 host/owner 接线，保持 native MPPI 与唯一输出责任；不扩大实验或接实车。
