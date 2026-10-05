@@ -39,6 +39,23 @@ void certify(const nav_msgs::msg::OccupancyGrid & grid, Bounds support)
   }
 }
 }
+std::string PreparedCorridor::fingerprint_path(const nav_msgs::msg::Path & path)
+{
+  if (path.header.frame_id.empty() || path.header.frame_id.size() > 128 ||
+    path.poses.size() < 2 || path.poses.size() > 512) {throw ContractError("path identity extent");}
+  Digest hash; hash.text("r4_path/v1"); hash.text(path.header.frame_id);
+  hash.integer(path.header.stamp.sec); hash.integer(path.header.stamp.nanosec); hash.integer(path.poses.size());
+  for (const auto & pose : path.poses) {
+    const auto & p = pose.pose.position; const auto & q = pose.pose.orientation;
+    if (pose.header.frame_id.size() > 128 || !finite({p.x, p.y}) || !std::isfinite(p.z) ||
+      !std::isfinite(q.x) || !std::isfinite(q.y) || !std::isfinite(q.z) || !std::isfinite(q.w))
+    {throw ContractError("path identity values");}
+    hash.text(pose.header.frame_id); hash.integer(pose.header.stamp.sec); hash.integer(pose.header.stamp.nanosec);
+    hash.number(p.x); hash.number(p.y); hash.number(p.z);
+    hash.number(q.x); hash.number(q.y); hash.number(q.z); hash.number(q.w);
+  }
+  return hash.finish();
+}
 PreparedCorridor PreparedCorridor::prepare(
   const nav_msgs::msg::Path & path, const nav_msgs::msg::OccupancyGrid & grid,
   const BodyPolicy & body, uint64_t generation, double max_range)
@@ -55,10 +72,8 @@ PreparedCorridor PreparedCorridor::prepare(
     !std::isfinite(max_range) || max_range < 0.1 || max_range > 5.)
   {throw ContractError("raw-static path/map/frame policy");}
   PreparedCorridor out; out.frame_ = path.header.frame_id; out.generation_ = generation;
-  Digest path_hash, map_hash, policy_hash;
-  path_hash.text("r4_path/v1"); path_hash.text(path.header.frame_id);
-  path_hash.integer(path.header.stamp.sec); path_hash.integer(path.header.stamp.nanosec);
-  path_hash.integer(path.poses.size());
+  Digest map_hash, policy_hash;
+  const auto path_digest = fingerprint_path(path);
   const double res = info.resolution;
   // Black halo protects the vendor's neighbour accesses. Feed cell-centre local
   // coordinates with zero origin; never use its inconsistent nonzero-origin API.
@@ -86,10 +101,6 @@ PreparedCorridor PreparedCorridor::prepare(
       !std::isfinite(rotation.y) || !std::isfinite(rotation.z) || !std::isfinite(rotation.w) ||
       p.x < origin.x || p.y < origin.y || p.x >= origin.x + info.width * res ||
       p.y >= origin.y + info.height * res) {throw ContractError("path point/frame/outside map");}
-    path_hash.text(pose.header.frame_id); path_hash.integer(pose.header.stamp.sec);
-    path_hash.integer(pose.header.stamp.nanosec); path_hash.number(p.x); path_hash.number(p.y);
-    path_hash.number(p.z); path_hash.number(rotation.x); path_hash.number(rotation.y);
-    path_hash.number(rotation.z); path_hash.number(rotation.w);
     const int x = std::floor((p.x - origin.x) / res), y = std::floor((p.y - origin.y) / res);
     if (grid.data[static_cast<size_t>(y) * info.width + x] != 0) {
       throw ContractError("path anchor not raw-static free");
@@ -152,7 +163,7 @@ PreparedCorridor PreparedCorridor::prepare(
       throw ContractError("path segment lacks continuous static corridor support");
     }
   }
-  out.path_digest_ = path_hash.finish(); out.map_digest_ = map_hash.finish();
+  out.path_digest_ = path_digest; out.map_digest_ = map_hash.finish();
   out.body_digest_ = body.digest();
   policy_hash.text(out.body_digest_); policy_hash.number(max_range); out.policy_digest_ = policy_hash.finish();
   return out;

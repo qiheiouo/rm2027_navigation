@@ -125,6 +125,8 @@ public:
   static PreparedCorridor prepare(
     const nav_msgs::msg::Path & path, const nav_msgs::msg::OccupancyGrid & raw_static,
     const BodyPolicy & body, uint64_t generation, double max_range = 2.0);
+  // Same existing identity encoding, for the original host's setPlan binding.
+  static std::string fingerprint_path(const nav_msgs::msg::Path & path);
   const std::vector<Vec2> & points() const {return points_;}
   const std::vector<double> & arcs() const {return arcs_;}
   const std::vector<Bounds> & centre_bounds() const {return bounds_;}

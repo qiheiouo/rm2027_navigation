@@ -1,0 +1,289 @@
+{
+  "stage": "A11",
+  "date": "2026-10-05",
+  "base_R4_commit": "4a3022044f8925d14c0abe003b13d6f462aa1232",
+  "main_commit": "d735ee12bd950dca0e691cdf2f2c61f35cef8ffc",
+  "branch": "experiment/r4-hws-prediction-consumption",
+  "scope": "optional standard Controller typed-cycle wrapper only; no formal host/owner binding or motion IO",
+  "assets": [
+    {
+      "path": "src/rm_r4_nav2_controller/CMakeLists.txt",
+      "sha256": "04855c211265b6159a343b885ebdbab2904b68fd9cdad4ee11ba9533b314f987",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/README.md",
+      "sha256": "f4a26f0cb92a06a507e87cd41a1622ef5697f0229af92e675270e8b18bb3c272",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/include/rm_r4_nav2_controller/controller.hpp",
+      "sha256": "fe2d86700dd566b7cd3a065255462e832049c2263b9247399215ce03925ee5e6",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/package.xml",
+      "sha256": "2977ab4aed736f6c64e98f05929f2446ea1a6e3f4723d5d402e5605360192da7",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/plugin.xml",
+      "sha256": "6388f6d9c2b3dd13227eee1b203aa87abafa88e9f89ce24f5c4f5f71ed5a9c6f",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/src/controller.cpp",
+      "sha256": "80c87d95e8e9f53424231e2170016a2800d3c9532e1d47320ec8ec09c363724d",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_nav2_controller/test/test_controller.cpp",
+      "sha256": "287f2a4064b4b0c9473d05d9dd2b3359db10a3fd62e077cb9c2dc341ac9f69ba",
+      "status": "new"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/include/rm_r4_prediction_consumption/consumption.hpp",
+      "sha256": "a1ab97090fcfd8f8ffd0b81e09a28366f4372806ec63893d21e1746a7c6ac893",
+      "status": "modified",
+      "reason": "share existing exact path identity for original setPlan; no frontend change"
+    },
+    {
+      "path": "src/rm_r4_prediction_consumption/src/corridor.cpp",
+      "sha256": "b4d8f5330bd4ec4e73d5f771abe55a53e6c3967b997792157c706bfe92933171",
+      "status": "modified",
+      "reason": "share existing exact path identity for original setPlan; no frontend change"
+    }
+  ],
+  "upstream_installed_readonly": [
+    {
+      "installed_path": "/opt/ros/humble/include/nav2_core/controller.hpp",
+      "sha256": "df03385b3691c671a6ccff6903495119bde89ad1fdfa0b1f890acd789d862b19",
+      "license": "BSD notice in installed standard API",
+      "scope": "read-only include/link to existing installation; no vendor import"
+    },
+    {
+      "installed_path": "/opt/ros/humble/include/nav2_core/goal_checker.hpp",
+      "sha256": "000a8db0761c49b6693d880e924132808136634478bfe2b32c87e20951f903bb",
+      "license": "BSD notice in installed standard API",
+      "scope": "read-only include/link to existing installation; no vendor import"
+    },
+    {
+      "path": "/opt/ros/humble/include/nav2_costmap_2d/nav2_costmap_2d/costmap_filters/filter_values.hpp",
+      "sha256": "9f39c3f11e1aa1dc245c1a45d06af1b236e8f6e896cf8e0d9c0a1d6901235ef8",
+      "lines": [
+        "static constexpr double NO_SPEED_LIMIT = 0.0;"
+      ]
+    }
+  ],
+  "environment": {
+    "image": "sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3",
+    "ROS": "Humble",
+    "Nav2": "1.1.20",
+    "CXX17": true,
+    "OSQP": "A08 pinned 0.6.3 release/sanitized prefixes",
+    "network": false,
+    "devices": false,
+    "test_only_LifecycleNode": true,
+    "existing_canonical_CDR_fixture_rerun": true,
+    "Nav2_graph_started": false,
+    "hardware": false
+  },
+  "validation": {
+    "release": "PASS",
+    "sanitized": "PASS",
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "leak_detection": false,
+    "ROS_system_libraries_instrumented": false,
+    "local_plugin_core_Sfc_and_fixed_OSQP_instrumented": true,
+    "GTest_cases": {
+      "build/rm_r4_prediction_consumption/test_consumption.gtest.xml": 15,
+      "build/rm_r4_prediction_consumption/test_corridor.gtest.xml": 8,
+      "build/rm_r4_prediction_consumption/test_follow.gtest.xml": 12,
+      "build/rm_r4_nav2_controller/test_controller.gtest.xml": 11,
+      "sanitized_value/test_consumption.gtest.xml": 15,
+      "sanitized_value/test_corridor.gtest.xml": 8,
+      "sanitized_value/test_follow.gtest.xml": 12,
+      "sanitized_controller/test_controller.gtest.xml": 11
+    },
+    "CTest_groups": 6,
+    "installed_CXX17": "PASS",
+    "default_OFF_without_solver_and_without_plugin_registration": "PASS",
+    "old_A08_vs_new_A11_five_path_map_body_digests": "byte_identical",
+    "digest_values": [
+      "78a9d005a2e0647b10bfc2d7a5bc23f5e9e17dc186186e1df77e4438b88ef2aa b0848c83d724b87b6d5da095dc789725afb07c2f6507e87175a913b8a3d46510 738797fbe4bc80b8a22bb60fb1592e03e7fd12cc3d2a5188f88e09e15111b3f0",
+      "7d57e3bc674e27fe1fd48888cecc574bdeb554a32270187e1104354e0cdb6a7d b0848c83d724b87b6d5da095dc789725afb07c2f6507e87175a913b8a3d46510 738797fbe4bc80b8a22bb60fb1592e03e7fd12cc3d2a5188f88e09e15111b3f0",
+      "7095679770614f989e9c569f2d43a93d82d93cb19d886afb75ffcf48ccdfc05c b0848c83d724b87b6d5da095dc789725afb07c2f6507e87175a913b8a3d46510 738797fbe4bc80b8a22bb60fb1592e03e7fd12cc3d2a5188f88e09e15111b3f0",
+      "fa071f5e7678301f1cc0aab311fd6438c3aa61b3bd0fb60992b9e5a89529daa9 b0848c83d724b87b6d5da095dc789725afb07c2f6507e87175a913b8a3d46510 738797fbe4bc80b8a22bb60fb1592e03e7fd12cc3d2a5188f88e09e15111b3f0",
+      "572da71f68e06f08bc58d340b15c4b440dd735c24527f517c5ad8910ff6bf0ee b0848c83d724b87b6d5da095dc789725afb07c2f6507e87175a913b8a3d46510 738797fbe4bc80b8a22bb60fb1592e03e7fd12cc3d2a5188f88e09e15111b3f0"
+    ],
+    "initial_failures": [
+      "read-only default ROS log directory; set isolated ROS_LOG_DIR and rerun same scope",
+      "sanitized installed Follow link lacks fixed OSQP library search prefix; provide same explicit dependency search path as Release"
+    ],
+    "timing_is_WCET": false
+  },
+  "contracts": {
+    "bind_standard_compute_take_same_token": true,
+    "single_use_context_and_result": true,
+    "frame_id_provenance_protocol": false,
+    "new_publisher_subscription_TF_query_costmap_worker": false,
+    "nonzero_speed_limit": "unavailable; original native fallback required, not implemented here",
+    "source_lease_ns": 75000000,
+    "total_acquisition_budget_ns": 40000000,
+    "solver_budget_ns": 15000000,
+    "activation_or_token_is_grant": false
+  },
+  "evidence": [
+    {
+      "path": "build/r4_controller_humble_check_20261005/build/rm_r4_prediction_consumption/test_results/rm_r4_prediction_consumption/test_consumption.gtest.xml",
+      "sha256": "7aae08c6ce2628d8d26b4d09729507e64ec75b20105d7fe6c5c90e302f78e75a",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/build/rm_r4_prediction_consumption/test_results/rm_r4_prediction_consumption/test_corridor.gtest.xml",
+      "sha256": "1799bc200677e8283e7edeb8d9c73a101aef3c98e3365b7eca733a3e2e76104f",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/build/rm_r4_prediction_consumption/test_results/rm_r4_prediction_consumption/test_follow.gtest.xml",
+      "sha256": "d2c17b53dfafa7d7ccbeb893b0c786eb643af91d72ebd585dcc5834a55847c59",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/build/rm_r4_nav2_controller/test_results/rm_r4_nav2_controller/test_controller.gtest.xml",
+      "sha256": "d816f74017b1d9838c07ae17bd3f83b7cde30d98c261f3fab2c42d186419bbe0",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_value/test_results/rm_r4_prediction_consumption/test_consumption.gtest.xml",
+      "sha256": "7e3ebc012360f415364a11b7a23719e92d20150dab18b1c42ad26238b28b9152",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_value/test_results/rm_r4_prediction_consumption/test_corridor.gtest.xml",
+      "sha256": "33f029af0e30cd304a1c6096b7fea59c64b938fee6a4fae03363a4b9692f38d6",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_value/test_results/rm_r4_prediction_consumption/test_follow.gtest.xml",
+      "sha256": "880ad18aff578702ac0f00022c27d6f1ef960aebe530f4e45a44f24aa7952bef",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_controller/test_results/rm_r4_nav2_controller/test_controller.gtest.xml",
+      "sha256": "c77ce9a8d95a96a0a36d27cb75038d5c736ab4d0d359a4edd2c7e5af68f1b792",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/build.log",
+      "sha256": "70946c4919c03d928323fc6a5787e3084c6a253bd976d403946b868d241aa85a",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/value_tests.log",
+      "sha256": "966497d9a372fed35792d0c68617cbcfbef8e8278152d13252c48af16418c563",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/controller_tests.log",
+      "sha256": "196b65fa8a3cebee20de9bdde235a4d8e5d78d3995160433b57223b20dbbb480",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/initial_value_test_failure.log",
+      "sha256": "71166f99f401724f6c5fad1197520366a5b6d77048f0170e077e1e736b80559a",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_value_build.log",
+      "sha256": "951cc54b21a74f6c0d1945d360da23cc25e745408bb80067dc6938f88d5e7d2d",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_controller_build.log",
+      "sha256": "462757791f01c49a14f60eeefb395edf3370d0ba56a5e3bb16fd0ac16b7a1b6e",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_value_tests.log",
+      "sha256": "1a71cda28dcc0e30b168cd72b401a24fdb56c039ab63acf0ae3c60a09bc22008",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_controller_tests.log",
+      "sha256": "827f2795bd72805da78b800bc6968795b4e79607855037551b757cc0758a309b",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/initial_sanitized_link_failure.log",
+      "sha256": "429c099980548af8f5fe6ab5012bfde4b016cc1625650e50aa7f770796111a16",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/default_configuration.log",
+      "sha256": "a9a8517d15f54baa6e5a84e66099cd32941980fd891bac78a69f7daa059eeb04",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/digest_check.log",
+      "sha256": "7f94b2556fa99f4b169e87f5ca0185d550bba78908b81f64ad162ad6ce004325",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/digest_old.txt",
+      "sha256": "65a231c2770e73b0d18ec5a55b6595d6e52103f711f6c826ab2620441af139b7",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/digest_new.txt",
+      "sha256": "65a231c2770e73b0d18ec5a55b6595d6e52103f711f6c826ab2620441af139b7",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/downstream.log",
+      "sha256": "e418c78f7aba6e16c5ab987da81ee640eaf309c368b74a17234bc84d50b200f4",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/release_ldd.txt",
+      "sha256": "92a2c7e7a925853fb25667c49324462c7c1646c1a5adf3b8b55526e0da43524d",
+      "committed": false
+    },
+    {
+      "path": "build/r4_controller_humble_check_20261005/sanitized_ldd.txt",
+      "sha256": "632866a921cbd9768f36128c37d45bd31544bc8d4b68d46f92bf7b90258249f8",
+      "committed": false
+    }
+  ],
+  "preservation": {
+    "A03_fixed_source_hashes_and_key_lines_verified": 63,
+    "protected_refs_unchanged_excluding_R4": 92,
+    "A03_branch_head_inventory_rechecked": 33,
+    "original_checkout_head_branch_and_10_dirty_paths_unchanged": true,
+    "large_untracked_core_read_or_deleted": false,
+    "frozen_R3_head_and_clean_status_unchanged": true,
+    "R4_existing_branch_based_on_main": true,
+    "formal_entry_profile_controller_output_transport_paths_match_main": true,
+    "formal_worktree_paths_match_main": true,
+    "A04_A05_unchanged_assets_excluding_A08_and_A11_documented_updates": 37,
+    "A08_7_assets_unchanged": true,
+    "A10_9_assets_unchanged": true,
+    "A09_existing_geometry_provider_5_assets_unchanged": true,
+    "A02_26_non_Markdown_files_unchanged": 26,
+    "public_v2_bytes_unchanged": true
+  },
+  "remaining_acceptance": {
+    "original_host_bind_take_and_atomic_source_mapping": false,
+    "live_active_grant_clock_transport_witness": false,
+    "actual_state_raw_static_current_map_last_applied_acquisition": false,
+    "nonzero_speed_limit_context_mapping": false,
+    "original_smoother_serial_atomic_interface": false,
+    "native_MPPI_selection_and_blocked_compute_recovery": false,
+    "live_output_exclusivity": false,
+    "75ms_physical_response_or_continuous_output": false,
+    "closed_loop_physical_safety": false
+  }
+}

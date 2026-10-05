@@ -2,7 +2,7 @@
 
 2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
 
-状态：**A08 可选 Follow、A09 当前几何及 A10 fence/lease 值适配已实现；尚未接入正式运行链。** Follow 默认关闭，复用 A04/A05 输入、既有 Sfc 与固定 OSQP0.6.3，输出 proposal 或 unavailable；当前几何复用唯一 T-DT provider，不消费 future prediction。原 owner 的 live grant/clock/transport、实际发送 admission 及 Nav2 controller 接线尚待实现/验收。不把 A02 harness 全部 ROS 化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A06](r4_reuse_audit_checkpoint.md)、[A07](r4_owner_adapter_design.md)、[A08](r4_follow_value_solver.md) 、[A09](r4_current_geometry_adapter.md) 与 [A10](r4_lease_fence_adapter.md) 为准。
+状态：**A08–A10 值适配及 A11 可选标准 Controller 薄适配已实现；尚未接入正式运行链。** Follow 默认关闭，复用 A04/A05 输入、既有 Sfc 与固定 OSQP0.6.3，输出 proposal 或 unavailable；当前几何复用唯一 T-DT provider，不消费 future prediction。原 host bind/take、live grant/clock/transport 与原 owner 的实际发送接线尚待实现/验收；插件默认关闭。不把 A02 harness 全部 ROS 化；Nav2/MPPI/速度/串口默认接线保持，R1/R2/R3保持冻结。架构以 [A03](r4_repository_reuse_audit.md)、[A06](r4_reuse_audit_checkpoint.md)、[A07](r4_owner_adapter_design.md)、[A08](r4_follow_value_solver.md) 、[A09](r4_current_geometry_adapter.md) 、[A10](r4_lease_fence_adapter.md) 与 [A11](r4_standard_controller_adapter.md) 为准。
 
 ## A01 — 固定版本源码审计与最小架构
 
@@ -318,3 +318,29 @@ Certified 只指固定 current map 和显式 tracking 假设下的几何区间�
 ### next step
 
 继续最小标准 Controller typed-cycle 适配与有限加载/调用检查，保留已有action/lifecycle/native MPPI与唯一输出责任。不得把未知的host/owner条件设为已验证，不接实车或扩大实验。
+
+## A11 — 可选标准 Controller typed-cycle 薄适配
+
+### hypothesis
+
+已有 Follow 值求解可通过标准 Controller 插件嵌入原 host；标准 Pose/Twist之外只需一拍 typed-cycle bind/take合同，不需要复制Nav2 plumbing或新增IO。
+
+### change
+
+新增默认关闭的 rm_r4_nav2_controller，使用原lifecycle/setPlan/compute/setSpeedLimit接口，复用A08单次Follow；不增加publisher/subscription/TF查找/costmap/线程。共享原path digest最小提取用于exact setPlan绑定；token绑定host/action/authority/cycle及plan/speed/lifecycle revision，结果单次取回。非零speed-limit明确unavailable，仍需原native MPPI与owner接线。
+
+### result
+
+11个插件加载/调用GTest与原35个值库GTest通过，同范围六组CTest ASan/UBSan通过；安装C++17和默认OFF检查通过。五个固定path的旧A08/新A11 path/map/body digest逐字节一致。expired acquisition/lease、不匹配标准状态或token、path/lifecycle/speed变化均不给可复用正常结果。
+
+### evidence
+
+[A11边界与有限结果](r4_standard_controller_adapter.md)、[源码/来源/日志与保留](r4_standard_controller_adapter_sources.json)。只读标准Controller/GoalChecker及NO_SPEED_LIMIT安装头文件。首次只读ROS日志目录和sanitizer缺OSQP搜索前缀的失败保留并修正，没有调整算法或门限。
+
+### conclusion
+
+标准插件可以加载并以明确host context调用，尚未在正式controller_server内bind/take或接真实输出；没有第二tracker/prediction/frontend/MPPI/owner。source75ms、A07时间反例及actual geometry/grant/clock边界保持，不能据此宣布闭环或fallback部署PASS。
+
+### next step
+
+将原host本拍acquisition与typed结果映射为A10原子proposal，验证token/fence/source预算及relay只减不续；再收敛原profile切换/发送适配。保持默认输出接线关闭，不扩大实验或接实车。
