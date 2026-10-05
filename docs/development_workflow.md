@@ -4,6 +4,23 @@ This document records development rules for `rm27_navigation`.
 
 The goal is to keep the 2027 navigation stack understandable, reproducible, and free from the historical coupling issues of the old system.
 
+## Mandatory Development Rules
+
+All developers and Codex agents must follow
+[实验分支与主线开发分级验证原则](research_integration_deployment_principles.md)
+as a long-term project policy, together with this workflow and the applicable
+public contracts and runtime boundaries.
+
+Before a larger task, determine whether it is Research, Integration or
+Deployment. New experimental algorithms default to Research unless explicitly
+stated otherwise. Define the hypothesis, stable baseline and Minimum Decisive
+Experiment first; use results to decide Go / Modify / Stop. Apply the validation
+scope required by that stage, and do not automatically promote Research to
+Deployment standards. Mainline integration, hardware use and competition
+configuration require the corresponding integration and deployment validation.
+
+The root [AGENTS.md](../AGENTS.md) provides the required reading entry point.
+
 ## Branch Strategy
 
 - `main` should remain readable and buildable.

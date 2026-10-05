@@ -127,6 +127,16 @@ That means:
 
 PolarBear projects remain the first reference object, especially `rmu_gazebo_simulator`, `small_gicp_relocalization`, `pb_omni_pid_pursuit_controller`, `pb_nav2_plugins`, and their map/PCD workflow.
 
+## Mandatory Development Rules
+
+All development must follow [Development Workflow](docs/development_workflow.md),
+[实验分支与主线开发分级验证原则](docs/research_integration_deployment_principles.md)
+and the applicable contracts and runtime boundaries. The stage-based policy is
+a long-term requirement: explore fast, integrate carefully, deploy defensively.
+See [AGENTS.md](AGENTS.md) for the required reading entry point and
+[Project Structure And Documentation Index](docs/project_structure_and_documentation_index.md)
+for authoritative document ownership.
+
 ## Important References
 
 See:

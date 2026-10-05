@@ -19,6 +19,21 @@ Use documents in this order when statements differ:
 The 2026 repository remains reference material. Current source and the 2027
 contracts take precedence over historical behavior.
 
+## Mandatory Development Rules
+
+Before development, read and follow:
+
+- [Development Workflow](development_workflow.md) for branch, commit,
+  documentation and open source intake rules;
+- [实验分支与主线开发分级验证原则](research_integration_deployment_principles.md)
+  for the mandatory Research / Integration / Deployment process and validation
+  scope;
+- the applicable contracts and runtime boundaries listed above.
+
+The stage-based policy governs validation effort. Dated evidence reports do
+not require every research experiment to repeat deployment-level checks.
+The root [AGENTS.md](../AGENTS.md) is the Codex required reading entry point.
+
 ## Workspace Layout
 
 ### External Backends
