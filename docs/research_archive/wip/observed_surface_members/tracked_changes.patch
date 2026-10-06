@@ -1,0 +1,376 @@
+diff --git a/docs/dynamic_obstacle_critic/observed_surface_members_experiment.md b/docs/dynamic_obstacle_critic/observed_surface_members_experiment.md
+index 0300f973..3a7836b0 100644
+--- a/docs/dynamic_obstacle_critic/observed_surface_members_experiment.md
++++ b/docs/dynamic_obstacle_critic/observed_surface_members_experiment.md
+@@ -20,11 +20,19 @@ source stamp、callback/capture epoch、actual source TF、map身份、
+ 开启时记录原始返回的nonfinite类别，绝不把缺失返回当free。
+ 
+ 目录必须新建且为absolute path，不覆盖已有证据。单scan最多4096
+-beam，最多2000个scan事件、每记录最多4MiB；完整记录超预算或IO失败
++beam，最多2000个输入事件（map与scan）、每记录最多4MiB；完整记录超预算或IO失败
+ 将整个证据流标为incomplete并停写，不截断后声称complete，不影响旧
+ A/B控制输出。文件写入开销必须随实际tracker callback延迟一起记录。
+ 时间重置、coasting、删除/重建ID、两个位置相同detections均需检查。
+ 
++地图的实际完整signed-int8输入另存为map事件，与source stamp、原点和
++摘要绑定；不能只用安装目录地图猜测当时实际static subtraction输入。
++map/scan事件共享严格递增ordinal，scan同时保存实际使用的提取参数。
++正常节点退出另写最终summary，绑定完整record数量与每次JSON序列化/
++文件写入耗时；未关闭、缺record、incomplete或close失败均不能称完整。
++该IO耗时不是total tau；完整callback开销仍由原latency诊断记录。实际
++tracker配置与公共发布budget一并存储，以便独立重放权威关联。
++
+ ## 实施与验证顺序
+ 
+ 1. 将原cluster检测算术封装成可同时返回成员的纯helper，旧API仍取
+diff --git a/src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py b/src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py
+index a272186a..09b175a5 100644
+--- a/src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py
++++ b/src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/core.py
+@@ -51,6 +51,8 @@ class TrackerUpdate:
+     created: int
+     deleted: int
+     time_reset: bool
++    # Opt-in evidence in input detection order, from the assignment actually used.
++    detection_track_ids: tuple[int, ...] = ()
+ 
+ 
+ def planar_rotation_matrix(
+@@ -277,21 +279,28 @@ def cluster_points(
+     max_extent: float,
+ ) -> list[Detection]:
+     """Legacy visible-centroid detections, with unchanged traversal/aggregation."""
+-    detections = []
+-    for component in cluster_point_indices(points, tolerance, min_points, max_extent):
+-        xs = [points[index].x for index in component]
+-        ys = [points[index].y for index in component]
+-        size_x = max(xs) - min(xs)
+-        size_y = max(ys) - min(ys)
+-        detections.append(
+-            Detection(
+-                centroid=Point2D(sum(xs) / len(xs), sum(ys) / len(ys)),
+-                size_x=max(size_x, tolerance),
+-                size_y=max(size_y, tolerance),
+-                point_count=len(component),
+-            )
+-        )
+-    return detections
++    return [_cluster_detection(points, component, tolerance) for component in
++            cluster_point_indices(points, tolerance, min_points, max_extent)]
++
++
++def cluster_detections_with_members(
++    points: Sequence[Point2D], tolerance: float, min_points: int, max_extent: float,
++) -> list[tuple[Detection, tuple[int, ...]]]:
++    """Same detection arithmetic, with original candidate indices retained."""
++    return [(_cluster_detection(points, component, tolerance), component)
++            for component in cluster_point_indices(points, tolerance, min_points, max_extent)]
++
++
++def _cluster_detection(points, component, tolerance):
++    xs = [points[index].x for index in component]
++    ys = [points[index].y for index in component]
++    size_x = max(xs) - min(xs)
++    size_y = max(ys) - min(ys)
++    return Detection(
++        centroid=Point2D(sum(xs) / len(xs), sum(ys) / len(ys)),
++        size_x=max(size_x, tolerance), size_y=max(size_y, tolerance),
++        point_count=len(component),
++    )
+ 
+ 
+ def filter_detections_near_static(
+@@ -532,7 +541,11 @@ class MultiObjectTracker:
+         self._last_stamp: float | None = None
+ 
+     def update(self, detections: Sequence[Detection], stamp: float,
+-               source_stamp_ns: int | None = None) -> TrackerUpdate:
++               source_stamp_ns: int | None = None, *,
++               capture_assignments: bool = False) -> TrackerUpdate:
++        if type(capture_assignments) is not bool:
++            raise ValueError("capture_assignments must be boolean")
++        detection_track_ids = [0] * len(detections) if capture_assignments else None
+         if not math.isfinite(stamp):
+             raise ValueError("tracker timestamp must be finite")
+         if source_stamp_ns is not None and (
+@@ -602,6 +615,8 @@ class MultiObjectTracker:
+             if track_index in assignments:
+                 detection_index = assignments[track_index]
+                 detection = detections[detection_index]
++                if detection_track_ids is not None:
++                    detection_track_ids[detection_index] = track.track_id
+                 track.x_filter.update(detection.centroid.x, self.measurement_noise)
+                 track.y_filter.update(detection.centroid.y, self.measurement_noise)
+                 track.size_x = 0.7 * track.size_x + 0.3 * detection.size_x
+@@ -664,11 +679,14 @@ class MultiObjectTracker:
+             ):
+                 track.state = TrackState.CONFIRMED
+             self._tracks.append(track)
++            if detection_track_ids is not None:
++                detection_track_ids[detection_index] = track.track_id
+             self._next_id += 1
+             created += 1
+ 
+         snapshots = tuple(self._snapshot(track, stamp, source_stamp_ns) for track in self._tracks)
+-        return TrackerUpdate(snapshots, created, deleted, time_reset)
++        return TrackerUpdate(snapshots, created, deleted, time_reset,
++            tuple(detection_track_ids) if detection_track_ids is not None else ())
+ 
+     def _snapshot(self, track: _Track, stamp: float,
+                   source_stamp_ns: int | None = None) -> TrackSnapshot:
+diff --git a/src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py b/src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py
+index 1261e4f6..532a8d22 100644
+--- a/src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py
++++ b/src/rm_dynamic_obstacle_tracking/rm_dynamic_obstacle_tracking/dynamic_obstacle_tracker_node.py
+@@ -4,6 +4,8 @@ from __future__ import annotations
+ 
+ import math
+ import time
++import hashlib
++from dataclasses import asdict
+ 
+ from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus, KeyValue
+ from geometry_msgs.msg import Point
+@@ -34,10 +36,12 @@ from .core import (
+     TrackSnapshot,
+     TrackState,
+     cluster_points,
++    cluster_detections_with_members,
+     dynamic_candidates,
+     filter_detections_near_static,
+     planar_rotation_matrix,
+ )
++from .surface_member_evidence import SurfaceMemberEvidence, encoded_range
+ 
+ 
+ def _quaternion_to_yaw(x: float, y: float, z: float, w: float) -> float:
+@@ -97,6 +101,10 @@ class DynamicObstacleTrackerNode(Node):
+         )
+         self._validate_parameters()
+ 
++        evidence_directory = self.declare_parameter("surface_evidence_directory", "").value
++        if type(evidence_directory) is not str:
++            raise ValueError("surface_evidence_directory must be a string")
++
+         self._prediction_dt = float(
+             self.declare_parameter("prediction.dt", 0.1).value
+         )
+@@ -161,6 +169,10 @@ class DynamicObstacleTrackerNode(Node):
+             ),
+             public_anchor_mode=self._anchor_mode,
+         )
++        self._surface_member_evidence = (
++            SurfaceMemberEvidence(evidence_directory) if evidence_directory else None
++        )
++        self._surface_map_identity = None
+         self._map: OccupancyMap | None = None
+         self._tf_buffer = Buffer(cache_time=Duration(seconds=15.0))
+         self._tf_listener = TransformListener(self._tf_buffer, self)
+@@ -236,11 +248,34 @@ class DynamicObstacleTrackerNode(Node):
+                 message.data,
+                 self._occupied_threshold,
+             )
++            if self._surface_member_evidence is not None:
++                self._surface_map_identity = {
++                    "frame": message.header.frame_id,
++                    "stamp_ns": Time.from_msg(message.header.stamp).nanoseconds,
++                    "size": [message.info.width, message.info.height],
++                    "resolution": message.info.resolution,
++                    "origin_xy": [message.info.origin.position.x, message.info.origin.position.y],
++                    "origin_z": message.info.origin.position.z,
++                    "origin_quaternion": [orientation.x, orientation.y, orientation.z, orientation.w],
++                    "signed_int8_data_sha256": hashlib.sha256(bytes(v & 255 for v in message.data)).hexdigest(),
++                }
++                evidence = self._surface_member_evidence
++                if evidence.complete and not evidence.write({
++                        "status": "map", "identity": self._surface_map_identity,
++                        "data": list(message.data),
++                        "capture_stamp_ns": self.get_clock().now().nanoseconds}):
++                    self.get_logger().error("surface map evidence incomplete: " + evidence.failed_reason)
+         except ValueError as error:
+             self.get_logger().error(f"reject invalid occupancy map: {error}")
+ 
+     def _on_scan(self, message: LaserScan) -> None:
+         started = time.perf_counter()
++        evidence = self._surface_member_evidence
++        capture = evidence is not None and evidence.complete
++        callback_stamp_ns = self.get_clock().now().nanoseconds if capture else None
++        if capture and len(message.ranges) > evidence.MAX_SCAN_BEAMS:
++            evidence.fail("complete scan beam budget exceeded")
++            capture = False
+         if self._map is None:
+             self._publish_diagnostics(message, "waiting_for_map", 0, 0, 0, started)
+             return
+@@ -285,8 +320,9 @@ class DynamicObstacleTrackerNode(Node):
+             )
+             return
+         endpoints: list[Point2D] = []
++        source_indices = [] if capture else None
+         angle = message.angle_min
+-        for scan_range in message.ranges:
++        for beam_index, scan_range in enumerate(message.ranges):
+             if (
+                 math.isfinite(scan_range)
+                 and message.range_min <= scan_range <= message.range_max
+@@ -303,6 +339,8 @@ class DynamicObstacleTrackerNode(Node):
+                         + rotation_yy * scan_y,
+                     )
+                 )
++                if source_indices is not None:
++                    source_indices.append(beam_index)
+             angle += message.angle_increment
+ 
+         candidates = dynamic_candidates(
+@@ -311,25 +349,89 @@ class DynamicObstacleTrackerNode(Node):
+             self._static_distance_threshold,
+             self._require_known_free,
+         )
+-        detections = cluster_points(
+-            candidates,
+-            self._cluster_tolerance,
+-            self._cluster_min_points,
+-            self._cluster_max_extent,
+-        )
++        members = None
++        if capture:
++            members = cluster_detections_with_members(
++                candidates, self._cluster_tolerance, self._cluster_min_points,
++                self._cluster_max_extent,
++            )
++            detections = [d for d, _ in members]
++        else:
++            detections = cluster_points(
++                candidates, self._cluster_tolerance, self._cluster_min_points,
++                self._cluster_max_extent,
++            )
+         detections = filter_detections_near_static(
+             detections,
+             self._map,
+             self._detection_static_distance_threshold,
+         )
++        if capture:
++            retained = {id(d) for d in detections}
++            members = [(d, indices) for d, indices in members if id(d) in retained]
+         update = self._tracker.update(detections, stamp.nanoseconds / 1.0e9,
+-            source_stamp_ns=stamp.nanoseconds if self._anchor_mode == "last_observation_cv" else None)
++            source_stamp_ns=stamp.nanoseconds if self._anchor_mode == "last_observation_cv" else None,
++            capture_assignments=capture)
+         visible_tracks = [
+             track
+             for track in update.tracks
+             if self._show_tentative or track.state != TrackState.TENTATIVE
+         ]
+-        self._publish_predictions(message, list(update.tracks))
++        public = self._publish_predictions(message, list(update.tracks))
++        if capture:
++            beam_by_point = {id(p): i for p, i in zip(endpoints, source_indices)}
++            record = {
++                "status": "accepted", "source_stamp_ns": stamp.nanoseconds,
++                "callback_stamp_ns": callback_stamp_ns,
++                "capture_stamp_ns": self.get_clock().now().nanoseconds,
++                "scan_frame": message.header.frame_id, "map_identity": self._surface_map_identity,
++                "extraction_parameters": {"occupied_threshold": self._occupied_threshold,
++                    "static_distance_threshold": self._static_distance_threshold,
++                    "require_known_free": self._require_known_free,
++                    "cluster_tolerance": self._cluster_tolerance,
++                    "cluster_min_points": self._cluster_min_points,
++                    "cluster_max_extent": self._cluster_max_extent,
++                    "detection_static_distance_threshold": self._detection_static_distance_threshold},
++                "tracker_parameters": {name: getattr(self._tracker, name) for name in (
++                    "association_gate", "process_noise", "measurement_noise", "initial_variance",
++                    "min_hits_to_confirm", "min_displacement_to_confirm", "use_global_assignment",
++                    "tentative_max_misses", "max_coast_time_sec", "prediction_steps", "prediction_dt",
++                    "velocity_decay_tau", "max_prediction_speed", "max_update_dt", "public_anchor_mode")},
++                "prediction_max_tracks": self._prediction_max_tracks,
++                "scan": {"angle_min": message.angle_min, "angle_increment": message.angle_increment,
++                         "range_min": message.range_min, "range_max": message.range_max,
++                         "time_increment": message.time_increment, "scan_time": message.scan_time,
++                         "ranges": [encoded_range(v) for v in message.ranges]},
++                "source_tf": {"requested_stamp_ns": stamp.nanoseconds,
++                              "returned_stamp_ns": Time.from_msg(transform.header.stamp).nanoseconds,
++                              "frame": transform.header.frame_id, "child_frame": transform.child_frame_id,
++                              "translation": [translation.x, translation.y, translation.z],
++                              "quaternion": [rotation.x, rotation.y, rotation.z, rotation.w],
++                              "used_xy_rotation": [rotation_xx, rotation_xy, rotation_yx, rotation_yy]},
++                "projected_endpoints": [[i, p.x, p.y] for i, p in zip(source_indices, endpoints)],
++                "candidate_source_indices": [beam_by_point[id(p)] for p in candidates],
++                "detections": [{"detection_index": i, "value": asdict(d),
++                                "candidate_indices": list(indices),
++                                "source_indices": [beam_by_point[id(candidates[j])] for j in indices],
++                                "track_id": update.detection_track_ids[i]}
++                               for i, (d, indices) in enumerate(members)],
++                "tracker_update": asdict(update),
++                "public_prediction": {"schema": public.schema, "authority": public.authority,
++                    "source_stamp_ns": Time.from_msg(public.header.stamp).nanoseconds,
++                    "processing_stamp_ns": Time.from_msg(public.processing_stamp).nanoseconds,
++                    "frame": public.header.frame_id, "complete": public.complete,
++                    "total_track_count": public.total_track_count,
++                    "prediction_dt": public.prediction_dt, "prediction_steps": public.prediction_steps,
++                    "tracks": [{"id": t.track_id, "state": t.state,
++                                "xy": [t.position.x, t.position.y], "vxy": [t.velocity.x, t.velocity.y],
++                                "size_xy": [t.size.x, t.size.y],
++                                "position_z": t.position.z, "velocity_z": t.velocity.z, "size_z": t.size.z,
++                                "last_observation_stamp_ns": Time.from_msg(t.last_observation_stamp).nanoseconds,
++                                "observation_count": t.observation_count, "miss_count": t.miss_count,
++                                "prediction_xyz": [[p.x, p.y, p.z] for p in t.prediction]} for t in public.tracks]},
++            }
++            if not evidence.write(record):
++                self.get_logger().error("surface member evidence incomplete: " + evidence.failed_reason)
+         self._publish_markers(message, visible_tracks)
+         self._publish_diagnostics(
+             message,
+@@ -345,7 +447,7 @@ class DynamicObstacleTrackerNode(Node):
+ 
+     def _publish_predictions(
+         self, message: LaserScan, tracks: list[TrackSnapshot]
+-    ) -> None:
++    ) -> DynamicObstaclePredictionArray:
+         output = DynamicObstaclePredictionArray()
+         output.header.frame_id = self._map_frame
+         output.header.stamp = message.header.stamp
+@@ -406,6 +508,7 @@ class DynamicObstacleTrackerNode(Node):
+             ]
+             output.tracks.append(prediction)
+         self._predictions_pub.publish(output)
++        return output
+ 
+     def _publish_markers(
+         self, message: LaserScan, tracks: list[TrackSnapshot]
+@@ -513,6 +616,13 @@ class DynamicObstacleTrackerNode(Node):
+         deleted: int = 0,
+     ) -> None:
+         tracks = tracks or []
++        evidence = self._surface_member_evidence
++        if evidence is not None and evidence.complete and not state.startswith("ok"):
++            if not evidence.write({"status": "rejected", "reason": state,
++                    "source_stamp_ns": Time.from_msg(message.header.stamp).nanoseconds,
++                    "scan_frame": message.header.frame_id,
++                    "capture_stamp_ns": self.get_clock().now().nanoseconds}):
++                self.get_logger().error("surface member evidence incomplete: " + evidence.failed_reason)
+         status = DiagnosticStatus()
+         status.name = "dynamic_obstacle_tracking_shadow"
+         status.hardware_id = "software_shadow"
+@@ -537,6 +647,10 @@ class DynamicObstacleTrackerNode(Node):
+             "deleted": deleted,
+             "latency_ms": f"{(time.perf_counter() - started) * 1000.0:.3f}",
+         }
++        if evidence is not None:
++            values["surface_evidence_complete"] = evidence.complete
++            values["surface_evidence_records"] = evidence.records
++            values["surface_evidence_failure"] = evidence.failed_reason
+         status.values = [
+             KeyValue(key=str(key), value=str(value))
+             for key, value in values.items()
+@@ -583,6 +697,12 @@ class DynamicObstacleTrackerNode(Node):
+             results.append(status)
+         return results
+ 
++    def destroy_node(self):
++        evidence = self._surface_member_evidence
++        if evidence is not None:
++            evidence.close()
++        return super().destroy_node()
++
+ 
+ def main(args: list[str] | None = None) -> None:
+     rclpy.init(args=args)
