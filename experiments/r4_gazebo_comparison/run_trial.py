@@ -1,12 +1,14 @@
 """Finite owned-process supervisor; no velocity ownership implementation."""
-import json,os,pathlib,signal,subprocess,sys,time
+import json,os,pathlib,re,signal,subprocess,sys,time
 import yaml
 scene,mode,repeat=sys.argv[1].split(':');assert scene in ('S0','S1','S2') and mode in ('B0','R4');repeat=int(repeat)
 root=pathlib.Path.cwd();out=pathlib.Path('/check/runs')/f'{scene}_{mode}_{repeat:02d}';out.mkdir(parents=True,exist_ok=False)
-config=yaml.safe_load(pathlib.Path('/check/assets/common_nav2.yaml').read_text());parameters=config['controller_server']['ros__parameters']['FollowPath']
+profile=os.environ.get('R4_COMP_PROFILE','common');assert re.fullmatch(r'[a-z0-9_]+',profile)
+config_path=pathlib.Path('/check/assets')/('common_nav2.yaml' if profile=='common' else f'{profile}_{mode}_nav2.yaml')
+config=yaml.safe_load(config_path.read_text());parameters=config['controller_server']['ros__parameters']['FollowPath']
 parameters.update(research_mode=mode,research_log=str(out/'control.csv'));(out/'nav2.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
 command=['ros2','launch',str(root/'experiments/r4_gazebo_comparison/comparison.launch.py'),'enabled:=true',f'scene:={scene}',f'seed:={repeat}',f'output:={out}']
-(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,phase='finite' if repeat>=100 else 'pilot',launch=command,baseline='ccd3eac4',gazebo_seed=None,native_noise_seed=None),indent=2)+'\n')
+(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,phase='calibration' if profile.startswith('calibration_') else 'finite' if repeat>=100 else 'pilot',launch=command,baseline='ccd3eac4',gazebo_seed=None,native_noise_seed=None),indent=2)+'\n')
 processes=[];streams=[];status=1
 try:
  for name,args in [('launch',command),('record',[sys.executable,str(root/'experiments/r4_gazebo_comparison/record.py'),scene,mode,str(out)])]:
