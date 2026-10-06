@@ -51,4 +51,4 @@ python3 docs/research_archive/tools/restore_evidence.py /tmp/rm2027-restored --g
 
 原primary observed-shape dirty/untracked、R4 `experiments/r4_rotation_value/analyze.py` dirty及巨大core均保持原状。后者修改来源/独立价值不明确，仅在清单记录，不自动推送。main缺失/prunable的旧worktree登记不清理。没有stash。唯一reflog-only A15前驱与已引用 `13b81775` 基本等价；小差异保存在 `reflog_precursor_difference.patch`，不新建旧算法分支，不删除原对象。保护前后状态与dirty内容校验结果见最终推送记录。
 
-本地索引已按实际上传结果更新。远端归档分支仍为 `ac197e4e`，其中数据已保存，上传前的状态文字属历史记录；本次状态更新commit暂不推送，以免重复触发容量拒绝。没有重试第20项或另造绕过限制的历史。
+本地索引已按实际上传结果更新。远端归档分支仍为 `ac197e4e`，其中数据已保存，上传前的状态文字属历史记录。用户随后选择调整配额、完整上传原历史；[容量处理与手动续传方案](quota_resolution.md)包含重新计算的18项清单及固定SHA工具。新增管理commit仍仅在本地，代理没有重试第20项、改写历史或推送。
