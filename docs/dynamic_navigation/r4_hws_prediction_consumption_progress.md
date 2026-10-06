@@ -1,18 +1,28 @@
 # R4：Prediction Consumption 进度
 
-2026-10-04 建立，2026-10-05 收尾更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
+2026-10-04 建立，2026-10-06 更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A20 既有 owner 角命令过渡审阅完成，判决 Modify 最小消费模型，运行接线继续暂停。** 复用原 20Hz smoother、Nav2 selection/GoalChecker 和所选 transport，不新增 owner/MPPI/生产接口。A19 数值收益保留，但非零真实历史不能由一个零目标立即转换成恒定未来 yaw。
+状态：**A21 world-XY frame audit 与有限消费验证完成。Go 保留最小 world/circle 消费，Stop A20 angular transition，Modify 继续 Research 数值问题；ROS/Nav2实际输出接线仍暂停。**
 
-同一 200 个窗口的只读 receipt 代理与原限速条件下，176 个需超过一拍归零；S1/S2 首 tick 等 50ms 的条件归零时刻中位数 200/150ms，最大 400ms，额外 yaw 最大 0.159/0.150rad。它们不是实测停止时间或 lease failure；75ms 仍绑定每次 acquisition。原 server 异常发零不会自动调用 MPPI，smoother last_cmd/receipt 不是 transport applied grant。
+A08/A19原值为body XY；world-held XY的未来位置不需要未来yaw。按用户的新全向底盘事实，新增同一45变量内核的显式world值包装，保守圆、raw非零wz不改，不发布angular零命令，不建立第二导航链。当前legacy base_link输出协议未表达world语义，留原owner内最小frame适配，不作为wz归零门。
 
-下一步优先有限 Research：在同一 45 变量 Follow 消费已知角过渡，并重用原 shape/Sfc/OSQP；不自动恢复自由角速度优化、不补 A10/A12 输出设施。零历史启动与中途切入须分开判断，终点朝向仍留原 goal/controller 责任。[A20 复用矩阵、条件结果与最小实验](r4_angular_handoff_audit.md) 是当前入口；[A19 值结果](r4_aligned_follow_adapter.md) 保持，runtime/closed-loop 仍未通过。
+原S1/S2动态窗口40/40、159/160；S2有38拍可辨提前减速。理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
 
-## A20 — 原 owner 角命令过渡适用性
+下一最小判定：同一无动态feedback也在路径末端solved inaccurate，先定位共享局部QP数值问题；冷初值虽解决单拍状态，却产生future支持重叠，不能盲目加入retry。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。[A21 frame/reuse audit、结果与最小接线](r4_world_xy_frame_audit.md) 是当前入口。
+
+## A21 — 世界系XY与yaw-invariant circle
+
+- 假设：全向底盘world XY可独立于底盘wz，圆形支持取消future yaw项，既有HWS-style消费能维持覆盖与响应。
+- 实现：仅BodyPolicy显式circle与WorldFollowAdapter，复用snapshot/CV/Sfc/45变量OSQP；无angular字段、第二pipeline/frontend/controller/owner，public v2与A09–A12保持。
+- 实验：原453拍native导航窗口的paired tracks消融、原4固定probe、yaw/wz配对、短/长理想feedback与单拍初值诊断；预算/权重/实际几何不缩小。无新ROS/Gazebo/实际输出。
+- 判决：world参数化与消费Research Go；整体接线Modify，先处理末端数值失败。当前提案覆盖和理想反馈不等于STVL+MPPI优势或部署PASS。
+- [完整结果/限制](r4_world_xy_frame_audit.md)、[必要证据/复现](../../experiments/r4_world_xy/README.md)。全部留本地、不push；原无关dirty保持。
+
+## A20 — 原 owner 角命令过渡适用性（历史，方向已被A21修正）
 
 - 假设/最小判定：原 smoother 是否足以使 A19 零目标模型直接切入；固定 Humble源码、A09–A12/transport 和同一 200 个已有窗口，只做条件计算，无运行实验。
 - 结果：唯一输出责任可复用，内部 last_cmd、ROS receipt、串口 write 与物理 applied 必须区分。持续零目标过渡产生未来 yaw，A19 恒定 future yaw 不能表达；原异常 zero/selector 也不是自动安全回退证明。
-- 判决：Modify；下一候选保留 45 变量、输入已知角 profile 的逐 stage 消费。既有零历史启动不因 MPPI 记录而被否定；不把条件几何/112 个中途 yaw 超差样本当作 R4 实际失败或物理证书。
+- 历史判决：Modify，曾提议输入已知角profile；用户补充world/omni事实后停止此路线，现以A21为准。既有零历史启动不因 MPPI 记录而被否定；不把条件几何/112 个中途 yaw 超差样本当作 R4 实际失败或物理证书。
 - [源码边界/矩阵与结果](r4_angular_handoff_audit.md)、[最小复现/逐行证据](../../experiments/r4_angular_handoff_audit/README.md)。本轮零次 library build/solver/ROS/Gazebo/current-admission/transport 调用；无 production code/config、main/public v2/A09–A12 或原 dirty 改动。
 
 

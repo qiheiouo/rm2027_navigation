@@ -25,7 +25,27 @@ a proposal or unavailable result. There is no ROS node, subscription, worker,
 action or command publisher. Its 40ms acquisition and 15ms solver budgets reject
 late results; they cannot preempt compute or prove real-time execution.
 
-Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
+Research A21 adds an explicit `WorldFollowAdapter` to the same 45-variable
+kernel. Input separates raw source/body measurements and receipt history from
+world XY proposal history. `WorldFollowProposal` names its velocity frame and
+contains no angular command. Nonzero raw/history wz is retained and does not
+require angular handoff. `BodyPolicy::yaw_invariant_circle` explicitly circumscribes
+the supplied mechanical footprint plus padding; the default polygon behavior
+is unchanged. World rollouts and observed circular soft support need no future
+yaw, while source body measurement conversion uses source-time yaw. The
+source-to-epoch extension holds the measured world velocity as a short-age
+Research assumption, not a physical tracking guarantee. Numeric axis/rate
+bounds are explicit world Research limits, not arbitrary-yaw actuator certification.
+
+Original S1/S2 dynamic windows produce 40/40 and 159/160 proposals. Ideal spinning
+world-velocity feedback can WAIT and resume, but shared endpoint QPs still return
+unavailable in both observed and no-dynamic conditions. This supports preserving
+minimal consumption and continuing numerical Research; it does not establish
+R4 goal completion or an advantage over STVL+MPPI. The old Nav2 body-Twist host
+is unchanged and cannot consume this result implicitly. See
+[A21 frame audit and limits](../../docs/dynamic_navigation/r4_world_xy_frame_audit.md).
+
+Historical Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
 same original 45-variable Follow assembly and OSQP solve. It retains raw source
 state/stamps, derives a model pose at the prediction epoch with the existing
 A09 pure held-body-twist integrator, and samples support/soft costs at that
@@ -52,7 +72,7 @@ synchronization, reset on acquisition/lifecycle failure, and validate the active
 execution grant. Receipt and static geometry checks are not final output admission;
 shadow authority is not promoted. The source deadline is acquisition + 75ms in
 the local process, not a transferable clock or an execution guarantee. Existing
-host/owner integration, rotating current admission and native MPPI fallback
+host/owner integration, frame-aware current admission and native MPPI fallback
 wiring remain to be implemented.
 
 See [A05 contracts and validation](../../docs/dynamic_navigation/r4_consumer_library.md)

@@ -37,11 +37,21 @@ bool bounded(Vec2 p, const FollowLimits & l)
 void text_identity(Digest & d, const FollowIdentity & id)
 {d.text(id.host_instance); d.text(id.execution_id); d.text(id.base_frame); d.integer(id.authority_epoch);}
 
+struct WorldContext {Vec2 preceding; int64_t stamp{}; std::string frame;};
+template<bool World> Vec2 measured_velocity(const FollowInput & in)
+{
+  if constexpr (!World) {return in.state.measured_body_velocity;}
+  const auto v = in.state.measured_body_velocity; const double c = std::cos(in.state.yaw), s = std::sin(in.state.yaw);
+  return {c * v.x - s * v.y, s * v.x + c * v.y};
+}
 struct ModelStart {Vec2 position; double yaw{};};
-template<bool Aligned> ModelStart model_start(const FollowInput & in)
+template<bool Aligned, bool World = false> ModelStart model_start(const FollowInput & in)
 {
   ModelStart out{in.state.position, in.state.yaw};
-  if constexpr (Aligned) {
+  if constexpr (World) {
+    const auto v = measured_velocity<true>(in); const double age = (in.prediction.epoch_ns() - in.state.pose_stamp_ns) * 1e-9;
+    out.position = {out.position.x + v.x * age, out.position.y + v.y * age};
+  } else if constexpr (Aligned) {
     namespace execution = rm_navigation_execution_adapters;
     execution::Pose pose{out.position.x, out.position.y, out.yaw};
     int64_t remaining = in.prediction.epoch_ns() - in.state.pose_stamp_ns;
@@ -55,9 +65,10 @@ template<bool Aligned> ModelStart model_start(const FollowInput & in)
   }
   return out;
 }
-template<bool Aligned> Bounds centre_bounds(const FollowInput & in, ModelStart start)
+template<bool Aligned, bool World = false> Bounds centre_bounds(const FollowInput & in, ModelStart start)
 {
-  if constexpr (!Aligned) {return in.route.local_bounds(in.state.position);}
+  if constexpr (World) {return in.route.local_bounds(start.position);}
+  else if constexpr (!Aligned) {return in.route.local_bounds(in.state.position);}
   else {
     auto body = in.body; body.yaw = start.yaw;
     const auto support = body.support(); const auto free = in.route.local_free_bounds(start.position, body);
@@ -65,11 +76,11 @@ template<bool Aligned> Bounds centre_bounds(const FollowInput & in, ModelStart s
       free.ymin - support.ymin + body.static_clearance, free.ymax - support.ymax - body.static_clearance};
   }
 }
-template<bool Aligned> std::string validate(const FollowInput & in)
+template<bool Aligned, bool World = false> std::string validate(const FollowInput & in, const WorldContext * world = nullptr)
 {
   const auto & s = in.state; const auto epoch = in.prediction.epoch_ns();
   in.limits.digest();
-  if constexpr (Aligned) {
+  if constexpr (Aligned && !World) {
     if (s.last_applied_yaw_rate != 0.) {throw ContractError("aligned Follow requires zero last-applied yaw command");}
   }
   for (const auto & text : {in.identity.host_instance, in.identity.execution_id, in.identity.base_frame}) {
@@ -78,21 +89,27 @@ template<bool Aligned> std::string validate(const FollowInput & in)
   if (in.identity.cycle_sequence == 0 || !finite(s.position) ||
     !finite(s.measured_body_velocity) || !finite(s.last_applied_body_velocity) ||
     std::hypot(s.measured_body_velocity.x, s.measured_body_velocity.y) > 3. ||
-    !bounded(s.last_applied_body_velocity, in.limits) || !std::isfinite(s.yaw) ||
-    !std::isfinite(s.measured_yaw_rate) || std::abs(s.measured_yaw_rate) > (Aligned ? 3. : 1e-6) ||
-    s.last_applied_yaw_rate != 0. || std::abs(s.yaw - in.body.yaw) > 1e-9 ||
+    (!World && !bounded(s.last_applied_body_velocity, in.limits)) || !std::isfinite(s.yaw) ||
+    !std::isfinite(s.measured_yaw_rate) || (!World && std::abs(s.measured_yaw_rate) > (Aligned ? 3. : 1e-6)) ||
+    !std::isfinite(s.last_applied_yaw_rate) || (!World && s.last_applied_yaw_rate != 0.) || std::abs(s.yaw - in.body.yaw) > 1e-9 ||
     in.prediction.frame() != in.route.frame() || in.prediction.body_digest() != in.body.digest() ||
     in.route.body_digest() != in.body.digest() || !std::isfinite(in.progress) ||
     in.progress < 0 || in.progress > in.route.arcs().back() || s.tf_stamp_ns != s.pose_stamp_ns ||
     s.frame != in.route.frame() || s.body_frame != in.identity.base_frame)
-  {throw ContractError(Aligned ? "aligned coherent control values" : "fixed-yaw coherent control values");}
+  {throw ContractError(World ? "world XY coherent source values" : (Aligned ? "aligned coherent control values" : "fixed-yaw coherent control values"));}
   for (auto stamp : {s.pose_stamp_ns, s.velocity_stamp_ns, s.tf_stamp_ns, s.applied_stamp_ns}) {
     if (stamp <= 0 || stamp > epoch || epoch - stamp > 100000000) {
       throw ContractError("state/TF/applied stamp age");
     }
   }
-  const auto start = model_start<Aligned>(in); centre_bounds<Aligned>(in, start);
-  Digest d; d.text(Aligned ? "r4_follow_aligned_input/v1" : "r4_follow_input/v1"); text_identity(d, in.identity);
+  if constexpr (World) {
+    if (!world || world->frame != in.route.frame() || world->frame == s.body_frame ||
+      !in.body.yaw_invariant_circle || s.velocity_stamp_ns != s.pose_stamp_ns ||
+      !finite(world->preceding) || !bounded(world->preceding, in.limits) || world->stamp <= 0 ||
+      world->stamp > epoch || epoch - world->stamp > 100000000) {throw ContractError("explicit world XY/circle/history frame");}
+  }
+  const auto start = model_start<Aligned, World>(in); centre_bounds<Aligned, World>(in, start);
+  Digest d; d.text(World ? "r4_follow_world_xy/v1" : (Aligned ? "r4_follow_aligned_input/v1" : "r4_follow_input/v1")); text_identity(d, in.identity);
   d.integer(in.identity.cycle_sequence); d.integer(epoch);
   d.text(in.prediction.receipt_digest()); d.text(in.prediction.policy_digest());
   d.text(in.route.path_digest()); d.text(in.route.map_digest()); d.text(in.route.policy_digest());
@@ -101,18 +118,21 @@ template<bool Aligned> std::string validate(const FollowInput & in)
   d.text(s.frame); d.text(s.body_frame);
   d.number(s.yaw); d.number(s.measured_yaw_rate); d.number(s.last_applied_yaw_rate);
   for (auto stamp : {s.pose_stamp_ns, s.velocity_stamp_ns, s.tf_stamp_ns, s.applied_stamp_ns}) {d.integer(stamp);}
-  if constexpr (Aligned) {
+  if constexpr (World) {
+    d.text("world_measured_to_epoch/world_XY_future/v1"); d.text(world->frame);
+    d.point(measured_velocity<true>(in)); d.point(world->preceding); d.integer(world->stamp); d.point(start.position);
+  } else if constexpr (Aligned) {
     d.text("held_measured_to_epoch/future_wz_zero/v1"); d.point(start.position); d.number(start.yaw);
   }
   d.number(in.progress); d.integer(in.reset_warm);
   d.integer(std::chrono::duration_cast<std::chrono::nanoseconds>(in.acquired.time_since_epoch()).count());
   return d.finish();
 }
-template<bool Aligned> std::string warm_key(const FollowInput & in)
+template<bool Aligned, bool World = false> std::string warm_key(const FollowInput & in)
 {
   Digest d; text_identity(d, in.identity); d.text(in.route.path_digest()); d.text(in.route.map_digest());
-  if constexpr (Aligned) {
-    d.text("epoch_aligned/v1"); d.text(in.route.geometry_policy_digest());
+  if constexpr (Aligned || World) {
+    d.text(World ? "world_XY/v1" : "epoch_aligned/v1"); d.text(in.route.geometry_policy_digest());
     d.integer(in.route.generation()); d.text(in.body.geometry_digest());
     d.text(in.limits.digest()); d.text(in.prediction.producer_id()); d.integer(in.prediction.generation());
     d.text(in.prediction.policy().digest());
@@ -135,20 +155,20 @@ Maps maps(double yaw)
   }
   return out;
 }
-std::array<FollowStage, stages> rollout(const FollowInput & in, ModelStart start, const Maps & map, const Vector & z)
+template<bool World = false> std::array<FollowStage, stages> rollout(const FollowInput & in, ModelStart start, const Maps & map, const Vector & z)
 {
   std::array<FollowStage, stages> out;
   for (int k = 0; k < stages; ++k) {
     const int j = std::min(k / 2, nodes - 1);
     out[k] = {point(vec(start.position) + map.xy[k] * z),
-      k == 0 ? in.state.measured_body_velocity : Vec2{z[3 * j], z[3 * j + 1]},
+      k == 0 ? measured_velocity<World>(in) : Vec2{z[3 * j], z[3 * j + 1]},
       start.yaw, in.progress + (map.progress[k] * z).value()};
   }
   return out;
 }
-Vector cold_seed(const FollowInput & in, const Maps & map)
+Vector cold_seed(const FollowInput & in, const Maps & map, Vec2 preceding)
 {
-  Vector z; Vec2 last = in.state.last_applied_body_velocity; double progress = in.progress;
+  Vector z; Vec2 last = preceding; double progress = in.progress;
   for (int j = 0; j < nodes; ++j) {
     const auto ref = in.route.sample(progress);
     const double cruise = std::min(in.limits.cruise, std::sqrt(2 * std::max(0., in.route.arcs().back() - progress)));
@@ -213,13 +233,14 @@ struct SharedFollowState
 };
 struct FollowSolver::Impl : SharedFollowState {};
 struct AlignedFollowAdapter::Impl : SharedFollowState {};
+struct WorldFollowAdapter::Impl : SharedFollowState {};
 std::string fingerprint_follow_input(const FollowInput & input) {return validate<false>(input);}
 std::string fingerprint_aligned_follow_input(const AlignedFollowInput & input) {return validate<true>(input.source);}
 FollowSolver::FollowSolver() : impl_(std::make_unique<Impl>()) {}
 FollowSolver::~FollowSolver() = default;
 void FollowSolver::reset() {impl_ = std::make_unique<Impl>();}
 
-template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowState & state)
+template<bool Aligned, bool World = false> FollowResult solve_follow(FollowInput in, SharedFollowState & state, const WorldContext * world = nullptr)
 {
   auto * impl_ = &state;
   FollowResult result;
@@ -232,7 +253,8 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
     if (in.acquired.time_since_epoch().count() <= 0 || in.acquired > FollowClock::now()) {return fail("invalid_acquisition");}
     if (seconds(in.acquired) >= cycle_budget) {return fail("cycle_deadline_before_assembly");}
     if (std::strcmp(osqp_version(), "0.6.3") != 0) {return fail("solver_version");}
-    const auto digest = validate<Aligned>(in); const auto key = warm_key<Aligned>(in);
+    const auto digest = validate<Aligned, World>(in, world); const auto key = warm_key<Aligned, World>(in);
+    const auto preceding = World ? world->preceding : in.state.last_applied_body_velocity;
     if (impl_->seen_host == in.identity.host_instance && impl_->seen_execution == in.identity.execution_id &&
       impl_->seen_authority == in.identity.authority_epoch &&
       (in.identity.cycle_sequence <= impl_->seen_sequence || in.prediction.epoch_ns() <= impl_->seen_epoch))
@@ -240,7 +262,7 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
     impl_->seen_host = in.identity.host_instance; impl_->seen_execution = in.identity.execution_id;
     impl_->seen_authority = in.identity.authority_epoch; impl_->seen_sequence = in.identity.cycle_sequence;
     impl_->seen_epoch = in.prediction.epoch_ns();
-    const auto start = model_start<Aligned>(in); const auto map = maps(start.yaw); Vector seed = cold_seed(in, map);
+    const auto start = model_start<Aligned, World>(in); const auto map = maps(World ? 0. : start.yaw); Vector seed = cold_seed(in, map, preceding);
     const double age = (in.prediction.epoch_ns() - impl_->previous_epoch) * 1e-9;
     if (!in.reset_warm && impl_->previous && impl_->key == key && age > 0 && age <= .15) {
       seed.setZero();
@@ -255,7 +277,7 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
       }
       result.used_warm = true;
     }
-    const auto nominal = rollout(in, start, map, seed); TemporalSoftField field(in.prediction);
+    const auto nominal = rollout<World>(in, start, map, seed); TemporalSoftField field(in.prediction);
     Matrix P = Matrix::Identity() * 1e-8; Vector q = Vector::Zero();
     auto residual = [&](const Row & row, double nominal_value, double weight) {
         const double constant = nominal_value - (row * seed).value();
@@ -275,7 +297,7 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
       const double cruise = std::min(in.limits.cruise, std::sqrt(2 * std::max(0., in.route.arcs().back() - s)));
       residual(rate, (rate * seed).value() - cruise, period * 2.);
       const auto soft = [&]() {
-        if constexpr (Aligned) {return field.sample(nominal[k].position, start.yaw, k);}
+        if constexpr (Aligned && !World) {return field.sample(nominal[k].position, start.yaw, k);}
         else {return field.sample(nominal[k].position, k);}
       }();
       residual(vec(soft.gradient).transpose() * map.xy[k], soft.residual, period);
@@ -288,7 +310,7 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
       for (int axis = 0; axis < 2; ++axis) {
         const int row = 2 * j + axis; difference(row, 3 * j + axis) = 1.;
         if (j) {difference(row, 3 * (j - 1) + axis) = -1.;}
-        else {previous[row] = axis == 0 ? in.state.last_applied_body_velocity.x : in.state.last_applied_body_velocity.y;}
+        else {previous[row] = axis == 0 ? preceding.x : preceding.y;}
         const double dt = j == 0 ? period : decision_dt;
         residual(difference.row(row) / dt, ((difference.row(row) * seed).value() - previous[row]) / dt, .1 * decision_dt);
         if (j) {
@@ -307,7 +329,7 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
       lo.segment<2>(45 + 2 * j) = previous.segment<2>(2 * j) - dt * vec(in.limits.command_rate);
       hi.segment<2>(45 + 2 * j) = previous.segment<2>(2 * j) + dt * vec(in.limits.command_rate);
     }
-    const auto box = centre_bounds<Aligned>(in, start);
+    const auto box = centre_bounds<Aligned, World>(in, start);
     const double reserve = .5 * period * std::hypot(std::max(-in.limits.lower.x, in.limits.upper.x),
         std::max(-in.limits.lower.y, in.limits.upper.y));
     for (int k = 0; k < stages; ++k) {
@@ -320,7 +342,7 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
     if ((lo.array() > hi.array()).any()) {return fail("empty_static_bounds");}
     Matrix transform = Matrix::Zero(); Vector offset;
     for (int k = 0; k < nodes; ++k) {
-      offset.segment<3>(3 * k) << in.state.last_applied_body_velocity.x, in.state.last_applied_body_velocity.y, 0.;
+      offset.segment<3>(3 * k) << preceding.x, preceding.y, 0.;
       transform(3 * k + 2, 3 * k + 2) = 1.;
       for (int j = 0; j <= k; ++j) {
         transform(3 * k, 3 * j) = transform(3 * k + 1, 3 * j + 1) = j == 0 ? period : decision_dt;
@@ -332,7 +354,7 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
     Eigen::VectorXd rate_lo = lo - A * offset, rate_hi = hi - A * offset;
     Vector warm = seed;
     for (int k = 0; k < nodes; ++k) {
-      const Eigen::Vector2d last = k == 0 ? vec(in.state.last_applied_body_velocity) : seed.segment<2>(3 * (k - 1));
+      const Eigen::Vector2d last = k == 0 ? vec(preceding) : seed.segment<2>(3 * (k - 1));
       warm.segment<2>(3 * k) = (seed.segment<2>(3 * k) - last) / (k == 0 ? period : decision_dt);
     }
     if (!rate_P.allFinite() || !rate_q.allFinite() || !rate_A.allFinite() || !warm.allFinite()) {return fail("nonfinite_qp");}
@@ -371,7 +393,7 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
     result.solver_seconds = seconds(solver_start);
     if (result.solver_seconds > solver_budget || seconds(in.acquired) >= cycle_budget) {return fail("cycle_or_solver_deadline");}
     if (!solved || !solution.allFinite()) {return fail("solver_not_solved");}
-    Vector z = offset + transform * solution; Vec2 last = in.state.last_applied_body_velocity;
+    Vector z = offset + transform * solution; Vec2 last = preceding;
     for (int k = 0; k < nodes; ++k) {
       const double dt = k == 0 ? period : decision_dt;
       last = {std::clamp(z[3 * k], std::max(in.limits.lower.x, last.x - dt * in.limits.command_rate.x),
@@ -388,11 +410,11 @@ template<bool Aligned> FollowResult solve_follow(FollowInput in, SharedFollowSta
     proposal.map_digest = in.route.map_digest(); proposal.limits_digest = in.limits.digest();
     proposal.epoch_ns = in.prediction.epoch_ns(); proposal.acquired = in.acquired;
     proposal.source_deadline = in.acquired + std::chrono::milliseconds(75);
-    proposal.body_velocity = {z[0], z[1]}; proposal.stages = rollout(in, start, map, z);
+    proposal.body_velocity = {z[0], z[1]}; proposal.stages = rollout<World>(in, start, map, z);
     for (int k = 0; k < nodes; ++k) {proposal.controls[k] = {{z[3 * k], z[3 * k + 1]}, z[3 * k + 2]};}
     for (int k = 0; k < 30; ++k) {
       const auto soft = [&]() {
-        if constexpr (Aligned) {return field.sample(proposal.stages[k].position, start.yaw, k);}
+        if constexpr (Aligned && !World) {return field.sample(proposal.stages[k].position, start.yaw, k);}
         else {return field.sample(proposal.stages[k].position, k);}
       }();
       result.solved_dynamic_cost += .5 * period * soft.residual * soft.residual;
@@ -414,5 +436,30 @@ AlignedFollowResult AlignedFollowAdapter::solve(AlignedFollowInput input)
 {
   auto source_state = input.source.state;
   return {std::move(source_state), solve_follow<true>(std::move(input.source), *impl_)};
+}
+WorldFollowAdapter::WorldFollowAdapter() : impl_(std::make_unique<Impl>()) {}
+WorldFollowAdapter::~WorldFollowAdapter() = default;
+void WorldFollowAdapter::reset() {impl_ = std::make_unique<Impl>();}
+WorldFollowResult WorldFollowAdapter::solve(WorldFollowInput input)
+{
+  const WorldContext context{input.preceding_world_velocity, input.preceding_world_stamp_ns, input.velocity_frame};
+  auto raw = input.source_state;
+  FollowInput internal{std::move(input.prediction), std::move(input.route), input.body, input.limits, input.identity,
+    raw, input.progress, input.acquired, input.reset_warm};
+  const auto result = solve_follow<false, true>(std::move(internal), *impl_, &context);
+  WorldFollowResult out; out.source_state = std::move(raw); out.reason = result.reason; out.solver_status = result.solver_status;
+  out.iterations = result.iterations; out.solver_seconds = result.solver_seconds; out.elapsed_seconds = result.elapsed_seconds;
+  out.nominal_dynamic_cost = result.nominal_dynamic_cost; out.solved_dynamic_cost = result.solved_dynamic_cost;
+  out.minimum_constraint_slack = result.minimum_constraint_slack; out.used_warm = result.used_warm;
+  if (result.proposal) {
+    const auto & p = *result.proposal; WorldFollowProposal q;
+    q.identity = p.identity; q.input_digest = p.input_digest; q.receipt_digest = p.receipt_digest;
+    q.path_digest = p.path_digest; q.map_digest = p.map_digest; q.limits_digest = p.limits_digest; q.velocity_frame = context.frame;
+    q.epoch_ns = p.epoch_ns; q.acquired = p.acquired; q.source_deadline = p.source_deadline; q.world_velocity = p.body_velocity;
+    for (size_t k = 0; k < 15; ++k) {q.controls[k] = {p.controls[k].body_velocity, p.controls[k].progress_rate};}
+    for (size_t k = 0; k < 31; ++k) {q.stages[k] = {p.stages[k].position, p.stages[k].body_velocity, p.stages[k].progress};}
+    out.proposal = std::move(q);
+  }
+  return out;
 }
 }  // namespace rm_r4_prediction_consumption

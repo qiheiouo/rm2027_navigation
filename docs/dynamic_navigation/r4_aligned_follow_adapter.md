@@ -1,5 +1,7 @@
 # A19：最小转动源输入适配
 
+> 2026-10-06 更新：本页保留历史body-held模型与条件结果。用户确认全向底盘world XY与圆形Research支持后，angular归零/transition不再是新消费入口的eligibility；当前方向与结论见 [A21 frame audit](r4_world_xy_frame_audit.md)。不继续本页提出的angular handoff。
+
 阶段：Research。基线：A18@3218fb6c 的受限未来 wz=0 值结果。
 
 假设：将 A18 的 60 变量受限模型收缩为原有 45 变量 Follow，并保留原始转动测量、

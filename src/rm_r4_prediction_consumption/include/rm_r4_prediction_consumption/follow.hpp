@@ -109,4 +109,55 @@ private:
   struct Impl;
   std::unique_ptr<Impl> impl_;
 };
+// World-frame Research values. No angular command or legacy host conversion.
+struct WorldFollowInput
+{
+  PredictionSnapshot prediction;
+  PreparedCorridor route;
+  BodyPolicy body;
+  FollowLimits limits;  // Explicit world-axis Research bounds, not body actuator certification.
+  FollowIdentity identity;
+  FollowState source_state;  // Raw body measurement/history; never relabelled as world.
+  Vec2 preceding_world_velocity;  // Virtual prior XY proposal in offline replay.
+  int64_t preceding_world_stamp_ns{};
+  std::string velocity_frame;
+  double progress{};
+  FollowClock::time_point acquired;
+  bool reset_warm{};
+};
+struct WorldFollowControl {Vec2 world_velocity; double progress_rate{};};
+struct WorldFollowStage {Vec2 position, world_velocity; double progress{};};
+struct WorldFollowProposal
+{
+  FollowIdentity identity;
+  std::string input_digest, receipt_digest, path_digest, map_digest, limits_digest, velocity_frame;
+  int64_t epoch_ns{};
+  FollowClock::time_point acquired, source_deadline;
+  Vec2 world_velocity;
+  std::array<WorldFollowControl, 15> controls;
+  std::array<WorldFollowStage, 31> stages;
+};
+struct WorldFollowResult
+{
+  FollowState source_state;
+  std::optional<WorldFollowProposal> proposal;
+  std::string reason, solver_status{"not_run"};
+  int iterations{};
+  double solver_seconds{}, elapsed_seconds{}, nominal_dynamic_cost{}, solved_dynamic_cost{};
+  std::optional<double> minimum_constraint_slack;
+  bool used_warm{};
+};
+class WorldFollowAdapter
+{
+public:
+  WorldFollowAdapter();
+  ~WorldFollowAdapter();
+  WorldFollowAdapter(const WorldFollowAdapter &) = delete;
+  WorldFollowAdapter & operator=(const WorldFollowAdapter &) = delete;
+  WorldFollowResult solve(WorldFollowInput input);
+  void reset();
+private:
+  struct Impl;
+  std::unique_ptr<Impl> impl_;
+};
 }  // namespace rm_r4_prediction_consumption

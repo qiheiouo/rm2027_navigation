@@ -37,10 +37,11 @@ Bounds BodyPolicy::support() const
     !std::isfinite(static_clearance) || static_clearance < 0.05 || static_clearance > 0.5)
   {throw ContractError("actual footprint policy");}
   const double c = std::cos(yaw), s = std::sin(yaw);
-  Bounds b{2., -2., 2., -2.}; double area = 0.;
+  Bounds b{2., -2., 2., -2.}; double area = 0., radius = 0.;
   for (size_t i = 0; i < footprint.size(); ++i) {
     const auto p = footprint[i], q = footprint[(i + 1) % footprint.size()];
     if (!finite(p) || norm(p) > 2.) {throw ContractError("actual footprint vertex");}
+    radius = std::max(radius, norm(p));
     const Vec2 r{c * p.x - s * p.y, s * p.x + c * p.y};
     b.xmin = std::min(b.xmin, r.x); b.xmax = std::max(b.xmax, r.x);
     b.ymin = std::min(b.ymin, r.y); b.ymax = std::max(b.ymax, r.y);
@@ -49,19 +50,20 @@ Bounds BodyPolicy::support() const
   if (!std::isfinite(area) || std::abs(area) < 1e-6 || b.xmin >= b.xmax || b.ymin >= b.ymax) {
     throw ContractError("degenerate footprint");
   }
+  if (yaw_invariant_circle) {const double r = radius + padding; return {-r, r, -r, r};}
   b.xmin -= padding; b.xmax += padding;
   b.ymin -= padding; b.ymax += padding;
   return b;
 }
 std::string BodyPolicy::digest() const
 {
-  support(); Digest d; d.text("r4_body/v1"); d.integer(footprint.size());
+  support(); Digest d; d.text(yaw_invariant_circle ? "r4_body_circle/v1" : "r4_body/v1"); d.integer(footprint.size());
   for (auto p : footprint) {d.point(p);}
-  d.number(padding); d.number(yaw); d.number(static_clearance); return d.finish();
+  d.number(padding); if (!yaw_invariant_circle) {d.number(yaw);} d.number(static_clearance); return d.finish();
 }
 std::string BodyPolicy::geometry_digest() const
 {
-  support(); Digest d; d.text("r4_body_geometry/v2"); d.integer(footprint.size());
+  support(); Digest d; d.text(yaw_invariant_circle ? "r4_body_circle_geometry/v1" : "r4_body_geometry/v2"); d.integer(footprint.size());
   for (auto p : footprint) {d.point(p);}
   d.number(padding); d.number(static_clearance); return d.finish();
 }
@@ -274,15 +276,16 @@ SoftSample TemporalSoftField::sample_support(Vec2 position, size_t stage, Bounds
     const auto & t = snapshot_.tracks()[i];
     const double extra = cfg.raster_resolution / 2 + cfg.geometric_margin +
       cfg.motion_error_speed * (stamp - t.observation_ns) * 1e-9;
+    const double radius = snapshot_.body_policy().yaw_invariant_circle ? b.xmax : 0.;
     const Vec2 mid{-(b.xmin + b.xmax) / 2, -(b.ymin + b.ymax) / 2};
-    const Vec2 half{(b.xmax - b.xmin) / 2 + extra, (b.ymax - b.ymin) / 2 + extra};
+    const Vec2 half{(b.xmax - b.xmin) / 2 + extra - radius, (b.ymax - b.ymin) / 2 + extra - radius};
     double minimum = std::numeric_limits<double>::infinity(); Vec2 normal{};
     for (auto cell : translated_cells(i, stage)) {
       const Vec2 offset{position.x - cell.x - mid.x, position.y - cell.y - mid.y};
       const Vec2 d{std::abs(offset.x) - half.x, std::abs(offset.y) - half.y};
       const Vec2 outside{std::max(d.x, 0.), std::max(d.y, 0.)};
       const double length = norm(outside);
-      const double distance = length + std::min(std::max(d.x, d.y), 0.);
+      const double distance = length + std::min(std::max(d.x, d.y), 0.) - radius;
       if (distance < minimum) {
         minimum = distance; normal = {};
         if (distance > 0.) {

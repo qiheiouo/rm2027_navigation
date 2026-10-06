@@ -25,6 +25,7 @@ struct BodyPolicy
   double padding{};
   double yaw{};
   double static_clearance{};
+  bool yaw_invariant_circle{false};  // Research: circumscribe the supplied mechanical footprint.
   Bounds support() const;
   Bounds support_at(double query_yaw) const;
   std::string geometry_digest() const;

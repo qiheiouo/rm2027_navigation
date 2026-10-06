@@ -1,5 +1,7 @@
 # A20：既有 owner 的角命令过渡适用性
 
+> 2026-10-06 更新：本页保留历史body-held模型与条件结果。用户确认全向底盘world XY与圆形Research支持后，angular归零/transition不再是新消费入口的eligibility；当前方向与结论见 [A21 frame audit](r4_world_xy_frame_audit.md)。不继续本页提出的angular handoff。
+
 Research，只读源码与已完成的 A16/A19 记录。基线 `c744d4e7`。
 
 假设：已有 smoother/输出所有权可以容纳 R4 的零角速度目标，但能否不改 A19
