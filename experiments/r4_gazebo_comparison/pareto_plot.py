@@ -26,7 +26,9 @@ if not (root/'pareto_audit.json').exists():
 audit=json.loads((root/'pareto_audit.json').read_text())
 colors={'B0':'#2368a0','R4':'#d87520'}
 fig,axes=plt.subplots(1,3,figsize=(13,4),constrained_layout=True)
-axes[0].axvspan(.28,.32,color='#bbc5be',alpha=.3,label='Target median band')
+dominance=audit.get('validation_mode')=='authorized_dominance'
+if not dominance:
+    axes[0].axvspan(.28,.32,color='#bbc5be',alpha=.3,label='Target median band')
 for mode in ('B0','R4'):
     group=[r for r in summary['runs'] if r['phase']=='finite' and not r['startup'] and r['mode']==mode]
     successful=[r for r in group if r['arrival_s'] is not None]
@@ -40,5 +42,6 @@ axes[0].set(xlabel='Sampled mechanical minimum clearance (m)',ylabel='Arrival ti
 axes[1].set(xlabel='Independent paired trial',ylabel='Arrival time (s)')
 axes[2].set(xlabel='Independent paired trial',ylabel='WAIT below 0.02 m/s (s)',ylim=(0,None))
 for ax in axes: ax.grid(alpha=.2);ax.legend()
-fig.suptitle(f"A25 S2 clearance / efficiency: {audit['verdict']} — stars mark group medians")
+comparison='authorized larger-clearance dominance' if dominance else 'matched clearance / efficiency'
+fig.suptitle(f"A25 S2 {comparison}: {audit['verdict']} — stars mark group medians")
 fig.savefig(root/'pareto.png',dpi=160);plt.close(fig)

@@ -2,20 +2,21 @@
 
 2026-10-04 建立，2026-10-06 更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A25 S2等净空效率问题停在校准，判决Modify。20次baseline校准全部成功/零contact，但未形成[.28,.32]m中位目标点，未启动新的等净空R4对照；不能宣布Go/Stop。R4完整保持A24，生产化仍暂停。**
+状态：**A25最终判决Stop当前A24 R4配置的生产化。原严格等净空校准Modify后，用户授权验证更大净空支配点；5对新S2全部成功/零contact。baseline净空中位.38927m、到达14.628s，R4为.29294m、17.889s；baseline耗时少18.23%，5/5配对更快且净空更大，零回退，R4 3/5有反向切换。停止生产化接线，本轮结束，不追加样本或调R4。**
 
 A08/A19原值为body XY；world-held XY的未来位置不需要未来yaw。按用户的新全向底盘事实，新增同一45变量内核的显式world值包装，保守圆、raw非零wz不改，不发布angular零命令，不建立第二导航链。当前legacy base_link输出协议未表达world语义，留原owner内最小frame适配，不作为wz归零门。
 
 原S1/S2动态窗口40/40、160/160；S2有36拍可辨提前减速（A21为38），首时刻仍goal+2.644s。修正时序后的理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m；三个反馈条件都到达5cm XY标准。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
 
-当前入口：[A25目标、校准记录与Modify](r4_clearance_efficiency_pareto.md)、[A24对齐结果](r4_matched_closed_loop_comparison.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。只有能改变决策的新Research信息才继续，不默认工程化。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。历史结果保留。
+当前入口：[A25授权支配验证与Stop](r4_clearance_efficiency_pareto.md)、[A24对齐结果](r4_matched_closed_loop_comparison.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。只有新的核心假设和能改变决策的最小对照才重新启动Research，不默认工程化。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。历史结果保留。
 
-## A25 — S2 相近净空效率：校准Modify
+## A25 — S2 安全—效率：授权支配验证Stop
 
 - R4完全保持A24；仅baseline原local inflation范围/衰减的有限校准。初始4候选/12样本在.80m得到.52–.55m，方案未达目标。一次冻结前半径修订试.60/.55m，两点中位.362/.265m；最接近固定.55m再补2样本，总5次中位仍.265m。协议、修订与原样本全部保留，不隐藏适应过程。
-- 全部20校准成功、零contact。没有将未达标视为冻结，没有根据效率挑参数，没有新的R4有限对照，故未回答等净空谁更快；判Modify，停止这一有限校准路线，生产化保持暂停。
-- .60m候选（3次）.362m净空、14.426s到达、零回退，提示更大净空的潜在Pareto支配，但相对历史A24数据不是本轮独立验证，且超出用户指定匹配带。不自动用它替代要求或判Stop。
-- R4配置逐字节相同，实际参数只改允许项；main/R4算法/唯一输出链/原dirty不改。约56MiB原始记录保留；15/20历史post-trial cleanup −11如实记载，不做输出工程。[报告与证据](r4_clearance_efficiency_pareto.md)。
+- 全部20校准成功、零contact。严格目标未达阶段单独判Modify，校准效率不充当独立对照。随后用户明确回复“允许验证更大净空的支配点”；在新trial前以`2ccb4573`记录授权、新判据及.60m/factor6冻结，不再校准。
+- 5对新S2均成功/零contact，无启动或运行中controller failure。baseline净空中位/最坏.38927/.33082m、到达14.628s；R4为.29294/.27490m、17.889s。baseline每对都更快且净空更大，到达中位少18.23%，WAIT .08s vs 2.60s，无回退；R4 3/5有2次反向、最大回退4.062cm。更强的预设支配条件全部满足，Stop当前R4配置生产化，不补至10对。
+- 起点相同，实际障碍配对位置差最大.676mm、速度差.002753m/s；1798/1798 R4消费有效，solver合并P95 1.456ms、最大2.697ms，clear时两组均已前进。结果限于该开放地图S2和仿真配置，不否定全部prediction-consumption方法或冒充实车结论。
+- R4参数、算法及A24 runtime harness不变；baseline正式差异仅local radius .50→.60m。原唯一输出链、main及无关dirty不改。全部30次原始记录约85MiB，校准15/20、正式7/10到达后cleanup −11如实保留；不做输出工程，不push。[报告与证据](r4_clearance_efficiency_pareto.md)。
 
 ## A24 — 速度与圆形支持对齐：Modify
 

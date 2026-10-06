@@ -1,0 +1,17 @@
+{
+  "mode": "authorized_dominance",
+  "authorization": "User explicitly replied: \u5141\u8bb8\u9a8c\u8bc1\u66f4\u5927\u51c0\u7a7a\u7684\u652f\u914d\u70b9",
+  "baseline_candidate": 5,
+  "baseline_inflation_radius": 0.6,
+  "baseline_cost_scaling_factor": 6.0,
+  "calibration_finished": true,
+  "no_more_parameter_tuning": true,
+  "r4_a24_unchanged": true,
+  "finite_initial_per_mode": 5,
+  "finite_max_per_mode": 10,
+  "baseline_clearance_criterion": "median >= R4 median; worst >= R4 worst minus .05m",
+  "baseline_efficiency_criterion": "arrival median >=10% faster, >=4/5 or 8/10 paired agreement",
+  "baseline_stability_criterion": "no more reversal/large-backtrack runs; no repeated >=1s extra longest stall",
+  "stop_rule": "Baseline is at least as safe, materially faster and no less stable in independent trials.",
+  "go_rule": "R4 faster at lower clearance alone does not establish Go; non-dominance or uncertainty is Modify."
+}

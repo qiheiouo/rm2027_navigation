@@ -61,9 +61,11 @@ python3 experiments/r4_gazebo_comparison/matched_audit.py build/r4_matched_compa
 
 A24结论 **Modify**：两组各13/13、零contact。S1净空几乎相同；S2 R4中位净空增加约12cm，耗时增加33%，WAIT中位3.64s且有小幅回退。原A23碰撞优势不再作为独立consumption收益证据，生产化仍暂停。[必要证据](evidence_matched/)；28次完整原始记录保留在build。
 
-## A25 S2 等净空效率校准
+## A25 S2 安全—效率校准及授权支配验证
 
-[A25协议/修订/结果](../../docs/dynamic_navigation/r4_clearance_efficiency_pareto.md)。`pareto.py`复用A24 assets/install，R4文件逐字节保持，仅校准baseline既有local inflation；目标中位[.28,.32]m。6个参数候选及一次固定候选补样本，共20次均成功、零contact，但目标未达；**Modify，未冻结，未开始正式R4对照**。该结果不表示native无法达到目标，校准效率不能冒充独立Pareto判决。
+[A25协议/修订/结果](../../docs/dynamic_navigation/r4_clearance_efficiency_pareto.md)。`pareto.py`复用A24 assets/install，R4保持不变，仅校准baseline既有local inflation；目标中位[.28,.32]m。6个参数候选及一次固定候选补样本，共20次均成功、零contact，但目标未达；严格校准阶段**Modify**。该结果不表示native无法达到目标，校准效率不能冒充独立Pareto判决。
+
+随后用户明确授权验证更大净空支配点，baseline固定已有.60m/factor6，不再校准。5对新S2结果支持 **Stop 当前A24 R4配置的生产化**：两组均5/5、零contact；baseline净空中位.38927m/到达14.628s，R4 .29294m/17.889s，baseline耗时少18.23%、5/5配对更快且净空更大，零回退。R4 WAIT中位2.60s，3/5有两次前后切换。算法、runtime wrapper、output owner及原二进制不变，不补工程或样本。
 
 复现顺序（每个输出目录只创建一次，全部结果保留）：
 
@@ -78,4 +80,17 @@ python3 experiments/r4_gazebo_comparison/analyze.py build/r4_pareto_comparison_2
 python3 experiments/r4_gazebo_comparison/pareto_plot.py build/r4_pareto_comparison_20261006
 ```
 
-没有freeze时`batch`拒绝启动。若未来合法形成冻结点，`batch ... 5`、`pareto_audit.py`复用原分析器按预先登记规则判定；只允许有记录的判决不确定性才固定参数扩至10。本轮[紧凑证据](evidence_pareto/)与全部原始build数据保留，不push。
+授权后的独立验证顺序（此次已完成；不会重复覆盖已有结果）：
+
+```bash
+python3 experiments/r4_gazebo_comparison/pareto.py freeze_dominance build/r4_pareto_comparison_20261006
+python3 experiments/r4_gazebo_comparison/pareto.py batch build/r4_pareto_comparison_20261006 5
+python3 experiments/r4_gazebo_comparison/analyze.py build/r4_pareto_comparison_20261006
+python3 experiments/r4_gazebo_comparison/fairness.py build/r4_pareto_comparison_20261006
+python3 experiments/r4_gazebo_comparison/pareto_audit.py build/r4_pareto_comparison_20261006
+python3 experiments/r4_gazebo_comparison/pareto_plot.py build/r4_pareto_comparison_20261006
+```
+
+`freeze_dominance`对应此次明确授权，不能把一般目标未达自动改成支配验证。原协议、校准Modify和授权修订分开保存；正式规则在trial前提交于`2ccb4573`。没有freeze时`batch`拒绝启动；只有记录的不确定性才可固定参数扩至10，此次Stop不扩样本。
+
+[紧凑证据](evidence_pareto/)的`summary.json/trials.csv`保留20次校准停止点；新增`validation_summary.json/validation_trials.csv`含全部30次记录，以phase区分。授权、冻结参数、schedule、公平性/参数核查和图另存，完整原始输入/真值/日志约85MiB保留在build。正式7/10到达后Nav2 cleanup −11单列，任务中无controller failure。限于Gazebo该S2条件，不push，main不改。

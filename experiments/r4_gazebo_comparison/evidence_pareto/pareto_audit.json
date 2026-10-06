@@ -1,0 +1,134 @@
+{
+  "verdict": "Stop",
+  "reason": "Baseline is at least as safe, >=10% faster with paired agreement, and no less stable; stop productionization of the current R4 configuration.",
+  "validation_mode": "authorized_dominance",
+  "baseline_clearance_no_worse": true,
+  "baseline_stability_no_worse": true,
+  "n_per_mode": 5,
+  "finite_target_band_pass": false,
+  "worst_clearance_difference_m": 0.05591880998222737,
+  "worst_clearance_comparable": false,
+  "all_success_zero_contact": true,
+  "baseline_over_r4_arrival_ratio": 0.8177092067751133,
+  "baseline_faster_pairs": 5,
+  "r4_faster_pairs": 0,
+  "pair_agreement_required": 4,
+  "baseline_stabler": true,
+  "r4_stabler": false,
+  "stability_bad_runs": {
+    "baseline": 0,
+    "r4": 3
+  },
+  "baseline_extra_stall_pairs": 0,
+  "r4_extra_stall_pairs": 5,
+  "extension_informative": false,
+  "baseline_changes": {
+    "local_costmap.local_costmap.ros__parameters.inflation_layer.inflation_radius": {
+      "before": 0.5,
+      "after": 0.6
+    }
+  },
+  "r4_a24_parameters_byte_equal": true,
+  "trial_config_errors": [],
+  "freeze": {
+    "candidate": 5,
+    "profile": "calibration_pareto_5",
+    "cost_scaling_factor": 6.0,
+    "inflation_radius": 0.6,
+    "median_clearance_m": 0.3619900643308719,
+    "clearance_m": [
+      0.3619900643308719,
+      0.3817329238417347,
+      0.361604911927255
+    ],
+    "runs": [
+      "S2_B0_13",
+      "S2_B0_14",
+      "S2_B0_15"
+    ],
+    "validation_mode": "authorized_dominance"
+  },
+  "pairs": [
+    {
+      "baseline_run": "S2_B0_101",
+      "r4_run": "S2_R4_101",
+      "baseline_arrival_s": 14.872,
+      "r4_arrival_s": 17.889,
+      "baseline_clearance_m": 0.41634484734254534,
+      "r4_clearance_m": 0.2748973936823763,
+      "baseline_wait_s": 0.08,
+      "r4_wait_s": 2.560000000000002,
+      "baseline_longest_stall_s": 0.08,
+      "r4_longest_stall_s": 2.1000000000000014,
+      "baseline_reversals": 0,
+      "r4_reversals": 2,
+      "baseline_backtrack_m": 0.0,
+      "r4_backtrack_m": 0.040624719052637315
+    },
+    {
+      "baseline_run": "S2_B0_102",
+      "r4_run": "S2_R4_102",
+      "baseline_arrival_s": 14.371,
+      "r4_arrival_s": 17.71,
+      "baseline_clearance_m": 0.3392760508351774,
+      "r4_clearance_m": 0.28477617014441337,
+      "baseline_wait_s": 0.1,
+      "r4_wait_s": 3.640000000000003,
+      "baseline_longest_stall_s": 0.1,
+      "r4_longest_stall_s": 3.5600000000000027,
+      "baseline_reversals": 0,
+      "r4_reversals": 0,
+      "baseline_backtrack_m": 0.0,
+      "r4_backtrack_m": 0.015072637342869566
+    },
+    {
+      "baseline_run": "S2_B0_103",
+      "r4_run": "S2_R4_103",
+      "baseline_arrival_s": 14.628,
+      "r4_arrival_s": 17.81,
+      "baseline_clearance_m": 0.3968183234045318,
+      "r4_clearance_m": 0.2995210873900606,
+      "baseline_wait_s": 0.08,
+      "r4_wait_s": 3.660000000000003,
+      "baseline_longest_stall_s": 0.08,
+      "r4_longest_stall_s": 3.5800000000000027,
+      "baseline_reversals": 0,
+      "r4_reversals": 0,
+      "baseline_backtrack_m": 0.0,
+      "r4_backtrack_m": 0.013139920028592211
+    },
+    {
+      "baseline_run": "S2_B0_104",
+      "r4_run": "S2_R4_104",
+      "baseline_arrival_s": 14.32,
+      "r4_arrival_s": 18.37,
+      "baseline_clearance_m": 0.3308162036646037,
+      "r4_clearance_m": 0.29445420612549755,
+      "baseline_wait_s": 0.06,
+      "r4_wait_s": 2.4400000000000017,
+      "baseline_longest_stall_s": 0.06,
+      "r4_longest_stall_s": 1.7600000000000011,
+      "baseline_reversals": 0,
+      "r4_reversals": 2,
+      "baseline_backtrack_m": 0.0,
+      "r4_backtrack_m": 0.0395208542109029
+    },
+    {
+      "baseline_run": "S2_B0_105",
+      "r4_run": "S2_R4_105",
+      "baseline_arrival_s": 14.671,
+      "r4_arrival_s": 18.23,
+      "baseline_clearance_m": 0.38926727490175167,
+      "r4_clearance_m": 0.29293662717598373,
+      "baseline_wait_s": 0.1,
+      "r4_wait_s": 2.600000000000002,
+      "baseline_longest_stall_s": 0.1,
+      "r4_longest_stall_s": 1.660000000000001,
+      "baseline_reversals": 0,
+      "r4_reversals": 2,
+      "baseline_backtrack_m": 0.0,
+      "r4_backtrack_m": 0.03559580758826919
+    }
+  ],
+  "limits": "Gazebo S2 only; sampled mechanical clearance, not identical risk probabilities, true random seeds or a complete Pareto frontier."
+}

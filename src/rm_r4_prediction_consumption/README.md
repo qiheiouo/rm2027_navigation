@@ -79,9 +79,17 @@ tradeoff does not justify production integration. See
 Research A25 keeps this library and the complete A24 R4 configuration unchanged.
 Twenty bounded baseline clearance-calibration trials succeed without contact,
 but none of the tested candidate medians enters the 0.28–0.32 m target band.
-Verdict is **Modify** at calibration, with no new held-out equal-clearance
-efficiency verdict or production integration. See
-[A25 calibration outcome](../../docs/dynamic_navigation/r4_clearance_efficiency_pareto.md).
+That strict calibration remains **Modify**. The user then explicitly authorized
+a larger-clearance dominance test with the existing 0.60 m baseline inflation
+radius, factor 6, and no further tuning. Five new S2 pairs all succeed without
+contact. Baseline median minimum clearance is 0.389 m versus R4's 0.293 m;
+arrival is 14.628 s versus 17.889 s, 18.23% less time, with baseline faster and
+clearer in all five pairs. Baseline has no backtracking; R4 has two forward sign
+reversals in three runs and 2.60 s median WAIT. The preregistered stronger
+dominance rule yields **Stop production integration of the current A24 R4
+configuration**. This is a limited Gazebo S2 result, not a rejection of all
+prediction-consumption methods. See
+[A25 authorization, independent results and limits](../../docs/dynamic_navigation/r4_clearance_efficiency_pareto.md).
 
 Historical Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
 same original 45-variable Follow assembly and OSQP solve. It retains raw source
