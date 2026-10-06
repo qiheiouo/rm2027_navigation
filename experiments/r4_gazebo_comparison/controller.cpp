@@ -12,6 +12,7 @@
 #include <mutex>
 #include <cmath>
 #include <algorithm>
+#include <cstdlib>
 #include <deque>
 namespace r4_gazebo_comparison {
 namespace v=rm_r4_prediction_consumption;
@@ -22,6 +23,8 @@ public:
  void configure(const rclcpp_lifecycle::LifecycleNode::WeakPtr & parent,std::string name,
   std::shared_ptr<tf2_ros::Buffer> tf,std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap) override {
   node_=parent.lock();name_=name;tf_=tf;
+  const auto recovery=std::getenv("R4_RESEARCH_NATIVE_RECOVERY");
+  research_native_recovery_=recovery && std::string(recovery)=="1";
   loader_=std::make_unique<pluginlib::ClassLoader<nav2_core::Controller>>("nav2_core","nav2_core::Controller");
   native_=loader_->createSharedInstance("nav2_mppi_controller::MPPIController");native_->configure(parent,name,tf,costmap);
   if(!node_->has_parameter(name+".research_mode")) node_->declare_parameter(name+".research_mode",std::string{});
@@ -85,7 +88,9 @@ public:
    const auto world=result.proposal->world_velocity;command.twist.linear.x=c*world.x+s*world.y;command.twist.linear.y=-s*world.x+c*world.y;
    write(epoch,true,result.reason,native_ms,result,pose,world,command,envelope->tracks.size(),sent,ns);return command;
   } catch(const std::exception & e) {
-   failed_=true;std_msgs::msg::String message;message.data=e.what();failure_->publish(message);
+   const bool native_unavailable=std::string(e.what())=="Optimizer fail to compute path";
+   if (!(research_native_recovery_ && native_unavailable)) failed_=true;
+   std_msgs::msg::String message;message.data=e.what();failure_->publish(message);
    write(epoch,false,e.what(),native_ms,result,pose,{},command,0,0,0);log_.flush();throw;
   }
  }
@@ -104,7 +109,7 @@ private:
  std::deque<nav_msgs::msg::Odometry::ConstSharedPtr> odoms_;nav_msgs::msg::OccupancyGrid::ConstSharedPtr map_;
  rm_r4_interfaces::msg::ObservedPredictionEnvelope::ConstSharedPtr envelope_;nav_msgs::msg::Path path_;geometry_msgs::msg::Twist output_;int64_t output_ns_{};
  v::BodyPolicy body_;v::FollowLimits limits_;v::ReceiptGate gate_;v::WorldFollowAdapter solver_;std::optional<v::PreparedCorridor> route_;
- uint64_t sequence_{},revision_{},prepared_{};bool failed_{};
+ uint64_t sequence_{},revision_{},prepared_{};bool failed_{};bool research_native_recovery_{};
 };
 }
 PLUGINLIB_EXPORT_CLASS(r4_gazebo_comparison::Controller,nav2_core::Controller)

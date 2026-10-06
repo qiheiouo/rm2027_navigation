@@ -1,5 +1,5 @@
 """Inputs/commands and independent oracle recording; never control with oracle."""
-import collections,csv,json,math,pathlib,sys,time
+import collections,csv,json,math,os,pathlib,sys,time
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
@@ -26,6 +26,8 @@ scene,mode=sys.argv[1:3];out=pathlib.Path(sys.argv[3]);rclpy.init()
 scenario_file=out.parent.parent/'assets/scenario.json'
 scenario=json.loads(scenario_file.read_text()) if scenario_file.exists() else {}
 motion=scenario.get('motion',{}).get(scene)
+native_recovery=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1'
+native_errors=[]
 node=Node('r4_comparison_recorder',parameter_overrides=[Parameter('use_sim_time',value=True)])
 latest={};ring=collections.deque(maxlen=150);events=[];truth={};positions={};contacts=[];contact_seen=0;failure=None;goal_ns=None;result_future=None;handle=None;finished=None
 streams={name:(out/name).open('w') for name in ('truth.jsonl','odometry.csv','commands.csv','prediction.jsonl','costmap.csv')}
@@ -84,6 +86,11 @@ def on_contact(m):
  if robot: contacts.append(dict(source_ns=ns(m.header.stamp),receipt_ns=now(),pairs=robot));event('actor_contact',pairs=robot)
 def on_failure(m):
  global failure
+ if goal_ns is not None and native_recovery and m.data=='Optimizer fail to compute path':
+  if not native_errors:
+   (out/'first_native_failure_inputs.json').write_text(json.dumps(list(ring),separators=(',',':'))+'\n')
+   (out/'first_native_failure.json').write_text(json.dumps(dict(ROS_ns=now(),reason=m.data,classification='native_mppi_delegation_failure',handled_by='existing Nav2'),indent=2)+'\n')
+  native_errors.append(dict(ROS_ns=now(),reason=m.data));event('controller_failure',reason=m.data,fatal_to_trial=False,handled_by='existing Nav2');return
  if goal_ns is not None and failure is None: failure=m.data;event('controller_failure',reason=m.data)
 node.create_subscription(Odometry,'/odometry/lio',on_odom,qos_profile_sensor_data)
 node.create_subscription(LaserScan,'/scan',on_scan,qos_profile_sensor_data)
@@ -125,7 +132,7 @@ try:
 finally:
  result=result_future.result().status if result_future is not None and result_future.done() else None
  if finished!='goal_result' or result!=4: (out/'first_failure_inputs.json').write_text(json.dumps(list(ring),separators=(',',':'))+'\n')
- (out/'events.json').write_text(json.dumps(dict(scene=scene,mode=mode,events=events,goal_ns=goal_ns,end_ns=now(),result_status=result,finished=finished,controller_failure=failure,contacts=contacts,contact_seen=contact_seen,contacts_publishers=node.count_publishers('/simulation/oracle/contacts'),latest=latest),indent=2)+'\n')
+ (out/'events.json').write_text(json.dumps(dict(scene=scene,mode=mode,events=events,goal_ns=goal_ns,end_ns=now(),result_status=result,finished=finished,controller_failure=failure,native_mppi_errors=native_errors,native_recovery_enabled=native_recovery,contacts=contacts,contact_seen=contact_seen,contacts_publishers=node.count_publishers('/simulation/oracle/contacts'),latest=latest),indent=2)+'\n')
  if handle is not None and result is None: handle.cancel_goal_async()
  for _ in range(20): rclpy.spin_once(node,timeout_sec=.01)
  for stream in streams.values(): stream.close()

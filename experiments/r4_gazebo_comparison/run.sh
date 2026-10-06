@@ -9,7 +9,7 @@ R4_COMP_OUT=$(cd "$R4_COMP_OUT" && pwd)
 docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
  --ulimit core=0 --user 1000:1000 --shm-size 512m --tmpfs /tmp:rw --tmpfs /home/rmnav:rw,uid=1000,gid=1000 \
  -v /home/qihei/rm2027_navigation:/home/qihei/rm2027_navigation:ro -v "$R4_COMP_OUT:/check:rw" \
- -w "$R4_COMP_ROOT" -e R4_COMP_MODE="$R4_COMP_MODE" -e R4_COMP_PROFILE="$R4_COMP_PROFILE" -e ROS_DOMAIN_ID=153 -e ROS_LOCALHOST_ONLY=1 \
+ -w "$R4_COMP_ROOT" -e R4_RESEARCH_NATIVE_RECOVERY="${R4_RESEARCH_NATIVE_RECOVERY:-0}" -e R4_COMP_MODE="$R4_COMP_MODE" -e R4_COMP_PROFILE="$R4_COMP_PROFILE" -e ROS_DOMAIN_ID=153 -e ROS_LOCALHOST_ONLY=1 \
  -e IGN_PARTITION=r4_finite_closed_loop_20261006 -e IGN_IP=127.0.0.1 -e LIBGL_ALWAYS_SOFTWARE=true \
  sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3 bash -c '
 set -e

@@ -8,7 +8,7 @@ config_path=pathlib.Path('/check/assets')/('common_nav2.yaml' if profile=='commo
 config=yaml.safe_load(config_path.read_text());parameters=config['controller_server']['ros__parameters']['FollowPath']
 parameters.update(research_mode=mode,research_log=str(out/'control.csv'));(out/'nav2.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
 command=['ros2','launch',str(root/'experiments/r4_gazebo_comparison/comparison.launch.py'),'enabled:=true',f'scene:={scene}',f'seed:={repeat}',f'output:={out}']
-(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,phase='calibration' if profile.startswith('calibration_') else 'finite' if repeat>=100 else 'pilot',launch=command,baseline='ccd3eac4',gazebo_seed=None,native_noise_seed=None),indent=2)+'\n')
+(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,native_recovery_enabled=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1',phase='calibration' if profile.startswith('calibration_') else 'finite' if repeat>=100 else 'pilot',launch=command,baseline='ccd3eac4',gazebo_seed=None,native_noise_seed=None),indent=2)+'\n')
 if pathlib.Path('/check/assets/scenario.json').exists():
  for source,target in [(f'{scene}.sdf','scene.sdf'),('scenario.json','scenario.json'),('empty.pgm','empty.pgm'),('map.yaml','map.yaml')]:shutil.copy2(pathlib.Path('/check/assets')/source,out/target)
 processes=[];streams=[];status=1

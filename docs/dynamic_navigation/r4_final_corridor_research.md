@@ -72,7 +72,7 @@ baseline的横向动作是**侧向绕行尝试**，不能称为已经进入盲�
 
 不补到10、不运行S4或reactive challenge，不修改R4参数/算法。唯一可能改变本轮判决的信息，是保留首次native异常后让**现有Nav2原恢复行为**运行至goal/contact/timeout，再完成相同场景各5次新的独立样本；不能用更多相同提前终止样本解决问题。
 
-### 未应用的最小实验修正，等待用户确认
+### 首轮记录时未应用的最小修正（已于后续明确授权）
 
 已准备[可审阅patch](../../experiments/r4_gazebo_comparison/native_recovery_proposal.patch)，仅限本实验：默认保持旧行为；显式实验开关下，仅取消已知native MPPI异常的永久锁存，原异常仍上抛给原controller_server处理，首次异常立即留证，记录器等待既有Nav2 action结果。contact和R4/input/solver异常仍终止。不合成速度、不新增fallback/owner/publisher/lease；速度、场景、R4配置及同一算法不变。
 
@@ -90,3 +90,21 @@ python3 experiments/r4_gazebo_comparison/corridor_plot.py build/r4_corridor_comp
 ```
 
 重现已保留失败时，不覆盖原目录、不替换任务失败。原始运行行为和未来恢复行为样本如获批，必须用不同输出目录并分开报告。
+
+## 用户授权的最终恢复行为对照（正式结果之前登记）
+
+用户已明确允许应用`native_recovery_proposal.patch`，只用于A26 Research框架：首次异常立即留证、不隐藏/删除/重分类，取消已知native MPPI短暂异常的永久锁存，上抛给原Nav2 failure_tolerance/controller_server/BT；不合成速度、不新建fallback/owner/publisher/lease。首次事件仍保留`controller_failure`种类和原始原因，单独写`first_native_failure.json`与原输入ring；非native的R4/input/solver异常仍原规则终止。
+
+独立输出`build/r4_corridor_native_recovery_20261006`；原35MiB首异常终止证据不覆盖。仅编译实验wrapper，原A22消费算法和依赖不重建。直接复制原修订S3场景/地图、两组已冻结YAML，启动同一20Hz Nav2和唯一输出链。保留原已通过的S0可行性依据，不重复空场研究；构建已通过，没有调任何参数。
+
+只跑S3每组5次、101–105交替先后。contact立即终止，native异常只留证并让既有action继续；goal success、明确action failure、预设30 ROS秒/原wall cap结束；R4/input/solver错误仍终止。首次新的任务失败保存并分类再完成原固定样本，失败不替换。仅发goal前startup失败允许相同条件补实例，单列保留。
+
+本轮最终判决只有**Go / Stop**：稳定R4完整WAIT→GO、重复baseline contact/failure且有无法由已有简单reactive行为替代的独立时间相关优势才Go；baseline同样稳定通过，或R4不能完成/没有明确安全效率优势则Stop、冻结当前low-level路线。只在5对结果接近且固定参数补样本可能改变判决时才允许10对；不S4、不修改场景/控制参数、不追加reactive参数搜索。本轮之后不再用框架问题延长R4 Research。
+
+```bash
+bash experiments/r4_gazebo_comparison/run.sh build/r4_corridor_native_recovery_20261006 build
+python3 experiments/r4_gazebo_comparison/corridor.py recovery_prepare build/r4_corridor_native_recovery_20261006
+R4_RESEARCH_NATIVE_RECOVERY=1 python3 experiments/r4_gazebo_comparison/corridor.py batch build/r4_corridor_native_recovery_20261006 5
+```
+
+最终恢复行为正式结果待填；前一节的Modify/0成功只描述原首异常终止cohort，不与新样本合并。

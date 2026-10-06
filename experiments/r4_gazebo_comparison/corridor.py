@@ -71,6 +71,25 @@ if command=='prepare':
             limit.find('lower').text='-1.6';limit.find('upper').text='1.6'
         tree.write(assets/f'{scene}.sdf',encoding='utf-8',xml_declaration=True)
     (out/'protocol.json').write_text(json.dumps(dict(stage='A26 last Research',base_commit='89f9035b',algorithm_commit='ccd3eac4',primary_scene='S3',optional_variant='S4 .45m/s only if a repeatable primary Go needs robustness information',n_initial=5,n_max=10,preflight='one empty corridor trial per mode, no parameter tuning',baseline_from='A25 .60m/factor6; only vx_max .32 to .5 for same limits',r4_a24_unchanged=True,shared_speed_limits=True,first_failure='preserve and classify before completing remaining planned samples; never replace a task failure',go_efficiency='R4 median arrival >=10% faster with >=4/5 or 8/10 paired wins, no worse success/contact and no >.05m median or worst dynamic-clearance loss; temporal opening visible in received CV and response',go_safety='R4 all success/zero contact with >=2/5 or 4/10 repeated baseline task failures or contact, without >10% arrival penalty; requires a fair fixture and causal evidence',reactive_challenge='Only on apparent Go: existing A24 radius .50/factor6 baseline at identical limits, five fixed new samples; if it removes advantage, Stop. No search.',extension='Only n5 close (<10% median arrival difference) or inconsistent paired/safety signals that could change Go/Stop; unchanged profiles to n10',stop='No explicit reproducible independent advantage: freeze current low-level prediction-consumption route; no production plumbing',raw_limit_mib=100),indent=2)+'\n')
+elif command=='recovery_prepare':
+    reference=root/'build/r4_corridor_comparison_20261006'
+    assert out!=reference and (out/'research_install/lib/libresearch_controller.so').exists()
+    assert not (out/'runs').exists() and not (out/'protocol.json').exists()
+    shutil.copytree(reference/'assets',out/'assets',dirs_exist_ok=True)
+    previous=json.loads((reference/'protocol.json').read_text())
+    previous.update(stage='A26 final authorized native-recovery comparison',reference_cohort=str(reference),
+                    user_authorized=True,n_initial=5,n_max=10,primary_scene='S3',optional_variant='none; S4 forbidden',
+                    native_recovery_enabled=True,baseline_unchanged=True,r4_a24_unchanged=True,scene_unchanged=True,
+                    first_native_failure='immediate original exception event, classification and input ring preserved; native exception is rethrown to existing Nav2',
+                    end_conditions='goal success, contact, explicit action failure, original R4/input/solver error, preset timeout',
+                    reactive_challenge='no parameter change or extra reactive cohort authorized; assess observed native Nav2 reactive/recovery behavior',
+                    extension='only if n5 close and fixed n10 could change final Go/Stop; no S4, no framework iteration',
+                    final_decision='Go only on stable complete R4 WAIT/GO with repeat baseline contact/failure and an independent temporal advantage; otherwise Stop and freeze low-level route. No further framework research.')
+    (out/'protocol.json').write_text(json.dumps(previous,indent=2)+'\n')
+    preflight=json.loads((reference/'preflight_pass.json').read_text())
+    preflight.update(reused_from=str(reference),new_preflight_run=False,reason='same frozen scene/config; only authorized native-error handling changed; original empty preflight both passed')
+    (out/'preflight_pass.json').write_text(json.dumps(preflight,indent=2)+'\n')
+    print('independent native-recovery cohort prepared; original scene/config copied unchanged')
 elif command=='amend_fixture':
     assert not (out/'schedule.json').exists() and not (out/'fixture_amendment.json').exists()
     assets=out/'assets';previous=out/'fixture_initial';previous.mkdir()
