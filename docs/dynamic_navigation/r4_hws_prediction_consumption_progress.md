@@ -2,13 +2,21 @@
 
 2026-10-04 建立，2026-10-06 更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A23有限同条件Gazebo闭环完成，判决Modify。当前R4配置有重复的安全/完成率收益，但明显更慢且速度/circle差异未消融；保留Research，不进入生产化接线。**
+状态：**A24匹配空场速度与circle支持闭环完成，判决Modify。两组各13/13、零contact；A23成功率/碰撞优势在联合对齐后未保留。R4 S2净空中位增加约12cm，但耗时增加33%、WAIT中位3.64s且有小幅回退；保留Research，不进入生产化接线。**
 
 A08/A19原值为body XY；world-held XY的未来位置不需要未来yaw。按用户的新全向底盘事实，新增同一45变量内核的显式world值包装，保守圆、raw非零wz不改，不发布angular零命令，不建立第二导航链。当前legacy base_link输出协议未表达world语义，留原owner内最小frame适配，不作为wz归零门。
 
 原S1/S2动态窗口40/40、160/160；S2有36拍可辨提前减速（A21为38），首时刻仍goal+2.644s。修正时序后的理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m；三个反馈条件都到达5cm XY标准。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
 
-当前入口：[A23闭环结果/Modify与限制](r4_finite_closed_loop_comparison.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。下一最小判定为匹配Baseline实测空场速度/到达时间与有效circle支持后的动态对照；本轮停在判决，不自动展开下一轮。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。A22/A21数值与frame记录保留为历史基线。
+当前入口：[A24对齐结果/Modify与限制](r4_matched_closed_loop_comparison.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。匹配对照已完成；只有能改变决策的新Research假设才继续，本轮停在判决，不默认调参或工程化。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。A23/A22/A21记录保留为历史基线。
+
+## A24 — 速度与圆形支持对齐：Modify
+
+- 基线/控制变量：原A23地图/目标/物理轨迹/二进制，A22算法不变。两组同一32边形circle近似与.50m local inflation；baseline仅在S0校准vx_max=.32后冻结，R4原limits/cruise/free-s保持。S0到达中位差2.40%，x=2/3m时间几乎相同。
+- 最小实验：26个有限trial，S0各3、S1/S2各5；2个空场校准单列，无启动失败/运行中controller failure/contact。main与正式输出链不改，无第二owner/MPPI/solver，没有调参救动态结果。
+- 结果：两组各13/13、零contact。S1到达11.017/14.108s，净空中位.29449/.29746m；S2到达13.478/17.922s，净空中位.18054/.30045m。R4 S2 WAIT中位3.64s，2/5有两次前后向切换，最大回退4.674cm；baseline可绕行，均无回退。
+- 判决/限制：A23成功率/碰撞收益并非独立prediction-consumption证据。S2约12cm净空收益存在，但代价为33%耗时和轻微振荡，故Modify、暂停生产化。3974/3974消费有效，solver P95≤1.564ms；真值轨迹/参数核对通过。16/28实例在结束cleanup有历史−11，保留日志，未包装成生产稳定结论。
+- 磁盘：清理六个旧R4验证目录中49个再生成中间目录，释放652.6MiB；保留安装/测试记录/A23及A24原始证据/无关dirty。新证据约62MiB，全部留本地、不push。[判决与紧凑证据](r4_matched_closed_loop_comparison.md)。
 
 ## A23 — 有限同条件Gazebo闭环：Modify
 

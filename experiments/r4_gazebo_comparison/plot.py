@@ -31,13 +31,17 @@ for j,scene in enumerate(('S0','S1','S2')):
     axes[0,j].set_title(scene);axes[0,j].set_xticks([0,1],['STVL + MPPI','R4 XY + native wz']);axes[0,j].set_xlim(-.4,1.4);axes[0,j].set_ylim(bottom=0);axes[0,j].set_ylabel('Arrival time, successful runs (s)')
     if scene=='S0': axes[1,j].set_xlabel('Time from accepted goal (s)');axes[1,j].set_ylabel('Physical world x (m)')
     else:
-        axes[1,j].set_xticks([0,1],['STVL + MPPI','R4 XY + native wz']);axes[1,j].set_xlim(-.4,1.4);axes[1,j].set_ylabel('Sampled mechanical clearance (m)');axes[1,j].set_ylim(bottom=-.015)
+        axes[1,j].set_xticks([0,1],['STVL + MPPI','R4 XY + native wz']);axes[1,j].set_xlim(-.4,1.4);axes[1,j].set_ylabel('Sampled mechanical clearance (m)')
+        clearances=[r['min_dynamic_clearance_m'] for r in summary['runs'] if r['phase']=='finite' and not r['startup'] and r['scene']==scene and r['min_dynamic_clearance_m'] is not None]
+        axes[1,j].set_ylim(-.015,max(clearances)+.025 if clearances else .35)
     for ax in axes[:,j]: ax.grid(alpha=.2)
-fig.suptitle('A23 finite Gazebo comparison — frozen A22 consumption; x = failed/censored run',fontsize=12)
+label=sys.argv[2] if len(sys.argv)>2 else 'A23 finite Gazebo comparison'
+fig.suptitle(label+' — frozen A22 consumption; x = failed/censored run',fontsize=12)
 fig.savefig(root/'comparison.png',dpi=160);plt.close(fig)
 # First physical failure, with actual ego timing visible instead of spatial-only claims.
-paths={'B0':root/'runs/S1_B0_104','R4':root/'runs/S1_R4_104'}
-if all((p/'events.json').exists() for p in paths.values()):
+first=next((r for r in summary['runs'] if r['phase']=='finite' and r['mode']=='B0' and r['contact_messages']>0),None)
+paths={'B0':root/'runs'/first['run'],'R4':root/'runs'/first['run'].replace('_B0_','_R4_')} if first else {}
+if paths and all((p/'events.json').exists() for p in paths.values()):
     fig,axes=plt.subplots(1,2,figsize=(11,4),constrained_layout=True)
     for mode,p in paths.items():
         e=json.loads((p/'events.json').read_text());truth={}
@@ -51,5 +55,28 @@ if all((p/'events.json').exists() for p in paths.values()):
     axes[0].plot([2,2],[-.9,.9],'k--',label='actor center trajectory');axes[0].set(xlabel='world x (m)',ylabel='world y (m)');axes[0].axis('equal')
     axes[1].axhline(0,color='black',lw=.7);axes[1].set(xlabel='time from accepted goal (s)',ylabel='sampled mechanical clearance (m)',ylim=(-.03,1.6))
     for ax in axes: ax.grid(alpha=.2);ax.legend()
-    fig.suptitle('S1 pair 104: baseline actor / front-left-wheel contact at t=4.876s')
+    event=json.loads((paths['B0']/'events.json').read_text());contact=event['contacts'][0]
+    when=(contact['source_ns']-event['goal_ns'])/1e9
+    fig.suptitle(f"{first['run']}: baseline physical actor contact at t={when:.3f}s")
     fig.savefig(root/'first_collision.png',dpi=160);plt.close(fig)
+if (root/'protocol.json').exists():
+    fig,axes=plt.subplots(1,3,figsize=(13,4),constrained_layout=True)
+    for mode in ('B0','R4'):
+        group=[r for r in summary['runs'] if r['phase']=='finite' and not r['startup'] and r['scene']=='S2' and r['mode']==mode]
+        for index,r in enumerate(group):
+            truth={}
+            for line in (root/'runs'/r['run']/'truth.jsonl').open():
+                v=json.loads(line)
+                if r['goal_ns']<=v['source_ns']<=r['goal_ns']+int(r['elapsed_s']*1e9): truth.setdefault(v['source_ns'],{})[v['model']]=v
+            robot=[(ns,v['rm_sentry_2027']['position']) for ns,v in sorted(truth.items()) if 'rm_sentry_2027' in v]
+            common=[(ns,v) for ns,v in sorted(truth.items()) if len(v)==2]
+            label=mode if index==0 else None
+            axes[0].plot([v[0] for ns,v in robot],[v[1] for ns,v in robot],color=colors[mode],alpha=.65,label=label)
+            axes[1].plot([(ns-r['goal_ns'])/1e9 for ns,v in robot],[v[0] for ns,v in robot],color=colors[mode],alpha=.65,label=label)
+            axes[2].plot([(ns-r['goal_ns'])/1e9 for ns,v in common],[polygon_distance(v['rm_sentry_2027']['polygon'],v['moving_obstacle']['polygon']) for ns,v in common],color=colors[mode],alpha=.65,label=label)
+    axes[0].set(xlabel='Physical world x (m)',ylabel='Physical world y (m)');axes[0].axis('equal')
+    axes[1].set(xlabel='Time from accepted goal (s)',ylabel='Physical world x (m)')
+    axes[2].set(xlabel='Time from accepted goal (s)',ylabel='Sampled mechanical clearance (m)',ylim=(0,1.8))
+    for ax in axes: ax.grid(alpha=.2);ax.legend()
+    fig.suptitle('A24 S2: all five trials per mode; native bypass versus R4 WAIT / resume')
+    fig.savefig(root/'s2_behavior.png',dpi=160);plt.close(fig)

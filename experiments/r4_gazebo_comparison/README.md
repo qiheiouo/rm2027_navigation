@@ -40,3 +40,23 @@ Fortress CLI/MPPI 没有此次可用的 seed 配置，按实际轨迹核对公�
 生产级整合均不在本轮范围。
 
 必要汇总、共同参数、配对轨迹指标、四次真实碰撞事件/控制及两张研究图在[证据目录](evidence/)；原输入/预测/真值/日志仍保留在build，未push。有效结果为S0两组5/5、S1 B0 9/10 vs R4 10/10、S2 B0 7/10 vs R4 10/10；不能用成功样本时间代表碰撞样本完成时间。
+
+## A24 匹配速度与圆形支持
+
+[A24协议和判决](../../docs/dynamic_navigation/r4_matched_closed_loop_comparison.md)对齐空场实测到达时间及circle支持，使用同一个A23插件二进制。`matched.py prepare`只复制已有A23 assets/install；不重新构建算法。两组共同32边形支持与local inflation=.50m；仅baseline `vx_max`在空场校准后冻结为.32，R4算法与原limits不变。完整小样本为S0各3、S1/S2各5，校准与启动失败单列。
+
+```bash
+python3 experiments/r4_gazebo_comparison/matched.py prepare build/r4_matched_comparison_20261006
+python3 experiments/r4_gazebo_comparison/matched.py reference build/r4_matched_comparison_20261006
+python3 experiments/r4_gazebo_comparison/matched.py calibrate build/r4_matched_comparison_20261006 1 .34
+python3 experiments/r4_gazebo_comparison/matched.py calibrate build/r4_matched_comparison_20261006 2 .32
+python3 experiments/r4_gazebo_comparison/matched.py freeze build/r4_matched_comparison_20261006 2
+python3 experiments/r4_gazebo_comparison/matched.py batch build/r4_matched_comparison_20261006
+python3 experiments/r4_gazebo_comparison/analyze.py build/r4_matched_comparison_20261006
+python3 experiments/r4_gazebo_comparison/fairness.py build/r4_matched_comparison_20261006
+python3 experiments/r4_gazebo_comparison/matched_audit.py build/r4_matched_comparison_20261006
+```
+
+`run.sh`第三参数仅用于选择experiment profile；默认`common`保留A23。原输入/真值/全部日志仍写入独立build目录，不录大bag。两轮的配置与证据分别保留，不能覆盖A23结果或把联合对齐当作三因素逐项消融。
+
+A24结论 **Modify**：两组各13/13、零contact。S1净空几乎相同；S2 R4中位净空增加约12cm，耗时增加33%，WAIT中位3.64s且有小幅回退。原A23碰撞优势不再作为独立consumption收益证据，生产化仍暂停。[必要证据](evidence_matched/)；28次完整原始记录保留在build。

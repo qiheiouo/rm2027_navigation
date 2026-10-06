@@ -66,6 +66,16 @@ keep Research and pause production integration. See
 [A23 decision and evidence](../../docs/dynamic_navigation/r4_finite_closed_loop_comparison.md).
 No production host, owner, fallback or algorithm is changed by that experiment.
 
+Research A24 matches empty-scene arrival (2.4% median difference) and circular
+support with a sufficient common inflation range, reusing the A23 binary and
+unchanged A22 kernel. All 26 finite trials succeed without actor contact in
+both modes. S1 gains no material clearance; S2 R4 median clearance improves
+about 12 cm, but arrival takes 33% longer with 3.64 s median WAIT and small
+backtracking. Verdict remains **Modify**: the A23 collision advantage is not
+independent consumption evidence, and the remaining clearance/efficiency
+tradeoff does not justify production integration. See
+[A24 decision and limits](../../docs/dynamic_navigation/r4_matched_closed_loop_comparison.md).
+
 Historical Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
 same original 45-variable Follow assembly and OSQP solve. It retains raw source
 state/stamps, derives a model pose at the prediction epoch with the existing

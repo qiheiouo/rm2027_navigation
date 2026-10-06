@@ -1,5 +1,5 @@
 """A24 host-side protocol only; reuse the A23 binary, scenes and observers."""
-import copy,json,math,pathlib,shutil,subprocess,sys
+import json,math,pathlib,shutil,subprocess,sys
 import yaml
 root=pathlib.Path(__file__).resolve().parents[2]
 command=sys.argv[1];out=pathlib.Path(sys.argv[2]).resolve()
@@ -20,7 +20,8 @@ def write_profile(name,speed):
         config=profile(speed if mode=='B0' else None)
         (out/f'assets/{name}_{mode}_nav2.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
 def run(spec,name):
-    directory=out/'runs'/spec.replace(':','_')
+    scene,mode,repeat=spec.split(':')
+    directory=out/'runs'/f'{scene}_{mode}_{int(repeat):02d}'
     if directory.exists():
         if not (directory/'events.json').exists(): raise RuntimeError(f'incomplete preserved run: {spec}')
     else:
