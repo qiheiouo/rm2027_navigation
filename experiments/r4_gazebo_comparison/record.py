@@ -22,9 +22,13 @@ from audit_run import physical_projection,polygon_distance
 
 def ns(stamp): return stamp.sec*10**9+stamp.nanosec
 scene,mode=sys.argv[1:3];out=pathlib.Path(sys.argv[3]);rclpy.init()
+scenario_file=out.parent.parent/'assets/scenario.json'
+scenario=json.loads(scenario_file.read_text()) if scenario_file.exists() else {}
+motion=scenario.get('motion',{}).get(scene)
 node=Node('r4_comparison_recorder',parameter_overrides=[Parameter('use_sim_time',value=True)])
 latest={};ring=collections.deque(maxlen=150);events=[];truth={};positions={};contacts=[];contact_seen=0;failure=None;goal_ns=None;result_future=None;handle=None;finished=None
 streams={name:(out/name).open('w') for name in ('truth.jsonl','odometry.csv','commands.csv','prediction.jsonl','costmap.csv')}
+if scenario: streams['plans.jsonl']=(out/'plans.jsonl').open('w')
 odom=csv.writer(streams['odometry.csv']);odom.writerow(['source_ns','receipt_ns','x','y','yaw','vx','vy','wz'])
 cmd=csv.writer(streams['commands.csv']);cmd.writerow(['topic','receipt_ns','vx','vy','wz'])
 costmap=csv.writer(streams['costmap.csv']);costmap.writerow(['source_ns','receipt_ns','frame','lethal','positive','actor_window_lethal'])
@@ -46,6 +50,10 @@ def on_prediction(m):
  latest['prediction']=ns(m.prediction.header.stamp)
  if goal_ns is not None: streams['prediction.jsonl'].write(json.dumps({'receipt_ns':now(),'message':plain(m)},separators=(',',':'))+'\n')
  ring.append(('prediction',plain(m)))
+def on_plan(m):
+ ring.append(('plan',plain(m)))
+ if scenario and goal_ns is not None:
+  streams['plans.jsonl'].write(json.dumps(dict(receipt_ns=now(),source_ns=ns(m.header.stamp),xy=[[p.pose.position.x,p.pose.position.y] for p in m.poses]),separators=(',',':'))+'\n')
 def on_truth(model,m):
  try:
   source,polygon,p,r=physical_projection(plain(m),model,'base_link' if model=='rm_sentry_2027' else 'obstacle_link')
@@ -78,7 +86,7 @@ node.create_subscription(LaserScan,'/scan',on_scan,qos_profile_sensor_data)
 node.create_subscription(ObservedPredictionEnvelope,'/perception/dynamic_obstacles_shadow/observed_predictions',on_prediction,10)
 node.create_subscription(OccupancyGrid,'/map',lambda m:latest.update(map=max(1,ns(m.header.stamp))),QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))
 node.create_subscription(OccupancyGrid,'/local_costmap/costmap',on_costmap,QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL))
-node.create_subscription(Path,'/plan',lambda m:ring.append(('plan',plain(m))),10)
+node.create_subscription(Path,'/plan',on_plan,10)
 for topic in ('/cmd_vel_nav','/cmd_vel','/simulation/chassis/cmd_vel'): node.create_subscription(Twist,topic,lambda m,t=topic:on_command(t,m),10)
 for model in ('rm_sentry_2027','moving_obstacle'): node.create_subscription(TFMessage,f'/simulation/oracle/{model}',lambda m,name=model:on_truth(name,m),100)
 node.create_subscription(Contacts,'/simulation/oracle/contacts',on_contact,100)
@@ -87,7 +95,7 @@ try:
  while time.monotonic()-wall_begin<130:
   rclpy.spin_once(node,timeout_sec=.01);current=now();t=0 if goal_ns is None else (current-goal_ns)/1e9
   if scene!='S0':
-   target=(-.9 if t<1 else min(.9,-.9+.9*(t-1))) if scene=='S1' else (-.9 if t<1 else -.9*(2-t) if t<2 else 0. if t<7 else min(.9,.45*(t-7)))
+   target=min(motion['end_y'],motion['start_y']+motion['speed']*max(0.,t-motion['begin_s'])) if motion else ((-.9 if t<1 else min(.9,-.9+.9*(t-1))) if scene=='S1' else (-.9 if t<1 else -.9*(2-t) if t<2 else 0. if t<7 else min(.9,.45*(t-7))))
    actor.publish(Float64(data=target))
   if goal_ns is None:
    if state_future is not None and state_future.done(): active=state_future.result().current_state.id==3;state_future=None
@@ -103,7 +111,8 @@ try:
     handle=request.result();goal_ns=now();result_future=handle.get_result_async();event('goal_accepted',latest=latest.copy())
    if time.monotonic()-wall_begin>60: finished='startup_not_ready';event(finished,latest=latest);break
   else:
-   for boundary,kind in [(1,'obstacle_motion_start'),(3 if scene=='S1' else 2,'crossed_or_hold'),(3 if scene=='S1' else 9,'clear_target')]:
+   boundaries=[(motion['begin_s'],'obstacle_motion_start'),(motion['begin_s']-motion['start_y']/motion['speed'],'crossed_or_hold'),(motion['begin_s']+(motion['end_y']-motion['start_y'])/motion['speed'],'clear_target')] if motion else [(1,'obstacle_motion_start'),(3 if scene=='S1' else 2,'crossed_or_hold'),(3 if scene=='S1' else 9,'clear_target')]
+   for boundary,kind in boundaries:
     if scene!='S0' and t>=boundary and not any(e['kind']==kind for e in events): event(kind)
    if failure or contacts: finished='controller_failure' if failure else 'actor_contact';break
    if result_future.done(): finished='goal_result';event(finished,status=result_future.result().status);break

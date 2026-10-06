@@ -109,7 +109,7 @@ def trial(path):
 def aggregate(root):
     runs=[trial(p) for p in sorted((root/'runs').iterdir()) if (p/'events.json').exists()]
     summary=[]
-    for scene in ('S0','S1','S2'):
+    for scene in sorted({r['scene'] for r in runs}):
         for mode in ('B0','R4'):
             group=[r for r in runs if r['scene']==scene and r['mode']==mode and r['phase']=='finite' and not r['startup']]
             if not group: continue

@@ -2,13 +2,13 @@
 
 2026-10-04 建立，2026-10-06 更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A25最终判决Stop当前A24 R4配置的生产化。原严格等净空校准Modify后，用户授权验证更大净空支配点；5对新S2全部成功/零contact。baseline净空中位.38927m、到达14.628s，R4为.29294m、17.889s；baseline耗时少18.23%，5/5配对更快且净空更大，零回退，R4 3/5有反向切换。停止生产化接线，本轮结束，不追加样本或调R4。**
+状态：**A25 Stop生产化结论保留；用户另授权A26作为最后一次Research，检验即将开放的单通道WAIT/GO新假设。R4完全保持A24，先空通道可行性检查，再5对新样本；不建设生产接口。若仍无明确独立收益，冻结当前low-level prediction-consumption研究路线。**
 
 A08/A19原值为body XY；world-held XY的未来位置不需要未来yaw。按用户的新全向底盘事实，新增同一45变量内核的显式world值包装，保守圆、raw非零wz不改，不发布angular零命令，不建立第二导航链。当前legacy base_link输出协议未表达world语义，留原owner内最小frame适配，不作为wz归零门。
 
 原S1/S2动态窗口40/40、160/160；S2有36拍可辨提前减速（A21为38），首时刻仍goal+2.644s。修正时序后的理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m；三个反馈条件都到达5cm XY标准。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
 
-当前入口：[A25授权支配验证与Stop](r4_clearance_efficiency_pareto.md)、[A24对齐结果](r4_matched_closed_loop_comparison.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。只有新的核心假设和能改变决策的最小对照才重新启动Research，不默认工程化。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。历史结果保留。
+当前入口：[A26最后一轮假设/协议](r4_final_corridor_research.md)、[A25授权支配验证与Stop](r4_clearance_efficiency_pareto.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。只有新的核心假设和能改变决策的最小对照才重新启动Research，不默认工程化。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。历史结果保留。
 
 ## A25 — S2 安全—效率：授权支配验证Stop
 

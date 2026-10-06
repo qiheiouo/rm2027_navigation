@@ -94,3 +94,15 @@ python3 experiments/r4_gazebo_comparison/pareto_plot.py build/r4_pareto_comparis
 `freeze_dominance`对应此次明确授权，不能把一般目标未达自动改成支配验证。原协议、校准Modify和授权修订分开保存；正式规则在trial前提交于`2ccb4573`。没有freeze时`batch`拒绝启动；只有记录的不确定性才可固定参数扩至10，此次Stop不扩样本。
 
 [紧凑证据](evidence_pareto/)的`summary.json/trials.csv`保留20次校准停止点；新增`validation_summary.json/validation_trials.csv`含全部30次记录，以phase区分。授权、冻结参数、schedule、公平性/参数核查和图另存，完整原始输入/真值/日志约85MiB保留在build。正式7/10到达后Nav2 cleanup −11单列，任务中无controller failure。限于Gazebo该S2条件，不push，main不改。
+
+## A26 最后一轮：即将开放的单通道
+
+[新假设与预登记协议](../../docs/dynamic_navigation/r4_final_corridor_research.md)。仅增加1.4m宽封闭通道/盲支路及持续CV横穿障碍的场景，保持A24 R4与原controller二进制；baseline从A25固定设置对齐vx_max=.5，使两组速度限制相同。未来运动脚本不送入预测/控制器。记录器只扩展场景运动及plan观察，分析器接受新scene；没有新增正式接口或输出owner。
+
+```bash
+python3 experiments/r4_gazebo_comparison/corridor.py prepare build/r4_corridor_comparison_20261006
+python3 experiments/r4_gazebo_comparison/corridor.py preflight build/r4_corridor_comparison_20261006
+python3 experiments/r4_gazebo_comparison/corridor.py batch build/r4_corridor_comparison_20261006 5
+```
+
+空通道各1次preflight先证明fixture可行，正式S3各5次、新实例交替先后。首次任务失败保留并分类后才能完成剩余样本，不调参救结果；只在能改变判决时补至10。没有明确、可重复、简单reactive设置难以替代的优势，就Stop并冻结当前low-level prediction-consumption路线。原A25 Stop不撤回，A26是用户明确授权的新假设最后一次Research。

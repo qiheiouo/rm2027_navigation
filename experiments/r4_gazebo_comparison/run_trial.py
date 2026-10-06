@@ -1,7 +1,7 @@
 """Finite owned-process supervisor; no velocity ownership implementation."""
 import json,os,pathlib,re,signal,subprocess,sys,time
 import yaml
-scene,mode,repeat=sys.argv[1].split(':');assert scene in ('S0','S1','S2') and mode in ('B0','R4');repeat=int(repeat)
+scene,mode,repeat=sys.argv[1].split(':');assert scene in ('S0','S1','S2','S3','S4') and mode in ('B0','R4');repeat=int(repeat)
 root=pathlib.Path.cwd();out=pathlib.Path('/check/runs')/f'{scene}_{mode}_{repeat:02d}';out.mkdir(parents=True,exist_ok=False)
 profile=os.environ.get('R4_COMP_PROFILE','common');assert re.fullmatch(r'[a-z0-9_]+',profile)
 config_path=pathlib.Path('/check/assets')/('common_nav2.yaml' if profile=='common' else f'{profile}_{mode}_nav2.yaml')
