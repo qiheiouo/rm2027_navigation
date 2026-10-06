@@ -1,0 +1,198 @@
+{
+  "S0_R4_01": {
+    "classification": "frozen_static_frontend_rejection",
+    "reason": "Sfc rectangle lacks raw-static support",
+    "solver_called": false,
+    "original_geometry_valid": true,
+    "not_prediction_failure": true,
+    "evidence": [
+      "frontend_probe_original.json",
+      "runs/S0_R4_01/first_failure_inputs.json"
+    ],
+    "continued_with": "one explicitly recorded single-channel scene revision, before formal trials"
+  },
+  "S3_B0_101": {
+    "classification": "physical_dynamic_actor_contact",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.693,
+    "pairs": [
+      [
+        "moving_obstacle::obstacle_link::obstacle_collision",
+        "rm_sentry_2027::rear_right_wheel::collision"
+      ]
+    ],
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "truth.jsonl"
+    ],
+    "decision": "continue the remaining preregistered samples unchanged; no parameter or scene rescue"
+  },
+  "S3_R4_101": {
+    "classification": "native_mppi_delegation_failure",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.79,
+    "reason": "Optimizer fail to compute path",
+    "r4_xy_solve_called_in_failed_cycle": false,
+    "last_valid_behavior": "slowdown and WAIT, no contact",
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log"
+    ],
+    "decision": "continue remaining planned samples unchanged; no angular bypass or fallback"
+  },
+  "S3_R4_102": {
+    "classification": "native_mppi_delegation_failure",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.747,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log",
+      "truth.jsonl"
+    ],
+    "decision": "finish the unchanged fixed schedule; no tuning, replacement or bypass",
+    "r4_xy_solve_called_in_failed_cycle": false,
+    "failed_cycle_solver_ms": 0
+  },
+  "S3_B0_102": {
+    "classification": "startup_map_lifecycle_response_timeout",
+    "task_failure": false,
+    "replacement": true,
+    "goal_sent": false,
+    "evidence": [
+      "events.json",
+      "launch.log"
+    ],
+    "reason": "research_static_map configure response timed out; map/observed predictions unavailable before any goal",
+    "replacement_run": "S3_B0_202",
+    "parameters_changed": false
+  },
+  "S3_B0_202": {
+    "classification": "physical_dynamic_actor_contact",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.693,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log",
+      "truth.jsonl"
+    ],
+    "decision": "finish the unchanged fixed schedule; no tuning, replacement or bypass",
+    "pairs": [
+      [
+        "moving_obstacle::obstacle_link::obstacle_collision",
+        "rm_sentry_2027::rear_right_wheel::collision"
+      ]
+    ]
+  },
+  "S3_B0_103": {
+    "classification": "native_mppi_delegation_failure",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.373,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log",
+      "truth.jsonl"
+    ],
+    "decision": "finish the unchanged fixed schedule; no tuning, replacement or bypass",
+    "r4_xy_solve_called_in_failed_cycle": false,
+    "failed_cycle_solver_ms": 0
+  },
+  "S3_R4_103": {
+    "classification": "native_mppi_delegation_failure",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.837,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log",
+      "truth.jsonl"
+    ],
+    "decision": "finish the unchanged fixed schedule; no tuning, replacement or bypass",
+    "r4_xy_solve_called_in_failed_cycle": false,
+    "failed_cycle_solver_ms": 0
+  },
+  "S3_R4_104": {
+    "classification": "native_mppi_delegation_failure",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.786,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log",
+      "truth.jsonl"
+    ],
+    "decision": "finish the unchanged fixed schedule; no tuning, replacement or bypass",
+    "r4_xy_solve_called_in_failed_cycle": false,
+    "failed_cycle_solver_ms": 0
+  },
+  "S3_B0_104": {
+    "classification": "native_mppi_delegation_failure",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.355,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log",
+      "truth.jsonl"
+    ],
+    "decision": "finish the unchanged fixed schedule; no tuning, replacement or bypass",
+    "r4_xy_solve_called_in_failed_cycle": false,
+    "failed_cycle_solver_ms": 0
+  },
+  "S3_B0_105": {
+    "classification": "physical_dynamic_actor_contact",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.685,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log",
+      "truth.jsonl"
+    ],
+    "decision": "finish the unchanged fixed schedule; no tuning, replacement or bypass",
+    "pairs": [
+      [
+        "moving_obstacle::obstacle_link::obstacle_collision",
+        "rm_sentry_2027::rear_right_wheel::collision"
+      ]
+    ]
+  },
+  "S3_R4_105": {
+    "classification": "native_mppi_delegation_failure",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.776,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "launch.log",
+      "truth.jsonl"
+    ],
+    "decision": "finish the unchanged fixed schedule; no tuning, replacement or bypass",
+    "r4_xy_solve_called_in_failed_cycle": false,
+    "failed_cycle_solver_ms": 0
+  }
+}

@@ -115,6 +115,8 @@ elif command=='batch':
     if n==10:
         extension=json.loads((out/'extension.json').read_text());assert extension['informative'] and not extension['parameters_changed']
     schedule=[f'S3:{mode}:{repeat}' for repeat in range(101,101+n) for mode in (('B0','R4') if repeat%2 else ('R4','B0'))]
+    replacements=json.loads((out/'replacement_runs.json').read_text()) if (out/'replacement_runs.json').exists() else {}
+    schedule=[replacements.get(v,v) for v in schedule]
     (out/'schedule.json').write_text(json.dumps(schedule,indent=2)+'\n')
     for spec in schedule:
         scene,mode,repeat=spec.split(':');run(scene,mode,int(repeat))

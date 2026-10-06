@@ -1,0 +1,20 @@
+{
+  "stage": "A26 last Research",
+  "base_commit": "89f9035b",
+  "algorithm_commit": "ccd3eac4",
+  "primary_scene": "S3",
+  "optional_variant": "S4 .45m/s only if a repeatable primary Go needs robustness information",
+  "n_initial": 5,
+  "n_max": 10,
+  "preflight": "one empty corridor trial per mode, no parameter tuning",
+  "baseline_from": "A25 .60m/factor6; only vx_max .32 to .5 for same limits",
+  "r4_a24_unchanged": true,
+  "shared_speed_limits": true,
+  "first_failure": "preserve and classify before completing remaining planned samples; never replace a task failure",
+  "go_efficiency": "R4 median arrival >=10% faster with >=4/5 or 8/10 paired wins, no worse success/contact and no >.05m median or worst dynamic-clearance loss; temporal opening visible in received CV and response",
+  "go_safety": "R4 all success/zero contact with >=2/5 or 4/10 repeated baseline task failures or contact, without >10% arrival penalty; requires a fair fixture and causal evidence",
+  "reactive_challenge": "Only on apparent Go: existing A24 radius .50/factor6 baseline at identical limits, five fixed new samples; if it removes advantage, Stop. No search.",
+  "extension": "Only n5 close (<10% median arrival difference) or inconsistent paired/safety signals that could change Go/Stop; unchanged profiles to n10",
+  "stop": "No explicit reproducible independent advantage: freeze current low-level prediction-consumption route; no production plumbing",
+  "raw_limit_mib": 100
+}

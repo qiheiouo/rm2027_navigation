@@ -2,13 +2,20 @@
 
 2026-10-04 建立，2026-10-06 更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A25 Stop生产化结论保留；用户另授权A26作为最后一次Research，检验即将开放的单通道WAIT/GO新假设。R4完全保持A24，先空通道可行性检查，再5对新样本；不建设生产接口。若仍无明确独立收益，冻结当前low-level prediction-consumption研究路线。**
+状态：**A25 Stop生产化结论保留。A26冻结运行行为5对已完成，两组均未到达；baseline 3次contact、R4零contact，但原实验首native异常锁存/终止使两组无法观察通道开放后的WAIT→GO。A26价值判定Modify，当前没有Integration依据；仅待用户决定是否允许复用原Nav2恢复行为的最小实验修正，未应用、不运行新样本。**
 
 A08/A19原值为body XY；world-held XY的未来位置不需要未来yaw。按用户的新全向底盘事实，新增同一45变量内核的显式world值包装，保守圆、raw非零wz不改，不发布angular零命令，不建立第二导航链。当前legacy base_link输出协议未表达world语义，留原owner内最小frame适配，不作为wz归零门。
 
 原S1/S2动态窗口40/40、160/160；S2有36拍可辨提前减速（A21为38），首时刻仍goal+2.644s。修正时序后的理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m；三个反馈条件都到达5cm XY标准。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
 
 当前入口：[A26最后一轮假设/协议](r4_final_corridor_research.md)、[A25授权支配验证与Stop](r4_clearance_efficiency_pareto.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。只有新的核心假设和能改变决策的最小对照才重新启动Research，不默认工程化。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。历史结果保留。
+
+## A26 — 单通道暂时阻塞：实验提前终止，价值判定Modify
+
+- 初始1.4m有效空通道被未改Sfc raw-static校验拒绝，solver未调用，完整保留。在任何动态trial前明确修订一次场景为2.1m通道/1m宽动态机器人，仍有物理短暂堵塞，无绕行出口；R4配置/算法不动。修订后S0两组到达8.733/12.582s，无contact，没有按空场结果调R4或baseline。
+- S3各5个实际goal-started样本。baseline 0/5成功，3次动态轮端contact、2次native MPPI异常；R4 0/5成功、零contact、5次同类native异常。启动前地图lifecycle超时1次单列，同参数补1次；任务失败没有替换。终止前动态净空中位0/.33799m，R4最坏.31671m；WAIT中位.08/.32s，R4无前后切换、最大回退不足1mm。到达/clear后通过/恢复未观测，不能记0。
+- 原A23 wrapper永久锁存首次异常，记录器立即终止，原Nav2 failure_tolerance/BT恢复未执行。R4依赖native angular调用，异常拍尚未求解XY。有效solver475拍P95 1.196ms、最大1.921ms。首异常停止的冻结执行行为为Stop，完整时间—拓扑收益尚不可判：**Modify方法，A25 Stop生产化保留**。不补相同终止样本、不改算法、不恢复angular handoff或新fallback。
+- [报告、可复现证据及未应用patch](r4_final_corridor_research.md)。仅待用户确认是否允许复用既有Nav2恢复后各5次同条件新样本；等待期间未改运行实现。完整原始证据约35MiB，main/原无关dirty不改，全部本地、不push。
 
 ## A25 — S2 安全—效率：授权支配验证Stop
 

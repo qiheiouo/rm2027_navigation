@@ -1,0 +1,211 @@
+{
+  "verdict": "Modify \u2014 WAIT/GO experiment truncated by first-error abort",
+  "r4_a24_byte_equal": true,
+  "shared_config_delta": {
+    "local_costmap.local_costmap.ros__parameters.inflation_layer.inflation_radius": [
+      0.5,
+      0.6
+    ]
+  },
+  "trial_config_errors": [],
+  "endpoints": [
+    {
+      "run": "S3_R4_103",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S0_R4_02",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S0_B0_02",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_202",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_R4_105",
+      "unique_output": true,
+      "cleanup_minus11": false
+    },
+    {
+      "run": "S0_B0_01",
+      "unique_output": false,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_R4_104",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_R4_101",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_104",
+      "unique_output": true,
+      "cleanup_minus11": false
+    },
+    {
+      "run": "S3_B0_102",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_105",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_103",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_R4_102",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S0_R4_01",
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_101",
+      "unique_output": true,
+      "cleanup_minus11": true
+    }
+  ],
+  "pairs": [
+    {
+      "repeat": 101,
+      "baseline": "S3_B0_101",
+      "r4": "S3_R4_101",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": null,
+      "actor_position_delta_m": {
+        "n": 45,
+        "min": 3.7073220207073376e-06,
+        "p50": 4.012807043252131e-05,
+        "p95": 0.00019848991007909153,
+        "max": 0.0002294606297283952
+      },
+      "actor_velocity_delta_mps": {
+        "n": 45,
+        "min": 7.40719907632581e-07,
+        "p50": 0.00015638241641524608,
+        "p95": 0.0005358902059620085,
+        "max": 0.0006890522530600407
+      },
+      "robot_start_delta_m": 0.0
+    },
+    {
+      "repeat": 102,
+      "baseline": "S3_B0_202",
+      "r4": "S3_R4_102",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": null,
+      "actor_position_delta_m": {
+        "n": 45,
+        "min": 2.0382078538272452e-06,
+        "p50": 4.2214247442773356e-05,
+        "p95": 0.00037139348612266185,
+        "max": 0.0004109119582580423
+      },
+      "actor_velocity_delta_mps": {
+        "n": 45,
+        "min": 7.40719907632581e-07,
+        "p50": 0.0001288817573597001,
+        "p95": 0.0004984626465567298,
+        "max": 0.002232294799404677
+      },
+      "robot_start_delta_m": 0.0
+    },
+    {
+      "repeat": 103,
+      "baseline": "S3_B0_103",
+      "r4": "S3_R4_103",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": null,
+      "actor_position_delta_m": {
+        "n": 42,
+        "min": 1.0631835158925185e-06,
+        "p50": 3.196972474450721e-05,
+        "p95": 0.00011864678672819369,
+        "max": 0.000130078476069162
+      },
+      "actor_velocity_delta_mps": {
+        "n": 42,
+        "min": 4.938132747156487e-07,
+        "p50": 0.00011174490037513252,
+        "p95": 0.0004194931269615454,
+        "max": 0.0005582124535347122
+      },
+      "robot_start_delta_m": 0.0
+    },
+    {
+      "repeat": 104,
+      "baseline": "S3_B0_104",
+      "r4": "S3_R4_104",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": null,
+      "actor_position_delta_m": {
+        "n": 42,
+        "min": 0.0,
+        "p50": 2.4867050102794774e-05,
+        "p95": 0.00015862024170545385,
+        "max": 0.00018070023224669995
+      },
+      "actor_velocity_delta_mps": {
+        "n": 42,
+        "min": 0.0,
+        "p50": 8.178837292704966e-05,
+        "p95": 0.00033746389681132966,
+        "max": 0.0010253433122042743
+      },
+      "robot_start_delta_m": 0.0
+    },
+    {
+      "repeat": 105,
+      "baseline": "S3_B0_105",
+      "r4": "S3_R4_105",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": null,
+      "actor_position_delta_m": {
+        "n": 45,
+        "min": 2.609441380752031e-07,
+        "p50": 2.609885847415505e-05,
+        "p95": 8.283133451110203e-05,
+        "max": 8.88342032987488e-05
+      },
+      "actor_velocity_delta_mps": {
+        "n": 45,
+        "min": 2.4690663735782437e-07,
+        "p50": 7.911236461377591e-05,
+        "p95": 0.0003180047465853872,
+        "max": 0.00035424478312062746
+      },
+      "robot_start_delta_m": 0.0
+    }
+  ],
+  "methodology": "First-native-error abort cohort: original wrapper permanently latches exceptions and recorder ends on first error. Existing Nav2 retry/recovery and passage after release are not observed; do not infer a general prediction-theory verdict.",
+  "scope": "Current frozen Research runtime only; final recovery-enabled comparison is separately subject to user approval.",
+  "n_per_mode": 5,
+  "r4_over_baseline_arrival_ratio": null,
+  "r4_faster_pairs": 0,
+  "efficiency_go_candidate": false,
+  "safety_go_candidate": false,
+  "extension_informative": false,
+  "r4_safety_comparable": false,
+  "reason": "No R4 Go established. All R4 trials end on native delegation before release; reuse of existing Nav2 recovery needs user approval. More samples of this abort behavior cannot resolve WAIT/GO value.",
+  "frozen_runtime_verdict": "Stop"
+}

@@ -1,0 +1,98 @@
+--- a/experiments/r4_gazebo_comparison/controller.cpp
++++ b/experiments/r4_gazebo_comparison/controller.cpp
+@@ -12,6 +12,7 @@
+ #include <mutex>
+ #include <cmath>
+ #include <algorithm>
++#include <cstdlib>
+ #include <deque>
+ namespace r4_gazebo_comparison {
+ namespace v=rm_r4_prediction_consumption;
+@@ -22,6 +23,8 @@
+  void configure(const rclcpp_lifecycle::LifecycleNode::WeakPtr & parent,std::string name,
+   std::shared_ptr<tf2_ros::Buffer> tf,std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap) override {
+   node_=parent.lock();name_=name;tf_=tf;
++  const auto recovery=std::getenv("R4_RESEARCH_NATIVE_RECOVERY");
++  research_native_recovery_=recovery && std::string(recovery)=="1";
+   loader_=std::make_unique<pluginlib::ClassLoader<nav2_core::Controller>>("nav2_core","nav2_core::Controller");
+   native_=loader_->createSharedInstance("nav2_mppi_controller::MPPIController");native_->configure(parent,name,tf,costmap);
+   if(!node_->has_parameter(name+".research_mode")) node_->declare_parameter(name+".research_mode",std::string{});
+@@ -85,7 +88,9 @@
+    const auto world=result.proposal->world_velocity;command.twist.linear.x=c*world.x+s*world.y;command.twist.linear.y=-s*world.x+c*world.y;
+    write(epoch,true,result.reason,native_ms,result,pose,world,command,envelope->tracks.size(),sent,ns);return command;
+   } catch(const std::exception & e) {
+-   failed_=true;std_msgs::msg::String message;message.data=e.what();failure_->publish(message);
++   const bool native_unavailable=std::string(e.what())=="Optimizer fail to compute path";
++   if (!(research_native_recovery_ && native_unavailable)) failed_=true;
++   std_msgs::msg::String message;message.data=e.what();failure_->publish(message);
+    write(epoch,false,e.what(),native_ms,result,pose,{},command,0,0,0);log_.flush();throw;
+   }
+  }
+@@ -104,7 +109,7 @@
+  std::deque<nav_msgs::msg::Odometry::ConstSharedPtr> odoms_;nav_msgs::msg::OccupancyGrid::ConstSharedPtr map_;
+  rm_r4_interfaces::msg::ObservedPredictionEnvelope::ConstSharedPtr envelope_;nav_msgs::msg::Path path_;geometry_msgs::msg::Twist output_;int64_t output_ns_{};
+  v::BodyPolicy body_;v::FollowLimits limits_;v::ReceiptGate gate_;v::WorldFollowAdapter solver_;std::optional<v::PreparedCorridor> route_;
+- uint64_t sequence_{},revision_{},prepared_{};bool failed_{};
++ uint64_t sequence_{},revision_{},prepared_{};bool failed_{};bool research_native_recovery_{};
+ };
+ }
+ PLUGINLIB_EXPORT_CLASS(r4_gazebo_comparison::Controller,nav2_core::Controller)
+--- a/experiments/r4_gazebo_comparison/record.py
++++ b/experiments/r4_gazebo_comparison/record.py
+@@ -1,5 +1,5 @@
+ """Inputs/commands and independent oracle recording; never control with oracle."""
+-import collections,csv,json,math,pathlib,sys,time
++import collections,csv,json,math,os,pathlib,sys,time
+ import rclpy
+ from rclpy.node import Node
+ from rclpy.action import ActionClient
+@@ -26,6 +26,8 @@
+ scenario_file=out.parent.parent/'assets/scenario.json'
+ scenario=json.loads(scenario_file.read_text()) if scenario_file.exists() else {}
+ motion=scenario.get('motion',{}).get(scene)
++native_recovery=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1'
++native_errors=[]
+ node=Node('r4_comparison_recorder',parameter_overrides=[Parameter('use_sim_time',value=True)])
+ latest={};ring=collections.deque(maxlen=150);events=[];truth={};positions={};contacts=[];contact_seen=0;failure=None;goal_ns=None;result_future=None;handle=None;finished=None
+ streams={name:(out/name).open('w') for name in ('truth.jsonl','odometry.csv','commands.csv','prediction.jsonl','costmap.csv')}
+@@ -84,6 +86,9 @@
+  if robot: contacts.append(dict(source_ns=ns(m.header.stamp),receipt_ns=now(),pairs=robot));event('actor_contact',pairs=robot)
+ def on_failure(m):
+  global failure
++ if goal_ns is not None and native_recovery and m.data=='Optimizer fail to compute path':
++  if not native_errors: (out/'first_native_failure_inputs.json').write_text(json.dumps(list(ring),separators=(',',':'))+'\n')
++  native_errors.append(dict(ROS_ns=now(),reason=m.data));event('native_mppi_unavailable',reason=m.data);return
+  if goal_ns is not None and failure is None: failure=m.data;event('controller_failure',reason=m.data)
+ node.create_subscription(Odometry,'/odometry/lio',on_odom,qos_profile_sensor_data)
+ node.create_subscription(LaserScan,'/scan',on_scan,qos_profile_sensor_data)
+@@ -125,7 +130,7 @@
+ finally:
+  result=result_future.result().status if result_future is not None and result_future.done() else None
+  if finished!='goal_result' or result!=4: (out/'first_failure_inputs.json').write_text(json.dumps(list(ring),separators=(',',':'))+'\n')
+- (out/'events.json').write_text(json.dumps(dict(scene=scene,mode=mode,events=events,goal_ns=goal_ns,end_ns=now(),result_status=result,finished=finished,controller_failure=failure,contacts=contacts,contact_seen=contact_seen,contacts_publishers=node.count_publishers('/simulation/oracle/contacts'),latest=latest),indent=2)+'\n')
++ (out/'events.json').write_text(json.dumps(dict(scene=scene,mode=mode,events=events,goal_ns=goal_ns,end_ns=now(),result_status=result,finished=finished,controller_failure=failure,native_mppi_errors=native_errors,native_recovery_enabled=native_recovery,contacts=contacts,contact_seen=contact_seen,contacts_publishers=node.count_publishers('/simulation/oracle/contacts'),latest=latest),indent=2)+'\n')
+  if handle is not None and result is None: handle.cancel_goal_async()
+  for _ in range(20): rclpy.spin_once(node,timeout_sec=.01)
+  for stream in streams.values(): stream.close()
+--- a/experiments/r4_gazebo_comparison/run.sh
++++ b/experiments/r4_gazebo_comparison/run.sh
+@@ -9,7 +9,7 @@
+ docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --ulimit core=0 --user 1000:1000 --shm-size 512m --tmpfs /tmp:rw --tmpfs /home/rmnav:rw,uid=1000,gid=1000 \
+  -v /home/qihei/rm2027_navigation:/home/qihei/rm2027_navigation:ro -v "$R4_COMP_OUT:/check:rw" \
+- -w "$R4_COMP_ROOT" -e R4_COMP_MODE="$R4_COMP_MODE" -e R4_COMP_PROFILE="$R4_COMP_PROFILE" -e ROS_DOMAIN_ID=153 -e ROS_LOCALHOST_ONLY=1 \
++ -w "$R4_COMP_ROOT" -e R4_RESEARCH_NATIVE_RECOVERY="${R4_RESEARCH_NATIVE_RECOVERY:-0}" -e R4_COMP_MODE="$R4_COMP_MODE" -e R4_COMP_PROFILE="$R4_COMP_PROFILE" -e ROS_DOMAIN_ID=153 -e ROS_LOCALHOST_ONLY=1 \
+  -e IGN_PARTITION=r4_finite_closed_loop_20261006 -e IGN_IP=127.0.0.1 -e LIBGL_ALWAYS_SOFTWARE=true \
+  sha256:81b325bebf2f631d2f70ca72914873e0fee6df5b87977750cac17228def171c3 bash -c '
+ set -e
+--- a/experiments/r4_gazebo_comparison/run_trial.py
++++ b/experiments/r4_gazebo_comparison/run_trial.py
+@@ -8,7 +8,7 @@
+ config=yaml.safe_load(config_path.read_text());parameters=config['controller_server']['ros__parameters']['FollowPath']
+ parameters.update(research_mode=mode,research_log=str(out/'control.csv'));(out/'nav2.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
+ command=['ros2','launch',str(root/'experiments/r4_gazebo_comparison/comparison.launch.py'),'enabled:=true',f'scene:={scene}',f'seed:={repeat}',f'output:={out}']
+-(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,phase='calibration' if profile.startswith('calibration_') else 'finite' if repeat>=100 else 'pilot',launch=command,baseline='ccd3eac4',gazebo_seed=None,native_noise_seed=None),indent=2)+'\n')
++(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,native_recovery_enabled=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1',phase='calibration' if profile.startswith('calibration_') else 'finite' if repeat>=100 else 'pilot',launch=command,baseline='ccd3eac4',gazebo_seed=None,native_noise_seed=None),indent=2)+'\n')
+ if pathlib.Path('/check/assets/scenario.json').exists():
+  for source,target in [(f'{scene}.sdf','scene.sdf'),('scenario.json','scenario.json'),('empty.pgm','empty.pgm'),('map.yaml','map.yaml')]:shutil.copy2(pathlib.Path('/check/assets')/source,out/target)
+ processes=[];streams=[];status=1

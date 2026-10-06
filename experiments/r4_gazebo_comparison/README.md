@@ -97,7 +97,7 @@ python3 experiments/r4_gazebo_comparison/pareto_plot.py build/r4_pareto_comparis
 
 ## A26 最后一轮：即将开放的单通道
 
-[新假设与预登记协议](../../docs/dynamic_navigation/r4_final_corridor_research.md)。仅增加1.4m宽封闭通道/盲支路及持续CV横穿障碍的场景，保持A24 R4与原controller二进制；baseline从A25固定设置对齐vx_max=.5，使两组速度限制相同。未来运动脚本不送入预测/控制器。记录器只扩展场景运动及plan观察，分析器接受新scene；没有新增正式接口或输出owner。
+[新假设、预登记与结果](../../docs/dynamic_navigation/r4_final_corridor_research.md)。初始1.4m宽封闭通道/盲支路及持续CV横穿障碍，保持A24 R4与原controller二进制；baseline从A25固定设置对齐vx_max=.5，使两组速度限制相同。未来运动脚本不送入预测/控制器。记录器只扩展场景运动及plan观察，分析器接受新scene；没有新增正式接口或输出owner。
 
 ```bash
 python3 experiments/r4_gazebo_comparison/corridor.py prepare build/r4_corridor_comparison_20261006
@@ -108,3 +108,14 @@ python3 experiments/r4_gazebo_comparison/corridor.py batch build/r4_corridor_com
 空通道各1次preflight先证明fixture可行，正式S3各5次、新实例交替先后。首次任务失败保留并分类后才能完成剩余样本，不调参救结果；只在能改变判决时补至10。没有明确、可重复、简单reactive设置难以替代的优势，就Stop并冻结当前low-level prediction-consumption路线。原A25 Stop不撤回，A26是用户明确授权的新假设最后一次Research。
 
 初始1.4m有效场景被冻结Sfc的raw-static检查拒绝，尚未调用solver，失败与原场景保留；在动态trial之前以`corridor.py amend_fixture`显式修订一次为2.1m单通道及1m宽动态机器人，仍有短暂真实阻塞。重新preflight两组后才开始正式样本；不改R4、不再因算法失败改场景。每次试验保存实际scene/map；纯观察器按新SDF尺寸扩展旧oracle的actor投影，ego及距离定义不变。[完整修订原因](../../docs/dynamic_navigation/r4_final_corridor_research.md)。
+
+此次实际复现顺序是在初始preflight失败留证后执行`amend_fixture`、重新`preflight`，再运行`batch ... 5`。任务失败被分类后只续跑固定schedule剩余样本；原始目录的`continue_classified.py`保存具体续跑过程。发goal前地图lifecycle超时的`S3_B0_102`单列，`replacement_runs.json`把同条件`S3_B0_202`映射到第102对；已经启动目标的失败均计入5次分母。
+
+已完成结果：baseline 0/5成功，3次contact、2次native MPPI异常；R4 0/5成功、零contact、5次native异常，净空中位.33799m。所有trial在开放前结束，完整到达/通过/恢复未观测。原wrapper首异常永久锁存，记录器立即终止，未运行Nav2原恢复流程。**价值判定Modify；冻结首异常终止执行行为Stop；A25 Stop生产化不撤回。**更多同类提前终止样本无法补齐核心WAIT/GO信息。
+
+[紧凑证据](evidence_corridor/)保存失败、初始/修订场景、实际公平性与指标；原输入/真值/日志约35MiB仍在build。`native_recovery_proposal.patch`仅是等待用户确认的未应用方案：默认旧行为，显式开关下允许原Nav2处理native异常，首次异常仍留证，无新fallback/owner。该patch未编译、未运行，不能自动作为新的复现默认。
+
+```bash
+python3 experiments/r4_gazebo_comparison/corridor_analyze.py build/r4_corridor_comparison_20261006
+python3 experiments/r4_gazebo_comparison/corridor_plot.py build/r4_corridor_comparison_20261006
+```
