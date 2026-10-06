@@ -71,9 +71,43 @@ if command=='prepare':
             limit.find('lower').text='-1.6';limit.find('upper').text='1.6'
         tree.write(assets/f'{scene}.sdf',encoding='utf-8',xml_declaration=True)
     (out/'protocol.json').write_text(json.dumps(dict(stage='A26 last Research',base_commit='89f9035b',algorithm_commit='ccd3eac4',primary_scene='S3',optional_variant='S4 .45m/s only if a repeatable primary Go needs robustness information',n_initial=5,n_max=10,preflight='one empty corridor trial per mode, no parameter tuning',baseline_from='A25 .60m/factor6; only vx_max .32 to .5 for same limits',r4_a24_unchanged=True,shared_speed_limits=True,first_failure='preserve and classify before completing remaining planned samples; never replace a task failure',go_efficiency='R4 median arrival >=10% faster with >=4/5 or 8/10 paired wins, no worse success/contact and no >.05m median or worst dynamic-clearance loss; temporal opening visible in received CV and response',go_safety='R4 all success/zero contact with >=2/5 or 4/10 repeated baseline task failures or contact, without >10% arrival penalty; requires a fair fixture and causal evidence',reactive_challenge='Only on apparent Go: existing A24 radius .50/factor6 baseline at identical limits, five fixed new samples; if it removes advantage, Stop. No search.',extension='Only n5 close (<10% median arrival difference) or inconsistent paired/safety signals that could change Go/Stop; unchanged profiles to n10',stop='No explicit reproducible independent advantage: freeze current low-level prediction-consumption route; no production plumbing',raw_limit_mib=100),indent=2)+'\n')
+elif command=='amend_fixture':
+    assert not (out/'schedule.json').exists() and not (out/'fixture_amendment.json').exists()
+    assets=out/'assets';previous=out/'fixture_initial';previous.mkdir()
+    for name in ('S0.sdf','S3.sdf','S4.sdf','empty.pgm','map.yaml','scenario.json'):shutil.copy2(assets/name,previous/name)
+    for directory in (out/'runs').iterdir():
+        manifest=json.loads((directory/'manifest.json').read_text())
+        for source,target in [(f"{manifest['scene']}.sdf",'scene.sdf'),('scenario.json','scenario.json'),('empty.pgm','empty.pgm'),('map.yaml','map.yaml')]:shutil.copy2(previous/source,directory/target)
+    walls=[]
+    for a,b in ((-1.2,1.5),(2.5,5.2)):walls.extend([[a,b,1.05,1.25],[a,b,-1.25,-1.05]])
+    walls.extend([[-1.2,-1.,-1.25,1.25],[5.,5.2,-1.25,1.25]])
+    for a,b in ((-2.2,-1.25),(1.25,2.2)):walls.extend([[1.3,1.5,a,b],[2.5,2.7,a,b]])
+    walls.extend([[1.3,2.7,-2.2,-2.],[1.3,2.7,2.,2.2]])
+    specification=json.loads((assets/'scenario.json').read_text());specification.update(fixture_version=2,corridor_width_m=2.1,walls=walls,actor_size=[.45,1.,.8])
+    (assets/'scenario.json').write_text(json.dumps(specification,indent=2)+'\n')
+    raster=bytearray()
+    for row in range(159,-1,-1):
+        y=-4.+(row+.5)*.05
+        for col in range(240):
+            x=-2.+(col+.5)*.05;free=(-1.<x<5. and -1.05<y<1.05) or (1.5<x<2.5 and -2.<y<2.)
+            raster.append(254 if free else 0)
+    (assets/'empty.pgm').write_bytes(b'P5\n240 160\n255\n'+raster)
+    ET.register_namespace('ignition','http://ignitionrobotics.org/schema')
+    for scene in ('S0','S3','S4'):
+        tree=ET.parse(previous/f'{scene}.sdf');world=tree.getroot().find('world')
+        for index,(a,b,c,d) in enumerate(walls):
+            m=world.find(f"model[@name='corridor_wall_{index}']");m.find('pose').text=f'{(a+b)/2} {(c+d)/2} .5 0 0 0'
+            for size in m.findall('.//box/size'):size.text=f'{b-a} {d-c} 1'
+        if scene!='S0':
+            for size in world.find("model[@name='moving_obstacle']").findall('.//box/size'):size.text='.45 1.0 .8'
+        tree.write(assets/f'{scene}.sdf',encoding='utf-8',xml_declaration=True)
+    amendment=dict(reason='Valid 1.4m scene rejected before solver by frozen Sfc raw-static certificate; direct unchanged-provider probe reproduces occupied rows in returned rectangle. Test temporal hypothesis in an admissible single-channel fixture without changing R4.',before_formal_trials=True,original_preserved=True,width_before=1.4,width_after=2.1,actor_before=[.45,.55,.8],actor_after=[.45,1.,.8],motion_unchanged=True,r4_unchanged=True,baseline_unchanged=True,no_more_scene_adjustment_for_algorithm_failures=True)
+    (out/'fixture_amendment.json').write_text(json.dumps(amendment,indent=2)+'\n')
+    (out/'failure_classifications.json').write_text(json.dumps({'S0_R4_01':dict(classification='frozen_static_frontend_rejection',reason='Sfc rectangle lacks raw-static support',solver_called=False,original_geometry_valid=True,not_prediction_failure=True,evidence=['frontend_probe_original.json','runs/S0_R4_01/first_failure_inputs.json'],continued_with='one explicitly recorded single-channel scene revision, before formal trials')},indent=2)+'\n')
 elif command=='preflight':
     assert not (out/'schedule.json').exists()
-    for mode in ('B0','R4'): run('S0',mode,1)
+    repeat=json.loads((out/'assets/scenario.json').read_text()).get('fixture_version',1)
+    for mode in ('B0','R4'):assert run('S0',mode,repeat)['success'],'empty fixture must pass both modes'
     (out/'preflight_pass.json').write_text(json.dumps(dict(empty_both_pass=True,parameters_changed=False))+'\n')
 elif command=='batch':
     assert (out/'preflight_pass.json').exists(),'fair-fixture empty pass required'

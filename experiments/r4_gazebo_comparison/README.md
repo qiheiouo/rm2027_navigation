@@ -106,3 +106,5 @@ python3 experiments/r4_gazebo_comparison/corridor.py batch build/r4_corridor_com
 ```
 
 空通道各1次preflight先证明fixture可行，正式S3各5次、新实例交替先后。首次任务失败保留并分类后才能完成剩余样本，不调参救结果；只在能改变判决时补至10。没有明确、可重复、简单reactive设置难以替代的优势，就Stop并冻结当前low-level prediction-consumption路线。原A25 Stop不撤回，A26是用户明确授权的新假设最后一次Research。
+
+初始1.4m有效场景被冻结Sfc的raw-static检查拒绝，尚未调用solver，失败与原场景保留；在动态trial之前以`corridor.py amend_fixture`显式修订一次为2.1m单通道及1m宽动态机器人，仍有短暂真实阻塞。重新preflight两组后才开始正式样本；不改R4、不再因算法失败改场景。每次试验保存实际scene/map；纯观察器按新SDF尺寸扩展旧oracle的actor投影，ego及距离定义不变。[完整修订原因](../../docs/dynamic_navigation/r4_final_corridor_research.md)。

@@ -18,7 +18,8 @@ from rm_r4_interfaces.msg import ObservedPredictionEnvelope
 # Read-only reuse of independent physical observer; no R3 controller or launch.
 frozen=pathlib.Path('/home/qihei/rm2027_navigation/build/temporal_mpc_main_20261004/experiments/temporal_mpc')
 sys.path[:0]=[str(frozen),str(frozen/'gazebo')]
-from audit_run import physical_projection,polygon_distance
+from audit_run import physical_projection,polygon_distance,hull
+import numpy as np
 
 def ns(stamp): return stamp.sec*10**9+stamp.nanosec
 scene,mode=sys.argv[1:3];out=pathlib.Path(sys.argv[3]);rclpy.init()
@@ -57,6 +58,9 @@ def on_plan(m):
 def on_truth(model,m):
  try:
   source,polygon,p,r=physical_projection(plain(m),model,'base_link' if model=='rm_sentry_2027' else 'obstacle_link')
+  if model=='moving_obstacle' and 'actor_size' in scenario:
+   sx,sy,sz=scenario['actor_size']
+   polygon=hull([(p+r@np.array([x,y,z]))[:2] for x in (-sx/2,sx/2) for y in (-sy/2,sy/2) for z in (-sz/2,sz/2)])
   latest[model]=source;truth.setdefault(source,{})[model]=polygon;positions[model]=p.tolist()
   streams['truth.jsonl'].write(json.dumps(dict(model=model,source_ns=source,polygon=polygon,position=p.tolist(),rotation=r.tolist()),separators=(',',':'))+'\n')
   if len(truth)>400: truth.pop(next(iter(truth)))
