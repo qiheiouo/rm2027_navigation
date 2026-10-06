@@ -61,6 +61,23 @@ elif command=='calibrate_radius':
             print('frozen immediately on target clearance',flush=True);break
         radius=.65 if median<.28 else .55
     else: print('Modify: bounded radius amendment did not reach target; stop calibration',flush=True)
+elif command=='validate_calibration':
+    assert not (out/'freeze.json').exists(),'already frozen'
+    reports=json.loads((out/'calibration.json').read_text());assert len(reports)==6
+    last=reports[-1];assert .26<=last['median_clearance_m']<=.34 and min(last['clearance_m'])<=.32 and max(last['clearance_m'])>=.28
+    assert not (out/'sampling_amendment.json').exists(),'only one fixed two-sample confirmation'
+    (out/'sampling_amendment.json').write_text(json.dumps(dict(reason='Closest fixed candidate has a three-run median near the target and observed range intersects it; add information without changing any parameter.',candidate=6,extra_repeats=[19,20],final_calibration_n=5,parameter_changed=False,all_original_samples_retained=True,no_further_sampling_if_target_missed=True),indent=2)+'\n')
+    shutil.copy2(out/'calibration.json',out/'calibration_before_confirmation.json')
+    results=[run(repeat,'B0',last['profile']) for repeat in (19,20)]
+    last['clearance_m'].extend(r['min_dynamic_clearance_m'] for r in results);last['runs'].extend(r['run'] for r in results)
+    last['initial_three_run_median_m']=last['median_clearance_m'];last['median_clearance_m']=statistics.median(last['clearance_m'])
+    (out/'calibration.json').write_text(json.dumps(reports,indent=2)+'\n')
+    print('fixed candidate five-run clearance median',last['median_clearance_m'],flush=True)
+    if .28<=last['median_clearance_m']<=.32:
+        shutil.copy2(out/f"assets/{last['profile']}_B0_nav2.yaml",out/'assets/pareto_B0_nav2.yaml')
+        (out/'freeze.json').write_text(json.dumps(last,indent=2)+'\n')
+        print('frozen immediately on confirmed target',flush=True)
+    else: print('Modify: fixed confirmation did not reach target; calibration stopped',flush=True)
 elif command=='batch':
     assert (out/'freeze.json').exists(),'clearance target must be frozen first'
     count=int(sys.argv[3]) if len(sys.argv)>3 else 5;assert count in (5,10)
