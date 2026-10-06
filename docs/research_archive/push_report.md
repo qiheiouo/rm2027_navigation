@@ -86,4 +86,4 @@
 
 R4结论保持：A25开放S2中调优STVL+MPPI安全—效率支配当前R4；A26 R4 5/5安全gate通过、零contact，但仅2/5完整goal成功，baseline 0/5成功/5/5contact。保留WAIT→GO信号，仍Stop当前low-level生产化路线，不概括预测无用或宣称R4整体优于MPPI。
 
-本轮代理停止远端写入。用户随后授权选择调整Gitee配额、完整保存原历史，已准备[容量处理与手动续传方案](quota_resolution.md)、18项固定SHA清单及工具。配额生效后由用户手动认证执行；在远端核实前仍不将剩余历史标注为已上传。没有重写历史、迁移LFS、删除证据或代理重试。
+本轮代理停止远端写入。用户随后确认无法调整Gitee额度，[扩配额分析](quota_resolution.md)已暂停，当前已准备[发行版附件保存完整原历史](release_history_archive.md)及手动工具：仅小型索引走Git，剩余完整历史走可恢复bundle附件。附件账号配额尚未实测，未创建发行版或上传；原16个分支tip/1个tag仍不能标注为已直接push。没有重写历史、迁移LFS、删除证据或代理重试。

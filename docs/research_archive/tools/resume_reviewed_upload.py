@@ -62,31 +62,38 @@ def confirm_number(value, prompt):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--archive-commit', required=True)
-    parser.add_argument('--scope', choices=['bounded', 'full'], default='bounded')
+    parser.add_argument('--scope', choices=['index', 'bounded', 'full'], default='bounded')
     parser.add_argument('--execute', action='store_true')
     parser.add_argument('--free-mb', type=float, help='Confirmed current available repository capacity in MB')
     parser.add_argument('--single-file-mb', type=float, help='Confirmed current single-file limit in MB; required for full scope')
     args = parser.parse_args()
     plan = validate_pin(args.archive_commit)
-    jobs = [{'ref': plan['archive_ref'], 'oid': args.archive_commit}] + plan['bounded_jobs']
+    jobs = [{'ref': plan['archive_ref'], 'oid': args.archive_commit}]
+    if args.scope != 'index':
+        jobs += plan['bounded_jobs']
     if args.scope == 'full':
         jobs += plan['full_extra_jobs']
-    assert len(jobs) == (10 if args.scope == 'bounded' else 18)
+    assert len(jobs) == {'index': 1, 'bounded': 10, 'full': 18}[args.scope]
     for job in jobs:
         if job['ref'] == 'refs/heads/main' or git_read('rev-parse', job['ref']) != job['oid']:
             raise RuntimeError('Reviewed local ref changed: ' + job['ref'])
     print('范围:', args.scope, '；审核 refs:', len(jobs), '；main 不在推送清单。')
     for job in jobs:
         print(job['oid'], job['ref'])
-    print('需先确认剩余空间至少 %d MB。仅 full 需单文件额度至少 200 MB。' % plan['minimum_confirmed_free_MB'][args.scope])
+    if args.scope == 'index':
+        print('仅归档管理文本更新；新增对象总量必须小于2MB。服务端若拒绝即停止。')
+    else:
+        print('需先确认剩余空间至少 %d MB。仅 full 需单文件额度至少 200 MB。' % plan['minimum_confirmed_free_MB'][args.scope])
     if not args.execute:
         print('仅预览；没有访问远端或执行 push。')
         return
     if not sys.stdin.isatty():
         raise RuntimeError('Run in your own interactive terminal for quota confirmation and authentication')
-    free_mb = confirm_number(args.free_mb, 'Gitee 管理页面当前剩余仓库空间（MB；GB保守按1000换算）: ')
-    if free_mb < plan['minimum_confirmed_free_MB'][args.scope]:
-        raise RuntimeError('Available capacity below the reviewed safety margin; no push attempted')
+    free_mb = None
+    if args.scope != 'index':
+        free_mb = confirm_number(args.free_mb, 'Gitee 管理页面当前剩余仓库空间（MB；GB保守按1000换算）: ')
+        if free_mb < plan['minimum_confirmed_free_MB'][args.scope]:
+            raise RuntimeError('Available capacity below the reviewed safety margin; no push attempted')
     single_mb = 100.0
     if args.scope == 'full':
         single_mb = confirm_number(args.single_file_mb, 'Gitee 已生效的单文件额度（MB）: ')
@@ -128,6 +135,8 @@ def main():
             save()
             if footprint['largest_blob_bytes'] > single_mb * 1000000:
                 raise RuntimeError('A pending blob exceeds the confirmed single-file quota')
+            if args.scope == 'index' and footprint['bytes'] > 2 * 1000000:
+                raise RuntimeError('Index-only update exceeded the reviewed 2 MB ceiling')
             if args.scope == 'bounded' and footprint['bytes'] > 84 * 1000000:
                 raise RuntimeError('Bounded object footprint exceeded the reviewed 84 MB ceiling')
             if args.scope == 'full' and footprint['bytes'] > 2160 * 1000000:
