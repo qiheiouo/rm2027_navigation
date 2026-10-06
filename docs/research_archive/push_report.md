@@ -11,7 +11,7 @@
 - R4/observed-surface新原始记录：3,324条路径，2,559个去重对象，原路径合计530.69MiB，唯一原内容509.72MiB，gzip114.08MiB；最大对象4.12MiB。
 - A23–A26共140个完整分析运行目录，包括所有正式样本、校准、pilot/前置失败；正式统计仍按原protocol/schedule划分，不混合cohort。
 - 31个历史分支的小型源码/结论/配置快照：40,449条路径引用，2,661个不同Git blob；去重后仅新增20.55MiB。它们是部分文件树快照，完整历史和大输入另见原分支；不宣称这份小快照足够复现全部原试次。
-- 合计数据对象约134.63MiB；索引/清单/快照映射/工具等另约8.85MiB。归档实际文件合计约143.48MiB（报告新增自身字节及Git对象存储另计）。**上传数据量0。**
+- 合计数据对象约134.63MiB；索引/清单/快照映射/工具等另约8.91MiB。归档实际文件合计约143.54MiB（报告新增自身字节及Git对象存储另计）。**上传数据量0。**
 - R3已有约212.8MiB的无损Git证据不重复复制，15份manifest的1,265项payload校验全部通过。
 - 新增本地R4冻结tag：`research/r4-hws-low-level-frozen-20261006`，target `bdb8b8d0`；未上传。
 
@@ -73,7 +73,7 @@ main只审计，不推送：本地 `2849cbe4` 保持不变，远端main仍为 `d
 - 部分R2历史含约2GiB级证据与143.4MiB单blob；保留原始历史，不为绕过远端限额改写。由于认证未通过，本轮没有试出该账户容量/单文件限制，也未确认Gitee LFS支持。
 - 有价值的primary observed-surface dirty/untracked：完整9文件+diff已在本地归档WIP备份；实际DDS/member/shape证据按原件保存。R4 rotation analyze.py dirty独立价值不明确，保持原工作区，仅记录，不自动提交/上传。
 - surface SDK 113MB级输入bin、原R1/R2/R3/R4完整ignored build、原SDK/devspace、源码/binary物理身份：原件全部保留本地。部分在既有Git无损包已有等价版本，不重复上传。小快照遗漏及排除记录可逐项查询。
-- 可再生build/install/log、.o/库/cache、完整第三方clone、Docker镜像、795MB core：不纳入新包，未删除。任何负面结果均不因为Stop而清理。
+- 另查三个原worktree中docs/experiments/src的ignored文件，均为Python缓存或CMake构建记录，明细见ignored_outside_build.json。可再生build/install/log、.o/库/cache、完整第三方clone、Docker镜像、795MB core：不纳入新包，未删除。任何负面结果均不因为Stop而清理。
 - 凭据检查：17,639个未推送unique Git blob及61个tar/gzip包，新增原始流、historical小快照、WIP和最终元数据均扫描，未发现需拦截的凭据；扫描为模式审计，范围和结果在credential_audit文件中。
 - 没有发现远端分叉冲突；远端写入认证失败已保留。容量未测试，不将其写成通过。
 
