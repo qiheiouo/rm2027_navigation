@@ -2,7 +2,7 @@
 
 本轮仅做资产保护、筛选、去重与 Gitee 归档，没有运行研究实验、编译或回归，没有修改冻结算法。归档分支 `archive/dynamic-navigation-evidence-20261006` 直接从本地 main `2849cbe4dba5cf7e6548ff3f67e72941c895eef9` 派生。main 的导航功能、配置及原有工作区保持原状。历史文档里的“下一步”和“未 push”描述按其记录时间理解；它们不是恢复研究的授权。
 
-**本轮新增上传为0：首次 R4 推送缺少 Gitee HTTPS 登录凭据，已停止所有远端写入。归档目前仅在本地，云端保护尚未完成。详细状态见 [推送记录](push_report.md)。** [branches.csv](branches.csv) 列出所有原本地分支、完整 commit、独有历史规模、筛选依据与最终远端状态；[git_audit.json](git_audit.json) 保存拓扑、tag、worktree 和独有提交清单。没有按分支名直接判定价值，没有使用 push-all、批量 tags、force、历史改写或删除旧资产。
+**用户手动认证后，19项已上传并只读核实：17个分支（含归档、R4、R3）及2个冻结tag。数据归档commit为 `ac197e4e`。第20项R2历史被Gitee仓库/单文件容量限制拒绝；剩余16个研究分支tip及1个冻结tag停止上传。当前阻塞是容量，不是认证。详细状态见 [推送记录](push_report.md)。** [branches.csv](branches.csv) 列出所有原本地分支、完整 commit、独有历史规模、筛选依据与最终远端状态；[git_audit.json](git_audit.json) 保存拓扑、tag、worktree 和独有提交清单。没有按分支名直接判定价值，没有使用 push-all、批量 tags、force、历史改写或删除旧资产。
 
 ## 方向与结论
 
@@ -21,7 +21,7 @@
 | T-DT 迁移、定位/重定位/TF/可靠性 | 已有规划迁移、gimbal/LIO动态TF、重定位后端、integrity 状态机及实车链路修复 | 已在 origin 的54项分支 tip及实际改动见 [remote_branch_inventory.json](remote_branch_inventory.json)，例如 `experiment/tdt-planner-phase2`、`feature/phase2j-relocalization-backends`、`feature/navigation-integrity` | 已有独立历史不重复造归档分支；保留各自阶段边界，不凭已上传宣称全部部署验收 |
 | 未提交 observed surface 成员取证 | 实际 DDS/TF/member provenance、预算与 corruption 核查，私有旁路默认关闭 | [WIP 快照](wip/observed_surface_members/snapshot.json)，原基点 `1229583f`；完整9文件与 tracked_changes.patch；组 `surface/*` | 精确 WIP 备份，未合并、未在本轮重新验证、不冒充正式功能；对观测形状输入真实性与论文材料有价值 |
 
-所有短 commit 均可在 branches.csv、git_audit.json 或相应研究分支日志解析为完整身份。R4最终新增本地冻结tag为 `research/r4-hws-low-level-frozen-20261006`，指向 `bdb8b8d0`，尚未上传。R4最终结论只适用于记录的仿真、感知、控制与 footprint 条件，未来真值未反馈给控制器。A26成功样本的到达时间不能代表3个失败样本，gate通过不替代Nav2 goal成功。
+所有短 commit 均可在 branches.csv、git_audit.json 或相应研究分支日志解析为完整身份。R4最终冻结tag `research/r4-hws-low-level-frozen-20261006` 已核实在远端，指向 `bdb8b8d0`。R4最终结论只适用于记录的仿真、感知、控制与 footprint 条件，未来真值未反馈给控制器。A26成功样本的到达时间不能代表3个失败样本，gate通过不替代Nav2 goal成功。
 
 ## 证据层级与去重
 
@@ -31,7 +31,7 @@
 - A23–A26保留140个原始运行目录（含校准、pilot、前置失败），每个都有 prediction、truth、command 三条完整分析流；正式样本集合仍由原protocol/schedule/summary确定，不把140当作正式样本数。
 - R3已有15份 manifest（覆盖9组核心证据），1,265项payload校验无缺失/无不符；见 [r3_existing_archives.json](r3_existing_archives.json)。不再复制其约212.8MiB既有 Git 包及可再生构建树。
 - 另外31个历史分支的源码/结论/配置小快照共40,449个路径引用、2,661个独有Git blob，以内容去重后仅新增20.55MiB。见 `historical_snapshots.json.gz`；它们是部分文件树备份，不能替代完整Git历史或原始大输入，遗漏清单为 `historical_snapshot_omissions.json.gz`。
-- R1/R2已有38个无损实验包索引见 [r1_r2_existing_archives.json](r1_r2_existing_archives.json)。原 Git 大文件不移除，不重写历史；若远端拒绝，推送记录必须明确标出未上传范围。
+- R1/R2已有38个无损实验包索引见 [r1_r2_existing_archives.json](r1_r2_existing_archives.json)。原 Git 大文件不移除、不重写历史。R2差分风险分支原始历史已因容量被拒绝，未上传范围见推送记录；其小型源码/结论/配置快照已随归档commit上云。
 - [local_only_exclusions.json](local_only_exclusions.json) 列出新收集范围排除的文件及理由；[ignored_directory_inventory.json](ignored_directory_inventory.json) 是忽略目录总盘点。排除不等于删除，所有原件仍留本地。
 
 ## 恢复与复现入口
@@ -50,3 +50,5 @@ python3 docs/research_archive/tools/restore_evidence.py /tmp/rm2027-restored --g
 ## 本地保留与保护
 
 原primary observed-shape dirty/untracked、R4 `experiments/r4_rotation_value/analyze.py` dirty及巨大core均保持原状。后者修改来源/独立价值不明确，仅在清单记录，不自动推送。main缺失/prunable的旧worktree登记不清理。没有stash。唯一reflog-only A15前驱与已引用 `13b81775` 基本等价；小差异保存在 `reflog_precursor_difference.patch`，不新建旧算法分支，不删除原对象。保护前后状态与dirty内容校验结果见最终推送记录。
+
+本地索引已按实际上传结果更新。远端归档分支仍为 `ac197e4e`，其中数据已保存，上传前的状态文字属历史记录；本次状态更新commit暂不推送，以免重复触发容量拒绝。没有重试第20项或另造绕过限制的历史。

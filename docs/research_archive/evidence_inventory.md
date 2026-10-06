@@ -14,6 +14,8 @@
 
 原A26首异常终止的10次与最终原Nav2恢复的10次是两个独立cohort；均包含原首次native异常证据，不能混合成功率。A25的20次校准与授权后的10次正式支配验证同样分开。新归档只是保存和去重，没有更改任何历史失败分类。
 
-31个历史分支的小型源码/结论/配置快照见 `historical_snapshots.json.gz`，恢复工具为 `tools/restore_historical_snapshot.py <branch> <destination>`。每个文件保留Git blob、SHA256与commit来源，只复制选定的≤1MiB文件；未保存完整树和大二进制，遗漏可查询对应gzip清单。目前全部新增资产均因HTTPS身份缺失只保存在本地。
+31个历史分支的小型源码/结论/配置快照见 `historical_snapshots.json.gz`，恢复工具为 `tools/restore_historical_snapshot.py <branch> <destination>`。每个文件保留Git blob、SHA256与commit来源，只复制选定的≤1MiB文件；未保存完整树和大二进制，遗漏可查询对应gzip清单。用户手动认证后，新增数据包及所有小快照均已随归档 `ac197e4e` 上传。部分R2完整Git历史与大输入因容量限制仍只在本地；不能用小快照冒充完整原始记录。
 
 三个原worktree的docs/experiments/src目录中Git忽略文件额外盘点见 `ignored_outside_build.json`；均为缓存或CMake构建记录，未纳入数据包。
+
+上传后真实refs与未上传范围见 `human_upload_verification.json`、`branches.csv` 和 `push_report.md`；原首次认证失败记录保留，不覆盖历史。
