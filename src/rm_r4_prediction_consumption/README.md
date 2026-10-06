@@ -55,6 +55,17 @@ unchanged and cannot consume this result implicitly. See
 [A21 frame audit](../../docs/dynamic_navigation/r4_world_xy_frame_audit.md) and
 [A22 current results and limits](../../docs/dynamic_navigation/r4_follow_endpoint_numerics.md).
 
+Research A23 runs this unchanged A22 library in a Gazebo-only experiment
+wrapper, sharing the existing Nav2/smoother/stub output with native MPPI. The
+wrapper replaces only XY and retains native angular delegation. Fifty valid
+trials complete: B0 succeeds 5/5, 9/10, 7/10 in S0/S1/S2; R4 succeeds all,
+with zero actor contact versus four B0 wheel contacts. R4 is slower by roughly
+44%, 45%, 77% in successful-run median arrival time, and S2 has small reversals.
+Speed and circle-support contributions are not isolated. Verdict: **Modify**,
+keep Research and pause production integration. See
+[A23 decision and evidence](../../docs/dynamic_navigation/r4_finite_closed_loop_comparison.md).
+No production host, owner, fallback or algorithm is changed by that experiment.
+
 Historical Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
 same original 45-variable Follow assembly and OSQP solve. It retains raw source
 state/stamps, derives a model pose at the prediction epoch with the existing
@@ -83,7 +94,7 @@ execution grant. Receipt and static geometry checks are not final output admissi
 shadow authority is not promoted. The source deadline is acquisition + 75ms in
 the local process, not a transferable clock or an execution guarantee. Existing
 host/owner integration, frame-aware current admission and native MPPI fallback
-wiring remain to be implemented.
+are outside this value library and remain paused pending the Research decision.
 
 See [A05 contracts and validation](../../docs/dynamic_navigation/r4_consumer_library.md)
 and [pinned source intake](../../docs/dynamic_navigation/r4_consumer_library_sources.json).

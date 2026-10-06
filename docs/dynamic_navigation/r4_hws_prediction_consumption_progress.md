@@ -2,13 +2,20 @@
 
 2026-10-04 建立，2026-10-06 更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A22 world-XY末端数值修复与64位时序复验完成。Go 保留等价约束消冗余和原OSQP单次严格精修；Modify 继续Research效果对照；ROS/Nav2实际输出接线仍暂停。**
+状态：**A23有限同条件Gazebo闭环完成，判决Modify。当前R4配置有重复的安全/完成率收益，但明显更慢且速度/circle差异未消融；保留Research，不进入生产化接线。**
 
 A08/A19原值为body XY；world-held XY的未来位置不需要未来yaw。按用户的新全向底盘事实，新增同一45变量内核的显式world值包装，保守圆、raw非零wz不改，不发布angular零命令，不建立第二导航链。当前legacy base_link输出协议未表达world语义，留原owner内最小frame适配，不作为wz归零门。
 
 原S1/S2动态窗口40/40、160/160；S2有36拍可辨提前减速（A21为38），首时刻仍goal+2.644s。修正时序后的理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m；三个反馈条件都到达5cm XY标准。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
 
-下一最小判定：与既有STVL+MPPI在相同场景/反馈条件下做有限效果对照，不以提案覆盖替代闭环优势。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。[A22当前结果与限制](r4_follow_endpoint_numerics.md) 及[A21 frame/reuse audit与最小接线](r4_world_xy_frame_audit.md) 是当前入口。
+当前入口：[A23闭环结果/Modify与限制](r4_finite_closed_loop_comparison.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。下一最小判定为匹配Baseline实测空场速度/到达时间与有效circle支持后的动态对照；本轮停在判决，不自动展开下一轮。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。A22/A21数值与frame记录保留为历史基线。
+
+## A23 — 有限同条件Gazebo闭环：Modify
+
+- 基线：`ccd3eac4`消费算法不变；两组共用main left-STVL派生20Hz profile、地图/goal/物理模型/实际障碍轨迹、Nav2原lifecycle/action/GoalChecker/smoother和原唯一Gazebo输出。仅experiment薄wrapper，B0委托native MPPI，R4替换world XY并保留native angular；无生产owner/lease/fallback、新solver或旋转扩展。
+- 实验：50个有效trial，S0各5、S1/S2各10；另6个pilot与1次未发goal的启动失败保留单列。首失败先留证分类，只有pilot取样顺序/源时刻TF适配修正，没有调参救结果。
+- 结果：S0两组5/5；S1 B0 9/10、R4 10/10；S2 B0 7/10、R4 10/10。B0四次真实轮端contact，R4零contact；R4 S1/S2最小sampled净空至少.294/.249m。到达p50：B0 8.678/9.717/10.128s，R4 12.531/14.118/17.963s。
+- 限制/判决：R4 S2 WAIT中位3.12s，clear时已前进；6/10有2次轻微反向，最大回退4.06cm。7679/7679消费有效，solver P95≤1.527ms。当前配置安全收益明确，速度/circle/共同20Hz周期与native angular依赖尚未分离，生产化暂停；最小下一判定服务于因果和代价，不补输出工程。全部留本地、不push，main/A22源码及原无关dirty不改。
 
 ## A22 — world入口的等价约束与严格数值精修
 

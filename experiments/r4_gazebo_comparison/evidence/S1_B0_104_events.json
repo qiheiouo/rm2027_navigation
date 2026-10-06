@@ -1,0 +1,74 @@
+{
+  "scene": "S1",
+  "mode": "B0",
+  "events": [
+    {
+      "kind": "goal_accepted",
+      "ROS_ns": 4003000000,
+      "wall_ns": 91612266403490,
+      "latest": {
+        "map": 1,
+        "scan": 3961000000,
+        "odom": 4000000000,
+        "rm_sentry_2027": 4000000000,
+        "moving_obstacle": 4000000000,
+        "prediction": 3895000000,
+        "command": 4000000000
+      }
+    },
+    {
+      "kind": "obstacle_motion_start",
+      "ROS_ns": 5003000000,
+      "wall_ns": 91613265260105
+    },
+    {
+      "kind": "crossed_or_hold",
+      "ROS_ns": 7005000000,
+      "wall_ns": 91615268125292
+    },
+    {
+      "kind": "clear_target",
+      "ROS_ns": 7005000000,
+      "wall_ns": 91615268145273
+    },
+    {
+      "kind": "actor_contact",
+      "ROS_ns": 8879000000,
+      "wall_ns": 91617142061478,
+      "pairs": [
+        [
+          "moving_obstacle::obstacle_link::obstacle_collision",
+          "rm_sentry_2027::front_left_wheel::collision"
+        ]
+      ]
+    }
+  ],
+  "goal_ns": 4003000000,
+  "end_ns": 8879000000,
+  "result_status": null,
+  "finished": "actor_contact",
+  "controller_failure": null,
+  "contacts": [
+    {
+      "source_ns": 8879000000,
+      "receipt_ns": 8879000000,
+      "pairs": [
+        [
+          "moving_obstacle::obstacle_link::obstacle_collision",
+          "rm_sentry_2027::front_left_wheel::collision"
+        ]
+      ]
+    }
+  ],
+  "contact_seen": 1,
+  "contacts_publishers": 1,
+  "latest": {
+    "map": 1,
+    "scan": 8845000000,
+    "odom": 8860000000,
+    "rm_sentry_2027": 8860000000,
+    "moving_obstacle": 8860000000,
+    "prediction": 8779000000,
+    "command": 8878000000
+  }
+}
