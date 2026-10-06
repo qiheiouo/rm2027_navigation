@@ -12,6 +12,8 @@ bool same_source(const FollowState & a, const FollowState & b)
     a.tf_stamp_ns == b.tf_stamp_ns && a.applied_stamp_ns == b.applied_stamp_ns && a.frame == b.frame && a.body_frame == b.body_frame;
 }
 
+
+#ifndef R4_WORLD_PROBE_LIBRARY_ONLY
 int main(int argc, char ** argv)
 {
   if (argc != 2 && argc != 3) {return 2;}
@@ -27,7 +29,7 @@ int main(int argc, char ** argv)
       WorldFollowAdapter solver, equivalent; Vec2 seed{.35,0.};
       const int count = kind == "world_hold_clear" ? 60 : 1;
       for (int i = 0; i < count; ++i) {
-        const auto epoch = source+i*50000000; auto b = body(); b.yaw = .35+i*.03; b.yaw_invariant_circle = true;
+        const int64_t epoch = source+int64_t{i}*50000000; auto b = body(); b.yaw = .35+i*.03; b.yaw_invariant_circle = true;
         const bool occupied = kind == "world_hold" || kind == "world_cross" || (kind == "world_hold_clear" && i < 30);
         auto envelope_value = fixture(epoch,occupied,kind == "world_cross");
         auto snapshot = PredictionSnapshot::freeze(envelope_value,epoch,"map",b);
@@ -80,7 +82,7 @@ int main(int argc, char ** argv)
       const int hold_cycles=kind=="feedback_long_hold"?120:30;
       WorldFollowAdapter solver; Vec2 plant{}, previous{.35,0.};
       for (int i=0;i<hold_cycles+60;++i) {
-        const auto epoch=source+i*50000000;auto b=body();b.yaw=.35+i*.03;b.yaw_invariant_circle=true;
+        const int64_t epoch=source+int64_t{i}*50000000;auto b=body();b.yaw=.35+i*.03;b.yaw_invariant_circle=true;
         const bool held=i<hold_cycles;auto e=fixture(epoch,held&&kind!="feedback_no_dynamic");
         auto snapshot=PredictionSnapshot::freeze(e,epoch,"map",b);auto route=PreparedCorridor::prepare(dense,grid(),b,1);
         const Vec2 measured{std::cos(b.yaw)*previous.x+std::sin(b.yaw)*previous.y,
@@ -118,3 +120,5 @@ int main(int argc, char ** argv)
     }
   } catch (const std::exception & e) {std::cerr<<e.what()<<'\n';return 1;}
 }
+
+#endif

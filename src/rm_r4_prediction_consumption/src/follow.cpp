@@ -10,6 +10,8 @@
 #include <type_traits>
 #include <Eigen/Core>
 #include <osqp.h>
+#include <auxil.h>
+#include <polish.h>
 
 #if !defined(PROFILING) || defined(DFLOAT) || defined(EMBEDDED)
 #error "Follow requires the registered non-embedded, double, profiling OSQP build"
@@ -358,7 +360,24 @@ template<bool Aligned, bool World = false> FollowResult solve_follow(FollowInput
       warm.segment<2>(3 * k) = (seed.segment<2>(3 * k) - last) / (k == 0 ? period : decision_dt);
     }
     if (!rate_P.allFinite() || !rate_q.allFinite() || !rate_A.allFinite() || !warm.allFinite()) {return fail("nonfinite_qp");}
-    SparseInput sparse_P(rate_P, true), sparse_A(rate_A, false);
+    // World-held XY has straight ZOH segments in one constant convex box.
+    // Midpoint XY rows are exact averages of their two endpoint rows. With
+    // nonnegative progress rates, the terminal bound implies all earlier
+    // progress bounds. Keep the original 168 rows for final validation below.
+    constexpr int solver_constraints = World ? 108 : constraints;
+    Eigen::Matrix<double, solver_constraints, variables> solver_A;
+    Eigen::Matrix<double, solver_constraints, 1> solver_lo, solver_hi;
+    if constexpr (World) {
+      int row = 0;
+      const auto retain = [&](int original) {
+          solver_A.row(row) = rate_A.row(original);
+          solver_lo[row] = rate_lo[original]; solver_hi[row] = rate_hi[original]; ++row;
+        };
+      for (int original = 0; original < 75; ++original) {retain(original);}
+      for (int base : {75, 106}) {for (int k = 0; k < stages; k += 2) {retain(base + k);}}
+      retain(constraints - 1);
+    } else {solver_A = rate_A; solver_lo = rate_lo; solver_hi = rate_hi;}
+    SparseInput sparse_P(rate_P, true), sparse_A(solver_A, false);
     const double remaining = cycle_budget - seconds(in.acquired);
     if (remaining <= 0.) {return fail("cycle_deadline_after_assembly");}
     OSQPSettings settings; osqp_set_default_settings(&settings);
@@ -366,7 +385,7 @@ template<bool Aligned, bool World = false> FollowResult solve_follow(FollowInput
     settings.polish = 1; settings.check_termination = 10; settings.time_limit = std::min(solver_budget, remaining);
     // rate_q is const; OSQPData's legacy API is mutable, but setup copies it.
     Vector gradient = rate_q;
-    OSQPData data{variables, constraints, &sparse_P.matrix, &sparse_A.matrix, gradient.data(), rate_lo.data(), rate_hi.data()};
+    OSQPData data{variables, solver_constraints, &sparse_P.matrix, &sparse_A.matrix, gradient.data(), solver_lo.data(), solver_hi.data()};
     Vector solution; bool solved = false; const auto solver_start = FollowClock::now();
     {
       Workspace workspace;
@@ -384,6 +403,21 @@ template<bool Aligned, bool World = false> FollowResult solve_follow(FollowInput
         {result.solver_status = "time_limit_failed";}
         else {
           const auto exit = osqp_solve(workspace.value); const auto * info = workspace.value->info;
+          if constexpr (World) {
+            // 0.6.3 skips its enabled polishing after max-iteration exits.
+            // Try the SAME solver's one active-set refinement within the SAME
+            // wall budget, then require its original strict termination test.
+            // No extra ADMM, inaccurate acceptance, timeout retry or new QP.
+            const bool max_iteration_exit = info->iter == settings.max_iter &&
+              (info->status_val == OSQP_SOLVED_INACCURATE || info->status_val == OSQP_MAX_ITER_REACHED);
+            if (exit == 0 && max_iteration_exit && info->run_time < workspace.value->settings->time_limit &&
+              seconds(solver_start) < solver_budget && seconds(in.acquired) < cycle_budget &&
+              polish(workspace.value) == 0 && info->status_polish == 1)
+            {
+              update_info(workspace.value, info->iter, 1, 0);
+              if (check_termination(workspace.value, 0) && info->status_val == OSQP_SOLVED) {store_solution(workspace.value);}
+            }
+          }
           result.solver_status = info->status; result.iterations = info->iter;
           solved = exit == 0 && info->status_val == OSQP_SOLVED && workspace.value->solution && workspace.value->solution->x;
           if (solved) {solution = Eigen::Map<Vector>(workspace.value->solution->x);}

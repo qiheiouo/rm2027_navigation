@@ -5,6 +5,13 @@ This harness consumes existing A16 S1/S2 recordings and existing observed-member
 It is not a tracker, prediction producer, static frontend, controller or output owner.
 No ROS publisher, Nav2 control or serial process is launched.
 
+A22 found signed overflow in this harness's old `source+i*50000000` expression.
+The timestamp is now computed with int64 multiplication. Historical after-cycle42
+synthetic feedback/hold-clear values below are superseded by the corrected
+[A22 evidence and decision](../r4_follow_numerics/README.md). Original S1/S2
+recorded timestamps and native-window evidence are unaffected. The endpoint
+failure is resolved in the world-only Research entrance; it does not add output.
+
 From the R4 worktree, `experiments/r4_world_xy/run.sh <fresh-output-directory>` builds the
 optional existing value library in the registered local Humble image, runs four original
 fixed probes, the world/yaw-equivalence probes, two short ideal feedback conditions plus a

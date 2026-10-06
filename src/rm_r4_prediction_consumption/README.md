@@ -37,13 +37,23 @@ source-to-epoch extension holds the measured world velocity as a short-age
 Research assumption, not a physical tracking guarantee. Numeric axis/rate
 bounds are explicit world Research limits, not arbitrary-yaw actuator certification.
 
-Original S1/S2 dynamic windows produce 40/40 and 159/160 proposals. Ideal spinning
-world-velocity feedback can WAIT and resume, but shared endpoint QPs still return
-unavailable in both observed and no-dynamic conditions. This supports preserving
-minimal consumption and continuing numerical Research; it does not establish
-R4 goal completion or an advantage over STVL+MPPI. The old Nav2 body-Twist host
-is unchanged and cannot consume this result implicitly. See
-[A21 frame audit and limits](../../docs/dynamic_navigation/r4_world_xy_frame_audit.md).
+Research A22 gives only this world entrance 108 independent constraint rows:
+straight ZOH midpoint XY bounds and nonnegative intermediate progress bounds
+are redundant. All original 168 rows remain in assembly and final validation.
+At an eligible 400-iteration exit, it may use the same fixed OSQP's one polishing
+step inside the original wall budget, then requires the original strict
+termination test. It never accepts inaccurate, extends ADMM or retries a timeout.
+This uses 0.6.3 internal APIs and assumes a constant convex local box; dependency
+or model changes require review. Fixed/body and A19 entrances retain their flow.
+
+After correcting a 32-bit timestamp overflow in the Research fixture, original
+S1/S2 dynamic windows produce 40/40 and 160/160 proposals. Three ideal spinning
+world-velocity feedback cases reach the offline XY criterion, preserving WAIT
+and clear/resume. These are numerical and consumption results, not actual R4
+execution or an advantage over STVL+MPPI. The old Nav2 body-Twist host is
+unchanged and cannot consume this result implicitly. See
+[A21 frame audit](../../docs/dynamic_navigation/r4_world_xy_frame_audit.md) and
+[A22 current results and limits](../../docs/dynamic_navigation/r4_follow_endpoint_numerics.md).
 
 Historical Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
 same original 45-variable Follow assembly and OSQP solve. It retains raw source

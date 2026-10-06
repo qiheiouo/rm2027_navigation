@@ -2,15 +2,23 @@
 
 2026-10-04 建立，2026-10-06 更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A21 world-XY frame audit 与有限消费验证完成。Go 保留最小 world/circle 消费，Stop A20 angular transition，Modify 继续 Research 数值问题；ROS/Nav2实际输出接线仍暂停。**
+状态：**A22 world-XY末端数值修复与64位时序复验完成。Go 保留等价约束消冗余和原OSQP单次严格精修；Modify 继续Research效果对照；ROS/Nav2实际输出接线仍暂停。**
 
 A08/A19原值为body XY；world-held XY的未来位置不需要未来yaw。按用户的新全向底盘事实，新增同一45变量内核的显式world值包装，保守圆、raw非零wz不改，不发布angular零命令，不建立第二导航链。当前legacy base_link输出协议未表达world语义，留原owner内最小frame适配，不作为wz归零门。
 
-原S1/S2动态窗口40/40、159/160；S2有38拍可辨提前减速。理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
+原S1/S2动态窗口40/40、160/160；S2有36拍可辨提前减速（A21为38），首时刻仍goal+2.644s。修正时序后的理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m；三个反馈条件都到达5cm XY标准。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
 
-下一最小判定：同一无动态feedback也在路径末端solved inaccurate，先定位共享局部QP数值问题；冷初值虽解决单拍状态，却产生future支持重叠，不能盲目加入retry。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。[A21 frame/reuse audit、结果与最小接线](r4_world_xy_frame_audit.md) 是当前入口。
+下一最小判定：与既有STVL+MPPI在相同场景/反馈条件下做有限效果对照，不以提案覆盖替代闭环优势。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。[A22当前结果与限制](r4_follow_endpoint_numerics.md) 及[A21 frame/reuse audit与最小接线](r4_world_xy_frame_audit.md) 是当前入口。
 
-## A21 — 世界系XY与yaw-invariant circle
+## A22 — world入口的等价约束与严格数值精修
+
+- 假设：末端冗余活动约束及原OSQP仅对strict solved执行polish，造成共享QP近收敛失败；不归因为wz或动态hard veto。
+- 改动：world入口仅交108个独立行给同一OSQP，解后仍验全部168行；400迭代出口在原预算内最多一次原polish，重新满足原strict终止才保留。原权重/几何/400/1e−6/15/40/75ms保持，body/A19入口不改。
+- 实验：同一三个feedback、单因素数值诊断和原S1/S2回放。发现旧fixture32位时间乘法溢出，撤回旧after42数据，64位时序完整复验；原真实时间戳回放不受影响。
+- 结果：baseline仍在42/81/171失败；无trace值库62/102/191拍到达，solver最高1.838ms。S2原144失败拍恢复，动态窗口全可用，WAIT/clear响应保留；提前减速计数38→36如实记录。原四fixed probe差0。
+- 判决：Research数值修复Go，整体效果评价Modify；未证明STVL+MPPI同条件闭环优势，不建设新的运行链或输出owner。[报告](r4_follow_endpoint_numerics.md)、[必要证据/复现](../../experiments/r4_follow_numerics/README.md)。全部留本地、不push；原无关dirty保持。
+
+## A21 — 世界系XY与yaw-invariant circle（历史，数值与时序以A22为准）
 
 - 假设：全向底盘world XY可独立于底盘wz，圆形支持取消future yaw项，既有HWS-style消费能维持覆盖与响应。
 - 实现：仅BodyPolicy显式circle与WorldFollowAdapter，复用snapshot/CV/Sfc/45变量OSQP；无angular字段、第二pipeline/frontend/controller/owner，public v2与A09–A12保持。

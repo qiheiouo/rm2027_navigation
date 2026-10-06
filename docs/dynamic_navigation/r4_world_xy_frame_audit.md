@@ -2,6 +2,8 @@
 
 2026-10-06，Asia/Shanghai。Research，运行时 HEAD/基线 `a1910a0a` 加本阶段本地改动；同分支提交后可由实验入口复现。按用户提供的新车事实，停止 A20 angular transition、自由角速度优化和旋转 MPC。
 
+A22后续更新：world入口末端失败已通过等价消冗余及原OSQP单次strict精修解除，原S2动态coverage现在160/160。发现旧fixture的32位时间乘法在第43拍起有UB，本文件旧after42合成feedback/hold-clear时序值不再作为有效证据；修正成64位后完整复验，WAIT/RESUME/到达结论见[A22当前报告](r4_follow_endpoint_numerics.md)。本轮原S1/S2真实int64时间戳及frame审阅不受此错误影响，旧原始记录保持不改。
+
 ## 最小 frame audit（实现前）
 
 | 问题 | 当前源码事实 | 研究处理 |
