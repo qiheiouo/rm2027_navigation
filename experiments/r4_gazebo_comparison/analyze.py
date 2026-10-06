@@ -135,6 +135,6 @@ def aggregate(root):
     (root/'summary.json').write_text(json.dumps(dict(groups=summary,runs=compact),indent=2)+'\n')
     fields=['run','scene','mode','phase','startup','success','finished','reason','contact_messages','min_dynamic_clearance_m','arrival_s','elapsed_s','wait_s','longest_stall_s','clear_resume_s','actual_clear_s','actual_clear_resume_s','forward_reversals','control_samples','valid_samples','oracle_common_samples']
     with (root/'trials.csv').open('w') as f:
-        writer=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore');writer.writeheader();writer.writerows(compact)
+        writer=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore',lineterminator='\n');writer.writeheader();writer.writerows(compact)
     print(json.dumps(summary,indent=2))
 if __name__=='__main__': aggregate(pathlib.Path(sys.argv[1]))
