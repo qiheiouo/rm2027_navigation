@@ -55,6 +55,15 @@ if success and band and worst_ok:
 if not band: reason='Independent finite sample did not retain both median clearances in the target band; do not retune.'
 elif not worst_ok: reason='Median clearance matches, but >5cm worst-clearance gap prevents claiming equal safety.'
 extension=n==5 and verdict=='Modify' and success and worst_ok and all(.26<=g['min_clearance_m']['p50']<=.34 and g['min_clearance_m']['min']<=.32 and g['min_clearance_m']['max']>=.28 for g in (b,r))
-report=dict(verdict=verdict,reason=reason,n_per_mode=n,finite_target_band_pass=band,worst_clearance_difference_m=worst_gap,worst_clearance_comparable=worst_ok,all_success_zero_contact=success,baseline_over_r4_arrival_ratio=time_ratio,baseline_faster_pairs=faster_b,r4_faster_pairs=faster_r,pair_agreement_required=required,baseline_stabler=b_stabler,r4_stabler=r_stabler,stability_bad_runs=bad,baseline_extra_stall_pairs=stall_b,r4_extra_stall_pairs=stall_r,extension_informative=extension,baseline_changes=changes,r4_a24_parameters_byte_equal=True,trial_config_errors=errors,freeze=json.loads((root/'freeze.json').read_text()),pairs=pairs,limits='Gazebo S2 only; matched sampled mechanical clearance, not identical risk probabilities, true random seeds or a complete Pareto frontier.')
+mode='equal_clearance';clearance_no_worse=None;stability_no_worse=None
+if (root/'protocol_dominance_amendment.json').exists():
+    mode='authorized_dominance'
+    clearance_no_worse=b['min_clearance_m']['p50']>=r['min_clearance_m']['p50'] and b['min_clearance_m']['min']>=r['min_clearance_m']['min']-.05
+    stability_no_worse=bad['baseline']<=bad['r4'] and stall_b<minimum_stability_gap
+    verdict='Modify';reason='Independent samples did not establish the authorized stronger Pareto dominance.'
+    if success and clearance_no_worse and stability_no_worse and time_ratio<=.9 and faster_b>=required:
+        verdict='Stop';reason='Baseline is at least as safe, >=10% faster with paired agreement, and no less stable; stop productionization of the current R4 configuration.'
+    extension=n==5 and verdict=='Modify' and success and (abs(time_ratio-1)<.15 or abs(b['min_clearance_m']['p50']-r['min_clearance_m']['p50'])<=.05)
+report=dict(verdict=verdict,reason=reason,validation_mode=mode,baseline_clearance_no_worse=clearance_no_worse,baseline_stability_no_worse=stability_no_worse,n_per_mode=n,finite_target_band_pass=band,worst_clearance_difference_m=worst_gap,worst_clearance_comparable=worst_ok,all_success_zero_contact=success,baseline_over_r4_arrival_ratio=time_ratio,baseline_faster_pairs=faster_b,r4_faster_pairs=faster_r,pair_agreement_required=required,baseline_stabler=b_stabler,r4_stabler=r_stabler,stability_bad_runs=bad,baseline_extra_stall_pairs=stall_b,r4_extra_stall_pairs=stall_r,extension_informative=extension,baseline_changes=changes,r4_a24_parameters_byte_equal=True,trial_config_errors=errors,freeze=json.loads((root/'freeze.json').read_text()),pairs=pairs,limits='Gazebo S2 only; sampled mechanical clearance, not identical risk probabilities, true random seeds or a complete Pareto frontier.')
 (root/'pareto_audit.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

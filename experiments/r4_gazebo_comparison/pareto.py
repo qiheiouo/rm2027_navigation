@@ -78,6 +78,16 @@ elif command=='validate_calibration':
         (out/'freeze.json').write_text(json.dumps(last,indent=2)+'\n')
         print('frozen immediately on confirmed target',flush=True)
     else: print('Modify: fixed confirmation did not reach target; calibration stopped',flush=True)
+elif command=='freeze_dominance':
+    assert not (out/'freeze.json').exists(),'one frozen validation only'
+    reports=json.loads((out/'calibration.json').read_text());candidate=reports[4]
+    assert candidate['candidate']==5 and candidate['inflation_radius']==.6 and candidate['cost_scaling_factor']==6.
+    amendment=dict(mode='authorized_dominance',authorization='User explicitly replied: 允许验证更大净空的支配点',baseline_candidate=5,baseline_inflation_radius=.6,baseline_cost_scaling_factor=6.,calibration_finished=True,no_more_parameter_tuning=True,r4_a24_unchanged=True,finite_initial_per_mode=5,finite_max_per_mode=10,baseline_clearance_criterion='median >= R4 median; worst >= R4 worst minus .05m',baseline_efficiency_criterion='arrival median >=10% faster, >=4/5 or 8/10 paired agreement',baseline_stability_criterion='no more reversal/large-backtrack runs; no repeated >=1s extra longest stall',stop_rule='Baseline is at least as safe, materially faster and no less stable in independent trials.',go_rule='R4 faster at lower clearance alone does not establish Go; non-dominance or uncertainty is Modify.')
+    (out/'protocol_dominance_amendment.json').write_text(json.dumps(amendment,indent=2)+'\n')
+    shutil.copy2(out/f"assets/{candidate['profile']}_B0_nav2.yaml",out/'assets/pareto_B0_nav2.yaml')
+    candidate=dict(candidate,validation_mode='authorized_dominance')
+    (out/'freeze.json').write_text(json.dumps(candidate,indent=2)+'\n')
+    print('fixed existing .60m / factor6 dominance point; no further calibration',flush=True)
 elif command=='batch':
     assert (out/'freeze.json').exists(),'clearance target must be frozen first'
     count=int(sys.argv[3]) if len(sys.argv)>3 else 5;assert count in (5,10)

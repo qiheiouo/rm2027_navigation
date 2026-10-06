@@ -2,7 +2,7 @@
 
 Research / Minimum Decisive Experiment。唯一问题：当 STVL+native MPPI 与 A24 R4 的动态最小净空中位相近时，谁更高效？R4及运行二进制完整保持 [A24](r4_matched_closed_loop_comparison.md)，不调R4、不新增solver/cost/prediction/owner/fallback/ROS生产接口，不改main，不push。
 
-**当前判决：Modify，校准目标未达，尚无独立等净空效率判决。** 20次baseline校准均成功/零contact；最后固定候选5次中位仍为.26548m，没有写freeze或启动正式R4对照。不能用未达标样本判Go/Stop，也不把这一有限搜索失败解释为native MPPI无法达到目标。
+**严格匹配校准判决：Modify，目标未达。随后用户明确授权验证更大净空的支配点，独立对照待完成。** 20次baseline校准均成功/零contact；最后固定候选5次中位仍为.26548m，严格方案未写freeze或启动正式R4对照。不能用未达标样本判Go/Stop，也不把这一有限搜索失败解释为native MPPI无法达到目标。
 
 协议在任何本轮trial之前提交。复用A24地图、goal、S2物理轨迹/速度、32边形footprint、原输出链和独立机械投影真值；baseline速度上限仍为A24的.32，R4原native/world limits、cruise/free-s及所有配置保持。唯一baseline可改项为既有 `local_costmap.inflation_layer.inflation_radius/cost_scaling_factor`，不改critics权重或动态预测模型。
 
@@ -44,3 +44,11 @@ Research / Minimum Decisive Experiment。唯一问题：当 STVL+native MPPI 与
 本轮到达/WAIT/回退为**校准描述指标**，不用于按效率选择参数，也不能替代冻结后的独立验证。候选5的.362m/14.426s/零回退相对历史A24 R4 .300m/17.922s是值得验证的Pareto支配线索；但不满足原[.28,.32]匹配带，且本轮没有新R4配对，故不据此给正式Stop。若验证这个更大净空点，需要用户明确放宽匹配带，另记录规则再跑新样本；当前默认继续遵守严格带。
 
 20次的success/contact、真值、控制、预测、WAIT/停滞/振荡记录完整保留，约56MiB；紧凑汇总/参数/协议修订见[证据目录](../../experiments/r4_gazebo_comparison/evidence_pareto/)。15/20实例结束后的历史Nav2 cleanup exit−11保留，运行中没有controller failure；未为此补生产工程。main、A22/R4本体与原无关dirty不改，不push。
+
+## 用户授权后的更大净空支配验证
+
+校准结果先独立提交；用户对“是否允许固定.60m这一更大净空点，做5对新样本”明确回复：**“允许验证更大净空的支配点”**。这是显式放宽[.28,.32]匹配带，不回写原校准为达标。
+
+baseline固定既有候选5：local inflation radius=.60m、factor=6，其他全部A24设置不变；R4完整保持A24。不再校准，正式S2各5次、新鲜独立实例、交替先后。新判据在任何正式trial前提交：baseline净空中位≥R4，最坏净空不低于R4超过.05m；两组成功/零contact，baseline到达中位快≥10%且≥4/5配对同向；baseline没有更多反向/≥5cm回退实例或重复≥1s额外最长停滞，则Stop当前R4配置的生产化。这比单纯等净空对照更强。不满足支配则Modify，不凭更低净空下的R4速度去判Go。只有样本不确定性会改变判决才固定参数补至10次。
+
+`protocol_dominance_amendment.json`单列授权和判据；`freeze.json`明确标注`authorized_dominance`。原target、协议修订、20次校准与原Modify均保留。正式结果待填。
