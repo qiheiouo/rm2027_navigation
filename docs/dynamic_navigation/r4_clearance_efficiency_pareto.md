@@ -16,4 +16,12 @@ Research / Minimum Decisive Experiment。唯一问题：当 STVL+native MPPI 与
 
 ## 实施与结果
 
-入口 [pareto.py](../../experiments/r4_gazebo_comparison/pareto.py)：`prepare`、`calibrate`、`batch`；证据位于 `build/r4_pareto_comparison_20261006`。R4参数和共享assets复制自A24，复用原插件二进制；只增加host实验编排。校准和finite阶段分开。结果待填。
+入口 [pareto.py](../../experiments/r4_gazebo_comparison/pareto.py)：`prepare`、`calibrate`、`batch`；证据位于 `build/r4_pareto_comparison_20261006`。R4参数和共享assets复制自A24，复用原插件二进制；只增加host实验编排。校准和finite阶段分开。初始协议为 `5bb148be`。
+
+### 冻结前的一次校准协议修订
+
+初始有界校准按4候选上限结束，factor=3/4.5/5.25/5.625的净空中位分别为.54951/.52184/.55234/.53772m；12次全部成功/零contact，但目标未达。最初选择的.80m范围过大，调衰减的影响不足；不能拿这些过度保守样本的效率与.30m R4对比。原方案在其上限内失败，不隐藏、不把未达标视为冻结。
+
+为完成已授权的净空校准，**在任何冻结或finite trial之前**记录一次有限修订：衰减还原A24的6，新增最多2个radius候选，总计不超过6候选/18次baseline校准。首先radius=.60m；若中位低于.28，最后一个候选为.65，若高于.32则为.55。这是直接安全距离旋钮的调整，不改效率目标、目标带、判决、速度/footprint或R4。每候选仍3次，首达标立即冻结，不成功则Modify并终止校准；不反复修订以求出满意结果。修订在新增trial前本地提交；`protocol.json`保留初始方案，另存`protocol_amendment.json`，两者均归档。
+
+结果待填。

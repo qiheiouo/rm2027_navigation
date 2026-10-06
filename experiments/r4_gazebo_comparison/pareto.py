@@ -14,9 +14,9 @@ def run(repeat,mode,profile):
     print(directory.name,result['finished'],result.get('min_dynamic_clearance_m'),flush=True)
     if result['startup'] or not result['success']: raise RuntimeError(f'first failure preserved; classify before continuation: {directory.name}')
     return result
-def write(name,factor):
+def write(name,factor,radius=.8):
     config=yaml.safe_load((out/'assets/matched_B0_nav2.yaml').read_text())
-    config['local_costmap']['local_costmap']['ros__parameters']['inflation_layer'].update(inflation_radius=.8,cost_scaling_factor=factor)
+    config['local_costmap']['local_costmap']['ros__parameters']['inflation_layer'].update(inflation_radius=radius,cost_scaling_factor=factor)
     (out/f'assets/{name}_B0_nav2.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
 if command=='prepare':
     previous=root/'build/r4_matched_comparison_20261006';out.mkdir(exist_ok=False)
@@ -42,6 +42,25 @@ elif command=='calibrate':
         else: lo=factor
         factor=(lo+hi)/2
     else: print('Modify: bounded calibration did not reach target',flush=True)
+elif command=='calibrate_radius':
+    assert not (out/'freeze.json').exists(),'already frozen; no further calibration'
+    reports=json.loads((out/'calibration.json').read_text());assert len(reports)==4,'one bounded amendment only'
+    amendment=dict(reason='Initial .80m radius kept all four median clearances at .52-.55m despite factor changes; calibrate the directly effective range instead.',initial_candidates_preserved=4,additional_candidates_max=2,total_candidates_max=6,cost_scaling_factor=6.,first_radius=.6,second_radius_rule='.65 if below .28, .55 if above .32',target_unchanged=[.28,.32],decision_rules_unchanged=True,finite_started=False)
+    (out/'protocol_amendment.json').write_text(json.dumps(amendment,indent=2)+'\n')
+    radius=.6
+    for index in (5,6):
+        profile=f'calibration_pareto_{index}';write(profile,6.,radius)
+        results=[run((index-1)*3+k,'B0',profile) for k in range(1,4)]
+        median=statistics.median(r['min_dynamic_clearance_m'] for r in results)
+        report=dict(candidate=index,profile=profile,cost_scaling_factor=6.,inflation_radius=radius,median_clearance_m=median,clearance_m=[r['min_dynamic_clearance_m'] for r in results],runs=[r['run'] for r in results])
+        reports.append(report);(out/'calibration.json').write_text(json.dumps(reports,indent=2)+'\n')
+        print('candidate',index,'radius',radius,'clearance median',median,flush=True)
+        if .28<=median<=.32:
+            shutil.copy2(out/f'assets/{profile}_B0_nav2.yaml',out/'assets/pareto_B0_nav2.yaml')
+            (out/'freeze.json').write_text(json.dumps(report,indent=2)+'\n')
+            print('frozen immediately on target clearance',flush=True);break
+        radius=.65 if median<.28 else .55
+    else: print('Modify: bounded radius amendment did not reach target; stop calibration',flush=True)
 elif command=='batch':
     assert (out/'freeze.json').exists(),'clearance target must be frozen first'
     count=int(sys.argv[3]) if len(sys.argv)>3 else 5;assert count in (5,10)
