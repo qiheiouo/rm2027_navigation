@@ -2,15 +2,23 @@
 
 2026-10-04 建立，2026-10-06 更新，Asia/Shanghai。分支 `experiment/r4-hws-prediction-consumption`，直接基点 `main@d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`；已合入主线规范提交 `2849cbe4`。
 
-状态：**A25 Stop生产化结论保留。A26冻结运行行为5对已完成，两组均未到达；baseline 3次contact、R4零contact，但原实验首native异常锁存/终止使两组无法观察通道开放后的WAIT→GO。A26价值判定Modify，当前没有Integration依据；仅待用户决定是否允许复用原Nav2恢复行为的最小实验修正，未应用、不运行新样本。**
+状态：**最终Stop，冻结当前HWS-style low-level prediction-consumption研究路线。用户授权最小native恢复修正后，A26独立S3 5对完成：baseline 0/5成功、5次contact；R4零contact、5/5安全通过gate，但完整目标仅2/5成功，3次目标附近degenerate path自身输入失败。安全WAIT→GO信号保留，整体未满足Go。不补样本/框架/算法/生产化，研究重点回主线STVL+MPPI及其他问题。main不变，不push。**
 
 A08/A19原值为body XY；world-held XY的未来位置不需要未来yaw。按用户的新全向底盘事实，新增同一45变量内核的显式world值包装，保守圆、raw非零wz不改，不发布angular零命令，不建立第二导航链。当前legacy base_link输出协议未表达world语义，留原owner内最小frame适配，不作为wz归零门。
 
 原S1/S2动态窗口40/40、160/160；S2有36拍可辨提前减速（A21为38），首时刻仍goal+2.644s。修正时序后的理想6s持障feedback中87/120拍WAIT，末20拍速度≤1.331e−5m/s，clear后50ms恢复，机械oracle净空≥0.206535m；三个反馈条件都到达5cm XY标准。实际记录仍由native MPPI控制，不是R4闭环优于B0的证据。
 
-当前入口：[A26最后一轮假设/协议](r4_final_corridor_research.md)、[A25授权支配验证与Stop](r4_clearance_efficiency_pareto.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。只有新的核心假设和能改变决策的最小对照才重新启动Research，不默认工程化。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。历史结果保留。
+当前入口：[A26最终Stop、两轮证据及复现](r4_final_corridor_research.md)、[A25授权支配验证与Stop](r4_clearance_efficiency_pareto.md)、[最小harness及逐次证据](../../experiments/r4_gazebo_comparison/README.md)。当前路线按用户最后一轮要求收尾冻结，不以框架/终点问题继续Research，不默认工程化。不要回到angular handoff、自由wz优化、rotation corridor或提前建设A10/A12输出设施。历史结果保留。
 
-## A26 — 单通道暂时阻塞：实验提前终止，价值判定Modify
+## A26 final — 允许原Nav2恢复后：Stop并冻结路线
+
+- `8f8d6c80`在正式trial前登记并只改experiment wrapper已知native异常永久锁存及记录器终止行为，首次原始原因/事件/输入立即保存，异常仍上抛给原Nav2。没有新速度/fallback/owner/lease，R4算法/参数、baseline参数、场景均原样。
+- 独立S3各5次，无startup失败或替换。baseline全部contact、0/5成功；R4五次均从native异常继续运行、零contact并安全通过gate，但完整Nav2目标2/5成功；101/104/105目标附近plan退化，R4按原输入规则终止。物理XY靠近goal不重分类为成功。
+- R4净空中位/最坏.32581/.31493m，WAIT中位2.76s，clear后gate通过中位5.10s，clear时均已前进；1/5有2次反向，最大回退1.748cm。两个成功样本到达中位18.764s，baseline无成功，效率无法数值对比。1858有效消费，solver P95 1.305ms/最大3.444ms，combined P95 33.416ms/最大45.365ms。
+- 安全WAIT→GO局部信号可重复，整体任务稳定性不达Go，简单reactive不可替代性未证明。按用户规则最终**Stop**，不修终点框架、不补10、不S4、不改算法/参数、不生产化，不以框架问题再延长研究。baseline该场景安全问题如实保留，后续重点回STVL+MPPI，不能称其已稳定解决。
+- [最终报告](r4_final_corridor_research.md)、[最终紧凑证据](../../experiments/r4_gazebo_comparison/evidence_corridor_recovery/)。新47MiB/旧35MiB原始数据分开保留，本地不push；原无关dirty/main保持。
+
+## A26 first cohort（历史）— 实验提前终止，方法判定Modify
 
 - 初始1.4m有效空通道被未改Sfc raw-static校验拒绝，solver未调用，完整保留。在任何动态trial前明确修订一次场景为2.1m通道/1m宽动态机器人，仍有物理短暂堵塞，无绕行出口；R4配置/算法不动。修订后S0两组到达8.733/12.582s，无contact，没有按空场结果调R4或baseline。
 - S3各5个实际goal-started样本。baseline 0/5成功，3次动态轮端contact、2次native MPPI异常；R4 0/5成功、零contact、5次同类native异常。启动前地图lifecycle超时1次单列，同参数补1次；任务失败没有替换。终止前动态净空中位0/.33799m，R4最坏.31671m；WAIT中位.08/.32s，R4无前后切换、最大回退不足1mm。到达/clear后通过/恢复未观测，不能记0。

@@ -1,0 +1,159 @@
+{
+  "S3_B0_101": {
+    "classification": "physical_dynamic_actor_contact",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.704,
+    "pairs": [
+      [
+        "moving_obstacle::obstacle_link::obstacle_collision",
+        "rm_sentry_2027::base_link::base_collision"
+      ]
+    ],
+    "native_error_events": 2,
+    "evidence": [
+      "events.json",
+      "first_failure_inputs.json",
+      "control.csv",
+      "truth.jsonl",
+      "launch.log"
+    ],
+    "decision": "finish unchanged fixed n5 schedule; no rescue"
+  },
+  "S3_R4_101": {
+    "classification": "r4_path_input_rejection",
+    "reason": "degenerate path",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 18.627,
+    "native_error_events": 1,
+    "first_native_exception_preserved": true,
+    "evidence": [
+      "events.json",
+      "first_native_failure.json",
+      "first_native_failure_inputs.json",
+      "first_failure_inputs.json",
+      "plans.jsonl",
+      "control.csv",
+      "truth.jsonl",
+      "launch.log"
+    ],
+    "decision": "retain task failure and continue unchanged fixed n5; no path/solver/controller repair"
+  },
+  "S3_B0_102": {
+    "classification": "physical_dynamic_actor_contact",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.661,
+    "native_error_events": 0,
+    "evidence": [
+      "events.json",
+      "control.csv",
+      "truth.jsonl",
+      "launch.log",
+      "first_failure_inputs.json"
+    ],
+    "decision": "finish original fixed n5; do not repair or replace task failures",
+    "pairs": [
+      [
+        "moving_obstacle::obstacle_link::obstacle_collision",
+        "rm_sentry_2027::rear_right_wheel::collision"
+      ]
+    ]
+  },
+  "S3_B0_103": {
+    "classification": "physical_dynamic_actor_contact",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.726,
+    "native_error_events": 1,
+    "evidence": [
+      "events.json",
+      "control.csv",
+      "truth.jsonl",
+      "launch.log",
+      "first_failure_inputs.json"
+    ],
+    "decision": "finish original fixed n5; do not repair or replace task failures",
+    "pairs": [
+      [
+        "moving_obstacle::obstacle_link::obstacle_collision",
+        "rm_sentry_2027::rear_right_wheel::collision"
+      ]
+    ]
+  },
+  "S3_R4_104": {
+    "classification": "r4_path_input_rejection",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 18.584,
+    "native_error_events": 1,
+    "evidence": [
+      "events.json",
+      "control.csv",
+      "truth.jsonl",
+      "launch.log",
+      "first_failure_inputs.json"
+    ],
+    "decision": "finish original fixed n5; do not repair or replace task failures",
+    "reason": "degenerate path"
+  },
+  "S3_B0_104": {
+    "classification": "physical_dynamic_actor_contact",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.717,
+    "native_error_events": 1,
+    "evidence": [
+      "events.json",
+      "control.csv",
+      "truth.jsonl",
+      "launch.log",
+      "first_failure_inputs.json"
+    ],
+    "decision": "finish original fixed n5; do not repair or replace task failures",
+    "pairs": [
+      [
+        "moving_obstacle::obstacle_link::obstacle_collision",
+        "rm_sentry_2027::rear_right_wheel::collision"
+      ]
+    ]
+  },
+  "S3_B0_105": {
+    "classification": "physical_dynamic_actor_contact",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 4.69,
+    "native_error_events": 0,
+    "evidence": [
+      "events.json",
+      "control.csv",
+      "truth.jsonl",
+      "launch.log",
+      "first_failure_inputs.json"
+    ],
+    "decision": "finish original fixed n5; do not repair or replace task failures",
+    "pairs": [
+      [
+        "moving_obstacle::obstacle_link::obstacle_collision",
+        "rm_sentry_2027::rear_right_wheel::collision"
+      ]
+    ]
+  },
+  "S3_R4_105": {
+    "classification": "r4_path_input_rejection",
+    "task_failure": true,
+    "replacement": false,
+    "elapsed_s": 18.582,
+    "native_error_events": 1,
+    "evidence": [
+      "events.json",
+      "control.csv",
+      "truth.jsonl",
+      "launch.log",
+      "first_failure_inputs.json"
+    ],
+    "decision": "finish original fixed n5; do not repair or replace task failures",
+    "reason": "degenerate path"
+  }
+}

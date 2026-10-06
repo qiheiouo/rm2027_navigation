@@ -1,0 +1,207 @@
+{
+  "verdict": "Stop",
+  "r4_a24_byte_equal": true,
+  "shared_config_delta": {
+    "local_costmap.local_costmap.ros__parameters.inflation_layer.inflation_radius": [
+      0.5,
+      0.6
+    ]
+  },
+  "trial_config_errors": [],
+  "endpoints": [
+    {
+      "run": "S3_R4_103",
+      "publisher_count_one": true,
+      "owner_name_observed": true,
+      "unique_output": true,
+      "cleanup_minus11": false
+    },
+    {
+      "run": "S3_R4_105",
+      "publisher_count_one": true,
+      "owner_name_observed": true,
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_R4_104",
+      "publisher_count_one": true,
+      "owner_name_observed": true,
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_R4_101",
+      "publisher_count_one": true,
+      "owner_name_observed": true,
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_104",
+      "publisher_count_one": true,
+      "owner_name_observed": false,
+      "unique_output": false,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_102",
+      "publisher_count_one": true,
+      "owner_name_observed": true,
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_105",
+      "publisher_count_one": true,
+      "owner_name_observed": true,
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_103",
+      "publisher_count_one": true,
+      "owner_name_observed": true,
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_R4_102",
+      "publisher_count_one": true,
+      "owner_name_observed": true,
+      "unique_output": true,
+      "cleanup_minus11": true
+    },
+    {
+      "run": "S3_B0_101",
+      "publisher_count_one": true,
+      "owner_name_observed": false,
+      "unique_output": false,
+      "cleanup_minus11": true
+    }
+  ],
+  "pairs": [
+    {
+      "repeat": 101,
+      "baseline": "S3_B0_101",
+      "r4": "S3_R4_101",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": null,
+      "actor_position_delta_m": {
+        "n": 46,
+        "min": 2.7401987576780584e-06,
+        "p50": 3.138232480445757e-05,
+        "p95": 0.00014577358874552637,
+        "max": 0.00018447765919493708
+      },
+      "actor_velocity_delta_mps": {
+        "n": 46,
+        "min": 2.4690663735782437e-07,
+        "p50": 0.00012946914450917557,
+        "p95": 0.0007068378882187087,
+        "max": 0.0024214814087947234
+      },
+      "robot_start_delta_m": 0.0
+    },
+    {
+      "repeat": 102,
+      "baseline": "S3_B0_102",
+      "r4": "S3_R4_102",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": 18.798,
+      "actor_position_delta_m": {
+        "n": 45,
+        "min": 5.480397515134072e-06,
+        "p50": 4.605144901548286e-05,
+        "p95": 0.00037128201979541575,
+        "max": 0.0003842709912491027
+      },
+      "actor_velocity_delta_mps": {
+        "n": 45,
+        "min": 4.938132702747566e-07,
+        "p50": 0.00014039568698276383,
+        "p95": 0.001139305409073809,
+        "max": 0.00268756871933562
+      },
+      "robot_start_delta_m": 0.0
+    },
+    {
+      "repeat": 103,
+      "baseline": "S3_B0_103",
+      "r4": "S3_R4_103",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": 18.73,
+      "actor_position_delta_m": {
+        "n": 46,
+        "min": 0.0,
+        "p50": 1.764033839057877e-05,
+        "p95": 0.00017623899530835874,
+        "max": 0.0006448878794503843
+      },
+      "actor_velocity_delta_mps": {
+        "n": 46,
+        "min": 0.0,
+        "p50": 8.283548179999212e-05,
+        "p95": 0.0005597852308059093,
+        "max": 0.003959416397589788
+      },
+      "robot_start_delta_m": 0.0
+    },
+    {
+      "repeat": 104,
+      "baseline": "S3_B0_104",
+      "r4": "S3_R4_104",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": null,
+      "actor_position_delta_m": {
+        "n": 46,
+        "min": 1.4571465082324764e-06,
+        "p50": 3.149725202494791e-05,
+        "p95": 0.0001133965234862977,
+        "max": 0.00016904002227519088
+      },
+      "actor_velocity_delta_mps": {
+        "n": 46,
+        "min": 2.4690663291693227e-07,
+        "p50": 9.151718553757071e-05,
+        "p95": 0.00033782754284242267,
+        "max": 0.002964823306958464
+      },
+      "robot_start_delta_m": 0.0
+    },
+    {
+      "repeat": 105,
+      "baseline": "S3_B0_105",
+      "r4": "S3_R4_105",
+      "baseline_arrival_s": null,
+      "r4_arrival_s": null,
+      "actor_position_delta_m": {
+        "n": 45,
+        "min": 6.455216419176679e-07,
+        "p50": 1.4308655704731166e-05,
+        "p95": 6.019415337172872e-05,
+        "max": 7.181184124677165e-05
+      },
+      "actor_velocity_delta_mps": {
+        "n": 45,
+        "min": 2.4690663735782437e-07,
+        "p50": 5.979628656227476e-05,
+        "p95": 0.00019732177279441207,
+        "max": 0.0002555617155086676
+      },
+      "robot_start_delta_m": 0.0
+    }
+  ],
+  "methodology": "User-authorized existing Nav2 failure_tolerance/controller/BT recovery; first native errors retained, contact and original R4/input/solver errors still terminate. Independent S3 cohort.",
+  "scope": "Final A26 Research decision; no further framework or parameter research.",
+  "native_recovery_enabled": true,
+  "n_per_mode": 5,
+  "r4_over_baseline_arrival_ratio": null,
+  "r4_faster_pairs": 0,
+  "efficiency_go_candidate": false,
+  "safety_go_candidate": false,
+  "extension_informative": false,
+  "r4_safety_comparable": false,
+  "reason": "Final authorized cohort: R4 does not stably complete all Nav2 goal tasks, baseline also stably succeeds, or no independent safety/efficiency advantage is established. Gate passage is recorded separately from goal success. Freeze current low-level route.",
+  "frozen_runtime_verdict": "Stop"
+}

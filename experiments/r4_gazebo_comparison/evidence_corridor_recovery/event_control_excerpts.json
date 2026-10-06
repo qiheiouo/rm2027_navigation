@@ -1,0 +1,1988 @@
+[
+  {
+    "run": "S3_B0_101",
+    "events": {
+      "scene": "S3",
+      "mode": "B0",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4004000000,
+          "wall_ns": 4462174676931,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3895000000,
+            "command": 4004000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5004000000,
+          "wall_ns": 4463174035927
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8378000000,
+          "wall_ns": 4466579894036,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8569000000,
+          "wall_ns": 4466739922368,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "actor_contact",
+          "ROS_ns": 8708000000,
+          "wall_ns": 4466878503649,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::base_link::base_collision"
+            ]
+          ]
+        }
+      ],
+      "goal_ns": 4004000000,
+      "end_ns": 8708000000,
+      "result_status": null,
+      "finished": "actor_contact",
+      "controller_failure": null,
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 8378000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 8569000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [
+        {
+          "source_ns": 8708000000,
+          "receipt_ns": 8708000000,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::base_link::base_collision"
+            ]
+          ]
+        }
+      ],
+      "contact_seen": 79,
+      "contacts_publishers": 1
+    },
+    "first_native_failure": {
+      "ROS_ns": 8378000000,
+      "reason": "Optimizer fail to compute path",
+      "classification": "native_mppi_delegation_failure",
+      "handled_by": "existing Nav2"
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "8547000000,B0,0,Optimizer fail to compute path,0,0,0,0,1.7428935220373278,0.48484163780992012,0.56098342873793605,0,0,0,0,0,0,0,0,0,0,0",
+      "8665000000,B0,1,native,33.39913,0,0,0,1.7803947373178064,0.500302182466696,0.55850809046127903,0,0,0.0069777625612914562,-0.030334055423736572,0.017062675207853317,0,0,0,0,0,0",
+      "8705000000,B0,1,native,23.437982999999999,0,0,0,1.7899260168579327,0.50538541885912347,0.55850809042898586,0,0,0.040847666561603546,-0.076439216732978821,0.029588339850306511,0,0,0,0,0,0"
+    ],
+    "failure_log_lines": [
+      "[component_container_isolated-10] [ERROR] [1791274294.960103544] [controller_server]: Optimizer fail to compute path",
+      "[component_container_isolated-10] [ERROR] [1791274295.151570910] [controller_server]: Optimizer fail to compute path"
+    ],
+    "metrics": {
+      "run": "S3_B0_101",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4004000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.704,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 92,
+        "min": 1.075598,
+        "p50": 11.328827,
+        "p95": 31.464172350000002,
+        "max": 33.39913
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 94,
+      "valid_samples": 92,
+      "combined_call_ms": {
+        "n": 92,
+        "min": 1.075598,
+        "p50": 11.328827,
+        "p95": 31.464172350000002,
+        "max": 33.39913
+      },
+      "control_gap_ms": {
+        "n": 93,
+        "min": 1.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 118.0
+      },
+      "actual_output_gap_ms": {
+        "n": 93,
+        "min": 44.0,
+        "p50": 50.0,
+        "p95": 52.0,
+        "max": 56.0
+      },
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 8,
+      "oracle_robot_samples": 235,
+      "oracle_common_samples": 235,
+      "oracle_common_gap_ms": {
+        "n": 234,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.7899260168579327,
+        0.5053854188591235,
+        -1.1010111735761772e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 15,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.3072615273572747,
+      "travel_distance_m": 1.977298335380764,
+      "lateral_distance_m": 0.5235984983783162,
+      "max_lateral_excursion_m": 0.5053854188591235,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 6,
+      "plan_lateral_messages": 1,
+      "gate_prediction_messages": 70,
+      "gate_nonzero_cv_messages": 36,
+      "native_error_events": 2,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.374,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 2
+    }
+  },
+  {
+    "run": "S3_B0_102",
+    "events": {
+      "scene": "S3",
+      "mode": "B0",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4003000000,
+          "wall_ns": 4624541555455,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3895000000,
+            "command": 4000000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5005000000,
+          "wall_ns": 4625544463751
+        },
+        {
+          "kind": "actor_contact",
+          "ROS_ns": 8664000000,
+          "wall_ns": 4629204888568,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::rear_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "goal_ns": 4003000000,
+      "end_ns": 8664000000,
+      "result_status": null,
+      "finished": "actor_contact",
+      "controller_failure": null,
+      "native_mppi_errors": [],
+      "native_recovery_enabled": true,
+      "contacts": [
+        {
+          "source_ns": 8664000000,
+          "receipt_ns": 8664000000,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::rear_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "contact_seen": 79,
+      "contacts_publishers": 1
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "8572000000,B0,1,native,1.2733539999999999,0,0,0,1.7497775313931814,0.4915986959305278,0.55954123999549932,0,0,0.49289935827255249,0.034634619951248169,-0.040048934519290924,0,0,0,0,0,0",
+      "8622000000,B0,1,native,12.428884,0,0,0,1.775265374847339,0.5060525621636377,0.5607561619529533,0,0,0.46416759490966797,0.012254743836820126,-0.049666080623865128,0,0,0,0,0,0",
+      "8672000000,B0,1,native,22.431357999999999,0,0,0,1.7916492992416655,0.51701396242995712,0.55932999366596126,0,0,0.4774547815322876,0.027472591027617455,-0.13611841201782227,0,0,0,0,0,0"
+    ],
+    "failure_log_lines": [],
+    "metrics": {
+      "run": "S3_B0_102",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.661,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 93,
+        "min": 1.0587719999999998,
+        "p50": 11.661952999999999,
+        "p95": 32.066539,
+        "max": 32.632259
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 93,
+      "valid_samples": 93,
+      "combined_call_ms": {
+        "n": 93,
+        "min": 1.0587719999999998,
+        "p50": 11.661952999999999,
+        "p95": 32.066539,
+        "max": 32.632259
+      },
+      "control_gap_ms": {
+        "n": 92,
+        "min": 49.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 51.0
+      },
+      "actual_output_gap_ms": {
+        "n": 93,
+        "min": 20.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "max": 82.0
+      },
+      "wait_s": 0.06,
+      "longest_stall_s": 0.06,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 6,
+      "oracle_robot_samples": 233,
+      "oracle_common_samples": 233,
+      "oracle_common_gap_ms": {
+        "n": 232,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.7916492992416655,
+        0.5170139624299571,
+        -1.1010114235524119e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 15,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.3022479037093355,
+      "travel_distance_m": 1.983667208409931,
+      "lateral_distance_m": 0.5342970697327533,
+      "max_lateral_excursion_m": 0.5170139624299571,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 5,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 70,
+      "gate_nonzero_cv_messages": 36,
+      "native_error_events": 0,
+      "native_recovery_enabled": true,
+      "first_native_error_s": null,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 0
+    }
+  },
+  {
+    "run": "S3_B0_103",
+    "events": {
+      "scene": "S3",
+      "mode": "B0",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4003000000,
+          "wall_ns": 4683514068738,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3895000000,
+            "command": 4000000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5003000000,
+          "wall_ns": 4684511570441
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8378000000,
+          "wall_ns": 4687927634542,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "actor_contact",
+          "ROS_ns": 8729000000,
+          "wall_ns": 4688238440316,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::rear_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "goal_ns": 4003000000,
+      "end_ns": 8729000000,
+      "result_status": null,
+      "finished": "actor_contact",
+      "controller_failure": null,
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 8378000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [
+        {
+          "source_ns": 8724000000,
+          "receipt_ns": 8729000000,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::rear_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "contact_seen": 79,
+      "contacts_publishers": 1
+    },
+    "first_native_failure": {
+      "ROS_ns": 8378000000,
+      "reason": "Optimizer fail to compute path",
+      "classification": "native_mppi_delegation_failure",
+      "handled_by": "existing Nav2"
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "8647000000,B0,1,native,22.293185999999999,0,0,0,1.7669941048091309,0.50220663636852514,0.57144543883403009,0,0,0.13740022480487823,0.015650678426027298,0.18266475200653076,0,0,0,0,0,0",
+      "8697000000,B0,1,native,1.414439,0,0,0,1.7773450280393737,0.50712566213331245,0.57331520140711756,0,0,0.20322023332118988,0.049918327480554581,0.19484472274780273,0,0,0,0,0,0",
+      "8747000000,B0,1,native,21.609541999999998,0,0,0,1.7876287145105607,0.516496366461481,0.57490766785734471,0,0,0.21717086434364319,0.045715674757957458,0.24931418895721436,0,0,0,0,0,0"
+    ],
+    "failure_log_lines": [
+      "[component_container_isolated-10] [ERROR] [1791274516.298408733] [controller_server]: Optimizer fail to compute path"
+    ],
+    "metrics": {
+      "run": "S3_B0_103",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.726,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 94,
+        "min": 1.056881,
+        "p50": 11.329855,
+        "p95": 31.739483349999997,
+        "max": 32.72593
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 95,
+      "valid_samples": 94,
+      "combined_call_ms": {
+        "n": 94,
+        "min": 1.056881,
+        "p50": 11.329855,
+        "p95": 31.739483349999997,
+        "max": 32.72593
+      },
+      "control_gap_ms": {
+        "n": 94,
+        "min": 22.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 72.0
+      },
+      "actual_output_gap_ms": {
+        "n": 94,
+        "min": 44.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "max": 56.0
+      },
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 9,
+      "oracle_robot_samples": 236,
+      "oracle_common_samples": 236,
+      "oracle_common_gap_ms": {
+        "n": 235,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.7857489735228131,
+        0.5124863799782752,
+        -1.101010991483928e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 16,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.2983419408546198,
+      "travel_distance_m": 1.9730139831726023,
+      "lateral_distance_m": 0.531974861495648,
+      "max_lateral_excursion_m": 0.5124863799782752,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 5,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 72,
+      "gate_nonzero_cv_messages": 38,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.375,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    }
+  },
+  {
+    "run": "S3_B0_104",
+    "events": {
+      "scene": "S3",
+      "mode": "B0",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4002000000,
+          "wall_ns": 4763449329997,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 3980000000,
+            "moving_obstacle": 4000000000,
+            "rm_sentry_2027": 3980000000,
+            "prediction": 3895000000,
+            "command": 4000000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5002000000,
+          "wall_ns": 4764447297493
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8560000000,
+          "wall_ns": 4768036577234,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "actor_contact",
+          "ROS_ns": 8719000000,
+          "wall_ns": 4768164656983,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::rear_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "goal_ns": 4002000000,
+      "end_ns": 8719000000,
+      "result_status": null,
+      "finished": "actor_contact",
+      "controller_failure": null,
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 8560000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [
+        {
+          "source_ns": 8719000000,
+          "receipt_ns": 8719000000,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::rear_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "contact_seen": 79,
+      "contacts_publishers": 1
+    },
+    "first_native_failure": {
+      "ROS_ns": 8560000000,
+      "reason": "Optimizer fail to compute path",
+      "classification": "native_mppi_delegation_failure",
+      "handled_by": "existing Nav2"
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "8628000000,B0,1,native,22.412297000000002,0,0,0,1.758312344591995,0.52272741013757895,0.55880226888075479,0,0,0.020003361627459526,-0.07019159197807312,-0.034431196749210358,0,0,0,0,0,0",
+      "8678000000,B0,1,native,11.485009,0,0,0,1.7733804710214256,0.53164172400495657,0.55913694678892112,0,0,0.093170002102851868,0.086349509656429291,0.12275729328393936,0,0,0,0,0,0",
+      "8728000000,B0,1,native,22.520696000000001,0,0,0,1.7945021477939456,0.54227097384202316,0.55783223139768323,0,0,0.15541857481002808,0.083087034523487091,0.15801367163658142,0,0,0,0,0,0"
+    ],
+    "failure_log_lines": [
+      "[component_container_isolated-10] [ERROR] [1791274596.416720983] [controller_server]: Optimizer fail to compute path"
+    ],
+    "metrics": {
+      "run": "S3_B0_104",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4002000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.717,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 93,
+        "min": 1.10611,
+        "p50": 12.042717,
+        "p95": 32.307295599999996,
+        "max": 32.529044999999996
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 94,
+      "valid_samples": 93,
+      "combined_call_ms": {
+        "n": 93,
+        "min": 1.10611,
+        "p50": 12.042717,
+        "p95": 32.307295599999996,
+        "max": 32.529044999999996
+      },
+      "control_gap_ms": {
+        "n": 93,
+        "min": 41.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 62.0
+      },
+      "actual_output_gap_ms": {
+        "n": 93,
+        "min": 43.0,
+        "p50": 50.0,
+        "p95": 53.0,
+        "max": 57.0
+      },
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 4,
+      "oracle_robot_samples": 235,
+      "oracle_common_samples": 235,
+      "oracle_common_gap_ms": {
+        "n": 234,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.787781361319492,
+        0.5392290998973649,
+        -1.1010116270422906e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 16,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.28391933377317485,
+      "travel_distance_m": 1.9949338952301363,
+      "lateral_distance_m": 0.5598965900119103,
+      "max_lateral_excursion_m": 0.5392290998973649,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 5,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 73,
+      "gate_nonzero_cv_messages": 39,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.558,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    }
+  },
+  {
+    "run": "S3_B0_105",
+    "events": {
+      "scene": "S3",
+      "mode": "B0",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4002000000,
+          "wall_ns": 4780620691316,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 3980000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3895000000,
+            "command": 4000000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5005000000,
+          "wall_ns": 4781622951975
+        },
+        {
+          "kind": "actor_contact",
+          "ROS_ns": 8692000000,
+          "wall_ns": 4785310236824,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::rear_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "goal_ns": 4002000000,
+      "end_ns": 8692000000,
+      "result_status": null,
+      "finished": "actor_contact",
+      "controller_failure": null,
+      "native_mppi_errors": [],
+      "native_recovery_enabled": true,
+      "contacts": [
+        {
+          "source_ns": 8692000000,
+          "receipt_ns": 8692000000,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::rear_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "contact_seen": 79,
+      "contacts_publishers": 1
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "8624000000,B0,1,native,2.241676,0,0,0,1.76785349210001,0.51321855838374808,0.56048296051957092,0,0,0.48350471258163452,0.031619518995285034,-0.13537070155143738,0,0,0,0,0,0",
+      "8674000000,B0,1,native,21.437476,0,0,0,1.783959667395715,0.52399252665550322,0.55570059054863563,0,0,0.47199851274490356,0.036268364638090134,-0.24039444327354431,0,0,0,0,0,0",
+      "8724000000,B0,1,native,1.2675589999999999,0,0,0,1.8025723196333101,0.54156839800541168,0.53280043358102147,0,0,0.46463432908058167,-0.0067142751067876816,-0.18094033002853394,0,0,0,0,0,0"
+    ],
+    "failure_log_lines": [],
+    "metrics": {
+      "run": "S3_B0_105",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4002000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.69,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 94,
+        "min": 1.0543099999999999,
+        "p50": 12.10813,
+        "p95": 32.3198551,
+        "max": 32.743014
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 94,
+      "valid_samples": 94,
+      "combined_call_ms": {
+        "n": 94,
+        "min": 1.0543099999999999,
+        "p50": 12.10813,
+        "p95": 32.3198551,
+        "max": 32.743014
+      },
+      "control_gap_ms": {
+        "n": 93,
+        "min": 50.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 50.0
+      },
+      "actual_output_gap_ms": {
+        "n": 93,
+        "min": 47.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "max": 53.0
+      },
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 6,
+      "oracle_robot_samples": 234,
+      "oracle_common_samples": 234,
+      "oracle_common_gap_ms": {
+        "n": 233,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.7918483435653356,
+        0.5296209672906742,
+        -1.1010114106359686e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 16,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.2960064339809213,
+      "travel_distance_m": 1.99246943755694,
+      "lateral_distance_m": 0.549693822767343,
+      "max_lateral_excursion_m": 0.5296209672906742,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 5,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 72,
+      "gate_nonzero_cv_messages": 38,
+      "native_error_events": 0,
+      "native_recovery_enabled": true,
+      "first_native_error_s": null,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 0
+    }
+  },
+  {
+    "run": "S3_R4_101",
+    "events": {
+      "scene": "S3",
+      "mode": "R4",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4003000000,
+          "wall_ns": 4531498485849,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3895000000,
+            "command": 4000000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5006000000,
+          "wall_ns": 4532500244787
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8838000000,
+          "wall_ns": 4536364973617,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 9670000000,
+          "wall_ns": 4537164573152
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 14337000000,
+          "wall_ns": 4541831415435
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 22630000000,
+          "wall_ns": 4550125089129,
+          "reason": "degenerate path"
+        }
+      ],
+      "goal_ns": 4003000000,
+      "end_ns": 22630000000,
+      "result_status": null,
+      "finished": "controller_failure",
+      "controller_failure": "degenerate path",
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 8838000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 78,
+      "contacts_publishers": 1
+    },
+    "first_native_failure": {
+      "ROS_ns": 8838000000,
+      "reason": "Optimizer fail to compute path",
+      "classification": "native_mppi_delegation_failure",
+      "handled_by": "existing Nav2"
+    },
+    "final_plan": {
+      "receipt_ns": 22546000000,
+      "source_ns": 22545000000,
+      "xy": [
+        [
+          3.999999999999986,
+          0.0
+        ],
+        [
+          4.0,
+          0.0
+        ]
+      ]
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "22528000000,R4,1,solved_soft_dynamic,21.245802000000001,1.8111270000000002,2.291417,400,4.0062072879591311,-0.025629136373106765,0.24682945592727151,0.045176150547159497,0.047913312549748323,0.05524190483028088,0.035845530383461749,-0.35590153932571411,0,0,0.19999999999999929,1,22511000000,22520000000",
+      "22568000000,R4,1,solved_soft_dynamic,11.202541999999999,3.4444369999999997,4.1638929999999998,400,4.0086883554202215,-0.023753959515977995,0.23178265836773138,0.035343642110072307,0.047170795944398596,0.044966692470482225,0.038108445204416891,-0.34115308523178101,0,0,0.19999999999999929,1,22561000000,22540000000",
+      "22630000000,R4,0,degenerate path,22.609472,0,0,0,4.0117430258615521,-0.020940083202928846,0.21004518897504629,0,0,0.0072211120277643204,-0.040781524032354355,-0.32502695918083191,0,0,0,0,0,0"
+    ],
+    "failure_log_lines": [
+      "[component_container_isolated-10] [ERROR] [1791274364.744385368] [controller_server]: Optimizer fail to compute path",
+      "[component_container_isolated-10] [ERROR] [1791274378.550682317] [controller_server]: degenerate path"
+    ],
+    "metrics": {
+      "run": "S3_R4_101",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "controller_failure",
+      "status": null,
+      "reason": "degenerate path",
+      "contact_messages": 0,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 18.627,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 371,
+        "min": 0.9664240000000001,
+        "p50": 11.384287,
+        "p95": 31.527056499999997,
+        "max": 33.244945
+      },
+      "solver_ms": {
+        "n": 371,
+        "min": 0.41398900000000005,
+        "p50": 0.731422,
+        "p95": 1.3091585000000001,
+        "max": 3.4444369999999997
+      },
+      "r4_call_ms": {
+        "n": 371,
+        "min": 0.904586,
+        "p50": 1.299137,
+        "p95": 2.3404575000000003,
+        "max": 7.714758000000001
+      },
+      "control_samples": 373,
+      "valid_samples": 371,
+      "combined_call_ms": {
+        "n": 371,
+        "min": 1.973508,
+        "p50": 12.640728000000001,
+        "p95": 32.8525275,
+        "max": 35.581706000000004
+      },
+      "control_gap_ms": {
+        "n": 372,
+        "min": 4.0,
+        "p50": 54.5,
+        "p95": 71.0,
+        "max": 113.0
+      },
+      "actual_output_gap_ms": {
+        "n": 372,
+        "min": 41.0,
+        "p50": 50.0,
+        "p95": 55.0,
+        "max": 60.0
+      },
+      "wait_s": 3.0600000000000023,
+      "longest_stall_s": 2.2400000000000015,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.3340464871707953,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 931,
+      "oracle_common_samples": 931,
+      "oracle_common_gap_ms": {
+        "n": 930,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.012614054354438,
+        -0.020006582442594872,
+        -1.1010119245495717e-08
+      ],
+      "backward_distance_m": 0.001912742907818843,
+      "maximum_backtrack_m": 0.0015038381005813006,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 371,
+        "min": 7.0,
+        "p50": 18.0,
+        "p95": 28.0,
+        "max": 30.0
+      },
+      "history_age_ms": {
+        "n": 371,
+        "min": 7.0,
+        "p50": 19.0,
+        "p95": 48.0,
+        "max": 49.0
+      },
+      "actual_clear_s": 8.857,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 199,
+      "costmap_actor_occupied_samples": 63,
+      "gate_pass_s": 13.957,
+      "signed_clear_to_pass_s": 5.1,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.5855155706971502,
+      "travel_distance_m": 4.0298538444087235,
+      "lateral_distance_m": 0.1740174452674245,
+      "max_lateral_excursion_m": 0.039656942262572104,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 277,
+      "gate_nonzero_cv_messages": 127,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.835,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    }
+  },
+  {
+    "run": "S3_R4_102",
+    "events": {
+      "scene": "S3",
+      "mode": "R4",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4001000000,
+          "wall_ns": 4594132448835,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 3980000000,
+            "rm_sentry_2027": 3980000000,
+            "moving_obstacle": 3980000000,
+            "prediction": 3895000000,
+            "command": 3999000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5001000000,
+          "wall_ns": 4595130840673
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8776000000,
+          "wall_ns": 4598945421138,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 9671000000,
+          "wall_ns": 4599801243693
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 14335000000,
+          "wall_ns": 4604469267034
+        },
+        {
+          "kind": "goal_result",
+          "ROS_ns": 22799000000,
+          "wall_ns": 4612932953176,
+          "status": 4
+        }
+      ],
+      "goal_ns": 4001000000,
+      "end_ns": 22799000000,
+      "result_status": 4,
+      "finished": "goal_result",
+      "controller_failure": null,
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 8776000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 78,
+      "contacts_publishers": 1
+    },
+    "first_native_failure": {
+      "ROS_ns": 8776000000,
+      "reason": "Optimizer fail to compute path",
+      "classification": "native_mppi_delegation_failure",
+      "handled_by": "existing Nav2"
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "22663000000,R4,1,solved_soft_dynamic,22.228211999999999,0.55385799999999996,1.5061199999999999,40,4.0320703583491442,-0.028493125165827117,0.21591915326390637,0.044173110123032475,0.021863743675485693,0.047761841770995031,0.012169363832646673,-0.32443088293075562,0,0,0.049999999999999822,1,22655000000,22640000000",
+      "22693000000,R4,1,solved_soft_dynamic,2.0776870000000001,1.0506039999999999,1.9135610000000001,70,4.0347962007981453,-0.027749133087378315,0.20227408420298842,0.043552238796407183,0.022569822662758553,0.047198529289554071,0.013360135931597071,-0.30837729573249817,0,0,0.049999999999999822,1,22655000000,22680000000",
+      "22763000000,R4,1,solved_soft_dynamic,22.644442999999999,0.64083900000000005,1.644533,80,4.0381904346309687,-0.026532354861294571,0.18266796911538472,0.022290288554631756,0.026014179335159215,0.026538444565856155,0.02166345887330904,-0.2912561297416687,0,0,0.049999999999999829,1,22755000000,22740000000"
+    ],
+    "failure_log_lines": [
+      "[component_container_isolated-10] [ERROR] [1791274427.317689559] [controller_server]: Optimizer fail to compute path"
+    ],
+    "metrics": {
+      "run": "S3_R4_102",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4001000000,
+      "finished": "goal_result",
+      "status": 4,
+      "reason": null,
+      "contact_messages": 0,
+      "startup": false,
+      "success": true,
+      "elapsed_s": 18.798,
+      "arrival_s": 18.798,
+      "native_ms": {
+        "n": 375,
+        "min": 1.048705,
+        "p50": 12.302531,
+        "p95": 32.0888098,
+        "max": 41.796725
+      },
+      "solver_ms": {
+        "n": 375,
+        "min": 0.397768,
+        "p50": 0.690285,
+        "p95": 1.2195423,
+        "max": 2.350171
+      },
+      "r4_call_ms": {
+        "n": 375,
+        "min": 0.8876580000000001,
+        "p50": 1.223577,
+        "p95": 2.3264053000000002,
+        "max": 7.673727
+      },
+      "control_samples": 376,
+      "valid_samples": 375,
+      "combined_call_ms": {
+        "n": 375,
+        "min": 2.149549,
+        "p50": 14.567645,
+        "p95": 34.0545436,
+        "max": 43.318515000000005
+      },
+      "control_gap_ms": {
+        "n": 375,
+        "min": 4.0,
+        "p50": 59.0,
+        "p95": 70.30000000000001,
+        "max": 103.0
+      },
+      "actual_output_gap_ms": {
+        "n": 375,
+        "min": 31.0,
+        "p50": 50.0,
+        "p95": 53.0,
+        "max": 63.0
+      },
+      "wait_s": 2.760000000000002,
+      "longest_stall_s": 0.9000000000000005,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.32580857344055897,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 939,
+      "oracle_common_samples": 939,
+      "oracle_common_gap_ms": {
+        "n": 938,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.039955067547294,
+        -0.025674490168622964,
+        -1.1010114236147529e-08
+      ],
+      "backward_distance_m": 0.0009996997769433635,
+      "maximum_backtrack_m": 0.0006363524646084695,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 375,
+        "min": 2.0,
+        "p50": 15.0,
+        "p95": 25.0,
+        "max": 27.0
+      },
+      "history_age_ms": {
+        "n": 375,
+        "min": 7.0,
+        "p50": 27.0,
+        "p95": 47.0,
+        "max": 49.0
+      },
+      "actual_clear_s": 8.859,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 197,
+      "costmap_actor_occupied_samples": 64,
+      "gate_pass_s": 13.959,
+      "signed_clear_to_pass_s": 5.1,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.586046031232275,
+      "travel_distance_m": 4.049562138733531,
+      "lateral_distance_m": 0.15809204317295955,
+      "max_lateral_excursion_m": 0.031092226406092507,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 281,
+      "gate_nonzero_cv_messages": 128,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.775,
+      "success_after_native_error": true,
+      "native_unavailable_cycles": 1
+    }
+  },
+  {
+    "run": "S3_R4_103",
+    "events": {
+      "scene": "S3",
+      "mode": "R4",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4003000000,
+          "wall_ns": 4700159807275,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3829000000,
+            "command": 4000000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5004000000,
+          "wall_ns": 4701159760695
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8945000000,
+          "wall_ns": 4705132876030,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 9670000000,
+          "wall_ns": 4705828535742
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 14337000000,
+          "wall_ns": 4710498557225
+        },
+        {
+          "kind": "goal_result",
+          "ROS_ns": 22733000000,
+          "wall_ns": 4718900861413,
+          "status": 4
+        }
+      ],
+      "goal_ns": 4003000000,
+      "end_ns": 22733000000,
+      "result_status": 4,
+      "finished": "goal_result",
+      "controller_failure": null,
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 8945000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 78,
+      "contacts_publishers": 1
+    },
+    "first_native_failure": {
+      "ROS_ns": 8945000000,
+      "reason": "Optimizer fail to compute path",
+      "classification": "native_mppi_delegation_failure",
+      "handled_by": "existing Nav2"
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "22596000000,R4,1,solved_soft_dynamic,22.475300000000001,0.95960599999999996,2.8721200000000002,70,4.0272292635449265,-0.038280176025340409,0.24031289466324038,0.037999837549715455,0.046436970827241915,0.047691769635470727,0.036412566820427171,-0.34015354514122009,0,0,0.049999999999999822,1,22583000000,22580000000",
+      "22636000000,R4,1,solved_soft_dynamic,13.038266,0.73470800000000003,1.6328940000000001,40,4.0313176388679759,-0.036111813339405538,0.2185944923209848,0.020302632235642978,0.047823897520262178,0.030190478819594864,0.04228305852664755,-0.32417961955070496,0,0,0.049999999999999829,1,22633000000,22620000000",
+      "22695000000,R4,1,solved_soft_dynamic,22.144868000000002,0.51840199999999992,1.0319839999999998,60,4.0332765746089683,-0.03439282749828735,0.20471860555092392,0.0050780017555241384,0.048986653847796734,0.014610921034251949,0.047031897086592403,-0.30885878205299377,0,0,0.049999999999999822,1,22683000000,22680000000"
+    ],
+    "failure_log_lines": [
+      "[component_container_isolated-10] [ERROR] [1791274533.515104299] [controller_server]: Optimizer fail to compute path"
+    ],
+    "metrics": {
+      "run": "S3_R4_103",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "goal_result",
+      "status": 4,
+      "reason": null,
+      "contact_messages": 0,
+      "startup": false,
+      "success": true,
+      "elapsed_s": 18.73,
+      "arrival_s": 18.73,
+      "native_ms": {
+        "n": 371,
+        "min": 0.9776940000000001,
+        "p50": 12.100091,
+        "p95": 31.8144505,
+        "max": 41.59802
+      },
+      "solver_ms": {
+        "n": 371,
+        "min": 0.413016,
+        "p50": 0.702434,
+        "p95": 1.3101604999999998,
+        "max": 2.938414
+      },
+      "r4_call_ms": {
+        "n": 371,
+        "min": 0.9241539999999999,
+        "p50": 1.228044,
+        "p95": 2.3111325000000003,
+        "max": 6.087579
+      },
+      "control_samples": 372,
+      "valid_samples": 371,
+      "combined_call_ms": {
+        "n": 371,
+        "min": 1.96484,
+        "p50": 13.459817000000001,
+        "p95": 33.1209335,
+        "max": 42.662791999999996
+      },
+      "control_gap_ms": {
+        "n": 371,
+        "min": 5.0,
+        "p50": 59.0,
+        "p95": 71.0,
+        "max": 154.0
+      },
+      "actual_output_gap_ms": {
+        "n": 374,
+        "min": 45.0,
+        "p50": 50.0,
+        "p95": 52.349999999999966,
+        "max": 55.0
+      },
+      "wait_s": 2.3200000000000016,
+      "longest_stall_s": 1.3400000000000007,
+      "clear_resume_s": null,
+      "forward_reversals": 2,
+      "min_dynamic_clearance_m": 0.3149321227000521,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 936,
+      "oracle_common_samples": 936,
+      "oracle_common_gap_ms": {
+        "n": 935,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.035070103981544,
+        -0.03159988957599131,
+        -1.1010116334120384e-08
+      ],
+      "backward_distance_m": 0.017974349751582963,
+      "maximum_backtrack_m": 0.017479528789530407,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 371,
+        "min": 3.0,
+        "p50": 16.0,
+        "p95": 26.0,
+        "max": 32.0
+      },
+      "history_age_ms": {
+        "n": 371,
+        "min": 0.0,
+        "p50": 13.0,
+        "p95": 42.5,
+        "max": 44.0
+      },
+      "actual_clear_s": 8.857,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 190,
+      "costmap_actor_occupied_samples": 62,
+      "gate_pass_s": 13.977,
+      "signed_clear_to_pass_s": 5.12,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.5857048736760468,
+      "travel_distance_m": 4.082344009152478,
+      "lateral_distance_m": 0.16580587739381075,
+      "max_lateral_excursion_m": 0.04177375803863494,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 285,
+      "gate_nonzero_cv_messages": 128,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.942,
+      "success_after_native_error": true,
+      "native_unavailable_cycles": 1
+    }
+  },
+  {
+    "run": "S3_R4_104",
+    "events": {
+      "scene": "S3",
+      "mode": "R4",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4003000000,
+          "wall_ns": 4732600760188,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3829000000,
+            "command": 4003000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5003000000,
+          "wall_ns": 4733601305801
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8858000000,
+          "wall_ns": 4737490274892,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 9670000000,
+          "wall_ns": 4738268046823
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 14337000000,
+          "wall_ns": 4742934876562
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 22587000000,
+          "wall_ns": 4751185366147,
+          "reason": "degenerate path"
+        }
+      ],
+      "goal_ns": 4003000000,
+      "end_ns": 22587000000,
+      "result_status": null,
+      "finished": "controller_failure",
+      "controller_failure": "degenerate path",
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 8858000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 78,
+      "contacts_publishers": 1
+    },
+    "first_native_failure": {
+      "ROS_ns": 8858000000,
+      "reason": "Optimizer fail to compute path",
+      "classification": "native_mppi_delegation_failure",
+      "handled_by": "existing Nav2"
+    },
+    "final_plan": {
+      "receipt_ns": 22544000000,
+      "source_ns": 22543000000,
+      "xy": [
+        [
+          3.999999999999986,
+          0.0
+        ],
+        [
+          4.0,
+          0.0
+        ]
+      ]
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "22486000000,R4,1,solved_soft_dynamic,11.077340999999999,1.769963,2.2756080000000001,400,4.0080851990132631,-0.023069783351901817,0.241529149033925,0.036787388247988134,0.044157198336411116,0.046034817467914643,0.034408802358192374,-0.34951880574226379,0,0,0.20000000000000107,1,22481000000,22460000000",
+      "22546000000,R4,1,solved_soft_dynamic,21.170204999999999,1.8208260000000001,2.2983199999999999,400,4.0112417802646654,-0.020467552575638048,0.21930599967797737,0.028215923914026379,0.042804940747970338,0.036594456023369748,0.035906087271005104,-0.33351778984069824,0,0,0.20000000000000107,1,22531000000,22540000000",
+      "22586000000,R4,0,degenerate path,11.578857999999999,0,0,0,4.0129006208352926,-0.018736466782902628,0.20510442972384002,0,0,5.5946875363588333e-06,-0.042492590844631195,-0.31794512271881104,0,0,0,0,0,0"
+    ],
+    "failure_log_lines": [
+      "[component_container_isolated-10] [ERROR] [1791274565.867318681] [controller_server]: Optimizer fail to compute path",
+      "[component_container_isolated-10] [ERROR] [1791274579.596966443] [controller_server]: degenerate path"
+    ],
+    "metrics": {
+      "run": "S3_R4_104",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "controller_failure",
+      "status": null,
+      "reason": "degenerate path",
+      "contact_messages": 0,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 18.584,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 370,
+        "min": 0.99153,
+        "p50": 11.717884,
+        "p95": 31.876376349999997,
+        "max": 33.293077999999994
+      },
+      "solver_ms": {
+        "n": 370,
+        "min": 0.396919,
+        "p50": 0.7136695,
+        "p95": 1.3324396,
+        "max": 3.178293
+      },
+      "r4_call_ms": {
+        "n": 370,
+        "min": 0.878027,
+        "p50": 1.2860999999999998,
+        "p95": 2.3536819,
+        "max": 4.7965029999999995
+      },
+      "control_samples": 372,
+      "valid_samples": 370,
+      "combined_call_ms": {
+        "n": 370,
+        "min": 1.9359359999999999,
+        "p50": 13.5262665,
+        "p95": 33.51088850000001,
+        "max": 35.646353999999995
+      },
+      "control_gap_ms": {
+        "n": 371,
+        "min": 28.0,
+        "p50": 59.0,
+        "p95": 70.0,
+        "max": 72.0
+      },
+      "actual_output_gap_ms": {
+        "n": 371,
+        "min": 38.0,
+        "p50": 50.0,
+        "p95": 54.0,
+        "max": 59.0
+      },
+      "wait_s": 3.0200000000000022,
+      "longest_stall_s": 2.740000000000002,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.3207719986936082,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 929,
+      "oracle_common_samples": 929,
+      "oracle_common_gap_ms": {
+        "n": 928,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.013664712577174,
+        -0.017877731603467714,
+        -1.101011488344371e-08
+      ],
+      "backward_distance_m": 0.018051487826604262,
+      "maximum_backtrack_m": 0.014923677775295019,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 370,
+        "min": 5.0,
+        "p50": 16.0,
+        "p95": 26.0,
+        "max": 28.0
+      },
+      "history_age_ms": {
+        "n": 370,
+        "min": 4.0,
+        "p50": 15.0,
+        "p95": 46.0,
+        "max": 47.0
+      },
+      "actual_clear_s": 8.857,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 193,
+      "costmap_actor_occupied_samples": 62,
+      "gate_pass_s": 13.877,
+      "signed_clear_to_pass_s": 5.02,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.5869860809345602,
+      "travel_distance_m": 4.064458944810098,
+      "lateral_distance_m": 0.17775971679643063,
+      "max_lateral_excursion_m": 0.03697340611330753,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 282,
+      "gate_nonzero_cv_messages": 127,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.855,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    }
+  },
+  {
+    "run": "S3_R4_105",
+    "events": {
+      "scene": "S3",
+      "mode": "R4",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4001000000,
+          "wall_ns": 4797580893501,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 3980000000,
+            "rm_sentry_2027": 3980000000,
+            "moving_obstacle": 3980000000,
+            "prediction": 3895000000,
+            "command": 4000000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5001000000,
+          "wall_ns": 4798579322037
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8885000000,
+          "wall_ns": 4802497604873,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 9668000000,
+          "wall_ns": 4803246916140
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 14335000000,
+          "wall_ns": 4807914279818
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 22583000000,
+          "wall_ns": 4816166243951,
+          "reason": "degenerate path"
+        }
+      ],
+      "goal_ns": 4001000000,
+      "end_ns": 22583000000,
+      "result_status": null,
+      "finished": "controller_failure",
+      "controller_failure": "degenerate path",
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 8885000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 78,
+      "contacts_publishers": 1
+    },
+    "first_native_failure": {
+      "ROS_ns": 8885000000,
+      "reason": "Optimizer fail to compute path",
+      "classification": "native_mppi_delegation_failure",
+      "handled_by": "existing Nav2"
+    },
+    "final_plan": {
+      "receipt_ns": 22543000000,
+      "source_ns": 22539000000,
+      "xy": [
+        [
+          3.999999999999986,
+          0.0
+        ],
+        [
+          4.0,
+          0.0
+        ]
+      ]
+    },
+    "last_control_rows": [
+      "epoch_ns,mode,valid,reason,native_ms,solver_ms,total_ms,iterations,x,y,yaw,world_vx,world_vy,body_vx,body_vy,wz,nominal_cost,solved_cost,progress_end,tracks,history_stamp_ns,state_stamp_ns",
+      "22513000000,R4,1,solved_soft_dynamic,12.271148999999999,1.8612929999999999,2.557369,400,4.0112477666792321,-0.012736896667140334,0.20683154804382745,0.02359624917359027,0.025118917872053548,0.028251751849058721,0.019737819727222605,-0.32483240962028503,0,0,0.15000000000000036,1,22499000000,22500000000",
+      "22572000000,R4,1,solved_soft_dynamic,21.173803000000003,3.419835,4.0301419999999997,400,4.0125501559727024,-0.011744308611697153,0.19310639157259701,0.016768965853122011,0.02431838488852206,0.020984738275158211,0.020789969189312911,-0.30840280652046204,0,0,0.15000000000000036,1,22549000000,22560000000",
+      "22579000000,R4,0,degenerate path,2.4676469999999999,0,0,0,4.0131266330976425,-0.011250516145184377,0.1863762111898927,0,0,-0.013703952543437481,-0.052767157554626465,-0.29365888237953186,0,0,0,0,0,0"
+    ],
+    "failure_log_lines": [
+      "[component_container_isolated-10] [ERROR] [1791274630.876344555] [controller_server]: Optimizer fail to compute path",
+      "[component_container_isolated-10] [ERROR] [1791274644.574094501] [controller_server]: degenerate path"
+    ],
+    "metrics": {
+      "run": "S3_R4_105",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4001000000,
+      "finished": "controller_failure",
+      "status": null,
+      "reason": "degenerate path",
+      "contact_messages": 0,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 18.582,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 371,
+        "min": 0.9975489999999999,
+        "p50": 12.244335,
+        "p95": 31.923009,
+        "max": 43.085431
+      },
+      "solver_ms": {
+        "n": 371,
+        "min": 0.414277,
+        "p50": 0.734429,
+        "p95": 1.292901,
+        "max": 3.419835
+      },
+      "r4_call_ms": {
+        "n": 371,
+        "min": 0.941544,
+        "p50": 1.300797,
+        "p95": 2.3847885,
+        "max": 4.59166
+      },
+      "control_samples": 373,
+      "valid_samples": 371,
+      "combined_call_ms": {
+        "n": 371,
+        "min": 1.9583809999999997,
+        "p50": 14.107728,
+        "p95": 33.483206499999994,
+        "max": 45.364677
+      },
+      "control_gap_ms": {
+        "n": 372,
+        "min": 7.0,
+        "p50": 59.0,
+        "p95": 71.0,
+        "max": 73.0
+      },
+      "actual_output_gap_ms": {
+        "n": 371,
+        "min": 32.0,
+        "p50": 50.0,
+        "p95": 53.0,
+        "max": 67.0
+      },
+      "wait_s": 2.760000000000002,
+      "longest_stall_s": 2.700000000000002,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.32665517122995585,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 929,
+      "oracle_common_samples": 929,
+      "oracle_common_gap_ms": {
+        "n": 928,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.01361025188281,
+        -0.010759386553861635,
+        -1.1010108695701313e-08
+      ],
+      "backward_distance_m": 0.009486739674623212,
+      "maximum_backtrack_m": 0.007159733648703481,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 371,
+        "min": 2.0,
+        "p50": 15.0,
+        "p95": 25.0,
+        "max": 27.0
+      },
+      "history_age_ms": {
+        "n": 371,
+        "min": 2.0,
+        "p50": 22.0,
+        "p95": 42.0,
+        "max": 45.0
+      },
+      "actual_clear_s": 8.859,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 193,
+      "costmap_actor_occupied_samples": 63,
+      "gate_pass_s": 13.799,
+      "signed_clear_to_pass_s": 4.94,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.5914393918443194,
+      "travel_distance_m": 4.0395833427873304,
+      "lateral_distance_m": 0.13807450269258187,
+      "max_lateral_excursion_m": 0.023186866554719094,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 280,
+      "gate_nonzero_cv_messages": 126,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.884,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    }
+  }
+]

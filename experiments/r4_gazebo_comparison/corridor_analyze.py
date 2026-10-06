@@ -4,6 +4,8 @@ import yaml
 from analyze import aggregate,rows,stats,polygon_distance
 
 root=pathlib.Path(sys.argv[1]);aggregate(root)
+protocol=json.loads((root/'protocol.json').read_text())
+recovery_enabled=protocol.get('native_recovery_enabled',False)
 spec=json.loads((root/'assets/scenario.json').read_text())
 summary=json.loads((root/'summary.json').read_text());radius=math.hypot(.32,.27)+.02
 wall_polygons=[[(a,c),(b,c),(b,d),(a,d)] for a,b,c,d in spec['walls']]
@@ -11,6 +13,9 @@ wall_polygons=[[(a,c),(b,c),(b,d),(a,d)] for a,b,c,d in spec['walls']]
 for r in summary['runs']:
     if r['startup']: continue
     directory=root/'runs'/r['run'];start=r['goal_ns'];end=start+int(r['elapsed_s']*1e9)
+    events=json.loads((directory/'events.json').read_text())
+    assert events.get('native_recovery_enabled',False)==recovery_enabled,'different trial semantics in one cohort'
+    native_errors=events.get('native_mppi_errors',[e for e in events['events'] if e.get('reason')=='Optimizer fail to compute path'])
     run_spec=json.loads((directory/'scenario.json').read_text()) if (directory/'scenario.json').exists() else spec
     wall_polygons=[[(a,c),(b,c),(b,d),(a,d)] for a,b,c,d in run_spec['walls']]
     truth={}
@@ -58,8 +63,11 @@ for r in summary['runs']:
     r.update(actual_clear_s=(clear-start)/1e9 if clear else None,actual_clear_resume_s=resume,gate_pass_s=(passed-start)/1e9 if passed else None,
              signed_clear_to_pass_s=(passed-clear)/1e9 if clear and passed else None,already_passed_at_clear=passed<clear if clear and passed else None,
              min_static_wall_clearance_m=wall_clearance,travel_distance_m=distance,lateral_distance_m=lateral,max_lateral_excursion_m=max((abs(p[1]) for p in xy),default=None),
-             lateral_escape_attempts=excursions,plan_messages=len(plans),plan_pocket_messages=sum(any(abs(p[1])>.4 for p in v['xy']) for v in plans),
+             lateral_escape_attempts=excursions,plan_messages=len(plans),plan_lateral_messages=sum(any(abs(p[1])>.4 for p in v['xy']) for v in plans),
              gate_prediction_messages=predictions,gate_nonzero_cv_messages=moving_predictions,
+             native_error_events=len(native_errors),native_recovery_enabled=recovery_enabled,
+             first_native_error_s=(native_errors[0]['ROS_ns']-start)/1e9 if native_errors else None,
+             success_after_native_error=r['success'] and bool(native_errors),
              native_unavailable_cycles=sum(v['reason']=='Optimizer fail to compute path' for v in controls),
              solver_ms=stats([float(v['solver_ms']) for v in valid_controls if r['mode']=='R4']),
              native_ms=stats([float(v['native_ms']) for v in valid_controls]),
@@ -68,7 +76,7 @@ for r in summary['runs']:
     metrics=json.loads((directory/'metrics.json').read_text());metrics.update(r);metrics['actor_timed_samples']=actor
     (directory/'metrics.json').write_text(json.dumps(metrics,indent=2)+'\n')
 
-extra_fields=['gate_pass_s','signed_clear_to_pass_s','actual_clear_resume_s','min_static_wall_clearance_m','travel_distance_m','lateral_distance_m','max_lateral_excursion_m','lateral_escape_attempts','plan_messages','plan_pocket_messages','gate_nonzero_cv_messages']
+extra_fields=['gate_pass_s','signed_clear_to_pass_s','actual_clear_resume_s','min_static_wall_clearance_m','travel_distance_m','lateral_distance_m','max_lateral_excursion_m','lateral_escape_attempts','plan_messages','plan_lateral_messages','gate_nonzero_cv_messages']
 for g in summary['groups']:
     selected=[r for r in summary['runs'] if r['scene']==g['scene'] and r['mode']==g['mode'] and r['phase']=='finite' and not r['startup']]
     for key in extra_fields:g[key]=stats([r[key] for r in selected if r[key] is not None])
@@ -81,6 +89,9 @@ for g in summary['groups']:
     g['combined_call_ms']=stats([float(v['native_ms'])+float(v['total_ms']) for v in controls])
     g['valid_call_samples']=len(controls)
     g['native_unavailable_cycles']=sum(r['native_unavailable_cycles'] for r in selected)
+    g['native_error_events']=sum(r['native_error_events'] for r in selected)
+    g['trials_with_native_error']=sum(r['native_error_events']>0 for r in selected)
+    g['success_after_native_error']=sum(r['success_after_native_error'] for r in selected)
     g['solver_p95_ms']=stats([r['solver_ms']['p95'] for r in selected if r['solver_ms']])
     g['native_p95_ms']=stats([r['native_ms']['p95'] for r in selected if r['native_ms']])
 (root/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
@@ -119,10 +130,12 @@ for directory in (root/'runs').iterdir():
     unexpected=[k for k in actual.keys()|expected.keys() if actual.get(k)!=expected.get(k) and k not in ('controller_server.ros__parameters.FollowPath.research_mode','controller_server.ros__parameters.FollowPath.research_log')]
     if unexpected:errors.append(dict(run=directory.name,keys=unexpected))
     text=(directory/'output_endpoints.txt').read_text() if (directory/'output_endpoints.txt').exists() else ''
-    endpoints.append(dict(run=directory.name,unique_output='Publisher count: 1' in text and 'Node name: chassis_interface_stub' in text,cleanup_minus11='exit code -11' in (directory/'launch.log').read_text()))
+    endpoints.append(dict(run=directory.name,publisher_count_one='Publisher count: 1' in text,owner_name_observed='Node name: chassis_interface_stub' in text,unique_output='Publisher count: 1' in text and 'Node name: chassis_interface_stub' in text,cleanup_minus11='exit code -11' in (directory/'launch.log').read_text()))
 assert not errors,errors
 groups={g['mode']:g for g in summary['groups'] if g['scene']=='S3'}
 decision=dict(verdict='Pending',r4_a24_byte_equal=True,shared_config_delta=config_delta,trial_config_errors=errors,endpoints=endpoints,pairs=pairs,methodology='First-native-error abort cohort: original wrapper permanently latches exceptions and recorder ends on first error. Existing Nav2 retry/recovery and passage after release are not observed; do not infer a general prediction-theory verdict.',scope='Current frozen Research runtime only; final recovery-enabled comparison is separately subject to user approval.')
+if recovery_enabled:
+    decision.update(native_recovery_enabled=True,methodology='User-authorized existing Nav2 failure_tolerance/controller/BT recovery; first native errors retained, contact and original R4/input/solver errors still terminate. Independent S3 cohort.',scope='Final A26 Research decision; no further framework or parameter research.')
 if all(m in groups for m in ('B0','R4')) and groups['B0']['n']==groups['R4']['n'] and groups['B0']['n'] in (5,10):
     b,r=groups['B0'],groups['R4'];n=b['n'];required=4 if n==5 else 8
     ratio=r['arrival_s']['p50']/b['arrival_s']['p50'] if r['arrival_s'] and b['arrival_s'] else None
@@ -134,6 +147,11 @@ if all(m in groups for m in ('B0','R4')) and groups['B0']['n']==groups['R4']['n'
     extend=n==5 and not (possible_go or safety_go) and (ratio is not None and abs(ratio-1)<.1 or wins not in (0,n) or 0<n-b['success']<2 or 0<n-r['success']<2)
     decision.update(verdict='Candidate Go — causal/reactive challenge required' if possible_go or safety_go else 'Modify — fixed samples may change decision' if extend else 'Stop',n_per_mode=n,r4_over_baseline_arrival_ratio=ratio,r4_faster_pairs=wins,efficiency_go_candidate=possible_go,safety_go_candidate=safety_go,extension_informative=extend,r4_safety_comparable=safety_ok,reason='No independently valuable advantage under the final Research criteria.' if not(possible_go or safety_go or extend) else 'Additional preregistered information required; no parameter tuning.')
     decision['frozen_runtime_verdict']=decision['verdict']
-    if b['success']==0 and r['success']==0 and r['native_unavailable_cycles']==n and not r['gate_pass_s']:
+    if not recovery_enabled and b['success']==0 and r['success']==0 and r['native_unavailable_cycles']==n and not r['gate_pass_s']:
         decision.update(verdict='Modify — WAIT/GO experiment truncated by first-error abort',reason='No R4 Go established. All R4 trials end on native delegation before release; reuse of existing Nav2 recovery needs user approval. More samples of this abort behavior cannot resolve WAIT/GO value.',extension_informative=False)
+    if recovery_enabled:
+        if r['success']<n or b['success']==n or not(possible_go or safety_go):
+            decision.update(verdict='Stop',reason='Final authorized cohort: R4 does not stably complete all Nav2 goal tasks, baseline also stably succeeds, or no independent safety/efficiency advantage is established. Gate passage is recorded separately from goal success. Freeze current low-level route.',extension_informative=False)
+        else:
+            decision.update(verdict='Candidate Go — temporal independence must be assessed from preserved inputs and reactive recovery behavior',reason='Successful R4 with repeated baseline failures; automatic metrics alone do not prove independence from simple reactive behavior. No new parameter search or S4 authorized.')
 (root/'corridor_audit.json').write_text(json.dumps(decision,indent=2)+'\n');print(json.dumps(decision,indent=2))

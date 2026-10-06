@@ -1,0 +1,1476 @@
+{
+  "groups": [
+    {
+      "scene": "S3",
+      "mode": "B0",
+      "n": 5,
+      "success": 0,
+      "contacts": 5,
+      "failures": [
+        {
+          "run": "S3_B0_101",
+          "finished": "actor_contact",
+          "reason": null
+        },
+        {
+          "run": "S3_B0_102",
+          "finished": "actor_contact",
+          "reason": null
+        },
+        {
+          "run": "S3_B0_103",
+          "finished": "actor_contact",
+          "reason": null
+        },
+        {
+          "run": "S3_B0_104",
+          "finished": "actor_contact",
+          "reason": null
+        },
+        {
+          "run": "S3_B0_105",
+          "finished": "actor_contact",
+          "reason": null
+        }
+      ],
+      "min_clearance_m": {
+        "n": 5,
+        "min": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "arrival_s": null,
+      "wait_s": {
+        "n": 5,
+        "min": 0.06,
+        "p50": 0.08,
+        "p95": 0.08,
+        "max": 0.08
+      },
+      "longest_stall_s": {
+        "n": 5,
+        "min": 0.06,
+        "p50": 0.08,
+        "p95": 0.08,
+        "max": 0.08
+      },
+      "clear_resume_s": null,
+      "actual_clear_resume_s": null,
+      "forward_reversals": {
+        "n": 5,
+        "min": 0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0
+      },
+      "maximum_backtrack_m": {
+        "n": 5,
+        "min": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "solver_p95_ms": null,
+      "native_p95_ms": {
+        "n": 5,
+        "min": 31.464172350000002,
+        "p50": 32.066539,
+        "p95": 32.317343199999996,
+        "max": 32.3198551
+      },
+      "native_call_ms": {
+        "n": 466,
+        "min": 1.0543099999999999,
+        "p50": 11.725462499999999,
+        "p95": 32.054809,
+        "max": 33.39913
+      },
+      "r4_solver_ms": null,
+      "r4_consumption_ms": null,
+      "combined_call_ms": {
+        "n": 466,
+        "min": 1.0543099999999999,
+        "p50": 11.725462499999999,
+        "p95": 32.054809,
+        "max": 33.39913
+      },
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "min_static_wall_clearance_m": {
+        "n": 5,
+        "min": 0.28391933377317485,
+        "p50": 0.2983419408546198,
+        "p95": 0.30625880262768684,
+        "max": 0.3072615273572747
+      },
+      "travel_distance_m": {
+        "n": 5,
+        "min": 1.9730139831726023,
+        "p50": 1.983667208409931,
+        "p95": 1.9944410036954971,
+        "max": 1.9949338952301363
+      },
+      "lateral_distance_m": {
+        "n": 5,
+        "min": 0.5235984983783162,
+        "p50": 0.5342970697327533,
+        "p95": 0.5578560365629969,
+        "max": 0.5598965900119103
+      },
+      "max_lateral_excursion_m": {
+        "n": 5,
+        "min": 0.5053854188591235,
+        "p50": 0.5170139624299571,
+        "p95": 0.5373074733760268,
+        "max": 0.5392290998973649
+      },
+      "lateral_escape_attempts": {
+        "n": 5,
+        "min": 1,
+        "p50": 1.0,
+        "p95": 1.0,
+        "max": 1
+      },
+      "plan_messages": {
+        "n": 5,
+        "min": 5,
+        "p50": 5.0,
+        "p95": 5.8,
+        "max": 6
+      },
+      "plan_lateral_messages": {
+        "n": 5,
+        "min": 0,
+        "p50": 0.0,
+        "p95": 0.7999999999999998,
+        "max": 1
+      },
+      "gate_nonzero_cv_messages": {
+        "n": 5,
+        "min": 36,
+        "p50": 38.0,
+        "p95": 38.8,
+        "max": 39
+      },
+      "valid_call_samples": 466,
+      "native_unavailable_cycles": 4,
+      "native_error_events": 4,
+      "trials_with_native_error": 3,
+      "success_after_native_error": 0
+    },
+    {
+      "scene": "S3",
+      "mode": "R4",
+      "n": 5,
+      "success": 2,
+      "contacts": 0,
+      "failures": [
+        {
+          "run": "S3_R4_101",
+          "finished": "controller_failure",
+          "reason": "degenerate path"
+        },
+        {
+          "run": "S3_R4_104",
+          "finished": "controller_failure",
+          "reason": "degenerate path"
+        },
+        {
+          "run": "S3_R4_105",
+          "finished": "controller_failure",
+          "reason": "degenerate path"
+        }
+      ],
+      "min_clearance_m": {
+        "n": 5,
+        "min": 0.3149321227000521,
+        "p50": 0.32580857344055897,
+        "p95": 0.3325682239826274,
+        "max": 0.3340464871707953
+      },
+      "arrival_s": {
+        "n": 2,
+        "min": 18.73,
+        "p50": 18.764,
+        "p95": 18.7946,
+        "max": 18.798
+      },
+      "wait_s": {
+        "n": 5,
+        "min": 2.3200000000000016,
+        "p50": 2.760000000000002,
+        "p95": 3.0520000000000023,
+        "max": 3.0600000000000023
+      },
+      "longest_stall_s": {
+        "n": 5,
+        "min": 0.9000000000000005,
+        "p50": 2.2400000000000015,
+        "p95": 2.732000000000002,
+        "max": 2.740000000000002
+      },
+      "clear_resume_s": null,
+      "actual_clear_resume_s": {
+        "n": 5,
+        "min": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "forward_reversals": {
+        "n": 5,
+        "min": 0,
+        "p50": 0.0,
+        "p95": 1.5999999999999996,
+        "max": 2
+      },
+      "maximum_backtrack_m": {
+        "n": 5,
+        "min": 0.0006363524646084695,
+        "p50": 0.007159733648703481,
+        "p95": 0.01696835858668333,
+        "max": 0.017479528789530407
+      },
+      "solver_p95_ms": {
+        "n": 5,
+        "min": 1.2195423,
+        "p50": 1.3091585000000001,
+        "p95": 1.32798378,
+        "max": 1.3324396
+      },
+      "native_p95_ms": {
+        "n": 5,
+        "min": 31.527056499999997,
+        "p50": 31.876376349999997,
+        "p95": 32.05564964,
+        "max": 32.0888098
+      },
+      "native_call_ms": {
+        "n": 1858,
+        "min": 0.9664240000000001,
+        "p50": 12.075048500000001,
+        "p95": 31.9404614,
+        "max": 43.085431
+      },
+      "r4_solver_ms": {
+        "n": 1858,
+        "min": 0.396919,
+        "p50": 0.7112985000000001,
+        "p95": 1.30502525,
+        "max": 3.4444369999999997
+      },
+      "r4_consumption_ms": {
+        "n": 1858,
+        "min": 0.878027,
+        "p50": 1.260457,
+        "p95": 2.3464511999999997,
+        "max": 7.714758000000001
+      },
+      "combined_call_ms": {
+        "n": 1858,
+        "min": 1.9359359999999999,
+        "p50": 13.754736,
+        "p95": 33.4157802,
+        "max": 45.364677
+      },
+      "gate_pass_s": {
+        "n": 5,
+        "min": 13.799,
+        "p50": 13.957,
+        "p95": 13.9734,
+        "max": 13.977
+      },
+      "signed_clear_to_pass_s": {
+        "n": 5,
+        "min": 4.94,
+        "p50": 5.1,
+        "p95": 5.116,
+        "max": 5.12
+      },
+      "min_static_wall_clearance_m": {
+        "n": 5,
+        "min": 0.5855155706971502,
+        "p50": 0.586046031232275,
+        "p95": 0.5905487296623675,
+        "max": 0.5914393918443194
+      },
+      "travel_distance_m": {
+        "n": 5,
+        "min": 4.0298538444087235,
+        "p50": 4.049562138733531,
+        "p95": 4.078766996284002,
+        "max": 4.082344009152478
+      },
+      "lateral_distance_m": {
+        "n": 5,
+        "min": 0.13807450269258187,
+        "p50": 0.16580587739381075,
+        "p95": 0.1770112624906294,
+        "max": 0.17775971679643063
+      },
+      "max_lateral_excursion_m": {
+        "n": 5,
+        "min": 0.023186866554719094,
+        "p50": 0.03697340611330753,
+        "p95": 0.04135039488342237,
+        "max": 0.04177375803863494
+      },
+      "lateral_escape_attempts": {
+        "n": 5,
+        "min": 0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0
+      },
+      "plan_messages": {
+        "n": 5,
+        "min": 19,
+        "p50": 19.0,
+        "p95": 19.0,
+        "max": 19
+      },
+      "plan_lateral_messages": {
+        "n": 5,
+        "min": 0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "max": 0
+      },
+      "gate_nonzero_cv_messages": {
+        "n": 5,
+        "min": 126,
+        "p50": 127.0,
+        "p95": 128.0,
+        "max": 128
+      },
+      "valid_call_samples": 1858,
+      "native_unavailable_cycles": 5,
+      "native_error_events": 5,
+      "trials_with_native_error": 5,
+      "success_after_native_error": 2
+    }
+  ],
+  "runs": [
+    {
+      "run": "S3_B0_101",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4004000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.704,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 92,
+        "min": 1.075598,
+        "p50": 11.328827,
+        "p95": 31.464172350000002,
+        "max": 33.39913
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 94,
+      "valid_samples": 92,
+      "combined_call_ms": {
+        "n": 92,
+        "min": 1.075598,
+        "p50": 11.328827,
+        "p95": 31.464172350000002,
+        "max": 33.39913
+      },
+      "control_gap_ms": {
+        "n": 93,
+        "min": 1.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 118.0
+      },
+      "actual_output_gap_ms": {
+        "n": 93,
+        "min": 44.0,
+        "p50": 50.0,
+        "p95": 52.0,
+        "max": 56.0
+      },
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 8,
+      "oracle_robot_samples": 235,
+      "oracle_common_samples": 235,
+      "oracle_common_gap_ms": {
+        "n": 234,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.7899260168579327,
+        0.5053854188591235,
+        -1.1010111735761772e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 15,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.3072615273572747,
+      "travel_distance_m": 1.977298335380764,
+      "lateral_distance_m": 0.5235984983783162,
+      "max_lateral_excursion_m": 0.5053854188591235,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 6,
+      "plan_lateral_messages": 1,
+      "gate_prediction_messages": 70,
+      "gate_nonzero_cv_messages": 36,
+      "native_error_events": 2,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.374,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 2
+    },
+    {
+      "run": "S3_B0_102",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.661,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 93,
+        "min": 1.0587719999999998,
+        "p50": 11.661952999999999,
+        "p95": 32.066539,
+        "max": 32.632259
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 93,
+      "valid_samples": 93,
+      "combined_call_ms": {
+        "n": 93,
+        "min": 1.0587719999999998,
+        "p50": 11.661952999999999,
+        "p95": 32.066539,
+        "max": 32.632259
+      },
+      "control_gap_ms": {
+        "n": 92,
+        "min": 49.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 51.0
+      },
+      "actual_output_gap_ms": {
+        "n": 93,
+        "min": 20.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "max": 82.0
+      },
+      "wait_s": 0.06,
+      "longest_stall_s": 0.06,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 6,
+      "oracle_robot_samples": 233,
+      "oracle_common_samples": 233,
+      "oracle_common_gap_ms": {
+        "n": 232,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.7916492992416655,
+        0.5170139624299571,
+        -1.1010114235524119e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 15,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.3022479037093355,
+      "travel_distance_m": 1.983667208409931,
+      "lateral_distance_m": 0.5342970697327533,
+      "max_lateral_excursion_m": 0.5170139624299571,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 5,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 70,
+      "gate_nonzero_cv_messages": 36,
+      "native_error_events": 0,
+      "native_recovery_enabled": true,
+      "first_native_error_s": null,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 0
+    },
+    {
+      "run": "S3_B0_103",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.726,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 94,
+        "min": 1.056881,
+        "p50": 11.329855,
+        "p95": 31.739483349999997,
+        "max": 32.72593
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 95,
+      "valid_samples": 94,
+      "combined_call_ms": {
+        "n": 94,
+        "min": 1.056881,
+        "p50": 11.329855,
+        "p95": 31.739483349999997,
+        "max": 32.72593
+      },
+      "control_gap_ms": {
+        "n": 94,
+        "min": 22.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 72.0
+      },
+      "actual_output_gap_ms": {
+        "n": 94,
+        "min": 44.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "max": 56.0
+      },
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 9,
+      "oracle_robot_samples": 236,
+      "oracle_common_samples": 236,
+      "oracle_common_gap_ms": {
+        "n": 235,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.7857489735228131,
+        0.5124863799782752,
+        -1.101010991483928e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 16,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.2983419408546198,
+      "travel_distance_m": 1.9730139831726023,
+      "lateral_distance_m": 0.531974861495648,
+      "max_lateral_excursion_m": 0.5124863799782752,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 5,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 72,
+      "gate_nonzero_cv_messages": 38,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.375,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    },
+    {
+      "run": "S3_B0_104",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4002000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.717,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 93,
+        "min": 1.10611,
+        "p50": 12.042717,
+        "p95": 32.307295599999996,
+        "max": 32.529044999999996
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 94,
+      "valid_samples": 93,
+      "combined_call_ms": {
+        "n": 93,
+        "min": 1.10611,
+        "p50": 12.042717,
+        "p95": 32.307295599999996,
+        "max": 32.529044999999996
+      },
+      "control_gap_ms": {
+        "n": 93,
+        "min": 41.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 62.0
+      },
+      "actual_output_gap_ms": {
+        "n": 93,
+        "min": 43.0,
+        "p50": 50.0,
+        "p95": 53.0,
+        "max": 57.0
+      },
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 4,
+      "oracle_robot_samples": 235,
+      "oracle_common_samples": 235,
+      "oracle_common_gap_ms": {
+        "n": 234,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.787781361319492,
+        0.5392290998973649,
+        -1.1010116270422906e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 16,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.28391933377317485,
+      "travel_distance_m": 1.9949338952301363,
+      "lateral_distance_m": 0.5598965900119103,
+      "max_lateral_excursion_m": 0.5392290998973649,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 5,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 73,
+      "gate_nonzero_cv_messages": 39,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.558,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    },
+    {
+      "run": "S3_B0_105",
+      "scene": "S3",
+      "mode": "B0",
+      "phase": "finite",
+      "goal_ns": 4002000000,
+      "finished": "actor_contact",
+      "status": null,
+      "reason": null,
+      "contact_messages": 1,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 4.69,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 94,
+        "min": 1.0543099999999999,
+        "p50": 12.10813,
+        "p95": 32.3198551,
+        "max": 32.743014
+      },
+      "solver_ms": null,
+      "r4_call_ms": null,
+      "control_samples": 94,
+      "valid_samples": 94,
+      "combined_call_ms": {
+        "n": 94,
+        "min": 1.0543099999999999,
+        "p50": 12.10813,
+        "p95": 32.3198551,
+        "max": 32.743014
+      },
+      "control_gap_ms": {
+        "n": 93,
+        "min": 50.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "max": 50.0
+      },
+      "actual_output_gap_ms": {
+        "n": 93,
+        "min": 47.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "max": 53.0
+      },
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.0,
+      "envelope_overlap_samples": 6,
+      "oracle_robot_samples": 234,
+      "oracle_common_samples": 234,
+      "oracle_common_gap_ms": {
+        "n": 233,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        1.7918483435653356,
+        0.5296209672906742,
+        -1.1010114106359686e-08
+      ],
+      "backward_distance_m": 0.0,
+      "maximum_backtrack_m": 0.0,
+      "contacts_publishers": 1,
+      "contact_seen": 79,
+      "state_age_ms": null,
+      "history_age_ms": null,
+      "actual_clear_s": null,
+      "actual_clear_resume_s": null,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": null,
+      "costmap_actor_occupied_samples": 16,
+      "gate_pass_s": null,
+      "signed_clear_to_pass_s": null,
+      "already_passed_at_clear": null,
+      "min_static_wall_clearance_m": 0.2960064339809213,
+      "travel_distance_m": 1.99246943755694,
+      "lateral_distance_m": 0.549693822767343,
+      "max_lateral_excursion_m": 0.5296209672906742,
+      "lateral_escape_attempts": 1,
+      "plan_messages": 5,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 72,
+      "gate_nonzero_cv_messages": 38,
+      "native_error_events": 0,
+      "native_recovery_enabled": true,
+      "first_native_error_s": null,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 0
+    },
+    {
+      "run": "S3_R4_101",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "controller_failure",
+      "status": null,
+      "reason": "degenerate path",
+      "contact_messages": 0,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 18.627,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 371,
+        "min": 0.9664240000000001,
+        "p50": 11.384287,
+        "p95": 31.527056499999997,
+        "max": 33.244945
+      },
+      "solver_ms": {
+        "n": 371,
+        "min": 0.41398900000000005,
+        "p50": 0.731422,
+        "p95": 1.3091585000000001,
+        "max": 3.4444369999999997
+      },
+      "r4_call_ms": {
+        "n": 371,
+        "min": 0.904586,
+        "p50": 1.299137,
+        "p95": 2.3404575000000003,
+        "max": 7.714758000000001
+      },
+      "control_samples": 373,
+      "valid_samples": 371,
+      "combined_call_ms": {
+        "n": 371,
+        "min": 1.973508,
+        "p50": 12.640728000000001,
+        "p95": 32.8525275,
+        "max": 35.581706000000004
+      },
+      "control_gap_ms": {
+        "n": 372,
+        "min": 4.0,
+        "p50": 54.5,
+        "p95": 71.0,
+        "max": 113.0
+      },
+      "actual_output_gap_ms": {
+        "n": 372,
+        "min": 41.0,
+        "p50": 50.0,
+        "p95": 55.0,
+        "max": 60.0
+      },
+      "wait_s": 3.0600000000000023,
+      "longest_stall_s": 2.2400000000000015,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.3340464871707953,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 931,
+      "oracle_common_samples": 931,
+      "oracle_common_gap_ms": {
+        "n": 930,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.012614054354438,
+        -0.020006582442594872,
+        -1.1010119245495717e-08
+      ],
+      "backward_distance_m": 0.001912742907818843,
+      "maximum_backtrack_m": 0.0015038381005813006,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 371,
+        "min": 7.0,
+        "p50": 18.0,
+        "p95": 28.0,
+        "max": 30.0
+      },
+      "history_age_ms": {
+        "n": 371,
+        "min": 7.0,
+        "p50": 19.0,
+        "p95": 48.0,
+        "max": 49.0
+      },
+      "actual_clear_s": 8.857,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 199,
+      "costmap_actor_occupied_samples": 63,
+      "gate_pass_s": 13.957,
+      "signed_clear_to_pass_s": 5.1,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.5855155706971502,
+      "travel_distance_m": 4.0298538444087235,
+      "lateral_distance_m": 0.1740174452674245,
+      "max_lateral_excursion_m": 0.039656942262572104,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 277,
+      "gate_nonzero_cv_messages": 127,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.835,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    },
+    {
+      "run": "S3_R4_102",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4001000000,
+      "finished": "goal_result",
+      "status": 4,
+      "reason": null,
+      "contact_messages": 0,
+      "startup": false,
+      "success": true,
+      "elapsed_s": 18.798,
+      "arrival_s": 18.798,
+      "native_ms": {
+        "n": 375,
+        "min": 1.048705,
+        "p50": 12.302531,
+        "p95": 32.0888098,
+        "max": 41.796725
+      },
+      "solver_ms": {
+        "n": 375,
+        "min": 0.397768,
+        "p50": 0.690285,
+        "p95": 1.2195423,
+        "max": 2.350171
+      },
+      "r4_call_ms": {
+        "n": 375,
+        "min": 0.8876580000000001,
+        "p50": 1.223577,
+        "p95": 2.3264053000000002,
+        "max": 7.673727
+      },
+      "control_samples": 376,
+      "valid_samples": 375,
+      "combined_call_ms": {
+        "n": 375,
+        "min": 2.149549,
+        "p50": 14.567645,
+        "p95": 34.0545436,
+        "max": 43.318515000000005
+      },
+      "control_gap_ms": {
+        "n": 375,
+        "min": 4.0,
+        "p50": 59.0,
+        "p95": 70.30000000000001,
+        "max": 103.0
+      },
+      "actual_output_gap_ms": {
+        "n": 375,
+        "min": 31.0,
+        "p50": 50.0,
+        "p95": 53.0,
+        "max": 63.0
+      },
+      "wait_s": 2.760000000000002,
+      "longest_stall_s": 0.9000000000000005,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.32580857344055897,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 939,
+      "oracle_common_samples": 939,
+      "oracle_common_gap_ms": {
+        "n": 938,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.039955067547294,
+        -0.025674490168622964,
+        -1.1010114236147529e-08
+      ],
+      "backward_distance_m": 0.0009996997769433635,
+      "maximum_backtrack_m": 0.0006363524646084695,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 375,
+        "min": 2.0,
+        "p50": 15.0,
+        "p95": 25.0,
+        "max": 27.0
+      },
+      "history_age_ms": {
+        "n": 375,
+        "min": 7.0,
+        "p50": 27.0,
+        "p95": 47.0,
+        "max": 49.0
+      },
+      "actual_clear_s": 8.859,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 197,
+      "costmap_actor_occupied_samples": 64,
+      "gate_pass_s": 13.959,
+      "signed_clear_to_pass_s": 5.1,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.586046031232275,
+      "travel_distance_m": 4.049562138733531,
+      "lateral_distance_m": 0.15809204317295955,
+      "max_lateral_excursion_m": 0.031092226406092507,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 281,
+      "gate_nonzero_cv_messages": 128,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.775,
+      "success_after_native_error": true,
+      "native_unavailable_cycles": 1
+    },
+    {
+      "run": "S3_R4_103",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "goal_result",
+      "status": 4,
+      "reason": null,
+      "contact_messages": 0,
+      "startup": false,
+      "success": true,
+      "elapsed_s": 18.73,
+      "arrival_s": 18.73,
+      "native_ms": {
+        "n": 371,
+        "min": 0.9776940000000001,
+        "p50": 12.100091,
+        "p95": 31.8144505,
+        "max": 41.59802
+      },
+      "solver_ms": {
+        "n": 371,
+        "min": 0.413016,
+        "p50": 0.702434,
+        "p95": 1.3101604999999998,
+        "max": 2.938414
+      },
+      "r4_call_ms": {
+        "n": 371,
+        "min": 0.9241539999999999,
+        "p50": 1.228044,
+        "p95": 2.3111325000000003,
+        "max": 6.087579
+      },
+      "control_samples": 372,
+      "valid_samples": 371,
+      "combined_call_ms": {
+        "n": 371,
+        "min": 1.96484,
+        "p50": 13.459817000000001,
+        "p95": 33.1209335,
+        "max": 42.662791999999996
+      },
+      "control_gap_ms": {
+        "n": 371,
+        "min": 5.0,
+        "p50": 59.0,
+        "p95": 71.0,
+        "max": 154.0
+      },
+      "actual_output_gap_ms": {
+        "n": 374,
+        "min": 45.0,
+        "p50": 50.0,
+        "p95": 52.349999999999966,
+        "max": 55.0
+      },
+      "wait_s": 2.3200000000000016,
+      "longest_stall_s": 1.3400000000000007,
+      "clear_resume_s": null,
+      "forward_reversals": 2,
+      "min_dynamic_clearance_m": 0.3149321227000521,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 936,
+      "oracle_common_samples": 936,
+      "oracle_common_gap_ms": {
+        "n": 935,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.035070103981544,
+        -0.03159988957599131,
+        -1.1010116334120384e-08
+      ],
+      "backward_distance_m": 0.017974349751582963,
+      "maximum_backtrack_m": 0.017479528789530407,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 371,
+        "min": 3.0,
+        "p50": 16.0,
+        "p95": 26.0,
+        "max": 32.0
+      },
+      "history_age_ms": {
+        "n": 371,
+        "min": 0.0,
+        "p50": 13.0,
+        "p95": 42.5,
+        "max": 44.0
+      },
+      "actual_clear_s": 8.857,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 190,
+      "costmap_actor_occupied_samples": 62,
+      "gate_pass_s": 13.977,
+      "signed_clear_to_pass_s": 5.12,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.5857048736760468,
+      "travel_distance_m": 4.082344009152478,
+      "lateral_distance_m": 0.16580587739381075,
+      "max_lateral_excursion_m": 0.04177375803863494,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 285,
+      "gate_nonzero_cv_messages": 128,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.942,
+      "success_after_native_error": true,
+      "native_unavailable_cycles": 1
+    },
+    {
+      "run": "S3_R4_104",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4003000000,
+      "finished": "controller_failure",
+      "status": null,
+      "reason": "degenerate path",
+      "contact_messages": 0,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 18.584,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 370,
+        "min": 0.99153,
+        "p50": 11.717884,
+        "p95": 31.876376349999997,
+        "max": 33.293077999999994
+      },
+      "solver_ms": {
+        "n": 370,
+        "min": 0.396919,
+        "p50": 0.7136695,
+        "p95": 1.3324396,
+        "max": 3.178293
+      },
+      "r4_call_ms": {
+        "n": 370,
+        "min": 0.878027,
+        "p50": 1.2860999999999998,
+        "p95": 2.3536819,
+        "max": 4.7965029999999995
+      },
+      "control_samples": 372,
+      "valid_samples": 370,
+      "combined_call_ms": {
+        "n": 370,
+        "min": 1.9359359999999999,
+        "p50": 13.5262665,
+        "p95": 33.51088850000001,
+        "max": 35.646353999999995
+      },
+      "control_gap_ms": {
+        "n": 371,
+        "min": 28.0,
+        "p50": 59.0,
+        "p95": 70.0,
+        "max": 72.0
+      },
+      "actual_output_gap_ms": {
+        "n": 371,
+        "min": 38.0,
+        "p50": 50.0,
+        "p95": 54.0,
+        "max": 59.0
+      },
+      "wait_s": 3.0200000000000022,
+      "longest_stall_s": 2.740000000000002,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.3207719986936082,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 929,
+      "oracle_common_samples": 929,
+      "oracle_common_gap_ms": {
+        "n": 928,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.013664712577174,
+        -0.017877731603467714,
+        -1.101011488344371e-08
+      ],
+      "backward_distance_m": 0.018051487826604262,
+      "maximum_backtrack_m": 0.014923677775295019,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 370,
+        "min": 5.0,
+        "p50": 16.0,
+        "p95": 26.0,
+        "max": 28.0
+      },
+      "history_age_ms": {
+        "n": 370,
+        "min": 4.0,
+        "p50": 15.0,
+        "p95": 46.0,
+        "max": 47.0
+      },
+      "actual_clear_s": 8.857,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 193,
+      "costmap_actor_occupied_samples": 62,
+      "gate_pass_s": 13.877,
+      "signed_clear_to_pass_s": 5.02,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.5869860809345602,
+      "travel_distance_m": 4.064458944810098,
+      "lateral_distance_m": 0.17775971679643063,
+      "max_lateral_excursion_m": 0.03697340611330753,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 282,
+      "gate_nonzero_cv_messages": 127,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.855,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    },
+    {
+      "run": "S3_R4_105",
+      "scene": "S3",
+      "mode": "R4",
+      "phase": "finite",
+      "goal_ns": 4001000000,
+      "finished": "controller_failure",
+      "status": null,
+      "reason": "degenerate path",
+      "contact_messages": 0,
+      "startup": false,
+      "success": false,
+      "elapsed_s": 18.582,
+      "arrival_s": null,
+      "native_ms": {
+        "n": 371,
+        "min": 0.9975489999999999,
+        "p50": 12.244335,
+        "p95": 31.923009,
+        "max": 43.085431
+      },
+      "solver_ms": {
+        "n": 371,
+        "min": 0.414277,
+        "p50": 0.734429,
+        "p95": 1.292901,
+        "max": 3.419835
+      },
+      "r4_call_ms": {
+        "n": 371,
+        "min": 0.941544,
+        "p50": 1.300797,
+        "p95": 2.3847885,
+        "max": 4.59166
+      },
+      "control_samples": 373,
+      "valid_samples": 371,
+      "combined_call_ms": {
+        "n": 371,
+        "min": 1.9583809999999997,
+        "p50": 14.107728,
+        "p95": 33.483206499999994,
+        "max": 45.364677
+      },
+      "control_gap_ms": {
+        "n": 372,
+        "min": 7.0,
+        "p50": 59.0,
+        "p95": 71.0,
+        "max": 73.0
+      },
+      "actual_output_gap_ms": {
+        "n": 371,
+        "min": 32.0,
+        "p50": 50.0,
+        "p95": 53.0,
+        "max": 67.0
+      },
+      "wait_s": 2.760000000000002,
+      "longest_stall_s": 2.700000000000002,
+      "clear_resume_s": null,
+      "forward_reversals": 0,
+      "min_dynamic_clearance_m": 0.32665517122995585,
+      "envelope_overlap_samples": 0,
+      "oracle_robot_samples": 929,
+      "oracle_common_samples": 929,
+      "oracle_common_gap_ms": {
+        "n": 928,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "max": 20.0
+      },
+      "start_position": [
+        2.9024180580618105e-20,
+        3.192335787078627e-20,
+        -5.805220033776464e-07
+      ],
+      "end_position": [
+        4.01361025188281,
+        -0.010759386553861635,
+        -1.1010108695701313e-08
+      ],
+      "backward_distance_m": 0.009486739674623212,
+      "maximum_backtrack_m": 0.007159733648703481,
+      "contacts_publishers": 1,
+      "contact_seen": 78,
+      "state_age_ms": {
+        "n": 371,
+        "min": 2.0,
+        "p50": 15.0,
+        "p95": 25.0,
+        "max": 27.0
+      },
+      "history_age_ms": {
+        "n": 371,
+        "min": 2.0,
+        "p50": 22.0,
+        "p95": 42.0,
+        "max": 45.0
+      },
+      "actual_clear_s": 8.859,
+      "actual_clear_resume_s": 0.0,
+      "already_forward_at_clear": null,
+      "nominal_dynamic_positive_cycles": 193,
+      "costmap_actor_occupied_samples": 63,
+      "gate_pass_s": 13.799,
+      "signed_clear_to_pass_s": 4.94,
+      "already_passed_at_clear": false,
+      "min_static_wall_clearance_m": 0.5914393918443194,
+      "travel_distance_m": 4.0395833427873304,
+      "lateral_distance_m": 0.13807450269258187,
+      "max_lateral_excursion_m": 0.023186866554719094,
+      "lateral_escape_attempts": 0,
+      "plan_messages": 19,
+      "plan_lateral_messages": 0,
+      "gate_prediction_messages": 280,
+      "gate_nonzero_cv_messages": 126,
+      "native_error_events": 1,
+      "native_recovery_enabled": true,
+      "first_native_error_s": 4.884,
+      "success_after_native_error": false,
+      "native_unavailable_cycles": 1
+    }
+  ]
+}

@@ -91,7 +91,7 @@ configuration**. This is a limited Gazebo S2 result, not a rejection of all
 prediction-consumption methods. See
 [A25 authorization, independent results and limits](../../docs/dynamic_navigation/r4_clearance_efficiency_pareto.md).
 
-Research A26 tests one temporarily blocked closed channel, retaining this
+Research A26 first tests one temporarily blocked closed channel, retaining this
 library, A24 configuration and original experiment controller binary. A valid
 initial narrow channel is rejected by the unchanged static frontend before
 solving; that failure is preserved. One explicit scene revision precedes all
@@ -104,9 +104,26 @@ observation of WAIT-to-GO completion. These are partial safety observations,
 not evidence of an independent complete prediction-consumption advantage or
 failure of the XY solver. A26 value verdict is **Modify the experiment method**;
 A25 **Stop production integration** remains. An unapplied proposal to reuse
-existing Nav2 recovery awaits user approval; no new algorithm, fallback,
-output owner or production integration has been added. See
+existing Nav2 recovery originally awaited user approval; that historical
+cohort remains separate. No new algorithm, fallback, output owner or production
+integration has been added. See
 [A26 outcomes and limits](../../docs/dynamic_navigation/r4_final_corridor_research.md).
+
+The user then authorized that minimal experiment correction. In five new S3
+pairs with unchanged scene, baseline parameters and A24 R4 configuration, all
+five baseline runs contact the actor. R4 has no contact and passes the channel
+in all five runs after native exceptions; complete Nav2 goal success is only
+2/5. Three runs reject a near-goal degenerate path under this library's original
+input contract; physical XY proximity is not counted as goal success. Median
+R4 dynamic clearance is 0.326 m, WAIT 2.76 s, and passage occurs 5.10 s after
+full-circle clearance. The safety WAIT-to-GO observation is repeatable, but
+stable complete tasks and an independent advantage over simple reactive
+behavior are not established. Final verdict: **Stop and freeze the current
+HWS-style low-level prediction-consumption research route**. No further
+framework, endpoint, algorithm, owner/lease/fallback or production work follows
+this result. Both original and recovery-enabled cohorts remain preserved
+locally, unpushed; main is unchanged. See the A26 report above for limitations
+and the exact frozen reproduction inputs.
 
 Historical Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
 same original 45-variable Follow assembly and OSQP solve. It retains raw source

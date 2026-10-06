@@ -113,9 +113,29 @@ python3 experiments/r4_gazebo_comparison/corridor.py batch build/r4_corridor_com
 
 已完成结果：baseline 0/5成功，3次contact、2次native MPPI异常；R4 0/5成功、零contact、5次native异常，净空中位.33799m。所有trial在开放前结束，完整到达/通过/恢复未观测。原wrapper首异常永久锁存，记录器立即终止，未运行Nav2原恢复流程。**价值判定Modify；冻结首异常终止执行行为Stop；A25 Stop生产化不撤回。**更多同类提前终止样本无法补齐核心WAIT/GO信息。
 
-[紧凑证据](evidence_corridor/)保存失败、初始/修订场景、实际公平性与指标；原输入/真值/日志约35MiB仍在build。`native_recovery_proposal.patch`仅是等待用户确认的未应用方案：默认旧行为，显式开关下允许原Nav2处理native异常，首次异常仍留证，无新fallback/owner。该patch未编译、未运行，不能自动作为新的复现默认。
+[紧凑证据](evidence_corridor/)保存失败、初始/修订场景、实际公平性与指标；原输入/真值/日志约35MiB仍在build。`native_recovery_proposal.patch`在首轮交付时是未应用方案，随后用户明确授权应用：默认旧行为，显式开关下允许原Nav2处理native异常，首次异常仍按原事件/原因立即留证，无新fallback/owner。新cohort独立保存，不能与首轮提前终止样本合并。
 
 ```bash
 python3 experiments/r4_gazebo_comparison/corridor_analyze.py build/r4_corridor_comparison_20261006
 python3 experiments/r4_gazebo_comparison/corridor_plot.py build/r4_corridor_comparison_20261006
 ```
+
+## A26 final：允许原Nav2恢复后，Stop并冻结路线
+
+用户明确授权最小patch仅修正本实验：native已知异常取消永久锁存并原样上抛给Nav2，首次`controller_failure`事件/原因、`first_native_failure.json`及原输入ring立即保存。contact、R4/input/solver自身异常仍终止；不合成速度，不加fallback/owner/publisher/lease。`R4_RESEARCH_NATIVE_RECOVERY`默认关闭，显式1只用于隔离实验。修正及协议先提交`8f8d6c80`，只构建experiment wrapper，原A22算法/库保持。
+
+```bash
+bash experiments/r4_gazebo_comparison/run.sh build/r4_corridor_native_recovery_20261006 build
+python3 experiments/r4_gazebo_comparison/corridor.py recovery_prepare build/r4_corridor_native_recovery_20261006
+R4_RESEARCH_NATIVE_RECOVERY=1 python3 experiments/r4_gazebo_comparison/corridor.py batch build/r4_corridor_native_recovery_20261006 5
+python3 experiments/r4_gazebo_comparison/corridor_analyze.py build/r4_corridor_native_recovery_20261006
+python3 experiments/r4_gazebo_comparison/corridor_plot.py build/r4_corridor_native_recovery_20261006
+```
+
+`recovery_prepare`复制原A26修订地图/场景/两个冻结参数文件，复用已通过的S0可行性记录，不重复校准或改参数。首次已知失败分类后只完成固定schedule剩余样本，保存的`continue_recovery_classified.py`是此次bounded续跑记录；未知失败仍停止人工查看，任务失败不替换。此最终cohort无startup失败，10个新实例，不S4、不调场景。
+
+结果：baseline 0/5成功、5/5真实contact；R4零contact、5/5安全通过gate，但完整Nav2目标2/5成功，其余101/104/105在目标附近`degenerate path`自身输入失败。R4净空中位/最坏.32581/.31493m、WAIT中位2.76s、clear后通过5.10s；成功到达中位18.764s仅代表2次，baseline没有到达数据。首次native异常共B0 4次/R4 5次完整保留；R4五次继续通过、两次action success。1858有效solver拍，P95 1.305ms，最大3.444ms。
+
+**最终Stop，冻结当前HWS-style low-level prediction-consumption研究路线。** 保留可重复安全WAIT→GO局部信号，完整任务稳定性没有满足原Go必要条件，效率和简单reactive不可替代性未证明。不改path/GoalChecker/旋转或算法救结果，不补10、不S4、不生产化。本轮之后不以框架问题再延长R4 Research，重点回STVL+MPPI及其他主线问题。
+
+[最终紧凑证据](evidence_corridor_recovery/)与[完整判决/限制](../../docs/dynamic_navigation/r4_final_corridor_research.md)分开保存新47MiB和旧35MiB原始cohort，不覆盖/混合，不push。纯数据分析观察器只追加native异常次数及分开的gate/goal指标；sampled真值与真实contact仍分别报告。

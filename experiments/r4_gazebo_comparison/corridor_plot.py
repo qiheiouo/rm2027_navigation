@@ -41,5 +41,11 @@ for ax in axes.flat:
     ax.grid(alpha=.2)
     if ax.get_legend_handles_labels()[0]:ax.legend(fontsize=8)
     elif ax in (axes[0,1],axes[1,1]):ax.text(.5,.5,'Not observed: trials terminated',ha='center',va='center',transform=ax.transAxes)
-fig.suptitle('A26 first-error-abort cohort: WAIT/GO outcome not observed')
+for ax in (axes[0,1],axes[0,2],axes[1,0],axes[1,1]):ax.set_xlim(.7,5.3 if len(selected)==10 else 10.3);ax.set_xticks(range(1,6 if len(selected)==10 else 11))
+if audit.get('native_recovery_enabled'):
+    groups={g['mode']:g for g in s['groups'] if g['scene']=='S3'}
+    axes[0,1].set_title('Goal success: '+ '; '.join(f"{m} {groups[m]['success']}/{groups[m]['n']}" for m in ('B0','R4')))
+    axes[0,1].set_xlabel('Paired trial (successful arrivals only)')
+    fig.suptitle('A26 final existing-Nav2-recovery cohort: '+audit['verdict'])
+else:fig.suptitle('A26 first-error-abort cohort: WAIT/GO outcome not observed')
 fig.savefig(root/'corridor.png',dpi=160);plt.close(fig)

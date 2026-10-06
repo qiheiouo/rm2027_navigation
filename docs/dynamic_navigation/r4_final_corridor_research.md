@@ -2,6 +2,8 @@
 
 2026-10-06，基于`89f9035b`，保持main不变、不push。用户明确授权最后一轮新的核心假设；A25的Stop结论保留。这轮不是继续调优，而是判断冻结A24 R4的时间相关消费，能否在不可绕行、即将开放的通道中，产生STVL+native MPPI难以简单替代的WAIT/GO收益。没有新solver/cost/prediction/free-s或输出架构。
 
+**最终判决：Stop，冻结当前HWS-style low-level prediction-consumption研究路线。** 用户授权恢复原Nav2异常处理后，S3新5对完成：baseline 0/5成功、5/5 contact；R4 2/5完整目标成功、零contact、5/5安全通过gate，另3次目标附近`degenerate path`自身输入失败。WAIT→GO安全通过信号可重复，但冻结方案未稳定完成任务，未满足Go条件。本轮结束，不以框架/终点问题继续Research，不补10、不S4、不改算法或接生产链；研究重点回到STVL+MPPI及其他主线问题。详细结果见末节，原首异常终止cohort单独保留。
+
 ## 核心假设与公平场景
 
 冻结预测是观测速度CV外推，无法获知静止障碍未来突然启动。因此采用**已在匀速移动的障碍**穿过通道，开放时间可由现有观测预测；环境运动脚本的未来安排不传给controller或tracker，机械真值只用于观察。
@@ -107,4 +109,58 @@ python3 experiments/r4_gazebo_comparison/corridor.py recovery_prepare build/r4_c
 R4_RESEARCH_NATIVE_RECOVERY=1 python3 experiments/r4_gazebo_comparison/corridor.py batch build/r4_corridor_native_recovery_20261006 5
 ```
 
-最终恢复行为正式结果待填；前一节的Modify/0成功只描述原首异常终止cohort，不与新样本合并。
+### 最终5对结果：Stop
+
+修正及最终协议在正式trial前本地提交`8f8d6c80`；构建只生成新experiment wrapper，原算法/配置/场景未修改。10个新实例均发goal，没有startup失败或替换；固定顺序101 B0/R4、102 R4/B0、103 B0/R4、104 R4/B0、105 B0/R4。首类contact和R4自身错误人工留证核查，随后仅对相同已知类别分类以完成原固定schedule，遇未知失败停止；没有重跑失败救结果。
+
+| 指标 | STVL + native MPPI | 冻结A24 R4 + 原Nav2恢复 |
+|---|---:|---:|
+| 完整Nav2目标成功 | 0/5 | 2/5 |
+| 真实动态contact | 5/5 | 0/5 |
+| 完整圆支持通过gate | 0/5 | 5/5 |
+| 自身path输入失败 | 0 | 3/5 |
+| native异常事件 / 有异常trial | 4 / 3 | 5 / 5 |
+| sampled动态最小净空，中位/最坏 | 0 / 0m | .32581 / .31493m |
+| 成功样本到达时间 | 未观测 | 18.764s中位，仅2次 |
+| WAIT总时长中位 | .08s，contact前截断 | 2.76s |
+| 最长停滞中位 | .08s，contact前截断 | 2.24s |
+| 障碍实际clear后完整通过gate | 未观测 | 5.10s中位，范围4.94–5.12s |
+| clear后恢复延迟 | 未观测 | 0s，clear时已在前进 |
+| 前后向切换 | 0 | 1/5有2次 |
+| 最大物理回退 | 0m | .01748m |
+| 最大横向偏离，中位/最大 | .51701 / .53923m | .03697 / .04177m |
+
+R4完整gate通过时刻范围goal+13.799–13.977s；障碍完整离开中心线圆支持带的实际时刻goal+8.857–8.859s。R4在full-clear之前已前进，恢复延迟0是此时已前进的测量定义，不能说成从静止到行进零延迟。全程WAIT均发生在gate通过前；baseline终止早，WAIT截断不能直接解释成效率更高。两组到达效率不可作数值对比，因为baseline没有成功；不拿碰撞经过时间作到达时间，也不拿R4两个成功样本代表全部5次。
+
+| Pair | baseline最终结果 | R4最终结果 | R4 gate通过 | native异常次数 B0/R4 |
+|---|---|---|---:|---:|
+| 101 | contact | `degenerate path` | 13.957s | 2/1 |
+| 102 | contact | goal success，18.798s | 13.959s | 0/1 |
+| 103 | contact | goal success，18.730s | 13.977s | 1/1 |
+| 104 | contact | `degenerate path` | 13.877s | 1/1 |
+| 105 | contact | `degenerate path` | 13.799s | 0/1 |
+
+每个有native异常的trial都保留原`Optimizer fail to compute path`原因、`controller_failure`事件、首次JSON分类/时间与输入ring。R4五次都在一次native异常之后继续有效XY消费并通过gate，2次成功获得Nav2 action success；native异常没有被删除、改成成功事件或算成0次。baseline 101在两次native异常后继续执行，随后contact，说明原failure_tolerance恢复了正常异常处理，并非新的保护/速度合成。实际未需要额外人为触发BT恢复；允许既有controller_server/BT运行其原条件分支，不把“没有调用某个BT恢复动作”当新框架缺陷。
+
+R4的3次自身失败在目标附近，最终world XY约(4.013,−.020)、(4.014,−.018)、(4.014,−.011)。Nav2新plan首尾点在(4,0)数值上近乎相同，冻结`PreparedCorridor::prepare`去重后少于两个点，按原契约抛`degenerate path`（`src/rm_r4_prediction_consumption/src/corridor.cpp`）；尚未调用该拍XY solver。目标yaw/GoalChecker尚未完成，因此不能把物理XY靠近目标重分类为完整任务成功。这是自身输入失败，不是native短暂异常，按用户明确要求仍终止。失败和末plan保留，不放松path/GoalChecker，不修改旋转、控制或异常规则救结果。
+
+有效R4消费1858拍，solver合并P95 1.305ms、最大3.444ms；native+R4合并P95 33.416ms、最大45.365ms。native/R4失败拍尚未完成计时，不按0耗时加入有效统计。原同一20Hz周期、观察CV/shape/free-s/solver均保持。gate附近观测非零CV为baseline 36–39条、R4 126–128条，R4动态nominal cost非零190–199拍；它们支持当前观察到的预测消费与减速，但没有完成能证明“简单reactive不可替代”的消融，不能据此宣称理论独立性已证明。
+
+两组每个实际trial地图/scene/scenario和两份YAML与原A26冻结输入相同，R4参数继续与A24逐字相同。配对共同存活区间内，障碍位置差最大.645mm、速度差.003959m/s，ego初始位置差0。该配对区间到baseline contact终止，R4的完整释放轨迹另由其自身truth观察；不能声称baseline跑过未观测的释放段。全部10次实际输出topic均publisher count=1；8次解析到`chassis_interface_stub`名称，2次DDS图快照名称unknown，不能假称10次名称均核实。source/launch仍是原唯一stub链，wrapper不发布速度。9/10退出清理有历史cleanup −11，均在终止留证后，单列保留，没有拿它作延续Research的理由。
+
+baseline均向通道侧向尝试绕行而contact；其5–6次plan发布、1次含|y|>.4m点只是正常刷新/横向路径指标，不证明进入盲支路。R4每次19条plan对应更长运行时间，不能自动称为19次无效重规划；R4无侧向绕行尝试，小幅回退/切换如实列出。
+
+**判决依据：** R4安全WAIT→GO并通过通道的部分信号明确、可重复；同时完整任务只有2/5成功，3次自身失败保留。按正式前必要条件和用户最后授权的“不能稳定完成任务则Stop”，当前冻结方案不Go。baseline的5次contact也表明该S3条件存在主线值得研究的问题，不能包装成baseline已稳定解决。效率优势和简单reactive不可替代性未证明，不用额外参数、样本或终点框架修复延长本路线。当前HWS-style low-level路线冻结，A25生产化Stop继续有效；不是否定所有prediction方法的普遍结论。
+
+### 冻结范围与必要复现
+
+不再继续当前R4本体、owner/lease/fallback、完整Nav2/ROS生产化、angular handoff、旋转MPC或此场景调整。保留原算法、本次可选wrapper修正、两轮分开的原始证据和[最终紧凑证据](../../experiments/r4_gazebo_comparison/evidence_corridor_recovery/)。当前修正默认关闭，只有显式`R4_RESEARCH_NATIVE_RECOVERY=1`的隔离实验开启；不进入主线配置。
+
+新完整证据约47MiB、旧首异常终止约35MiB，均留本地，不push。未删除旧失败/无关dirty/core。只做本轮构建、输入/参数公平性核查、已保存数据分析及图表检查，不跑新大规模回归或实验。复现已保存数据：
+
+```bash
+python3 experiments/r4_gazebo_comparison/corridor_analyze.py build/r4_corridor_native_recovery_20261006
+python3 experiments/r4_gazebo_comparison/corridor_plot.py build/r4_corridor_native_recovery_20261006
+```
+
+此前首异常终止cohort的Modify为历史方法判定，本节最终**Stop**结束本轮及当前研究路线；不把两个cohort混合为10次样本。

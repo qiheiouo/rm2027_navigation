@@ -2,6 +2,8 @@
 
 2026-10-06。价值判定 **Modify**：首 native 异常永久锁存且记录器立即终止，未观测通道开放后的 WAIT→GO。冻结首异常终止运行行为不满足成功条件，runtime Stop；A25 当前配置生产化 Stop 保留。
 
+这是`9d005e05`首轮的历史证据，原始指标/失败未覆盖。随后用户已授权恢复原Nav2异常处理，独立[最终cohort](../evidence_corridor_recovery/)给出 **Stop并冻结路线**；首轮这里的未应用/待确认状态仅指当时，当前最终状态以[A26报告](../../../docs/dynamic_navigation/r4_final_corridor_research.md)为准。
+
 完整解释见 [A26 报告](../../../docs/dynamic_navigation/r4_final_corridor_research.md)。此目录不是新一轮修正实验的结果。
 
 - `summary.json` / `trials.csv`：两版 S0 检查、S3 两组各 5 次和 1 次单列启动失败；正式失败不替换。到达/恢复未观测为 null。
