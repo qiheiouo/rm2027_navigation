@@ -1,0 +1,28 @@
+{
+  "reference_commit": "1c0b6d73",
+  "algorithm_commit": "ccd3eac4",
+  "scene": "S2",
+  "target_median_clearance_m": [
+    0.28,
+    0.32
+  ],
+  "calibration_candidates_max": 4,
+  "calibration_trials_per_candidate": 3,
+  "baseline_local_inflation_radius": 0.8,
+  "cost_scaling_factor_initial": 3.0,
+  "cost_scaling_factor_bounds": [
+    0.75,
+    6.0
+  ],
+  "finite_initial_per_mode": 5,
+  "finite_max_per_mode": 10,
+  "efficiency_relative_threshold": 0.1,
+  "paired_win_threshold_initial": 4,
+  "paired_win_threshold_max": 8,
+  "worst_clearance_tolerance_m": 0.05,
+  "r4_changed": false,
+  "baseline_allowed_changes": [
+    "local_costmap.local_costmap.ros__parameters.inflation_layer.inflation_radius",
+    "local_costmap.local_costmap.ros__parameters.inflation_layer.cost_scaling_factor"
+  ]
+}

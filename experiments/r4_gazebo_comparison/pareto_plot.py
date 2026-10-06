@@ -3,7 +3,27 @@ import json,pathlib,sys
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-root=pathlib.Path(sys.argv[1]);summary=json.loads((root/'summary.json').read_text());audit=json.loads((root/'pareto_audit.json').read_text())
+root=pathlib.Path(sys.argv[1]);summary=json.loads((root/'summary.json').read_text())
+if not (root/'pareto_audit.json').exists():
+    outcome=json.loads((root/'calibration_outcome.json').read_text());groups=outcome['candidates']
+    runs={r['run']:r for r in summary['runs']};calibration=json.loads((root/'calibration.json').read_text())
+    fig,axes=plt.subplots(1,2,figsize=(11,4),constrained_layout=True)
+    axes[0].axhspan(.28,.32,color='#bbc5be',alpha=.4,label='Target median band')
+    for g,c in zip(groups,calibration):
+        index=g['candidate'];trials=[runs[name] for name in c['runs']]
+        for k,r in enumerate(trials):
+            x=index+(k-(len(trials)-1)/2)*.035
+            axes[0].plot(x,r['min_dynamic_clearance_m'],'o',color='#2368a0',alpha=.65)
+            axes[1].plot(x,r['arrival_s'],'o',color='#2368a0',alpha=.65)
+        axes[0].plot(index,g['clearance_median_m'],'*',color='#d87520',ms=13)
+        axes[1].plot(index,g['arrival_median_s'],'*',color='#d87520',ms=13)
+    labels=[f"{g['candidate']}\nr={g['radius']}\nk={g['factor']}\nn={g['n']}" for g in groups]
+    for ax in axes: ax.set_xticks([g['candidate'] for g in groups],labels);ax.set_xlabel('Baseline calibration candidate');ax.grid(alpha=.2)
+    axes[0].set_ylabel('Sampled minimum mechanical clearance (m)');axes[0].legend()
+    axes[1].set_ylabel('Calibration arrival time (s)')
+    fig.suptitle('A25 calibration: target not reached; no held-out Pareto verdict — stars = medians')
+    fig.savefig(root/'calibration.png',dpi=160);plt.close(fig);sys.exit(0)
+audit=json.loads((root/'pareto_audit.json').read_text())
 colors={'B0':'#2368a0','R4':'#d87520'}
 fig,axes=plt.subplots(1,3,figsize=(13,4),constrained_layout=True)
 axes[0].axvspan(.28,.32,color='#bbc5be',alpha=.3,label='Target median band')

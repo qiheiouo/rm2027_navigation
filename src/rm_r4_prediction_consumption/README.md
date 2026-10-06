@@ -76,6 +76,13 @@ independent consumption evidence, and the remaining clearance/efficiency
 tradeoff does not justify production integration. See
 [A24 decision and limits](../../docs/dynamic_navigation/r4_matched_closed_loop_comparison.md).
 
+Research A25 keeps this library and the complete A24 R4 configuration unchanged.
+Twenty bounded baseline clearance-calibration trials succeed without contact,
+but none of the tested candidate medians enters the 0.28–0.32 m target band.
+Verdict is **Modify** at calibration, with no new held-out equal-clearance
+efficiency verdict or production integration. See
+[A25 calibration outcome](../../docs/dynamic_navigation/r4_clearance_efficiency_pareto.md).
+
 Historical Research A19 retains an explicit `AlignedFollowAdapter` wrapper around the
 same original 45-variable Follow assembly and OSQP solve. It retains raw source
 state/stamps, derives a model pose at the prediction epoch with the existing

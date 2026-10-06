@@ -1,0 +1,142 @@
+{
+  "verdict": "Modify",
+  "reason": "Bounded calibration and fixed two-sample confirmation did not produce a baseline median in [0.28,0.32]m; no independent finite efficiency comparison was started.",
+  "target_band_m": [
+    0.28,
+    0.32
+  ],
+  "target_reached": false,
+  "frozen": false,
+  "finite_started": false,
+  "baseline_trials": 20,
+  "success": 20,
+  "contacts": 0,
+  "r4_a24_parameters_byte_equal": true,
+  "unexpected_config_changes": [],
+  "candidates": [
+    {
+      "candidate": 1,
+      "radius": 0.8,
+      "factor": 3.0,
+      "n": 3,
+      "success": 3,
+      "contacts": 0,
+      "clearance_m": [
+        0.5324294528003912,
+        0.5495102068875023,
+        0.5627920004963398
+      ],
+      "clearance_median_m": 0.5495102068875023,
+      "clearance_min_m": 0.5324294528003912,
+      "arrival_median_s": 18.262,
+      "wait_median_s": 0.08,
+      "longest_stall_max_s": 0.1,
+      "reversal_runs": 3,
+      "maximum_backtrack_m": 0.1458643562532821
+    },
+    {
+      "candidate": 2,
+      "radius": 0.8,
+      "factor": 4.5,
+      "n": 3,
+      "success": 3,
+      "contacts": 0,
+      "clearance_m": [
+        0.5218350828567866,
+        0.5651265158831446,
+        0.5211174596772463
+      ],
+      "clearance_median_m": 0.5218350828567866,
+      "clearance_min_m": 0.5211174596772463,
+      "arrival_median_s": 18.018,
+      "wait_median_s": 0.08,
+      "longest_stall_max_s": 0.1,
+      "reversal_runs": 3,
+      "maximum_backtrack_m": 0.14595830418972122
+    },
+    {
+      "candidate": 3,
+      "radius": 0.8,
+      "factor": 5.25,
+      "n": 3,
+      "success": 3,
+      "contacts": 0,
+      "clearance_m": [
+        0.5630284133657464,
+        0.4987997152224986,
+        0.5523422744960922
+      ],
+      "clearance_median_m": 0.5523422744960922,
+      "clearance_min_m": 0.4987997152224986,
+      "arrival_median_s": 17.177,
+      "wait_median_s": 0.08,
+      "longest_stall_max_s": 0.1,
+      "reversal_runs": 0,
+      "maximum_backtrack_m": 0.005760764582642852
+    },
+    {
+      "candidate": 4,
+      "radius": 0.8,
+      "factor": 5.625,
+      "n": 3,
+      "success": 3,
+      "contacts": 0,
+      "clearance_m": [
+        0.49030776504928236,
+        0.5377171625471201,
+        0.5394146542261707
+      ],
+      "clearance_median_m": 0.5377171625471201,
+      "clearance_min_m": 0.49030776504928236,
+      "arrival_median_s": 17.312,
+      "wait_median_s": 0.08,
+      "longest_stall_max_s": 0.08,
+      "reversal_runs": 0,
+      "maximum_backtrack_m": 0.00032880657702705207
+    },
+    {
+      "candidate": 5,
+      "radius": 0.6,
+      "factor": 6.0,
+      "n": 3,
+      "success": 3,
+      "contacts": 0,
+      "clearance_m": [
+        0.3619900643308719,
+        0.3817329238417347,
+        0.361604911927255
+      ],
+      "clearance_median_m": 0.3619900643308719,
+      "clearance_min_m": 0.361604911927255,
+      "arrival_median_s": 14.426,
+      "wait_median_s": 0.06,
+      "longest_stall_max_s": 0.08,
+      "reversal_runs": 0,
+      "maximum_backtrack_m": 0.0
+    },
+    {
+      "candidate": 6,
+      "radius": 0.55,
+      "factor": 6.0,
+      "n": 5,
+      "success": 5,
+      "contacts": 0,
+      "clearance_m": [
+        0.26547691732262274,
+        0.22752319993603787,
+        0.28515284199470814,
+        0.25708315612582566,
+        0.3290173375367064
+      ],
+      "clearance_median_m": 0.26547691732262274,
+      "clearance_min_m": 0.22752319993603787,
+      "arrival_median_s": 13.862,
+      "wait_median_s": 0.06,
+      "longest_stall_max_s": 0.1,
+      "reversal_runs": 0,
+      "maximum_backtrack_m": 0.0
+    }
+  ],
+  "shutdown_crashes_after_trial": 15,
+  "limits": "Only the tested candidates failed calibration; this does not prove native MPPI cannot reach the band. Calibration timing and historical A24 R4 are not a held-out matched Pareto decision."
+}
