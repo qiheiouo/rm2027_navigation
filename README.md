@@ -4,6 +4,13 @@ RoboMaster 2027 sentry navigation new-system workspace.
 
 This project is the new mainline for the 2027 sentry robot navigation stack. The old `rm2026_navigation` project is kept only as a reference source for historical code, documents, protocols, maps, and failure analysis. It is not part of this project's main implementation line.
 
+## Workspace And Source Branches
+
+The default repository branch is `main`; vehicle implementation lines are
+`main-old-car` and `main-new-car`. Use the selected vehicle source for engineering
+work. See [本地工作区与主线说明](docs/repository_workspaces.md) for the current
+local workspace roles and their limits.
+
 ## Current Stage
 
 Phase 1A environment and canonical TF validation, Phase 1B no-hardware Nav2

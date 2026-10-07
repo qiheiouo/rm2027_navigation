@@ -34,6 +34,11 @@ The stage-based policy governs validation effort. Dated evidence reports do
 not require every research experiment to repeat deployment-level checks.
 The root [AGENTS.md](../AGENTS.md) is the Codex required reading entry point.
 
+## Local Workspaces And Source Mainlines
+
+See [本地工作区与主线说明](repository_workspaces.md) for the long-lived main
+workspace, vehicle source branches, active research and cold archives.
+
 ## Workspace Layout
 
 ### External Backends
