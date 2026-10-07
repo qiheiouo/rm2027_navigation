@@ -121,3 +121,7 @@ mapping artifact, mission priority or failure policy, update at least:
 3. `docs/runtime_profiles.md` when launch behavior changes;
 4. `docs/competition_capability_status.md` when acceptance status changes;
 5. a dated validation report only after evidence is collected.
+
+## Dynamic Prediction Research Closure (2026-10-07)
+
+- [动态预测研究阶段总览：R1–R4、A23–A26、Temporal Gate 与开放时间审计](dynamic_navigation/dynamic_prediction_research_summary_20261007.md)：固定版本、定量结果、Go/Modify/Stop、证据恢复入口和重启条件。推荐主线继续为 STVL + native MPPI；条件性 WAIT→GO 信号仍有研究价值，通用预测消费与 Temporal Gate 未证明值得进入正式运行链。本次仅收口文档，不启用实验实现或配置。
