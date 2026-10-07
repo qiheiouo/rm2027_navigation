@@ -125,3 +125,7 @@ mapping artifact, mission priority or failure policy, update at least:
 ## Dynamic Prediction Research Closure (2026-10-07)
 
 - [动态预测研究阶段总览：R1–R4、A23–A26、Temporal Gate 与开放时间审计](dynamic_navigation/dynamic_prediction_research_summary_20261007.md)：固定版本、定量结果、Go/Modify/Stop、证据恢复入口和重启条件。推荐主线继续为 STVL + native MPPI；条件性 WAIT→GO 信号仍有研究价值，通用预测消费与 Temporal Gate 未证明值得进入正式运行链。本次仅收口文档，不启用实验实现或配置。
+
+## Long-Term Research Asset and Git Policy
+
+- [研究资产保留与 Git 仓库管理规范](research_asset_and_git_management_principles.md)：精选最终结论、关键冻结代码、配置与最小证据；新提交使用简短中文，一个研究方向保留少量活跃入口。原 Research / Integration / Deployment 原则继续有效。

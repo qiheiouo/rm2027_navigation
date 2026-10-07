@@ -4,6 +4,7 @@
 
 - [开发流程](docs/development_workflow.md)：分支、提交、文档同步和开源模块引入规则。
 - [实验分支与主线开发分级验证原则](docs/research_integration_deployment_principles.md)：Research / Integration / Deployment 的阶段划分、验证范围和决策要求，作为长期强制规范执行。
+- [研究资产保留与 Git 仓库管理规范](docs/research_asset_and_git_management_principles.md)：精选长期资产、少量研究入口、简短中文提交及按价值上传，作为长期规范执行。
 - [项目结构与文档索引](docs/project_structure_and_documentation_index.md)：模块职责、权威文档和文档适用顺序。
 - 与当前修改相关的 `docs/contracts/` 契约及 `docs/runtime_profiles.md` 运行边界。
 
