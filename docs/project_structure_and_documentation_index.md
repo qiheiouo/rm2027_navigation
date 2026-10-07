@@ -218,3 +218,10 @@ These documents do not enable prediction, change formal navigation or relax safe
 - [Historical reading copies](dynamic_navigation/history_documents_20261004/README.md): exact document copies from pinned Git revisions, without copying code or raw experimental data.
 
 The user has temporarily stopped the research. The latest one-month experiment plan has not started; its dates and budgets remain historical plan records.
+
+## NEU Localization and Controller Second Audit (2026-10-07)
+
+- [Localization / relocalization and controller second audit](research/neu_localization_controller_second_audit_20261007.md): transcript reconstruction, project rules, version-qualified source audit, A/B/C/D decisions, coupled module boundaries and minimum decisive L/C research plan.
+
+This is an audit and plan only. It changes no runtime configuration, AMCL or MPPI;
+the dynamic prediction, Temporal MPC and R4 frozen/Stop decisions remain in force.
