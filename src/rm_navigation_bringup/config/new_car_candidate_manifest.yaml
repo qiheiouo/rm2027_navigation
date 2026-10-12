@@ -1,0 +1,33 @@
+# Inventory, NOT a ROS parameter file or hardware deployment profile.
+schema_version: 1
+stage: isolated_software_integration
+hardware_motion_allowed: false
+formal_profile_available: false
+passed_repairs:
+  fast_lio_superproject_source: 3911af9c0ae6af551fea9900d20d4bb34f16a655
+  fast_lio_pin: ae5bef29c89ba7a1004d75657db482bb277e603a
+  localization_source: 753131e6b09b0440b0ef0c9fd6155aba8e798687
+motion_authority: Modify_independent_candidate_not_imported
+hardware_candidate:
+  lidar: single_mid360_actual_A_or_B_installation_pending
+  software_topic_side: left
+  lio: bundle_only
+  canonical_odom_owner: lio_adapter
+  canonical_map_odom_owner: map_odom_from_global_pose
+  global_primary_candidate: amcl_2d
+  global_alternative: gicp_3d_registered_cloud_wiring_pending
+  navigation: Navfn_MPPI_behavior_velocity_smoother
+  obstacle_candidate: ordinary_VoxelLayer_requires_measured_inputs
+  chassis_protocol: competition_v2
+  goal_owner: unavailable_until_AUD003_passes
+  calibration_file: null
+  approved_map_bundle: null
+  measured_footprint: null
+  real_chassis_mode_source: null
+  physical_stop_evidence: null
+not_enabled: [async, adaptive, Full_base, covariance_research, STVL, Mission, T_DT, Temporal_MPC, dynamic_prediction]
+software_modes:
+  inventory: no_nodes
+  bundle_no_input: Humble_no_driver_no_serial_no_fake_measurement
+  v2_protocol: Humble_dry_run_MCU_fixture_codec_only_no_navigation
+  s2: Jazzy_Gazebo8_truth_only_no_serial_no_Mission

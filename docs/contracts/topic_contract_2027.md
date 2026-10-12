@@ -23,15 +23,15 @@
 | `/localization/scan_deskew/active` | `std_msgs/msg/Bool` | experimental strict scan projector | diagnostics, operator validation | Latched true only while the selected candidate is producing fully deskewed scans; it grants no motion or localization authority |
 | `/localization/scan_deskew/status` | `diagnostic_msgs/msg/DiagnosticArray` | experimental strict scan projector | diagnostics, validation | Timing interpretation, odometry coverage, queue/drop counters, latency and latest failure reason for the deskew candidate |
 | `/localization/amcl_pose_raw` | `geometry_msgs/msg/PoseWithCovarianceStamped` | AMCL with TF broadcasting disabled | `amcl_pose_gate` | Backend-private AMCL estimate; never a canonical TF source |
-| `/localization/amcl_backend_valid` | `std_msgs/msg/Bool` | `amcl_pose_gate` | diagnostics, future safety/mission layer | Latched backend-specific pose-gate validity |
+| `/localization/amcl_backend_valid` | `std_msgs/msg/Bool` | `amcl_pose_gate` | diagnostics, future safety/mission layer | Diagnostic snapshot only; authoritative lifetime is in `<topic>/status` |
 | `/localization/gicp_pose_raw` | `geometry_msgs/msg/PoseWithCovarianceStamped` | `gicp_relocalization` | `global_pose_gate` | Backend-private 3D registration estimate; never a canonical TF source |
 | `/localization/gicp_registration_valid` | `std_msgs/msg/Bool` | `gicp_relocalization` | diagnostics | Convergence, fitness and correction-jump acceptance for the latest registration |
 | `/localization/gicp_fitness_score` | `std_msgs/msg/Float64` | `gicp_relocalization` | diagnostics | Latest PCL GICP fitness score; lower is better but threshold requires field validation |
 | `/localization/gicp_map_id` | `std_msgs/msg/String` | `gicp_relocalization` | diagnostics, deployment audit | Latched map identity resolved from the validated bundle |
-| `/localization/gicp_backend_valid` | `std_msgs/msg/Bool` | `global_pose_gate` | diagnostics, future safety/mission layer | Latched validity after the common frame/time/pose/covariance gate |
+| `/localization/gicp_backend_valid` | `std_msgs/msg/Bool` | `global_pose_gate` | diagnostics, future safety/mission layer | Diagnostic snapshot only; authoritative lifetime is in `<topic>/status` |
 | `/localization/global_pose` | `geometry_msgs/msg/PoseWithCovarianceStamped` | selected global localization backend | `map_odom_from_global_pose` | Timestamped global robot pose with `frame_id=map`; backends must not publish canonical TF directly |
 | `/localization/map_to_odom` | `geometry_msgs/msg/TransformStamped` | `map_odom_from_global_pose` | diagnostics, validation | Inspectable copy of the accepted canonical correction; the same node owns dynamic `map -> odom` |
-| `/localization/global_localization_valid` | `std_msgs/msg/Bool` | `map_odom_from_global_pose` | diagnostics, future safety/mission layer | Latched validity of the current correction; false before the first valid match and after reset/time reset |
+| `/localization/global_localization_valid` | `std_msgs/msg/Bool` | `map_odom_from_global_pose` | diagnostics, future safety/mission layer | Diagnostic snapshot of bridge validity; Bool alone has no producer-liveness semantics |
 | `/cmd_vel` | `geometry_msgs/msg/Twist` | Nav2 | selected chassis/serial transport | Commanded chassis velocity in `base_link` |
 | `/chassis/twist_raw` | `geometry_msgs/msg/TwistWithCovarianceStamped` | `rm_chassis_interface` | diagnostics, slip detection, future low-weight fusion | Chassis feedback velocity, not the main localization source |
 | `/chassis/wheel_states_raw` | `sensor_msgs/msg/JointState` | future `rm_chassis_interface` feedback path | chassis kinematics, diagnostics | Proposed four-wheel raw feedback topic; serial wire layout is not yet confirmed |
@@ -228,3 +228,23 @@ Serial, chassis, and referee modules must not publish navigation goals, call Nav
 Mission or BT nodes must not overwrite `/cmd_vel` directly unless a later documented mux or safety layer is introduced.
 
 `/chassis/twist_raw` may be used for feedback, diagnostics, slip detection, or future low-weight fusion. It must not become the primary localization source.
+
+## Localization status lifetime
+
+`/localization/amcl_backend_valid/status` and
+`/localization/gicp_backend_valid/status` use
+`rm_competition_interfaces/msg/LocalizationStatus`. The selected gate owns one
+backend stream. `/localization/status` uses the same message and is owned by
+`map_odom_from_global_pose`; Mission and readiness consume it with an independent
+1.0 s lease. All status streams are reliable/volatile. Identity/epoch, emission
+time, source deadline and sequence are mandatory. The embedded original pose
+prevents mixing evidence with an unrelated pose message. Heartbeats may prove
+producer liveness but cannot extend the accepted source deadline. See the
+[owning package contract](../../src/rm_relocalization_bridge/README.md#localization-validity-lease-aud-001).
+
+Legacy Bool snapshots and refreshed TF timestamps confer no validity lease.
+No new motion, serial or TF owner is introduced by this interface.
+
+## 新车软件基线补充（2026-10-12）
+
+实际S2 controller/behavior→cmd_vel_nav→velocity_smoother→cmd_vel→模拟车，唯一最终publisher已在定向smoke核对。LocalizationStatus保持完整AUD-001接口；S2不把truth生成该状态。V2 codec测试单独运行，无Nav2/Goal→serial链或硬件授权。候选source、无mode来源和禁用功能见[合同](new_car_software_20261012.md)。

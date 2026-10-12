@@ -10,6 +10,7 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rm_competition_interfaces REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -29,6 +30,7 @@ add_executable(map_odom_from_global_pose src/map_odom_from_global_pose.cpp)
 target_link_libraries(map_odom_from_global_pose relocalization_math)
 ament_target_dependencies(map_odom_from_global_pose
   rclcpp
+  rm_competition_interfaces
   nav_msgs
   geometry_msgs
   std_msgs
@@ -55,6 +57,7 @@ ament_target_dependencies(global_pose_gate geometry_msgs)
 add_executable(global_pose_gate_node src/amcl_pose_gate_node.cpp)
 target_link_libraries(global_pose_gate_node global_pose_gate)
 ament_target_dependencies(global_pose_gate_node
+  rm_competition_interfaces
   rclcpp
   geometry_msgs
   std_msgs

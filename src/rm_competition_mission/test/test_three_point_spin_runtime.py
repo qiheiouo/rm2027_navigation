@@ -12,8 +12,9 @@ from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
-from rm_competition_interfaces.msg import RefereeState
+from rm_competition_interfaces.msg import LocalizationStatus, RefereeState
 from std_msgs.msg import Bool
+from rclpy.duration import Duration
 
 
 class FakeNav2(Node):
@@ -46,10 +47,12 @@ class FakeNav2(Node):
             durability=DurabilityPolicy.TRANSIENT_LOCAL,
         )
         self.localization_pub = self.create_publisher(
-            Bool, "/localization/global_localization_valid", qos
+            LocalizationStatus, "/localization/status", 1
         )
         self.referee_valid_pub = self.create_publisher(Bool, "/referee/state_valid", qos)
         self.referee_pub = self.create_publisher(RefereeState, "/referee/state", qos)
+        self.started_at = self.get_clock().now().to_msg()
+        self.localization_sequence = 0
         self.create_timer(0.05, self.publish_safety)
 
     def execute_nav(self, goal_handle):
@@ -77,7 +80,15 @@ class FakeNav2(Node):
 
     def publish_safety(self):
         valid = Bool(data=True)
-        self.localization_pub.publish(valid)
+        status = LocalizationStatus()
+        status.header.stamp = self.get_clock().now().to_msg()
+        status.started_at = self.started_at
+        status.producer_id = "three_point_spin_test"
+        self.localization_sequence += 1
+        status.sequence = self.localization_sequence
+        status.valid = True
+        status.valid_until = (self.get_clock().now() + Duration(seconds=1.0)).to_msg()
+        self.localization_pub.publish(status)
         self.referee_valid_pub.publish(valid)
         state = RefereeState()
         state.valid = True

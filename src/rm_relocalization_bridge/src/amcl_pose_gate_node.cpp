@@ -1,11 +1,15 @@
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <memory>
+#include <random>
 #include <stdexcept>
 #include <string>
 
 #include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/bool.hpp"
+#include "rm_competition_interfaces/msg/localization_status.hpp"
 
 #include "rm_relocalization_bridge/global_pose_gate.hpp"
 
@@ -15,6 +19,11 @@ public:
   GlobalPoseGateNode()
   : Node("global_pose_gate")
   {
+    started_at_ = now();
+    recovery_after_ns_ = started_at_.nanoseconds();
+    last_clock_ns_ = recovery_after_ns_;
+    producer_id_ = std::to_string(std::random_device{}()) + ":" +
+      std::to_string(std::random_device{}());
     input_topic_ = declare_parameter<std::string>("input_topic", "/localization/amcl_pose_raw");
     output_topic_ = declare_parameter<std::string>(
       "output_topic", "/localization/global_pose");
@@ -30,6 +39,7 @@ public:
     validity_timeout_sec_ = declare_parameter<double>("validity_timeout_sec", 1.0);
 
     if (
+      !std::isfinite(validity_timeout_sec_) ||
       limits_.max_pose_age_sec < 0.0 || limits_.max_future_sec < 0.0 ||
       limits_.max_xy_variance < 0.0 || limits_.max_yaw_variance < 0.0 ||
       limits_.max_abs_z < 0.0 || limits_.max_abs_roll_pitch < 0.0 ||
@@ -42,6 +52,8 @@ public:
       output_topic_, rclcpp::QoS(10).reliable());
     valid_pub_ = create_publisher<std_msgs::msg::Bool>(
       valid_topic_, rclcpp::QoS(1).reliable().transient_local());
+    status_pub_ = create_publisher<rm_competition_interfaces::msg::LocalizationStatus>(
+      valid_topic_ + "/status", rclcpp::QoS(1).reliable());
     input_sub_ = create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
       input_topic_, rclcpp::QoS(10).reliable(),
       [this](const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr message) {
@@ -60,35 +72,74 @@ public:
 private:
   void handlePose(const geometry_msgs::msg::PoseWithCovarianceStamped & message)
   {
+    checkTimeout(false);
     std::string reason;
-    if (!rm_relocalization_bridge::validateGlobalPose(
-        message, now().nanoseconds(), limits_, &reason))
+    const int64_t stamp_ns = static_cast<int64_t>(message.header.stamp.sec) * 1000000000LL +
+      message.header.stamp.nanosec;
+    if (message.header.stamp.sec < 0 || message.header.stamp.nanosec >= 1000000000U ||
+      !rm_relocalization_bridge::validateGlobalPose(
+        message, now().nanoseconds(), limits_, &reason) ||
+      stamp_ns <= recovery_after_ns_ || stamp_ns <= last_pose_ns_)
     {
-      publishValid(false);
+      invalidate();
       RCLCPP_WARN_THROTTLE(
         get_logger(), *get_clock(), 2000,
-        "Rejecting backend pose: %s", reason.c_str());
+        "Rejecting backend pose: %s",
+        reason.empty() ? "non-monotonic or pre-session timestamp" : reason.c_str());
       return;
     }
 
     output_pub_->publish(message);
+    accepted_pose_ = message;
+    last_pose_ns_ = stamp_ns;
+    // The existing 100 ms timeout timer supplies the source-deadline upper bound.
+    valid_until_ = now() + rclcpp::Duration::from_seconds(validity_timeout_sec_ + 0.1);
     last_accepted_ = std::chrono::steady_clock::now();
     has_accepted_pose_ = true;
     publishValid(true);
+    publishStatus();
   }
 
-  void checkTimeout()
+  void invalidate()
   {
-    if (!has_accepted_pose_) {
-      return;
+    has_accepted_pose_ = false;
+    recovery_after_ns_ = std::max(recovery_after_ns_, last_pose_ns_);
+    publishValid(false);
+    publishStatus();
+  }
+
+  void checkTimeout(bool publish = true)
+  {
+    const auto clock_ns = now().nanoseconds();
+    if (started_at_.nanoseconds() <= 0 && clock_ns > 0) {
+      started_at_ = now();
+      recovery_after_ns_ = clock_ns;
     }
+    const bool clock_reversed = clock_ns < last_clock_ns_;
+    last_clock_ns_ = std::max(last_clock_ns_, clock_ns);
     const double age = std::chrono::duration<double>(
       std::chrono::steady_clock::now() - last_accepted_).count();
-    if (age > validity_timeout_sec_) {
-      has_accepted_pose_ = false;
-      publishValid(false);
-      RCLCPP_WARN(get_logger(), "Global pose stream timed out after %.3f s", age);
+    if (clock_reversed || (publish && has_accepted_pose_ &&
+      (age > validity_timeout_sec_ || clock_ns > valid_until_.nanoseconds())))
+    {
+      if (clock_reversed) {recovery_after_ns_ = last_clock_ns_;}
+      invalidate();
     }
+    if (publish) {publishStatus();}
+  }
+
+  void publishStatus()
+  {
+    rm_competition_interfaces::msg::LocalizationStatus message;
+    message.header.stamp = now();
+    message.header.frame_id = limits_.map_frame;
+    message.producer_id = producer_id_;
+    message.started_at = started_at_;
+    message.sequence = ++sequence_;
+    message.valid = valid_state_ && has_accepted_pose_;
+    message.valid_until = valid_until_;
+    message.pose = accepted_pose_;
+    status_pub_->publish(message);
   }
 
   void publishValid(const bool value)
@@ -103,6 +154,13 @@ private:
     valid_pub_->publish(message);
   }
 
+  std::string producer_id_;
+  rclcpp::Time started_at_{0, 0, RCL_ROS_TIME};
+  rclcpp::Time valid_until_{0, 0, RCL_ROS_TIME};
+  int64_t recovery_after_ns_{0}, last_pose_ns_{0}, last_clock_ns_{0};
+  uint64_t sequence_{0};
+  geometry_msgs::msg::PoseWithCovarianceStamped accepted_pose_;
+  rclcpp::Publisher<rm_competition_interfaces::msg::LocalizationStatus>::SharedPtr status_pub_;
   std::string input_topic_;
   std::string output_topic_;
   std::string valid_topic_;

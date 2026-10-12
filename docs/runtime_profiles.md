@@ -304,3 +304,19 @@ remote switch remains the physical chassis authority. This requires both
 `allow_field_debug_inputs:=true` and `use_operator_chassis_authority:=true`;
 the defaults remain false. Follow `docs/field_debug_competition_tutorial.md`
 rather than adapting the no-hardware command to a real robot.
+
+## AUD-001 selected localization status chain
+
+Generic `navigation.launch.py` now forwards the selected AMCL/GICP backend valid
+topic through Phase 2C. The old-car competition, AMCL and GICP entries already
+provide that topic; all now use its `/status` stream through the existing
+bridge. Stub mode is unchanged. Direct external-pose fixtures without a selected
+gate have a finite correction lease, not indefinite health. Generic GICP's
+registered-cloud setup remains an independent deployment prerequisite (AUD-061
+is not repaired here). Mission's localization input and diagnostic readiness
+expire bridge status independently; referee/chassis/serial authority is outside
+this batch. Explicit test-only Mission mocks publish the new status interface.
+
+## 新车软件集成入口（2026-10-12）
+
+`new_car_software.launch.py`默认inventory、零节点，active模式显式enable_test。Humble的bundle_no_input和独立v2_protocol、Jazzy/Gazebo8的S2各自验证，不能混成硬件栈；AUD-003仍Modify且未迁入。第一版候选链/owner/禁用条件见[合同](contracts/new_car_software_20261012.md)，实测见[集成结果](new_car_software_saved_20261012.md)。实车无校准/授权前仅准备数据与独立急停验收。

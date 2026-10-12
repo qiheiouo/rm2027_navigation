@@ -18,6 +18,7 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "rm_competition_interfaces/msg/chassis_mode.hpp"
 #include "rm_competition_interfaces/msg/mission_state.hpp"
+#include "rm_competition_interfaces/msg/localization_status.hpp"
 #include "rm_competition_interfaces/msg/referee_state.hpp"
 #include "rm_competition_interfaces/srv/set_mission_mode.hpp"
 #include "std_msgs/msg/bool.hpp"
@@ -61,6 +62,13 @@ public:
   CompetitionMissionNode()
   : Node("competition_mission_node")
   {
+    localization_start_ns_ = now().nanoseconds();
+    localization_last_clock_ns_ = localization_start_ns_;
+    localization_status_timeout_sec_ = declare_parameter<double>(
+      "localization_status_timeout_sec", 1.0);
+    if (!std::isfinite(localization_status_timeout_sec_) || localization_status_timeout_sec_ <= 0.0) {
+      throw std::invalid_argument("localization_status_timeout_sec must be positive");
+    }
     tree_xml_ = declare_parameter<std::string>("tree_xml", "");
     startup_enabled_ = declare_parameter<bool>("startup_enabled", false);
     requested_mode_ = declare_parameter<std::string>("default_mode", "hold");
@@ -124,9 +132,11 @@ public:
     auto latched = rclcpp::QoS(1).reliable().transient_local();
     mission_state_pub_ = create_publisher<rm_competition_interfaces::msg::MissionState>(
       "/mission/state", latched);
-    localization_sub_ = create_subscription<std_msgs::msg::Bool>(
-      "/localization/global_localization_valid", latched,
-      [this](std_msgs::msg::Bool::SharedPtr message) {localization_valid_ = message->data;});
+    localization_sub_ = create_subscription<rm_competition_interfaces::msg::LocalizationStatus>(
+      "/localization/status", rclcpp::QoS(1).reliable(),
+      [this](rm_competition_interfaces::msg::LocalizationStatus::SharedPtr message) {
+        handleLocalizationStatus(*message);
+      });
     referee_valid_sub_ = create_subscription<std_msgs::msg::Bool>(
       "/referee/state_valid", latched,
       [this](std_msgs::msg::Bool::SharedPtr message) {referee_valid_ = message->data;});
@@ -254,9 +264,53 @@ private:
       });
   }
 
+  void handleLocalizationStatus(const rm_competition_interfaces::msg::LocalizationStatus & msg)
+  {
+    const auto well_formed = [](const builtin_interfaces::msg::Time & stamp) {
+        return stamp.sec >= 0 && stamp.nanosec < 1000000000U;
+      };
+    if (!well_formed(msg.header.stamp) || !well_formed(msg.started_at) ||
+      !well_formed(msg.valid_until))
+    {
+      localization_valid_ = false;
+      return;
+    }
+    const auto emitted = rclcpp::Time(msg.header.stamp);
+    const auto epoch = rclcpp::Time(msg.started_at).nanoseconds();
+    const auto deadline = rclcpp::Time(msg.valid_until);
+    const double age = (now() - emitted).seconds();
+    if (msg.producer_id.empty() || msg.sequence == 0 || epoch <= 0 ||
+      epoch > emitted.nanoseconds() || emitted.nanoseconds() <= localization_start_ns_ ||
+      age < -0.1 || age > localization_status_timeout_sec_ || epoch < localization_epoch_ns_ ||
+      (epoch == localization_epoch_ns_ && !localization_id_.empty() && msg.producer_id != localization_id_) ||
+      (msg.producer_id == localization_id_ &&
+      (msg.sequence <= localization_sequence_ || emitted.nanoseconds() < localization_emitted_ns_)))
+    {
+      localization_valid_ = false;
+      return;
+    }
+    localization_id_ = msg.producer_id;
+    localization_epoch_ns_ = epoch;
+    localization_sequence_ = msg.sequence;
+    localization_emitted_ns_ = emitted.nanoseconds();
+    localization_deadline_ = deadline;
+    localization_received_ = std::chrono::steady_clock::now();
+    localization_valid_ = msg.valid && deadline > now() &&
+      (deadline - emitted).seconds() <= 1.6;
+  }
+
+  bool localizationFresh() const
+  {
+    return localization_valid_ && now() >= rclcpp::Time(localization_emitted_ns_, RCL_ROS_TIME) &&
+      now() <= localization_deadline_ &&
+      (now().nanoseconds() - localization_emitted_ns_) * 1.0e-9 <= localization_status_timeout_sec_ &&
+      std::chrono::duration<double>(std::chrono::steady_clock::now() -
+      localization_received_).count() <= localization_status_timeout_sec_;
+  }
+
   bool safetyReady() const
   {
-    if (require_localization_valid_ && !localization_valid_) {
+    if (require_localization_valid_ && !localizationFresh()) {
       return false;
     }
     if (require_referee_state_ && (!referee_valid_ || !referee_received_)) {
@@ -328,6 +382,11 @@ private:
 
   void tick()
   {
+    const auto clock_ns = now().nanoseconds();
+    if (clock_ns < localization_last_clock_ns_) {
+      localization_valid_ = false;
+    }
+    localization_last_clock_ns_ = std::max(localization_last_clock_ns_, clock_ns);
     desired_goal_.reset();
     patrol_spin_selected_ = false;
     tree_->tickRoot();
@@ -621,6 +680,13 @@ private:
   bool patrol_spin_pending_{false};
 
   bool localization_valid_{false};
+  double localization_status_timeout_sec_{1.0};
+  int64_t localization_start_ns_{0}, localization_last_clock_ns_{0};
+  int64_t localization_epoch_ns_{0}, localization_emitted_ns_{0};
+  uint64_t localization_sequence_{0};
+  std::string localization_id_;
+  rclcpp::Time localization_deadline_{0, 0, RCL_ROS_TIME};
+  std::chrono::steady_clock::time_point localization_received_;
   bool referee_valid_{false};
   bool referee_received_{false};
   bool chassis_received_{false};
@@ -651,7 +717,7 @@ private:
   rclcpp_action::Client<Spin>::SharedPtr spin_client_;
   rclcpp::Publisher<rm_competition_interfaces::msg::MissionState>::SharedPtr
     mission_state_pub_;
-  rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr localization_sub_;
+  rclcpp::Subscription<rm_competition_interfaces::msg::LocalizationStatus>::SharedPtr localization_sub_;
   rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr referee_valid_sub_;
   rclcpp::Subscription<rm_competition_interfaces::msg::RefereeState>::SharedPtr
     referee_sub_;

@@ -57,3 +57,5 @@ resources at the same time.
 
 The old-car profile must not import the old `serial_task` node or restore old
 topic glue such as `/Pose_pub`, `/my_set_goal`, or `/nav_result`.
+
+新车软件入口`new_car_software.launch.py`默认零节点inventory；config/new_car_candidate_manifest.yaml是能力清单而非硬件参数。其余测试模式须显式enable_test，固定无设备。Humble与Jazzy S2分开使用，无硬件运行模式。见[合同](../../docs/contracts/new_car_software_20261012.md)、[复现](../../tests/new_car_integration/README.md)。

@@ -1,0 +1,30 @@
+schema_version: 1
+robot_revision: new_car_cad_user_accepted_provisional_20261007
+base_link: nominal_ground_projection_of_cad_wheel_center # compliant compression moves it relative to the ground
+gimbal_origin_ground_z_m: 0.115 # unknown mechanical joint Z, explicit simulation assumption
+upper_envelope_top_m: {deformed: 0.22, undeformed: 0.32}
+lower_collision_z_m: 0.085 # suspension/body underside unavailable
+mass_kg: 30.0 # historical numerical proxy, not a measured mass
+base_inertial_proxy_xyz_m: [0.0, 0.0, 0.0] # explicit ground-frame simulation CoM assumption
+inertia_kg_m2: [0.706, 0.981, 1.525] # historical numerical proxy
+wheel_mass_kg: 1.0
+rolling_friction: 1.0
+roller_friction: 0.0
+friction_basis: legacy_rolling_tangent # alternative axle basis did not fix the rigid crest failure
+wheel_support: compliant_proxy # numerical four-contact regularization; NOT measured suspension
+support_stiffness_n_m: 10000.0 # research proxy; sensitivity checked over 5000..20000
+support_damping_ns_m: 500.0 # research proxy; not a real actuator/contact response
+wheel_mounting: diagonal_tangential_hypothesis # front/yaw/axes not confirmed by mechanics
+command_timeout_sim_sec: 0.3
+sensor_origin: cad_model_origin # not yet calibrated Livox sensor origin
+sensor_rpy_rad: [0.0, 0.0, 0.0] # explicit placeholder, shared A/B hypothesis
+internal_imu_extrinsic: null # deliberately no invented IMU TF
+lidar_samples: [180, 16]
+lidar_rate_hz: 10.0
+lidar_pattern: regular_gpu_lidar # not Livox sampling, timing or deskew
+rules_version: RMUC2026_V2.2.0_20260807
+rules_fixture_revision: rmuc2026_dimensioned_course_s2_v2
+competition_reference_revision: pb_rmuc2025_1feb76eadf_native_floor0_clip2_4_s2_v2
+map_resolution_m: 0.05
+navigation_safety_margin_m: 0.02 # research navigation policy, not mechanical geometry
+navigation_attitude_domain_deg: [3.0, 18.0] # supported research roll/pitch domain; steeper slopes not certified

@@ -106,3 +106,13 @@ mapping artifact, mission priority or failure policy, update at least:
 3. `docs/runtime_profiles.md` when launch behavior changes;
 4. `docs/competition_capability_status.md` when acceptance status changes;
 5. a dated validation report only after evidence is collected.
+
+## 新车软件集成与规范入口（2026-10-12）
+
+本隔离分支同步固定main的AGENTS、开发/分级验证/资产规范，未导入main代码。`rm_new_car_simulation`是可选Jazzy/Gazebo8仿真载体，`new_car_software.launch.py`是明确无硬件入口。Humble与Jazzy分别构建，当前scope不是全车部署。
+
+- [软件合同](contracts/new_car_software_20261012.md)
+- [集成结果/能力矩阵](new_car_software_saved_20261012.md)
+- [实车最小验收](new_car_hardware_acceptance_20261012.md)
+- [分级验证规范](research_integration_deployment_principles.md)
+- [资产规范](research_asset_and_git_management_principles.md)

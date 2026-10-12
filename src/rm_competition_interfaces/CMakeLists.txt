@@ -11,6 +11,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ChassisHeadingState.msg"
   "msg/ChassisMode.msg"
   "msg/GimbalState.msg"
+  "msg/LocalizationStatus.msg"
   "msg/MissionState.msg"
   "msg/OperatorNavigationTarget.msg"
   "msg/PostureRequest.msg"

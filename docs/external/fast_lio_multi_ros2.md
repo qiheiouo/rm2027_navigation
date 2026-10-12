@@ -5,7 +5,9 @@
 - Repository: `https://github.com/Draxran/FAST_LIO_MULTI_ROS2.git`
 - Local path: `src/fast_lio_multi`
 - Branch observed: `main`
-- Pinned commit: `e7864a63a7e2a1ad62ec8fd75fcb9149db08e321`
+- Original upstream pin: `e7864a63a7e2a1ad62ec8fd75fcb9149db08e321`
+- Local repair pin: `ae5bef29c89ba7a1004d75657db482bb277e603a`
+- Local repair branch: `codex/fastlio-deterministic-fixes-20261010`
 - License: GPL-2.0
 - ROS version: ROS2 Humble on Ubuntu 22.04 is documented by upstream.
 
@@ -37,8 +39,13 @@ clean upstream repository and owns its integration separately.
 
 ## Integration Boundary
 
-`rm_lio_bringup` provides local launch and parameters without changing the
-third-party source.
+`rm_lio_bringup` provides local launch and parameters. The isolated first repair
+batch changes only the shared IMU initialization state and the default bundle
+measurement container writes in the GPL backend. See the
+[repair evidence and rollback entry](../validation/fastlio_deterministic_20261010.md).
+The original ESKF model, thresholds, TF and publication behavior remain intact.
+The local commit is not pushed; the report includes an incremental recovery
+bundle. Async/adaptive still contain the unselected AUD-046 measurement defect.
 
 The inspected upstream source publishes `/Odometry` with
 `child_frame_id=body` and also broadcasts the same pose on `/tf`. Phase 2A

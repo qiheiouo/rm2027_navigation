@@ -165,3 +165,16 @@ In particular:
 4. Static sensor extrinsics have exactly one owner.
 
 Duplicate TF publication is a contract violation and must block Phase 1 acceptance.
+
+## Localization producer loss
+
+The external-pose bridge stops publishing new `map -> odom` timestamps when the
+selected gate's localization status expires, becomes invalid, replays old
+sequence/time evidence or disappears. Its held correction may remain in memory
+and in existing TF buffers. Consumers must use the bounded `/localization/status`
+contract, not TF timestamp freshness or a latched Bool, to assess localization
+health. TF ownership and the correction equation are unchanged.
+
+## 新车软件基线补充（2026-10-12）
+
+S2 oracle独占map→odom与odom→base_link，RSP只发模型joint/sensor树；真值输出命名odometry/simulation，不代表定位验收。真实候选lio_adapter与global bridge各自独占对应canonical edge，必须关闭stub/oracle；动态Full-base/heading与真实外参尚未通过。见[新车软件合同](new_car_software_20261012.md)。

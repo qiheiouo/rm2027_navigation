@@ -49,6 +49,7 @@ def generate_launch_description():
                 "external global-pose bridge."
             ),
         ),
+        DeclareLaunchArgument("upstream_valid_topic", default_value=""),
         DeclareLaunchArgument("sensor_mode", default_value="single"),
         DeclareLaunchArgument("selected_side", default_value="left"),
         DeclareLaunchArgument("use_driver", default_value="false"),
@@ -80,6 +81,7 @@ def generate_launch_description():
             launch_arguments={
                 "use_sim_time": use_sim_time,
                 "config_file": global_pose_bridge_config,
+                "upstream_valid_topic": LaunchConfiguration("upstream_valid_topic"),
             }.items(),
         ),
     ])

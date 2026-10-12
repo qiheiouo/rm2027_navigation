@@ -1,11 +1,15 @@
+import math
+import time
+
 import rclpy
 from nav_msgs.msg import Odometry
 from rclpy.action.graph import get_action_server_names_and_types_by_node
+from rclpy.clock import Clock, ClockType
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rclpy.qos import qos_profile_sensor_data
-from rm_competition_interfaces.msg import ChassisMode, SystemReadiness
+from rm_competition_interfaces.msg import ChassisMode, LocalizationStatus, SystemReadiness
 from sensor_msgs.msg import LaserScan, PointCloud2
 from std_msgs.msg import Bool
 
@@ -52,6 +56,18 @@ class ReadinessMonitor(Node):
         self._last_odom = None
         self._last_obstacle = None
         self._localization_valid = False
+        self._localization_timeout = float(self.declare_parameter(
+            "localization_status_timeout_sec", 1.0).value)
+        if not math.isfinite(self._localization_timeout) or self._localization_timeout <= 0:
+            raise ValueError("localization_status_timeout_sec must be positive")
+        self._localization_start = self.get_clock().now().nanoseconds
+        self._localization_last_clock = self._localization_start
+        self._localization_id = ""
+        self._localization_epoch = 0
+        self._localization_sequence = 0
+        self._localization_emitted = 0
+        self._localization_deadline = 0
+        self._localization_received = 0.0
         self._referee_valid = False
         self._chassis_ready = False
 
@@ -72,10 +88,10 @@ class ReadinessMonitor(Node):
             qos_profile_sensor_data,
         )
         self.create_subscription(
-            Bool,
-            "/localization/global_localization_valid",
-            lambda message: setattr(self, "_localization_valid", message.data),
-            latched,
+            LocalizationStatus,
+            "/localization/status",
+            self._on_localization,
+            1,
         )
         self.create_subscription(
             Bool,
@@ -86,7 +102,47 @@ class ReadinessMonitor(Node):
         self.create_subscription(
             ChassisMode, "/chassis/mode", self._on_chassis_mode, latched
         )
-        self._timer = self.create_timer(0.2, self._publish)
+        self._timer = self.create_timer(0.2, self._publish, clock=Clock(clock_type=ClockType.STEADY_TIME))
+
+    def _on_localization(self, message):
+        if any(stamp.sec < 0 or stamp.nanosec >= 1_000_000_000 for stamp in (
+                message.header.stamp, message.started_at, message.valid_until)):
+            self._localization_valid = False
+            return
+        ns = lambda stamp: stamp.sec * 1_000_000_000 + stamp.nanosec
+        emitted, epoch, deadline = map(ns, (
+            message.header.stamp, message.started_at, message.valid_until))
+        age = (self.get_clock().now().nanoseconds - emitted) * 1e-9
+        if (not message.producer_id or message.sequence == 0 or epoch <= 0
+                or epoch > emitted or emitted <= self._localization_start
+                or age < -0.1 or age > self._localization_timeout
+                or epoch < self._localization_epoch
+                or (epoch == self._localization_epoch and self._localization_id
+                    and message.producer_id != self._localization_id)
+                or (message.producer_id == self._localization_id
+                    and (message.sequence <= self._localization_sequence
+                         or emitted < self._localization_emitted))):
+            self._localization_valid = False
+            return
+        self._localization_id = message.producer_id
+        self._localization_epoch = epoch
+        self._localization_sequence = message.sequence
+        self._localization_emitted = emitted
+        self._localization_deadline = deadline
+        self._localization_received = time.monotonic()
+        self._localization_valid = (message.valid
+            and deadline > self.get_clock().now().nanoseconds
+            and (deadline - emitted) * 1e-9 <= 1.6)
+
+    def _localization_fresh(self):
+        current = self.get_clock().now().nanoseconds
+        if current < self._localization_last_clock:
+            self._localization_valid = False
+        self._localization_last_clock = max(current, self._localization_last_clock)
+        return (self._localization_valid
+            and self._localization_emitted <= current <= self._localization_deadline
+            and (current - self._localization_emitted) * 1e-9 <= self._localization_timeout
+            and time.monotonic() - self._localization_received <= self._localization_timeout)
 
     def _on_odom(self, _message):
         self._last_odom = self.get_clock().now()
@@ -129,7 +185,7 @@ class ReadinessMonitor(Node):
             available.add("lio")
         if self._fresh(self._last_obstacle):
             available.add("obstacle_input")
-        if self._localization_valid:
+        if self._localization_fresh():
             available.add("global_localization")
         if self._nav2_action_server_present():
             available.add("nav2_action")

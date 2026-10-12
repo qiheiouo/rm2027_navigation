@@ -53,3 +53,9 @@ not implemented.
 The minimum field behavior, accepted candidate boundary and remaining work are
 specified in `docs/old_car_competition_minimum_behavior.md`. Do not describe
 the isolated test profile as the final match configuration.
+
+Localization health is consumed from reliable/volatile `/localization/status`
+(`LocalizationStatus`), with instance/time/sequence validation and a 1.0 s
+steady-clock and source-deadline lease. Cached Bool is no longer a localization
+input. All other inputs retain their previous behavior; this change alone does
+not establish final serial authorization or physical stopping.

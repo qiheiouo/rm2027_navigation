@@ -4,33 +4,51 @@ This document records development rules for `rm27_navigation`.
 
 The goal is to keep the 2027 navigation stack understandable, reproducible, and free from the historical coupling issues of the old system.
 
+## Mandatory Development Rules
+
+All developers and Codex agents must follow
+[实验分支与主线开发分级验证原则](research_integration_deployment_principles.md)
+as a long-term project policy, together with this workflow and the applicable
+public contracts and runtime boundaries.
+
+Before a larger task, determine whether it is Research, Integration or
+Deployment. New experimental algorithms default to Research unless explicitly
+stated otherwise. Define the hypothesis, stable baseline and Minimum Decisive
+Experiment first; use results to decide Go / Modify / Stop. Apply the validation
+scope required by that stage, and do not automatically promote Research to
+Deployment standards. Mainline integration, hardware use and competition
+configuration require the corresponding integration and deployment validation.
+
+The root [AGENTS.md](../AGENTS.md) provides the required reading entry point.
+
+[研究资产保留与 Git 仓库管理规范](research_asset_and_git_management_principles.md)
+is also mandatory. Preserve final knowledge, key code/configuration and minimal
+decisive evidence; avoid permanent branches for every intermediate audit. Do not
+rewrite old history or upload all refs by default.
+
 ## Branch Strategy
 
 - `main` should remain readable and buildable.
 - Use `feature/*` branches for new features.
+- A new research direction normally uses one primary `experiment/*` branch.
+  After Research proves useful, integrate selected changes on a clean
+  `integration/*` branch based on the latest main; do not merge the full failed
+  or frozen research history into main.
 - Use `experiment/*` branches for risky integration work or temporary comparisons.
 - Do not put temporary debugging directly into `main`.
 - Keep hardware experiments isolated until their interface, safety behavior, and rollback plan are documented.
 
-## Commit Message Prefixes
+## Commit Messages
 
-Use short conventional prefixes:
-
-- `docs:` documentation.
-- `feat:` new feature.
-- `fix:` bug fix.
-- `build:` build system or dependency changes.
-- `config:` parameters, launch arguments, maps, or runtime configuration.
-- `test:` tests and validation scripts.
-- `refactor:` behavior-preserving code restructuring.
-
-Examples:
+新的正常项目提交使用简短中文标题，通常一行、约 10～30 个中文字符。
+可使用：功能、修复、文档、测试、重构、配置、构建、维护、实验、归档。
+详细背景和实验结果进入文档，不默认生成长篇英文标题或多段提交正文。
+旧英文提交保持原样，不为统一语言重写历史。
 
 ```text
-docs: add phase1 linux validation guide
-feat: add map odom stub node
-fix: avoid duplicate odom base_link tf
-config: tune dwb holonomic velocity limits
+文档：新增研究资产与Git管理规范
+修复：统一控制器里程计输入
+实验：验证定位错误初值边界
 ```
 
 ## Documentation Sync Rule

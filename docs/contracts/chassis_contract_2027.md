@@ -83,3 +83,7 @@ Phase 2 connects to real serial hardware and should keep the protocol compatible
 3. `rm_chassis_interface` must not be the main localization source.
 4. Four-omni-wheel feedback must not be the Phase 1 primary localization input.
 5. Lower-controller protocol details must not leak into Nav2 parameters or localization nodes.
+
+## 新车软件集成限制（2026-10-12）
+
+V2测试只用dry-run与显式MCU fixture，无设备。原V2节点仍缺AUD-003最终授权，不得与Nav2接入硬件；本轮未迁入Modify候选。mask/heartbeat/ready不是autonomous mode来源，真实mode与物理停止仍待验。见[新车软件合同](new_car_software_20261012.md)。

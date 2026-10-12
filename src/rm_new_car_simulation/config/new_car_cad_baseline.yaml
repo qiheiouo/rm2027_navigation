@@ -1,0 +1,60 @@
+# Research-only reuse of the user-approved CAD extraction. Not a hardware profile.
+schema_version: 1
+status: user_accepted_provisional
+source:
+  assembly: 底盘-改I.SLDASM
+  raw_cad_available_in_this_audit: false
+frames:
+  numerical_reference: cad_wheel_center
+  existing_contract_base_link: ground_projection_of_rotation_center
+  ground_base_to_cad_wheel_center_xyz: [0.0, 0.0, 0.06649]
+  provisional_axes: {ros_x: cad_z, ros_y: cad_x, ros_z: vertical_up}
+  mechanical_front_confirmed: false
+wheel:
+  radius_m: 0.06649
+  wheelbase_m: 0.38923
+  track_m: 0.38754
+  raw_centers_m:
+    front_right: [0.1972, -0.1887, -0.0195]
+    front_left: [0.1921, 0.1943, 0.0034]
+    rear_left: [-0.1978, 0.1933, -0.0022]
+    rear_right: [-0.1915, -0.1988, 0.0183]
+  ideal_centers_m:
+    front_left: [0.19461, 0.19377, 0.0]
+    front_right: [0.19461, -0.19377, 0.0]
+    rear_left: [-0.19461, 0.19377, 0.0]
+    rear_right: [-0.19461, -0.19377, 0.0]
+footprint_m:
+  - [0.0683, -0.2868]
+  - [0.2810, -0.0700]
+  - [0.2802, 0.0710]
+  - [0.0683, 0.2802]
+  - [-0.0727, 0.2802]
+  - [-0.2852, 0.0708]
+  - [-0.2855, -0.0702]
+  - [-0.0727, -0.2868]
+gimbal:
+  yaw_axis_xy_m: [-0.00194, -0.00002]
+  mechanical_joint_origin_z_m: null
+lidar_selection:
+  research_primary: A
+  hardware_primary: undecided
+  secondary_hypothesis: B
+  cad_A_B_to_driver_left_right_mapping: unknown
+  policy: A is an arbitrary software research baseline; B retained without duplicate algorithm work
+mid360:
+  A:
+    cad_model_origin_xyz_m: [0.13776, -0.09151, 0.14112]
+    reported_gimbal_xyz_m: [0.13970, -0.09148, 0.14112]
+    reported_ground_height_m: 0.20761
+  B:
+    cad_model_origin_xyz_m: [-0.17344, 0.16021, 0.14621]
+    reported_gimbal_xyz_m: [-0.17150, 0.16024, 0.14621]
+    reported_ground_height_m: 0.21270
+unknown_calibration:
+  - mount_to_livox_sensor_rotation
+  - cad_model_origin_to_sensor_origin
+  - lidar_to_internal_imu_transform
+  - home_pose_and_gimbal_yaw_sign
+  - hardware_IP_serial_and_topic_mapping
+  - sensor_heading_MCU_ROS_clock_alignment

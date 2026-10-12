@@ -147,3 +147,12 @@ up latest `odom -> base_link`, and launched upstream small_gicp as the TF owner.
 The mainline keeps `/initialpose` available for a backend's initial guess, uses
 source-timestamp matching for accepted global results, publishes standard
 validity/reset interfaces, and leaves canonical TF ownership in the adapter.
+
+## AUD-001 validity update
+
+A held correction is no longer an indefinite health claim. Selected backend
+status has a source deadline and producer lease; an unqualified one-shot fixture
+expires after 1.0 s. Inspect the known correction during its lease, or supply
+fresh accepted input. Reset and producer/fault recovery require fresh source
+evidence. See `src/rm_relocalization_bridge/README.md` for the current status
+contract; legacy Bool and buffered TF alone are diagnostic snapshots.

@@ -246,6 +246,11 @@ def generate_launch_description():
                 "sensor_mode": sensor_mode,
                 "selected_side": selected_side,
                 "global_localization_mode": global_localization_mode,
+                "upstream_valid_topic": PythonExpression([
+                    "'/localization/amcl_backend_valid' if '", relocalization_backend,
+                    "' == 'amcl_2d' else ('/localization/gicp_backend_valid' if '",
+                    relocalization_backend, "' == 'gicp_3d' else '')",
+                ]),
                 "use_driver": use_driver,
                 "use_lio_backend": use_lio_backend,
                 "update_method": update_method,
