@@ -114,3 +114,7 @@ sensor_tf pose covariance目前沿用raw covariance，有限差分twist改为固
 硬件前软件的明确最小阻塞：raw sensor_initial初始锚点/epoch选择；源时间偏移与积压扫描的实际bundle时间缺口；AUD-003受管正常管线/behavior/恢复合同。前两涉及数学/时序，按本轮停止条件仅给缺口，不自动开发。无必要恢复T-DT、MPC、预测、双IMU或整套Full-base。
 
 在新工作区选b517可回到已通过single软件保存内容；撤销此候选只revert本轮候选提交（或新worktree直接选b517），gitlink保持ae5。若撤销全部已通过修复则revert保存提交并同步自身submodule，不能把撤回安全修复版本称有效。原64、b273与冷备不动。候选未取得完整双LIO/动态云台Integration Go，保持Modify且默认关闭；完成本轮后暂停。
+
+## 同日Git远端收口
+
+公钥登记后，FAST维护ref与Gitee两独立分支已真实推送；保存代码b517、候选代码9d4从同一全新无本地对象/无bundle的checkout纯远端递归恢复，全部gitlink、许可证与clean通过。前文SSH失败/未push为首次尝试历史记录。本轮仅同步文档状态，不改双雷达配置、默认禁用、算法、测试或任何运行结论，仍Modify。详细远端身份、恢复和异机备份边界见[Git远端收口](git_remote_closeout_20261012.md)。

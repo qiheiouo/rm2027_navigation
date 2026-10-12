@@ -59,7 +59,7 @@ Humble固定镜像为`rm2027_navigation:humble`，digest `sha256:81b325bebf2f631
 
 用户已允许使用既有公开Gitee `git@gitee.com:qiheiovo/rm2027_navigation.git`，正式三条主线不推送。FAST `.gitmodules`仅改为用户公开fork `https://github.com/qiheiouo/FAST_LIO_MULTI_ROS2.git`，gitlink仍为ae5。fork主线仍e786；拟保存独立ref `integration/rm2027-bundle-fixes`，不覆盖upstream main。
 
-2026-10-12现场SSH：Gitee认证/读取可用；GitHub在通过官方API及指纹文档验证host key后仍`Permission denied (publickey)`，HTTPS也无可用认证。**尚未push FAST或superproject，纯远端递归恢复未完成**。fork目前不含ae5，所以URL修改本身不代表普通submodule update成功。先使fork的维护ref可fetch ae5，再推本分支，再从无本地对象/无bundle的新clone执行递归恢复；该前置未通过时不把superproject推送称完整备份。
+2026-10-12首次尝试时SSH：Gitee认证/读取可用；GitHub在通过官方API及指纹文档验证host key后仍`Permission denied (publickey)`，HTTPS也无可用认证。**尚未push FAST或superproject，纯远端递归恢复未完成**。首次尝试时fork不含ae5，URL修改本身不代表普通submodule update成功。先使fork的维护ref可fetch ae5，再推本分支，再从无本地对象/无bundle的新clone执行递归恢复；该前置未通过时不把superproject推送称完整备份。
 
 完整FAST单ref冷备为`fast_lio_selected_pin.bundle`，144394828字节，SHA256 `a762e1ecae688137c4c6ee7324948c1dddf37c40928344e06dbccf33473abc5e`。已复制到工作区外明确目录、校验副本并验证完整历史/无前置条件，原文件保留；两份都在本机同一磁盘，不是异机灾难备份。实际位置见交付消息。完整bundle不进源码Git。
 
@@ -95,3 +95,7 @@ git status --short
 原集成64d0a2d4与修复来源ref保持原状。需要原现场证据时访问这些旧ref；需要原新车基线时在新worktree选bd6。需要撤销本精简集成时，在自己的新分支完整revert本保存提交并同步自己的submodule，重新验证；不reset正式线，不把撤回安全修复后的版本称有效。冷备清理前先确保其他可恢复副本。
 
 本保存分支只整理已通过代码与结论；不推进AUD-003、正式主线或研究。等待GitHub认证完成后补纯远端恢复；本机副本不能替代异机灾难备份。
+
+## 同日远端收口补充
+
+用户登记GitHub公钥后，FAST ae5已保存至用户fork的integration/rm2027-bundle-fixes，原保存代码b517和dual候选9d4已推原Gitee独立分支并从无本地对象/无bundle的新checkout递归恢复。上面的未push/认证失败是首次尝试记录，已由本轮结果更新。仅追加文档，不改源码、数值、配置、gitlink或禁用状态；本轮没有重跑构建/ROS。完整URL、固定SHA、恢复入口和备份边界见[Git远端收口](git_remote_closeout_20261012.md)。
