@@ -1,3 +1,7 @@
+import ipaddress
+import json
+from pathlib import Path
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, LogInfo, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -50,9 +54,24 @@ def _launch_setup(context, *args, **kwargs):
         raise RuntimeError("lio_imu_source must be 'left' or 'right'")
 
     package_share = FindPackageShare("rm_mid360_driver_bridge")
-    config_path = PathJoinSubstitution([
-        package_share, "config", "dual_mid360_config.json"
-    ]).perform(context)
+    config_path = LaunchConfiguration("config_file").perform(context).strip()
+    if not config_path:
+        config_path = PathJoinSubstitution([
+            package_share, "config", "dual_mid360_config.json"
+        ]).perform(context)
+    left_ip = LaunchConfiguration("left_device_ip").perform(context).strip()
+    right_ip = LaunchConfiguration("right_device_ip").perform(context).strip()
+    for address in (left_ip, right_ip):
+        if str(ipaddress.IPv4Address(address)) != address:
+            raise RuntimeError("MID360 identities must be canonical IPv4 addresses")
+    if left_ip == right_ip:
+        raise RuntimeError("left and right MID360 identities must differ")
+    configured = json.loads(Path(config_path).read_text())
+    addresses = [entry["ip"] for entry in configured["lidar_configs"]]
+    if len(addresses) != 2 or set(addresses) != {left_ip, right_ip}:
+        raise RuntimeError("driver config lidar identities do not match left/right_device_ip")
+    left_suffix = left_ip.replace(".", "_")
+    right_suffix = right_ip.replace(".", "_")
     driver_package = LaunchConfiguration("driver_package").perform(context)
     left_frame = LaunchConfiguration("left_frame_id").perform(context)
     right_frame = LaunchConfiguration("right_frame_id").perform(context)
@@ -80,17 +99,17 @@ def _launch_setup(context, *args, **kwargs):
             "cmdline_input_bd_code": "livox0000000001",
         }],
         remappings=[
-            ("/livox/lidar_192_168_1_3", "/livox/left/pointcloud_native"),
-            ("/livox/lidar_192_168_1_166", "/livox/right/pointcloud_native"),
-            ("/livox/imu_192_168_1_3", left_imu),
-            ("/livox/imu_192_168_1_166", right_imu),
+            (f"/livox/lidar_{left_suffix}", "/livox/left/pointcloud_native"),
+            (f"/livox/lidar_{right_suffix}", "/livox/right/pointcloud_native"),
+            (f"/livox/imu_{left_suffix}", left_imu),
+            (f"/livox/imu_{right_suffix}", right_imu),
         ],
     )
 
     return [
         LogInfo(msg=(
-            "dual MID360 contract: one SDK instance, left=192.168.1.3, "
-            "right=192.168.1.166, canonical PointCloud2 and CustomMsg per side"
+            f"dual MID360 contract: one SDK instance, left={left_ip}, "
+            f"right={right_ip}, main IMU={lio_imu_source}; canonical per-side topics"
         )),
         driver,
         _adapter("left", left_frame, 1),
@@ -104,6 +123,11 @@ def generate_launch_description():
         DeclareLaunchArgument("driver_package", default_value="livox_ros_driver2"),
         DeclareLaunchArgument("enable_left", default_value="true"),
         DeclareLaunchArgument("enable_right", default_value="true"),
+        # Legacy values retained; new-car callers must supply their measured
+        # network config and both real device identities together.
+        DeclareLaunchArgument("config_file", default_value=""),
+        DeclareLaunchArgument("left_device_ip", default_value="192.168.1.3"),
+        DeclareLaunchArgument("right_device_ip", default_value="192.168.1.166"),
         DeclareLaunchArgument("lio_imu_source", default_value="left"),
         DeclareLaunchArgument("left_frame_id", default_value="mid360_left_frame"),
         DeclareLaunchArgument("right_frame_id", default_value="mid360_right_frame"),
