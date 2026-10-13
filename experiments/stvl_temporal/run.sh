@@ -24,6 +24,6 @@ if [ "$STUDY_MODE" = build ]; then
  dpkg-query -W ros-humble-nav2-mppi-controller ros-humble-spatio-temporal-voxel-layer > /evidence/dependencies.txt
 else
  source /check/research_install/share/rm_stvl_temporal_research/local_setup.bash
- python3 experiments/stvl_temporal/run_trial.py "$STUDY_MODE"
+ if [ "$STUDY_MODE" = checks ]; then /check/plugin_build/temporal_check > /evidence/deterministic_check.json; else python3 experiments/stvl_temporal/run_trial.py "$STUDY_MODE"; fi
 fi
 '

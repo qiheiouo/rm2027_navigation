@@ -52,10 +52,11 @@ public:
   parent(dt_,"model_dt",.1,ParameterType::Static);parent(steps_,"time_steps",30,ParameterType::Static);
   auto node=parent_.lock();
   sub_=node->create_subscription<std_msgs::msg::String>(topic_,rclcpp::QoS(1),[this,node](std_msgs::msg::String::ConstSharedPtr m){
-   try {auto parsed=J::parse(m->data);int64_t source=parsed.at("source_ns");std::lock_guard<std::mutex> lock(mutex_);
+   try {auto parsed=J::parse(m->data);int64_t source=parsed.at("source_ns");const int64_t received=node->now().nanoseconds();std::lock_guard<std::mutex> lock(mutex_);
     // An older callback cannot overwrite the accepted snapshot. A clock reset
     // causes consumer rejection until a new valid epoch is received.
-    if(source<=source_){rejected_++;return;}latest_=std::move(parsed);source_=source;receipt_=node->now().nanoseconds();
+    if(source<=0 || source>received){latest_=J::object();receipt_=received;rejected_++;return;}
+    if(source<=source_){rejected_++;return;}latest_=std::move(parsed);source_=source;receipt_=received;
    } catch(...) {std::lock_guard<std::mutex> lock(mutex_);latest_=J::object();rejected_++;}
   });
  }
@@ -89,6 +90,7 @@ public:
    double cost=0,minclear=INFINITY;
    for(int k=0;k<steps_;k++) {
     const double future=age+(k+1)*dt_;auto polygon=dyn::transform(fp,d.trajectories.x(i,k),d.trajectories.y(i,k),d.trajectories.yaws(i,k));
+    double stage_clearance=INFINITY;
     for(size_t j=0;j<array.tracks.size();j++) {
      auto &obstacle=array.tracks[j];if(obstacle.state==dyn::Obstacle::STATE_TENTATIVE)continue;
      const double index=future/dt_;const size_t a=std::min<size_t>(35,static_cast<size_t>(index));const size_t b=std::min<size_t>(35,a+1);double alpha=index-a;
@@ -97,8 +99,9 @@ public:
       if(message.at("mode")=="D") {d.fail_flag=true;trace.prediction["reason"]="oracle_horizon_tail";return;}
       p={obstacle.position.x+obstacle.velocity.x*future,obstacle.position.y+obstacle.velocity.y*future};
      } else p={predictions[j][a].x+alpha*(predictions[j][b].x-predictions[j][a].x),predictions[j][a].y+alpha*(predictions[j][b].y-predictions[j][a].y)};
-     double clearance=dyn::circle_clearance(polygon,tr.apply(p),dyn::obstacle_radius(obstacle,limits_));minclear=std::min(minclear,clearance);cost+=dyn::penalty(clearance,cost_)*dt_;
+     double clearance=dyn::circle_clearance(polygon,tr.apply(p),dyn::obstacle_radius(obstacle,limits_));stage_clearance=std::min(stage_clearance,clearance);
     }
+    minclear=std::min(minclear,stage_clearance);cost+=dyn::penalty(stage_clearance,cost_)*dt_;
    }
    d.costs(i)+=cost;mincost=std::min(mincost,cost);maxcost=std::max(maxcost,cost);if(minclear>.02)safe++;clearances.push_back(minclear);
   }

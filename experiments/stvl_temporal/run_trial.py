@@ -10,7 +10,7 @@ parameters.update(research_mode=mode,research_log=str(out/'control.jsonl'),resea
 if mode in ('B','C','D'): parameters['critics'].append('TemporalResearchCritic');parameters['TemporalResearchCritic']={'enabled':True,'cost_weight':1.,'topic':'/research/time_predictions'}
 (out/'nav2.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
 command=['ros2','launch',str(root/'experiments/stvl_temporal/comparison.launch.py'),'enabled:=true',f'scene:={scene}',f'seed:={repeat}',f'output:={out}']
-(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,native_recovery_enabled=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1',phase='calibration' if profile.startswith('calibration_') else 'finite' if repeat>=100 else 'pilot',launch=command,baseline='4541e375',gazebo_seed=None,native_noise_seed=repeat),indent=2)+'\n')
+(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,native_recovery_enabled=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1',phase='calibration' if mode=='CAL' else 'finite' if repeat in (13,29,47) else 'pilot',launch=command,baseline='4541e375',gazebo_seed=None,native_noise_seed=repeat),indent=2)+'\n')
 if pathlib.Path('/check/assets/scenario.json').exists():
  for source,target in [(f'{scene}.sdf','scene.sdf'),('scenario.json','scenario.json'),(f'{scene}.pgm','map.pgm'),(f'{scene}.yaml','map.yaml')]:shutil.copy2(pathlib.Path('/check/assets')/source,out/target)
 processes=[];streams=[];status=1
