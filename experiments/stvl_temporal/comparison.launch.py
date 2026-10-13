@@ -1,5 +1,5 @@
 """Gazebo-only composition. Reuse existing Nav2 lifecycle and unique output."""
-import pathlib
+import pathlib,json
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument,OpaqueFunction,ExecuteProcess,IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -13,10 +13,11 @@ def start(context):
  if LaunchConfiguration('enabled').perform(context)!='true': return []
  out=pathlib.Path(LaunchConfiguration('output').perform(context));scene=LaunchConfiguration('scene').perform(context);seed=LaunchConfiguration('seed').perform(context)
  assets=out.parent.parent/'assets';params=str(out/'nav2.yaml')
+ simulation=assets/f'{scene}_CAL.sdf' if json.loads((out/'manifest.json').read_text())['mode']=='CAL' else assets/f'{scene}.sdf'
  configured=ParameterFile(RewrittenYaml(source_file=params,root_key='',param_rewrites={'use_sim_time':'true','autostart':'true'},convert_types=True),allow_substs=True)
  def include(package,file,**kwargs):
   return IncludeLaunchDescription(PythonLaunchDescriptionSource(str(pathlib.Path(share(package))/'launch'/file)),launch_arguments={k:str(v) for k,v in kwargs.items()}.items())
- return [ExecuteProcess(cmd=['ign','gazebo','-r','-s','--headless-rendering',str(assets/f'{scene}.sdf')],output='screen'),
+ return [ExecuteProcess(cmd=['ign','gazebo','-r','-s','--headless-rendering',str(simulation)],output='screen'),
   Node(package='ros_gz_bridge',executable='parameter_bridge',parameters=[{'config_file':str(assets/'bridge.yaml')}]),
   Node(package='rm_simulation',executable='scan_frame_adapter',parameters=[dict(use_sim_time=True,input_topic='/simulation/scan_raw',output_topic='/scan',output_frame='sim_lidar_link')]),
   include('rm_description','description.launch.py',use_sim_time='true',use_sim_lidar='true'),

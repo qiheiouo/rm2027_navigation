@@ -8,8 +8,11 @@ for scene in protocol['scenes']:
   groups=protocol['groups'] if seed==13 else list(reversed(protocol['groups']))
   for group in groups:schedule.append(f'{scene}:{group}:{seed}')
 (cache/'schedule.json').write_text(json.dumps(schedule,indent=2)+'\n')
+replacement_path=cache/'fixture_overrides.json'
+if not replacement_path.exists():replacement_path=cache/'calibration_replacements.json'
+replacements=json.loads(replacement_path.read_text()) if replacement_path.exists() else {}
 for spec in schedule:
- scene,mode,seed=spec.split(':');directory=cache/'runs'/f'{scene}_{mode}_{int(seed):02d}'
+ original_spec=spec;spec=replacements.get(spec,spec);parts=spec.split(':');scene,mode,seed=parts[:3];tag='_'+parts[3] if len(parts)>3 else '';directory=cache/'runs'/(f'{scene}_{mode}_{int(seed):02d}'+tag)
  if directory.exists():
   if not (directory/'events.json').exists():raise RuntimeError('incomplete preserved run '+spec)
   event=json.loads((directory/'events.json').read_text())

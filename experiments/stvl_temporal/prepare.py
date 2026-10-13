@@ -29,6 +29,8 @@ for scene in scenes:
   if name=='moving_obstacle':
    sensor=ET.SubElement(model.find("link[@name='obstacle_link']"),'sensor',name='actor_contact',type='contact');ET.SubElement(sensor,'update_rate').text='100';contact=ET.SubElement(sensor,'contact');ET.SubElement(contact,'collision').text='obstacle_collision';ET.SubElement(contact,'topic').text='/simulation/oracle/contacts';ET.SubElement(sensor,'always_on').text='1';ET.SubElement(world,'plugin',filename='ignition-gazebo-contact-system',name='gz::sim::systems::Contact')
  tree.write(out/f'{scene}.sdf',encoding='utf-8',xml_declaration=True)
+ calibration=copy.deepcopy(tree);calibration.getroot().find("world/model[@name='rm_sentry_2027']/pose").text='0 3 0 0 0 0'
+ calibration.write(out/f'{scene}_CAL.sdf',encoding='utf-8',xml_declaration=True)
  # Same .05m global static map; corridor wall extents match the physical scene.
  width,height=240,160;pixels=bytearray([254])*(width*height)
  if scene in ('narrow','wait_release','stale'):

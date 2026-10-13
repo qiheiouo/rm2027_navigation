@@ -1,8 +1,8 @@
 """Finite owned-process supervisor; no velocity ownership implementation."""
 import json,os,pathlib,re,shutil,signal,subprocess,sys,time
 import yaml
-scene,mode,repeat=sys.argv[1].split(':');assert scene in ('empty','crossing','head_on','narrow','wait_release','sudden_stop','stale') and mode in ('A','B','C','D','CAL');repeat=int(repeat)
-root=pathlib.Path.cwd();out=pathlib.Path('/check/runs')/f'{scene}_{mode}_{repeat:02d}';out.mkdir(parents=True,exist_ok=False)
+parts=sys.argv[1].split(':');scene,mode,repeat=parts[:3];tag='_'+parts[3] if len(parts)>3 else '';assert scene in ('empty','crossing','head_on','narrow','wait_release','sudden_stop','stale') and mode in ('A','B','C','D','CAL');repeat=int(repeat)
+root=pathlib.Path.cwd();out=pathlib.Path('/check/runs')/(f'{scene}_{mode}_{repeat:02d}'+tag);out.mkdir(parents=True,exist_ok=False)
 profile='common'
 config_path=pathlib.Path('/check/assets')/('common_nav2.yaml' if profile=='common' else f'{profile}_{mode}_nav2.yaml')
 config=yaml.safe_load(config_path.read_text());parameters=config['controller_server']['ros__parameters']['FollowPath']
@@ -13,6 +13,7 @@ command=['ros2','launch',str(root/'experiments/stvl_temporal/comparison.launch.p
 (out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,native_recovery_enabled=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1',phase='calibration' if mode=='CAL' else 'finite' if repeat in (13,29,47) else 'pilot',launch=command,baseline='4541e375',gazebo_seed=None,native_noise_seed=repeat),indent=2)+'\n')
 if pathlib.Path('/check/assets/scenario.json').exists():
  for source,target in [(f'{scene}.sdf','scene.sdf'),('scenario.json','scenario.json'),(f'{scene}.pgm','map.pgm'),(f'{scene}.yaml','map.yaml')]:shutil.copy2(pathlib.Path('/check/assets')/source,out/target)
+ if mode=='CAL':shutil.copy2(pathlib.Path('/check/assets')/f'{scene}_CAL.sdf',out/'scene.sdf')
 processes=[];streams=[];status=1
 try:
  for name,args in [('launch',command),('record',[sys.executable,str(root/'experiments/stvl_temporal/record.py'),scene,mode,str(out)])]:
