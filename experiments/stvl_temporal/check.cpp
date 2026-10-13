@@ -7,7 +7,7 @@
 #include <std_msgs/msg/string.hpp>
 using J=nlohmann::json;
 int main(int argc,char **argv) {
- rclcpp::init(argc,argv);auto node=std::make_shared<rclcpp_lifecycle::LifecycleNode>("temporal_check");
+ rclcpp::init(argc,argv);rclcpp::NodeOptions options;options.parameter_overrides({rclcpp::Parameter("FollowPath.TemporalResearchCritic.enabled",true)});auto node=std::make_shared<rclcpp_lifecycle::LifecycleNode>("temporal_check","",options);
  auto map=std::make_shared<nav2_costmap_2d::Costmap2DROS>("check_map");map->set_parameter(rclcpp::Parameter("plugins",std::vector<std::string>{}));map->set_parameter(rclcpp::Parameter("global_frame",std::string("map")));map->set_parameter(rclcpp::Parameter("footprint",std::string("[[-.34,-.29],[-.34,.29],[.34,.29],[.34,-.29]]")));map->set_parameter(rclcpp::Parameter("footprint_padding",0.));map->configure();
  auto handler=std::make_unique<mppi::ParametersHandler>(node);pluginlib::ClassLoader<mppi::critics::CriticFunction> loader("nav2_mppi_controller","mppi::critics::CriticFunction");auto critic=loader.createSharedInstance("mppi::critics::TemporalResearchCritic");critic->on_configure(node,"FollowPath","FollowPath.TemporalResearchCritic",map,handler.get());
  auto pub=node->create_publisher<std_msgs::msg::String>("/research/time_predictions",1);pub->on_activate();rclcpp::executors::SingleThreadedExecutor exec;exec.add_node(node->get_node_base_interface());

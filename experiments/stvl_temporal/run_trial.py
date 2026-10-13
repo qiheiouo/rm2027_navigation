@@ -8,9 +8,10 @@ config_path=pathlib.Path('/check/assets')/('common_nav2.yaml' if profile=='commo
 config=yaml.safe_load(config_path.read_text());parameters=config['controller_server']['ros__parameters']['FollowPath']
 parameters.update(research_mode=mode,research_log=str(out/'control.jsonl'),research_seed=repeat);
 if mode in ('B','C','D'): parameters['critics'].append('TemporalResearchCritic');parameters['TemporalResearchCritic']={'enabled':True,'cost_weight':1.,'topic':'/research/time_predictions'}
+if mode in ('B','C','D') and tag=='_aligned':parameters['TemporalResearchCritic']['prediction_epoch']='input_pose'
 (out/'nav2.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
 command=['ros2','launch',str(root/'experiments/stvl_temporal/comparison.launch.py'),'enabled:=true',f'scene:={scene}',f'seed:={repeat}',f'output:={out}']
-(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,native_recovery_enabled=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1',phase='calibration' if mode=='CAL' else 'finite' if repeat in (13,29,47) else 'pilot',launch=command,baseline='4541e375',gazebo_seed=None,native_noise_seed=repeat),indent=2)+'\n')
+(out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,variant='input_pose' if tag=='_aligned' else 'consume',native_recovery_enabled=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1',phase='calibration' if mode=='CAL' else 'finite' if repeat in (13,29,47) else 'pilot',launch=command,baseline='4541e375',gazebo_seed=None,native_noise_seed=repeat),indent=2)+'\n')
 if pathlib.Path('/check/assets/scenario.json').exists():
  for source,target in [(f'{scene}.sdf','scene.sdf'),('scenario.json','scenario.json'),(f'{scene}.pgm','map.pgm'),(f'{scene}.yaml','map.yaml')]:shutil.copy2(pathlib.Path('/check/assets')/source,out/target)
  if mode=='CAL':shutil.copy2(pathlib.Path('/check/assets')/f'{scene}_CAL.sdf',out/'scene.sdf')

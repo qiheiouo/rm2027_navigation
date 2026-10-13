@@ -1,5 +1,5 @@
 """All started runs, sampled mechanical oracle, paired data and score attribution."""
-import csv,json,math,pathlib,statistics,sys,bisect,gzip,shutil
+import csv,json,math,pathlib,statistics,sys,bisect,gzip,shutil,xml.etree.ElementTree as ET
 ROOT=pathlib.Path(__file__).resolve().parents[2];CACHE=ROOT/'build/stvl_cache';EVIDENCE=ROOT/'experiments/stvl_temporal/evidence'
 FROZEN=pathlib.Path('/home/qihei/rm2027_navigation/build/temporal_mpc_main_20261004/experiments/temporal_mpc')
 sys.path.insert(0,str(FROZEN))
@@ -9,6 +9,9 @@ def quantile(v,q):
  if not v:return None
  v=sorted(v);x=(len(v)-1)*q;i=int(x);return v[i]+(x-i)*(v[min(i+1,len(v)-1)]-v[i])
 def stats(v):return {'n':len(v),'min':min(v),'p50':quantile(v,.5),'p95':quantile(v,.95),'p99':quantile(v,.99),'max':max(v)} if v else None
+def valid_json(line):
+ try:json.loads(line);return True
+ except json.JSONDecodeError:return False
 def jsonlines(p):
  result=[]
  if p.exists():
@@ -31,6 +34,10 @@ def prediction_at(payload,track,consume_ns,k):
 def trial(path):
  event=json.loads((path/'events.json').read_text());manifest=json.loads((path/'manifest.json').read_text());start=event['goal_ns'];end=event['end_ns'];mode=manifest['mode'];seed=manifest['repeat']
  row={'run':path.name,'scene':manifest['scene'],'group':mode,'seed':seed,'phase':manifest['phase'],'startup':start is None,'outcome':event['finished'],'result_status':event['result_status'],'contact_messages':len(event['contacts']),'native_events':len(event['native_mppi_errors']),'fatal_reason':event['controller_failure']}
+ scenario=json.loads((path/'scenario.json').read_text());corridor=manifest['scene'] in ('narrow','wait_release','stale')
+ row['fixture_revision']=scenario.get('corridor_revision',1) if corridor else 0
+ row['cohort']='fixture_v1_blocked' if corridor and row['fixture_revision']==1 else 'final_fixture'
+ row['incomplete_jsonl_lines']={p.name:sum(1 for line in p.open() if not valid_json(line)) for p in path.glob('*.jsonl')}
  if start is None:return row
  row['elapsed_s']=(end-start)/1e9;row['success']=event['result_status']==4 and not event['contacts'] and not event['controller_failure'];row['arrival_s']=row['elapsed_s'] if row['success'] else None
  truth=jsonlines(path/'truth.jsonl');bytime={}
@@ -40,9 +47,14 @@ def trial(path):
  common=[(ns,m) for ns,m in sorted(bytime.items()) if 'rm_sentry_2027' in m and 'moving_obstacle' in m]
  distances=[polygon_distance(m['rm_sentry_2027']['polygon'],m['moving_obstacle']['polygon']) for ns,m in common]
  row['body_clearance_m']=min(distances) if distances else None;row['overlap_samples']=sum(d<=1e-10 for d in distances);row['truth_samples']=len(common);row['truth_gap_ms']=stats([(b[0]-a[0])/1e6 for a,b in zip(common,common[1:])])
- walls=manifest['scene'] in ('narrow','wait_release','stale')
- row['wall_clearance_m']=min(.7-abs(y) for _,r in robot for x,y in r['polygon']) if robot and walls else None
- row['safe_success']=row['success'] and (not distances or min(distances)>=.047) and (row['wall_clearance_m'] is None or row['wall_clearance_m']>=-.003)
+ walls=[]
+ for model in ET.parse(path/'scene.sdf').getroot().find('world').findall('model'):
+  if not model.attrib['name'].startswith('corridor_'):continue
+  x,y,*_=map(float,model.findtext('pose').split());sx,sy,*_=map(float,model.findtext('link/collision/geometry/box/size').split())
+  walls.append([[x-sx/2,y-sy/2],[x+sx/2,y-sy/2],[x+sx/2,y+sy/2],[x-sx/2,y+sy/2]])
+ wd=[min(polygon_distance(r['polygon'],w) for w in walls) for _,r in robot] if walls else []
+ row['wall_clearance_m']=min(wd) if wd else None;row['wall_overlap_samples']=sum(d<=1e-10 for d in wd)
+ row['safe_success']=row['success'] and (not distances or min(distances)>=.047) and not row['wall_overlap_samples']
  od=[r for r in csvrows(path/'odometry.csv') if start<=int(r['source_ns'])<=end];wait=stall=current_wait=0.;starts=0;previous_moving=False;sign=None;flips=0;peak=-math.inf;retreat=0;length=0.;maxspeed=[0.,0.,0.];maxacc=[0.,0.,0.]
  for i,r in enumerate(od):
   velocity=[float(r[k]) for k in ('vx','vy','wz')];moving=math.hypot(*velocity[:2])>=.02
@@ -64,6 +76,8 @@ def trial(path):
  row.update(wait_s=wait,longest_stall_s=stall,start_count=starts,forward_flips=flips,max_retreat_m=retreat,path_length_m=length,actual_max_velocity=maxspeed,actual_max_acceleration=maxacc)
  controls=[r for r in jsonlines(path/'control.jsonl') if start<=r['epoch_ns']<=end]
  row['cycles']=len(controls);row['compute_ms']=stats([r['compute_ms'] for r in controls]);row['compute_over100']=sum(r['compute_ms']>100 for r in controls);row['native_errors']=sum('error' in r for r in controls)
+ row['candidate_epoch_to_consume_ms']=stats([(r['prediction']['consume_ns']-r['epoch_ns'])/1e6 for r in controls if 'consume_ns' in r.get('prediction',{})])
+ row['prediction_receipt_to_consume_ms']=stats([(r['prediction']['consume_ns']-r['prediction']['receipt_ns'])/1e6 for r in controls if r.get('prediction',{}).get('receipt_ns',0)>0])
  row['prediction_age_ms']=stats([r['prediction']['age_s']*1000 for r in controls if 'age_s' in r.get('prediction',{})]);row['prediction_reason_counts']={}
  for r in controls:
   reason=r.get('prediction',{}).get('reason','');row['prediction_reason_counts'][reason]=row['prediction_reason_counts'].get(reason,0)+1
@@ -101,7 +115,7 @@ def trial(path):
  (path/'metrics.json').write_text(json.dumps(row,indent=2)+'\n');return row
 
 def main():
- rows=[trial(p) for p in sorted((CACHE/'runs').iterdir()) if (p/'events.json').exists()];finite=[r for r in rows if r['phase']=='finite' and not r['startup']]
+ rows=[trial(p) for p in sorted((CACHE/'runs').iterdir()) if (p/'events.json').exists()];finite=[r for r in rows if r['phase']=='finite' and not r['startup'] and r['cohort']=='final_fixture']
  groups=[]
  for scene in sorted({r['scene'] for r in finite}):
   for mode in ('A','B','C','D'):
@@ -115,7 +129,7 @@ def main():
    for first,second in (('A','C'),('B','C'),('C','D')):
     if first not in by or second not in by:continue
     a,b=by[first],by[second];pairs.append({'scene':scene,'seed':seed,'comparison':first+'->'+second,'first_outcome':a['outcome'],'second_outcome':b['outcome'],'safe_success_change':int(b['safe_success'])-int(a['safe_success']),'time_change_fraction':b['arrival_s']/a['arrival_s']-1 if a['success'] and b['success'] else None})
- EVIDENCE.mkdir(exist_ok=True);(EVIDENCE/'summary.json').write_text(json.dumps({'groups':groups,'trials':rows,'paired':pairs},indent=2)+'\n')
+ EVIDENCE.mkdir(exist_ok=True);(EVIDENCE/'summary.json').write_text(json.dumps({'groups':groups,'trials':rows,'paired':pairs,'final_n':len(finite),'excluded_fixture_trials':[r['run'] for r in rows if r['cohort']!='final_fixture'],'incomplete_run_directories':[p.name for p in sorted((CACHE/'runs').iterdir()) if not (p/'events.json').exists()]},indent=2)+'\n')
  lines=['| 场景 | 组 | 到达/安全到达/contact | 到达中位s | 净空min / p50 m | WAIT中位s | native异常 |','| --- | --- | --- | --- | --- | --- | --- |']
  for r in groups:
   f=lambda s,k:'—' if s is None else f'{s[k]:.3f}'

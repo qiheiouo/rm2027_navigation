@@ -1,0 +1,14 @@
+{
+ "factor":"candidate reference epoch: consume-clock vs immutable input PoseStamped timestamp",
+ "basis":"P2 consume-entry offsets repeatably 5-42ms; native rollout integrates fixed input pose, not a newer robot state at critic invocation",
+ "intervention":"B/C/D all query source grid at input_pose_stamp+(k+1)dt; source freshness still evaluated at actual consume clock; A unchanged",
+ "not_claimed":"epoch mismatch is a known contract gap, not proved cause of wall/contact or efficiency failures",
+ "groups":["A","B","C","D"],"scenes":["empty","crossing","head_on","narrow","wait_release","sudden_stop","stale"],
+ "repeat_seeds":[13,29],"untouched_holdout_seed":47,"repeat_trials":56,"holdout_trials":28,
+ "fixed_shared_conditions":"protocol.json unchanged, corrected corridor revision2 for all corridor trials",
+ "primary_gate":"same frozen zero-contact/full-envelope/wall/goal gates; no retrospective tolerance changes",
+ "evaluation":"original and aligned cohorts reported separately; paired seed-level safety/task/time changes; heldout47 separate",
+ "maximum_changes":"one time-reference factor; no weight/radius/trajectory/budget tuning; no further optimization round",
+ "resources":"<=900MiB cache, <=150MiB compact evidence, >=3GiB free; check before each run",
+ "stop":"stop P3 after this finite cohort regardless of result; P4 final decision only"
+}
