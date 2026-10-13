@@ -118,3 +118,8 @@ mapping artifact, mission priority or failure policy, update at least:
 - [资产规范](research_asset_and_git_management_principles.md)
 
 - [新车到位前阶段冻结与两个局部修复](new_car_stage_freeze_20261013.md)
+
+## 隔离STVL时间消费研究（2026-10-13）
+
+- [真实STVL + 原生MPPI时间消费闭环研究](research_history/stvl_temporal_20261013.md)：140次有效对照、一次时间基准消融与保留种子；Modify，未迁入正式导航。
+- [独立实验入口与证据恢复](../experiments/stvl_temporal/README.md)：COLCON_IGNORE、已有Humble依赖、无硬件权限。

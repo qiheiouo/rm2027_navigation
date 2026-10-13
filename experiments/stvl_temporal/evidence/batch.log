@@ -1,0 +1,24 @@
+empty:A:13 goal_result action 4 contact 0 native_errors 0
+empty:B:13 goal_result action 4 contact 0 native_errors 0
+empty:C:13 goal_result action 4 contact 0 native_errors 0
+empty:D:13 goal_result action 4 contact 0 native_errors 0
+empty:D:29 goal_result action 4 contact 0 native_errors 0
+empty:C:29 goal_result action 4 contact 0 native_errors 0
+empty:B:29 goal_result action 4 contact 0 native_errors 0
+empty:A:29 goal_result action 4 contact 0 native_errors 0
+crossing:CAL:13 trial_timeout action None contact 0 native_errors 0
+crossing:A:13 actor_contact action None contact 1 native_errors 0
+crossing:B:13 actor_contact action None contact 1 native_errors 0
+crossing:C:13 goal_result action 4 contact 0 native_errors 0
+crossing:D:13 goal_result action 4 contact 0 native_errors 1
+crossing:CAL:29 trial_timeout action None contact 0 native_errors 0
+crossing:D:29 goal_result action 4 contact 0 native_errors 2
+crossing:C:29 goal_result action 4 contact 0 native_errors 0
+crossing:B:29 actor_contact action None contact 1 native_errors 0
+crossing:A:29 actor_contact action None contact 1 native_errors 0
+head_on:CAL:13 actor_contact action None contact 1 native_errors 0
+Traceback (most recent call last):
+  File "/home/qihei/rm2027_navigation/build/stvl_temporal_consumption_20261013/experiments/stvl_temporal/batch.py", line 31, in <module>
+    assert len(data['t'])>1000 and data['t'][-1]>39
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

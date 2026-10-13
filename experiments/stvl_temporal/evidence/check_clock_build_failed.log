@@ -1,0 +1,27 @@
+-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found nav2_core: 1.1.20 (/opt/ros/humble/share/nav2_core/cmake)
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Found nav2_mppi_controller: 1.1.20 (/opt/ros/humble/share/nav2_mppi_controller/cmake)
+-- Found rm_competition_interfaces: 0.1.0 (/home/qihei/rm2027_navigation/build/r4_hws_prediction_consumption/build/r4_adapter_humble_check_20261004/install/rm_competition_interfaces/share/rm_competition_interfaces/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /check/plugin_build
+Consolidate compiler generated dependencies of target temporal_check
+[ 50%] Building CXX object CMakeFiles/temporal_check.dir/check.cpp.o
+/home/qihei/rm2027_navigation/build/stvl_temporal_consumption_20261013/experiments/stvl_temporal/check.cpp: In lambda function:
+/home/qihei/rm2027_navigation/build/stvl_temporal_consumption_20261013/experiments/stvl_temporal/check.cpp:16:102: error: ‘class rclcpp::Time’ has no member named ‘to_msg’
+   16 |  auto set_time=[&](int64_t ns){rosgraph_msgs::msg::Clock msg;msg.clock=rclcpp::Time(ns,RCL_ROS_TIME).to_msg();for(int i=0;i<50&&node->now().nanoseconds()!=ns;i++){clock_pub->publish(msg);exec.spin_some();std::this_thread::sleep_for(std::chrono::milliseconds(3));}if(node->now().nanoseconds()!=ns)throw std::runtime_error("fixed test clock unavailable");};
+      |                                                                                                      ^~~~~~
+gmake[3]: *** [CMakeFiles/temporal_check.dir/build.make:76: CMakeFiles/temporal_check.dir/check.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/Makefile2:165: CMakeFiles/temporal_check.dir/all] Error 2
+gmake[1]: *** [CMakeFiles/Makefile2:172: CMakeFiles/temporal_check.dir/rule] Error 2
+gmake: *** [Makefile:218: temporal_check] Error 2

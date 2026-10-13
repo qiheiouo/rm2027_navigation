@@ -7,7 +7,8 @@ Research-only。原生STVL/Navfn/controller_server/MPPI/velocity_smoother均实�
 新增内容仅：可禁用的TemporalResearchCritic、研究JSON时间输入适配、只读
 Critic分项诊断和薄原生MPPI subclass。后者直接调用installed MPPIController，
 不替换优化器、轨迹库或速度输出。所有状态机/retry/BT异常处理仍由原Nav2。
-唯一最终速度producer是原smoother和既有simulation chassis stub各自出口；
+唯一仿真末端producer为既有chassis stub；正常MPPI经过原smoother，恢复behavior
+沿用原Nav2的/cmd_vel入口（未统一经smoother）；
 Critic和prediction adapter没有cmd_vel publisher。COLCON_IGNORE隔离正式构建。
 
 ## 版本和有限适配
@@ -30,10 +31,18 @@ Critic和prediction adapter没有cmd_vel publisher。COLCON_IGNORE隔离正式�
 
 ```bash
 bash experiments/stvl_temporal/run.sh build
-bash experiments/stvl_temporal/run.sh empty:A:12
-bash experiments/stvl_temporal/run.sh crossing:C:11
-# 后续按protocol冻结schedule；每目录拒绝覆盖旧结果。
-bash experiments/stvl_temporal/run.sh crossing:A:13
+# build生成原连续墙；必须再应用共同夹具修正。
+python3 experiments/stvl_temporal/amend_fixture.py
+bash experiments/stvl_temporal/run.sh checks
+python3 experiments/stvl_temporal/batch.py
+python3 experiments/stvl_temporal/batch_aligned.py
+python3 experiments/stvl_temporal/analyze.py
+python3 experiments/stvl_temporal/aggregate_metrics.py
+python3 experiments/stvl_temporal/diagnose.py
+python3 experiments/stvl_temporal/figures.py
+python3 experiments/stvl_temporal/pack_evidence.py
+# 单次修正时间基准入口；已有目录拒绝覆盖。
+bash experiments/stvl_temporal/run.sh crossing:C:47:aligned
 ```
 
 容器network none/read-only/cap-drop ALL/no devices；源码和旧worktree只读，
@@ -61,3 +70,35 @@ raw为最多6个预定周期的300×30候选；aggregate为原生SG/shift后的�
 评价。gamma/softmax/bounds/SG完全保留；没有用“最低分候选”冒称实际输出。
 
 正式前冻结口径见protocol.json；报告见docs/research_history/stvl_temporal_20261013.md。
+
+## P3与最小证据恢复
+
+普通入口重现P2的consume-clock消费者；`:aligned`显式配置
+`prediction_epoch: input_pose`，使用输入PoseStamped的真实epoch展开相同候选时间。
+其余评分/采样/限制不变，freshness仍用真实consume时钟。插件没有显式enabled
+覆盖时默认禁用。确定性测试使用固定ROS时钟，无源年龄扰动；默认关闭、排序、
+stale/未来时间/恢复均有实际检查。P3只做这一次因素，不继续调远期权重。
+
+140次有效对照：P2 56 + P3原seed复核56 + holdout28。另保留10次被连续墙
+阻挡的原算法cohort、22次CAL及4次P1；总176个archive。源公共包46,933条均
+符合受控producer身份，但研究JSON并未完整转交公共authority/schema/count。
+不得将该适配称生产接口认证。E未运行（KF已包含在C），新MPC/全局最优求解未运行。
+
+在空目录恢复压缩文本证据并重算（需要既有只读R3几何工具与host Python）：
+
+```bash
+python3 experiments/stvl_temporal/restore_evidence.py /tmp/stvl-evidence-restored
+STVL_EVIDENCE_CACHE=/tmp/stvl-evidence-restored python3 experiments/stvl_temporal/analyze.py
+STVL_EVIDENCE_CACHE=/tmp/stvl-evidence-restored python3 experiments/stvl_temporal/aggregate_metrics.py
+STVL_EVIDENCE_CACHE=/tmp/stvl-evidence-restored python3 experiments/stvl_temporal/diagnose.py
+```
+
+恢复器检查3GiB磁盘余量、拒绝覆盖旧run。此路径只恢复文本，不启动ROS或仿真。
+`pack_evidence.py`记录所有已开始试次，不按成绩筛选。全部命令/预测输入/aggregate/
+分项费用/真值/配置/失败包保存；raw矩阵只精简为解释案例全部及失败最后捕获帧，
+119个snapshot。其余完整raw仍唯一保留在本轮cache，评审前不得清理。安装/编译、
+派生场景是可再生缓存；不提交ROS构建或镜像。
+
+指标字段、离散采样限制和Modify裁决以研究报告为准。`wait_s`是低于.02m/s的
+总停留，并非经离线最优证明的“无意义等待”；circle_proxy aggregate风险也不是
+真实机械安全评价。shutdown错误、无效夹具和未调用critic单独标记。

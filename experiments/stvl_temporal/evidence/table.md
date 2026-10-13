@@ -1,30 +1,86 @@
-| 场景 | 组 | 到达/安全到达/contact | 到达中位s | 净空min / p50 m | WAIT中位s | native异常 |
-| --- | --- | --- | --- | --- | --- | --- |
-| crossing | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.004 | 0.080 | 0 |
-| crossing | B | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.002 | 0.090 | 0 |
-| crossing | C | 2/2 / 2/2 / 0/2 | 14.721 | 0.391 / 0.420 | 0.240 | 0 |
-| crossing | D | 2/2 / 2/2 / 0/2 | 13.754 | 0.183 / 0.258 | 0.180 | 3 |
-| empty | A | 2/2 / 2/2 / 0/2 | 10.319 | — / — | 0.080 | 0 |
-| empty | B | 2/2 / 2/2 / 0/2 | 10.321 | — / — | 0.080 | 0 |
-| empty | C | 2/2 / 2/2 / 0/2 | 10.265 | — / — | 0.080 | 0 |
-| empty | D | 2/2 / 2/2 / 0/2 | 10.335 | — / — | 0.090 | 0 |
-| head_on | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.130 | 0 |
-| head_on | B | 2/2 / 2/2 / 0/2 | 16.140 | 0.148 / 0.179 | 0.210 | 0 |
-| head_on | C | 2/2 / 2/2 / 0/2 | 19.883 | 0.400 / 0.406 | 0.070 | 0 |
-| head_on | D | 2/2 / 2/2 / 0/2 | 16.276 | 0.121 / 0.134 | 0.200 | 2 |
-| narrow | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.070 | 0 |
-| narrow | B | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.220 | 7 |
-| narrow | C | 2/2 / 2/2 / 0/2 | 18.745 | 0.278 / 0.292 | 2.730 | 8 |
-| narrow | D | 1/2 / 1/2 / 1/2 | 17.908 | 0.000 / 0.144 | 1.290 | 8 |
-| stale | A | 2/2 / 0/2 / 0/2 | 15.705 | 0.000 / 0.000 | 0.810 | 2 |
-| stale | B | 2/2 / 2/2 / 0/2 | 31.214 | 0.386 / 0.482 | 8.500 | 16 |
-| stale | C | 2/2 / 1/2 / 0/2 | 22.560 | 0.330 / 0.345 | 7.250 | 13 |
-| stale | D | 2/2 / 2/2 / 0/2 | 21.989 | 0.396 / 0.487 | 8.490 | 12 |
-| sudden_stop | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.100 | 0 |
-| sudden_stop | B | 2/2 / 2/2 / 0/2 | 12.880 | 0.051 / 0.056 | 0.110 | 0 |
-| sudden_stop | C | 2/2 / 2/2 / 0/2 | 18.294 | 0.351 / 0.384 | 0.200 | 0 |
-| sudden_stop | D | 2/2 / 2/2 / 0/2 | 21.736 | 0.158 / 0.191 | 0.270 | 1 |
-| wait_release | A | 2/2 / 0/2 / 0/2 | 15.355 | 0.000 / 0.021 | 0.350 | 2 |
-| wait_release | B | 2/2 / 2/2 / 0/2 | 23.008 | 0.374 / 0.467 | 5.760 | 10 |
-| wait_release | C | 2/2 / 1/2 / 0/2 | 17.162 | 0.325 / 0.338 | 0.080 | 6 |
-| wait_release | D | 2/2 / 2/2 / 0/2 | 18.730 | 0.279 / 0.304 | 1.400 | 7 |
+| 消融/划分 | 场景 | 组 | 到达/安全到达/contact | 到达中位s | 净空min / p50 m | WAIT中位s | native异常 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| consume/repeat | crossing | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.004 | 0.080 | 0 |
+| consume/repeat | crossing | B | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.002 | 0.090 | 0 |
+| consume/repeat | crossing | C | 2/2 / 2/2 / 0/2 | 14.721 | 0.391 / 0.420 | 0.240 | 0 |
+| consume/repeat | crossing | D | 2/2 / 2/2 / 0/2 | 13.754 | 0.183 / 0.258 | 0.180 | 3 |
+| consume/repeat | empty | A | 2/2 / 2/2 / 0/2 | 10.319 | — / — | 0.080 | 0 |
+| consume/repeat | empty | B | 2/2 / 2/2 / 0/2 | 10.321 | — / — | 0.080 | 0 |
+| consume/repeat | empty | C | 2/2 / 2/2 / 0/2 | 10.265 | — / — | 0.080 | 0 |
+| consume/repeat | empty | D | 2/2 / 2/2 / 0/2 | 10.335 | — / — | 0.090 | 0 |
+| consume/repeat | head_on | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.130 | 0 |
+| consume/repeat | head_on | B | 2/2 / 2/2 / 0/2 | 16.140 | 0.148 / 0.179 | 0.210 | 0 |
+| consume/repeat | head_on | C | 2/2 / 2/2 / 0/2 | 19.883 | 0.400 / 0.406 | 0.070 | 0 |
+| consume/repeat | head_on | D | 2/2 / 2/2 / 0/2 | 16.276 | 0.121 / 0.134 | 0.200 | 2 |
+| consume/repeat | narrow | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.070 | 0 |
+| consume/repeat | narrow | B | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.220 | 7 |
+| consume/repeat | narrow | C | 2/2 / 2/2 / 0/2 | 18.745 | 0.278 / 0.292 | 2.730 | 8 |
+| consume/repeat | narrow | D | 1/2 / 1/2 / 1/2 | 17.908 | 0.000 / 0.144 | 1.290 | 8 |
+| consume/repeat | stale | A | 2/2 / 0/2 / 0/2 | 15.705 | 0.000 / 0.000 | 0.810 | 2 |
+| consume/repeat | stale | B | 2/2 / 2/2 / 0/2 | 31.214 | 0.386 / 0.482 | 8.500 | 16 |
+| consume/repeat | stale | C | 2/2 / 1/2 / 0/2 | 22.560 | 0.330 / 0.345 | 7.250 | 13 |
+| consume/repeat | stale | D | 2/2 / 2/2 / 0/2 | 21.989 | 0.396 / 0.487 | 8.490 | 12 |
+| consume/repeat | sudden_stop | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.100 | 0 |
+| consume/repeat | sudden_stop | B | 2/2 / 2/2 / 0/2 | 12.880 | 0.051 / 0.056 | 0.110 | 0 |
+| consume/repeat | sudden_stop | C | 2/2 / 2/2 / 0/2 | 18.294 | 0.351 / 0.384 | 0.200 | 0 |
+| consume/repeat | sudden_stop | D | 2/2 / 2/2 / 0/2 | 21.736 | 0.158 / 0.191 | 0.270 | 1 |
+| consume/repeat | wait_release | A | 2/2 / 0/2 / 0/2 | 15.355 | 0.000 / 0.021 | 0.350 | 2 |
+| consume/repeat | wait_release | B | 2/2 / 2/2 / 0/2 | 23.008 | 0.374 / 0.467 | 5.760 | 10 |
+| consume/repeat | wait_release | C | 2/2 / 1/2 / 0/2 | 17.162 | 0.325 / 0.338 | 0.080 | 6 |
+| consume/repeat | wait_release | D | 2/2 / 2/2 / 0/2 | 18.730 | 0.279 / 0.304 | 1.400 | 7 |
+| input_pose/holdout | crossing | A | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.060 | 0 |
+| input_pose/holdout | crossing | B | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.040 | 0 |
+| input_pose/holdout | crossing | C | 1/1 / 1/1 / 0/1 | 13.161 | 0.527 / 0.527 | 0.220 | 0 |
+| input_pose/holdout | crossing | D | 1/1 / 1/1 / 0/1 | 16.508 | 0.312 / 0.312 | 0.160 | 1 |
+| input_pose/holdout | empty | A | 1/1 / 1/1 / 0/1 | 11.572 | — / — | 0.080 | 0 |
+| input_pose/holdout | empty | B | 1/1 / 1/1 / 0/1 | 11.410 | — / — | 0.100 | 0 |
+| input_pose/holdout | empty | C | 1/1 / 1/1 / 0/1 | 11.591 | — / — | 0.280 | 0 |
+| input_pose/holdout | empty | D | 1/1 / 1/1 / 0/1 | 11.471 | — / — | 0.060 | 0 |
+| input_pose/holdout | head_on | A | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.060 | 0 |
+| input_pose/holdout | head_on | B | 1/1 / 1/1 / 0/1 | 17.608 | 0.212 / 0.212 | 0.140 | 0 |
+| input_pose/holdout | head_on | C | 1/1 / 1/1 / 0/1 | 17.778 | 0.336 / 0.336 | 0.060 | 0 |
+| input_pose/holdout | head_on | D | 1/1 / 1/1 / 0/1 | 17.521 | 0.130 / 0.130 | 0.180 | 1 |
+| input_pose/holdout | narrow | A | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.100 | 0 |
+| input_pose/holdout | narrow | B | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.120 | 2 |
+| input_pose/holdout | narrow | C | 1/1 / 1/1 / 0/1 | 20.511 | 0.466 / 0.466 | 2.360 | 4 |
+| input_pose/holdout | narrow | D | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.140 | 5 |
+| input_pose/holdout | stale | A | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.100 | 1 |
+| input_pose/holdout | stale | B | 1/1 / 1/1 / 0/1 | 20.621 | 0.544 / 0.544 | 8.020 | 6 |
+| input_pose/holdout | stale | C | 1/1 / 1/1 / 0/1 | 19.918 | 0.422 / 0.422 | 8.080 | 7 |
+| input_pose/holdout | stale | D | 1/1 / 1/1 / 0/1 | 20.660 | 0.458 / 0.458 | 7.980 | 6 |
+| input_pose/holdout | sudden_stop | A | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.080 | 0 |
+| input_pose/holdout | sudden_stop | B | 1/1 / 1/1 / 0/1 | 14.170 | 0.173 / 0.173 | 1.340 | 0 |
+| input_pose/holdout | sudden_stop | C | 1/1 / 1/1 / 0/1 | 28.258 | 0.400 / 0.400 | 2.520 | 0 |
+| input_pose/holdout | sudden_stop | D | 1/1 / 1/1 / 0/1 | 16.942 | 0.122 / 0.122 | 0.400 | 1 |
+| input_pose/holdout | wait_release | A | 0/1 / 0/1 / 1/1 | — | 0.000 / 0.000 | 0.080 | 1 |
+| input_pose/holdout | wait_release | B | 1/1 / 1/1 / 0/1 | 19.489 | 0.498 / 0.498 | 3.420 | 4 |
+| input_pose/holdout | wait_release | C | 1/1 / 1/1 / 0/1 | 17.641 | 0.465 / 0.465 | 0.380 | 3 |
+| input_pose/holdout | wait_release | D | 1/1 / 1/1 / 0/1 | 19.709 | 0.171 / 0.171 | 3.340 | 4 |
+| input_pose/repeat | crossing | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.110 | 0 |
+| input_pose/repeat | crossing | B | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.080 | 0 |
+| input_pose/repeat | crossing | C | 2/2 / 2/2 / 0/2 | 13.909 | 0.394 / 0.431 | 0.190 | 2 |
+| input_pose/repeat | crossing | D | 2/2 / 2/2 / 0/2 | 13.942 | 0.327 / 0.358 | 0.130 | 1 |
+| input_pose/repeat | empty | A | 2/2 / 2/2 / 0/2 | 10.284 | — / — | 0.080 | 0 |
+| input_pose/repeat | empty | B | 2/2 / 2/2 / 0/2 | 10.336 | — / — | 0.090 | 0 |
+| input_pose/repeat | empty | C | 2/2 / 2/2 / 0/2 | 10.225 | — / — | 0.070 | 0 |
+| input_pose/repeat | empty | D | 2/2 / 2/2 / 0/2 | 10.234 | — / — | 0.110 | 0 |
+| input_pose/repeat | head_on | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.110 | 0 |
+| input_pose/repeat | head_on | B | 2/2 / 2/2 / 0/2 | 16.365 | 0.149 / 0.181 | 0.130 | 0 |
+| input_pose/repeat | head_on | C | 2/2 / 2/2 / 0/2 | 19.991 | 0.395 / 0.408 | 0.150 | 0 |
+| input_pose/repeat | head_on | D | 2/2 / 2/2 / 0/2 | 19.669 | 0.132 / 0.162 | 0.270 | 0 |
+| input_pose/repeat | narrow | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.090 | 0 |
+| input_pose/repeat | narrow | B | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.200 | 8 |
+| input_pose/repeat | narrow | C | 2/2 / 2/2 / 0/2 | 18.753 | 0.276 / 0.285 | 2.910 | 8 |
+| input_pose/repeat | narrow | D | 1/2 / 0/2 / 1/2 | 19.638 | 0.000 / 0.124 | 1.270 | 5 |
+| input_pose/repeat | stale | A | 2/2 / 0/2 / 0/2 | 15.281 | 0.000 / 0.006 | 0.470 | 2 |
+| input_pose/repeat | stale | B | 2/2 / 2/2 / 0/2 | 26.236 | 0.394 / 0.480 | 8.240 | 14 |
+| input_pose/repeat | stale | C | 2/2 / 1/2 / 0/2 | 23.187 | 0.314 / 0.364 | 7.450 | 12 |
+| input_pose/repeat | stale | D | 2/2 / 2/2 / 0/2 | 21.874 | 0.378 / 0.471 | 8.420 | 12 |
+| input_pose/repeat | sudden_stop | A | 0/2 / 0/2 / 2/2 | — | 0.000 / 0.000 | 0.080 | 0 |
+| input_pose/repeat | sudden_stop | B | 2/2 / 1/2 / 0/2 | 12.992 | 0.042 / 0.066 | 0.090 | 0 |
+| input_pose/repeat | sudden_stop | C | 2/2 / 2/2 / 0/2 | 18.541 | 0.334 / 0.339 | 0.650 | 0 |
+| input_pose/repeat | sudden_stop | D | 2/2 / 2/2 / 0/2 | 31.181 | 0.080 / 0.095 | 4.180 | 2 |
+| input_pose/repeat | wait_release | A | 1/2 / 0/2 / 1/2 | 17.597 | 0.000 / 0.012 | 0.310 | 2 |
+| input_pose/repeat | wait_release | B | 2/2 / 2/2 / 0/2 | 20.599 | 0.376 / 0.478 | 4.200 | 8 |
+| input_pose/repeat | wait_release | C | 2/2 / 1/2 / 0/2 | 20.698 | 0.365 / 0.397 | 4.110 | 9 |
+| input_pose/repeat | wait_release | D | 2/2 / 2/2 / 0/2 | 16.581 | 0.252 / 0.294 | 0.390 | 6 |
