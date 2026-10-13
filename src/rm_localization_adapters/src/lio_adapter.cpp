@@ -73,6 +73,22 @@ public:
       throw std::invalid_argument("TF queue size, wait time, and retry rate must be positive");
     }
     tf_queue_max_size_ = static_cast<std::size_t>(tf_queue_max_size);
+    sensor_initial_reference_mode_ = declare_parameter<std::string>(
+      "sensor_initial_reference_mode", "fixed_mount");
+    if (sensor_initial_reference_mode_ != "fixed_mount" &&
+      sensor_initial_reference_mode_ != "first_source_sample")
+    {
+      throw std::invalid_argument("sensor_initial_reference_mode must be fixed_mount or first_source_sample");
+    }
+    if (sensor_initial_reference_mode_ == "first_source_sample" &&
+      (pose_conversion_mode_ != "sensor_tf" || raw_odom_parent_frame_mode_ != "sensor_initial" ||
+      !use_tf_sensor_to_base_ || use_latest_transform_ || allow_placeholder_fallback_))
+    {
+      throw std::invalid_argument("first_source_sample requires sensor_initial, exact source TF and no fallback");
+    }
+
+    sensor_reference_start_stamp_ns_ = now().nanoseconds();
+
     backend_child_frame_alias_enabled_ = declare_parameter<bool>(
       "backend_child_frame_alias_enabled", false);
     backend_child_frame_alias_source_ = declare_parameter<std::string>(
@@ -507,10 +523,11 @@ private:
     // canonical base-initial odom frame, compute:
     //   T_odom_base = T_odom_sensor * inverse(T_base_sensor)
     // Some FAST-LIO backends instead use the initial sensor frame as the raw
-    // parent. For those, change both the parent and child basis:
-    //   T_base0_base = T_base_sensor * T_sensor0_sensor * inverse(T_base_sensor)
-    // where T_base_sensor comes from robot_state_publisher and the current
-    // gimbal_yaw_joint state.
+    // parent. The legacy fixed_mount basis change is valid for a fixed mount.
+    // For a dynamic mount first_source_sample instead freezes the left parent
+    // mapping using raw(t_ref) and the same source-time mechanical TF, then
+    // removes only the current right child basis. No heading/world calibration
+    // is inferred from that choice of odom origin.
     const auto & pose = msg->pose.pose;
     const double quaternion_norm_squared =
       pose.orientation.x * pose.orientation.x +
@@ -558,6 +575,33 @@ private:
         backend_child_frame_alias_source_.c_str(),
         backend_child_frame_alias_target_.c_str());
       input_child = backend_child_frame_alias_target_;
+    }
+
+    const bool source_reference = sensor_initial_reference_mode_ == "first_source_sample";
+    std::int64_t source_stamp_ns = 0;
+    if (source_reference) {
+      if (sensor_reference_blocked_) {return true;}
+      if (msg->header.stamp.sec < 0 || msg->header.stamp.nanosec >= 1000000000U ||
+        (msg->header.stamp.sec == 0 && msg->header.stamp.nanosec == 0) || input_child == base_frame_)
+      {
+        RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 2000, "Invalid source reference sample.");
+        return true;
+      }
+      const rclcpp::Time sample_stamp(msg->header.stamp);
+      source_stamp_ns = sample_stamp.nanoseconds();
+      if (!sensor_reference_initialized_ && source_stamp_ns < sensor_reference_start_stamp_ns_) {return true;}
+      if (sensor_reference_initialized_ &&
+        (source_stamp_ns < sensor_reference_last_stamp_ns_ || input_child != sensor_reference_child_))
+      {
+        sensor_reference_blocked_ = true;
+        RCLCPP_ERROR(get_logger(), "Raw reference epoch discontinuity: restart the managed backend and adapter.");
+        return true;
+      }
+      if (sensor_reference_initialized_ && source_stamp_ns == sensor_reference_last_stamp_ns_) {return true;}
+      const double age = (now() - sample_stamp).seconds();
+      // Reuse the existing bounded TF waiting budget; never anchor a late,
+      // replayed or future sample as a new base epoch.
+      if (age > tf_queue_max_wait_sec_ || age < -tf_queue_max_wait_sec_) {return true;}
     }
 
     tf2::Transform odom_to_input = poseToTransform(msg->pose.pose);
@@ -633,7 +677,21 @@ private:
           }
           const tf2::Transform base_to_input =
             transformMsgToTransform(base_to_input_msg.transform);
-          odom_to_base = computeCanonicalBaseTransform(odom_to_input, base_to_input);
+          if (source_reference) {
+            if (!sensor_reference_initialized_) {
+              // Define odom as base(t_ref), not as the backend's undocumented
+              // initial sensor axes. raw(t_ref) may be nonidentity. This frozen
+              // parent mapping handles arbitrary startup yaw and lever arm.
+              base_reference_to_raw_parent_ = base_to_input * odom_to_input.inverse();
+              sensor_reference_child_ = input_child;
+              sensor_reference_initialized_ = true;
+            }
+            odom_to_base = rm_localization_adapters::compute_base_transform(
+              base_reference_to_raw_parent_ * odom_to_input, base_to_input);
+            sensor_reference_last_stamp_ns_ = source_stamp_ns;
+          } else {
+            odom_to_base = computeCanonicalBaseTransform(odom_to_input, base_to_input);
+          }
         } catch (const tf2::TransformException & ex) {
           if (!allow_placeholder_fallback_) {
             RCLCPP_DEBUG_THROTTLE(
@@ -744,6 +802,13 @@ private:
   bool allow_placeholder_fallback_;
   std::string pose_conversion_mode_;
   std::string raw_odom_parent_frame_mode_;
+  std::string sensor_initial_reference_mode_;
+  bool sensor_reference_initialized_{false};
+  bool sensor_reference_blocked_{false};
+  std::int64_t sensor_reference_last_stamp_ns_{0};
+  std::int64_t sensor_reference_start_stamp_ns_{0};
+  std::string sensor_reference_child_;
+  tf2::Transform base_reference_to_raw_parent_;
   double tf_lookup_timeout_sec_;
   std::size_t tf_queue_max_size_;
   double tf_queue_max_wait_sec_;

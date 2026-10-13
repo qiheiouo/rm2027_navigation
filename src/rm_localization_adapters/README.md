@@ -85,3 +85,23 @@ resets finite-difference history so stale samples cannot corrupt twist.
 `gimbal_state_adapter` does not publish localization TF, odometry, navigation goals, or serial packets. It only provides the gimbal yaw joint state needed by `robot_state_publisher` to produce the sensor TF subtree.
 
 `imu_frame_adapter` does not publish TF, filter IMU data, or modify measurement values. It exists because the inspected Livox ROS driver hard-codes IMU `header.frame_id` as `livox_frame`; the canonical public IMU frame for LIO remains `lio_imu_link`.
+
+### Opt-in dynamic raw-parent reference
+
+`sensor_initial_reference_mode=first_source_sample` requires `sensor_tf`,
+`sensor_initial`, exact source-time TF and no placeholder/latest fallback.
+It freezes `A = B(t_ref) * inverse(raw(t_ref))` at the first accepted sample;
+canonical pose is `A * raw(t) * inverse(B(t))`. `odom` is base at `t_ref`,
+not global heading. The raw reference need not be identity. Zero/invalid,
+pre-instance, stale/future and duplicate stamps do not establish an epoch.
+A source-clock rollback or sensor-child change after initialization blocks
+further output until the whole managed backend/adapter pipeline restarts.
+The existing finite-difference first-pose/no-publication policy is preserved.
+
+Default `fixed_mount` and canonical-parent behavior are unchanged. The new
+mode requires a stable raw parent (`bundle zero_start_pose=false`); same-frame
+monotonic hidden rebases and replay re-stamped as new cannot be detected by
+Odometry alone. Use a controlled single producer and destroy the old pipeline
+before restarting. This is a software geometry contract, not DDS identity,
+Full-base heading fusion or full pose-covariance transport. Opt-in parameters:
+`rm_lio_bringup/config/lio_adapter_dual_source_reference.yaml`.

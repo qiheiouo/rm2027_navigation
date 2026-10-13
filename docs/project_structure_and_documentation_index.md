@@ -116,3 +116,5 @@ mapping artifact, mission priority or failure policy, update at least:
 - [实车最小验收](new_car_hardware_acceptance_20261012.md)
 - [分级验证规范](research_integration_deployment_principles.md)
 - [资产规范](research_asset_and_git_management_principles.md)
+
+- [新车到位前阶段冻结与两个局部修复](new_car_stage_freeze_20261013.md)

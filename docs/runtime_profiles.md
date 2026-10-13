@@ -320,3 +320,10 @@ this batch. Explicit test-only Mission mocks publish the new status interface.
 ## 新车软件集成入口（2026-10-12）
 
 `new_car_software.launch.py`默认inventory、零节点，active模式显式enable_test。Humble的bundle_no_input和独立v2_protocol、Jazzy/Gazebo8的S2各自验证，不能混成硬件栈；AUD-003仍Modify且未迁入。第一版候选链/owner/禁用条件见[合同](contracts/new_car_software_20261012.md)，实测见[集成结果](new_car_software_saved_20261012.md)。实车无校准/授权前仅准备数据与独立急停验收。
+
+### 2026-10-13 local dual closure
+
+The two `*_source_reference` / `*_stable_epoch_pending` configs in rm_lio_bringup
+are opt-in software fixtures, not a combined hardware navigation profile.
+The existing dual experiment remains default-disabled. The published baseline
+and AUD-003 prohibition are unchanged; see [stage freeze](new_car_stage_freeze_20261013.md).

@@ -59,3 +59,12 @@ validated for competition.
 The old 2026 code and PolarBear behavior repository were used as concept
 references only. No legacy BT source or external behavior plugin was copied;
 current modules follow the 2027 topic, TF and Nav2-action contracts.
+
+## 2026-10-13 pre-hardware software freeze
+
+Opt-in dynamic reference conversion and bundle clock-rollback rejection have
+paired software evidence. Full dual-LiDAR runtime/recovery remains Modify,
+including an unresolved shutdown timeout, burst timing and hardware inputs.
+AUD-003, MCU mode/stopping and physical safety acceptance remain open.
+No hardware positive authorization or default profile change follows from
+these local results. See [stage conclusion](new_car_stage_freeze_20261013.md).

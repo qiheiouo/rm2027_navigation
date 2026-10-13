@@ -178,3 +178,20 @@ health. TF ownership and the correction equation are unchanged.
 ## 新车软件基线补充（2026-10-12）
 
 S2 oracle独占map→odom与odom→base_link，RSP只发模型joint/sensor树；真值输出命名odometry/simulation，不代表定位验收。真实候选lio_adapter与global bridge各自独占对应canonical edge，必须关闭stub/oracle；动态Full-base/heading与真实外参尚未通过。见[新车软件合同](new_car_software_20261012.md)。
+
+## Opt-in dynamic raw parent reference (2026-10-13)
+
+For a stable raw parent, define `R(t)=raw_parent<-sensor(t)` and
+`B(t)=base(t)<-sensor(t)` from the exact source-time mechanical TF.
+`first_source_sample` freezes `A=B(t_ref)*inverse(R(t_ref))` once; the canonical
+pose is `A*R(t)*inverse(B(t))`. This defines odom as base at the first accepted
+sample; it does not assert global chassis heading. The legacy current-mount
+conjugation remains a fixed-mount-only mode. Canonical-parent conversion and
+heading-fusion alignment/epoch checks are unchanged.
+
+This opt-in contract requires no hidden backend rebasing (`zero_start_pose=false`),
+one managed raw producer and complete backend/adapter destruction before a new
+epoch. A rollback blocks output; cached TF does not imply localization health.
+Owner remains lio_adapter for odom->base_link and RSP for mechanical transforms.
+The real install/clock/heading/covariance contract remains unaccepted; see
+[phase conclusion](../new_car_stage_freeze_20261013.md).

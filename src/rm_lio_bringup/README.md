@@ -68,3 +68,15 @@ ros2 launch rm_lio_bringup fast_lio_multi_phase2a.launch.py \
 
 Starting the backend without valid point cloud, IMU, timing, and extrinsic
 inputs is not a localization validation.
+
+### Local dual input closure, opt-in only
+
+`new_car_dual_mid360_stable_epoch_pending.yaml` retains null measured extrinsics
+and disables published-frame rebasing for the first-source adapter config
+`lio_adapter_dual_source_reference.yaml`. The 0.1-second IMU budget is a software
+fixture choice; determine the hardware budget from real acquisition data.
+Neither file is a default navigation profile. Existing experimental launch
+remains disabled, backend TF publication remains off, and no additional TF
+owner or motion output is added. Restart backend and adapter together after
+an epoch fault. See `docs/new_car_stage_freeze_20261013.md` for scope/results
+and `tests/final_dual_closure/README.md` for reproducible tests.
