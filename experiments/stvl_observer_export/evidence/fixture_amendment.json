@@ -1,0 +1,20 @@
+{
+  "when": "before successful comparison",
+  "engineering_attempts": [
+    {
+      "attempt": 1,
+      "outcome": "compile fail, missing fstream include"
+    },
+    {
+      "attempt": 2,
+      "outcome": "runtime SIGSEGV on null costmap in Twist wrapper"
+    },
+    {
+      "attempt": 3,
+      "outcome": "same SIGSEGV, backtrace locates getControlFromSequenceAsTwist+0xbf"
+    }
+  ],
+  "source_confirmation": "fixed native wrapper reads costmap_ros_->getBaseFrameID()",
+  "repair": "read numeric sequence elements at installed offset; do not invent costmap or ROS node",
+  "evaluation_unchanged": "observer before/after noninterference, not full original controller replay"
+}

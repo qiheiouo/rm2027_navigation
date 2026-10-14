@@ -1,6 +1,6 @@
 # RM2027 持续研究阶段总报告（2026-10-14）
 
-更新至2026-10-15，新增active输入有限闭环；总体Modify不变。
+更新至2026-10-15，新增active输入有限闭环、fresh-coasting合同和observer导出验证；总体Modify不变。
 
 **整体裁决Modify。动态预测只值得有限投入简单CV的可靠消费和执行合同；复杂预测、全面替换MPPI或重启Temporal MPC仍没有新增必要性证据。** 原C83关键机制已解释，但接触未作为已修复关闭。用户授权离开期间自主逐阶段推进，所有工作仍在单一隔离Research分支，不迁入正式新车。
 
@@ -14,6 +14,7 @@
 | [active预测合同](stvl_prediction_contract_20261014.md) | 七输入真实validator复算；两次unused tentative使整包拒绝，active子集合法；stale仍拒绝 | 输入消费范围与tracker全包合同存在局部不一致，尚未在线适配 |
 | [active输入有限闭环](stvl_active_scope_20261015.md) | 四组原生Nav2闭环均安全到达；横穿慢2.479s、狭窄快0.670s但净空降/失败仍4次；现场anchor实际为fresh coasting | 单独去tentative无稳定收益，停止工程化；新增合法coasting等时边界反例 |
 | [fresh coasting等时合同](stvl_coasting_epoch_20261015.md) | 一处关系运算变化，8对/16校验；仅合法fresh包变为接受，未来/过期/坏confirmed仍拒绝 | 局部确定性修正值得保留，未应用导航、不代表NoSafe修复 |
+| [候选诊断导出](stvl_observer_export_20261015.md) | 两输入8次原生update，开关前后成本/序列数值逐位相同；off跳过无用读写，保存夹具工程失败 | 下一项低写入研究可行，不构成预测/安全收益 |
 
 本次真实软件物理运行共7次启动、6有效、1起步前类型失败；没有在线修改MPPI后的导航闭环实验。额外原生评分及validator探针不是导航试验，不能把它们累加到闭环成功率。空场反馈203ms只延迟observer，不构成MPPI反馈延迟对照。
 

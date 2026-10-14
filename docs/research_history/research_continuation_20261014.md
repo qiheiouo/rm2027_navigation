@@ -15,17 +15,19 @@
 | active预测输入合同 | 7输入复算，tentative误拒绝可隔离，stale仍拒绝；未在线适配，Modify | [输入合同报告](stvl_prediction_contract_20261014.md) |
 | active输入有限闭环 | 四次安全到达但无稳定收益；两组现场anchor均fresh coasting，过滤不作为工程化方案；Modify | [闭环报告](stvl_active_scope_20261015.md) |
 | fresh coasting等时合同 | 8对/16次真实validator调用；唯一关系运算修正接受合法fresh包，坏输入仍拒绝；局部Go/导航Modify | [等时合同报告](stvl_coasting_epoch_20261015.md) |
+| candidate诊断导出 | 两真实冻结输入/8次native update；开关不改成本、flag、序列或offset数值，off无raw；局部Go | [observer报告](stvl_observer_export_20261015.md) |
 
 原生失败合同阶段提交：`f10a521dd107af5486b32192a6357c709702bc0c`。
 制动窗口阶段提交：`af39a45bd536a225b7c5ca2904cbde9fb6659ba2`。
 active只读输入合同阶段提交：`63faca0dbafc74ac8d4e44814f499a0b12d88027`。
 active闭环阶段提交：`e0b1ae02e842cdc813213391a870633cd0a0bee1`。
+fresh-coasting阶段提交：`8f367ea0bd53eb114f4dfe8ded22b35b84d225a2`。
 
 [当前总报告](stvl_autonomous_summary_20261014.md)汇总四阶段证据和局部后续方向。
 
 上述四次闭环及fresh-coasting等时对照已完成，不重复或调参求肯定结论。当前局部Go仅指consumer允许合法coasting observed==source，保持可信度与所有年龄/未来条件；尚未在线用于导航，NoSafe仍未解决。
 
-下一步最小候选：先复用研究observer做一个明确的candidate诊断导出开关（shadow off时按显式参数决定是否读取/导出raw，保留实际评分attempt计数与必要输出/计时）；在相同冻结输入下验证开关不改成本/最终命令。只影响研究可观测性，不改MPPI。若能够低开销地保存必要证据且≥3GiB，才考虑一对既有C83软件导航，只替换fresh-coasting等时关系，full输入不变，不捆绑其他修正；正常合同在固定输入中先验证。不得再按每运行80MiB完整候选的旧方式扩展批次，若需要大型重构停止。真实硬件/完整执行映射仍Wait。
+candidate导出开关已完成，generated observer默认true；显式false+shadow off才省raw读取，attempts保持。8次native weighted update夹具证明数值不变，不是完整原Twist/闭环复演；三工程失败和scope修订保存，不重跑该假设。下一步若能够低开销地保存必要证据且≥3GiB，才考虑一对既有C83软件导航，只替换fresh-coasting等时关系，full输入不变，不捆绑其他修正；两组同样export=false，不把日志减少归因于预测。不得再按每运行80MiB完整候选的旧方式扩展批次，若需要大型重构停止。真实硬件/完整执行映射仍Wait。
 
 不要重复已完成的八库调用、六语义回放、七validator输入或两制动点；除非新代码或失败改变了假设。没有新独立信息时定时检查保持安静。已观察的原C83接触及0.4/0.8s负例均未关闭。
 

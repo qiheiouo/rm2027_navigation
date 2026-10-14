@@ -1,0 +1,14 @@
+{
+  "phase": "Research: explicit candidate diagnostic export, no algorithm change",
+  "base": "8f367ea0bd53eb114f4dfe8ded22b35b84d225a2",
+  "frozen_observer": "a880c7dc01cb424ea865e1fa0f33732396078670",
+  "hypothesis": "with shadow disabled, explicit export=false can avoid unused raw tensor reads and binary writes without altering costs, failure flag, native weighted update or command",
+  "variant": "owned generated shadow header only; candidate_export_enabled default true; scoring attempts always counted; shadow enabled still reads raw even when export disabled",
+  "fixed_inputs": "full-input narrow C83 active-scope pilot cycles 0 (normal) and 24 (finite soft NoSafe), 300x30 raw poses/velocities and final cost vectors",
+  "fixture_limit": "native updateControlSequence and numeric command offset read with zero warm sequence, gamma=0, frozen propagated velocities used as fixture cv inputs; not reconstruction of original noisy controls, SG/shift history or closed-loop Twist; installed Twist wrapper needs costmap_ros and cannot be called on this no-node object",
+  "acceptance": "bitwise equal input buffers/costs/flag before and after read; bitwise equal native updated costs/sequence/numeric output versus no observer; off/off raw empty and export file absent; off/on 432016 bytes per cycle; on/off raw present and file absent; scoring attempt count preserved even with fail_flag true",
+  "timing": "two cases, no repeated performance benchmark; report only observed read/export times, no real-time speedup claim",
+  "resources": "<=25MiB owned new cache, preserve >=3GiB, no full workspace or ROS rebuild; original unique data untouched",
+  "live_gate": "only if fixed-input checks pass, explicit false works in original plugin configure, and low-write budget remains; next navigation pair is a separately preregistered stage",
+  "stop": "no MPPI changes, no safety policy, no production integration or hardware output"
+}
