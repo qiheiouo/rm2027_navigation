@@ -139,3 +139,4 @@ mapping artifact, mission priority or failure policy, update at least:
 - [持续研究检查点与总报告](research_history/research_continuation_20261014.md)：用户授权的后续最小研究、阶段提交和恢复边界。
 - [原生失败合同最小验证](research_history/stvl_failure_contract_20261014.md)：实际重试清零恢复第二评分，NoSafe仍未解决；异常容错只完成源码语义回放。
 - [有限制动时刻对照](research_history/stvl_brake_window_20261014.md)：延后400ms净空门限失败，800ms停车后接触；两次完整原始数据保存。
+- [预测active轨迹输入合同](research_history/stvl_prediction_contract_20261014.md)：两次未评分tentative使整包拒绝，子集只读验证可通过；stale仍拒绝，未在线适配。

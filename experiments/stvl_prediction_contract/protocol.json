@@ -1,0 +1,13 @@
+{
+  "stage": "read-only prediction input contract",
+  "base": "af39a45bd536a225b7c5ca2904cbde9fb6659ba2",
+  "hypothesis": "unused tentative track with older observation epoch rejects entire package despite legal consumed confirmed/coasting tracks",
+  "frozen_inputs": ["durable162 c0 normal", "c98 anchor rejection", "c99 anchor rejection", "c129 stale rejection"],
+  "variant": "project only unused STATE_TENTATIVE out before unchanged existing validate; all other states/fields remain, original source/observed times never rewritten",
+  "synthetic_controls": ["bad active observation epoch must reject", "empty active subset must remain Unknown"],
+  "success": "normal unchanged; c98/c99 active subset validity demonstrated; stale/bad active epochs rejected; empty subset not treated as a safety certificate",
+  "limitations": "projection only evaluated offline, changes scope/completeness interpretation, no new prediction publisher/adapter, no live control efficacy or navigation success claim",
+  "no_age_or_geometry_threshold_change": true,
+  "new_live_runs": 0,
+  "disk_cap_MiB": 5
+}

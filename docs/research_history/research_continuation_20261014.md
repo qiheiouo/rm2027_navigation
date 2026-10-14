@@ -12,10 +12,16 @@
 | 本阶段：NoSafe/旧命令/延迟 | P0–P5完成；Modify。16/16零safe仍新非零；早制动物理可行；延迟增加停车距离，不能证明原超时导致接触 | [完整报告](stvl_lifecycle_hold_20261014.md) |
 | 后续最小阶段：原生重试与异常合同 | 已完成8库调用/6语义回放；清零恢复第二评分，持续坏输入及NoSafe未改善；局部Go，导航Modify | [失败合同报告](stvl_failure_contract_20261014.md) |
 | 有限制动时刻 | 2启动2有效，400ms净空失败、800ms停车后接触；Modify | [制动窗口报告](stvl_brake_window_20261014.md) |
+| active预测输入合同 | 7输入复算，tentative误拒绝可隔离，stale仍拒绝；未在线适配，Modify | [输入合同报告](stvl_prediction_contract_20261014.md) |
 
 原生失败合同阶段提交：`f10a521dd107af5486b32192a6357c709702bc0c`。
+制动窗口阶段提交：`af39a45bd536a225b7c5ca2904cbde9fb6659ba2`。
 
-下一步：只读核查两次 `observation_anchor_epoch` 是真正的消费输入错误还是未参与动态评分的tentative track使整包被拒绝；冻结两输入与stale负例，复用现有validator，不篡改时间戳、不放宽年龄/安全门限、不修改tracker。若无能改变决策的局部证据，就保留Modify/Wait，避免重复制动点或扩大控制器开发。执行映射未知、真实底盘参数仍是部署缺口。
+[当前总报告](stvl_autonomous_summary_20261014.md)汇总四阶段证据和局部后续方向。
+
+下一步候选：在资源允许且预注册合同明确时，最小复用现有研究adapter/consumer，将全包和active范围分别标注，只解决已确认的unused tentative锚点拒绝；保持tracker、CV、active时戳、几何和计算预算不变，所有track/points索引同步保留。先做一个正常和一个既有失败场景的成对小规模运行，再判断是否值得继续；如果不能保证范围/完整性或会超出资源线，保留当前Modify，停止扩大，不新建完整控制器、C′或安全过滤器。异常typed和重试清零的导航收益仍未测，不能直接联合多个修正归因。真正安全接受策略仍需执行映射、停车未来占用和实车参数。
+
+不要重复已完成的八库调用、六语义回放、七validator输入或两制动点；除非新代码或失败改变了假设。没有新独立信息时定时检查保持安静。已观察的原C83接触及0.4/0.8s负例均未关闭。
 
 当前原始数据：本轮 `build/lifecycle_cache`五尝试，历史corrected_scene/durable/shadow等只读；精选恢复归档在实验evidence。未纳入精选的完整native流是唯一数据，继续保存；small_build、解包副本可重建。保持≥3GiB可用。
 

@@ -1,0 +1,90 @@
+{
+  "cases": [
+    {
+      "active_observation_ns_unchanged": true,
+      "before": "",
+      "case": "durable_24",
+      "dropped_tentative_ids": [],
+      "historical_reason": "",
+      "projected_after": "",
+      "source_ns_unchanged": true,
+      "unchanged_active_ids": [
+        2
+      ]
+    },
+    {
+      "active_observation_ns_unchanged": true,
+      "before": "observation_anchor_epoch",
+      "case": "durable_98",
+      "dropped_tentative_ids": [
+        3
+      ],
+      "historical_reason": "observation_anchor_epoch",
+      "projected_after": "",
+      "source_ns_unchanged": true,
+      "unchanged_active_ids": [
+        2
+      ]
+    },
+    {
+      "active_observation_ns_unchanged": true,
+      "before": "observation_anchor_epoch",
+      "case": "durable_99",
+      "dropped_tentative_ids": [
+        4
+      ],
+      "historical_reason": "observation_anchor_epoch",
+      "projected_after": "",
+      "source_ns_unchanged": true,
+      "unchanged_active_ids": [
+        2
+      ]
+    },
+    {
+      "active_observation_ns_unchanged": true,
+      "before": "stale_observation",
+      "case": "durable_129",
+      "dropped_tentative_ids": [],
+      "historical_reason": "stale_observation",
+      "projected_after": "stale_observation",
+      "source_ns_unchanged": true,
+      "unchanged_active_ids": [
+        2
+      ]
+    },
+    {
+      "active_observation_ns_unchanged": true,
+      "before": "observation_anchor_epoch",
+      "case": "synthetic_bad_active_epoch",
+      "dropped_tentative_ids": [],
+      "historical_reason": "synthetic",
+      "projected_after": "observation_anchor_epoch",
+      "source_ns_unchanged": true,
+      "unchanged_active_ids": [
+        2
+      ]
+    },
+    {
+      "active_observation_ns_unchanged": true,
+      "before": "",
+      "case": "synthetic_no_active_tracks",
+      "dropped_tentative_ids": [],
+      "historical_reason": "synthetic",
+      "projected_after": "active_subset_empty_unknown",
+      "source_ns_unchanged": true,
+      "unchanged_active_ids": []
+    },
+    {
+      "active_observation_ns_unchanged": true,
+      "before": "",
+      "case": "durable_0_original_empty",
+      "dropped_tentative_ids": [],
+      "historical_reason": "",
+      "projected_after": "active_subset_empty_unknown",
+      "source_ns_unchanged": true,
+      "unchanged_active_ids": []
+    }
+  ],
+  "registered_conditions_pass": true,
+  "scope": "offline consumed-track projection; unchanged existing validator and thresholds; no control, tracking or time rewrite"
+}
