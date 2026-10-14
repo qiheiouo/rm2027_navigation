@@ -137,3 +137,4 @@ mapping artifact, mission priority or failure policy, update at least:
 - [无安全候选与旧命令执行后果](research_history/stvl_lifecycle_hold_20261014.md)：原16个零safe仍新非零输出、有限物理制动及延迟注入、原生重试/异常问题；Modify。
 - [生命周期研究复现](../experiments/stvl_lifecycle_hold/README.md)：5启动4有效、精选恢复与完整raw保留。
 - [持续研究检查点与总报告](research_history/research_continuation_20261014.md)：用户授权的后续最小研究、阶段提交和恢复边界。
+- [原生失败合同最小验证](research_history/stvl_failure_contract_20261014.md)：实际重试清零恢复第二评分，NoSafe仍未解决；异常容错只完成源码语义回放。

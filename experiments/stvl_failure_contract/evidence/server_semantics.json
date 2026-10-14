@@ -1,0 +1,179 @@
+[
+  {
+    "case": "normal",
+    "known_optimizer_exhaustion_as_typed": false,
+    "events": [
+      {
+        "time_ms": 0,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 100,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 200,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 300,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 400,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 500,
+        "output": "fresh_control",
+        "state": "continue"
+      }
+    ],
+    "scope": "semantic replay, no native server or motion"
+  },
+  {
+    "case": "normal",
+    "known_optimizer_exhaustion_as_typed": true,
+    "events": [
+      {
+        "time_ms": 0,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 100,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 200,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 300,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 400,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 500,
+        "output": "fresh_control",
+        "state": "continue"
+      }
+    ],
+    "scope": "semantic replay, no native server or motion"
+  },
+  {
+    "case": "transient_failure",
+    "known_optimizer_exhaustion_as_typed": false,
+    "events": [
+      {
+        "time_ms": 0,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 100,
+        "output": "zero",
+        "state": "abort_outer_runtime"
+      }
+    ],
+    "scope": "semantic replay, no native server or motion"
+  },
+  {
+    "case": "transient_failure",
+    "known_optimizer_exhaustion_as_typed": true,
+    "events": [
+      {
+        "time_ms": 0,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 100,
+        "output": "zero",
+        "state": "continue_patience"
+      },
+      {
+        "time_ms": 200,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 300,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 400,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 500,
+        "output": "fresh_control",
+        "state": "continue"
+      }
+    ],
+    "scope": "semantic replay, no native server or motion"
+  },
+  {
+    "case": "persistent_failure",
+    "known_optimizer_exhaustion_as_typed": false,
+    "events": [
+      {
+        "time_ms": 0,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 100,
+        "output": "zero",
+        "state": "abort_outer_runtime"
+      }
+    ],
+    "scope": "semantic replay, no native server or motion"
+  },
+  {
+    "case": "persistent_failure",
+    "known_optimizer_exhaustion_as_typed": true,
+    "events": [
+      {
+        "time_ms": 0,
+        "output": "fresh_control",
+        "state": "continue"
+      },
+      {
+        "time_ms": 100,
+        "output": "zero",
+        "state": "continue_patience"
+      },
+      {
+        "time_ms": 200,
+        "output": "zero",
+        "state": "continue_patience"
+      },
+      {
+        "time_ms": 300,
+        "output": "zero",
+        "state": "continue_patience"
+      },
+      {
+        "time_ms": 400,
+        "output": "zero",
+        "state": "abort_patience"
+      }
+    ],
+    "scope": "semantic replay, no native server or motion"
+  }
+]

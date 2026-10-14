@@ -1,0 +1,16 @@
+{
+  "stage": "Research: existing native failure contract",
+  "base": "055f29beb74c3df7eaf7cba9e659e2c80e9371dc",
+  "hypothesis": "clearing native fail_flag only after permitted retry allows scoring next attempt; does not solve persistent invalid inputs or soft dynamic NoSafe",
+  "baseline": "installed Nav2 1.1.20 CriticManager and Optimizer fallback/reset",
+  "variant": "one harness assignment fail_flag=false after fallback returns retry; production library unchanged",
+  "cases_before_results": ["normal", "first_score_fail_second_score_recovers", "persistent_failure", "finite_risk_no_safe"],
+  "acceptance": "normal unchanged; recover case reruns score; persistent failures not accepted; finite risk still accepted and must remain unresolved",
+  "scope": "2x3 tensors, controlled fixture critic replaces environmental scoring. No sampling/optimization/Nav2 server/Gazebo/ROS node; no navigation efficacy claim",
+  "server_semantics": "source-derived timed catch replay, never represented as live controller_server execution; transient and persistent failures both retained",
+  "clock_grid_ms": [0,100,200,300,400,500],
+  "failure_tolerance_s": 0.3,
+  "safe_policy": "do not convert arbitrary runtime errors into PlannerException; only known optimizer exhaustion should have a dedicated contract",
+  "disk_cap_MiB": 5,
+  "no_new_controller_or_cmd_vel_owner": true
+}

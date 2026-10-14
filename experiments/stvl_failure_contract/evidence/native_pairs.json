@@ -1,0 +1,119 @@
+{
+  "native_version": "1.1.20",
+  "pairs": [
+    {
+      "accepted_by_native_failure_flag": true,
+      "clear_only_after_retry": false,
+      "critic_calls": 1,
+      "eval_attempts": 1,
+      "exception": "none",
+      "finite_costs": [
+        1.0,
+        2.0
+      ],
+      "last_fail_flag": false,
+      "mode": "normal",
+      "subsequent_critic_calls": 1
+    },
+    {
+      "accepted_by_native_failure_flag": true,
+      "clear_only_after_retry": true,
+      "critic_calls": 1,
+      "eval_attempts": 1,
+      "exception": "none",
+      "finite_costs": [
+        1.0,
+        2.0
+      ],
+      "last_fail_flag": false,
+      "mode": "normal",
+      "subsequent_critic_calls": 1
+    },
+    {
+      "accepted_by_native_failure_flag": false,
+      "clear_only_after_retry": false,
+      "critic_calls": 1,
+      "eval_attempts": 2,
+      "exception": "runtime_error",
+      "finite_costs": [
+        0.0,
+        0.0
+      ],
+      "last_fail_flag": true,
+      "mode": "first_score_fail_second_score_recovers",
+      "subsequent_critic_calls": 0
+    },
+    {
+      "accepted_by_native_failure_flag": true,
+      "clear_only_after_retry": true,
+      "critic_calls": 2,
+      "eval_attempts": 2,
+      "exception": "none",
+      "finite_costs": [
+        1.0,
+        2.0
+      ],
+      "last_fail_flag": false,
+      "mode": "first_score_fail_second_score_recovers",
+      "subsequent_critic_calls": 1
+    },
+    {
+      "accepted_by_native_failure_flag": false,
+      "clear_only_after_retry": false,
+      "critic_calls": 1,
+      "eval_attempts": 2,
+      "exception": "runtime_error",
+      "finite_costs": [
+        0.0,
+        0.0
+      ],
+      "last_fail_flag": true,
+      "mode": "persistent_failure",
+      "subsequent_critic_calls": 0
+    },
+    {
+      "accepted_by_native_failure_flag": false,
+      "clear_only_after_retry": true,
+      "critic_calls": 2,
+      "eval_attempts": 2,
+      "exception": "runtime_error",
+      "finite_costs": [
+        0.0,
+        0.0
+      ],
+      "last_fail_flag": true,
+      "mode": "persistent_failure",
+      "subsequent_critic_calls": 0
+    },
+    {
+      "accepted_by_native_failure_flag": true,
+      "clear_only_after_retry": false,
+      "critic_calls": 1,
+      "eval_attempts": 1,
+      "exception": "none",
+      "finite_costs": [
+        4000000.0,
+        5000000.0
+      ],
+      "last_fail_flag": false,
+      "mode": "finite_risk_no_safe",
+      "subsequent_critic_calls": 1
+    },
+    {
+      "accepted_by_native_failure_flag": true,
+      "clear_only_after_retry": true,
+      "critic_calls": 1,
+      "eval_attempts": 1,
+      "exception": "none",
+      "finite_costs": [
+        4000000.0,
+        5000000.0
+      ],
+      "last_fail_flag": false,
+      "mode": "finite_risk_no_safe",
+      "subsequent_critic_calls": 1
+    }
+  ],
+  "predeclared_acceptance_pass": true,
+  "scope": "controlled critic data; installed manager/reset/fallback, no optimized Twist or motion"
+}
