@@ -1,0 +1,252 @@
+[
+  {
+    "case": "known_safe_wait",
+    "pass": true,
+    "expected": {
+      "joint_complete": "Safe"
+    },
+    "observed": {
+      "acceleration_bad": 0,
+      "compute_ms": 0.222106,
+      "dynamic": "Safe",
+      "dynamic_discrete_min_m": null,
+      "dynamic_hit_samples": 0,
+      "dynamic_min_m": null,
+      "first_bad_step": -1,
+      "id": "wait",
+      "input": "Safe",
+      "joint_complete": "Safe",
+      "joint_geometry": "Safe",
+      "mapped_execution": "Safe",
+      "native_same_static_grid_discrete_hits": 0,
+      "nominal_max_acceleration": 0.0,
+      "nominal_rate": "Safe",
+      "prediction_source_age_s": 0.0,
+      "static": "Safe",
+      "static_hit_samples": 0,
+      "static_min_capped_m": 0.1,
+      "sweep_unresolved": 0,
+      "uncovered_prediction_samples": 0,
+      "velocity_bad": 0
+    }
+  },
+  {
+    "case": "interior_cell_missed_by_perimeter",
+    "pass": true,
+    "expected": {
+      "static": "Unsafe",
+      "native_same_static_grid_discrete_hits": 0
+    },
+    "observed": {
+      "acceleration_bad": 0,
+      "compute_ms": 0.30863,
+      "dynamic": "Safe",
+      "dynamic_discrete_min_m": null,
+      "dynamic_hit_samples": 0,
+      "dynamic_min_m": null,
+      "first_bad_step": 0,
+      "id": "wait",
+      "input": "Safe",
+      "joint_complete": "Unsafe",
+      "joint_geometry": "Unsafe",
+      "mapped_execution": "Safe",
+      "native_same_static_grid_discrete_hits": 0,
+      "nominal_max_acceleration": 0.0,
+      "nominal_rate": "Safe",
+      "prediction_source_age_s": 0.0,
+      "static": "Unsafe",
+      "static_hit_samples": 330,
+      "static_min_capped_m": 0.0,
+      "sweep_unresolved": 0,
+      "uncovered_prediction_samples": 0,
+      "velocity_bad": 0
+    }
+  },
+  {
+    "case": "dynamic_between_discrete_points",
+    "pass": true,
+    "expected": {
+      "dynamic": "Unsafe"
+    },
+    "observed": {
+      "acceleration_bad": 0,
+      "compute_ms": 0.453104,
+      "dynamic": "Unsafe",
+      "dynamic_discrete_min_m": 0.04760397446541165,
+      "dynamic_hit_samples": 1,
+      "dynamic_min_m": 0.018999999999999906,
+      "first_bad_step": 0,
+      "id": "wait",
+      "input": "Safe",
+      "joint_complete": "Unsafe",
+      "joint_geometry": "Unsafe",
+      "mapped_execution": "Safe",
+      "native_same_static_grid_discrete_hits": 0,
+      "nominal_max_acceleration": 0.0,
+      "nominal_rate": "Safe",
+      "prediction_source_age_s": 0.0,
+      "static": "Safe",
+      "static_hit_samples": 0,
+      "static_min_capped_m": 0.1,
+      "sweep_unresolved": 6,
+      "uncovered_prediction_samples": 0,
+      "velocity_bad": 0
+    }
+  },
+  {
+    "case": "instant_zero_from_moving_is_not_a_stop_certificate",
+    "pass": true,
+    "expected": {
+      "nominal_rate": "Unsafe",
+      "mapped_execution": "Unknown"
+    },
+    "observed": {
+      "acceleration_bad": 1,
+      "compute_ms": 0.228403,
+      "dynamic": "Safe",
+      "dynamic_discrete_min_m": null,
+      "dynamic_hit_samples": 0,
+      "dynamic_min_m": null,
+      "first_bad_step": -1,
+      "id": "wait",
+      "input": "Safe",
+      "joint_complete": "Unknown",
+      "joint_geometry": "Safe",
+      "mapped_execution": "Unknown",
+      "native_same_static_grid_discrete_hits": 0,
+      "nominal_max_acceleration": 5.0,
+      "nominal_rate": "Unsafe",
+      "prediction_source_age_s": 0.0,
+      "static": "Safe",
+      "static_hit_samples": 0,
+      "static_min_capped_m": 0.1,
+      "sweep_unresolved": 0,
+      "uncovered_prediction_samples": 0,
+      "velocity_bad": 0
+    }
+  },
+  {
+    "case": "bounded_braking_reference",
+    "pass": true,
+    "expected": {
+      "joint_complete": "Safe"
+    },
+    "observed": {
+      "acceleration_bad": 0,
+      "compute_ms": 0.246698,
+      "dynamic": "Safe",
+      "dynamic_discrete_min_m": null,
+      "dynamic_hit_samples": 0,
+      "dynamic_min_m": null,
+      "first_bad_step": -1,
+      "id": "bounded_brake",
+      "input": "Safe",
+      "joint_complete": "Safe",
+      "joint_geometry": "Safe",
+      "mapped_execution": "Safe",
+      "native_same_static_grid_discrete_hits": 0,
+      "nominal_max_acceleration": 0.8000000000000002,
+      "nominal_rate": "Safe",
+      "prediction_source_age_s": 0.0,
+      "static": "Safe",
+      "static_hit_samples": 0,
+      "static_min_capped_m": 0.1,
+      "sweep_unresolved": 0,
+      "uncovered_prediction_samples": 0,
+      "velocity_bad": 0
+    }
+  },
+  {
+    "case": "future_prediction_unknown",
+    "pass": true,
+    "expected": {
+      "dynamic": "Unknown"
+    },
+    "observed": {
+      "acceleration_bad": 0,
+      "compute_ms": 0.183991,
+      "dynamic": "Unknown",
+      "dynamic_discrete_min_m": null,
+      "dynamic_hit_samples": 0,
+      "dynamic_min_m": null,
+      "first_bad_step": -1,
+      "id": "wait",
+      "input": "Safe",
+      "joint_complete": "Unknown",
+      "joint_geometry": "Unknown",
+      "mapped_execution": "Safe",
+      "native_same_static_grid_discrete_hits": 0,
+      "nominal_max_acceleration": 0.0,
+      "nominal_rate": "Safe",
+      "prediction_source_age_s": -1.0,
+      "static": "Safe",
+      "static_hit_samples": 0,
+      "static_min_capped_m": 0.1,
+      "sweep_unresolved": 0,
+      "uncovered_prediction_samples": 0,
+      "velocity_bad": 0
+    }
+  },
+  {
+    "case": "unknown_static_support",
+    "pass": true,
+    "expected": {
+      "static": "Unknown"
+    },
+    "observed": {
+      "acceleration_bad": 0,
+      "compute_ms": 0.205366,
+      "dynamic": "Safe",
+      "dynamic_discrete_min_m": null,
+      "dynamic_hit_samples": 0,
+      "dynamic_min_m": null,
+      "first_bad_step": -1,
+      "id": "wait",
+      "input": "Safe",
+      "joint_complete": "Unknown",
+      "joint_geometry": "Unknown",
+      "mapped_execution": "Safe",
+      "native_same_static_grid_discrete_hits": 0,
+      "nominal_max_acceleration": 0.0,
+      "nominal_rate": "Safe",
+      "prediction_source_age_s": 0.0,
+      "static": "Unknown",
+      "static_hit_samples": 0,
+      "static_min_capped_m": 0.1,
+      "sweep_unresolved": 0,
+      "uncovered_prediction_samples": 0,
+      "velocity_bad": 0
+    }
+  },
+  {
+    "case": "uncovered_past_prefix",
+    "pass": true,
+    "expected": {
+      "dynamic": "Unknown"
+    },
+    "observed": {
+      "acceleration_bad": 0,
+      "compute_ms": 0.211386,
+      "dynamic": "Unknown",
+      "dynamic_discrete_min_m": null,
+      "dynamic_hit_samples": 0,
+      "dynamic_min_m": null,
+      "first_bad_step": -1,
+      "id": "wait",
+      "input": "Safe",
+      "joint_complete": "Unknown",
+      "joint_geometry": "Unknown",
+      "mapped_execution": "Safe",
+      "native_same_static_grid_discrete_hits": 0,
+      "nominal_max_acceleration": 0.0,
+      "nominal_rate": "Safe",
+      "prediction_source_age_s": 0.01,
+      "static": "Safe",
+      "static_hit_samples": 0,
+      "static_min_capped_m": 0.1,
+      "sweep_unresolved": 0,
+      "uncovered_prediction_samples": 1,
+      "velocity_bad": 0
+    }
+  }
+]

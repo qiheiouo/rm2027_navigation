@@ -128,3 +128,5 @@ mapping artifact, mission priority or failure policy, update at least:
 
 - [几何漏检、零速度输入与局部闭环修复](research_history/stvl_temporal_failure_roots_20261014.md)：48次定向启动尝试，42次可评价控制闭环；保留Oracle负例、工程崩溃和效率退化，裁决Modify。
 - [独立复现与完整raw保存合同](../experiments/stvl_temporal_roots/README.md)：原d2b5只读，几何/速度分因素，无正式迁入。
+- [联合安全与规划—执行一致性](research_history/stvl_joint_execution_20261014.md)：只读联合检查、执行回溯及9次有限复验；Modify，C′未运行，完整批检查和执行映射合同尚未闭合。
+- [联合研究入口与精选证据恢复](../experiments/stvl_joint_execution/README.md)：8个判别用例、未参与调参的83种子；没有新运动owner或控制干预。

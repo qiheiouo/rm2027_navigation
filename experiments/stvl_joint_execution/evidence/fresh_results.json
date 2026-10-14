@@ -1,0 +1,3526 @@
+{
+  "attempts": 9,
+  "valid_closed_loops": 9,
+  "primary_n": 8,
+  "observer_failures": 3,
+  "primary_goal": 6,
+  "primary_safe_gate": 6,
+  "trials": [
+    {
+      "run": "crossing_A_29_aligned",
+      "scene": "crossing",
+      "group": "A",
+      "seed": 29,
+      "phase": "finite",
+      "startup": false,
+      "outcome": "actor_contact",
+      "result_status": null,
+      "contact_messages": 1,
+      "native_events": 1,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 0,
+      "cohort": "fresh",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 3.814,
+      "success": false,
+      "arrival_s": null,
+      "body_clearance_m": 0.0,
+      "overlap_samples": 3,
+      "truth_samples": 190,
+      "truth_gap_ms": {
+        "n": 189,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": null,
+      "wall_overlap_samples": 0,
+      "safe_success": false,
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "start_count": 1,
+      "forward_flips": 0,
+      "max_retreat_m": 0,
+      "path_length_m": 1.5406714753268613,
+      "actual_max_velocity": [
+        0.4919363165149632,
+        0.4760913428213641,
+        0.23002730449661613
+      ],
+      "actual_max_acceleration": [
+        1.5547185720930916,
+        1.7495569434472669,
+        1.999999803956598
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        28,
+        17,
+        0
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        0,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 39,
+      "compute_ms": {
+        "n": 39,
+        "min": 3.134745,
+        "p50": 26.541219,
+        "p95": 37.456021400000004,
+        "p99": 38.3494003,
+        "max": 38.675712
+      },
+      "compute_over100": 0,
+      "native_errors": 1,
+      "candidate_epoch_to_consume_ms": null,
+      "input_pose_to_entry_ms": {
+        "n": 39,
+        "min": 4.0,
+        "p50": 5.0,
+        "p95": 5.0,
+        "p99": 11.819999999999972,
+        "max": 16.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 0
+      },
+      "prediction_receipt_to_consume_ms": null,
+      "prediction_age_ms": null,
+      "prediction_reason_counts": {
+        "not_enabled": 39
+      },
+      "temporal_scored_cycles": 0,
+      "temporal_valid_cycles": 0,
+      "consumed_nonzero": 0,
+      "zero_safe_candidates": 0,
+      "output_gap_ms": {
+        "n": 76,
+        "min": 44.0,
+        "p50": 50.0,
+        "p95": 52.0,
+        "p99": 53.75,
+        "max": 56.0
+      },
+      "output_gap_over100": 0,
+      "zero_hold_output_gap_ms": {
+        "n": 1,
+        "min": 46.0,
+        "p50": 46.0,
+        "p95": 46.0,
+        "p99": 46.0,
+        "max": 46.0
+      },
+      "active_output_gap_ms": {
+        "n": 75,
+        "min": 44.0,
+        "p50": 50.0,
+        "p95": 52.0,
+        "p99": 53.780000000000015,
+        "max": 56.0
+      },
+      "output_max_command": [
+        0.49194157123565674,
+        0.4761345386505127,
+        0.23002733290195465
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 13,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": {
+        "n": 190,
+        "min": 1.0586871401763176e-07,
+        "p50": 8.780567598482003e-05,
+        "p95": 0.00018911084566357311,
+        "p99": 0.0002102094664305367,
+        "max": 0.00025024283493102484
+      },
+      "aggregate_unsafe_circle_proxy_cycles": 0,
+      "optimistic_circle_proxy_cycles": 0,
+      "snapshots": [
+        {
+          "epoch_ns": 6625000000,
+          "t": 2.622,
+          "predicted_aggregate_circle_clearance": null,
+          "actual_aggregate_circle_proxy_clearance": -0.1508049274301803,
+          "GT_full30": false,
+          "best_raw_index_before_gamma": 221,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.15131203830242157,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.4878418445587158,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 0.08418935537338257
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.009294486604630947,
+              "p50": 0.1957216039299965,
+              "p95": 0.44383235275745414,
+              "p99": 0.5210138666629789,
+              "max": 0.7687974572181702
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 500.0,
+              "p99": 500.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.4047098755836487,
+              "p50": 0.8488110303878784,
+              "p95": 1.7600765824317932,
+              "p99": 2.223444824218749,
+              "max": 2.6379034519195557
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.02698814868927002,
+              "p50": 0.9744784533977509,
+              "p95": 1.9225448668003084,
+              "p99": 2.412826232910156,
+              "max": 2.560896158218384
+            }
+          },
+          "command": [
+            0.4589465260505676,
+            0.09844249486923218,
+            -0.04650992155075073
+          ],
+          "prediction_reason": null
+        },
+        {
+          "epoch_ns": 6825000000,
+          "t": 2.822,
+          "predicted_aggregate_circle_clearance": null,
+          "actual_aggregate_circle_proxy_clearance": -0.14083624710237602,
+          "GT_full30": false,
+          "best_raw_index_before_gamma": 221,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.16648009419441223,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.4300924241542816,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 0.1336948275566101
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.016666794195771217,
+              "p50": 0.20720840990543365,
+              "p95": 0.4703469648957253,
+              "p99": 0.5407327747344969,
+              "max": 0.7699584364891052
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 500.0,
+              "p99": 500.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.35288119316101074,
+              "p50": 0.8153725266456604,
+              "p95": 1.7364392518997194,
+              "p99": 2.1918869233131404,
+              "max": 2.6952691078186035
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.094696044921875,
+              "p50": 0.9709365963935852,
+              "p95": 1.946053498983383,
+              "p99": 2.388623657226562,
+              "max": 2.6221091747283936
+            }
+          },
+          "command": [
+            0.440220445394516,
+            0.12509247660636902,
+            -0.0824134349822998
+          ],
+          "prediction_reason": null
+        }
+      ],
+      "active_track_counts": {
+        "n": 39,
+        "min": 0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0
+      },
+      "forecast_center_error_m": {
+        "0": null,
+        "1": null,
+        "3": null
+      },
+      "heldout": false,
+      "tap": {
+        "error": true,
+        "error_tail": "d/stvl_joint_execution_20261014/experiments/stvl_joint_execution/tap.py\", line 12, in <module>\n    node.declare_parameter('use_sim_time',True)\n  File \"/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py\", line 367, in declare_parameter\n    return self.declare_parameters('', [args], ignore_override)[0]\n  File \"/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py\", line 489, in declare_parameters\n    raise ParameterAlreadyDeclaredException(parameters_already_declared)\nrclpy.exceptions.ParameterAlreadyDeclaredException: ('Parameter(s) already declared', ['use_sim_time'])\n",
+        "receipt_count": 0,
+        "publishers": {},
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          },
+          "/cmd_vel": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          }
+        }
+      }
+    },
+    {
+      "run": "crossing_B_29_aligned",
+      "scene": "crossing",
+      "group": "B",
+      "seed": 29,
+      "phase": "finite",
+      "startup": false,
+      "outcome": "actor_contact",
+      "result_status": null,
+      "contact_messages": 1,
+      "native_events": 0,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 0,
+      "cohort": "fresh",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "execution_receipts.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "execution_endpoints.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 3.893,
+      "success": false,
+      "arrival_s": null,
+      "body_clearance_m": 0.0,
+      "overlap_samples": 1,
+      "truth_samples": 194,
+      "truth_gap_ms": {
+        "n": 193,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": null,
+      "wall_overlap_samples": 0,
+      "safe_success": false,
+      "wait_s": 0.06,
+      "longest_stall_s": 0.06,
+      "start_count": 1,
+      "forward_flips": 0,
+      "max_retreat_m": 0,
+      "path_length_m": 1.5531372519657671,
+      "actual_max_velocity": [
+        0.491882834326837,
+        0.43970150487002096,
+        0.34248820156790316
+      ],
+      "actual_max_acceleration": [
+        1.5510153071236126,
+        1.5508872379259575,
+        1.9999999494757503
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        27,
+        19,
+        0
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        0,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 39,
+      "compute_ms": {
+        "n": 39,
+        "min": 7.527945,
+        "p50": 28.105532,
+        "p95": 46.84275460000002,
+        "p99": 66.01410677999998,
+        "max": 69.772409
+      },
+      "compute_over100": 0,
+      "native_errors": 0,
+      "candidate_epoch_to_consume_ms": {
+        "n": 39,
+        "min": 6.0,
+        "p50": 27.0,
+        "p95": 44.50000000000002,
+        "p99": 64.19999999999997,
+        "max": 68.0
+      },
+      "input_pose_to_entry_ms": {
+        "n": 39,
+        "min": 3.0,
+        "p50": 3.0,
+        "p95": 3.0,
+        "p99": 3.0,
+        "max": 3.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 39
+      },
+      "prediction_receipt_to_consume_ms": {
+        "n": 39,
+        "min": 1.0,
+        "p50": 40.0,
+        "p95": 100.00000000000009,
+        "p99": 163.91999999999996,
+        "max": 170.0
+      },
+      "prediction_age_ms": {
+        "n": 39,
+        "min": 52.00000000000001,
+        "p50": 87.00000000000001,
+        "p95": 131.8000000000001,
+        "p99": 185.24,
+        "max": 186.0
+      },
+      "prediction_reason_counts": {
+        "": 39
+      },
+      "temporal_scored_cycles": 39,
+      "temporal_valid_cycles": 39,
+      "consumed_nonzero": 24,
+      "zero_safe_candidates": 8,
+      "output_gap_ms": {
+        "n": 77,
+        "min": 43.0,
+        "p50": 50.0,
+        "p95": 51.2,
+        "p99": 52.0,
+        "max": 52.0
+      },
+      "output_gap_over100": 0,
+      "zero_hold_output_gap_ms": {
+        "n": 1,
+        "min": 43.0,
+        "p50": 43.0,
+        "p95": 43.0,
+        "p99": 43.0,
+        "max": 43.0
+      },
+      "active_output_gap_ms": {
+        "n": 76,
+        "min": 48.0,
+        "p50": 50.0,
+        "p95": 51.25,
+        "p99": 52.0,
+        "max": 52.0
+      },
+      "output_max_command": [
+        0.49188804626464844,
+        0.4397777318954468,
+        0.3467128872871399
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 14,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": {
+        "n": 194,
+        "min": 8.018281216770617e-08,
+        "p50": 5.8333907341001634e-05,
+        "p95": 0.00022806159319380682,
+        "p99": 0.00023493833046394518,
+        "max": 0.00023805122521247668
+      },
+      "aggregate_unsafe_circle_proxy_cycles": 0,
+      "optimistic_circle_proxy_cycles": 0,
+      "snapshots": [
+        {
+          "epoch_ns": 6623000000,
+          "t": 2.622,
+          "predicted_aggregate_circle_clearance": 0.06396559622694509,
+          "actual_aggregate_circle_proxy_clearance": -0.19216644551320589,
+          "GT_full30": false,
+          "best_raw_index_before_gamma": 199,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.14559321105480194,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 1.002352237701416,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 0.3554255962371826,
+            "TemporalResearchCritic": 0.9827532768249512
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.21807662397623062,
+              "p95": 0.48829920738935473,
+              "p99": 0.5419376564025877,
+              "max": 0.7635777592658997
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 500.0,
+              "p99": 500.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.40561431646347046,
+              "p50": 0.9481008052825928,
+              "p95": 2.189092266559601,
+              "p99": 2.5594358634948726,
+              "max": 2.913351535797119
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.06840699911117554,
+              "p50": 0.9418034553527832,
+              "p95": 1.9055250644683839,
+              "p99": 2.279903814792632,
+              "max": 2.8263559341430664
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.31659650802612305,
+              "p50": 2776.1517333984375,
+              "p95": 764863.9937500008,
+              "p99": 1645685.1237499989,
+              "max": 2426900.75
+            }
+          },
+          "command": [
+            0.4275102913379669,
+            0.17535606026649475,
+            0.1400887668132782
+          ],
+          "prediction_reason": ""
+        },
+        {
+          "epoch_ns": 6823000000,
+          "t": 2.822,
+          "predicted_aggregate_circle_clearance": 0.0036881909880274732,
+          "actual_aggregate_circle_proxy_clearance": -0.17789085413116917,
+          "GT_full30": false,
+          "best_raw_index_before_gamma": 199,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.16911481320858002,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 1.6522960662841797,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 0.33031177520751953,
+            "TemporalResearchCritic": 1.2033116817474365
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.012217617593705654,
+              "p50": 0.23620404303073883,
+              "p95": 0.5126458555459976,
+              "p99": 0.5821740216016766,
+              "max": 0.766512393951416
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 500.0,
+              "p99": 500.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.48069801926612854,
+              "p50": 1.226641833782196,
+              "p95": 2.740387058258057,
+              "p99": 3.1221808362007137,
+              "max": 3.528615713119507
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.05716907978057861,
+              "p50": 0.9697809815406799,
+              "p95": 1.928733789920807,
+              "p99": 2.308914594650267,
+              "max": 2.8608734607696533
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.5280327796936035,
+              "p50": 17336.6650390625,
+              "p95": 909247.7750000007,
+              "p99": 1902128.6324999998,
+              "max": 2513542.5
+            }
+          },
+          "command": [
+            0.3518756628036499,
+            0.28617191314697266,
+            0.2704739272594452
+          ],
+          "prediction_reason": ""
+        }
+      ],
+      "active_track_counts": {
+        "n": 39,
+        "min": 1,
+        "p50": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1
+      },
+      "forecast_center_error_m": {
+        "0": {
+          "n": 38,
+          "min": 0.181487546363064,
+          "p50": 0.18751544571399925,
+          "p95": 0.20999546063242144,
+          "p99": 0.21358892548589528,
+          "max": 0.21422352470522288
+        },
+        "1": {
+          "n": 30,
+          "min": 0.13353745640441017,
+          "p50": 0.45824592362342176,
+          "p95": 0.6485397354183318,
+          "p99": 0.6541386804479461,
+          "max": 0.6541386804479461
+        },
+        "3": {
+          "n": 10,
+          "min": 1.1064137571088526,
+          "p50": 1.2972728496693557,
+          "p95": 1.4717249441811218,
+          "p99": 1.4717249441811218,
+          "max": 1.4717249441811218
+        }
+      },
+      "heldout": false,
+      "tap": {
+        "error": true,
+        "error_tail": "/dist-packages/rclpy/task.py\", line 272, in _execute_coroutine_step\n    result = coro.send(None)\n  File \"/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py\", line 488, in handler\n    await call_coroutine(entity, arg)\n  File \"/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py\", line 407, in _execute_subscription\n    await await_or_execute(sub.callback, msg)\n  File \"/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py\", line 110, in await_or_execute\n    return callback(*args)\nTypeError: <lambda>() missing 1 required positional argument: 'i'\n",
+        "receipt_count": 0,
+        "publishers": {},
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          },
+          "/cmd_vel": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          }
+        }
+      }
+    },
+    {
+      "run": "crossing_C_29_aligned",
+      "scene": "crossing",
+      "group": "C",
+      "seed": 29,
+      "phase": "finite",
+      "startup": false,
+      "outcome": "goal_result",
+      "result_status": 4,
+      "contact_messages": 0,
+      "native_events": 0,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 0,
+      "cohort": "fresh",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "execution_receipts.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "execution_endpoints.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 14.502,
+      "success": true,
+      "arrival_s": 14.502,
+      "body_clearance_m": 0.37762057644943914,
+      "overlap_samples": 0,
+      "truth_samples": 725,
+      "truth_gap_ms": {
+        "n": 724,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": null,
+      "wall_overlap_samples": 0,
+      "safe_success": true,
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "start_count": 1,
+      "forward_flips": 2,
+      "max_retreat_m": 0.13792369291845819,
+      "path_length_m": 4.464027944510222,
+      "actual_max_velocity": [
+        0.5000920302368402,
+        0.34795219423248736,
+        0.8414507028646767
+      ],
+      "actual_max_acceleration": [
+        1.7519769897946373,
+        1.7504744101671355,
+        2.0000000949949026
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        64,
+        41,
+        5
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        4,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 146,
+      "compute_ms": {
+        "n": 146,
+        "min": 7.191214,
+        "p50": 22.433099,
+        "p95": 41.8093355,
+        "p99": 43.633443250000006,
+        "max": 63.703715
+      },
+      "compute_over100": 0,
+      "native_errors": 0,
+      "candidate_epoch_to_consume_ms": {
+        "n": 146,
+        "min": 5.0,
+        "p50": 19.5,
+        "p95": 38.5,
+        "p99": 41.0,
+        "max": 61.0
+      },
+      "input_pose_to_entry_ms": {
+        "n": 146,
+        "min": 7.0,
+        "p50": 8.0,
+        "p95": 8.0,
+        "p99": 8.0,
+        "max": 8.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 146
+      },
+      "prediction_receipt_to_consume_ms": {
+        "n": 146,
+        "min": 0.0,
+        "p50": 34.0,
+        "p95": 130.75,
+        "p99": 201.80000000000086,
+        "max": 262.0
+      },
+      "prediction_age_ms": {
+        "n": 146,
+        "min": 26.000000000000004,
+        "p50": 67.5,
+        "p95": 165.5,
+        "p99": 235.0500000000008,
+        "max": 294.00000000000006
+      },
+      "prediction_reason_counts": {
+        "": 146
+      },
+      "temporal_scored_cycles": 146,
+      "temporal_valid_cycles": 146,
+      "consumed_nonzero": 42,
+      "zero_safe_candidates": 0,
+      "output_gap_ms": {
+        "n": 289,
+        "min": 43.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "p99": 52.120000000000005,
+        "max": 57.0
+      },
+      "output_gap_over100": 0,
+      "zero_hold_output_gap_ms": {
+        "n": 1,
+        "min": 46.0,
+        "p50": 46.0,
+        "p95": 46.0,
+        "p99": 46.0,
+        "max": 46.0
+      },
+      "active_output_gap_ms": {
+        "n": 288,
+        "min": 43.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "p99": 52.129999999999995,
+        "max": 57.0
+      },
+      "output_max_command": [
+        0.5,
+        0.34826451539993286,
+        0.8414507508277893
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 39,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": {
+        "n": 725,
+        "min": 2.72872600071139e-08,
+        "p50": 4.241297403284605e-05,
+        "p95": 0.00028774771023565277,
+        "p99": 0.0003839029434883745,
+        "max": 0.00040048086476218714
+      },
+      "aggregate_unsafe_circle_proxy_cycles": 13,
+      "optimistic_circle_proxy_cycles": 8,
+      "snapshots": [
+        {
+          "epoch_ns": 6828000000,
+          "t": 2.823,
+          "predicted_aggregate_circle_clearance": 0.11702662603364267,
+          "actual_aggregate_circle_proxy_clearance": 0.18810510682193582,
+          "GT_full30": true,
+          "best_raw_index_before_gamma": 191,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.0,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.0,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 3.323385238647461,
+            "TemporalResearchCritic": 0.6881728172302246
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.025194228626787663,
+              "p95": 0.1355129666626454,
+              "p99": 0.19083861395716667,
+              "max": 0.24251411855220795
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 2.915583848953247,
+              "p50": 4.551487922668457,
+              "p95": 5.4935219287872314,
+              "p99": 5.838927240371703,
+              "max": 6.264652252197266
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.10901784896850586,
+              "p50": 0.6777342557907104,
+              "p95": 2731.8419677734573,
+              "p99": 36514.14796874976,
+              "max": 117559.7421875
+            }
+          },
+          "command": [
+            0.09001845121383667,
+            0.20643654465675354,
+            0.7850138545036316
+          ],
+          "prediction_reason": ""
+        }
+      ],
+      "active_track_counts": {
+        "n": 146,
+        "min": 1,
+        "p50": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1
+      },
+      "forecast_center_error_m": {
+        "0": {
+          "n": 145,
+          "min": 0.1777542530379244,
+          "p50": 0.201718661705846,
+          "p95": 0.27400936420466837,
+          "p99": 0.2778050816631858,
+          "max": 0.2792694365504008
+        },
+        "1": {
+          "n": 136,
+          "min": 0.027095816577287424,
+          "p50": 0.24897115130303546,
+          "p95": 0.43128078344386345,
+          "p99": 0.5175456386360331,
+          "max": 0.528652496225563
+        },
+        "3": {
+          "n": 116,
+          "min": 0.07227509893339584,
+          "p50": 0.5512659910543776,
+          "p95": 1.505891935103493,
+          "p99": 1.5180107414531765,
+          "max": 1.5215363843019771
+        }
+      },
+      "heldout": false,
+      "tap": {
+        "error": true,
+        "error_tail": "/dist-packages/rclpy/task.py\", line 272, in _execute_coroutine_step\n    result = coro.send(None)\n  File \"/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py\", line 488, in handler\n    await call_coroutine(entity, arg)\n  File \"/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py\", line 407, in _execute_subscription\n    await await_or_execute(sub.callback, msg)\n  File \"/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py\", line 110, in await_or_execute\n    return callback(*args)\nTypeError: <lambda>() missing 1 required positional argument: 'i'\n",
+        "receipt_count": 0,
+        "publishers": {},
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          },
+          "/cmd_vel": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": null,
+            "sim_ms": null,
+            "RTF": null
+          }
+        }
+      }
+    },
+    {
+      "run": "crossing_C_83_aligned",
+      "scene": "crossing",
+      "group": "C",
+      "seed": 83,
+      "phase": "pilot",
+      "startup": false,
+      "outcome": "goal_result",
+      "result_status": 4,
+      "contact_messages": 0,
+      "native_events": 0,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 0,
+      "cohort": "fresh",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "execution_receipts.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "execution_endpoints.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 18.07,
+      "success": true,
+      "arrival_s": 18.07,
+      "body_clearance_m": 0.5627487443517394,
+      "overlap_samples": 0,
+      "truth_samples": 903,
+      "truth_gap_ms": {
+        "n": 902,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": null,
+      "wall_overlap_samples": 0,
+      "safe_success": true,
+      "wait_s": 1.8400000000000012,
+      "longest_stall_s": 1.740000000000001,
+      "start_count": 1,
+      "forward_flips": 2,
+      "max_retreat_m": 0.1110004088952643,
+      "path_length_m": 4.252380648447082,
+      "actual_max_velocity": [
+        0.4941800149955008,
+        0.23924980433657753,
+        0.4030311247333884
+      ],
+      "actual_max_acceleration": [
+        1.7505474669095196,
+        1.7499641938443526,
+        1.9999999494757503
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        67,
+        31,
+        0
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        0,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 181,
+      "compute_ms": {
+        "n": 181,
+        "min": 7.278528,
+        "p50": 22.250673,
+        "p95": 42.665749,
+        "p99": 44.92733299999994,
+        "max": 64.754155
+      },
+      "compute_over100": 0,
+      "native_errors": 0,
+      "candidate_epoch_to_consume_ms": {
+        "n": 181,
+        "min": 6.0,
+        "p50": 20.0,
+        "p95": 40.0,
+        "p99": 42.19999999999993,
+        "max": 63.0
+      },
+      "input_pose_to_entry_ms": {
+        "n": 181,
+        "min": 7.0,
+        "p50": 7.0,
+        "p95": 8.0,
+        "p99": 8.0,
+        "max": 8.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 181
+      },
+      "prediction_receipt_to_consume_ms": {
+        "n": 181,
+        "min": 0.0,
+        "p50": 40.0,
+        "p95": 90.0,
+        "p99": 128.0,
+        "max": 159.0
+      },
+      "prediction_age_ms": {
+        "n": 181,
+        "min": 28.0,
+        "p50": 90.00000000000001,
+        "p95": 128.0,
+        "p99": 160.39999999999998,
+        "max": 191.0
+      },
+      "prediction_reason_counts": {
+        "": 181
+      },
+      "temporal_scored_cycles": 181,
+      "temporal_valid_cycles": 181,
+      "consumed_nonzero": 39,
+      "zero_safe_candidates": 0,
+      "output_gap_ms": {
+        "n": 360,
+        "min": 42.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "p99": 53.0,
+        "max": 58.0
+      },
+      "output_gap_over100": 0,
+      "zero_hold_output_gap_ms": {
+        "n": 1,
+        "min": 50.0,
+        "p50": 50.0,
+        "p95": 50.0,
+        "p99": 50.0,
+        "max": 50.0
+      },
+      "active_output_gap_ms": {
+        "n": 359,
+        "min": 42.0,
+        "p50": 50.0,
+        "p95": 51.0,
+        "p99": 53.0,
+        "max": 58.0
+      },
+      "output_max_command": [
+        0.494198739528656,
+        0.23922641575336456,
+        0.4030311703681946
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 35,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": null,
+      "aggregate_unsafe_circle_proxy_cycles": 12,
+      "optimistic_circle_proxy_cycles": 12,
+      "snapshots": [
+        {
+          "epoch_ns": 6627000000,
+          "t": 2.622,
+          "predicted_aggregate_circle_clearance": 0.06513320936360056,
+          "actual_aggregate_circle_proxy_clearance": 0.062359989551037165,
+          "GT_full30": true,
+          "best_raw_index_before_gamma": 247,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.09155096858739853,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.5125293731689453,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 1.428876280784607,
+            "TemporalResearchCritic": 0.7509973049163818
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.02278527058660984,
+              "p95": 0.13928020596504218,
+              "p99": 0.1966996005177496,
+              "max": 0.320565789937973
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.29604092240333557,
+              "p50": 1.0943599343299866,
+              "p95": 2.4058540701866153,
+              "p99": 2.9302511072158812,
+              "max": 3.1816296577453613
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.9130570888519287,
+              "p50": 2.4734537601470947,
+              "p95": 3.4012464046478272,
+              "p99": 3.918452653884887,
+              "max": 4.507745742797852
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.04211091995239258,
+              "p50": 0.6120114326477051,
+              "p95": 18286.833203125097,
+              "p99": 123975.84898437478,
+              "max": 261410.234375
+            }
+          },
+          "command": [
+            0.09542964398860931,
+            -0.021041791886091232,
+            0.09715000540018082
+          ],
+          "prediction_reason": ""
+        },
+        {
+          "epoch_ns": 6827000000,
+          "t": 2.822,
+          "predicted_aggregate_circle_clearance": 0.0261808279886121,
+          "actual_aggregate_circle_proxy_clearance": 0.023111760623175215,
+          "GT_full30": true,
+          "best_raw_index_before_gamma": 247,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.12161407619714737,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.3812033236026764,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 1.3981029987335205,
+            "TemporalResearchCritic": 0.9936051368713379
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.06422528252005577,
+              "p95": 0.2094862684607506,
+              "p99": 0.29282887101173377,
+              "max": 0.39725062251091003
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 500.0,
+              "p99": 500.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.1970120072364807,
+              "p50": 0.9621562063694,
+              "p95": 2.270100402832032,
+              "p99": 2.748047206401823,
+              "max": 2.99725341796875
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.9239906072616577,
+              "p50": 2.476363778114319,
+              "p95": 3.4841504216194155,
+              "p99": 3.9266678404808046,
+              "max": 4.468698501586914
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.13631248474121094,
+              "p50": 0.8480275869369507,
+              "p95": 80801.21679687506,
+              "p99": 206535.75890624907,
+              "max": 399553.46875
+            }
+          },
+          "command": [
+            0.07457800209522247,
+            -0.020331840962171555,
+            0.07968683540821075
+          ],
+          "prediction_reason": ""
+        }
+      ],
+      "active_track_counts": {
+        "n": 181,
+        "min": 1,
+        "p50": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1
+      },
+      "forecast_center_error_m": {
+        "0": {
+          "n": 180,
+          "min": 0.17625610070386902,
+          "p50": 0.19626180282204808,
+          "p95": 0.27450841594588354,
+          "p99": 0.2762575719950523,
+          "max": 0.2790909652528442
+        },
+        "1": {
+          "n": 172,
+          "min": 0.04324077250729328,
+          "p50": 0.20942789926114974,
+          "p95": 0.41582642758629257,
+          "p99": 0.5107640762794624,
+          "max": 0.5205100574618471
+        },
+        "3": {
+          "n": 151,
+          "min": 0.12023246388989728,
+          "p50": 0.3828761529780307,
+          "p95": 1.4828078560687783,
+          "p99": 1.525210095309488,
+          "max": 1.5312811529030468
+        }
+      },
+      "heldout": true,
+      "tap": {
+        "error": false,
+        "error_tail": null,
+        "receipt_count": 1807,
+        "publishers": {
+          "/cmd_vel_nav": [
+            "controller_server",
+            "r4_comparison_recorder"
+          ],
+          "/cmd_vel": [
+            "behavior_server",
+            "velocity_smoother"
+          ],
+          "/simulation/chassis/cmd_vel": [
+            "chassis_interface_stub"
+          ]
+        },
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": {
+              "n": 181,
+              "min": 0.641344,
+              "p50": 99.864385,
+              "p95": 105.574633,
+              "p99": 132.63113199999995,
+              "max": 143.350899
+            },
+            "sim_ms": {
+              "n": 181,
+              "min": 1.0,
+              "p50": 100.0,
+              "p95": 105.0,
+              "p99": 132.99999999999994,
+              "max": 144.0
+            },
+            "RTF": {
+              "n": 181,
+              "min": 0.990554076328135,
+              "p50": 1.000514450798049,
+              "p95": 1.0059809852462231,
+              "p99": 1.0103611380303972,
+              "max": 1.5592256261850115
+            }
+          },
+          "/cmd_vel": {
+            "wall_ms": {
+              "n": 360,
+              "min": 49.485326,
+              "p50": 50.007466,
+              "p95": 50.29203705,
+              "p99": 50.40074883,
+              "max": 50.55719
+            },
+            "sim_ms": {
+              "n": 360,
+              "min": 49.0,
+              "p50": 50.0,
+              "p95": 50.0,
+              "p99": 50.0,
+              "max": 51.0
+            },
+            "RTF": {
+              "n": 360,
+              "min": 0.9889790156454502,
+              "p50": 0.9998507023914959,
+              "p95": 1.0059411791401092,
+              "p99": 1.0081408720961211,
+              "max": 1.010400537727083
+            }
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": {
+              "n": 360,
+              "min": 49.090552,
+              "p50": 50.010619000000005,
+              "p95": 50.43523085,
+              "p99": 50.65827991,
+              "max": 50.886484
+            },
+            "sim_ms": {
+              "n": 360,
+              "min": 49.0,
+              "p50": 50.0,
+              "p95": 51.0,
+              "p99": 51.0,
+              "max": 51.0
+            },
+            "RTF": {
+              "n": 360,
+              "min": 0.9828960047885089,
+              "p50": 0.9997876662714277,
+              "p95": 1.0094894569150143,
+              "p99": 1.014485537731163,
+              "max": 1.0181547980594767
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": "crossing_D_29_aligned",
+      "scene": "crossing",
+      "group": "D",
+      "seed": 29,
+      "phase": "finite",
+      "startup": false,
+      "outcome": "goal_result",
+      "result_status": 4,
+      "contact_messages": 0,
+      "native_events": 0,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 0,
+      "cohort": "fresh",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "execution_receipts.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "execution_endpoints.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 14.58,
+      "success": true,
+      "arrival_s": 14.58,
+      "body_clearance_m": 0.37627545125711553,
+      "overlap_samples": 0,
+      "truth_samples": 729,
+      "truth_gap_ms": {
+        "n": 728,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": null,
+      "wall_overlap_samples": 0,
+      "safe_success": true,
+      "wait_s": 0.12000000000000001,
+      "longest_stall_s": 0.12000000000000001,
+      "start_count": 1,
+      "forward_flips": 0,
+      "max_retreat_m": 0,
+      "path_length_m": 3.9407152100709713,
+      "actual_max_velocity": [
+        0.3719704525764953,
+        0.34267078811558926,
+        0.3810719063039869
+      ],
+      "actual_max_acceleration": [
+        1.72995405114511,
+        1.6899266822614798,
+        1.9999998767161742
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        30,
+        14,
+        0
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        0,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 146,
+      "compute_ms": {
+        "n": 146,
+        "min": 7.20905,
+        "p50": 25.484307,
+        "p95": 40.482635,
+        "p99": 43.2763052,
+        "max": 44.008944
+      },
+      "compute_over100": 0,
+      "native_errors": 0,
+      "candidate_epoch_to_consume_ms": {
+        "n": 146,
+        "min": 5.0,
+        "p50": 22.0,
+        "p95": 38.0,
+        "p99": 39.55000000000001,
+        "max": 40.0
+      },
+      "input_pose_to_entry_ms": {
+        "n": 146,
+        "min": 6.0,
+        "p50": 8.0,
+        "p95": 8.0,
+        "p99": 8.0,
+        "max": 8.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 146
+      },
+      "prediction_receipt_to_consume_ms": {
+        "n": 146,
+        "min": 0.0,
+        "p50": 34.0,
+        "p95": 103.0,
+        "p99": 167.5500000000007,
+        "max": 197.0
+      },
+      "prediction_age_ms": {
+        "n": 146,
+        "min": 30.000000000000004,
+        "p50": 69.0,
+        "p95": 136.0,
+        "p99": 198.5500000000007,
+        "max": 229.0
+      },
+      "prediction_reason_counts": {
+        "": 146
+      },
+      "temporal_scored_cycles": 146,
+      "temporal_valid_cycles": 146,
+      "consumed_nonzero": 46,
+      "zero_safe_candidates": 0,
+      "output_gap_ms": {
+        "n": 291,
+        "min": 47.0,
+        "p50": 50.0,
+        "p95": 52.0,
+        "p99": 53.0,
+        "max": 53.0
+      },
+      "output_gap_over100": 0,
+      "zero_hold_output_gap_ms": {
+        "n": 2,
+        "min": 49.0,
+        "p50": 49.5,
+        "p95": 49.95,
+        "p99": 49.99,
+        "max": 50.0
+      },
+      "active_output_gap_ms": {
+        "n": 289,
+        "min": 47.0,
+        "p50": 50.0,
+        "p95": 52.0,
+        "p99": 53.0,
+        "max": 53.0
+      },
+      "output_max_command": [
+        0.37198013067245483,
+        0.3426465690135956,
+        0.38107195496559143
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 43,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": {
+        "n": 729,
+        "min": 4.8616551673319464e-08,
+        "p50": 6.821908091003692e-05,
+        "p95": 0.0003478686188536528,
+        "p99": 0.00039950679218294207,
+        "max": 0.00040675378923871186
+      },
+      "aggregate_unsafe_circle_proxy_cycles": 0,
+      "optimistic_circle_proxy_cycles": 0,
+      "snapshots": [
+        {
+          "epoch_ns": 6628000000,
+          "t": 2.623,
+          "predicted_aggregate_circle_clearance": 0.1418058496705905,
+          "actual_aggregate_circle_proxy_clearance": 0.14639707985939177,
+          "GT_full30": true,
+          "best_raw_index_before_gamma": 232,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.06807313114404678,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.24806401133537292,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 1.1549508571624756,
+            "TemporalResearchCritic": 1.0979290008544922
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.054025674238801,
+              "p95": 0.1788959637284279,
+              "p99": 0.2528822392225263,
+              "max": 0.2875242233276367
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 4.9999999999954525,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.21454498171806335,
+              "p50": 0.7941696047782898,
+              "p95": 1.5894634902477267,
+              "p99": 2.1850257253646843,
+              "max": 2.4768102169036865
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.9489395618438721,
+              "p50": 2.38302743434906,
+              "p95": 3.238960874080658,
+              "p99": 3.4402341961860645,
+              "max": 3.7911217212677
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.007395267486572266,
+              "p50": 0.40635812282562256,
+              "p95": 1159.079107666025,
+              "p99": 18249.265371093352,
+              "max": 183702.90625
+            }
+          },
+          "command": [
+            0.1890897899866104,
+            0.05842362344264984,
+            -0.28558149933815
+          ],
+          "prediction_reason": ""
+        },
+        {
+          "epoch_ns": 6828000000,
+          "t": 2.823,
+          "predicted_aggregate_circle_clearance": 0.1462788264002739,
+          "actual_aggregate_circle_proxy_clearance": 0.15084371333477442,
+          "GT_full30": true,
+          "best_raw_index_before_gamma": 232,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.10629873722791672,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.29528868198394775,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 1.0880742073059082,
+            "TemporalResearchCritic": 1.0521246194839478
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.07585884630680084,
+              "p95": 0.21491463854908946,
+              "p99": 0.3004677483439444,
+              "max": 0.3209300935268402
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 500.0,
+              "p99": 500.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.1629006564617157,
+              "p50": 0.8478289842605591,
+              "p95": 1.6582676649093628,
+              "p99": 2.247391967773437,
+              "max": 2.46942138671875
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.9512280225753784,
+              "p50": 2.3523669242858887,
+              "p95": 3.2137341737747196,
+              "p99": 3.4966733121871942,
+              "max": 3.857330560684204
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.009857177734375,
+              "p50": 0.4087725877761841,
+              "p95": 452.0133712768569,
+              "p99": 16745.254062499727,
+              "max": 179545.796875
+            }
+          },
+          "command": [
+            0.18583039939403534,
+            0.07321900129318237,
+            -0.30355721712112427
+          ],
+          "prediction_reason": ""
+        }
+      ],
+      "active_track_counts": {
+        "n": 146,
+        "min": 1,
+        "p50": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1
+      },
+      "forecast_center_error_m": {
+        "0": {
+          "n": 146,
+          "min": 2.182327785149596e-08,
+          "p50": 7.021441056183353e-05,
+          "p95": 0.0003432590316945344,
+          "p99": 0.0003940906978906256,
+          "max": 0.00039792929902215946
+        },
+        "1": {
+          "n": 137,
+          "min": 1.3935753084837188e-07,
+          "p50": 6.750515136372259e-05,
+          "p95": 0.0003409031141699103,
+          "p99": 0.00039262656045361036,
+          "max": 0.0004043109410838408
+        },
+        "3": {
+          "n": 117,
+          "min": 3.278421223384953e-08,
+          "p50": 4.303267932925792e-05,
+          "p95": 0.00036026076453001785,
+          "p99": 0.000399686980951115,
+          "max": 0.0004006557890379181
+        }
+      },
+      "heldout": false,
+      "tap": {
+        "error": false,
+        "error_tail": null,
+        "receipt_count": 1460,
+        "publishers": {
+          "/cmd_vel_nav": [
+            "controller_server",
+            "r4_comparison_recorder"
+          ],
+          "/cmd_vel": [
+            "behavior_server",
+            "velocity_smoother"
+          ],
+          "/simulation/chassis/cmd_vel": [
+            "chassis_interface_stub"
+          ]
+        },
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": {
+              "n": 146,
+              "min": 0.271611,
+              "p50": 100.056336,
+              "p95": 105.3287985,
+              "p99": 131.3407287,
+              "max": 145.617715
+            },
+            "sim_ms": {
+              "n": 146,
+              "min": 0.0,
+              "p50": 100.0,
+              "p95": 105.75,
+              "p99": 131.0,
+              "max": 146.0
+            },
+            "RTF": {
+              "n": 146,
+              "min": 0.0,
+              "p50": 0.9999572959281806,
+              "p95": 1.0072263121328564,
+              "p99": 1.009026671351954,
+              "max": 1.010323198286694
+            }
+          },
+          "/cmd_vel": {
+            "wall_ms": {
+              "n": 291,
+              "min": 48.964955,
+              "p50": 50.007306,
+              "p95": 50.196895,
+              "p99": 50.337807000000005,
+              "max": 50.962514
+            },
+            "sim_ms": {
+              "n": 291,
+              "min": 49.0,
+              "p50": 50.0,
+              "p95": 50.0,
+              "p99": 50.0,
+              "max": 51.0
+            },
+            "RTF": {
+              "n": 291,
+              "min": 0.9793220153687602,
+              "p50": 0.9998631387335701,
+              "p95": 1.0038870603171886,
+              "p99": 1.0064984820402596,
+              "max": 1.0123360491993731
+            }
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": {
+              "n": 291,
+              "min": 49.295167,
+              "p50": 50.013599,
+              "p95": 50.477914,
+              "p99": 50.5778119,
+              "max": 50.735746
+            },
+            "sim_ms": {
+              "n": 291,
+              "min": 48.0,
+              "p50": 50.0,
+              "p95": 50.0,
+              "p99": 51.0,
+              "max": 51.0
+            },
+            "RTF": {
+              "n": 291,
+              "min": 0.961023066715903,
+              "p50": 0.9996703886794446,
+              "p95": 1.0104899707391006,
+              "p99": 1.023389356445946,
+              "max": 1.0262497584037027
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": "narrow_C_29_aligned",
+      "scene": "narrow",
+      "group": "C",
+      "seed": 29,
+      "phase": "finite",
+      "startup": false,
+      "outcome": "goal_result",
+      "result_status": 4,
+      "contact_messages": 0,
+      "native_events": 4,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 2,
+      "cohort": "fresh",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "execution_receipts.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "execution_endpoints.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 20.606,
+      "success": true,
+      "arrival_s": 20.606,
+      "body_clearance_m": 0.3773933390778792,
+      "overlap_samples": 0,
+      "truth_samples": 1030,
+      "truth_gap_ms": {
+        "n": 1029,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": 0.22225235321946263,
+      "wall_overlap_samples": 0,
+      "safe_success": true,
+      "wait_s": 2.740000000000002,
+      "longest_stall_s": 2.4200000000000017,
+      "start_count": 4,
+      "forward_flips": 2,
+      "max_retreat_m": 0.48407867461668197,
+      "path_length_m": 4.959240868838984,
+      "actual_max_velocity": [
+        0.4926111783950235,
+        0.377213285533854,
+        1.199999824166298
+      ],
+      "actual_max_acceleration": [
+        1.7302034081879107,
+        1.7300043714397833,
+        2.0000006770715117
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        115,
+        62,
+        28
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        39,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 180,
+      "compute_ms": {
+        "n": 180,
+        "min": 6.567252,
+        "p50": 26.634833999999998,
+        "p95": 41.079772599999984,
+        "p99": 42.59238292,
+        "max": 49.666583
+      },
+      "compute_over100": 0,
+      "native_errors": 4,
+      "candidate_epoch_to_consume_ms": {
+        "n": 179,
+        "min": 4.0,
+        "p50": 25.0,
+        "p95": 39.0,
+        "p99": 39.22,
+        "max": 49.0
+      },
+      "input_pose_to_entry_ms": {
+        "n": 180,
+        "min": 1.0,
+        "p50": 6.0,
+        "p95": 11.0,
+        "p99": 12.210000000000008,
+        "max": 17.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 176
+      },
+      "prediction_receipt_to_consume_ms": {
+        "n": 179,
+        "min": 0.0,
+        "p50": 36.0,
+        "p95": 90.1,
+        "p99": 146.1399999999999,
+        "max": 215.0
+      },
+      "prediction_age_ms": {
+        "n": 176,
+        "min": 56.0,
+        "p50": 95.0,
+        "p95": 157.0,
+        "p99": 236.5,
+        "max": 265.0
+      },
+      "prediction_reason_counts": {
+        "": 176,
+        "not_scored": 1,
+        "observation_anchor_epoch": 1,
+        "stale_observation": 2
+      },
+      "temporal_scored_cycles": 179,
+      "temporal_valid_cycles": 176,
+      "consumed_nonzero": 79,
+      "zero_safe_candidates": 2,
+      "output_gap_ms": {
+        "n": 403,
+        "min": 15.0,
+        "p50": 50.0,
+        "p95": 59.799999999999955,
+        "p99": 100.98000000000002,
+        "max": 118.0
+      },
+      "output_gap_over100": 5,
+      "zero_hold_output_gap_ms": {
+        "n": 13,
+        "min": 32.0,
+        "p50": 49.0,
+        "p95": 77.7999999999999,
+        "p99": 109.95999999999994,
+        "max": 118.0
+      },
+      "active_output_gap_ms": {
+        "n": 390,
+        "min": 15.0,
+        "p50": 50.0,
+        "p95": 59.09999999999991,
+        "p99": 100.11000000000001,
+        "max": 102.0
+      },
+      "output_max_command": [
+        0.49257609248161316,
+        0.3772680461406708,
+        1.2
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 43,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": {
+        "n": 1030,
+        "min": 1.4381713597799717e-09,
+        "p50": 2.6573901825921453e-05,
+        "p95": 0.00031307300876374925,
+        "p99": 0.00043936512972505925,
+        "max": 0.0004731240358738509
+      },
+      "aggregate_unsafe_circle_proxy_cycles": 14,
+      "optimistic_circle_proxy_cycles": 13,
+      "snapshots": [
+        {
+          "epoch_ns": 6797000000,
+          "t": 2.792,
+          "predicted_aggregate_circle_clearance": 0.16705533431384734,
+          "actual_aggregate_circle_proxy_clearance": 0.2608898374734532,
+          "GT_full30": true,
+          "best_raw_index_before_gamma": 180,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.0,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.0,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 1.9696017503738403,
+            "TemporalResearchCritic": 0.7168523073196411
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0415620155632496,
+              "p99": 0.08413529120385636,
+              "max": 0.10396435111761093
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.9179847836494446,
+              "p50": 2.229721188545227,
+              "p95": 3.133843302726746,
+              "p99": 3.3860605335235596,
+              "max": 3.943859100341797
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.08281254768371582,
+              "p50": 1.097162902355194,
+              "p95": 123688.64335937503,
+              "p99": 323257.06812499935,
+              "max": 529378.125
+            }
+          },
+          "command": [
+            -0.012638933025300503,
+            0.012739479541778564,
+            0.032996244728565216
+          ],
+          "prediction_reason": ""
+        }
+      ],
+      "active_track_counts": {
+        "n": 180,
+        "min": 0,
+        "p50": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1
+      },
+      "forecast_center_error_m": {
+        "0": {
+          "n": 105,
+          "min": 0.22244610885482397,
+          "p50": 0.2731276505357829,
+          "p95": 0.3096004607605683,
+          "p99": 0.3539462349412675,
+          "max": 0.36075019759478233
+        },
+        "1": {
+          "n": 105,
+          "min": 0.2035865831000152,
+          "p50": 0.29268650358583714,
+          "p95": 0.4275360469962157,
+          "p99": 0.4629226375918743,
+          "max": 0.47153188165630205
+        },
+        "3": {
+          "n": 105,
+          "min": 0.02702895094210573,
+          "p50": 0.3720520790289026,
+          "p95": 0.7779578798695032,
+          "p99": 0.791981342094903,
+          "max": 0.7923385193966674
+        }
+      },
+      "heldout": false,
+      "tap": {
+        "error": false,
+        "error_tail": null,
+        "receipt_count": 2019,
+        "publishers": {
+          "/cmd_vel_nav": [
+            "controller_server",
+            "r4_comparison_recorder"
+          ],
+          "/cmd_vel": [
+            "behavior_server",
+            "velocity_smoother"
+          ],
+          "/simulation/chassis/cmd_vel": [
+            "chassis_interface_stub"
+          ]
+        },
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": {
+              "n": 180,
+              "min": 0.587524,
+              "p50": 99.9344025,
+              "p95": 105.19309339999992,
+              "p99": 143.3994151100002,
+              "max": 2799.681224
+            },
+            "sim_ms": {
+              "n": 180,
+              "min": 1.0,
+              "p50": 100.0,
+              "p95": 105.24999999999991,
+              "p99": 143.2500000000002,
+              "max": 2800.0
+            },
+            "RTF": {
+              "n": 180,
+              "min": 0.980917394802323,
+              "p50": 1.000079782119073,
+              "p95": 1.005722631645868,
+              "p99": 1.0083990007300854,
+              "max": 1.702058128689211
+            }
+          },
+          "/cmd_vel": {
+            "wall_ms": {
+              "n": 403,
+              "min": 17.254257,
+              "p50": 50.002443,
+              "p95": 50.4453062,
+              "p99": 100.1910425,
+              "max": 117.134441
+            },
+            "sim_ms": {
+              "n": 403,
+              "min": 17.0,
+              "p50": 50.0,
+              "p95": 51.0,
+              "p99": 100.0,
+              "max": 117.0
+            },
+            "RTF": {
+              "n": 403,
+              "min": 0.9608337731149582,
+              "p50": 0.9999235458456847,
+              "p95": 1.0083965688124654,
+              "p99": 1.018412564273241,
+              "max": 1.0229788959453767
+            }
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": {
+              "n": 403,
+              "min": 17.325076,
+              "p50": 50.002641,
+              "p95": 50.7101606,
+              "p99": 100.14270133999999,
+              "max": 117.223349
+            },
+            "sim_ms": {
+              "n": 403,
+              "min": 18.0,
+              "p50": 50.0,
+              "p95": 51.0,
+              "p99": 100.0,
+              "max": 118.0
+            },
+            "RTF": {
+              "n": 403,
+              "min": 0.9596773372856578,
+              "p50": 0.9998764752602464,
+              "p95": 1.0163676251115263,
+              "p99": 1.0223901685743029,
+              "max": 1.0389564813453056
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": "narrow_C_83_aligned",
+      "scene": "narrow",
+      "group": "C",
+      "seed": 83,
+      "phase": "pilot",
+      "startup": false,
+      "outcome": "goal_result",
+      "result_status": 4,
+      "contact_messages": 0,
+      "native_events": 6,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 2,
+      "cohort": "fresh",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "execution_receipts.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "execution_endpoints.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 25.629,
+      "success": true,
+      "arrival_s": 25.629,
+      "body_clearance_m": 0.19635442003237943,
+      "overlap_samples": 0,
+      "truth_samples": 1281,
+      "truth_gap_ms": {
+        "n": 1280,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": 0.19193137269343363,
+      "wall_overlap_samples": 0,
+      "safe_success": true,
+      "wait_s": 6.979999999999939,
+      "longest_stall_s": 4.59999999999999,
+      "start_count": 3,
+      "forward_flips": 4,
+      "max_retreat_m": 0.49118898897923946,
+      "path_length_m": 5.230207296641263,
+      "actual_max_velocity": [
+        0.49679993182552573,
+        0.4967412037256409,
+        1.199999824166298
+      ],
+      "actual_max_acceleration": [
+        1.9999999855765642,
+        1.7506408045920019,
+        2.0000011863885447
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        160,
+        147,
+        32
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        12,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 181,
+      "compute_ms": {
+        "n": 181,
+        "min": 4.113335,
+        "p50": 16.681372,
+        "p95": 31.72117,
+        "p99": 37.495280799999996,
+        "max": 39.837466
+      },
+      "compute_over100": 0,
+      "native_errors": 6,
+      "candidate_epoch_to_consume_ms": {
+        "n": 178,
+        "min": 3.0,
+        "p50": 13.5,
+        "p95": 30.0,
+        "p99": 36.0,
+        "max": 37.0
+      },
+      "input_pose_to_entry_ms": {
+        "n": 181,
+        "min": 6.0,
+        "p50": 15.0,
+        "p95": 17.0,
+        "p99": 18.0,
+        "max": 18.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 175
+      },
+      "prediction_receipt_to_consume_ms": {
+        "n": 178,
+        "min": 0.0,
+        "p50": 35.5,
+        "p95": 89.15,
+        "p99": 126.22999999999999,
+        "max": 159.0
+      },
+      "prediction_age_ms": {
+        "n": 175,
+        "min": 43.0,
+        "p50": 100.0,
+        "p95": 151.6999999999997,
+        "p99": 181.27999999999977,
+        "max": 211.00000000000003
+      },
+      "prediction_reason_counts": {
+        "": 175,
+        "not_scored": 3,
+        "observation_anchor_epoch": 1,
+        "stale_observation": 2
+      },
+      "temporal_scored_cycles": 178,
+      "temporal_valid_cycles": 175,
+      "consumed_nonzero": 72,
+      "zero_safe_candidates": 16,
+      "output_gap_ms": {
+        "n": 423,
+        "min": 1.0,
+        "p50": 50.0,
+        "p95": 54.799999999999955,
+        "p99": 101.0,
+        "max": 3626.0
+      },
+      "output_gap_over100": 6,
+      "zero_hold_output_gap_ms": {
+        "n": 22,
+        "min": 1.0,
+        "p50": 50.0,
+        "p95": 501.7499999999997,
+        "p99": 2974.369999999997,
+        "max": 3626.0
+      },
+      "active_output_gap_ms": {
+        "n": 401,
+        "min": 1.0,
+        "p50": 50.0,
+        "p95": 53.0,
+        "p99": 100.0,
+        "max": 103.0
+      },
+      "output_max_command": [
+        0.4968116879463196,
+        0.4967440962791443,
+        1.2
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 50,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": null,
+      "aggregate_unsafe_circle_proxy_cycles": 17,
+      "optimistic_circle_proxy_cycles": 14,
+      "snapshots": [
+        {
+          "epoch_ns": 6826000000,
+          "t": 2.821,
+          "predicted_aggregate_circle_clearance": null,
+          "actual_aggregate_circle_proxy_clearance": null,
+          "GT_full30": false,
+          "best_raw_index_before_gamma": 242,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.0075235129334032536
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0075235129334032536,
+              "p50": 0.20307470858097076,
+              "p95": 0.42472188621759416,
+              "p99": 0.5397496902942657,
+              "max": 0.8020913600921631
+            }
+          },
+          "command": null,
+          "prediction_reason": null
+        }
+      ],
+      "active_track_counts": {
+        "n": 181,
+        "min": 0,
+        "p50": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1
+      },
+      "forecast_center_error_m": {
+        "0": {
+          "n": 102,
+          "min": 0.2126763415934436,
+          "p50": 0.27197056972967104,
+          "p95": 0.3213828946199917,
+          "p99": 0.3283561097253694,
+          "max": 0.3289692407656883
+        },
+        "1": {
+          "n": 102,
+          "min": 0.02589348220673154,
+          "p50": 0.2759742908350367,
+          "p95": 0.4087951189161359,
+          "p99": 0.44867623626717296,
+          "max": 0.4582240876240841
+        },
+        "3": {
+          "n": 102,
+          "min": 0.061118445789203946,
+          "p50": 0.4532164386624889,
+          "p95": 0.7565092894427864,
+          "p99": 0.8169072109301235,
+          "max": 0.8320292017696107
+        }
+      },
+      "heldout": true,
+      "tap": {
+        "error": false,
+        "error_tail": null,
+        "receipt_count": 2310,
+        "publishers": {
+          "/cmd_vel_nav": [
+            "controller_server",
+            "r4_comparison_recorder"
+          ],
+          "/cmd_vel": [
+            "behavior_server",
+            "velocity_smoother"
+          ],
+          "/simulation/chassis/cmd_vel": [
+            "chassis_interface_stub"
+          ]
+        },
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": {
+              "n": 181,
+              "min": 0.794477,
+              "p50": 99.912435,
+              "p95": 118.082138,
+              "p99": 667.60604859997,
+              "max": 5079.593267
+            },
+            "sim_ms": {
+              "n": 181,
+              "min": 1.0,
+              "p50": 100.0,
+              "p95": 118.0,
+              "p99": 667.39999999997,
+              "max": 5079.0
+            },
+            "RTF": {
+              "n": 181,
+              "min": 0.9711742375444596,
+              "p50": 1.000014424450486,
+              "p95": 1.0063781148370325,
+              "p99": 1.0093966658761997,
+              "max": 1.2586896788705022
+            }
+          },
+          "/cmd_vel": {
+            "wall_ms": {
+              "n": 422,
+              "min": 1.489597,
+              "p50": 50.003094000000004,
+              "p95": 50.5708966,
+              "p99": 100.26095982000001,
+              "max": 4150.149208
+            },
+            "sim_ms": {
+              "n": 422,
+              "min": 1.0,
+              "p50": 50.0,
+              "p95": 50.0,
+              "p99": 100.79000000000002,
+              "max": 4150.0
+            },
+            "RTF": {
+              "n": 422,
+              "min": 0.6037433293908894,
+              "p50": 0.9999554951864496,
+              "p95": 1.0071701237761264,
+              "p99": 1.1173182957873369,
+              "max": 1.3426450241239745
+            }
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": {
+              "n": 423,
+              "min": 1.420086,
+              "p50": 50.007664,
+              "p95": 50.8175405,
+              "p99": 100.32886606,
+              "max": 3627.422944
+            },
+            "sim_ms": {
+              "n": 423,
+              "min": 2.0,
+              "p50": 50.0,
+              "p95": 51.0,
+              "p99": 100.0,
+              "max": 3628.0
+            },
+            "RTF": {
+              "n": 423,
+              "min": 0.975076313153678,
+              "p50": 0.9998870727540031,
+              "p95": 1.0115760508448897,
+              "p99": 1.2026672714322504,
+              "max": 1.40836540885552
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": "wait_release_C_13_aligned",
+      "scene": "wait_release",
+      "group": "C",
+      "seed": 13,
+      "phase": "finite",
+      "startup": false,
+      "outcome": "goal_result",
+      "result_status": 4,
+      "contact_messages": 0,
+      "native_events": 4,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 2,
+      "cohort": "fresh",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "execution_receipts.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "execution_endpoints.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 20.17,
+      "success": true,
+      "arrival_s": 20.17,
+      "body_clearance_m": 0.5091132657588995,
+      "overlap_samples": 0,
+      "truth_samples": 1008,
+      "truth_gap_ms": {
+        "n": 1007,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": 0.1767624947806533,
+      "wall_overlap_samples": 0,
+      "safe_success": true,
+      "wait_s": 2.700000000000002,
+      "longest_stall_s": 2.5000000000000018,
+      "start_count": 4,
+      "forward_flips": 6,
+      "max_retreat_m": 0.19038428366731375,
+      "path_length_m": 4.617417118723467,
+      "actual_max_velocity": [
+        0.5000136555800548,
+        0.3501849977659453,
+        1.199999824166298
+      ],
+      "actual_max_acceleration": [
+        1.9999997929360482,
+        1.6304505212536433,
+        2.0000006770715117
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        71,
+        33,
+        22
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        19,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 175,
+      "compute_ms": {
+        "n": 175,
+        "min": 6.521855,
+        "p50": 19.36868,
+        "p95": 37.804539299999995,
+        "p99": 41.36304824,
+        "max": 42.453893
+      },
+      "compute_over100": 0,
+      "native_errors": 4,
+      "candidate_epoch_to_consume_ms": {
+        "n": 174,
+        "min": 5.0,
+        "p50": 17.0,
+        "p95": 36.0,
+        "p99": 39.0,
+        "max": 40.0
+      },
+      "input_pose_to_entry_ms": {
+        "n": 175,
+        "min": 7.0,
+        "p50": 9.0,
+        "p95": 16.0,
+        "p99": 17.0,
+        "max": 19.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 171
+      },
+      "prediction_receipt_to_consume_ms": {
+        "n": 174,
+        "min": 1.0,
+        "p50": 31.0,
+        "p95": 91.44999999999996,
+        "p99": 200.08000000000004,
+        "max": 277.0
+      },
+      "prediction_age_ms": {
+        "n": 171,
+        "min": 72.00000000000001,
+        "p50": 107.00000000000001,
+        "p95": 174.00000000000003,
+        "p99": 273.3,
+        "max": 342.0
+      },
+      "prediction_reason_counts": {
+        "": 171,
+        "not_scored": 1,
+        "stale_observation": 3
+      },
+      "temporal_scored_cycles": 174,
+      "temporal_valid_cycles": 171,
+      "consumed_nonzero": 65,
+      "zero_safe_candidates": 2,
+      "output_gap_ms": {
+        "n": 395,
+        "min": 18.0,
+        "p50": 50.0,
+        "p95": 55.899999999999864,
+        "p99": 100.0,
+        "max": 102.0
+      },
+      "output_gap_over100": 2,
+      "zero_hold_output_gap_ms": {
+        "n": 15,
+        "min": 19.0,
+        "p50": 48.0,
+        "p95": 59.89999999999996,
+        "p99": 78.37999999999998,
+        "max": 83.0
+      },
+      "active_output_gap_ms": {
+        "n": 380,
+        "min": 18.0,
+        "p50": 50.0,
+        "p95": 55.150000000000034,
+        "p99": 100.0,
+        "max": 102.0
+      },
+      "output_max_command": [
+        0.5,
+        0.35025060176849365,
+        1.2
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 42,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": {
+        "n": 1008,
+        "min": 1.2582574981934158e-09,
+        "p50": 1.8549578003290712e-05,
+        "p95": 0.0002752403630117361,
+        "p99": 0.0003612003736375585,
+        "max": 0.00039893918795086414
+      },
+      "aggregate_unsafe_circle_proxy_cycles": 24,
+      "optimistic_circle_proxy_cycles": 20,
+      "snapshots": [
+        {
+          "epoch_ns": 6769000000,
+          "t": 2.764,
+          "predicted_aggregate_circle_clearance": -0.025885205631104413,
+          "actual_aggregate_circle_proxy_clearance": -0.02813803205825466,
+          "GT_full30": true,
+          "best_raw_index_before_gamma": 47,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.0,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 1.7984999418258667,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 5.055858135223389,
+            "TemporalResearchCritic": 1.2057557106018066
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.07590034529566768,
+              "p99": 0.10856815598905085,
+              "max": 0.13378694653511047
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 500.0,
+              "p99": 500.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.9117431640625,
+              "p50": 2.5750187635421753,
+              "p95": 3.771635437011719,
+              "p99": 4.200553588867186,
+              "max": 4.96356201171875
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 4.39984130859375,
+              "p50": 5.886653900146484,
+              "p95": 6.846565246582031,
+              "p99": 7.1602290725708,
+              "max": 7.304656982421875
+            },
+            "TemporalResearchCritic": {
+              "n": 300,
+              "min": 0.523345947265625,
+              "p50": 1.4414680004119873,
+              "p95": 95747.34023437506,
+              "p99": 234804.5907812497,
+              "max": 326072.375
+            }
+          },
+          "command": [
+            -0.15594270825386047,
+            -0.12788033485412598,
+            0.3273670971393585
+          ],
+          "prediction_reason": ""
+        }
+      ],
+      "active_track_counts": {
+        "n": 175,
+        "min": 0,
+        "p50": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1
+      },
+      "forecast_center_error_m": {
+        "0": {
+          "n": 112,
+          "min": 0.21955687482318323,
+          "p50": 0.23331025390899063,
+          "p95": 0.3016624571593895,
+          "p99": 0.3163467701763161,
+          "max": 0.3172332462993618
+        },
+        "1": {
+          "n": 112,
+          "min": 0.058519681363808695,
+          "p50": 0.3434960335750703,
+          "p95": 0.6338702805951563,
+          "p99": 0.7495847739492305,
+          "max": 0.7563458841713843
+        },
+        "3": {
+          "n": 112,
+          "min": 0.11433798328448785,
+          "p50": 0.991272017683577,
+          "p95": 1.7694007900905373,
+          "p99": 1.8727125529361688,
+          "max": 1.8850655704002137
+        }
+      },
+      "heldout": false,
+      "tap": {
+        "error": false,
+        "error_tail": null,
+        "receipt_count": 1976,
+        "publishers": {
+          "/cmd_vel_nav": [
+            "controller_server",
+            "r4_comparison_recorder"
+          ],
+          "/cmd_vel": [
+            "behavior_server",
+            "velocity_smoother"
+          ],
+          "/simulation/chassis/cmd_vel": [
+            "chassis_interface_stub"
+          ]
+        },
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": {
+              "n": 175,
+              "min": 0.585921,
+              "p50": 99.811565,
+              "p95": 104.9246065,
+              "p99": 158.22559385999955,
+              "max": 2798.981295
+            },
+            "sim_ms": {
+              "n": 175,
+              "min": 1.0,
+              "p50": 100.0,
+              "p95": 105.0,
+              "p99": 158.47999999999956,
+              "max": 2799.0
+            },
+            "RTF": {
+              "n": 175,
+              "min": 0.9820614550208489,
+              "p50": 1.000126783748849,
+              "p95": 1.0058438317267644,
+              "p99": 1.007827243383539,
+              "max": 1.7067147277534
+            }
+          },
+          "/cmd_vel": {
+            "wall_ms": {
+              "n": 395,
+              "min": 18.663333,
+              "p50": 49.999343,
+              "p95": 50.63593269999999,
+              "p99": 100.02998008,
+              "max": 100.151888
+            },
+            "sim_ms": {
+              "n": 395,
+              "min": 18.0,
+              "p50": 50.0,
+              "p95": 51.0,
+              "p99": 100.0,
+              "max": 100.0
+            },
+            "RTF": {
+              "n": 395,
+              "min": 0.947284312177124,
+              "p50": 1.0000131401726617,
+              "p95": 1.00757174137956,
+              "p99": 1.0158903348087474,
+              "max": 1.0192266108476888
+            }
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": {
+              "n": 395,
+              "min": 18.478115,
+              "p50": 49.998103,
+              "p95": 50.82382379999999,
+              "p99": 100.0957412,
+              "max": 100.500136
+            },
+            "sim_ms": {
+              "n": 395,
+              "min": 19.0,
+              "p50": 50.0,
+              "p95": 51.0,
+              "p99": 100.0,
+              "max": 100.0
+            },
+            "RTF": {
+              "n": 395,
+              "min": 0.9614451867179632,
+              "p50": 0.9999711008351859,
+              "p95": 1.0118603327002997,
+              "p99": 1.0254644621700162,
+              "max": 1.0330877967233252
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": "crossing_A_29_aligned",
+      "scene": "crossing",
+      "group": "A",
+      "seed": 29,
+      "phase": "finite",
+      "startup": false,
+      "outcome": "actor_contact",
+      "result_status": null,
+      "contact_messages": 1,
+      "native_events": 1,
+      "fatal_reason": null,
+      "variant": "input_pose",
+      "validation_split": "repeat",
+      "fixture_revision": 0,
+      "cohort": "observer_retry",
+      "incomplete_jsonl_lines": {
+        "prediction.jsonl": 0,
+        "execution_receipts.jsonl": 0,
+        "truth.jsonl": 0,
+        "plans.jsonl": 0,
+        "execution_endpoints.jsonl": 0,
+        "control.jsonl": 0
+      },
+      "elapsed_s": 3.845,
+      "success": false,
+      "arrival_s": null,
+      "body_clearance_m": 0.0,
+      "overlap_samples": 4,
+      "truth_samples": 192,
+      "truth_gap_ms": {
+        "n": 191,
+        "min": 20.0,
+        "p50": 20.0,
+        "p95": 20.0,
+        "p99": 20.0,
+        "max": 20.0
+      },
+      "wall_clearance_m": null,
+      "wall_overlap_samples": 0,
+      "safe_success": false,
+      "wait_s": 0.08,
+      "longest_stall_s": 0.08,
+      "start_count": 1,
+      "forward_flips": 0,
+      "max_retreat_m": 0,
+      "path_length_m": 1.5515606157563842,
+      "actual_max_velocity": [
+        0.4918143483823412,
+        0.4788388076064668,
+        0.22958665795158595
+      ],
+      "actual_max_acceleration": [
+        1.6309681190267016,
+        1.6300389285011012,
+        1.99999976757681
+      ],
+      "actual_accel_exceed_intervals_raw": [
+        18,
+        13,
+        0
+      ],
+      "actual_velocity_exceed_samples_raw": [
+        0,
+        0,
+        0
+      ],
+      "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+      "cycles": 39,
+      "compute_ms": {
+        "n": 39,
+        "min": 5.406305,
+        "p50": 26.102867,
+        "p95": 37.2399187,
+        "p99": 37.89101192,
+        "max": 37.972623
+      },
+      "compute_over100": 0,
+      "native_errors": 1,
+      "candidate_epoch_to_consume_ms": null,
+      "input_pose_to_entry_ms": {
+        "n": 39,
+        "min": 6.0,
+        "p50": 6.0,
+        "p95": 7.100000000000001,
+        "p99": 8.0,
+        "max": 8.0
+      },
+      "epoch_basis_counts": {
+        "consume": 0,
+        "input_pose": 0
+      },
+      "prediction_receipt_to_consume_ms": null,
+      "prediction_age_ms": null,
+      "prediction_reason_counts": {
+        "not_enabled": 39
+      },
+      "temporal_scored_cycles": 0,
+      "temporal_valid_cycles": 0,
+      "consumed_nonzero": 0,
+      "zero_safe_candidates": 0,
+      "output_gap_ms": {
+        "n": 76,
+        "min": 41.0,
+        "p50": 50.0,
+        "p95": 54.0,
+        "p99": 54.0,
+        "max": 54.0
+      },
+      "output_gap_over100": 0,
+      "zero_hold_output_gap_ms": {
+        "n": 1,
+        "min": 41.0,
+        "p50": 41.0,
+        "p95": 41.0,
+        "p99": 41.0,
+        "max": 41.0
+      },
+      "active_output_gap_ms": {
+        "n": 75,
+        "min": 45.0,
+        "p50": 50.0,
+        "p95": 54.0,
+        "p99": 54.0,
+        "max": 54.0
+      },
+      "output_max_command": [
+        0.4918198585510254,
+        0.47887811064720154,
+        0.22958669066429138
+      ],
+      "output_bounds_violations": 0,
+      "observed_current_occupied_samples": 13,
+      "output_publisher_count": 1,
+      "output_single_owner": true,
+      "output_owner_named": true,
+      "shutdown_minus11": false,
+      "oracle_replay_alignment_m": {
+        "n": 192,
+        "min": 3.176061418308507e-07,
+        "p50": 0.00016893006400886534,
+        "p95": 0.000457477042263518,
+        "p99": 0.0005719455350524471,
+        "max": 0.000573877158103836
+      },
+      "aggregate_unsafe_circle_proxy_cycles": 0,
+      "optimistic_circle_proxy_cycles": 0,
+      "snapshots": [
+        {
+          "epoch_ns": 6826000000,
+          "t": 2.821,
+          "predicted_aggregate_circle_clearance": null,
+          "actual_aggregate_circle_proxy_clearance": -0.20100546084521587,
+          "GT_full30": false,
+          "best_raw_index_before_gamma": 221,
+          "best_raw_cost_parts": {
+            "ConstraintTraceCritic": 0.16827884316444397,
+            "CostTraceCritic": 0.0,
+            "GoalAngleTraceCritic": 0.0,
+            "GoalTraceCritic": 0.0,
+            "PathAlignTraceCritic": 0.4350977838039398,
+            "PathAngleTraceCritic": 0.0,
+            "PathFollowTraceCritic": 0.14210450649261475
+          },
+          "cost_part_ranges": {
+            "ConstraintTraceCritic": {
+              "n": 300,
+              "min": 0.01770799234509468,
+              "p50": 0.20775286853313446,
+              "p95": 0.4709025368094445,
+              "p99": 0.5434366995096205,
+              "max": 0.7731454968452454
+            },
+            "CostTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 500.0,
+              "p99": 500.0,
+              "max": 500.0
+            },
+            "GoalAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "GoalTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathAlignTraceCritic": {
+              "n": 300,
+              "min": 0.3428114652633667,
+              "p50": 0.7958721816539764,
+              "p95": 1.7512498676776886,
+              "p99": 2.211626164913177,
+              "max": 2.34771728515625
+            },
+            "PathAngleTraceCritic": {
+              "n": 300,
+              "min": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "PathFollowTraceCritic": {
+              "n": 300,
+              "min": 0.08282452821731567,
+              "p50": 0.9653527140617371,
+              "p95": 1.9377259075641635,
+              "p99": 2.3731982421874998,
+              "max": 2.644562244415283
+            }
+          },
+          "command": [
+            0.4346790313720703,
+            0.1222844049334526,
+            -0.05797140300273895
+          ],
+          "prediction_reason": null
+        }
+      ],
+      "active_track_counts": {
+        "n": 39,
+        "min": 0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0
+      },
+      "forecast_center_error_m": {
+        "0": null,
+        "1": null,
+        "3": null
+      },
+      "heldout": false,
+      "tap": {
+        "error": false,
+        "error_tail": null,
+        "receipt_count": 385,
+        "publishers": {
+          "/cmd_vel_nav": [
+            "controller_server",
+            "r4_comparison_recorder"
+          ],
+          "/cmd_vel": [
+            "behavior_server",
+            "velocity_smoother"
+          ],
+          "/simulation/chassis/cmd_vel": [
+            "chassis_interface_stub"
+          ]
+        },
+        "per_message_producer": "unavailable in fixed Humble rclpy; /cmd_vel has multiple native sources",
+        "application_time": "Unknown; no actuator callback stamp",
+        "periods": {
+          "/cmd_vel_nav": {
+            "wall_ms": {
+              "n": 38,
+              "min": 30.156389,
+              "p50": 99.77181999999999,
+              "p95": 110.09062979999997,
+              "p99": 134.87415857000005,
+              "max": 141.771713
+            },
+            "sim_ms": {
+              "n": 38,
+              "min": 30.0,
+              "p50": 100.0,
+              "p95": 110.24999999999997,
+              "p99": 134.34000000000003,
+              "max": 141.0
+            },
+            "RTF": {
+              "n": 38,
+              "min": 0.9906752588069457,
+              "p50": 1.0005460131523254,
+              "p95": 1.0051731310000902,
+              "p99": 1.008808164469538,
+              "max": 1.0098992499649178
+            }
+          },
+          "/cmd_vel": {
+            "wall_ms": {
+              "n": 76,
+              "min": 49.630769,
+              "p50": 50.006496999999996,
+              "p95": 50.2513055,
+              "p99": 50.33059075,
+              "max": 50.333338
+            },
+            "sim_ms": {
+              "n": 76,
+              "min": 48.0,
+              "p50": 50.0,
+              "p95": 50.0,
+              "p99": 50.0,
+              "max": 50.0
+            },
+            "RTF": {
+              "n": 76,
+              "min": 0.964079289415719,
+              "p50": 0.9997641719134265,
+              "p95": 1.0052454612219357,
+              "p99": 1.0061854032845121,
+              "max": 1.0074395583110953
+            }
+          },
+          "/simulation/chassis/cmd_vel": {
+            "wall_ms": {
+              "n": 76,
+              "min": 49.244725,
+              "p50": 50.0249825,
+              "p95": 50.459719,
+              "p99": 50.58156575,
+              "max": 50.700914
+            },
+            "sim_ms": {
+              "n": 76,
+              "min": 48.0,
+              "p50": 50.0,
+              "p95": 51.0,
+              "p99": 51.0,
+              "max": 51.0
+            },
+            "RTF": {
+              "n": 76,
+              "min": 0.9642728666412032,
+              "p50": 0.9994842891262892,
+              "p95": 1.015798732773659,
+              "p99": 1.0176921368269833,
+              "max": 1.018586771969099
+            }
+          }
+        }
+      }
+    }
+  ],
+  "Cprime": "not run: execution rollout/application delay/phase bounds missing, full-batch joint diagnosis exceeds budget; no control mutation",
+  "gate": "original goal/contact/.047 bbox dynamic/sampled wall gate; acceleration and continuous sweep reported separately",
+  "statistical_scope": "one run per fixed case, paired by seed; observer retry is separate, not pooled into group averages"
+}

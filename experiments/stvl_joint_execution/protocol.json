@@ -1,0 +1,16 @@
+{
+ "stage":"Research only, P0 -> read-only joint diagnosis -> evidenced execution repair -> conditional intervention -> finite closed-loop",
+ "base":"353fea2a54e6df858664a831dc394fb04e497223",
+ "baseline":"prior final geometry/storage repair and controller_server odom_topic=/odometry/lio; actual fixed Nav21.1.20, STVL2.3.4",
+ "groups":{"A":"current STVL MPPI","B":"same consumer ZOH","C":"same consumer KF/CV","D":"same consumer conditional oracle for already observed tracks","Cprime":"only if P1/P2 contracts support a minimal intervention; absent otherwise"},
+ "fixed":{"controller_hz":10,"dt":0.1,"steps":30,"batch":300,"iterations":1,"smoother_hz":20,"velocity":[[-0.3,0.5],[-0.5,0.5],[-1.2,1.2]],"smoother_acceleration":[0.8,0.8,2.0],"gazebo_acceleration":2.0,"footprint_half":[0.32,0.27],"padding":0.02,"evaluation_bbox_half":[0.325,0.3],"inflation":0.30,"prediction_age_max":0.4,"prediction_grid":36,"prediction_dt":0.1},
+ "original_gate":"goal, zero actor contact, sampled full-envelope dynamic gap >=.047m, zero wall-envelope overlap; unchanged",
+ "new_diagnostic_contract":{"frame":"odom=map only in original identity fixture, body velocities base_link","candidate_epoch":"input pose stamp","dense_step":0.01,"static":"known map occupied closed cells; reuse frozen R2 polygon-box geometry, report native perimeter disagreement","dynamic":"same-time prediction interpolation and existing circle/safety margin .02; source freshness checked at consume","execution":"separate raw nominal velocity/acceleration compliance from smoother-mapped realizability; missing controls/state/phase/delay bounds -> Unknown","velocity_tolerance":0.0001,"acceleration_tolerance":0.01,"collision_tolerance":0.000001,"sweep":"Lipschitz reserve or Unknown, not merely dense no-hit -> continuous proof"},
+ "p1_inputs":"bounded selected prior failed/safe candidate snapshots and deterministic native geometry/time/execution counterexamples; no control mutation",
+ "fresh_core_cases":["crossing:A:29:aligned","crossing:B:29:aligned","crossing:C:29:aligned","crossing:D:29:aligned","wait_release:C:13:aligned","narrow:C:29:aligned"],
+ "heldout":{"seed":83,"phase":"unchanged default0; no prior diagnostic/tuning use","cases":["crossing:C:83:aligned","narrow:C:83:aligned"]},
+ "efficiency":"separate safety and efficiency; >25% paired goal-time increase or any new timeout is material regression (project research must offer practical benefit); no significance claim for small paired sample",
+ "resource":{"max_incremental_started_trials":18,"owned_cache_MiB":250,"incremental_git_evidence_MiB":12,"free_GiB_min":3},
+ "intervention_gate":"Only if joint diagnosis identifies known hazards and accepts known feasible controls without contradicting native geometry/plant data; no giant finite penalty, no optimizer rewrite; if actual execution bounds unknown or existing API cannot express joint feasibility, stop intervention and mark unrun",
+ "stop":"No new predictor/controller/owner/real hardware/push/merge. Stop after evidence and verdict; preserve failures, no post-hoc tuning or seed replacement."
+}
