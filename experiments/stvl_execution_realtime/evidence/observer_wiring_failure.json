@@ -1,0 +1,9 @@
+{
+  "runs": [
+    "fresh/crossing_D_29_aligned",
+    "fresh/narrow_C_83_aligned"
+  ],
+  "cause": "inherited launcher consumes assets/scene.sdf, so the modified per-run copy was not loaded; both navigation runs/receipt observations valid, native apply observation absent",
+  "minimal_fix": "new research launch consumes out/scene.sdf only; provider path still old canonical adapter",
+  "reruns": "same two seeds under boundary_enabled, within frozen 4-start cap; no controller/physical changes"
+}

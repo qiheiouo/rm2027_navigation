@@ -1,0 +1,45 @@
+{
+  "prepared": [
+    "fresh__crossing_C_83_aligned__6627000000",
+    "heldout_abi__narrow_D_61_aligned",
+    "repair_odom__wait_release_C_29_aligned",
+    "repair_odom__wait_release_C_13_aligned",
+    "fresh__crossing_D_29_aligned__6628000000",
+    "fresh__crossing_D_29_aligned__6828000000",
+    "repair_odom__narrow_D_47_aligned",
+    "fresh__crossing_C_83_aligned__6827000000",
+    "fresh__crossing_C_29_aligned__6828000000",
+    "repair_odom__narrow_C_29_aligned",
+    "diag__wait_release_C_29_aligned",
+    "heldout_odom__narrow_D_61_aligned",
+    "fresh__narrow_C_29_aligned__6797000000",
+    "fresh__wait_release_C_13_aligned__6769000000"
+  ],
+  "not_run": [
+    {
+      "case": "fresh__crossing_A_29_aligned__6625000000",
+      "reason": "actual future horizon not recorded before trial ends; no extrapolation/fake stopped tail"
+    },
+    {
+      "case": "fresh__crossing_B_29_aligned__6823000000",
+      "reason": "actual future horizon not recorded before trial ends; no extrapolation/fake stopped tail"
+    },
+    {
+      "case": "diag__narrow_D_29_aligned",
+      "reason": "actual future horizon not recorded before trial ends; no extrapolation/fake stopped tail"
+    },
+    {
+      "case": "observer_retry__crossing_A_29_aligned__6826000000",
+      "reason": "actual future horizon not recorded before trial ends; no extrapolation/fake stopped tail"
+    },
+    {
+      "case": "fresh__crossing_B_29_aligned__6623000000",
+      "reason": "actual future horizon not recorded before trial ends; no extrapolation/fake stopped tail"
+    },
+    {
+      "case": "fresh__crossing_A_29_aligned__6825000000",
+      "reason": "actual future horizon not recorded before trial ends; no extrapolation/fake stopped tail"
+    }
+  ],
+  "scope": "hindsight actual robot path vs same frozen actor prediction, not runtime rollout; no future motion fed to A/C, no physical feasibility certificate"
+}

@@ -1,0 +1,9 @@
+{
+ "legacy_compute_ms":"timer stops after native computeVelocityCommands and SDK aggregate reconstruction; excludes later prediction/capture copies, record.dump and synchronous file output before returned Twist reaches Nav2 publication",
+ "corrected_analysis_field":"controller_reported_partial_compute_ms, not total control-path or output latency",
+ "real_generation_observation":"DDS source timestamp at cmd_vel_nav publication, system clock; steady estimated by simultaneous receipt system/steady pair; then maps to native sim step samples. DDS generation is publication, not optimizer decision time",
+ "application_observation":"native PreUpdate JointVelocityCmd components, converted back to limited body target using unchanged .075/.475 model; not motor force or actual body velocity",
+ "missing_velocity":"Gazebo WorldVelocity components absent in current fixture; validity=0 does not erase known finite wheel targets/poses. Use 50Hz source-stamped odometry and same-time pose agreement. 1ms component derivatives are diagnostic only",
+ "proxy_model":"native limiter state is previous limited command, not measured body velocity. A 2.0 body-response ramp initialized from feedback is a retrospective hypothesis, not the actual Mecanum command limiter or an identified physical model",
+ "budget":"100ms total cycle; isolated checker cost plus partial native compute is an empirical screen, excludes publication/dispatch/physical uncertainty and cannot prove schedulability"
+}

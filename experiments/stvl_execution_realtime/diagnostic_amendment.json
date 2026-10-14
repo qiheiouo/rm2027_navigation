@@ -1,0 +1,10 @@
+{
+ "frozen_before_ablation_results":true,
+ "reason":"source timer excludes capture copies and synchronous JSON output; measured native entry->DDS publication 73.60/93.42ms while reported partial compute 50.57/66.64ms at the two captured periods",
+ "starts_cap_change":{"original":4,"bounded_final":6,"added":2},
+ "cases":["crossing:D:29:aligned","narrow:C:83:aligned"],
+ "only_factor":"set existing research_capture_begin/end=1000 so no large raw matrices/critic-delta capture; still all controller cycles, aggregate, actual prediction/commands/feedback/physics observation recorded",
+ "unchanged":"same installed controller/critics, check_all_poses, source, weights, geometry, noise, dynamics, frequencies, budgets and original safety gate; capture flag is read-only diagnostics, no control filtering",
+ "no_selection":"preserve and report all six attempts; no additional runs if negative result; no Cprime",
+ "purpose":"separate excluded diagnostic burden from algorithm and execution response, confirm available timing margin and normal/failure regression"
+}

@@ -1,0 +1,18 @@
+{
+ "base":"039273ae048edeff614199bae8c33583c4f64be6",
+ "stage":"Research, no Cprime intervention",
+ "inputs":"all 8 historical and 12 fresh bounded contexts from prior cache read-only, 8 decisive fixtures; all 9 old closed-loops for A1-A6 mapping and safety/efficiency retention",
+ "A":"compare native raw first-step feedback propagation, post-SG/shift SDK reconstruction, returned Twist, smoother target, native applied JointVelocityCmd, plant state and next odometry; frame base_link, pose odom=map only in identity fixture",
+ "motion_categories":{"A1":"first 1.2s from rest","A2":"body |vx|>=.2, |vy|<=.03, |wz|<=.05 and measured acceleration<=.1","A3":"|dvx/dt|>.2 or moving->|v|<.02","A4":"|vy|>=.08","A5":"|wz|>=.15 and planar speed>=.08","A6":"wait/narrow predicted obstacle active and speed<.08"},
+ "first_material_boundary":{"position_m":0.001,"yaw_rad":0.001,"velocity_component":0.001,"accel_tolerance":0.01,"SDK_propagation_equivalence":0.000001},
+ "fresh_cases":["crossing:D:29:aligned","narrow:C:83:aligned"],
+ "fresh_max_starts":4,
+ "observer":"no publishers, no ECM mutation, native pre-update joint-target snapshot plus physics state at known sim step; not measured actuator force or MCU application",
+ "fixed":"same original 10Hz/.1/300x30/one iteration, padded footprint .34/.29, .8/.8/2 smoother and +/-2 Gazebo limit; gate goal/no actor contact/dynamic bbox>=.047/no sampled wall bbox, no change",
+ "B":{"clock":"steady_clock, never sim time","build":"Release -O3; no fast-math or lower precision","coverage":"full 301x30 with 11 points/segment, same Lipschitz reserve/unknown handling and geometry; single-selected workload separately labelled","profile":"instrumented unchanged reference plus plain reference, no optimization before hotspot evidence","warm_repeats":31,"cold_calls":1,"allocation":"global new counts/allocated bytes during call, RSS outside; not total ROS memory","scope":"time parsing/preparation, coordinate/interpolation/transform, static geometry, dynamic geometry, nominal rates, native comparison, result/serialization separately"},
+ "optimizations_allowed":"only snapshot-lifetime typed immutable values/time interpolation, footprint buffer reuse, exact static occupied/unknown row indexing and skip geometry once exact zero minimum is known; no sampling reduction, no false Safe for Unknown",
+ "equality":"all categorical flags/counters equal, clearance and nominal acceleration <=1e-12 absolute difference; retain malformed/expired/map-change/footprint-change cases; primary frozen gate unchanged",
+ "budget":"10Hz total cycle 100ms, not 100ms extra checker; compare per-case MPPI observed p99 plus checker p99, also maxima. This empirical screening is not a realtime scheduling proof. Single selected pass cannot prove every candidate or final safe action.",
+ "resources":{"cache_MiB_max":180,"new_evidence_MiB_max":8,"free_GiB_min":3},
+ "stop":"do not rewrite optimizer/CV/KF, alter production modules, add motion owner, push/merge or start Cprime; explicit unresolved execution bounds or budget gaps => Modify/Wait"
+}

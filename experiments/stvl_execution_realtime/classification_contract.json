@@ -1,0 +1,11 @@
+{
+ "reason":"full optimized telemetry still above cycle budget in measured hotspot; separate necessary predicate workload before judging online viability",
+ "frozen_before_classification_benchmark":true,
+ "same_inputs":"33 original snapshots/fixtures/updates; no new seeds or safety threshold changes",
+ "output":"same joint_geometry and joint_complete trivalues, witness for definite Unsafe; full telemetry branch unchanged",
+ "coverage":"same 30*11 potential samples. Only a definite Unsafe witness terminates; Unknown never terminates early. Safe/Unknown require complete covered horizon.",
+ "static_query":"unchanged .1m support rectangle/unknown priority and .1 capped-min semantics. Existing R2 separating-axis lower bound rejects only cells proved beyond the required reserve; exact geometry for retained cells. For reserve>=.1 retain Unknown unless a definite collision exists.",
+ "safety_proof":"Unsafe is absorbing in original combine. Skipped distant cells cannot change distance<=reserve or <=1e-6 predicates. Preserve unknown support before geometric early exit, source age/interpolation/frame/footprint, precision, dynamic margin and Lipschitz bounds.",
+ "limits":"cannot report exact clearance/count telemetry from this branch; cannot claim hard optimizer selection or executable safety. Execution mapping still Unknown.",
+ "timing":"31 steady repeats, same CPU and prepared-snapshot rebuild on every call; compare same predicate with reference once per input; total controller budget remains 100ms"
+}

@@ -130,3 +130,5 @@ mapping artifact, mission priority or failure policy, update at least:
 - [独立复现与完整raw保存合同](../experiments/stvl_temporal_roots/README.md)：原d2b5只读，几何/速度分因素，无正式迁入。
 - [联合安全与规划—执行一致性](research_history/stvl_joint_execution_20261014.md)：只读联合检查、执行回溯及9次有限复验；Modify，C′未运行，完整批检查和执行映射合同尚未闭合。
 - [联合研究入口与精选证据恢复](../experiments/stvl_joint_execution/README.md)：8个判别用例、未参与调参的83种子；没有新运动owner或控制干预。
+- [规划—执行与实时性收口](research_history/stvl_execution_realtime_20261014.md)：33输入语义一致性与分阶段性能、原生应用/反馈追踪、8次有限启动；Modify，C′未准入。
+- [执行与必要判定复现入口](../experiments/stvl_execution_realtime/README.md)：SDK视图、部分计时和SDF namespace适配修正；保留原模型C83接触和所有不可比工程证据。
