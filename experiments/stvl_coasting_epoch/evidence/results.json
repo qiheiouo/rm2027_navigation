@@ -1,0 +1,112 @@
+[
+  {
+    "cases": [
+      {
+        "case": "real_fresh_coasting",
+        "expected": "observation_anchor_epoch",
+        "matches": true,
+        "reason": "observation_anchor_epoch"
+      },
+      {
+        "case": "real_old_coasting",
+        "expected": "",
+        "matches": true,
+        "reason": ""
+      },
+      {
+        "case": "real_confirmed",
+        "expected": "",
+        "matches": true,
+        "reason": ""
+      },
+      {
+        "case": "real_stale",
+        "expected": "stale_observation",
+        "matches": true,
+        "reason": "stale_observation"
+      },
+      {
+        "case": "synthetic_future_coasting",
+        "expected": "stale_observation",
+        "matches": true,
+        "reason": "stale_observation"
+      },
+      {
+        "case": "synthetic_bad_confirmed",
+        "expected": "observation_anchor_epoch",
+        "matches": true,
+        "reason": "observation_anchor_epoch"
+      },
+      {
+        "case": "synthetic_future_source",
+        "expected": "stale_or_future_source",
+        "matches": true,
+        "reason": "stale_or_future_source"
+      },
+      {
+        "case": "synthetic_incomplete",
+        "expected": "incomplete_or_overflow",
+        "matches": true,
+        "reason": "incomplete_or_overflow"
+      }
+    ],
+    "registered_acceptance_pass": true,
+    "scope": "pure copied validator only, original or one relational operator; no motion",
+    "variant": "original_strict"
+  },
+  {
+    "cases": [
+      {
+        "case": "real_fresh_coasting",
+        "expected": "",
+        "matches": true,
+        "reason": ""
+      },
+      {
+        "case": "real_old_coasting",
+        "expected": "",
+        "matches": true,
+        "reason": ""
+      },
+      {
+        "case": "real_confirmed",
+        "expected": "",
+        "matches": true,
+        "reason": ""
+      },
+      {
+        "case": "real_stale",
+        "expected": "stale_observation",
+        "matches": true,
+        "reason": "stale_observation"
+      },
+      {
+        "case": "synthetic_future_coasting",
+        "expected": "stale_observation",
+        "matches": true,
+        "reason": "stale_observation"
+      },
+      {
+        "case": "synthetic_bad_confirmed",
+        "expected": "observation_anchor_epoch",
+        "matches": true,
+        "reason": "observation_anchor_epoch"
+      },
+      {
+        "case": "synthetic_future_source",
+        "expected": "stale_or_future_source",
+        "matches": true,
+        "reason": "stale_or_future_source"
+      },
+      {
+        "case": "synthetic_incomplete",
+        "expected": "incomplete_or_overflow",
+        "matches": true,
+        "reason": "incomplete_or_overflow"
+      }
+    ],
+    "registered_acceptance_pass": true,
+    "scope": "pure copied validator only, original or one relational operator; no motion",
+    "variant": "equal_allowed"
+  }
+]

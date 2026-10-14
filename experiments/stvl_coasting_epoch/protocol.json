@@ -1,0 +1,13 @@
+{
+  "phase": "Research: fresh coasting epoch local contract",
+  "base": "e0b1ae02e842cdc813213391a870633cd0a0bee1",
+  "hypothesis": "existing tracker intentionally permits reacquired-but-not-reconfirmed coasting with miss_count0 and observed==source; consumer strict observed<source rejects valid current data",
+  "variant": "one relational operator in owned generated copy of frozen validator: COASTING observed_ns>=source_ns becomes observed_ns>source_ns",
+  "unchanged": "observation/source/consume timestamps, coasting state/confidence, .4s ages, schema/frame/completeness, geometry, CV, all installed/frozen source",
+  "cases": ["real active c100 fresh coasting", "real previous durable98 old coasting active subset", "real durable24 confirmed", "real durable129 stale", "synthetic future coasting", "synthetic bad confirmed epoch", "synthetic future source", "synthetic incomplete"],
+  "acceptance": "only fresh coasting changes reject->valid; valid confirmed/older coasting unchanged; stale/future/bad confirmed/incomplete remain rejected",
+  "scope": "two small executables call unchanged or one-operator generated inline validator, no ROS nodes/tracker/control loop",
+  "no_new_live_runs": true,
+  "disk_cap_MiB": 5,
+  "stopping": "report local benefit, never call this collision fix or combined with other changes; no automatic deployment"
+}

@@ -141,3 +141,4 @@ mapping artifact, mission priority or failure policy, update at least:
 - [有限制动时刻对照](research_history/stvl_brake_window_20261014.md)：延后400ms净空门限失败，800ms停车后接触；两次完整原始数据保存。
 - [预测active轨迹输入合同](research_history/stvl_prediction_contract_20261014.md)：两次未评分tentative使整包拒绝，子集只读验证可通过；stale仍拒绝，未在线适配。
 - [Active输入范围有限闭环](research_history/stvl_active_scope_20261015.md)：四运行安全到达但无稳定收益，现场拒绝实际来自fresh coasting；保留资源超预算修订和原数据。
+- [Fresh-coasting等时合同](research_history/stvl_coasting_epoch_20261015.md)：16校验确认一处关系修正，过期/未来/坏confirmed仍拒绝；未在线改变导航。

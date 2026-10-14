@@ -13,6 +13,7 @@
 | [有限制动时刻](stvl_brake_window_20261014.md) | 两次新增物理运行；晚400ms净空0.04342m，晚800ms已停仍contact | “输出零并停车”不足以保证停车位置安全 |
 | [active预测合同](stvl_prediction_contract_20261014.md) | 七输入真实validator复算；两次unused tentative使整包拒绝，active子集合法；stale仍拒绝 | 输入消费范围与tracker全包合同存在局部不一致，尚未在线适配 |
 | [active输入有限闭环](stvl_active_scope_20261015.md) | 四组原生Nav2闭环均安全到达；横穿慢2.479s、狭窄快0.670s但净空降/失败仍4次；现场anchor实际为fresh coasting | 单独去tentative无稳定收益，停止工程化；新增合法coasting等时边界反例 |
+| [fresh coasting等时合同](stvl_coasting_epoch_20261015.md) | 一处关系运算变化，8对/16校验；仅合法fresh包变为接受，未来/过期/坏confirmed仍拒绝 | 局部确定性修正值得保留，未应用导航、不代表NoSafe修复 |
 
 本次真实软件物理运行共7次启动、6有效、1起步前类型失败；没有在线修改MPPI后的导航闭环实验。额外原生评分及validator探针不是导航试验，不能把它们累加到闭环成功率。空场反馈203ms只延迟observer，不构成MPPI反馈延迟对照。
 
@@ -55,3 +56,5 @@ NoSafe→动作接受仍需当前速度、完整制动和停车位置未来占�
 当前可用约3.30GiB，始终维持3GiB保护线。所有阶段本地中文提交，阶段提交后clean，无push/merge。回退只读使用阶段commit或a880，不reset正式工作区。按小时的本聊天续作已启用：额度未恢复等待普通额度，不用重置券/付费；有有价值的独立局部工作才继续，无新信息保持安静。
 
 更新资源：active_scope_cache约157MiB是新增唯一原始数据，完整binary/1ms native/control必须保留；精选约2.3MiB只保存必要复核视图。当前磁盘约3.14GiB，不再扩展live批次，后续优先小规模只读合同复算。其他正式/冻结refs继续保护，当前完整HEAD从Git核对。
+
+下一项局部修正只涉及coasting等时关系，不放宽观测年龄或提高track信心。若后续闭环验证，必须与研究诊断导出开关分别归因，成对组使用相同日志条件，不能用少写数据制造预测收益。当前仍没有复杂预测或全面换控制器的必要性证据。
