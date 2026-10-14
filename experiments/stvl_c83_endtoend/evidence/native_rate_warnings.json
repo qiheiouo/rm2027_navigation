@@ -1,0 +1,84 @@
+[
+  {
+    "cohort": "no_shadow_retry",
+    "warnings": [],
+    "warning_count": 0,
+    "scope": "native server WallRate warnings; not exact outer-loop duration or hardware deadline rate"
+  },
+  {
+    "cohort": "normal",
+    "warnings": [],
+    "warning_count": 0,
+    "scope": "native server WallRate warnings; not exact outer-loop duration or hardware deadline rate"
+  },
+  {
+    "cohort": "shadow",
+    "warnings": [
+      {
+        "system_ns": 1791975336827447993,
+        "estimated_steady_ns": 10943493355808,
+        "nearest_cycle_id": 29,
+        "cycle_necessary_ms": 60.739801,
+        "cycle_wrapper_ms": 64.729256,
+        "wrapper_return_to_warning_ms": 0.910004
+      },
+      {
+        "system_ns": 1791975338596156530,
+        "estimated_steady_ns": 10945262064568,
+        "nearest_cycle_id": 48,
+        "cycle_necessary_ms": 22.954648,
+        "cycle_wrapper_ms": 25.416778,
+        "wrapper_return_to_warning_ms": 0.343637
+      },
+      {
+        "system_ns": 1791975341291138268,
+        "estimated_steady_ns": 10947957046037,
+        "nearest_cycle_id": 75,
+        "cycle_necessary_ms": 96.521497,
+        "cycle_wrapper_ms": 100.216973,
+        "wrapper_return_to_warning_ms": 0.52314
+      }
+    ],
+    "warning_count": 3,
+    "scope": "native server WallRate warnings; not exact outer-loop duration or hardware deadline rate"
+  },
+  {
+    "cohort": "shadow_durable",
+    "warnings": [
+      {
+        "system_ns": 1791975845660315572,
+        "estimated_steady_ns": 11452326223427,
+        "nearest_cycle_id": 29,
+        "cycle_necessary_ms": 52.311208,
+        "cycle_wrapper_ms": 54.682351,
+        "wrapper_return_to_warning_ms": 0.359964
+      },
+      {
+        "system_ns": 1791975852989566048,
+        "estimated_steady_ns": 11459655474126,
+        "nearest_cycle_id": 100,
+        "cycle_necessary_ms": 83.181153,
+        "cycle_wrapper_ms": 85.635673,
+        "wrapper_return_to_warning_ms": 0.409796
+      },
+      {
+        "system_ns": 1791975853045705751,
+        "estimated_steady_ns": 11459711613822,
+        "nearest_cycle_id": 101,
+        "cycle_necessary_ms": 53.794936,
+        "cycle_wrapper_ms": 55.798521,
+        "wrapper_return_to_warning_ms": 0.270929
+      },
+      {
+        "system_ns": 1791975853114904193,
+        "estimated_steady_ns": 11459780812121,
+        "nearest_cycle_id": 102,
+        "cycle_necessary_ms": 66.738981,
+        "cycle_wrapper_ms": 68.817293,
+        "wrapper_return_to_warning_ms": 0.318819
+      }
+    ],
+    "warning_count": 4,
+    "scope": "native server WallRate warnings; not exact outer-loop duration or hardware deadline rate"
+  }
+]

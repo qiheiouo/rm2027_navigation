@@ -1,0 +1,1393 @@
+[
+  {
+    "cohort": "no_shadow_retry",
+    "events": {
+      "scene": "narrow",
+      "mode": "C",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4003000000,
+          "wall_ns": 10745302189005,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3829000000,
+            "command": 3979000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5004000000,
+          "wall_ns": 10746302195881
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 6003000000,
+          "wall_ns": 10747310996016
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 6823000000,
+          "wall_ns": 10748153639515,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 13006000000,
+          "wall_ns": 10754326739807
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 13947000000,
+          "wall_ns": 10755275284838,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 14167000000,
+          "wall_ns": 10755487885970,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 17000000000,
+          "wall_ns": 10758325162067,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "goal_result",
+          "ROS_ns": 22798000000,
+          "wall_ns": 10764133381357,
+          "status": 4
+        }
+      ],
+      "goal_ns": 4003000000,
+      "end_ns": 22798000000,
+      "result_status": 4,
+      "finished": "goal_result",
+      "controller_failure": null,
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 6823000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 13947000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 14167000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 17000000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 0,
+      "contacts_publishers": 1,
+      "latest": {
+        "map": 1,
+        "scan": 22771000000,
+        "odom": 22780000000,
+        "rm_sentry_2027": 22780000000,
+        "moving_obstacle": 22780000000,
+        "prediction": 22705000000,
+        "command": 22777000000
+      }
+    },
+    "cycles": 156,
+    "native_failed": 4,
+    "timing": {
+      "T_input_disjoint_ms": {
+        "n": 156,
+        "p50": 0.137695,
+        "p95": 0.22018525,
+        "p99": 0.31455864999999916,
+        "max": 0.487922,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_mppi_disjoint_ms": {
+        "n": 156,
+        "p50": 16.8623355,
+        "p95": 31.83895125,
+        "p99": 42.53989394999999,
+        "max": 44.489416999999996,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_check_ms": {
+        "n": 156,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_other_prelog_ms": {
+        "n": 156,
+        "p50": 0.40584549999999997,
+        "p95": 0.717155,
+        "p99": 0.7975032,
+        "max": 0.81623,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_total_necessary_boundary_ms": {
+        "n": 156,
+        "p50": 17.281328000000002,
+        "p95": 32.559428999999994,
+        "p99": 43.440439149999996,
+        "max": 45.389203,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_actual_wrapper_pre_return_ms": {
+        "n": 156,
+        "p50": 19.235005,
+        "p95": 36.23644375,
+        "p99": 47.56128084999999,
+        "max": 49.429872,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "entry_to_DDS_publication_ms": {
+        "n": 152,
+        "p50": 19.624643,
+        "p95": 36.410922649999996,
+        "p99": 47.86619130000001,
+        "max": 49.658552,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "control_log_ms": {
+        "n": 156,
+        "p50": 0.2632255,
+        "p95": 0.44106124999999996,
+        "p99": 0.4699084499999997,
+        "max": 0.577477,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "candidate_export_ms": {
+        "n": 156,
+        "p50": 0.6226475,
+        "p95": 1.1270315,
+        "p99": 1.3417720499999972,
+        "max": 24.720548,
+        "over100": 0,
+        "over100_rate": 0.0
+      }
+    },
+    "warm_timing": {
+      "T_input_disjoint_ms": {
+        "n": 155,
+        "p50": 0.13721,
+        "p95": 0.21713179999999999,
+        "p99": 0.2989294600000008,
+        "max": 0.487922,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_mppi_disjoint_ms": {
+        "n": 155,
+        "p50": 16.854876,
+        "p95": 31.86174129999999,
+        "p99": 42.54263246,
+        "max": 44.489416999999996,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_check_ms": {
+        "n": 155,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_other_prelog_ms": {
+        "n": 155,
+        "p50": 0.405668,
+        "p95": 0.7172303999999999,
+        "p99": 0.79754496,
+        "max": 0.81623,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_total_necessary_boundary_ms": {
+        "n": 155,
+        "p50": 17.201806,
+        "p95": 32.58883299999999,
+        "p99": 43.44426982,
+        "max": 45.389203,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_actual_wrapper_pre_return_ms": {
+        "n": 155,
+        "p50": 19.084213,
+        "p95": 36.247401499999995,
+        "p99": 47.57351898000001,
+        "max": 49.429872,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "entry_to_DDS_publication_ms": {
+        "n": 151,
+        "p50": 19.502483,
+        "p95": 36.422041500000006,
+        "p99": 47.879032,
+        "max": 49.658552,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "control_log_ms": {
+        "n": 155,
+        "p50": 0.263513,
+        "p95": 0.44113689999999994,
+        "p99": 0.47020326000000023,
+        "max": 0.577477,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "candidate_export_ms": {
+        "n": 155,
+        "p50": 0.622822,
+        "p95": 1.1274623999999998,
+        "p99": 1.3442111400000019,
+        "max": 24.720548,
+        "over100": 0,
+        "over100_rate": 0.0
+      }
+    },
+    "cold": {
+      "T_actual_wrapper_pre_return_ms": 30.74749,
+      "T_check_ms": 0.0,
+      "T_input_ms": 0.0,
+      "T_mppi_excluding_added_raw_read_ms": 27.738816,
+      "T_mppi_including_trace_ms": 28.019815,
+      "T_other_prelog_ms": 0.504139,
+      "T_total_necessary_boundary_ms": 28.523954,
+      "candidate_export_ms": 0.606338,
+      "check_samples": 0,
+      "command": [
+        0.054084692150354385,
+        -0.005157408770173788,
+        0.03225305676460266
+      ],
+      "control_log_ms": 0.21007,
+      "cycle_id": 0,
+      "entry_steady_ns": 10745323551850,
+      "epoch_ns": 4025000000,
+      "failed": false,
+      "native_end_steady_ns": 10745351571665,
+      "necessary_end_steady_ns": 10745352075804,
+      "raw_read_ms": 0.280999,
+      "shadow_enabled": false,
+      "wrapper_pre_return_steady_ns": 10745354299340,
+      "relative_s": 0.022,
+      "T_input_disjoint_ms": 0.280999,
+      "T_mppi_disjoint_ms": 27.738816,
+      "entry_to_DDS_publication_ms": 30.889958,
+      "publisher": "010f7f016f0082ce0000000000014d030000000000000000",
+      "wrapper_to_DDS_publication_ms": 0.142468,
+      "nominal_first_to_actual_100ms_position_m": 0.0035662375826254395,
+      "nominal_first_to_actual_100ms_yaw_rad": 0.0016954373271076363,
+      "Twist_to_next_feedback_velocity_error": [
+        0.011085095552263911,
+        1.3863671508764636e-06,
+        6.315531209111214e-09
+      ],
+      "native_safe_candidates": 300,
+      "prediction_reason": "",
+      "shadow_selected": null
+    },
+    "entry_intervals_ms": {
+      "n": 155,
+      "p50": 100.001971,
+      "p95": 100.20622159999999,
+      "p99": 113.14548070000022,
+      "max": 2789.365993,
+      "over100": 87,
+      "over100_rate": 0.5612903225806452
+    },
+    "publication_matches": 152,
+    "navigation_control_records": 163,
+    "missing_timing_cycle_ids": [
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162
+    ],
+    "recovery_or_schedule_gaps_over150ms": [
+      {
+        "previous_cycle_id": 131,
+        "next_cycle_id": 132,
+        "interval_ms": 2789.365993
+      }
+    ],
+    "nominal_to_actual_next_position_m": {
+      "n": 152,
+      "p50": 0.0019023066198999427,
+      "p95": 0.012757895873263921,
+      "p99": 0.029722658591450093,
+      "max": 0.036654129560167066,
+      "over100": 0,
+      "over100_rate": 0.0
+    }
+  },
+  {
+    "cohort": "normal",
+    "events": {
+      "scene": "crossing",
+      "mode": "D",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4003000000,
+          "wall_ns": 11036459830890,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "odom": 4000000000,
+            "prediction": 3895000000,
+            "command": 3989000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5003000000,
+          "wall_ns": 11037458672881
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 6003000000,
+          "wall_ns": 11038468976961
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 13005000000,
+          "wall_ns": 11045471262433
+        },
+        {
+          "kind": "goal_result",
+          "ROS_ns": 18694000000,
+          "wall_ns": 11051181127550,
+          "status": 4
+        }
+      ],
+      "goal_ns": 4003000000,
+      "end_ns": 18694000000,
+      "result_status": 4,
+      "finished": "goal_result",
+      "controller_failure": null,
+      "native_mppi_errors": [],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 0,
+      "contacts_publishers": 1,
+      "latest": {
+        "map": 1,
+        "scan": 18679000000,
+        "rm_sentry_2027": 18680000000,
+        "moving_obstacle": 18680000000,
+        "odom": 18680000000,
+        "prediction": 18613000000,
+        "command": 18664000000
+      }
+    },
+    "cycles": 143,
+    "native_failed": 0,
+    "timing": {
+      "T_input_disjoint_ms": {
+        "n": 143,
+        "p50": 0.819312,
+        "p95": 1.3228734,
+        "p99": 1.496183980000002,
+        "max": 2.6251689999999996,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_mppi_disjoint_ms": {
+        "n": 143,
+        "p50": 18.986761,
+        "p95": 40.431746800000006,
+        "p99": 42.4408142,
+        "max": 43.004141999999995,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_check_ms": {
+        "n": 143,
+        "p50": 37.230625,
+        "p95": 48.433021200000006,
+        "p99": 52.32057758000003,
+        "max": 53.411641,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_other_prelog_ms": {
+        "n": 143,
+        "p50": 0.0986469999999926,
+        "p95": 0.17248579999999764,
+        "p99": 0.19964075999999767,
+        "max": 0.20619200000000149,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_total_necessary_boundary_ms": {
+        "n": 143,
+        "p50": 61.298766,
+        "p95": 80.5780277,
+        "p99": 86.90802096,
+        "max": 89.482039,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_actual_wrapper_pre_return_ms": {
+        "n": 143,
+        "p50": 64.472695,
+        "p95": 82.6563945,
+        "p99": 89.73799134000001,
+        "max": 93.629895,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "entry_to_DDS_publication_ms": {
+        "n": 143,
+        "p50": 64.6688,
+        "p95": 82.8609091,
+        "p99": 90.03333728000001,
+        "max": 94.056714,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "control_log_ms": {
+        "n": 143,
+        "p50": 0.437668,
+        "p95": 0.7509502,
+        "p99": 0.7929831600000001,
+        "max": 0.809413,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "candidate_export_ms": {
+        "n": 143,
+        "p50": 0.617971,
+        "p95": 1.1498921000000002,
+        "p99": 10.479942520000197,
+        "max": 18.123801,
+        "over100": 0,
+        "over100_rate": 0.0
+      }
+    },
+    "warm_timing": {
+      "T_input_disjoint_ms": {
+        "n": 142,
+        "p50": 0.8182860000000001,
+        "p95": 1.3217645,
+        "p99": 1.40727463,
+        "max": 1.5605200000000001,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_mppi_disjoint_ms": {
+        "n": 142,
+        "p50": 19.070663000000003,
+        "p95": 40.47796989999999,
+        "p99": 42.4409061,
+        "max": 43.004141999999995,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_check_ms": {
+        "n": 142,
+        "p50": 37.2173545,
+        "p95": 48.45965759999999,
+        "p99": 52.34329809000001,
+        "max": 53.411641,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_other_prelog_ms": {
+        "n": 142,
+        "p50": 0.09851199999999949,
+        "p95": 0.17063239999999735,
+        "p99": 0.18984709999999916,
+        "max": 0.20619200000000149,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_total_necessary_boundary_ms": {
+        "n": 142,
+        "p50": 61.376673,
+        "p95": 80.59157135,
+        "p99": 86.91418508000001,
+        "max": 89.482039,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_actual_wrapper_pre_return_ms": {
+        "n": 142,
+        "p50": 64.509581,
+        "p95": 82.67320025,
+        "p99": 89.74801807,
+        "max": 93.629895,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "entry_to_DDS_publication_ms": {
+        "n": 142,
+        "p50": 64.73519200000001,
+        "p95": 82.87694005,
+        "p99": 90.04464194,
+        "max": 94.056714,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "control_log_ms": {
+        "n": 142,
+        "p50": 0.437259,
+        "p95": 0.7515360999999998,
+        "p99": 0.79309118,
+        "max": 0.809413,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "candidate_export_ms": {
+        "n": 142,
+        "p50": 0.616917,
+        "p95": 1.15037005,
+        "p99": 10.638907460000054,
+        "max": 18.123801,
+        "over100": 0,
+        "over100_rate": 0.0
+      }
+    },
+    "cold": {
+      "T_actual_wrapper_pre_return_ms": 64.078145,
+      "T_check_ms": 45.107261,
+      "T_input_ms": 2.312607,
+      "T_mppi_excluding_added_raw_read_ms": 12.807584,
+      "T_mppi_including_trace_ms": 13.120146,
+      "T_other_prelog_ms": 0.20498399999999606,
+      "T_total_necessary_boundary_ms": 60.744998,
+      "candidate_export_ms": 0.670992,
+      "check_samples": 99000,
+      "command": [
+        0.04579392448067665,
+        -0.004643780179321766,
+        -0.04204455763101578
+      ],
+      "control_log_ms": 0.532798,
+      "cycle_id": 0,
+      "entry_steady_ns": 11036481126086,
+      "epoch_ns": 4025000000,
+      "failed": false,
+      "native_end_steady_ns": 11036494246232,
+      "necessary_end_steady_ns": 11036541871084,
+      "raw_read_ms": 0.312562,
+      "shadow_enabled": true,
+      "wrapper_pre_return_steady_ns": 11036545204231,
+      "relative_s": 0.022,
+      "T_input_disjoint_ms": 2.6251689999999996,
+      "T_mppi_disjoint_ms": 12.807584,
+      "entry_to_DDS_publication_ms": 64.346348,
+      "publisher": "010f7f016f00d7cb0000000000014d030000000000000000",
+      "wrapper_to_DDS_publication_ms": 0.268203,
+      "nominal_first_to_actual_100ms_position_m": 0.004602877593088674,
+      "nominal_first_to_actual_100ms_yaw_rad": 0.004204455763101578,
+      "Twist_to_next_feedback_velocity_error": [
+        0.04579392448067665,
+        -0.004643780179321766,
+        -0.04204455763101578
+      ],
+      "native_safe_candidates": 300,
+      "prediction_reason": "",
+      "shadow_selected": {
+        "id": "selected_previous_yaw",
+        "joint_complete": "Unknown",
+        "joint_geometry": "Safe",
+        "visited_samples": 330,
+        "witness": null
+      }
+    },
+    "entry_intervals_ms": {
+      "n": 142,
+      "p50": 99.999799,
+      "p95": 100.09963900000001,
+      "p99": 100.15491308,
+      "max": 100.218212,
+      "over100": 70,
+      "over100_rate": 0.49295774647887325
+    },
+    "publication_matches": 143,
+    "navigation_control_records": 147,
+    "missing_timing_cycle_ids": [
+      143,
+      144,
+      145,
+      146
+    ],
+    "recovery_or_schedule_gaps_over150ms": [],
+    "nominal_to_actual_next_position_m": {
+      "n": 143,
+      "p50": 0.0014522117115161443,
+      "p95": 0.00487749114402573,
+      "p99": 0.009320731567153198,
+      "max": 0.00975592721679823,
+      "over100": 0,
+      "over100_rate": 0.0
+    }
+  },
+  {
+    "cohort": "shadow",
+    "events": {
+      "scene": "narrow",
+      "mode": "C",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4003000000,
+          "wall_ns": 10940465509400,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 4000000000,
+            "rm_sentry_2027": 4000000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3895000000,
+            "command": 3991000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5003000000,
+          "wall_ns": 10941464617799
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 6006000000,
+          "wall_ns": 10942469050276
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 6863000000,
+          "wall_ns": 10943347829834,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8103000000,
+          "wall_ns": 10944566369689,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 8673000000,
+          "wall_ns": 10945136111639,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 13003000000,
+          "wall_ns": 10949472942412
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 15958000000,
+          "wall_ns": 10952428171080,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "goal_result",
+          "ROS_ns": 22595000000,
+          "wall_ns": 10959075487470,
+          "status": 4
+        }
+      ],
+      "goal_ns": 4003000000,
+      "end_ns": 22595000000,
+      "result_status": 4,
+      "finished": "goal_result",
+      "controller_failure": null,
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 6863000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 8103000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 8673000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 15958000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 0,
+      "contacts_publishers": 1,
+      "latest": {
+        "map": 1,
+        "scan": 22573000000,
+        "odom": 22580000000,
+        "rm_sentry_2027": 22580000000,
+        "moving_obstacle": 22580000000,
+        "prediction": 22441000000,
+        "command": 22583000000
+      }
+    },
+    "cycles": 156,
+    "native_failed": 4,
+    "timing": {
+      "T_input_disjoint_ms": {
+        "n": 156,
+        "p50": 0.8330415,
+        "p95": 1.418545,
+        "p99": 2.0809061999999954,
+        "max": 2.8674020000000002,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_mppi_disjoint_ms": {
+        "n": 156,
+        "p50": 20.042779000000003,
+        "p95": 39.123810750000004,
+        "p99": 41.440696349999996,
+        "max": 42.181945,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_check_ms": {
+        "n": 156,
+        "p50": 36.6615525,
+        "p95": 48.71390825,
+        "p99": 52.54377154999999,
+        "max": 55.783826,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_other_prelog_ms": {
+        "n": 156,
+        "p50": 0.10353399999999979,
+        "p95": 0.15473949999999803,
+        "p99": 0.1919571999999994,
+        "max": 0.2279319999999998,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_total_necessary_boundary_ms": {
+        "n": 156,
+        "p50": 57.925163,
+        "p95": 80.0953205,
+        "p99": 91.98055529999992,
+        "max": 96.521497,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_actual_wrapper_pre_return_ms": {
+        "n": 156,
+        "p50": 60.663499,
+        "p95": 83.3238875,
+        "p99": 94.47794304999994,
+        "max": 100.216973,
+        "over100": 1,
+        "over100_rate": 0.00641025641025641
+      },
+      "entry_to_DDS_publication_ms": {
+        "n": 152,
+        "p50": 60.975035,
+        "p95": 83.76096929999999,
+        "p99": 94.92317176000006,
+        "max": 100.590209,
+        "over100": 1,
+        "over100_rate": 0.006578947368421052
+      },
+      "control_log_ms": {
+        "n": 156,
+        "p50": 0.4449795,
+        "p95": 0.75796975,
+        "p99": 0.8027263499999999,
+        "max": 0.835601,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "candidate_export_ms": {
+        "n": 156,
+        "p50": 0.6265955,
+        "p95": 1.13785,
+        "p99": 10.65807174999976,
+        "max": 25.441694,
+        "over100": 0,
+        "over100_rate": 0.0
+      }
+    },
+    "warm_timing": {
+      "T_input_disjoint_ms": {
+        "n": 155,
+        "p50": 0.8318019999999999,
+        "p95": 1.4076852,
+        "p99": 1.8920011200000064,
+        "max": 2.8674020000000002,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_mppi_disjoint_ms": {
+        "n": 155,
+        "p50": 20.221391,
+        "p95": 39.134724299999995,
+        "p99": 41.44379458,
+        "max": 42.181945,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_check_ms": {
+        "n": 155,
+        "p50": 36.691828,
+        "p95": 48.7181947,
+        "p99": 52.55506254000001,
+        "max": 55.783826,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_other_prelog_ms": {
+        "n": 155,
+        "p50": 0.10290299999999775,
+        "p95": 0.15496459999999807,
+        "p99": 0.19205135999999962,
+        "max": 0.2279319999999998,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_total_necessary_boundary_ms": {
+        "n": 155,
+        "p50": 58.013928,
+        "p95": 80.20493739999996,
+        "p99": 92.04870884000006,
+        "max": 96.521497,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_actual_wrapper_pre_return_ms": {
+        "n": 155,
+        "p50": 60.755609,
+        "p95": 83.35418499999999,
+        "p99": 94.53785694000005,
+        "max": 100.216973,
+        "over100": 1,
+        "over100_rate": 0.0064516129032258064
+      },
+      "entry_to_DDS_publication_ms": {
+        "n": 151,
+        "p50": 60.979476,
+        "p95": 83.780053,
+        "p99": 94.982977,
+        "max": 100.590209,
+        "over100": 1,
+        "over100_rate": 0.006622516556291391
+      },
+      "control_log_ms": {
+        "n": 155,
+        "p50": 0.445193,
+        "p95": 0.7583004999999999,
+        "p99": 0.8028503800000001,
+        "max": 0.835601,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "candidate_export_ms": {
+        "n": 155,
+        "p50": 0.626582,
+        "p95": 1.1381223999999999,
+        "p99": 10.868399700000168,
+        "max": 25.441694,
+        "over100": 0,
+        "over100_rate": 0.0
+      }
+    },
+    "cold": {
+      "T_actual_wrapper_pre_return_ms": 42.66647,
+      "T_check_ms": 30.105668,
+      "T_input_ms": 1.58384,
+      "T_mppi_excluding_added_raw_read_ms": 8.040117,
+      "T_mppi_including_trace_ms": 8.342983,
+      "T_other_prelog_ms": 0.13280699999999968,
+      "T_total_necessary_boundary_ms": 40.165298,
+      "candidate_export_ms": 0.63105,
+      "check_samples": 98989,
+      "command": [
+        0.054084692150354385,
+        -0.005157408770173788,
+        0.03225305676460266
+      ],
+      "control_log_ms": 0.38644,
+      "cycle_id": 0,
+      "entry_steady_ns": 10940486109679,
+      "epoch_ns": 4025000000,
+      "failed": false,
+      "native_end_steady_ns": 10940494452662,
+      "necessary_end_steady_ns": 10940526274977,
+      "raw_read_ms": 0.302866,
+      "shadow_enabled": true,
+      "wrapper_pre_return_steady_ns": 10940528776149,
+      "relative_s": 0.022,
+      "T_input_disjoint_ms": 1.886706,
+      "T_mppi_disjoint_ms": 8.040117,
+      "entry_to_DDS_publication_ms": 42.928784,
+      "publisher": "010f7f016f0063dc0000000000014d030000000000000000",
+      "wrapper_to_DDS_publication_ms": 0.262314,
+      "nominal_first_to_actual_100ms_position_m": 0.0050844527818505545,
+      "nominal_first_to_actual_100ms_yaw_rad": 0.0028888015118276357,
+      "Twist_to_next_feedback_velocity_error": [
+        0.027085293594890973,
+        7.41947219200928e-07,
+        0.005802543950267136
+      ],
+      "native_safe_candidates": 300,
+      "prediction_reason": "",
+      "shadow_selected": {
+        "id": "selected_previous_yaw",
+        "joint_complete": "Unknown",
+        "joint_geometry": "Safe",
+        "visited_samples": 330,
+        "witness": null
+      }
+    },
+    "entry_intervals_ms": {
+      "n": 155,
+      "p50": 99.998952,
+      "p95": 100.2089888,
+      "p99": 130.30036250000018,
+      "max": 2839.343184,
+      "over100": 73,
+      "over100_rate": 0.47096774193548385
+    },
+    "publication_matches": 152,
+    "navigation_control_records": 160,
+    "missing_timing_cycle_ids": [
+      156,
+      157,
+      158,
+      159
+    ],
+    "recovery_or_schedule_gaps_over150ms": [
+      {
+        "previous_cycle_id": 120,
+        "next_cycle_id": 121,
+        "interval_ms": 2839.343184
+      }
+    ],
+    "nominal_to_actual_next_position_m": {
+      "n": 152,
+      "p50": 0.002986029740676215,
+      "p95": 0.031400643681277166,
+      "p99": 0.04878687600778651,
+      "max": 0.05141306277442251,
+      "over100": 0,
+      "over100_rate": 0.0
+    }
+  },
+  {
+    "cohort": "shadow_durable",
+    "events": {
+      "scene": "narrow",
+      "mode": "C",
+      "events": [
+        {
+          "kind": "goal_accepted",
+          "ROS_ns": 4001000000,
+          "wall_ns": 11449348615482,
+          "latest": {
+            "map": 1,
+            "scan": 3961000000,
+            "odom": 3980000000,
+            "rm_sentry_2027": 3980000000,
+            "moving_obstacle": 4000000000,
+            "prediction": 3895000000,
+            "command": 3996000000
+          }
+        },
+        {
+          "kind": "obstacle_motion_start",
+          "ROS_ns": 5001000000,
+          "wall_ns": 11450347377189
+        },
+        {
+          "kind": "crossed_or_hold",
+          "ROS_ns": 6002000000,
+          "wall_ns": 11451348847796
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 6848000000,
+          "wall_ns": 11452216658565,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "clear_target",
+          "ROS_ns": 13001000000,
+          "wall_ns": 11458358885012
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 13831000000,
+          "wall_ns": 11459199079896,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 14084000000,
+          "wall_ns": 11459453459117,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "controller_failure",
+          "ROS_ns": 17086000000,
+          "wall_ns": 11462455541830,
+          "reason": "Optimizer fail to compute path",
+          "fatal_to_trial": false,
+          "handled_by": "existing Nav2"
+        },
+        {
+          "kind": "goal_result",
+          "ROS_ns": 23096000000,
+          "wall_ns": 11468489521911,
+          "status": 4
+        }
+      ],
+      "goal_ns": 4001000000,
+      "end_ns": 23096000000,
+      "result_status": 4,
+      "finished": "goal_result",
+      "controller_failure": null,
+      "native_mppi_errors": [
+        {
+          "ROS_ns": 6848000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 13831000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 14084000000,
+          "reason": "Optimizer fail to compute path"
+        },
+        {
+          "ROS_ns": 17086000000,
+          "reason": "Optimizer fail to compute path"
+        }
+      ],
+      "native_recovery_enabled": true,
+      "contacts": [],
+      "contact_seen": 0,
+      "contacts_publishers": 1,
+      "latest": {
+        "map": 1,
+        "scan": 23035000000,
+        "odom": 23080000000,
+        "rm_sentry_2027": 23080000000,
+        "moving_obstacle": 23080000000,
+        "prediction": 23035000000,
+        "command": 23062000000
+      }
+    },
+    "cycles": 162,
+    "native_failed": 4,
+    "timing": {
+      "T_input_disjoint_ms": {
+        "n": 162,
+        "p50": 0.8051015,
+        "p95": 1.3580942999999996,
+        "p99": 1.49268587,
+        "max": 2.75739,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_mppi_disjoint_ms": {
+        "n": 162,
+        "p50": 21.037249,
+        "p95": 38.6315807,
+        "p99": 41.80313776,
+        "max": 42.261867,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_check_ms": {
+        "n": 162,
+        "p50": 36.823655,
+        "p95": 46.65323195,
+        "p99": 51.66623907999999,
+        "max": 52.314443,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_other_prelog_ms": {
+        "n": 162,
+        "p50": 0.09955650000000205,
+        "p95": 0.1595052999999978,
+        "p99": 0.17637300999999542,
+        "max": 0.1972820000000013,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_total_necessary_boundary_ms": {
+        "n": 162,
+        "p50": 61.8413855,
+        "p95": 80.38041825,
+        "p99": 85.91258783999999,
+        "max": 88.438482,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_actual_wrapper_pre_return_ms": {
+        "n": 162,
+        "p50": 64.398311,
+        "p95": 84.12235274999998,
+        "p99": 90.01812096,
+        "max": 92.24595,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "entry_to_DDS_publication_ms": {
+        "n": 158,
+        "p50": 64.6971645,
+        "p95": 83.06703405000002,
+        "p99": 90.3966008,
+        "max": 92.696913,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "control_log_ms": {
+        "n": 162,
+        "p50": 0.4374835,
+        "p95": 0.7734009499999999,
+        "p99": 0.8107177999999998,
+        "max": 0.833819,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "candidate_export_ms": {
+        "n": 162,
+        "p50": 0.630201,
+        "p95": 1.1359675999999999,
+        "p99": 1.1766012899999996,
+        "max": 28.53377,
+        "over100": 0,
+        "over100_rate": 0.0
+      }
+    },
+    "warm_timing": {
+      "T_input_disjoint_ms": {
+        "n": 161,
+        "p50": 0.804189,
+        "p95": 1.34727,
+        "p99": 1.4927032,
+        "max": 2.75739,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_mppi_disjoint_ms": {
+        "n": 161,
+        "p50": 20.75946,
+        "p95": 38.636307,
+        "p99": 41.804981600000005,
+        "max": 42.261867,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_check_ms": {
+        "n": 161,
+        "p50": 36.86665,
+        "p95": 46.671419,
+        "p99": 51.6730268,
+        "max": 52.314443,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_other_prelog_ms": {
+        "n": 161,
+        "p50": 0.09923500000000018,
+        "p95": 0.15988399999999814,
+        "p99": 0.17645959999999553,
+        "max": 0.1972820000000013,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_total_necessary_boundary_ms": {
+        "n": 161,
+        "p50": 61.8328,
+        "p95": 80.387021,
+        "p99": 85.9198364,
+        "max": 88.438482,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "T_actual_wrapper_pre_return_ms": {
+        "n": 161,
+        "p50": 64.36721,
+        "p95": 84.204742,
+        "p99": 90.0192146,
+        "max": 92.24595,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "entry_to_DDS_publication_ms": {
+        "n": 157,
+        "p50": 64.606329,
+        "p95": 83.14593739999998,
+        "p99": 90.3978054,
+        "max": 92.696913,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "control_log_ms": {
+        "n": 161,
+        "p50": 0.437562,
+        "p95": 0.773759,
+        "p99": 0.8108780000000001,
+        "max": 0.833819,
+        "over100": 0,
+        "over100_rate": 0.0
+      },
+      "candidate_export_ms": {
+        "n": 161,
+        "p50": 0.630136,
+        "p95": 1.136051,
+        "p99": 1.1769744000000002,
+        "max": 28.53377,
+        "over100": 0,
+        "over100_rate": 0.0
+      }
+    },
+    "cold": {
+      "T_actual_wrapper_pre_return_ms": 70.550874,
+      "T_check_ms": 27.896795,
+      "T_input_ms": 1.086631,
+      "T_mppi_excluding_added_raw_read_ms": 38.541781,
+      "T_mppi_including_trace_ms": 38.830409,
+      "T_other_prelog_ms": 0.13465499999999864,
+      "T_total_necessary_boundary_ms": 67.94849,
+      "candidate_export_ms": 0.649286,
+      "check_samples": 98989,
+      "command": [
+        0.054084692150354385,
+        -0.005157408770173788,
+        0.03225305676460266
+      ],
+      "control_log_ms": 0.40888,
+      "cycle_id": 0,
+      "entry_steady_ns": 11449369798184,
+      "epoch_ns": 4023000000,
+      "failed": false,
+      "native_end_steady_ns": 11449408628593,
+      "necessary_end_steady_ns": 11449437746674,
+      "raw_read_ms": 0.288628,
+      "shadow_enabled": true,
+      "wrapper_pre_return_steady_ns": 11449440349058,
+      "relative_s": 0.022,
+      "T_input_disjoint_ms": 1.3752589999999998,
+      "T_mppi_disjoint_ms": 38.541781,
+      "entry_to_DDS_publication_ms": 70.773795,
+      "publisher": "010f7f016f00e8980000000000014d030000000000000000",
+      "wrapper_to_DDS_publication_ms": 0.222921,
+      "nominal_first_to_actual_100ms_position_m": 0.004884991713760829,
+      "nominal_first_to_actual_100ms_yaw_rad": 0.002727536181618374,
+      "Twist_to_next_feedback_velocity_error": [
+        0.018285183124790758,
+        1.1346150789112719e-06,
+        0.0006759500538464636
+      ],
+      "native_safe_candidates": 300,
+      "prediction_reason": "",
+      "shadow_selected": {
+        "id": "selected_previous_yaw",
+        "joint_complete": "Unknown",
+        "joint_geometry": "Safe",
+        "visited_samples": 330,
+        "witness": null
+      }
+    },
+    "entry_intervals_ms": {
+      "n": 161,
+      "p50": 99.999973,
+      "p95": 100.145787,
+      "p99": 217.35731320000068,
+      "max": 2949.58655,
+      "over100": 80,
+      "over100_rate": 0.4968944099378882
+    },
+    "publication_matches": 158,
+    "navigation_control_records": 162,
+    "missing_timing_cycle_ids": [],
+    "recovery_or_schedule_gaps_over150ms": [
+      {
+        "previous_cycle_id": 98,
+        "next_cycle_id": 99,
+        "interval_ms": 287.923387
+      },
+      {
+        "previous_cycle_id": 99,
+        "next_cycle_id": 100,
+        "interval_ms": 170.313264
+      },
+      {
+        "previous_cycle_id": 129,
+        "next_cycle_id": 130,
+        "interval_ms": 2949.58655
+      }
+    ],
+    "nominal_to_actual_next_position_m": {
+      "n": 158,
+      "p50": 0.00225292350940539,
+      "p95": 0.010301155306969735,
+      "p99": 0.019457532101921086,
+      "max": 0.03882142125657689,
+      "over100": 0,
+      "over100_rate": 0.0
+    }
+  }
+]

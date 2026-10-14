@@ -1,0 +1,27 @@
+{
+  "stage": "Research",
+  "base": "dc7897e703ad4fd19fe1ab040c2419712b03cfff",
+  "hypotheses": [
+    "C83 information/soft selection/fallback/execution are separately causal; no assumed single cause",
+    "same-cycle synchronous read-only all-candidate classification may exceed total 100ms"
+  ],
+  "timing_clock": "steady_clock nanoseconds",
+  "budget_ms": 100,
+  "cycles": "include success and exceptions; cold first call separate, all and warm statistics",
+  "coverage": "300 raw x30x11 plus selected; original static occupancy/footprint/dynamic .02/reserves/Unknown",
+  "validation": "prior 33 exact predicates and full telemetry; no altered thresholds",
+  "live_cap": 4,
+  "runs": [
+    "narrow:C:83:aligned no_shadow",
+    "narrow:C:83:aligned shadow",
+    "narrow:D:83:aligned shadow if matching oracle available",
+    "crossing:D:29:aligned shadow"
+  ],
+  "counterfactual": "same frozen input CV/oracle replay; live feedback scheduling is not paired identical",
+  "raw_budget_MiB": 150,
+  "git_evidence_MiB": 6,
+  "min_free_GiB": 3,
+  "no_control_intervention": true,
+  "no_new_speed_owner": true,
+  "strict_stop": "no Cprime or algorithms"
+}

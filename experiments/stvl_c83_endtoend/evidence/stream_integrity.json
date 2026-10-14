@@ -1,0 +1,56 @@
+{
+  "records": [
+    {
+      "cohort": "no_shadow_retry",
+      "control_records": 163,
+      "timing_records": 156,
+      "complete_raw_records": 162,
+      "navigation_control_records": 163,
+      "navigation_timing_records": 156
+    },
+    {
+      "cohort": "normal",
+      "control_records": 147,
+      "timing_records": 143,
+      "complete_raw_records": 146,
+      "navigation_control_records": 147,
+      "navigation_timing_records": 143
+    },
+    {
+      "cohort": "shadow",
+      "control_records": 160,
+      "timing_records": 156,
+      "complete_raw_records": 159,
+      "navigation_control_records": 160,
+      "navigation_timing_records": 156
+    }
+  ],
+  "partial_raw_records": {
+    "/home/qihei/rm2027_navigation/build/stvl_c83_endtoend_20261014/build/c83_cache/no_shadow_retry/runs/narrow_C_83_aligned/paired_timing.jsonl.raw": {
+      "reason": "shutdown_partial_final_candidate_record",
+      "cycle_id": 162,
+      "expected_bytes": 432000,
+      "preserved_bytes": 428520
+    },
+    "/home/qihei/rm2027_navigation/build/stvl_c83_endtoend_20261014/build/c83_cache/normal/runs/crossing_D_29_aligned/paired_timing.jsonl.raw": {
+      "reason": "shutdown_partial_final_candidate_record",
+      "cycle_id": 146,
+      "expected_bytes": 432000,
+      "preserved_bytes": 429768
+    },
+    "/home/qihei/rm2027_navigation/build/stvl_c83_endtoend_20261014/build/c83_cache/shadow/runs/narrow_C_83_aligned/paired_timing.jsonl.raw": {
+      "reason": "shutdown_partial_final_candidate_record",
+      "cycle_id": 159,
+      "expected_bytes": 432000,
+      "preserved_bytes": 427728
+    }
+  },
+  "durability_fix": {
+    "cohort": "shadow_durable",
+    "control_records": 162,
+    "timing_records": 162,
+    "complete_raw_records": 162,
+    "IDs_match": true,
+    "partial_records": 0
+  }
+}
