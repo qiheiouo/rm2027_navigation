@@ -1,0 +1,289 @@
+{
+  "run": "narrow_C_83_aligned",
+  "scene": "narrow",
+  "group": "C",
+  "seed": 83,
+  "phase": "pilot",
+  "startup": false,
+  "outcome": "goal_result",
+  "result_status": 4,
+  "contact_messages": 0,
+  "native_events": 4,
+  "fatal_reason": null,
+  "variant": "allow_equal",
+  "validation_split": "repeat",
+  "fixture_revision": 2,
+  "cohort": "final_fixture",
+  "incomplete_jsonl_lines": {},
+  "elapsed_s": 18.483,
+  "success": true,
+  "arrival_s": 18.483,
+  "body_clearance_m": 0.2792328904192804,
+  "overlap_samples": 0,
+  "truth_samples": 924,
+  "truth_gap_ms": {
+    "n": 923,
+    "min": 20.0,
+    "p50": 20.0,
+    "p95": 20.0,
+    "p99": 20.0,
+    "max": 20.0
+  },
+  "wall_clearance_m": 0.23010179448837637,
+  "wall_overlap_samples": 0,
+  "safe_success": true,
+  "wait_s": 2.640000000000002,
+  "longest_stall_s": 2.520000000000002,
+  "start_count": 3,
+  "forward_flips": 2,
+  "max_retreat_m": 0.5753637367272101,
+  "path_length_m": 5.164861405374888,
+  "actual_max_velocity": [
+    0.495903961304822,
+    0.44531981335249726,
+    1.199999824166298
+  ],
+  "actual_max_acceleration": [
+    1.7302173453688119,
+    1.6900089251047368,
+    2.000003296416253
+  ],
+  "actual_accel_exceed_intervals_raw": [
+    103,
+    69,
+    26
+  ],
+  "actual_velocity_exceed_samples_raw": [
+    19,
+    0,
+    0
+  ],
+  "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+  "cycles": 159,
+  "compute_ms": {
+    "n": 159,
+    "min": 6.67805,
+    "p50": 19.052292,
+    "p95": 41.044441799999994,
+    "p99": 43.59167131999999,
+    "max": 99.456962
+  },
+  "compute_over100": 0,
+  "native_errors": 4,
+  "candidate_epoch_to_consume_ms": {
+    "n": 158,
+    "min": 5.0,
+    "p50": 17.0,
+    "p95": 40.0,
+    "p99": 40.43000000000001,
+    "max": 97.0
+  },
+  "input_pose_to_entry_ms": {
+    "n": 159,
+    "min": 3.0,
+    "p50": 12.0,
+    "p95": 15.0,
+    "p99": 15.0,
+    "max": 15.0
+  },
+  "epoch_basis_counts": {
+    "consume": 0,
+    "input_pose": 155
+  },
+  "prediction_receipt_to_consume_ms": {
+    "n": 158,
+    "min": 0.0,
+    "p50": 36.0,
+    "p95": 85.15,
+    "p99": 113.72000000000003,
+    "max": 180.0
+  },
+  "prediction_age_ms": {
+    "n": 155,
+    "min": 56.0,
+    "p50": 94.0,
+    "p95": 137.19999999999993,
+    "p99": 168.38000000000002,
+    "max": 226.0
+  },
+  "prediction_reason_counts": {
+    "": 155,
+    "not_scored": 1,
+    "stale_observation": 3
+  },
+  "temporal_scored_cycles": 158,
+  "temporal_valid_cycles": 155,
+  "consumed_nonzero": 77,
+  "zero_safe_candidates": 3,
+  "output_gap_ms": {
+    "n": 362,
+    "min": 15.0,
+    "p50": 50.0,
+    "p95": 59.94999999999999,
+    "p99": 101.0,
+    "max": 120.0
+  },
+  "output_gap_over100": 6,
+  "zero_hold_output_gap_ms": {
+    "n": 15,
+    "min": 24.0,
+    "p50": 48.0,
+    "p95": 73.09999999999994,
+    "p99": 110.61999999999996,
+    "max": 120.0
+  },
+  "active_output_gap_ms": {
+    "n": 347,
+    "min": 15.0,
+    "p50": 50.0,
+    "p95": 59.69999999999999,
+    "p99": 101.0,
+    "max": 102.0
+  },
+  "output_max_command": [
+    0.495898574590683,
+    0.44538968801498413,
+    1.2
+  ],
+  "output_bounds_violations": 0,
+  "observed_current_occupied_samples": 43,
+  "output_publisher_count": 1,
+  "output_single_owner": true,
+  "output_owner_named": true,
+  "shutdown_minus11": false,
+  "oracle_replay_alignment_m": null,
+  "aggregate_unsafe_circle_proxy_cycles": 15,
+  "optimistic_circle_proxy_cycles": 13,
+  "active_track_counts": {
+    "n": 159,
+    "min": 0,
+    "p50": 1.0,
+    "p95": 1.0,
+    "p99": 1.0,
+    "max": 1
+  },
+  "forecast_center_error_m": {
+    "0": {
+      "n": 104,
+      "min": 0.21744596357257825,
+      "p50": 0.27197335722136096,
+      "p95": 0.33466793213175133,
+      "p99": 0.38563431545399074,
+      "max": 0.40347926829905595
+    },
+    "1": {
+      "n": 104,
+      "min": 0.2099046058611839,
+      "p50": 0.2892016132975364,
+      "p95": 0.4623427749612979,
+      "p99": 0.5284852034386162,
+      "max": 0.5494120519778379
+    },
+    "3": {
+      "n": 104,
+      "min": 0.09314165420353113,
+      "p50": 0.36905286058094056,
+      "p95": 0.7648596818381505,
+      "p99": 0.8342412846974412,
+      "max": 0.8678066262673004
+    }
+  },
+  "base_collision_box_gap_m": 0.3216758843506376,
+  "base_collision_box_geometry": {
+    "size": [
+      0.6,
+      0.5,
+      0.18
+    ],
+    "pose": [
+      0.0,
+      0.0,
+      0.17,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "source": "actual frozen scene.sdf base_collision"
+  },
+  "hard_gate_pass": true,
+  "entry_to_DDS_publication_ms": {
+    "n": 155,
+    "min": 8.008372,
+    "p50": 21.844117,
+    "p95": 43.179465199999996,
+    "p99": 46.9357403,
+    "max": 101.60017
+  },
+  "entry_to_DDS_over100": 1,
+  "wrapper_ms_including_exports": {
+    "n": 159,
+    "min": 7.878872,
+    "p50": 21.640177,
+    "p95": 43.144776,
+    "p99": 46.982189559999995,
+    "max": 101.4759
+  },
+  "candidate_export_ms": {
+    "n": 159,
+    "min": 4.3e-05,
+    "p50": 5e-05,
+    "p95": 0.00015,
+    "p99": 0.00022397999999999914,
+    "max": 0.000278
+  },
+  "native_safe0_fresh_nonzero": 3,
+  "native_limited_target_max_acceleration": [
+    2.000000000000113,
+    2.000000000000113,
+    2.000000000000335
+  ],
+  "native_valid_intervals": 18483,
+  "native_parse_bad": 0,
+  "native_outside_navigation_incomplete_rows": 0,
+  "rate_warnings": 1,
+  "incomplete_original_lines": {
+    "execution_receipts.jsonl.gz": 0,
+    "plans.jsonl.gz": 0,
+    "paired_timing.jsonl.gz": 0,
+    "prediction.jsonl.gz": 0,
+    "execution_endpoints.jsonl.gz": 0,
+    "truth.jsonl.gz": 0,
+    "control.jsonl.gz": 0
+  },
+  "contacts_outcome": false,
+  "first_contact_relative_s": null,
+  "fresh_coasting": {
+    "accepted_cycles": [],
+    "rejected_cycles": []
+  },
+  "prediction_source_age_s": {
+    "n": 158,
+    "min": 0.056,
+    "p50": 0.0945,
+    "p95": 0.13660000000000003,
+    "p99": 0.16829000000000002,
+    "max": 0.226
+  },
+  "active_observation_age_s": {
+    "n": 104,
+    "min": 0.056,
+    "p50": 0.096,
+    "p95": 0.2150499999999997,
+    "p99": 0.5598299999999998,
+    "max": 0.665
+  },
+  "diagnostic_export_disabled_all": true,
+  "raw_candidate_file_absent": true,
+  "native_scoring_attempt_counts": {
+    "1": 159
+  },
+  "raw_read_ms": {
+    "n": 159,
+    "min": 0.0,
+    "p50": 0.0,
+    "p95": 0.0,
+    "p99": 0.0,
+    "max": 0.0
+  },
+  "effective_controller_records": 159
+}

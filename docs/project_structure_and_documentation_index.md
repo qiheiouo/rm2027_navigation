@@ -143,3 +143,4 @@ mapping artifact, mission priority or failure policy, update at least:
 - [Active输入范围有限闭环](research_history/stvl_active_scope_20261015.md)：四运行安全到达但无稳定收益，现场拒绝实际来自fresh coasting；保留资源超预算修订和原数据。
 - [Fresh-coasting等时合同](research_history/stvl_coasting_epoch_20261015.md)：16校验确认一处关系修正，过期/未来/坏confirmed仍拒绝；未在线改变导航。
 - [候选诊断导出开关](research_history/stvl_observer_export_20261015.md)：两冻结输入、8次原生update确认开关不改成本/序列数值；保留夹具失败，不是闭环安全证明。
+- [Fresh-coasting有限闭环](research_history/stvl_coasting_live_20261015.md)：两运行安全到达却未触发等时消费，净空下降和101.600ms负例保留；停止追加种子，等待新输入。

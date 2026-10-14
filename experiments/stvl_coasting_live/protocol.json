@@ -1,0 +1,18 @@
+{
+  "phase": "Research: fresh-coasting relation one paired navigation pilot",
+  "base": "65caadeadde16dbd59e64ef837bffb5cc9499047",
+  "runtime": "a880c7dc01cb424ea865e1fa0f33732396078670; installed Humble Nav21.1.20; existing Gazebo/STVL/CV/Mecanum/smoother/stub",
+  "hypothesis": "allowing coasting observed==source can remove legitimate re-acquisition rejection in a real full-input CV control chain; this alone may not improve safety or reach",
+  "pair": "narrow:C:83:aligned",
+  "variants": ["strict", "allow_equal"],
+  "starts_cap": 2,
+  "only_algorithm_difference": "generated model header COASTING observed_ns>=source_ns becomes observed_ns>source_ns",
+  "equal_conditions": "both use full original adapter/tracker messages, same CV/grid/ages/geometry/static scorer/native optimizer/retry/exception/budget/constraints/smoother/stub/SDF; explicit candidate_export_enabled=false and shadow_enabled=false in both; no active filter or NoSafe policy",
+  "timing": "10Hz controller, batch300,30x0.1s horizon; original observation/smoothing/physics timing; software clock independent wall time; native noise seed83, historical Gazebo engine seed unspecified",
+  "hard_gate": "goal reached AND original mechanical gap>=.047m AND actual base_collision box gap>=.005m AND no contacts/static collision/wall contact AND unique final velocity owner AND no output bounds violations AND finite native rows/target acceleration<=2.01m or rad/s2",
+  "local_consumer_evidence": "in accepted allow_equal records, identify actual COASTING observed==source tracks and preserve their entire source message; same predeclared pure validator before rejects and after accepts. Do not infer causality from lower total error counts alone",
+  "efficiency": "arrival time/path/wait/stops, min dynamic clearances, per-reason native failures, soft safe0 nonzero, entry-to-DDS publication p50/p95/p99/max/>100ms, prediction source/observation ages; report each of two runs",
+  "interpretation": "one online pair, not exact input replay or statistical performance superiority; a gate failure is a negative result, not tuned away; logging savings not prediction benefit; original C83 collision remains unresolved",
+  "budget": {"new_cache_cap_MiB":75,"guard_free_GiB":3.03,"minimum_free_GiB":3,"selected_git_cap_MiB":3},
+  "stop": "two starts or owner/resource/model failure, no automatic retries/tuning/extra seeds; preserve engineering failures and partial data"
+}

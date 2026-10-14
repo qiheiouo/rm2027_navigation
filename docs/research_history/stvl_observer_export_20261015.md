@@ -20,6 +20,6 @@
 
 ## 资源与后续
 
-owned cache约3.6MiB（实测收口复核），上限25MiB，保存输入片段和小日志；Git精选约0.46MiB。只读原研究、安装库和上轮完整raw，不删除唯一数据、冷备或其他worktree。没有ROS node/速度发布、硬件运动、生产改动、push/merge。
+owned cache约3.44MiB（实测收口复核），上限25MiB，保存输入片段和小日志；Git精选约0.46MiB。只读原研究、安装库和上轮完整raw，不删除唯一数据、冷备或其他worktree。没有ROS node/速度发布、硬件运动、生产改动、push/merge。
 
 此Go只允许用已有observer的显式低写入模式研究。若资源允许，下一阶段最多一对C83，只改变fresh-coasting关系，full输入、CV、原生MPPI/失败行为/动力学全部保持。单对不是统计优势证明；若出现安全失败保留并结束。NoSafe→动作接受及原C83接触仍Modify，实车映射Wait。
