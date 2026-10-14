@@ -1,0 +1,12 @@
+{
+  "trigger": "first completed full crossing run used about71MiB raw, exceeding initial60MiB owned cache budget",
+  "cause": "frozen shadow.hpp unconditionally exports binary candidates even with shadow_enabled=false; no fresh build and no computation algorithm changed",
+  "action_before_next_run": "pause new starts, losslessly gzip completed streams with byte SHA verification; preserve all candidates",
+  "revised_owned_peak_cap_MiB": 110,
+  "minimum_free_GiB": 3,
+  "guard_GiB": 3.03,
+  "guard_peak_MiB": 110,
+  "expected": "one raw run about71MiB plus preceding compressed runs; if it exceeds guard terminate only owned container, retain resource-aborted attempt and do not retry automatically",
+  "fairness": "all four comparisons retain identical installed plugin and unconditional candidate exporter, actual overhead measured; original planned no-export statement withdrawn",
+  "result_thresholds_changed": false
+}

@@ -1,0 +1,8 @@
+{
+  "before_any_new_motion": true,
+  "initial_attempt": "full crossing supervisor import failed before any process launch/outdir: frozen warnings.py shadows Python standard warnings, pathlib circular initialization",
+  "repair": "entry-point preload stdlib warnings then run same frozen supervisor via runpy; no frozen files modified",
+  "attempts_cap": "4 valid paired runs plus this prelaunch import failure; no additional scenario or seed",
+  "evidence": "build/active_scope_cache/full_crossing.log retained; retry uses full_crossing_retry.log",
+  "projection_timing": "core projection measurement before diagnostic log; not whole callback time"
+}

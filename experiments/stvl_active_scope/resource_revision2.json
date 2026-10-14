@@ -1,0 +1,13 @@
+{
+  "before_any_narrow_run": true,
+  "measured_first_gzip_MiB": 35,
+  "issue": "candidate floats compress less than expected; full+active crossing raw total reached117MiB; owned guard stopped active container during closeout, goal_result and supervisor0 already retained",
+  "action": "pause starts and byte-verify/compress the second completed run; keep guard incident, inspect normal completion and owner evidence",
+  "revised_owned_peak_cap_MiB": 200,
+  "absolute_disk_guard_GiB": 3.03,
+  "start_guard_GiB": 3.15,
+  "reason": "four existing-export runs need about150-190MiB peak; available initial~3.30GiB supports this without crossing3GiB, guard remains authoritative",
+  "new_scenes_or_repeats": false,
+  "evaluation_or_controller_changes": false,
+  "if_resource_guard_interrupts_navigation": "report incomplete and stop new trials, never retry to manufacture completed pairs"
+}

@@ -1,0 +1,19 @@
+{
+  "phase": "Research: active input scope closed-loop pilot",
+  "base": "63faca0dbafc74ac8d4e44814f499a0b12d88027",
+  "runtime_readonly": "a880c7dc01cb424ea865e1fa0f33732396078670",
+  "hypothesis": "removing only unused tentative tracks from scoring input prevents anchor rejection without repairing soft NoSafe or changing prediction models",
+  "pairs": ["crossing:C:13:aligned", "narrow:C:83:aligned"],
+  "variants": ["full", "active"],
+  "runs_cap": 4,
+  "variant_only": "existing adapter output scope; confirmed/coasting dictionaries retain all original timestamps, positions, velocity, size, 36 points atomically; tentative dictionaries preserved as ignored metadata",
+  "complete": "source_complete and source_track_count retained; complete describes active scoring subset if source was complete; retained+ignored exactly reconstruct original package",
+  "empty": "same current-occupancy baseline behavior; active_empty explicitly logged, never claimed as verified free space or a safety certificate",
+  "global_guards": "unknown states retained for original reject; duplicate ID keeps complete=false; no time/age/geometry threshold relaxed",
+  "unchanged": "installed native optimizer/plugin, retry/exception behavior, STVL, tracker/CV, RootCostProbe, original SDF/friction, smoother/stub/limits,10Hz controller,30x0.1s horizon,batch300, no shadow full-candidate export",
+  "metrics": ["original hard .047m mechanical gap and .005m base-link gap/no contacts/no walls gate", "reach/time/path/wait", "prediction rejection by reason", "safe0 new output and native failure", "compute p50/p95/p99 and rate warnings", "projection callback time and current decision age"],
+  "acceptance_before_results": "normal hard gate cannot worsen; removing anchor false rejection only supports local input contract value, not predictive information value or C83 fix; any collision/failed gate retained",
+  "interpretation": "one paired seed per scene, Gazebo engine seed historically unspecified, noise seed fixed; no statistical deployment claim or exact observation replay",
+  "resource": {"minimum_free_GiB":3,"start_free_GiB":3.15,"owned_cache_cap_MiB":60,"selected_git_cap_MiB":3},
+  "stopping": "after four valid attempts or a resource/model/owner contract failure, no adaptive retuning or Cprime; no other fixes combined"
+}

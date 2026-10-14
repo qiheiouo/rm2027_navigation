@@ -1,0 +1,272 @@
+{
+  "run": "narrow_C_83_aligned",
+  "scene": "narrow",
+  "group": "C",
+  "seed": 83,
+  "phase": "pilot",
+  "startup": false,
+  "outcome": "goal_result",
+  "result_status": 4,
+  "contact_messages": 0,
+  "native_events": 4,
+  "fatal_reason": null,
+  "variant": "input_pose",
+  "validation_split": "repeat",
+  "fixture_revision": 2,
+  "cohort": "final_fixture",
+  "incomplete_jsonl_lines": {},
+  "elapsed_s": 18.766,
+  "success": true,
+  "arrival_s": 18.766,
+  "body_clearance_m": 0.3408764680118391,
+  "overlap_samples": 0,
+  "truth_samples": 938,
+  "truth_gap_ms": {
+    "n": 937,
+    "min": 20.0,
+    "p50": 20.0,
+    "p95": 20.0,
+    "p99": 20.0,
+    "max": 20.0
+  },
+  "wall_clearance_m": 0.2244207261969241,
+  "wall_overlap_samples": 0,
+  "safe_success": true,
+  "wait_s": 2.540000000000002,
+  "longest_stall_s": 2.4200000000000017,
+  "start_count": 3,
+  "forward_flips": 2,
+  "max_retreat_m": 0.5300627336580918,
+  "path_length_m": 5.035742496076981,
+  "actual_max_velocity": [
+    0.499989715717453,
+    0.45430336601010834,
+    1.199999824166298
+  ],
+  "actual_max_acceleration": [
+    1.6299871981187704,
+    1.5505438044564972,
+    2.000003332796041
+  ],
+  "actual_accel_exceed_intervals_raw": [
+    101,
+    69,
+    28
+  ],
+  "actual_velocity_exceed_samples_raw": [
+    0,
+    0,
+    0
+  ],
+  "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+  "cycles": 161,
+  "compute_ms": {
+    "n": 161,
+    "min": 6.656962,
+    "p50": 22.969065,
+    "p95": 40.494135,
+    "p99": 43.61596140000001,
+    "max": 88.480389
+  },
+  "compute_over100": 0,
+  "native_errors": 4,
+  "candidate_epoch_to_consume_ms": {
+    "n": 160,
+    "min": 5.0,
+    "p50": 20.0,
+    "p95": 38.0,
+    "p99": 39.81999999999999,
+    "max": 87.0
+  },
+  "input_pose_to_entry_ms": {
+    "n": 161,
+    "min": 2.0,
+    "p50": 4.0,
+    "p95": 12.0,
+    "p99": 12.0,
+    "max": 14.0
+  },
+  "epoch_basis_counts": {
+    "consume": 0,
+    "input_pose": 157
+  },
+  "prediction_receipt_to_consume_ms": {
+    "n": 160,
+    "min": 1.0,
+    "p50": 34.0,
+    "p95": 103.64999999999978,
+    "p99": 177.73999999999995,
+    "max": 211.0
+  },
+  "prediction_age_ms": {
+    "n": 157,
+    "min": 24.0,
+    "p50": 91.00000000000001,
+    "p95": 183.4,
+    "p99": 222.4,
+    "max": 257.0
+  },
+  "prediction_reason_counts": {
+    "": 157,
+    "not_scored": 1,
+    "observation_anchor_epoch": 1,
+    "stale_observation": 2
+  },
+  "temporal_scored_cycles": 160,
+  "temporal_valid_cycles": 157,
+  "consumed_nonzero": 75,
+  "zero_safe_candidates": 2,
+  "output_gap_ms": {
+    "n": 367,
+    "min": 4.0,
+    "p50": 50.0,
+    "p95": 55.69999999999999,
+    "p99": 101.0,
+    "max": 106.0
+  },
+  "output_gap_over100": 6,
+  "zero_hold_output_gap_ms": {
+    "n": 14,
+    "min": 44.0,
+    "p50": 49.0,
+    "p95": 70.24999999999997,
+    "p99": 98.84999999999997,
+    "max": 106.0
+  },
+  "active_output_gap_ms": {
+    "n": 353,
+    "min": 4.0,
+    "p50": 50.0,
+    "p95": 55.39999999999998,
+    "p99": 101.0,
+    "max": 102.0
+  },
+  "output_max_command": [
+    0.5,
+    0.45438623428344727,
+    1.2
+  ],
+  "output_bounds_violations": 0,
+  "observed_current_occupied_samples": 44,
+  "output_publisher_count": 1,
+  "output_single_owner": true,
+  "output_owner_named": true,
+  "shutdown_minus11": false,
+  "oracle_replay_alignment_m": null,
+  "aggregate_unsafe_circle_proxy_cycles": 16,
+  "optimistic_circle_proxy_cycles": 14,
+  "active_track_counts": {
+    "n": 161,
+    "min": 0,
+    "p50": 1.0,
+    "p95": 1.0,
+    "p99": 1.0,
+    "max": 1
+  },
+  "forecast_center_error_m": {
+    "0": {
+      "n": 105,
+      "min": 0.216784472402204,
+      "p50": 0.27194063803594243,
+      "p95": 0.34104792361212544,
+      "p99": 0.3985028757608195,
+      "max": 0.41781350412904
+    },
+    "1": {
+      "n": 105,
+      "min": 0.2185626452569787,
+      "p50": 0.2871622354098271,
+      "p95": 0.47647485662871897,
+      "p99": 0.5520482508488407,
+      "max": 0.5748070087264752
+    },
+    "3": {
+      "n": 105,
+      "min": 0.08890676364864286,
+      "p50": 0.3540609399882438,
+      "p95": 0.7892414385391254,
+      "p99": 0.8894301881419361,
+      "max": 0.924488600957195
+    }
+  },
+  "input_scope": "active",
+  "base_collision_box_gap_m": 0.3794666260301279,
+  "base_collision_box_geometry": {
+    "size": [
+      0.6,
+      0.5,
+      0.18
+    ],
+    "pose": [
+      0.0,
+      0.0,
+      0.17,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "source": "actual frozen scene.sdf base_collision"
+  },
+  "hard_gate_pass": true,
+  "projection": {
+    "packets": 374,
+    "with_ignored_tentative": 13,
+    "active_empty_packets": 195,
+    "fields_preserved_all": true,
+    "core_ms_before_logging": {
+      "n": 374,
+      "min": 0.009206,
+      "p50": 0.013138500000000001,
+      "p95": 0.0215492,
+      "p99": 0.023535279999999985,
+      "max": 0.039218
+    }
+  },
+  "entry_to_DDS_publication_ms": {
+    "n": 157,
+    "min": 8.547865,
+    "p50": 27.75711,
+    "p95": 43.97724379999999,
+    "p99": 47.94096524,
+    "max": 90.443247
+  },
+  "entry_to_DDS_over100": 0,
+  "wrapper_ms_including_exports": {
+    "n": 161,
+    "min": 8.434818,
+    "p50": 27.487033,
+    "p95": 43.535716,
+    "p99": 47.62517560000001,
+    "max": 90.306915
+  },
+  "candidate_export_ms": {
+    "n": 161,
+    "min": 0.577609,
+    "p50": 0.622096,
+    "p95": 1.111241,
+    "p99": 1.1739072000000002,
+    "max": 1.242277
+  },
+  "native_safe0_fresh_nonzero": 2,
+  "native_limited_target_max_acceleration": [
+    2.000000000000113,
+    2.0000000000001683,
+    2.000000000000335
+  ],
+  "native_valid_intervals": 18766,
+  "native_parse_bad": 0,
+  "native_outside_navigation_incomplete_rows": 0,
+  "rate_warnings": 0,
+  "incomplete_original_lines": {
+    "execution_receipts.jsonl.gz": 0,
+    "plans.jsonl.gz": 0,
+    "paired_timing.jsonl.gz": 0,
+    "projection.jsonl.gz": 0,
+    "prediction.jsonl.gz": 0,
+    "execution_endpoints.jsonl.gz": 0,
+    "truth.jsonl.gz": 0,
+    "control.jsonl.gz": 0
+  },
+  "contacts_outcome": false,
+  "first_contact_relative_s": null
+}
