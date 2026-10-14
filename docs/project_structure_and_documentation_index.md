@@ -134,3 +134,6 @@ mapping artifact, mission priority or failure policy, update at least:
 - [执行与必要判定复现入口](../experiments/stvl_execution_realtime/README.md)：SDK视图、部分计时和SDF namespace适配修正；保留原模型C83接触和所有不可比工程证据。
 - [C83接触与同周期执行时序](research_history/stvl_c83_endtoend_20261014.md)：已知风险仍前进/迟到回退、617配对周期和原线程频率负例；Modify，未证明原接触已修复。
 - [C83定向研究与恢复入口](../experiments/stvl_c83_endtoend/README.md)：33项一致性、原raw只读复原、无控制干预；完整日志与精选Git证据分开保存。
+- [无安全候选与旧命令执行后果](research_history/stvl_lifecycle_hold_20261014.md)：原16个零safe仍新非零输出、有限物理制动及延迟注入、原生重试/异常问题；Modify。
+- [生命周期研究复现](../experiments/stvl_lifecycle_hold/README.md)：5启动4有效、精选恢复与完整raw保留。
+- [持续研究检查点与总报告](research_history/research_continuation_20261014.md)：用户授权的后续最小研究、阶段提交和恢复边界。

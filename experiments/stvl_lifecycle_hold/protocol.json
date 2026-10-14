@@ -1,0 +1,39 @@
+{
+  "phase": "Research",
+  "base": "a880c7dc01cb424ea865e1fa0f33732396078670",
+  "resources": {
+    "minimum_free_GiB": 3,
+    "new_cache_cap_MiB": 70,
+    "git_evidence_cap_MiB": 3
+  },
+  "history": [
+    "original corrected-model C83 45 cycles",
+    "complete shadow_durable162",
+    "observed100.590209ms publication case"
+  ],
+  "hypotheses": [
+    "zero-safe counter is native temporal diagnostic, risk affects soft cost but no binary failure",
+    "old command duration depends on output schedule+smoother lease+stub traffic, not just100ms",
+    "late history may correlate with risk without proving C83 deadline causation"
+  ],
+  "new_runs_cap": 4,
+  "fixtures": [
+    "empty timing script:normal,100ms delay,300ms delay,missing cycle,silence1.5s,stop ramp,feedback observation delay,resume",
+    "narrow C83 frozen upstream prefix reference",
+    "same prefix zero request at first zero-safe event",
+    "same prefix zero request delayed100ms"
+  ],
+  "prefix_validation": {
+    "pose_m": 0.05,
+    "yaw_rad": 0.06,
+    "body_velocity_component": 0.12,
+    "actor_center_m": 0.03,
+    "reason": "50ms wall smoother phase,20ms original truth/feedback; reject exact original counterfactual if exceeded"
+  },
+  "geometry_gate": "original mechanical bbox>=.047m/no contacts/no walls; proxy only",
+  "timing_tolerance_ms": 15,
+  "model": "real existing Gazebo Mecanum/smoother/stub, no instantaneous body substitute",
+  "analysis_limit": "no online MPPI in frozen execution fixture; conditional safe braking existence, not architecture proof/inevitability",
+  "stopping_rule": "no Cprime/no safety node/no new algorithm; retain all failures and original raw",
+  "brake_trigger": "original zero-safe cycle actual DDS publication time mapped to native sim clock (~2.522493s), not earlier entry2.514s"
+}

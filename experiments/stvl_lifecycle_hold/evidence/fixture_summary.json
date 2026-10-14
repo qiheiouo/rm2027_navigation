@@ -1,0 +1,634 @@
+[
+  {
+    "first_wall_overlap": null,
+    "wall_min_gap_m": 0.28215647087663054,
+    "wall_overlap_samples": 0,
+    "label": "brake",
+    "events": {
+      "kind": "brake",
+      "brake_trigger_s": 2.5224929946738053,
+      "origin_ns": 4003000000,
+      "end_ns": 13003000000,
+      "reason": "complete",
+      "events": [
+        {
+          "kind": "fixture_start",
+          "sim_ns": 4003000000,
+          "steady_ns": 24125871339943
+        }
+      ],
+      "contacts": [],
+      "producer_owners": 1,
+      "smoother_owners": 1,
+      "final_owners": 1,
+      "state_feedback": "physical odom, no canonical localization or MPPI in fixture",
+      "contact_messages_total": 0
+    },
+    "profiles": [
+      {
+        "case": "brake",
+        "stop_logical_s": 2.5224929946738053,
+        "state_at_stop_request": [
+          0.9949435510779834,
+          -0.040914635225077184,
+          -0.16804548276207804,
+          0.4859303247169056,
+          0.09670328871165654,
+          0.20768976537510753
+        ],
+        "first_zero_publication_s": 2.523,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 2.538,
+        "first_body_deceleration_s": 2.597,
+        "body_stop_s": 3.117,
+        "displacement_request_to_stop_m": 0.14815493994779072,
+        "stopped_state": [
+          1.142126802376933,
+          -0.05785502388660716,
+          -0.15393708673966552,
+          0.006110387953610706,
+          -7.159836977424465e-11,
+          6.883382752675971e-13
+        ],
+        "feedback_observer_age_ms": 18.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      }
+    ],
+    "prefix_comparison": {
+      "old": [
+        0.997664091977678,
+        -0.028963620833802137,
+        -0.1582675893220671,
+        0.4859303220943369,
+        0.0967032885808206,
+        0.20768976537510753
+      ],
+      "fixture": [
+        0.9949435510779834,
+        -0.040914635225077184,
+        -0.16804548276207804,
+        0.4859303247169056,
+        0.09670328871165654,
+        0.20768976537510753
+      ],
+      "position_error_m": 0.012256756820928392,
+      "yaw_error_rad": 0.009777893440010926,
+      "velocity_component_error": 2.6225687177472423e-09,
+      "within_frozen_tolerance": true,
+      "prefix_samples": 25,
+      "max_prefix_position_error_m": 0.012151095792640293,
+      "max_prefix_yaw_error_rad": 0.01037207651181901,
+      "max_prefix_velocity_error": 0.03426952775043901,
+      "max_actor_prefix_error_m": 0.0018625363121798078,
+      "prefix_all_within_frozen_tolerance": true
+    },
+    "dynamic_min_gap_m": 0.26558310673559493,
+    "bbox_overlap_samples": 0,
+    "contact_count": 0,
+    "native_max_target_acceleration": [
+      2.000000000000113,
+      2.0000000000000435,
+      2.0000000000001683
+    ],
+    "native_valid_intervals": 13002,
+    "native_parse_bad": 0
+  },
+  {
+    "first_wall_overlap": null,
+    "wall_min_gap_m": 0.2798167585903988,
+    "wall_overlap_samples": 0,
+    "label": "brake_delayed",
+    "events": {
+      "kind": "brake_delayed",
+      "brake_trigger_s": 2.5224929946738053,
+      "origin_ns": 4003000000,
+      "end_ns": 13003000000,
+      "reason": "complete",
+      "events": [
+        {
+          "kind": "fixture_start",
+          "sim_ns": 4003000000,
+          "steady_ns": 24217142266499
+        }
+      ],
+      "contacts": [],
+      "producer_owners": 1,
+      "smoother_owners": 1,
+      "final_owners": 1,
+      "state_feedback": "physical odom, no canonical localization or MPPI in fixture",
+      "contact_messages_total": 0
+    },
+    "profiles": [
+      {
+        "case": "brake_delayed",
+        "stop_logical_s": 2.5224929946738053,
+        "state_at_stop_request": [
+          1.0042644839262662,
+          -0.04400800474386609,
+          -0.17888685446090574,
+          0.48593032790442814,
+          0.09670328844095682,
+          0.20768976537510753
+        ],
+        "first_zero_publication_s": 2.624,
+        "injected_output_delays_ms": [
+          101.146412
+        ],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 2.67,
+        "first_body_deceleration_s": 2.737,
+        "body_stop_s": 3.257,
+        "displacement_request_to_stop_m": 0.21370910058563475,
+        "stopped_state": [
+          1.2176135047022014,
+          -0.05640860985291271,
+          -0.13715572008187743,
+          0.005910295468261919,
+          6.599173065675054e-11,
+          5.967448757360216e-13
+        ],
+        "feedback_observer_age_ms": 18.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      }
+    ],
+    "prefix_comparison": {
+      "old": [
+        0.997664091977678,
+        -0.028963620833802137,
+        -0.1582675893220671,
+        0.4859303220943369,
+        0.0967032885808206,
+        0.20768976537510753
+      ],
+      "fixture": [
+        1.0042644839262662,
+        -0.04400800474386609,
+        -0.17888685446090574,
+        0.48593032790442814,
+        0.09670328844095682,
+        0.20768976537510753
+      ],
+      "position_error_m": 0.016428592791483357,
+      "yaw_error_rad": 0.020619265138838633,
+      "velocity_component_error": 5.810091241453819e-09,
+      "within_frozen_tolerance": true,
+      "prefix_samples": 25,
+      "max_prefix_position_error_m": 0.016215856792366642,
+      "max_prefix_yaw_error_rad": 0.02061926514691076,
+      "max_prefix_velocity_error": 0.046299881705635926,
+      "max_actor_prefix_error_m": 0.0018859742790280354,
+      "prefix_all_within_frozen_tolerance": true
+    },
+    "dynamic_min_gap_m": 0.19432718605329224,
+    "bbox_overlap_samples": 0,
+    "contact_count": 0,
+    "native_max_target_acceleration": [
+      2.000000000000113,
+      2.0000000000000435,
+      2.0000000000001683
+    ],
+    "native_valid_intervals": 13002,
+    "native_parse_bad": 0
+  },
+  {
+    "first_wall_overlap": {
+      "relative_s": 7.878,
+      "gap_m": 0.0
+    },
+    "wall_min_gap_m": 0.0,
+    "wall_overlap_samples": 57,
+    "label": "reference",
+    "events": {
+      "kind": "reference",
+      "brake_trigger_s": 2.5224929946738053,
+      "origin_ns": 4002000000,
+      "end_ns": 13004000000,
+      "reason": "complete",
+      "events": [
+        {
+          "kind": "fixture_start",
+          "sim_ns": 4002000000,
+          "steady_ns": 24033556415719
+        }
+      ],
+      "contacts": [
+        {
+          "source_ns": 9283000000,
+          "receipt_ns": 9283000000,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::front_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "producer_owners": 1,
+      "smoother_owners": 1,
+      "final_owners": 1,
+      "state_feedback": "physical odom, no canonical localization or MPPI in fixture",
+      "contact_messages_total": 3718
+    },
+    "profiles": [
+      {
+        "case": "reference",
+        "stop_logical_s": 2.5224929946738053,
+        "state_at_stop_request": [
+          1.0032263613087842,
+          -0.042345141050720084,
+          -0.1765327651492038,
+          0.4859303264677568,
+          0.0967032878949429,
+          0.20768976537510753
+        ],
+        "first_zero_publication_s": 3.541,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 3.563,
+        "first_body_deceleration_s": 3.658,
+        "body_stop_s": 4.598,
+        "displacement_request_to_stop_m": 0.6711071562230102,
+        "stopped_state": [
+          1.5582024099636662,
+          0.3349960845702686,
+          0.38617525387864254,
+          -3.626800559026577e-11,
+          0.0038288650911424875,
+          1.4444001550373287e-11
+        ],
+        "feedback_observer_age_ms": 20.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      }
+    ],
+    "prefix_comparison": {
+      "old": [
+        0.997664091977678,
+        -0.028963620833802137,
+        -0.1582675893220671,
+        0.4859303220943369,
+        0.0967032885808206,
+        0.20768976537510753
+      ],
+      "fixture": [
+        1.0032263613087842,
+        -0.042345141050720084,
+        -0.1765327651492038,
+        0.4859303264677568,
+        0.0967032878949429,
+        0.20768976537510753
+      ],
+      "position_error_m": 0.014491512116668426,
+      "yaw_error_rad": 0.018265175827136687,
+      "velocity_component_error": 4.373419904002418e-09,
+      "within_frozen_tolerance": true,
+      "prefix_samples": 25,
+      "max_prefix_position_error_m": 0.014301701246009404,
+      "max_prefix_yaw_error_rad": 0.018265175835808112,
+      "max_prefix_velocity_error": 0.04029988142065122,
+      "max_actor_prefix_error_m": 0.0018947794992580924,
+      "prefix_all_within_frozen_tolerance": true
+    },
+    "dynamic_min_gap_m": 0.0,
+    "bbox_overlap_samples": 194,
+    "contact_count": 3718,
+    "native_max_target_acceleration": [
+      2.000000000000113,
+      2.000000000000113,
+      2.000000000000335
+    ],
+    "native_valid_intervals": 13040,
+    "native_parse_bad": 0
+  },
+  {
+    "first_wall_overlap": null,
+    "wall_min_gap_m": null,
+    "wall_overlap_samples": 0,
+    "label": "timing",
+    "events": {
+      "kind": "timing",
+      "origin_ns": 4002000000,
+      "end_ns": 4003000000,
+      "reason": "wall_cap",
+      "events": [
+        {
+          "kind": "fixture_start",
+          "sim_ns": 4002000000,
+          "steady_ns": 23440656456085
+        }
+      ],
+      "contacts": [],
+      "producer_owners": 1,
+      "smoother_owners": 1,
+      "final_owners": 1,
+      "state_feedback": "physical odom, no canonical localization or MPPI in fixture",
+      "contact_messages_total": 0
+    },
+    "profiles": [],
+    "prefix_comparison": null,
+    "dynamic_min_gap_m": null,
+    "bbox_overlap_samples": 0,
+    "contact_count": 0,
+    "native_max_target_acceleration": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "native_valid_intervals": 4002,
+    "native_parse_bad": 0
+  },
+  {
+    "first_wall_overlap": null,
+    "wall_min_gap_m": null,
+    "wall_overlap_samples": 0,
+    "label": "timing_retry",
+    "events": {
+      "kind": "timing",
+      "origin_ns": 4002000000,
+      "end_ns": 52002000000,
+      "reason": "complete",
+      "events": [
+        {
+          "kind": "fixture_start",
+          "sim_ns": 4002000000,
+          "steady_ns": 23721030993282
+        }
+      ],
+      "contacts": [],
+      "producer_owners": 1,
+      "smoother_owners": 1,
+      "final_owners": 1,
+      "state_feedback": "physical odom, no canonical localization or MPPI in fixture",
+      "contact_messages_total": 0
+    },
+    "profiles": [
+      {
+        "case": "feedback_observer_delay",
+        "stop_logical_s": 38,
+        "state_at_stop_request": [
+          5.7601890852204765,
+          -7.140495457513725e-13,
+          -1.6805017868859992e-13,
+          0.29999995595913376,
+          -1.0129825030377463e-17,
+          -1.0275194969332163e-16
+        ],
+        "first_zero_publication_s": 38.0,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 38.018,
+        "first_body_deceleration_s": 38.098,
+        "body_stop_s": 38.358,
+        "displacement_request_to_stop_m": 0.057140056174395326,
+        "stopped_state": [
+          5.817329141394872,
+          -7.236414560695308e-13,
+          -1.678998220055487e-13,
+          0.01999999706381317,
+          9.803554453663981e-18,
+          -1.2936754036362585e-17
+        ],
+        "feedback_observer_age_ms": 203.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      },
+      {
+        "case": "missing_cycle",
+        "stop_logical_s": 20,
+        "state_at_stop_request": [
+          3.065989480733248,
+          -3.122442133245692e-13,
+          -1.3134884018301656e-13,
+          0.299999955959418,
+          2.891103799957348e-17,
+          -1.8731630219655867e-18
+        ],
+        "first_zero_publication_s": 20.1,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [
+          200
+        ],
+        "first_smoother_deceleration_s": 20.127,
+        "first_body_deceleration_s": 20.198,
+        "body_stop_s": 20.458,
+        "displacement_request_to_stop_m": 0.0896600514003798,
+        "stopped_state": [
+          3.1556495321336278,
+          -3.2401607855043193e-13,
+          -1.3135010340416187e-13,
+          0.019999997074693354,
+          3.6211756072530195e-18,
+          8.27663883132389e-18
+        ],
+        "feedback_observer_age_ms": 3.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      },
+      {
+        "case": "normal",
+        "stop_logical_s": 2,
+        "state_at_stop_request": [
+          0.5440098509641604,
+          -5.5945186296511187e-14,
+          -4.520671267853351e-14,
+          0.29999995595930695,
+          -1.0639067839884854e-17,
+          7.110847536348814e-17
+        ],
+        "first_zero_publication_s": 2.0,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 2.035,
+        "first_body_deceleration_s": 2.098,
+        "body_stop_s": 2.378,
+        "displacement_request_to_stop_m": 0.06258005537577538,
+        "stopped_state": [
+          0.6065899063399358,
+          -5.877449507924045e-14,
+          -4.5205716670374255e-14,
+          0.01999999706392419,
+          -1.6889485736848264e-18,
+          -3.349194250872926e-18
+        ],
+        "feedback_observer_age_ms": 3.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      },
+      {
+        "case": "resume",
+        "stop_logical_s": 44,
+        "state_at_stop_request": [
+          6.560148967785376,
+          -9.032426849470925e-13,
+          -2.0624426022391144e-13,
+          0.2999999559589739,
+          -7.737575835880771e-17,
+          7.51941973920928e-15
+        ],
+        "first_zero_publication_s": 44.0,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 44.018,
+        "first_body_deceleration_s": 44.098,
+        "body_stop_s": 44.358,
+        "displacement_request_to_stop_m": 0.05714005617439444,
+        "stopped_state": [
+          6.617289023959771,
+          -9.150311662781964e-13,
+          -2.0625961058990658e-13,
+          0.01999999706381317,
+          -1.669259369024165e-19,
+          -2.3053697993704628e-17
+        ],
+        "feedback_observer_age_ms": 3.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      },
+      {
+        "case": "silence_1500ms",
+        "stop_logical_s": 26,
+        "state_at_stop_request": [
+          3.8962893588437777,
+          -4.2089690183516505e-13,
+          -1.2928937418089812e-13,
+          0.299999955959418,
+          3.506984454256326e-17,
+          1.4297283944557703e-16
+        ],
+        "first_zero_publication_s": 27.5,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274
+        ],
+        "first_smoother_deceleration_s": 26.916,
+        "first_body_deceleration_s": 26.978,
+        "body_stop_s": 27.258,
+        "displacement_request_to_stop_m": 0.32686001657873254,
+        "stopped_state": [
+          4.22314937542251,
+          -4.66220201253677e-13,
+          -1.292324749891861e-13,
+          0.01999999706381317,
+          1.4732659156068339e-18,
+          1.4673704277701623e-17
+        ],
+        "feedback_observer_age_ms": 4.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      },
+      {
+        "case": "single_100ms",
+        "stop_logical_s": 8,
+        "state_at_stop_request": [
+          1.3459897332320978,
+          -9.219560061359896e-14,
+          -4.520636335753169e-14,
+          0.29999995595919593,
+          7.213223588428349e-17,
+          1.1312470734918724e-16
+        ],
+        "first_zero_publication_s": 8.101,
+        "injected_output_delays_ms": [
+          100.679806
+        ],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 8.127,
+        "first_body_deceleration_s": 8.198,
+        "body_stop_s": 8.458,
+        "displacement_request_to_stop_m": 0.08966005140034738,
+        "stopped_state": [
+          1.4356497846324452,
+          -9.624755464826478e-14,
+          -4.52044356516436e-14,
+          0.01999999707487099,
+          6.863028756413692e-19,
+          -7.555792347099071e-19
+        ],
+        "feedback_observer_age_ms": 4.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      },
+      {
+        "case": "stop_ramp",
+        "stop_logical_s": 32,
+        "state_at_stop_request": [
+          4.964708202643644,
+          -5.592702961915309e-13,
+          -1.249076431593195e-13,
+          0.2981000023541114,
+          1.7365456913334502e-17,
+          3.371596835020709e-16
+        ],
+        "first_zero_publication_s": 32.0,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 32.003,
+        "first_body_deceleration_s": 32.078,
+        "body_stop_s": 32.338,
+        "displacement_request_to_stop_m": 0.05256105620099305,
+        "stopped_state": [
+          5.017269258844637,
+          -5.658401743017282e-13,
+          -1.2497156491958313e-13,
+          0.01999999706381317,
+          -7.563253159145656e-18,
+          1.6663637450411705e-17
+        ],
+        "feedback_observer_age_ms": 22.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      },
+      {
+        "case": "three_period_300ms",
+        "stop_logical_s": 14,
+        "state_at_stop_request": [
+          2.175989611386743,
+          -1.827612630947264e-13,
+          -8.586471455827013e-14,
+          0.299999955959418,
+          -3.7440716225652497e-17,
+          1.2622258933494158e-16
+        ],
+        "first_zero_publication_s": 14.299,
+        "injected_output_delays_ms": [
+          300.032862,
+          300.681265,
+          300.171218
+        ],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 14.327,
+        "first_body_deceleration_s": 14.398,
+        "body_stop_s": 14.658,
+        "displacement_request_to_stop_m": 0.14966004259225718,
+        "stopped_state": [
+          2.325649653979,
+          -1.9561022863271034e-13,
+          -8.586772336971572e-14,
+          0.019999997074693354,
+          -8.216717570266756e-19,
+          1.2614245645543857e-18
+        ],
+        "feedback_observer_age_ms": 3.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      }
+    ],
+    "prefix_comparison": null,
+    "dynamic_min_gap_m": null,
+    "bbox_overlap_samples": 0,
+    "contact_count": 0,
+    "native_max_target_acceleration": [
+      2.0000000000000293,
+      0.0,
+      0.0
+    ],
+    "native_valid_intervals": 52002,
+    "native_parse_bad": 0
+  }
+]
