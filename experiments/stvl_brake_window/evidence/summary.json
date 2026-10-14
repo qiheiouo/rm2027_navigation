@@ -1,0 +1,208 @@
+[
+  {
+    "first_wall_overlap": null,
+    "wall_min_gap_m": 0.2923982675904907,
+    "wall_overlap_samples": 0,
+    "label": "brake_late04",
+    "events": {
+      "kind": "brake",
+      "brake_trigger_s": 2.922492994673805,
+      "origin_ns": 4002000000,
+      "end_ns": 13003000000,
+      "reason": "complete",
+      "events": [
+        {
+          "kind": "fixture_start",
+          "sim_ns": 4002000000,
+          "steady_ns": 26984489750017
+        }
+      ],
+      "contacts": [],
+      "producer_owners": 1,
+      "smoother_owners": 1,
+      "final_owners": 1,
+      "state_feedback": "physical odom, no canonical localization or MPPI in fixture",
+      "contact_messages_total": 0
+    },
+    "profiles": [
+      {
+        "case": "brake",
+        "stop_logical_s": 2.922492994673805,
+        "state_at_stop_request": [
+          1.200547698373132,
+          0.024662675473109703,
+          0.017298457691024338,
+          0.5001072976521728,
+          0.1753872597043657,
+          0.6115292264452146
+        ],
+        "first_zero_publication_s": 2.923,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 2.967,
+        "first_body_deceleration_s": 2.998,
+        "body_stop_s": 3.558,
+        "displacement_request_to_stop_m": 0.17362238635016053,
+        "stopped_state": [
+          1.3691797359043079,
+          0.06599025657832935,
+          0.1337795311779369,
+          0.019999996862528516,
+          7.187015688662904e-12,
+          5.287437154777308e-12
+        ],
+        "feedback_observer_age_ms": 17.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      }
+    ],
+    "prefix_comparison": {
+      "old": [
+        1.2015076453522453,
+        0.02911802032456251,
+        0.030990178551936448,
+        0.5001050047330998,
+        0.17539380020033107,
+        0.5984553135931492
+      ],
+      "fixture": [
+        1.200547698373132,
+        0.024662675473109703,
+        0.017298457691024338,
+        0.5001072976521728,
+        0.1753872597043657,
+        0.6115292264452146
+      ],
+      "position_error_m": 0.004557586636376291,
+      "yaw_error_rad": 0.01369172086091211,
+      "velocity_component_error": 0.013073912852065384,
+      "within_frozen_tolerance": true,
+      "prefix_samples": 29,
+      "max_prefix_position_error_m": 0.00471254830095199,
+      "max_prefix_yaw_error_rad": 0.014177838734844826,
+      "max_prefix_velocity_error": 0.05400000489316881,
+      "max_actor_prefix_error_m": 0.0018690808254964164,
+      "prefix_all_within_frozen_tolerance": true
+    },
+    "dynamic_min_gap_m": 0.04342251820592713,
+    "bbox_overlap_samples": 0,
+    "contact_count": 0,
+    "native_max_target_acceleration": [
+      2.000000000000113,
+      2.000000000000085,
+      2.000000000000335
+    ],
+    "native_valid_intervals": 13003,
+    "native_parse_bad": 0,
+    "native_scope": "full"
+  },
+  {
+    "first_wall_overlap": {
+      "relative_s": 8.418,
+      "gap_m": 0.0
+    },
+    "wall_min_gap_m": 0.0,
+    "wall_overlap_samples": 30,
+    "label": "brake_late08",
+    "events": {
+      "kind": "brake",
+      "brake_trigger_s": 3.322492994673805,
+      "origin_ns": 4002000000,
+      "end_ns": 13002000000,
+      "reason": "complete",
+      "events": [
+        {
+          "kind": "fixture_start",
+          "sim_ns": 4002000000,
+          "steady_ns": 27042879126783
+        }
+      ],
+      "contacts": [
+        {
+          "source_ns": 8557000000,
+          "receipt_ns": 8557000000,
+          "pairs": [
+            [
+              "moving_obstacle::obstacle_link::obstacle_collision",
+              "rm_sentry_2027::front_right_wheel::collision"
+            ]
+          ]
+        }
+      ],
+      "producer_owners": 1,
+      "smoother_owners": 1,
+      "final_owners": 1,
+      "state_feedback": "physical odom, no canonical localization or MPPI in fixture",
+      "contact_messages_total": 4441
+    },
+    "profiles": [
+      {
+        "case": "brake",
+        "stop_logical_s": 3.322492994673805,
+        "state_at_stop_request": [
+          1.3982227669725948,
+          0.06783772255709108,
+          0.293056919680623,
+          0.4966715365526741,
+          0.05029565535779523,
+          0.5659441940226505
+        ],
+        "first_zero_publication_s": 3.323,
+        "injected_output_delays_ms": [],
+        "missing_output_cycles": [],
+        "first_smoother_deceleration_s": 3.329,
+        "first_body_deceleration_s": 3.398,
+        "body_stop_s": 3.918,
+        "displacement_request_to_stop_m": 0.151079715007738,
+        "stopped_state": [
+          1.5394424152472705,
+          0.1215228343479426,
+          0.37758176328084964,
+          0.01826043560321632,
+          -5.750970132986535e-10,
+          -9.936496070395151e-13
+        ],
+        "feedback_observer_age_ms": 17.0,
+        "outcomes_scope": "no online MPPI; missing/late frozen upstream signals"
+      }
+    ],
+    "prefix_comparison": {
+      "old": [
+        1.3953441561628181,
+        0.08426650361753461,
+        0.2992404293380324,
+        0.49828991057951777,
+        0.05191134355939139,
+        0.5675616557709873
+      ],
+      "fixture": [
+        1.3982227669725948,
+        0.06783772255709108,
+        0.293056919680623,
+        0.4966715365526741,
+        0.05029565535779523,
+        0.5659441940226505
+      ],
+      "position_error_m": 0.016679066140709173,
+      "yaw_error_rad": 0.006183509657409436,
+      "velocity_component_error": 0.001618374026843672,
+      "within_frozen_tolerance": true,
+      "prefix_samples": 33,
+      "max_prefix_position_error_m": 0.0169731109102306,
+      "max_prefix_yaw_error_rad": 0.01283299642105351,
+      "max_prefix_velocity_error": 0.028299883870204212,
+      "max_actor_prefix_error_m": 0.0018808127831551058,
+      "prefix_all_within_frozen_tolerance": true
+    },
+    "dynamic_min_gap_m": 0.0,
+    "bbox_overlap_samples": 229,
+    "contact_count": 4441,
+    "native_max_target_acceleration": [
+      2.000000000000113,
+      2.000000000000113,
+      2.000000000000335
+    ],
+    "native_valid_intervals": 13041,
+    "native_parse_bad": 0,
+    "native_scope": "full"
+  }
+]

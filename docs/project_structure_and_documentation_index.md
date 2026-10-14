@@ -138,3 +138,4 @@ mapping artifact, mission priority or failure policy, update at least:
 - [生命周期研究复现](../experiments/stvl_lifecycle_hold/README.md)：5启动4有效、精选恢复与完整raw保留。
 - [持续研究检查点与总报告](research_history/research_continuation_20261014.md)：用户授权的后续最小研究、阶段提交和恢复边界。
 - [原生失败合同最小验证](research_history/stvl_failure_contract_20261014.md)：实际重试清零恢复第二评分，NoSafe仍未解决；异常容错只完成源码语义回放。
+- [有限制动时刻对照](research_history/stvl_brake_window_20261014.md)：延后400ms净空门限失败，800ms停车后接触；两次完整原始数据保存。

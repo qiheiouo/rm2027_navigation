@@ -1,0 +1,18 @@
+{
+  "base": "f10a521dd107af5486b32192a6357c709702bc0c",
+  "frozen_fixture": "055f29beb74c3df7eaf7cba9e659e2c80e9371dc:experiments/stvl_lifecycle_hold/fixture.py",
+  "stage": "finite physical braking opportunity, not online consumer intervention",
+  "hypothesis": "delaying the first available braking request within the unchanged frozen upstream prefix can reduce dynamic clearance even with correct zero publication",
+  "new_offsets_s": [0.4,0.8],
+  "historical_offsets_s": [0,0.1],
+  "new_attempts_cap": 2,
+  "same_model_smoother_stub_actor": true,
+  "hard_conditions": "mechanical gap>=0.047m, no contacts, no wall overlaps; no target-rate violation beyond2.01",
+  "prefix_limits": {"pose_m":0.05,"yaw_rad":0.06,"speed_component":0.12,"actor_m":0.03},
+  "prefix_validation": "all0.1s samples up to actual registered brake anchor; fail => conditional result not comparable",
+  "metrics": ["actual request/publication/bodydeceleration/nearstop", "minimum gap throughout9s", "contact messages and one-run collision outcome", "target acceleration", "physical state at request"],
+  "numeric": "reuse first-stage stop/geometry tolerances; no threshold change after results",
+  "interpretation": "only four tested starts, no exact latest safe start, no physical inevitability proof, no navigation completion",
+  "resource": {"minimum_free_GiB":3,"new_cache_cap_MiB":30,"git_selected_cap_MiB":2},
+  "stopping": "stop after these two cases; no adaptive grid search or production controller"
+}
