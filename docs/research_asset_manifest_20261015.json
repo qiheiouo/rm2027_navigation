@@ -40246,7 +40246,7 @@
     "tag_ref": "refs/tags/research/stvl-temporal-lifecycle-frozen-20261015",
     "archive_ref": "refs/heads/codex/navigation-stage-freeze-20261015",
     "algorithm_push_verified": true,
-    "archive_push_verified": false,
+    "archive_push_verified": true,
     "formal_refs_touched": false,
     "raw_uploaded": false,
     "full_fresh_network_clone_this_freeze": false,
@@ -40271,7 +40271,9 @@
     "push_atomic": true,
     "no_follow_tags": true,
     "recurse_submodules": false,
-    "repository_size_warning": "Gitee reported 977.770MB repository, >80% (819MB warning threshold); do not delete/rewrite history as part of freeze"
+    "repository_size_warning": "Gitee reported 977.770MB repository, >80% (819MB warning threshold); do not delete/rewrite history as part of freeze",
+    "verified_archive_checkpoint": "56fb66e47a56cac878d5d0679441c824583ec6c9",
+    "archive_verification": "independent branch published, ls-remote HEAD matches; this metadata commit follows that checkpoint; final branch tip resolved in final receipt"
   },
   "backup_gaps": [
     "latest ignored full raw has no verified second-device/machine copy",
@@ -40283,7 +40285,8 @@
     "new_worktree_sparse": "AGENTS/.gitignore/.gitmodules/docs only",
     "new_builds_simulations_or_fault_injections": 0,
     "raw_deletions": 0,
-    "historical_worktree_removals": 0
+    "historical_worktree_removals": 0,
+    "free_bytes_at_closeout_before_final_commit": 3292622848
   },
   "report_index": [
     {
@@ -40390,5 +40393,26 @@
       "git_blob": "7476c4055b1ed4d7ddb8c738444af216da4156a0",
       "present": true
     }
-  ]
+  ],
+  "preservation_closeout": {
+    "checked_utc": "2026-10-14T23:56:20.724228+00:00",
+    "existing_refs_preserved": 122,
+    "changed_existing_refs": 0,
+    "only_added_local_refs": [
+      "refs/heads/codex/navigation-stage-freeze-20261015",
+      "refs/tags/research/stvl-temporal-lifecycle-frozen-20261015"
+    ],
+    "original_root_WIP_status_unchanged": true,
+    "algorithm_worktree_clean": true,
+    "algorithm_head_unchanged": true,
+    "paused_navigation_automation_ids": [
+      "automation",
+      "rm2027",
+      "rm2027-mppi",
+      "temporal-wait-go-research"
+    ],
+    "new_algorithm_tests": 0,
+    "historical_worktrees_removed": 0,
+    "raw_deleted": 0
+  }
 }

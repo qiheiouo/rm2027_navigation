@@ -65,7 +65,7 @@
 
 ## 保存与恢复边界
 
-算法冻结点40bdc50144ed6b91e0770d60ac930396432d3119，tag `research/stvl-temporal-lifecycle-frozen-20261015`；归档分支 `codex/navigation-stage-freeze-20261015`。本轮独立研究ref/tag已通过SSH保存到既有Gitee并由匿名ls-remote核对；归档分支保存状态与检查点详见manifest/final receipt。没有force、merge、正式ref改动或子模块push。
+算法冻结点40bdc50144ed6b91e0770d60ac930396432d3119，tag `research/stvl-temporal-lifecycle-frozen-20261015`；归档分支 `codex/navigation-stage-freeze-20261015`。本轮独立研究ref/tag已通过SSH保存到既有Gitee并由匿名ls-remote核对；归档分支首个检查点56fb66e47a56cac878d5d0679441c824583ec6c9已保存并核对，随后追加本次保存凭证；最终HEAD详见Git及交付。没有force、merge、正式ref改动或子模块push。
 
 完整原始证据本地目录和5669个现存文件的大小/SHA见manifest，约1.55GiB，涵盖STVL对照、失败修复、联合检查、实时/C83、生命周期和latest fresh-coasting。**Git保存只包含已跟踪精选数据，ignored raw仍无经验证的异机副本。** 更早R3/R4及冷归档中未逐项核对的ignored数据继续完整保留；manifest不冒称覆盖整个旧巨型工作区。
 
