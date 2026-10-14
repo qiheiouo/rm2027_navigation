@@ -1,0 +1,13 @@
+{
+ "date":"2026-10-14",
+ "factor":"require native polygon footprint collision checking at every candidate pose when consider_footprint=true",
+ "evidence":"actual diagnostic windows show footprintCostAtPose=254 with center cost0 or below circumscribed threshold; original CostCritic skips them. Native counterexample scores unsafe0, repaired500, safe_wait0",
+ "implementation":"RootCostProbe check_all_poses=true; inherited native initialize/equation/collision checker/fail policy; removes center-only shortcuts, not a new controller",
+ "unchanged":"map, STVL, inflation=.30, padded footprint=.34/.29, weights/collision_cost, velocity/acceleration settings, model_dt, 300x30/1 optimizer, prediction provider/horizon/source timing and output ownership",
+ "before_diag":"RootCostProbe check_all_poses=false, native CostCritic::score called directly",
+ "after":"same diagnostic harness, check_all_poses=true",
+ "not_modified":"dynamic all-unsafe risk policy, model/smoother response, SG/aggregation, geometry sizes; limitations reported rather than silently fixed",
+ "paired_cases":"same8 cases as before_reproduction",
+ "heldout":"seed61 four cases, plus one independent actor-only calibration for D; no before61 efficacy claim",
+ "stop":"one repair factor only; preserve any regression; no further tuning after this cohort"
+}

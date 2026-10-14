@@ -1,0 +1,4903 @@
+[
+  {
+    "run": "crossing_A_29_aligned",
+    "scene": "crossing",
+    "group": "A",
+    "seed": 29,
+    "phase": "finite",
+    "startup": false,
+    "outcome": "actor_contact",
+    "result_status": null,
+    "contact_messages": 1,
+    "native_events": 0,
+    "fatal_reason": null,
+    "variant": "input_pose",
+    "validation_split": "repeat",
+    "fixture_revision": 0,
+    "cohort": "final_fixture",
+    "incomplete_jsonl_lines": {
+      "prediction.jsonl": 0,
+      "truth.jsonl": 0,
+      "plans.jsonl": 0,
+      "control.jsonl": 0
+    },
+    "elapsed_s": 3.584,
+    "success": false,
+    "arrival_s": null,
+    "body_clearance_m": 0.0,
+    "overlap_samples": 3,
+    "truth_samples": 179,
+    "truth_gap_ms": {
+      "n": 178,
+      "min": 20.0,
+      "p50": 20.0,
+      "p95": 20.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "wall_clearance_m": null,
+    "wall_overlap_samples": 0,
+    "safe_success": false,
+    "wait_s": 0.14,
+    "longest_stall_s": 0.14,
+    "start_count": 1,
+    "forward_flips": 0,
+    "max_retreat_m": 0,
+    "path_length_m": 1.4689612687505624,
+    "actual_max_velocity": [
+      0.49998776595153005,
+      0.318273867763587,
+      0.22012836416251957
+    ],
+    "actual_max_acceleration": [
+      1.629991266618978,
+      1.6294310411857083,
+      1.8650282436283305
+    ],
+    "actual_accel_exceed_intervals_raw": [
+      17,
+      7,
+      0
+    ],
+    "actual_velocity_exceed_samples_raw": [
+      0,
+      0,
+      0
+    ],
+    "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+    "cycles": 36,
+    "compute_ms": {
+      "n": 36,
+      "min": 1.27772,
+      "p50": 18.241449,
+      "p95": 32.485602,
+      "p99": 36.86296984999999,
+      "max": 39.079495
+    },
+    "compute_over100": 0,
+    "native_errors": 0,
+    "candidate_epoch_to_consume_ms": null,
+    "input_pose_to_entry_ms": {
+      "n": 36,
+      "min": 7.0,
+      "p50": 7.0,
+      "p95": 8.0,
+      "p99": 8.0,
+      "max": 8.0
+    },
+    "epoch_basis_counts": {
+      "consume": 0,
+      "input_pose": 0
+    },
+    "prediction_receipt_to_consume_ms": null,
+    "prediction_age_ms": null,
+    "prediction_reason_counts": {
+      "not_enabled": 36
+    },
+    "temporal_scored_cycles": 0,
+    "temporal_valid_cycles": 0,
+    "consumed_nonzero": 0,
+    "zero_safe_candidates": 0,
+    "output_gap_ms": {
+      "n": 71,
+      "min": 42.0,
+      "p50": 50.0,
+      "p95": 52.0,
+      "p99": 53.3,
+      "max": 54.0
+    },
+    "output_gap_over100": 0,
+    "zero_hold_output_gap_ms": {
+      "n": 2,
+      "min": 42.0,
+      "p50": 45.5,
+      "p95": 48.65,
+      "p99": 48.93,
+      "max": 49.0
+    },
+    "active_output_gap_ms": {
+      "n": 69,
+      "min": 46.0,
+      "p50": 50.0,
+      "p95": 52.0,
+      "p99": 53.31999999999999,
+      "max": 54.0
+    },
+    "output_max_command": [
+      0.5,
+      0.3581023913621902,
+      0.2201283872127533
+    ],
+    "output_bounds_violations": 0,
+    "observed_current_occupied_samples": 12,
+    "output_publisher_count": 1,
+    "output_single_owner": true,
+    "output_owner_named": true,
+    "shutdown_minus11": false,
+    "oracle_replay_alignment_m": {
+      "n": 179,
+      "min": 1.5400631886430816e-07,
+      "p50": 0.00010669248668060405,
+      "p95": 0.000296064289048914,
+      "p99": 0.00030288287182797194,
+      "max": 0.0003034754288078201
+    },
+    "aggregate_unsafe_circle_proxy_cycles": 0,
+    "optimistic_circle_proxy_cycles": 0,
+    "snapshots": [
+      {
+        "epoch_ns": 4027000000,
+        "t": 0.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": 1.201192469678185,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 156,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.7501291632652283
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.026376341097056874,
+            "p99": 0.06897597081959235,
+            "max": 0.12018360942602158
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.7501291632652283,
+            "p50": 2.1629254817962646,
+            "p95": 2.9704778194427495,
+            "p99": 3.2549197936058043,
+            "max": 3.422832727432251
+          }
+        },
+        "command": [
+          0.04579392448067665,
+          -0.004643780179321766,
+          -0.04204455763101578
+        ],
+        "prediction_reason": null
+      },
+      {
+        "epoch_ns": 6027000000,
+        "t": 2.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": -0.06949063230672065,
+        "GT_full30": false,
+        "best_raw_index_before_gamma": 221,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.16504858434200287,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.3174799084663391,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.11786532402038574
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.20362704992294312,
+            "p95": 0.4624630615115166,
+            "p99": 0.5380967915058135,
+            "max": 0.8170731067657471
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.08935071527957916,
+            "p50": 0.7538697421550751,
+            "p95": 1.740808939933777,
+            "p99": 2.21538954257965,
+            "max": 2.655186176300049
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.04558885097503662,
+            "p50": 1.0294164419174194,
+            "p95": 2.0045900464057924,
+            "p99": 2.4168972420692443,
+            "max": 2.591973066329956
+          }
+        },
+        "command": [
+          0.4819377064704895,
+          0.11746539175510406,
+          0.02468680590391159
+        ],
+        "prediction_reason": null
+      }
+    ],
+    "active_track_counts": {
+      "n": 36,
+      "min": 0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "max": 0
+    },
+    "forecast_center_error_m": {
+      "0": null,
+      "1": null,
+      "3": null
+    }
+  },
+  {
+    "run": "crossing_C_29_aligned",
+    "scene": "crossing",
+    "group": "C",
+    "seed": 29,
+    "phase": "finite",
+    "startup": false,
+    "outcome": "goal_result",
+    "result_status": 4,
+    "contact_messages": 0,
+    "native_events": 0,
+    "fatal_reason": null,
+    "variant": "input_pose",
+    "validation_split": "repeat",
+    "fixture_revision": 0,
+    "cohort": "final_fixture",
+    "incomplete_jsonl_lines": {
+      "prediction.jsonl": 0,
+      "truth.jsonl": 0,
+      "plans.jsonl": 0,
+      "control.jsonl": 0
+    },
+    "elapsed_s": 13.778,
+    "success": true,
+    "arrival_s": 13.778,
+    "body_clearance_m": 0.37421727172122976,
+    "overlap_samples": 0,
+    "truth_samples": 689,
+    "truth_gap_ms": {
+      "n": 688,
+      "min": 20.0,
+      "p50": 20.0,
+      "p95": 20.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "wall_clearance_m": null,
+    "wall_overlap_samples": 0,
+    "safe_success": true,
+    "wait_s": 0.12000000000000001,
+    "longest_stall_s": 0.12000000000000001,
+    "start_count": 1,
+    "forward_flips": 2,
+    "max_retreat_m": 0.19876092280751068,
+    "path_length_m": 4.555026614519804,
+    "actual_max_velocity": [
+      0.49998700790430356,
+      0.2703461062752176,
+      1.0513545712456107
+    ],
+    "actual_max_acceleration": [
+      1.7501675678395379,
+      1.750372548367124,
+      2.0000006770715117
+    ],
+    "actual_accel_exceed_intervals_raw": [
+      76,
+      25,
+      10
+    ],
+    "actual_velocity_exceed_samples_raw": [
+      0,
+      0,
+      0
+    ],
+    "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+    "cycles": 138,
+    "compute_ms": {
+      "n": 138,
+      "min": 2.693142,
+      "p50": 22.947606,
+      "p95": 33.590703850000004,
+      "p99": 35.25514422,
+      "max": 40.44569
+    },
+    "compute_over100": 0,
+    "native_errors": 0,
+    "candidate_epoch_to_consume_ms": {
+      "n": 138,
+      "min": 1.0,
+      "p50": 21.0,
+      "p95": 32.0,
+      "p99": 32.0,
+      "max": 37.0
+    },
+    "input_pose_to_entry_ms": {
+      "n": 138,
+      "min": 5.0,
+      "p50": 5.0,
+      "p95": 5.0,
+      "p99": 5.0,
+      "max": 5.0
+    },
+    "epoch_basis_counts": {
+      "consume": 0,
+      "input_pose": 138
+    },
+    "prediction_receipt_to_consume_ms": {
+      "n": 138,
+      "min": 0.0,
+      "p50": 34.0,
+      "p95": 86.15,
+      "p99": 109.74999999999989,
+      "max": 123.0
+    },
+    "prediction_age_ms": {
+      "n": 138,
+      "min": 19.0,
+      "p50": 82.0,
+      "p95": 121.15000000000002,
+      "p99": 141.63999999999987,
+      "max": 155.0
+    },
+    "prediction_reason_counts": {
+      "": 138
+    },
+    "temporal_scored_cycles": 138,
+    "temporal_valid_cycles": 138,
+    "consumed_nonzero": 41,
+    "zero_safe_candidates": 0,
+    "output_gap_ms": {
+      "n": 275,
+      "min": 46.0,
+      "p50": 50.0,
+      "p95": 51.0,
+      "p99": 53.0,
+      "max": 55.0
+    },
+    "output_gap_over100": 0,
+    "zero_hold_output_gap_ms": {
+      "n": 2,
+      "min": 48.0,
+      "p50": 50.5,
+      "p95": 52.75,
+      "p99": 52.95,
+      "max": 53.0
+    },
+    "active_output_gap_ms": {
+      "n": 273,
+      "min": 46.0,
+      "p50": 50.0,
+      "p95": 51.0,
+      "p99": 52.27999999999997,
+      "max": 55.0
+    },
+    "output_max_command": [
+      0.5,
+      0.270433634519577,
+      1.0513547658920288
+    ],
+    "output_bounds_violations": 0,
+    "observed_current_occupied_samples": 39,
+    "output_publisher_count": 1,
+    "output_single_owner": true,
+    "output_owner_named": true,
+    "shutdown_minus11": false,
+    "oracle_replay_alignment_m": {
+      "n": 689,
+      "min": 2.1323600662981335e-08,
+      "p50": 4.862212223377682e-05,
+      "p95": 0.0004175267073774025,
+      "p99": 0.0008499717035328214,
+      "max": 0.000883337148175789
+    },
+    "aggregate_unsafe_circle_proxy_cycles": 12,
+    "optimistic_circle_proxy_cycles": 12,
+    "snapshots": [
+      {
+        "epoch_ns": 4025000000,
+        "t": 0.022,
+        "predicted_aggregate_circle_clearance": 1.7444466166525618,
+        "actual_aggregate_circle_proxy_clearance": 1.2009242901363193,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 156,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.7501291632652283,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.026376341097056874,
+            "p99": 0.06897597081959235,
+            "max": 0.12018360942602158
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.7501291632652283,
+            "p50": 2.1629254817962646,
+            "p95": 2.9704778194427495,
+            "p99": 3.2549197936058043,
+            "max": 3.422832727432251
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.04579392448067665,
+          -0.004643780179321766,
+          -0.04204455763101578
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 6025000000,
+        "t": 2.022,
+        "predicted_aggregate_circle_clearance": 0.09018401929313308,
+        "actual_aggregate_circle_proxy_clearance": -0.36220713666391124,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 106,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.24008043110370636,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 3.4799442291259766,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 4.483092784881592,
+          "TemporalResearchCritic": 0.6458330154418945
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.043315935879945755,
+            "p50": 0.266825333237648,
+            "p95": 0.5188138812780382,
+            "p99": 0.635126551389694,
+            "max": 0.932802140712738
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.43358710408210754,
+            "p50": 1.9280046224594116,
+            "p95": 3.4821817994117743,
+            "p99": 3.890778589248657,
+            "max": 4.043982982635498
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.32030540704727173,
+            "p50": 2.409299612045288,
+            "p95": 3.933271002769471,
+            "p99": 4.470376195907592,
+            "max": 4.980620861053467
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.39038658142089844,
+            "p50": 1840722.25,
+            "p95": 6398833.750000001,
+            "p99": 7700354.559999998,
+            "max": 8614296.0
+          }
+        },
+        "command": [
+          0.4956565201282501,
+          0.1029239222407341,
+          0.3902224004268646
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 8025000000,
+        "t": 4.022,
+        "predicted_aggregate_circle_clearance": 0.06037049637964814,
+        "actual_aggregate_circle_proxy_clearance": 0.2975780808495575,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 152,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.019769860431551933,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 4.9300537109375,
+          "TemporalResearchCritic": 0.730626106262207
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.06588611751794815,
+            "p95": 0.2029848366975785,
+            "p99": 0.2825492784380905,
+            "max": 0.39905864000320435
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 499.9999694824219,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 3.441070556640625,
+            "p50": 4.853546142578125,
+            "p95": 5.709927868843079,
+            "p99": 5.930465607643126,
+            "max": 6.199706077575684
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.328704833984375,
+            "p50": 0.8100433349609375,
+            "p95": 8850.172900390638,
+            "p99": 27011.18162109371,
+            "max": 121111.546875
+          }
+        },
+        "command": [
+          -0.21775244176387787,
+          -0.08738154917955399,
+          -0.040856391191482544
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 10025000000,
+        "t": 6.022,
+        "predicted_aggregate_circle_clearance": 0.5921075786420125,
+        "actual_aggregate_circle_proxy_clearance": 0.799051027156316,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 115,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.17093811929225922,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.4442794919013977,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.4989216923713684,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.12479973211884499,
+            "p95": 0.33267619013786315,
+            "p99": 0.38814764291048026,
+            "max": 0.5999389886856079
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 25.112573468690833,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.14768211543560028,
+            "p50": 0.8026353120803833,
+            "p95": 1.7327377378940583,
+            "p99": 2.144223747253417,
+            "max": 2.57061767578125
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.415199875831604,
+            "p50": 1.7187654376029968,
+            "p95": 2.633693313598633,
+            "p99": 2.9367595124244676,
+            "max": 3.383087158203125
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.4648759365081787,
+          0.0736519917845726,
+          -0.3852362632751465
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 12025000000,
+        "t": 8.022,
+        "predicted_aggregate_circle_clearance": 1.469656099422025,
+        "actual_aggregate_circle_proxy_clearance": 1.7561279642760135,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 159,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.09299562126398087,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.2765599191188812,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.21744579076766968,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.028386665508151054,
+            "p50": 0.23933757841587067,
+            "p95": 0.5051405072212221,
+            "p99": 0.5709631854295729,
+            "max": 0.7891892194747925
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.155401811003685,
+            "p50": 0.7217343151569366,
+            "p95": 1.7184967994689941,
+            "p99": 2.110113728046416,
+            "max": 2.3277089595794678
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.0351029634475708,
+            "p50": 0.9126231670379639,
+            "p95": 1.8259020030498514,
+            "p99": 2.304667041301726,
+            "max": 2.677715301513672
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.44120290875434875,
+          0.1742560863494873,
+          -0.16907428205013275
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 14025000000,
+        "t": 10.022,
+        "predicted_aggregate_circle_clearance": 1.6917803747320135,
+        "actual_aggregate_circle_proxy_clearance": 1.9412989845241486,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 108,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.005784344859421253,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 2.3680968284606934,
+          "PathAlignTraceCritic": 0.26247525215148926,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.0,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.07253021001815796,
+            "p95": 0.24515984281897554,
+            "p99": 0.3006827965378761,
+            "max": 0.3180391490459442
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 1.9001657962799072,
+            "p50": 2.509951591491699,
+            "p95": 2.9292279720306396,
+            "p99": 3.0391706085205077,
+            "max": 3.2156002521514893
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.25351428985595703,
+            "p50": 0.938310980796814,
+            "p95": 2.636929440498352,
+            "p99": 3.1037236213684083,
+            "max": 3.298427104949951
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.36656612157821655,
+          0.2589070200920105,
+          -0.03000013716518879
+        ],
+        "prediction_reason": ""
+      }
+    ],
+    "active_track_counts": {
+      "n": 138,
+      "min": 1,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1
+    },
+    "forecast_center_error_m": {
+      "0": {
+        "n": 137,
+        "min": 0.17701843546136403,
+        "p50": 0.20093691253297064,
+        "p95": 0.2753968090170651,
+        "p99": 0.2775621476802189,
+        "max": 0.2786006307553834
+      },
+      "1": {
+        "n": 129,
+        "min": 0.045218430293242635,
+        "p50": 0.25650158721717536,
+        "p95": 0.4196888310048491,
+        "p99": 0.50215161406111,
+        "max": 0.511051979206517
+      },
+      "3": {
+        "n": 108,
+        "min": 0.11325518155182096,
+        "p50": 0.5755115742456363,
+        "p95": 1.507232122322552,
+        "p99": 1.5254308197278605,
+        "max": 1.5258128925334935
+      }
+    }
+  },
+  {
+    "run": "narrow_C_29_aligned",
+    "scene": "narrow",
+    "group": "C",
+    "seed": 29,
+    "phase": "finite",
+    "startup": false,
+    "outcome": "goal_result",
+    "result_status": 4,
+    "contact_messages": 0,
+    "native_events": 4,
+    "fatal_reason": null,
+    "variant": "input_pose",
+    "validation_split": "repeat",
+    "fixture_revision": 2,
+    "cohort": "final_fixture",
+    "incomplete_jsonl_lines": {
+      "prediction.jsonl": 0,
+      "truth.jsonl": 0,
+      "plans.jsonl": 0,
+      "control.jsonl": 0
+    },
+    "elapsed_s": 19.669,
+    "success": true,
+    "arrival_s": 19.669,
+    "body_clearance_m": 0.29131108271034284,
+    "overlap_samples": 0,
+    "truth_samples": 983,
+    "truth_gap_ms": {
+      "n": 982,
+      "min": 20.0,
+      "p50": 20.0,
+      "p95": 20.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "wall_clearance_m": 0.12867600945652724,
+    "wall_overlap_samples": 0,
+    "safe_success": true,
+    "wait_s": 2.580000000000002,
+    "longest_stall_s": 2.2800000000000016,
+    "start_count": 3,
+    "forward_flips": 2,
+    "max_retreat_m": 0.5329483427340963,
+    "path_length_m": 5.112751088444152,
+    "actual_max_velocity": [
+      0.5000626115964115,
+      0.32091002885270237,
+      1.199999824166298
+    ],
+    "actual_max_acceleration": [
+      1.7507395208203462,
+      1.7499950892187384,
+      2.0000006770715117
+    ],
+    "actual_accel_exceed_intervals_raw": [
+      117,
+      94,
+      24
+    ],
+    "actual_velocity_exceed_samples_raw": [
+      37,
+      0,
+      0
+    ],
+    "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+    "cycles": 170,
+    "compute_ms": {
+      "n": 170,
+      "min": 1.811967,
+      "p50": 12.9107255,
+      "p95": 26.913281049999974,
+      "p99": 33.70442647,
+      "max": 33.749221
+    },
+    "compute_over100": 0,
+    "native_errors": 4,
+    "candidate_epoch_to_consume_ms": {
+      "n": 169,
+      "min": 1.0,
+      "p50": 11.0,
+      "p95": 24.799999999999983,
+      "p99": 32.31999999999999,
+      "max": 33.0
+    },
+    "input_pose_to_entry_ms": {
+      "n": 170,
+      "min": 5.0,
+      "p50": 12.0,
+      "p95": 16.0,
+      "p99": 16.0,
+      "max": 16.0
+    },
+    "epoch_basis_counts": {
+      "consume": 0,
+      "input_pose": 166
+    },
+    "prediction_receipt_to_consume_ms": {
+      "n": 169,
+      "min": 2.0,
+      "p50": 38.0,
+      "p95": 87.6,
+      "p99": 115.63999999999999,
+      "max": 119.0
+    },
+    "prediction_age_ms": {
+      "n": 166,
+      "min": 58.0,
+      "p50": 96.0,
+      "p95": 136.5,
+      "p99": 164.35,
+      "max": 197.0
+    },
+    "prediction_reason_counts": {
+      "": 166,
+      "not_scored": 1,
+      "observation_anchor_epoch": 1,
+      "stale_observation": 2
+    },
+    "temporal_scored_cycles": 169,
+    "temporal_valid_cycles": 166,
+    "consumed_nonzero": 77,
+    "zero_safe_candidates": 4,
+    "output_gap_ms": {
+      "n": 384,
+      "min": 1.0,
+      "p50": 50.0,
+      "p95": 58.399999999999864,
+      "p99": 101.17000000000002,
+      "max": 103.0
+    },
+    "output_gap_over100": 8,
+    "zero_hold_output_gap_ms": {
+      "n": 11,
+      "min": 48.0,
+      "p50": 49.0,
+      "p95": 76.0,
+      "p99": 96.00000000000001,
+      "max": 101.0
+    },
+    "active_output_gap_ms": {
+      "n": 373,
+      "min": 1.0,
+      "p50": 50.0,
+      "p95": 56.59999999999991,
+      "p99": 101.27999999999997,
+      "max": 103.0
+    },
+    "output_max_command": [
+      0.5,
+      0.32088327407836914,
+      1.2
+    ],
+    "output_bounds_violations": 0,
+    "observed_current_occupied_samples": 43,
+    "output_publisher_count": 1,
+    "output_single_owner": true,
+    "output_owner_named": true,
+    "shutdown_minus11": false,
+    "oracle_replay_alignment_m": {
+      "n": 983,
+      "min": 0.0,
+      "p50": 4.72624392235943e-05,
+      "p95": 0.0002612479048096139,
+      "p99": 0.00047931581812117304,
+      "max": 0.0005174187101877337
+    },
+    "aggregate_unsafe_circle_proxy_cycles": 14,
+    "optimistic_circle_proxy_cycles": 13,
+    "snapshots": [
+      {
+        "epoch_ns": 4025000000,
+        "t": 0.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": 1.2505274016738224,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 156,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.8123524785041809,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.026376341097056874,
+            "p99": 0.06897597081959235,
+            "max": 0.12018360942602158
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.8123524785041809,
+            "p50": 2.208185315132141,
+            "p95": 3.026305997371674,
+            "p99": 3.2854305171966547,
+            "max": 3.472592830657959
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.04284358397126198,
+          -0.008103158324956894,
+          -0.04072478041052818
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 6025000000,
+        "t": 2.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": -0.45153798073008844,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 221,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.16119424998760223,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.3206334114074707,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.15654000639915466,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.20449822396039963,
+            "p95": 0.45799534916877754,
+            "p99": 0.5369420677423477,
+            "max": 0.8127986788749695
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.1521521806716919,
+            "p50": 0.7840533256530762,
+            "p95": 1.7895256578922274,
+            "p99": 2.2191666412353506,
+            "max": 2.6751465797424316
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.053185343742370605,
+            "p50": 1.0563582181930542,
+            "p95": 2.0377302408218383,
+            "p99": 2.4205504298210143,
+            "max": 2.6457462310791016
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.48323410749435425,
+          0.11870556324720383,
+          0.03306923806667328
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 8056000000,
+        "t": 4.053,
+        "predicted_aggregate_circle_clearance": 0.040936940497824204,
+        "actual_aggregate_circle_proxy_clearance": 0.2983836312281013,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 143,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.02567763440310955,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 3.0718071460723877,
+          "TemporalResearchCritic": 1.0985519886016846
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.03681597672402859,
+            "p95": 0.18811934441328051,
+            "p99": 0.24470003440976124,
+            "max": 0.34254080057144165
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 1.6172130107879639,
+            "p50": 2.9578003883361816,
+            "p95": 3.8555938720703127,
+            "p99": 4.137199053764343,
+            "max": 4.356353759765625
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.4507899284362793,
+            "p50": 2549.2239990234375,
+            "p95": 450374.13125000015,
+            "p99": 1109703.1987499997,
+            "max": 1857276.125
+          }
+        },
+        "command": [
+          -0.2996772825717926,
+          -0.12472793459892273,
+          0.14933310449123383
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 10053000000,
+        "t": 6.05,
+        "predicted_aggregate_circle_clearance": 0.18950554486646098,
+        "actual_aggregate_circle_proxy_clearance": 0.39371749646656984,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 207,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.00491411704570055,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 3.114853620529175,
+          "TemporalResearchCritic": 0.3157515525817871
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0023923158878460526,
+            "p95": 0.09616899378597737,
+            "p99": 0.15217330425977696,
+            "max": 0.17444062232971191
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 2.15155029296875,
+            "p50": 3.7464065551757812,
+            "p95": 4.588804602622986,
+            "p99": 5.103453116416931,
+            "max": 5.54254150390625
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.002525806427001953,
+            "p50": 0.2795652151107788,
+            "p95": 0.9538110852241518,
+            "p99": 17898.90597656248,
+            "max": 157336.125
+          }
+        },
+        "command": [
+          0.10337648540735245,
+          -0.051193881779909134,
+          0.2309020608663559
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 12053000000,
+        "t": 8.05,
+        "predicted_aggregate_circle_clearance": 0.13606908800446305,
+        "actual_aggregate_circle_proxy_clearance": 0.5215966881099059,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 140,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.7477766871452332,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 1.5766019821166992,
+          "TemporalResearchCritic": 0.716017484664917
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.03426624648272991,
+            "p95": 0.16902397051453594,
+            "p99": 0.20610497534275032,
+            "max": 0.2580319941043854
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.474273681640625,
+            "p50": 1.759032964706421,
+            "p95": 3.1082290649414075,
+            "p99": 3.9445767211914036,
+            "max": 5.062225341796875
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 1.1930973529815674,
+            "p50": 2.3653122186660767,
+            "p95": 3.442637634277344,
+            "p99": 3.89721435546875,
+            "max": 4.1441650390625
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0028505325317382812,
+            "p50": 0.29051852226257324,
+            "p95": 978.8503723144638,
+            "p99": 134998.3832812499,
+            "max": 695002.5
+          }
+        },
+        "command": [
+          0.24533820152282715,
+          -0.1739557832479477,
+          0.12199196219444275
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 14072000000,
+        "t": 10.069,
+        "predicted_aggregate_circle_clearance": 0.32056460563080724,
+        "actual_aggregate_circle_proxy_clearance": 0.5994774559005872,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 110,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.014718842692673206,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.42406052350997925,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 1.0333497524261475,
+          "TemporalResearchCritic": 0.007700204849243164
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.06271533295512204,
+            "p99": 0.10019842594861982,
+            "max": 0.13321125507354736
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.22697597742080688,
+            "p50": 0.8253644406795502,
+            "p95": 1.7783021271228803,
+            "p99": 2.606395552158355,
+            "max": 3.4991488456726074
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.8366978764533997,
+            "p50": 2.088755965232849,
+            "p95": 2.990713763237,
+            "p99": 3.3453045034408566,
+            "max": 3.8757519721984863
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0041997432708740234,
+            "p50": 0.005985617637634277,
+            "p95": 0.011110448837280275,
+            "p99": 0.013440945148467998,
+            "max": 0.017506122589111328
+          }
+        },
+        "command": [
+          0.20359714329242706,
+          -0.1642894446849823,
+          -0.012540238909423351
+        ],
+        "prediction_reason": ""
+      }
+    ],
+    "active_track_counts": {
+      "n": 170,
+      "min": 0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1
+    },
+    "forecast_center_error_m": {
+      "0": {
+        "n": 100,
+        "min": 0.22336180214890772,
+        "p50": 0.2730571613927114,
+        "p95": 0.3145436990282419,
+        "p99": 0.3541881359716635,
+        "max": 0.3672691780028806
+      },
+      "1": {
+        "n": 100,
+        "min": 0.21983338462924118,
+        "p50": 0.2917753544584459,
+        "p95": 0.4318097511099245,
+        "p99": 0.4673203330823822,
+        "max": 0.48377660112555987
+      },
+      "3": {
+        "n": 100,
+        "min": 0.15209443383948204,
+        "p50": 0.3572722721325769,
+        "p95": 0.78296380032624,
+        "p99": 0.8018109699217055,
+        "max": 0.8056392418854372
+      }
+    }
+  },
+  {
+    "run": "narrow_D_29_aligned",
+    "scene": "narrow",
+    "group": "D",
+    "seed": 29,
+    "phase": "finite",
+    "startup": false,
+    "outcome": "actor_contact",
+    "result_status": null,
+    "contact_messages": 1,
+    "native_events": 4,
+    "fatal_reason": null,
+    "variant": "input_pose",
+    "validation_split": "repeat",
+    "fixture_revision": 2,
+    "cohort": "final_fixture",
+    "incomplete_jsonl_lines": {
+      "prediction.jsonl": 0,
+      "truth.jsonl": 0,
+      "plans.jsonl": 0,
+      "control.jsonl": 0
+    },
+    "elapsed_s": 5.518,
+    "success": false,
+    "arrival_s": null,
+    "body_clearance_m": 0.0,
+    "overlap_samples": 10,
+    "truth_samples": 276,
+    "truth_gap_ms": {
+      "n": 275,
+      "min": 20.0,
+      "p50": 20.0,
+      "p95": 20.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "wall_clearance_m": 0.0,
+    "wall_overlap_samples": 57,
+    "safe_success": false,
+    "wait_s": 0.32,
+    "longest_stall_s": 0.25999999999999995,
+    "start_count": 1,
+    "forward_flips": 0,
+    "max_retreat_m": 0,
+    "path_length_m": 2.4276991740925955,
+    "actual_max_velocity": [
+      0.5016543520659542,
+      0.49790877578941267,
+      0.6110418820753694
+    ],
+    "actual_max_acceleration": [
+      5.535019320890713,
+      12.065437705809892,
+      49.968226230703294
+    ],
+    "actual_accel_exceed_intervals_raw": [
+      29,
+      36,
+      39
+    ],
+    "actual_velocity_exceed_samples_raw": [
+      5,
+      0,
+      0
+    ],
+    "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+    "cycles": 55,
+    "compute_ms": {
+      "n": 55,
+      "min": 1.886339,
+      "p50": 14.770088,
+      "p95": 33.7345345,
+      "p99": 38.640160300000005,
+      "max": 39.59194
+    },
+    "compute_over100": 0,
+    "native_errors": 4,
+    "candidate_epoch_to_consume_ms": {
+      "n": 51,
+      "min": 1.0,
+      "p50": 12.0,
+      "p95": 33.0,
+      "p99": 36.0,
+      "max": 38.0
+    },
+    "input_pose_to_entry_ms": {
+      "n": 55,
+      "min": 2.0,
+      "p50": 4.0,
+      "p95": 5.0,
+      "p99": 5.0,
+      "max": 5.0
+    },
+    "epoch_basis_counts": {
+      "consume": 0,
+      "input_pose": 51
+    },
+    "prediction_receipt_to_consume_ms": {
+      "n": 51,
+      "min": 0.0,
+      "p50": 38.0,
+      "p95": 87.0,
+      "p99": 108.0,
+      "max": 123.0
+    },
+    "prediction_age_ms": {
+      "n": 51,
+      "min": 41.0,
+      "p50": 80.0,
+      "p95": 112.0,
+      "p99": 128.5,
+      "max": 143.00000000000003
+    },
+    "prediction_reason_counts": {
+      "": 51,
+      "not_scored": 4
+    },
+    "temporal_scored_cycles": 51,
+    "temporal_valid_cycles": 51,
+    "consumed_nonzero": 27,
+    "zero_safe_candidates": 7,
+    "output_gap_ms": {
+      "n": 112,
+      "min": 18.0,
+      "p50": 50.0,
+      "p95": 51.0,
+      "p99": 58.230000000000004,
+      "max": 77.0
+    },
+    "output_gap_over100": 0,
+    "zero_hold_output_gap_ms": {
+      "n": 1,
+      "min": 38.0,
+      "p50": 38.0,
+      "p95": 38.0,
+      "p99": 38.0,
+      "max": 38.0
+    },
+    "active_output_gap_ms": {
+      "n": 111,
+      "min": 18.0,
+      "p50": 50.0,
+      "p95": 51.0,
+      "p99": 58.30000000000004,
+      "max": 77.0
+    },
+    "output_max_command": [
+      0.5,
+      0.49771302938461304,
+      1.2
+    ],
+    "output_bounds_violations": 0,
+    "observed_current_occupied_samples": 18,
+    "output_publisher_count": 1,
+    "output_single_owner": true,
+    "output_owner_named": true,
+    "shutdown_minus11": false,
+    "oracle_replay_alignment_m": {
+      "n": 276,
+      "min": 2.9171148629991706e-07,
+      "p50": 8.01697269370849e-05,
+      "p95": 0.0005645851319082615,
+      "p99": 0.0005875144704340918,
+      "max": 0.0007136258597509604
+    },
+    "aggregate_unsafe_circle_proxy_cycles": 13,
+    "optimistic_circle_proxy_cycles": 12,
+    "snapshots": [
+      {
+        "epoch_ns": 4024000000,
+        "t": 0.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": 1.2503036831956171,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 156,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.8123524785041809,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.026376341097056874,
+            "p99": 0.06897597081959235,
+            "max": 0.12018360942602158
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.8123524785041809,
+            "p50": 2.208185315132141,
+            "p95": 3.026305997371674,
+            "p99": 3.2854305171966547,
+            "max": 3.472592830657959
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.04284358397126198,
+          -0.008103158324956894,
+          -0.04072478041052818
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 6024000000,
+        "t": 2.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": -0.44884362379136333,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 221,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.16343222558498383,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.2979588508605957,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.0920175313949585,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.2047017514705658,
+            "p95": 0.454590953886509,
+            "p99": 0.5377818089723586,
+            "max": 0.8150379061698914
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.10239963233470917,
+            "p50": 0.7441477179527283,
+            "p95": 1.7450953900814057,
+            "p99": 2.2061592888832084,
+            "max": 2.651217222213745
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.02513653039932251,
+            "p50": 0.9606480896472931,
+            "p95": 1.9329811215400696,
+            "p99": 2.365381984710693,
+            "max": 2.5613789558410645
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.47989487648010254,
+          0.1159912720322609,
+          0.03605181723833084
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 8024000000,
+        "t": 4.022,
+        "predicted_aggregate_circle_clearance": 0.08771510961866164,
+        "actual_aggregate_circle_proxy_clearance": 0.09281958346649838,
+        "GT_full30": false,
+        "best_raw_index_before_gamma": 215,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.5668596625328064,
+          "CostTraceCritic": 499.9999694824219,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.072601318359375,
+          "TemporalResearchCritic": 0.81060791015625
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.04931483417749405,
+            "p50": 0.39467979967594147,
+            "p95": 0.6778716087341311,
+            "p99": 0.7902499806880947,
+            "max": 0.8657012581825256
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 500.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.072601318359375,
+            "p50": 1.174102783203125,
+            "p95": 2.140136456489563,
+            "p99": 2.5231546020507802,
+            "max": 2.709991455078125
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.48870849609375,
+            "p50": 773.2063598632812,
+            "p95": 147537.3328125001,
+            "p99": 362174.31624999945,
+            "max": 797274.5
+          }
+        },
+        "command": [
+          0.49481332302093506,
+          0.4879949986934662,
+          -0.43133702874183655
+        ],
+        "prediction_reason": ""
+      }
+    ],
+    "active_track_counts": {
+      "n": 55,
+      "min": 0,
+      "p50": 0.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1
+    },
+    "forecast_center_error_m": {
+      "0": {
+        "n": 27,
+        "min": 7.976870780468381e-06,
+        "p50": 0.0001032049319388273,
+        "p95": 0.000507413317852387,
+        "p99": 0.0005764645494576159,
+        "max": 0.000587683477338119
+      },
+      "1": {
+        "n": 23,
+        "min": 6.780214412072105e-05,
+        "p50": 0.00015036960675657296,
+        "p95": 0.0006390172037740191,
+        "p99": 0.0006446720123895675,
+        "max": 0.0006446720123895675
+      },
+      "3": {
+        "n": 2,
+        "min": 0.00047438794711091026,
+        "p50": 0.0005128879390916136,
+        "p95": 0.0005475379318742466,
+        "p99": 0.0005506179312327028,
+        "max": 0.0005513879310723169
+      }
+    }
+  },
+  {
+    "run": "narrow_D_47_aligned",
+    "scene": "narrow",
+    "group": "D",
+    "seed": 47,
+    "phase": "finite",
+    "startup": false,
+    "outcome": "actor_contact",
+    "result_status": null,
+    "contact_messages": 1,
+    "native_events": 4,
+    "fatal_reason": null,
+    "variant": "input_pose",
+    "validation_split": "holdout",
+    "fixture_revision": 2,
+    "cohort": "final_fixture",
+    "incomplete_jsonl_lines": {
+      "prediction.jsonl": 0,
+      "truth.jsonl": 0,
+      "plans.jsonl": 0,
+      "control.jsonl": 0
+    },
+    "elapsed_s": 5.264,
+    "success": false,
+    "arrival_s": null,
+    "body_clearance_m": 0.0,
+    "overlap_samples": 9,
+    "truth_samples": 263,
+    "truth_gap_ms": {
+      "n": 262,
+      "min": 20.0,
+      "p50": 20.0,
+      "p95": 20.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "wall_clearance_m": 0.0,
+    "wall_overlap_samples": 56,
+    "safe_success": false,
+    "wait_s": 0.38000000000000006,
+    "longest_stall_s": 0.3,
+    "start_count": 1,
+    "forward_flips": 0,
+    "max_retreat_m": 0.0006761756071482772,
+    "path_length_m": 2.259823814929132,
+    "actual_max_velocity": [
+      0.5000309212802594,
+      0.5000512794519667,
+      0.551582925254479
+    ],
+    "actual_max_acceleration": [
+      3.634850979493018,
+      8.333138001587592,
+      22.92754808877362
+    ],
+    "actual_accel_exceed_intervals_raw": [
+      48,
+      48,
+      15
+    ],
+    "actual_velocity_exceed_samples_raw": [
+      9,
+      9,
+      0
+    ],
+    "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+    "cycles": 50,
+    "compute_ms": {
+      "n": 50,
+      "min": 2.274834,
+      "p50": 19.1904225,
+      "p95": 34.002810950000004,
+      "p99": 37.08014723999999,
+      "max": 39.39977
+    },
+    "compute_over100": 0,
+    "native_errors": 4,
+    "candidate_epoch_to_consume_ms": {
+      "n": 46,
+      "min": 1.0,
+      "p50": 21.0,
+      "p95": 32.75,
+      "p99": 36.29999999999998,
+      "max": 39.0
+    },
+    "input_pose_to_entry_ms": {
+      "n": 50,
+      "min": 5.0,
+      "p50": 5.0,
+      "p95": 15.549999999999997,
+      "p99": 16.0,
+      "max": 16.0
+    },
+    "epoch_basis_counts": {
+      "consume": 0,
+      "input_pose": 46
+    },
+    "prediction_receipt_to_consume_ms": {
+      "n": 46,
+      "min": 4.0,
+      "p50": 28.5,
+      "p95": 83.25,
+      "p99": 104.1499999999999,
+      "max": 119.0
+    },
+    "prediction_age_ms": {
+      "n": 46,
+      "min": 57.0,
+      "p50": 91.00000000000001,
+      "p95": 128.0,
+      "p99": 146.0499999999999,
+      "max": 160.0
+    },
+    "prediction_reason_counts": {
+      "": 46,
+      "not_scored": 4
+    },
+    "temporal_scored_cycles": 46,
+    "temporal_valid_cycles": 46,
+    "consumed_nonzero": 24,
+    "zero_safe_candidates": 7,
+    "output_gap_ms": {
+      "n": 109,
+      "min": 1.0,
+      "p50": 50.0,
+      "p95": 52.0,
+      "p99": 53.92,
+      "max": 58.0
+    },
+    "output_gap_over100": 0,
+    "zero_hold_output_gap_ms": {
+      "n": 6,
+      "min": 1.0,
+      "p50": 25.5,
+      "p95": 50.0,
+      "p99": 50.0,
+      "max": 50.0
+    },
+    "active_output_gap_ms": {
+      "n": 103,
+      "min": 1.0,
+      "p50": 50.0,
+      "p95": 52.0,
+      "p99": 53.980000000000004,
+      "max": 58.0
+    },
+    "output_max_command": [
+      0.5,
+      0.5,
+      1.2
+    ],
+    "output_bounds_violations": 0,
+    "observed_current_occupied_samples": 16,
+    "output_publisher_count": 1,
+    "output_single_owner": true,
+    "output_owner_named": true,
+    "shutdown_minus11": false,
+    "oracle_replay_alignment_m": {
+      "n": 263,
+      "min": 3.749962484977942e-08,
+      "p50": 7.330193456245304e-05,
+      "p95": 0.0002814421317234693,
+      "p99": 0.00030052444968433625,
+      "max": 0.00030539762187281605
+    },
+    "aggregate_unsafe_circle_proxy_cycles": 13,
+    "optimistic_circle_proxy_cycles": 12,
+    "snapshots": [
+      {
+        "epoch_ns": 4025000000,
+        "t": 0.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": 1.2111389423275893,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 207,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.7710587978363037,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.02873232644051315,
+            "p99": 0.060450334884226235,
+            "max": 0.10700905323028564
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.7710587978363037,
+            "p50": 2.306607484817505,
+            "p95": 3.1746138811111453,
+            "p99": 3.353857798576355,
+            "max": 3.817209243774414
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.04946387931704521,
+          0.025568071752786636,
+          -0.02057732455432415
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 6025000000,
+        "t": 2.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": -0.5061733968266086,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 280,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.3668993413448334,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.14289966225624084,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.10627162456512451,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.222138412296772,
+            "p95": 0.4847553864121438,
+            "p99": 0.6180461019277572,
+            "max": 0.6380191445350647
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 499.9999694824219,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.14289966225624084,
+            "p50": 0.813100278377533,
+            "p95": 2.1204567790031437,
+            "p99": 3.2229664039611805,
+            "max": 4.1081109046936035
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.061648547649383545,
+            "p50": 1.0197373628616333,
+            "p95": 2.071980965137482,
+            "p99": 2.5155447387695307,
+            "max": 3.58538818359375
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.4866088628768921,
+          0.1073814257979393,
+          -0.18172815442085266
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 8025000000,
+        "t": 4.022,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": null,
+        "GT_full30": false,
+        "best_raw_index_before_gamma": 186,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.023297881707549095
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.023297881707549095,
+            "p50": 0.38020631670951843,
+            "p95": 0.7045188188552857,
+            "p99": 0.7738895106315612,
+            "max": 0.846703290939331
+          }
+        },
+        "command": null,
+        "prediction_reason": null
+      }
+    ],
+    "active_track_counts": {
+      "n": 50,
+      "min": 0,
+      "p50": 0.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1
+    },
+    "forecast_center_error_m": {
+      "0": {
+        "n": 24,
+        "min": 1.7849920797008423e-07,
+        "p50": 2.28178891725217e-05,
+        "p95": 0.00028384003219036614,
+        "p99": 0.0002952903297591397,
+        "max": 0.00029859613579980016
+      },
+      "1": {
+        "n": 20,
+        "min": 3.607216107370803e-06,
+        "p50": 5.29326825772225e-05,
+        "p95": 0.0002893164758452305,
+        "p99": 0.000295179660322763,
+        "max": 0.0002966454564421461
+      },
+      "3": {
+        "n": 1,
+        "min": 3.291614442806068e-05,
+        "p50": 3.291614442806068e-05,
+        "p95": 3.291614442806068e-05,
+        "p99": 3.291614442806068e-05,
+        "max": 3.291614442806068e-05
+      }
+    }
+  },
+  {
+    "run": "stale_C_29_aligned",
+    "scene": "stale",
+    "group": "C",
+    "seed": 29,
+    "phase": "finite",
+    "startup": false,
+    "outcome": "goal_result",
+    "result_status": 4,
+    "contact_messages": 0,
+    "native_events": 10,
+    "fatal_reason": null,
+    "variant": "input_pose",
+    "validation_split": "repeat",
+    "fixture_revision": 2,
+    "cohort": "final_fixture",
+    "incomplete_jsonl_lines": {
+      "prediction.jsonl": 0,
+      "truth.jsonl": 0,
+      "plans.jsonl": 0,
+      "control.jsonl": 0
+    },
+    "elapsed_s": 36.199,
+    "success": true,
+    "arrival_s": 36.199,
+    "body_clearance_m": 0.46263245019898647,
+    "overlap_samples": 0,
+    "truth_samples": 1810,
+    "truth_gap_ms": {
+      "n": 1809,
+      "min": 20.0,
+      "p50": 20.0,
+      "p95": 20.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "wall_clearance_m": 0.03246422362126733,
+    "wall_overlap_samples": 0,
+    "safe_success": true,
+    "wait_s": 12.839999999999815,
+    "longest_stall_s": 6.6799999999999455,
+    "start_count": 11,
+    "forward_flips": 6,
+    "max_retreat_m": 0.3744728968457447,
+    "path_length_m": 5.258572328543007,
+    "actual_max_velocity": [
+      0.4996435205546481,
+      0.36316083999369136,
+      0.5809998256154358
+    ],
+    "actual_max_acceleration": [
+      1.9999997909602552,
+      1.9999997000124725,
+      2.0000000949949026
+    ],
+    "actual_accel_exceed_intervals_raw": [
+      82,
+      61,
+      2
+    ],
+    "actual_velocity_exceed_samples_raw": [
+      0,
+      0,
+      0
+    ],
+    "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+    "cycles": 154,
+    "compute_ms": {
+      "n": 154,
+      "min": 2.771009,
+      "p50": 22.35514,
+      "p95": 34.1736477,
+      "p99": 35.52554186,
+      "max": 35.585031
+    },
+    "compute_over100": 0,
+    "native_errors": 10,
+    "candidate_epoch_to_consume_ms": {
+      "n": 154,
+      "min": 1.0,
+      "p50": 21.0,
+      "p95": 33.0,
+      "p99": 33.0,
+      "max": 33.0
+    },
+    "input_pose_to_entry_ms": {
+      "n": 154,
+      "min": 1.0,
+      "p50": 3.0,
+      "p95": 13.0,
+      "p99": 14.0,
+      "max": 15.0
+    },
+    "epoch_basis_counts": {
+      "consume": 0,
+      "input_pose": 144
+    },
+    "prediction_receipt_to_consume_ms": {
+      "n": 154,
+      "min": 1.0,
+      "p50": 33.5,
+      "p95": 130.19999999999982,
+      "p99": 464.15999999999985,
+      "max": 604.0
+    },
+    "prediction_age_ms": {
+      "n": 144,
+      "min": 50.0,
+      "p50": 87.00000000000001,
+      "p95": 156.85,
+      "p99": 223.70999999999998,
+      "max": 324.0
+    },
+    "prediction_reason_counts": {
+      "": 144,
+      "stale_or_future_source": 4,
+      "stale_observation": 6
+    },
+    "temporal_scored_cycles": 154,
+    "temporal_valid_cycles": 144,
+    "consumed_nonzero": 25,
+    "zero_safe_candidates": 5,
+    "output_gap_ms": {
+      "n": 472,
+      "min": 2.0,
+      "p50": 50.0,
+      "p95": 101.0,
+      "p99": 103.0,
+      "max": 4595.0
+    },
+    "output_gap_over100": 27,
+    "zero_hold_output_gap_ms": {
+      "n": 60,
+      "min": 2.0,
+      "p50": 50.0,
+      "p95": 501.9999999999999,
+      "p99": 4243.359999999998,
+      "max": 4595.0
+    },
+    "active_output_gap_ms": {
+      "n": 412,
+      "min": 4.0,
+      "p50": 50.0,
+      "p95": 101.0,
+      "p99": 102.0,
+      "max": 103.0
+    },
+    "output_max_command": [
+      0.4996553063392639,
+      0.363166293501854,
+      1.2
+    ],
+    "output_bounds_violations": 0,
+    "observed_current_occupied_samples": 42,
+    "output_publisher_count": 1,
+    "output_single_owner": true,
+    "output_owner_named": true,
+    "shutdown_minus11": false,
+    "oracle_replay_alignment_m": {
+      "n": 1810,
+      "min": 1.7747301406245697e-09,
+      "p50": 6.393734154745451e-07,
+      "p95": 0.0001577433003170813,
+      "p99": 0.0002970043654936294,
+      "max": 0.00032229433084518533
+    },
+    "aggregate_unsafe_circle_proxy_cycles": 33,
+    "optimistic_circle_proxy_cycles": 28,
+    "snapshots": [
+      {
+        "epoch_ns": 4024000000,
+        "t": 0.023,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": 1.170604945457183,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 156,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.8123524785041809,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.026376341097056874,
+            "p99": 0.06897597081959235,
+            "max": 0.12018360942602158
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.8123524785041809,
+            "p50": 2.208185315132141,
+            "p95": 3.026305997371674,
+            "p99": 3.2854305171966547,
+            "max": 3.472592830657959
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.04284358397126198,
+          -0.008103158324956894,
+          -0.04072478041052818
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 6024000000,
+        "t": 2.023,
+        "predicted_aggregate_circle_clearance": -0.07357581706007177,
+        "actual_aggregate_circle_proxy_clearance": -0.39900475533151,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 137,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.018036937341094017,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 1.3029546737670898,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 3.230057716369629,
+          "TemporalResearchCritic": 11694.373046875
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.11876367405056953,
+            "p95": 0.33061604797840116,
+            "p99": 0.4377076113224029,
+            "max": 0.5417986512184143
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 499.9999694824219,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.477154940366745,
+            "p50": 2.3936651945114136,
+            "p95": 3.9655914306640625,
+            "p99": 4.435290222167968,
+            "max": 4.75372314453125
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 1.3789435625076294,
+            "p50": 3.0370776653289795,
+            "p95": 4.275032043457031,
+            "p99": 4.784588012695313,
+            "max": 5.315826416015625
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 11694.373046875,
+            "p50": 633835.59375,
+            "p95": 2488063.9125,
+            "p99": 3150283.6424999996,
+            "max": 3832072.25
+          }
+        },
+        "command": [
+          0.22763733565807343,
+          0.13852080702781677,
+          0.07296054810285568
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 8024000000,
+        "t": 4.023,
+        "predicted_aggregate_circle_clearance": 0.03961054391680546,
+        "actual_aggregate_circle_proxy_clearance": -0.1282409667349149,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 245,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 3.900800943374634,
+          "TemporalResearchCritic": 0.8468987941741943
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.05625767409801483,
+            "p99": 0.08598424725234496,
+            "max": 0.12024154514074326
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 2.27410888671875,
+            "p50": 3.9181402921676636,
+            "p95": 4.785670375823974,
+            "p99": 4.986417551040649,
+            "max": 5.32366943359375
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.213043212890625,
+            "p50": 233.02730560302734,
+            "p95": 475251.42187500035,
+            "p99": 1071233.3674999988,
+            "max": 2034620.625
+          }
+        },
+        "command": [
+          0.05362929776310921,
+          -0.06577135622501373,
+          -0.48285651206970215
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 13973000000,
+        "t": 9.972,
+        "predicted_aggregate_circle_clearance": 1.5398569494794443,
+        "actual_aggregate_circle_proxy_clearance": 1.60460498445757,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 94,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 6.261246681213379,
+          "PathAlignTraceCritic": 0.534581184387207,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.0,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.04579969141632321,
+            "p99": 0.07039628289639947,
+            "max": 0.1113843247294426
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 5.4434943199157715,
+            "p50": 6.550450563430786,
+            "p95": 7.058902311325073,
+            "p99": 7.237313637733458,
+            "max": 7.511763095855713
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.497011661529541,
+            "p50": 1.7520356178283691,
+            "p95": 3.1050170898437504,
+            "p99": 3.714617900848387,
+            "max": 4.07049560546875
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          -0.017258567735552788,
+          0.055467113852500916,
+          0.012575816363096237
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 14073000000,
+        "t": 10.072,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": null,
+        "GT_full30": false,
+        "best_raw_index_before_gamma": 1,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.03852696344256401,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 5.9839558601379395,
+          "PathAlignTraceCritic": 0.42691802978515625,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.043600281514227415,
+            "p99": 0.08976242065429685,
+            "max": 0.1258731633424759
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 5.193243026733398,
+            "p50": 6.311031818389893,
+            "p95": 6.820107960700989,
+            "p99": 7.006598434448241,
+            "max": 7.293203353881836
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.28723907470703125,
+            "p50": 1.1989903450012207,
+            "p95": 2.37765154838562,
+            "p99": 2.7992443609237663,
+            "max": 3.6057333946228027
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": null,
+        "prediction_reason": "stale_observation"
+      },
+      {
+        "epoch_ns": 14174000000,
+        "t": 10.173,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": null,
+        "GT_full30": false,
+        "best_raw_index_before_gamma": 126,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.01045007724314928,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 6.087492942810059,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 1.4375600814819336,
+          "PathFollowTraceCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.03065343024209142,
+            "p99": 0.0823590087890625,
+            "max": 0.15218694508075714
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 5.764271259307861,
+            "p50": 6.5261359214782715,
+            "p95": 7.037223625183105,
+            "p99": 7.415566229820252,
+            "max": 7.718627452850342
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 1.4375600814819336,
+            "p50": 2.4785444736480713,
+            "p95": 2.871157741546631,
+            "p99": 2.9494414806365965,
+            "max": 2.988961696624756
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": null,
+        "prediction_reason": "stale_observation"
+      }
+    ],
+    "active_track_counts": {
+      "n": 154,
+      "min": 0,
+      "p50": 0.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1
+    },
+    "forecast_center_error_m": {
+      "0": {
+        "n": 58,
+        "min": 0.2230579519691275,
+        "p50": 0.2747250284192887,
+        "p95": 0.3800025669360967,
+        "p99": 0.43104800386610465,
+        "max": 0.4384526171868053
+      },
+      "1": {
+        "n": 58,
+        "min": 0.08849388115217117,
+        "p50": 0.3566454432179902,
+        "p95": 0.6071327301721572,
+        "p99": 0.6153856414432793,
+        "max": 0.615835323292949
+      },
+      "3": {
+        "n": 58,
+        "min": 0.1527606797641866,
+        "p50": 0.63861505063486,
+        "p95": 1.6885188786950973,
+        "p99": 1.7773475333349464,
+        "max": 1.7945804318390184
+      }
+    }
+  },
+  {
+    "run": "wait_release_C_13_aligned",
+    "scene": "wait_release",
+    "group": "C",
+    "seed": 13,
+    "phase": "finite",
+    "startup": false,
+    "outcome": "goal_result",
+    "result_status": 4,
+    "contact_messages": 0,
+    "native_events": 4,
+    "fatal_reason": null,
+    "variant": "input_pose",
+    "validation_split": "repeat",
+    "fixture_revision": 2,
+    "cohort": "final_fixture",
+    "incomplete_jsonl_lines": {
+      "prediction.jsonl": 0,
+      "truth.jsonl": 0,
+      "plans.jsonl": 0,
+      "control.jsonl": 0
+    },
+    "elapsed_s": 20.74,
+    "success": true,
+    "arrival_s": 20.74,
+    "body_clearance_m": 0.33252131230923765,
+    "overlap_samples": 0,
+    "truth_samples": 1037,
+    "truth_gap_ms": {
+      "n": 1036,
+      "min": 20.0,
+      "p50": 20.0,
+      "p95": 20.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "wall_clearance_m": 0.0029590066561001604,
+    "wall_overlap_samples": 0,
+    "safe_success": true,
+    "wait_s": 2.640000000000002,
+    "longest_stall_s": 2.540000000000002,
+    "start_count": 2,
+    "forward_flips": 4,
+    "max_retreat_m": 0.23632195919706545,
+    "path_length_m": 4.803843496629654,
+    "actual_max_velocity": [
+      0.5000020024681319,
+      0.34633884978245416,
+      1.199999824166298
+    ],
+    "actual_max_acceleration": [
+      1.690919569437116,
+      1.6912973824242499,
+      2.0000006770715117
+    ],
+    "actual_accel_exceed_intervals_raw": [
+      84,
+      57,
+      30
+    ],
+    "actual_velocity_exceed_samples_raw": [
+      14,
+      0,
+      0
+    ],
+    "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+    "cycles": 181,
+    "compute_ms": {
+      "n": 181,
+      "min": 1.824515,
+      "p50": 16.537335,
+      "p95": 33.884313,
+      "p99": 35.757103199999996,
+      "max": 38.801866
+    },
+    "compute_over100": 0,
+    "native_errors": 4,
+    "candidate_epoch_to_consume_ms": {
+      "n": 181,
+      "min": 1.0,
+      "p50": 13.0,
+      "p95": 32.0,
+      "p99": 32.39999999999998,
+      "max": 36.0
+    },
+    "input_pose_to_entry_ms": {
+      "n": 181,
+      "min": 6.0,
+      "p50": 8.0,
+      "p95": 8.0,
+      "p99": 8.0,
+      "max": 9.0
+    },
+    "epoch_basis_counts": {
+      "consume": 0,
+      "input_pose": 177
+    },
+    "prediction_receipt_to_consume_ms": {
+      "n": 181,
+      "min": 0.0,
+      "p50": 33.0,
+      "p95": 79.0,
+      "p99": 114.19999999999999,
+      "max": 117.0
+    },
+    "prediction_age_ms": {
+      "n": 177,
+      "min": 50.0,
+      "p50": 88.00000000000001,
+      "p95": 151.6,
+      "p99": 159.72000000000003,
+      "max": 190.0
+    },
+    "prediction_reason_counts": {
+      "": 177,
+      "stale_observation": 4
+    },
+    "temporal_scored_cycles": 181,
+    "temporal_valid_cycles": 177,
+    "consumed_nonzero": 66,
+    "zero_safe_candidates": 5,
+    "output_gap_ms": {
+      "n": 406,
+      "min": 8.0,
+      "p50": 50.0,
+      "p95": 53.0,
+      "p99": 100.0,
+      "max": 101.0
+    },
+    "output_gap_over100": 4,
+    "zero_hold_output_gap_ms": {
+      "n": 17,
+      "min": 40.0,
+      "p50": 50.0,
+      "p95": 51.8,
+      "p99": 57.56,
+      "max": 59.0
+    },
+    "active_output_gap_ms": {
+      "n": 389,
+      "min": 8.0,
+      "p50": 50.0,
+      "p95": 53.0,
+      "p99": 100.12,
+      "max": 101.0
+    },
+    "output_max_command": [
+      0.5,
+      0.34634116291999817,
+      1.2
+    ],
+    "output_bounds_violations": 0,
+    "observed_current_occupied_samples": 43,
+    "output_publisher_count": 1,
+    "output_single_owner": true,
+    "output_owner_named": true,
+    "shutdown_minus11": false,
+    "oracle_replay_alignment_m": {
+      "n": 1037,
+      "min": 3.5152303290431064e-09,
+      "p50": 2.269196834583237e-05,
+      "p95": 0.0002803553479460929,
+      "p99": 0.0003499725662452125,
+      "max": 0.00039893918795086414
+    },
+    "aggregate_unsafe_circle_proxy_cycles": 27,
+    "optimistic_circle_proxy_cycles": 23,
+    "snapshots": [
+      {
+        "epoch_ns": 4028000000,
+        "t": 0.023,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": 1.1167399062358832,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 21,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.7662829160690308,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.04888098221272236,
+            "p99": 0.08942289523780335,
+            "max": 0.15048110485076904
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.7662829160690308,
+            "p50": 2.418904662132263,
+            "p95": 3.3374800205230715,
+            "p99": 3.5472801327705374,
+            "max": 4.390117168426514
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.06081319972872734,
+          -0.02532917447388172,
+          -0.010417399927973747
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 6028000000,
+        "t": 2.023,
+        "predicted_aggregate_circle_clearance": 0.03338741637625603,
+        "actual_aggregate_circle_proxy_clearance": 0.17650635797174152,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 186,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.06893394142389297,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 2.5429234504699707,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 4.5544538497924805,
+          "TemporalResearchCritic": 5726.0185546875
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.042515672743320465,
+            "p95": 0.18007587492465973,
+            "p99": 0.24380710974335654,
+            "max": 0.3405773639678955
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.22037659585475922,
+            "p50": 2.043106198310852,
+            "p95": 3.2943679809570314,
+            "p99": 3.715124206542968,
+            "max": 4.467041015625
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.871258556842804,
+            "p50": 2.8094335794448853,
+            "p95": 3.8717575073242188,
+            "p99": 4.554790964126586,
+            "max": 4.820465087890625
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 5726.0185546875,
+            "p50": 2694621.875,
+            "p95": 6353782.325,
+            "p99": 8148570.994999995,
+            "max": 9006671.0
+          }
+        },
+        "command": [
+          0.1693483293056488,
+          -0.22097554802894592,
+          0.5751550793647766
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 8028000000,
+        "t": 4.023,
+        "predicted_aggregate_circle_clearance": 0.07930819124675942,
+        "actual_aggregate_circle_proxy_clearance": 0.04307949305170239,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 137,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 5.50208854675293,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.0,
+          "TemporalResearchCritic": 0.880859375
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.06813674457371237,
+            "p99": 0.11658429682254785,
+            "max": 0.16240094602108002
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 4.588774681091309,
+            "p50": 5.433437824249268,
+            "p95": 5.92460219860077,
+            "p99": 6.080316152572632,
+            "max": 6.19134521484375
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.440948486328125,
+            "p50": 1.8556745052337646,
+            "p95": 252868.67968750006,
+            "p99": 625701.5831249995,
+            "max": 1025054.875
+          }
+        },
+        "command": [
+          0.11067541688680649,
+          -0.178903266787529,
+          0.042798399925231934
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 10028000000,
+        "t": 6.023,
+        "predicted_aggregate_circle_clearance": 0.08469440776697229,
+        "actual_aggregate_circle_proxy_clearance": 0.47374681325963597,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 148,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.01835959032177925,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 2.4344587326049805,
+          "PathFollowTraceCritic": 4.921512126922607,
+          "TemporalResearchCritic": 0.3825798034667969
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0823895312845707,
+            "p99": 0.16438979879021634,
+            "max": 0.1792699098587036
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 2.09407901763916,
+            "p50": 2.733156681060791,
+            "p95": 2.9207404375076296,
+            "p99": 2.9570576333999634,
+            "max": 2.9957494735717773
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 3.570122480392456,
+            "p50": 5.155205488204956,
+            "p95": 6.022000813484192,
+            "p99": 6.451844387054443,
+            "max": 6.824818134307861
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.023767471313476562,
+            "p50": 0.4298975467681885,
+            "p95": 33714.022460937544,
+            "p99": 108671.65359374958,
+            "max": 208027.859375
+          }
+        },
+        "command": [
+          0.015597405843436718,
+          0.11307297646999359,
+          0.1876734495162964
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 12028000000,
+        "t": 8.023,
+        "predicted_aggregate_circle_clearance": 0.18486927242291518,
+        "actual_aggregate_circle_proxy_clearance": 0.4896069567384226,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 183,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.12912218272686005,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 1.2848639488220215,
+          "PathFollowTraceCritic": 4.479223251342773,
+          "TemporalResearchCritic": 0.1421799659729004
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.03907493315637112,
+            "p95": 0.1666206553578377,
+            "p99": 0.218176874667406,
+            "max": 0.248435840010643
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 1.235992431640625,
+            "p50": 2.1085338592529297,
+            "p95": 2.5831504106521606,
+            "p99": 2.7320648193359367,
+            "max": 2.90175199508667
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 2.93310546875,
+            "p50": 4.264962196350098,
+            "p95": 5.139903402328492,
+            "p99": 5.423750767707824,
+            "max": 5.5823187828063965
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.05641937255859375,
+            "p50": 0.3291015625,
+            "p95": 0.9841598510742188,
+            "p99": 5.3467944335902775,
+            "max": 19832.373046875
+          }
+        },
+        "command": [
+          0.056035906076431274,
+          -0.09953191876411438,
+          -0.3389955461025238
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 14028000000,
+        "t": 10.023,
+        "predicted_aggregate_circle_clearance": 0.7892079471557675,
+        "actual_aggregate_circle_proxy_clearance": 1.0391590485562183,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 110,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.14471712708473206,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.18612003326416016,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.16479867696762085,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.22721677273511887,
+            "p95": 0.46791994720697405,
+            "p99": 0.5781333220005035,
+            "max": 0.5858705043792725
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 499.9999710083008,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.14046931266784668,
+            "p50": 0.8260379135608673,
+            "p95": 1.897799682617188,
+            "p99": 2.144592285156249,
+            "max": 2.6964111328125
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.043959975242614746,
+            "p50": 1.026949942111969,
+            "p95": 2.0069518804550177,
+            "p99": 2.52584691286087,
+            "max": 3.157623291015625
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.39421722292900085,
+          -0.32265371084213257,
+          -0.015235387720167637
+        ],
+        "prediction_reason": ""
+      }
+    ],
+    "active_track_counts": {
+      "n": 181,
+      "min": 0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1
+    },
+    "forecast_center_error_m": {
+      "0": {
+        "n": 112,
+        "min": 0.21432309107622757,
+        "p50": 0.23397988206996279,
+        "p95": 0.29696928484668417,
+        "p99": 0.3217981832533446,
+        "max": 0.3390006119678561
+      },
+      "1": {
+        "n": 112,
+        "min": 0.036784634494496114,
+        "p50": 0.3598093929803233,
+        "p95": 0.6200153957490944,
+        "p99": 0.7381893578425586,
+        "max": 0.7503821554766968
+      },
+      "3": {
+        "n": 112,
+        "min": 0.21347593471443752,
+        "p50": 0.97972968610147,
+        "p95": 1.8011559967715047,
+        "p99": 1.8818334267563852,
+        "max": 1.8864438865461073
+      }
+    }
+  },
+  {
+    "run": "wait_release_C_29_aligned",
+    "scene": "wait_release",
+    "group": "C",
+    "seed": 29,
+    "phase": "finite",
+    "startup": false,
+    "outcome": "goal_result",
+    "result_status": 4,
+    "contact_messages": 0,
+    "native_events": 5,
+    "fatal_reason": null,
+    "variant": "input_pose",
+    "validation_split": "repeat",
+    "fixture_revision": 2,
+    "cohort": "final_fixture",
+    "incomplete_jsonl_lines": {
+      "prediction.jsonl": 0,
+      "truth.jsonl": 0,
+      "plans.jsonl": 0,
+      "control.jsonl": 0
+    },
+    "elapsed_s": 25.315,
+    "success": true,
+    "arrival_s": 25.315,
+    "body_clearance_m": 0.36960487164529887,
+    "overlap_samples": 0,
+    "truth_samples": 1265,
+    "truth_gap_ms": {
+      "n": 1264,
+      "min": 20.0,
+      "p50": 20.0,
+      "p95": 20.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "wall_clearance_m": 0.0,
+    "wall_overlap_samples": 31,
+    "safe_success": false,
+    "wait_s": 7.41999999999993,
+    "longest_stall_s": 4.6199999999999894,
+    "start_count": 4,
+    "forward_flips": 6,
+    "max_retreat_m": 0.13840916223999788,
+    "path_length_m": 4.604797287311355,
+    "actual_max_velocity": [
+      0.4999444318004298,
+      0.5000274985028923,
+      1.199999824166298
+    ],
+    "actual_max_acceleration": [
+      1.731083146395028,
+      1.7497259278470427,
+      2.000001259148121
+    ],
+    "actual_accel_exceed_intervals_raw": [
+      98,
+      113,
+      36
+    ],
+    "actual_velocity_exceed_samples_raw": [
+      0,
+      5,
+      0
+    ],
+    "physical_exceedance_basis": "raw finite differences vs smoother settings, no calibration/tolerance; not new post-hoc primary safety gate",
+    "cycles": 175,
+    "compute_ms": {
+      "n": 175,
+      "min": 2.064922,
+      "p50": 15.64504,
+      "p95": 36.5363389,
+      "p99": 46.720829499999965,
+      "max": 69.069571
+    },
+    "compute_over100": 0,
+    "native_errors": 5,
+    "candidate_epoch_to_consume_ms": {
+      "n": 175,
+      "min": 1.0,
+      "p50": 13.0,
+      "p95": 33.0,
+      "p99": 43.25999999999999,
+      "max": 49.0
+    },
+    "input_pose_to_entry_ms": {
+      "n": 175,
+      "min": 0.0,
+      "p50": 9.0,
+      "p95": 19.0,
+      "p99": 20.0,
+      "max": 20.0
+    },
+    "epoch_basis_counts": {
+      "consume": 0,
+      "input_pose": 170
+    },
+    "prediction_receipt_to_consume_ms": {
+      "n": 175,
+      "min": 0.0,
+      "p50": 33.0,
+      "p95": 82.59999999999997,
+      "p99": 112.59999999999991,
+      "max": 166.0
+    },
+    "prediction_age_ms": {
+      "n": 170,
+      "min": 66.0,
+      "p50": 106.00000000000001,
+      "p95": 170.0,
+      "p99": 212.9900000000001,
+      "max": 269.0
+    },
+    "prediction_reason_counts": {
+      "": 170,
+      "observation_anchor_epoch": 1,
+      "stale_observation": 4
+    },
+    "temporal_scored_cycles": 175,
+    "temporal_valid_cycles": 170,
+    "consumed_nonzero": 66,
+    "zero_safe_candidates": 3,
+    "output_gap_ms": {
+      "n": 416,
+      "min": 6.0,
+      "p50": 50.0,
+      "p95": 63.5,
+      "p99": 101.85000000000002,
+      "max": 3613.0
+    },
+    "output_gap_over100": 9,
+    "zero_hold_output_gap_ms": {
+      "n": 31,
+      "min": 34.0,
+      "p50": 50.0,
+      "p95": 321.5,
+      "p99": 2690.199999999998,
+      "max": 3613.0
+    },
+    "active_output_gap_ms": {
+      "n": 385,
+      "min": 6.0,
+      "p50": 50.0,
+      "p95": 54.0,
+      "p99": 101.0,
+      "max": 103.0
+    },
+    "output_max_command": [
+      0.4999556541442871,
+      0.5,
+      1.2
+    ],
+    "output_bounds_violations": 0,
+    "observed_current_occupied_samples": 46,
+    "output_publisher_count": 1,
+    "output_single_owner": true,
+    "output_owner_named": true,
+    "shutdown_minus11": false,
+    "oracle_replay_alignment_m": {
+      "n": 1265,
+      "min": 0.0,
+      "p50": 5.318062714199101e-06,
+      "p95": 0.0002964469889151106,
+      "p99": 0.0007205207540801244,
+      "max": 0.0007749271093080434
+    },
+    "aggregate_unsafe_circle_proxy_cycles": 29,
+    "optimistic_circle_proxy_cycles": 22,
+    "snapshots": [
+      {
+        "epoch_ns": 4060000000,
+        "t": 0.057,
+        "predicted_aggregate_circle_clearance": null,
+        "actual_aggregate_circle_proxy_clearance": 1.1709573403134987,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 156,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.8123524785041809,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.026376341097056874,
+            "p99": 0.06897597081959235,
+            "max": 0.12018360942602158
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.8123524785041809,
+            "p50": 2.208185315132141,
+            "p95": 3.026305997371674,
+            "p99": 3.2854305171966547,
+            "max": 3.472592830657959
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.04284358397126198,
+          -0.008103158324956894,
+          -0.04072478041052818
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 6061000000,
+        "t": 2.058,
+        "predicted_aggregate_circle_clearance": 0.04389630616340362,
+        "actual_aggregate_circle_proxy_clearance": -0.26002487379017875,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 148,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.06187164783477783,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.6476201415061951,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 1.4743163585662842,
+          "TemporalResearchCritic": 0.8715078830718994
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0670214295387268,
+            "p95": 0.19720041826367382,
+            "p99": 0.2732713359594339,
+            "max": 0.41844120621681213
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 499.9999694824219,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.3149172365665436,
+            "p50": 1.0452375411987305,
+            "p95": 2.0369725823402405,
+            "p99": 2.4800721406936637,
+            "max": 2.71173095703125
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.7528988122940063,
+            "p50": 2.404762387275696,
+            "p95": 3.35753630399704,
+            "p99": 3.6564107441902145,
+            "max": 4.029571533203125
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.26441097259521484,
+            "p50": 3457.7125244140625,
+            "p95": 197665.24453125,
+            "p99": 332073.4612499995,
+            "max": 435362.53125
+          }
+        },
+        "command": [
+          0.21468202769756317,
+          -0.0009176058229058981,
+          0.29404109716415405
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 8060000000,
+        "t": 4.057,
+        "predicted_aggregate_circle_clearance": 0.05896150706603481,
+        "actual_aggregate_circle_proxy_clearance": 0.16762670847940475,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 117,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 5.017114639282227,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.0,
+          "TemporalResearchCritic": 1.3399157524108887
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.05630120113492016,
+            "p99": 0.07795079834759235,
+            "max": 0.10846128314733505
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 3.87945556640625,
+            "p50": 4.656338453292847,
+            "p95": 5.077525472640992,
+            "p99": 5.224667291641236,
+            "max": 5.323060989379883
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.865997314453125,
+            "p50": 11459.376953125,
+            "p95": 731759.6062500003,
+            "p99": 1271055.1424999984,
+            "max": 1957037.375
+          }
+        },
+        "command": [
+          0.149113267660141,
+          0.035060152411460876,
+          -0.24348829686641693
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 10159000000,
+        "t": 6.156,
+        "predicted_aggregate_circle_clearance": 0.12446911744637018,
+        "actual_aggregate_circle_proxy_clearance": 0.47683080111484233,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 256,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 2.3436429500579834,
+          "PathFollowTraceCritic": 2.1403086185455322,
+          "TemporalResearchCritic": 0.5507602691650391
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.03979561049491168,
+            "p99": 0.09291802287101733,
+            "max": 0.13092784583568573
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 24.999998474126777,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 1.9393310546875,
+            "p50": 2.7187334299087524,
+            "p95": 2.9117499113082888,
+            "p99": 2.9581094884872434,
+            "max": 2.983994960784912
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 1.1194796562194824,
+            "p50": 2.5105422735214233,
+            "p95": 3.3301318526268004,
+            "p99": 3.6965804386138905,
+            "max": 3.917436122894287
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.04924440383911133,
+            "p50": 0.4751124382019043,
+            "p95": 4979.133984375056,
+            "p99": 58061.86996093745,
+            "max": 178637.109375
+          }
+        },
+        "command": [
+          -0.09184742718935013,
+          -0.12200138717889786,
+          -0.14890258014202118
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 12159000000,
+        "t": 8.156,
+        "predicted_aggregate_circle_clearance": 0.40132138913789717,
+        "actual_aggregate_circle_proxy_clearance": 0.6245586250293101,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 85,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.0,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.0,
+          "PathAngleTraceCritic": 1.078904151916504,
+          "PathFollowTraceCritic": 4.632455348968506,
+          "TemporalResearchCritic": 9.72747802734375e-05
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.02487740572541952,
+            "p95": 0.1385417439043522,
+            "p99": 0.19530078664422032,
+            "max": 0.2848876118659973
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 249.99998474121094,
+            "p95": 500.0,
+            "p99": 500.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 1.0375194549560547,
+            "p50": 1.4428799152374268,
+            "p95": 1.9554005622863773,
+            "p99": 2.1545397949218748,
+            "max": 2.3225150108337402
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 3.1260986328125,
+            "p50": 4.51129412651062,
+            "p95": 5.473727703094482,
+            "p99": 5.634393939971923,
+            "max": 6.046637535095215
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 9.1552734375e-05,
+            "p50": 9.72747802734375e-05,
+            "p95": 0.0005203247070312503,
+            "p99": 0.0010988330841064451,
+            "max": 0.003631591796875
+          }
+        },
+        "command": [
+          -0.1417250782251358,
+          -0.010350036434829235,
+          0.5693482160568237
+        ],
+        "prediction_reason": ""
+      },
+      {
+        "epoch_ns": 14079000000,
+        "t": 10.076,
+        "predicted_aggregate_circle_clearance": 1.228102818568534,
+        "actual_aggregate_circle_proxy_clearance": 1.3266150380125024,
+        "GT_full30": true,
+        "best_raw_index_before_gamma": 150,
+        "best_raw_cost_parts": {
+          "ConstraintTraceCritic": 0.035080935806035995,
+          "CostTraceCritic": 0.0,
+          "GoalAngleTraceCritic": 0.0,
+          "GoalTraceCritic": 0.0,
+          "PathAlignTraceCritic": 0.5788090825080872,
+          "PathAngleTraceCritic": 0.0,
+          "PathFollowTraceCritic": 0.742848813533783,
+          "TemporalResearchCritic": 0.0
+        },
+        "cost_part_ranges": {
+          "ConstraintTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.07831604480743412,
+            "p99": 0.11956955410540089,
+            "max": 0.15487873554229736
+          },
+          "CostTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 500.0
+          },
+          "GoalAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "GoalTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathAlignTraceCritic": {
+            "n": 300,
+            "min": 0.24253973364830017,
+            "p50": 0.9169286489486694,
+            "p95": 1.9432050526142122,
+            "p99": 2.2964140200614915,
+            "max": 2.84527587890625
+          },
+          "PathAngleTraceCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "PathFollowTraceCritic": {
+            "n": 300,
+            "min": 0.742848813533783,
+            "p50": 2.132547616958618,
+            "p95": 3.0898784637451175,
+            "p99": 3.394182560443878,
+            "max": 4.014068603515625
+          },
+          "TemporalResearchCritic": {
+            "n": 300,
+            "min": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          }
+        },
+        "command": [
+          0.19274909794330597,
+          0.11959794163703918,
+          0.1061476543545723
+        ],
+        "prediction_reason": ""
+      }
+    ],
+    "active_track_counts": {
+      "n": 175,
+      "min": 0,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1
+    },
+    "forecast_center_error_m": {
+      "0": {
+        "n": 110,
+        "min": 0.21025855650450584,
+        "p50": 0.23223843128835275,
+        "p95": 0.3417091634135716,
+        "p99": 0.39100397007417304,
+        "max": 0.41640853317656346
+      },
+      "1": {
+        "n": 110,
+        "min": 0.1232306358614204,
+        "p50": 0.3647019221373635,
+        "p95": 0.6465543440882684,
+        "p99": 0.7549452397610791,
+        "max": 0.7595099659995427
+      },
+      "3": {
+        "n": 110,
+        "min": 0.16090484101559693,
+        "p50": 0.8713266861513984,
+        "p95": 1.7754755838828242,
+        "p99": 1.8617346422150227,
+        "max": 1.8735598478953757
+      }
+    }
+  }
+]

@@ -16,3 +16,7 @@ add_executable(temporal_check check.cpp)
 ament_target_dependencies(temporal_check rclcpp nav2_mppi_controller nav2_costmap_2d pluginlib std_msgs rosgraph_msgs)
 target_link_libraries(temporal_check nlohmann_json::nlohmann_json)
 ament_package()
+
+add_executable(geometry_counterexample ../stvl_temporal_roots/check_geometry.cpp)
+ament_target_dependencies(geometry_counterexample rclcpp nav2_mppi_controller nav2_costmap_2d pluginlib std_msgs)
+target_link_libraries(geometry_counterexample nlohmann_json::nlohmann_json)

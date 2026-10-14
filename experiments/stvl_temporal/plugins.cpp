@@ -7,13 +7,14 @@
 #include <xtensor/xrandom.hpp>
 #include <nav2_mppi_controller/controller.hpp>
 #include <nav2_mppi_controller/critic_function.hpp>
+#include <nav2_mppi_controller/critics/cost_critic.hpp>
 #include <pluginlib/class_list_macros.hpp>
 #include <std_msgs/msg/string.hpp>
 #include "vendor/model.hpp"
 using J=nlohmann::json;
 namespace dyn=rm_dynamic_obstacle_critic;
 namespace study {
-struct Trace {std::vector<float> previous;J deltas=J::object(),prediction=J::object();J raw;bool capture=false;int64_t epoch=0,pose_epoch=0;};
+struct Trace {std::vector<float> previous;J deltas=J::object(),prediction=J::object(),extra=J::object();J raw;bool capture=false;int64_t epoch=0,pose_epoch=0;};
 thread_local Trace trace;
 void observe(mppi::CriticData &d,const std::string &label) {
  auto &t=trace;J changes=J::array();
@@ -27,16 +28,61 @@ class TraceBase:public CriticFunction {
  void score(CriticData &d) override {
   auto label=name_.substr(name_.find_last_of('.')+1);
   if(label=="InputTraceCritic") {
-   study::trace.previous.assign(d.costs.size(),0);study::trace.deltas=J::object();study::trace.prediction=J::object();
+   study::trace.previous.assign(d.costs.size(),0);study::trace.deltas=J::object();study::trace.prediction=J::object();study::trace.extra=J::object();
    if(study::trace.capture) {
     study::trace.raw=J::array();
-    for(size_t i=0;i<d.trajectories.x.shape(0);i++) {J row=J::array();for(size_t k=0;k<d.trajectories.x.shape(1);k++) row.push_back({d.trajectories.x(i,k),d.trajectories.y(i,k),d.trajectories.yaws(i,k)});study::trace.raw.push_back(row);}
+    J velocities=J::array(),controls=J::array();
+    for(size_t i=0;i<d.trajectories.x.shape(0);i++) {J row=J::array(),v=J::array(),c=J::array();for(size_t k=0;k<d.trajectories.x.shape(1);k++) {row.push_back({d.trajectories.x(i,k),d.trajectories.y(i,k),d.trajectories.yaws(i,k)});v.push_back({d.state.vx(i,k),d.state.vy(i,k),d.state.wz(i,k)});c.push_back({d.state.cvx(i,k),d.state.cvy(i,k),d.state.cwz(i,k)});}study::trace.raw.push_back(row);velocities.push_back(v);controls.push_back(c);}
+    study::trace.extra["candidate_velocity"]=velocities;study::trace.extra["candidate_noised_controls"]=controls;
    }
   } else study::observe(d,label);
  }
 };
 #define OBS(NAME) class NAME final:public TraceBase{};
 OBS(InputTraceCritic) OBS(ConstraintTraceCritic) OBS(CostTraceCritic) OBS(GoalTraceCritic) OBS(GoalAngleTraceCritic) OBS(PathAlignTraceCritic) OBS(PathFollowTraceCritic) OBS(PathAngleTraceCritic)
+// Read-only native costmap/footprint probe. Scoring is still the installed class.
+class RootCostProbe final:public CostCritic {
+ bool check_all_poses_=false;
+public:
+ void initialize() override {CostCritic::initialize();auto get=parameters_handler_->getParamGetter(name_);get(check_all_poses_,"check_all_poses",false,ParameterType::Static);}
+ void score(CriticData &d) override {
+  const float original_threshold=findCircumscribedCost(costmap_ros_);
+  if(!check_all_poses_)CostCritic::score(d);
+  else {
+   if(!enabled_)return;
+   // Same native cost equation and collision semantics. Only remove the
+   // center-cost shortcut when a polygon footprint is explicitly requested.
+   // No inflation, footprint, cost weight, control constraint or horizon change.
+   possibly_inscribed_cost_=consider_footprint_?0:original_threshold;
+   bool near=utils::withinPositionGoalTolerance(near_goal_distance_,d.state.pose.pose,d.path),all=true;
+   xt::xtensor<float,1> repulsive=xt::zeros<float>({d.costs.size()});size_t steps=d.trajectories.x.shape(1);
+   for(size_t i=0;i<d.costs.size();i++) {
+    bool collision=false;
+    for(size_t k=0;k<steps;k++) {
+     float x=d.trajectories.x(i,k),y=d.trajectories.y(i,k),yaw=d.trajectories.yaws(i,k),center=costAtPose(x,y);
+     if(center<1 && !consider_footprint_)continue;
+     if(inCollision(center,x,y,yaw)){collision=true;break;}
+     if(center>=nav2_costmap_2d::INSCRIBED_INFLATED_OBSTACLE)repulsive(i)+=critical_cost_;else if(!near)repulsive(i)+=center;
+    }
+    if(collision)repulsive(i)=collision_cost_;else all=false;
+   }
+   d.costs+=xt::pow((weight_*repulsive/steps),power_);d.fail_flag=all;
+  }
+  if(!study::trace.capture)return;
+  J examples=J::array(),full_hits=J::array(),native_hits=J::array();int skipped=0;
+  for(size_t i=0;i<d.costs.size();i++) {
+   bool full=false,native=false;
+   for(size_t k=0;k<d.trajectories.x.shape(1);k++) {
+    float x=d.trajectories.x(i,k),y=d.trajectories.y(i,k),yaw=d.trajectories.yaws(i,k);float center=costAtPose(x,y);
+    float foot=collision_checker_.footprintCostAtPose(x,y,yaw,costmap_ros_->getRobotFootprint());bool hit=foot==254;float original_cost=(consider_footprint_&&(center>=original_threshold||original_threshold<1))?foot:center;bool accepted_center=center>=1&&(original_cost==254||(original_cost==255&&!costmap_ros_->getLayeredCostmap()->isTrackingUnknown()));full|=hit;native|=accepted_center;
+    if(hit&&!accepted_center){skipped++;if(examples.size()<12)examples.push_back({{"candidate",i},{"step",k},{"pose",{x,y,yaw}},{"center_cost",center},{"exact_footprint_cost",foot}});}
+   }
+   full_hits.push_back(full);native_hits.push_back(native);
+  }
+  auto map=costmap_ros_->getCostmap();J grid=J::array();for(size_t i=0;i<size_t(map->getSizeInCellsX())*map->getSizeInCellsY();i++)grid.push_back(int(map->getCharMap()[i]));J footprint=J::array();for(auto p:costmap_ros_->getRobotFootprint())footprint.push_back({p.x,p.y});
+  study::trace.extra["cost_probe"]={{"check_all_poses",check_all_poses_},{"possibly_inscribed_cost",original_threshold},{"circumscribed_radius",circumscribed_radius_},{"map_frame",costmap_ros_->getGlobalFrameID()},{"map_origin",{map->getOriginX(),map->getOriginY()}},{"resolution",map->getResolution()},{"width",map->getSizeInCellsX()},{"height",map->getSizeInCellsY()},{"grid",grid},{"footprint",footprint},{"full_native_footprint_hits",full_hits},{"native_shortcut_hits",native_hits},{"missed_pose_checks",skipped},{"examples",examples}};
+ }
+};
 class TemporalResearchCritic final:public CriticFunction {
  std::mutex mutex_;J latest_;int64_t source_=0,receipt_=0;uint64_t rejected_=0;
  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub_;
@@ -119,25 +165,30 @@ public:
 };
 }
 namespace rm_stvl_temporal_research {
+// Legal read-only member pointers from the fixed installed protected header.
+// No optimizer subclass instance, layout cast, replacement or mutation.
+struct OptimizerReadOnly:public mppi::Optimizer {static auto sequence(){return &OptimizerReadOnly::control_sequence_;}static auto costs(){return &OptimizerReadOnly::costs_;}static auto settings(){return &OptimizerReadOnly::settings_;}};
 class Controller final:public nav2_mppi_controller::MPPIController {
- std::ofstream log_;rclcpp_lifecycle::LifecyclePublisher<std_msgs::msg::String>::SharedPtr failures_;size_t count_=0,captures_=0;int64_t start_=0;
+ std::ofstream log_;rclcpp_lifecycle::LifecyclePublisher<std_msgs::msg::String>::SharedPtr failures_;size_t count_=0,captures_=0;int64_t start_=0;double capture_begin_=-1,capture_end_=-1;
 public:
  void configure(const rclcpp_lifecycle::LifecycleNode::WeakPtr &parent,std::string name,const std::shared_ptr<tf2_ros::Buffer> tf,const std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap) override {
   auto node=parent.lock();if(!node->has_parameter(name+".research_log"))node->declare_parameter(name+".research_log",std::string{});if(!node->has_parameter(name+".research_seed"))node->declare_parameter(name+".research_seed",13);
   std::string file;int seed;node->get_parameter(name+".research_log",file);node->get_parameter(name+".research_seed",seed);if(file.empty())throw std::runtime_error("explicit research log required");log_.open(file);xt::random::seed(seed);
   MPPIController::configure(parent,name,tf,costmap);
+  if(!node->has_parameter(name+".research_capture_begin"))node->declare_parameter(name+".research_capture_begin",-1.);if(!node->has_parameter(name+".research_capture_end"))node->declare_parameter(name+".research_capture_end",-1.);node->get_parameter(name+".research_capture_begin",capture_begin_);node->get_parameter(name+".research_capture_end",capture_end_);
   failures_=node->create_publisher<std_msgs::msg::String>("/research/failure",rclcpp::QoS(1).transient_local());failures_->on_activate();
  }
  geometry_msgs::msg::TwistStamped computeVelocityCommands(const geometry_msgs::msg::PoseStamped &pose,const geometry_msgs::msg::Twist &speed,nav2_core::GoalChecker *goal) override {
   auto begin=std::chrono::steady_clock::now();int64_t now=clock_->now().nanoseconds();if(!start_)start_=now;
   study::trace.capture=captures_<6 && (count_==0 || (now-start_)*1e-9>=captures_*2.);if(study::trace.capture)captures_++;
+  if(capture_begin_>=0)study::trace.capture=(now-start_)*1e-9>=capture_begin_&&(now-start_)*1e-9<=capture_end_&&count_%2==0;
   study::trace.epoch=now;study::trace.pose_epoch=rclcpp::Time(pose.header.stamp,clock_->get_clock_type()).nanoseconds();
   J record={{"epoch_ns",now},{"pose_epoch_ns",study::trace.pose_epoch},{"pose",{pose.pose.position.x,pose.pose.position.y,tf2::getYaw(pose.pose.orientation)}},{"speed",{speed.linear.x,speed.linear.y,speed.angular.z}}};
   try {
    auto command=MPPIController::computeVelocityCommands(pose,speed,goal);record["command"]={command.twist.linear.x,command.twist.linear.y,command.twist.angular.z};
    auto optimal=optimizer_.getOptimizedTrajectory();record["aggregate"]=J::array();for(size_t k=0;k<optimal.shape(0);k++)record["aggregate"].push_back({optimal(k,0),optimal(k,1),optimal(k,2)});
    record["compute_ms"]=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-begin).count();record["prediction"]=study::trace.prediction;
-   if(study::trace.capture){record["raw"]=study::trace.raw;record["critic_deltas"]=study::trace.deltas;}log_<<record.dump()<<'\n';count_++;return command;
+   if(study::trace.capture){record["raw"]=study::trace.raw;record["critic_deltas"]=study::trace.deltas;record["root_diagnostics"]=study::trace.extra;auto &seq=optimizer_.*OptimizerReadOnly::sequence();J selected=J::array();for(size_t k=0;k<seq.vx.size();k++)selected.push_back({seq.vx(k),seq.vy(k),seq.wz(k)});record["selected_post_sg_shift_controls"]=selected;auto &costs=optimizer_.*OptimizerReadOnly::costs();record["native_final_costs_after_gamma"]=std::vector<float>(costs.begin(),costs.end());auto &settings=optimizer_.*OptimizerReadOnly::settings();record["native_temperature"]=settings.temperature;record["shift_control_sequence"]=settings.shift_control_sequence;}log_<<record.dump()<<'\n';count_++;return command;
   } catch(const std::exception &e) {
    record["error"]=e.what();record["prediction"]=study::trace.prediction;record["compute_ms"]=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-begin).count();if(study::trace.capture){record["raw"]=study::trace.raw;record["critic_deltas"]=study::trace.deltas;}log_<<record.dump()<<'\n';log_.flush();std_msgs::msg::String msg;msg.data=e.what();failures_->publish(msg);count_++;throw;
   }
@@ -146,4 +197,5 @@ public:
 }
 #define EXPORT_OBS(NAME) PLUGINLIB_EXPORT_CLASS(mppi::critics::NAME,mppi::critics::CriticFunction)
 EXPORT_OBS(InputTraceCritic) EXPORT_OBS(ConstraintTraceCritic) EXPORT_OBS(CostTraceCritic) EXPORT_OBS(GoalTraceCritic) EXPORT_OBS(GoalAngleTraceCritic) EXPORT_OBS(PathAlignTraceCritic) EXPORT_OBS(PathFollowTraceCritic) EXPORT_OBS(PathAngleTraceCritic) EXPORT_OBS(TemporalResearchCritic)
+EXPORT_OBS(RootCostProbe)
 PLUGINLIB_EXPORT_CLASS(rm_stvl_temporal_research::Controller,nav2_core::Controller)

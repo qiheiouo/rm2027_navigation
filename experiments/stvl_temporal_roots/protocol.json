@@ -1,0 +1,19 @@
+{
+ "stage":"Research, failure-first causal localization and conditional bounded local repair",
+ "base":"d2b5f0714585e1e71abaf20def932937057f644e",
+ "original_primary_C_failures":["wait_release_C_29_aligned","stale_C_29_aligned"],
+ "original_D_contacts":["narrow_D_29_gap","narrow_D_29_aligned","narrow_D_47_aligned"],
+ "extra_D_wall_failure":"narrow_D_13_aligned, analyzed separately",
+ "before_reproduction":["wait_release:C:29:aligned","stale:C:29:aligned","narrow:D:29:aligned","narrow:D:47:aligned","wait_release:C:13:aligned","narrow:C:29:aligned","crossing:A:29:aligned","crossing:C:29:aligned"],
+ "same_seed_normal_controls":"existing B29 wait/stale, C29 narrow, C13 wait; no favorable scene replacement",
+ "primary_gate":"exact previous protocol: goal, zero actor contact, dynamic full-envelope >=.047m, no sampled wall-envelope overlap",
+ "acceleration":"separate measured contract, not a newly added or relaxed primary gate; source finite differences and command ramps reported",
+ "diagnosis":"read full original raw; targeted ~3.6..5.8s telemetry only if missing native footprint/selected sequence prevents attribution",
+ "conditional_repair":"only after original failure reproduction and concrete source/cycle counterexample; no weights/inflation/radius/velocity tuning; one main factor per cohort",
+ "hypothesis_to_test":"native center-cost shortcut may suppress polygon collision checking when the inflation support is shorter than the robot circumscribed radius; unconfirmed until native exact check/counterexample",
+ "regression":"repeat identical selected failed/normal/A/C/Oracle cases for any repair; fixed time/invalid input checks retained",
+ "heldout_seed":61,"heldout_phase":"unchanged default phase0; new MPPI noise seed never used in prior study",
+ "heldout_cases":["wait_release:C:61:aligned","stale:C:61:aligned","narrow:D:61:aligned","narrow:C:61:aligned"],
+ "bounds":"<=24 incremental motion trials including repeats/holdout, <=300MiB new runtime cache, <=45MiB incremental compact evidence, >=3GiB free; no new ROS builds",
+ "stop":"if no reproducible concrete local defect or repair needs optimizer/model framework rewrite, record Unknown/Model Limitation; stop at research verdict, no push/merge/hardware"
+}
