@@ -123,3 +123,8 @@ mapping artifact, mission priority or failure policy, update at least:
 
 - [真实STVL + 原生MPPI时间消费闭环研究](research_history/stvl_temporal_20261013.md)：140次有效对照、一次时间基准消融与保留种子；Modify，未迁入正式导航。
 - [独立实验入口与证据恢复](../experiments/stvl_temporal/README.md)：COLCON_IGNORE、已有Humble依赖、无硬件权限。
+
+## 时间感知MPPI失败定位（2026-10-14）
+
+- [几何漏检、零速度输入与局部闭环修复](research_history/stvl_temporal_failure_roots_20261014.md)：48次定向启动尝试，42次可评价控制闭环；保留Oracle负例、工程崩溃和效率退化，裁决Modify。
+- [独立复现与完整raw保存合同](../experiments/stvl_temporal_roots/README.md)：原d2b5只读，几何/速度分因素，无正式迁入。

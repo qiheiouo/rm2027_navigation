@@ -1,8 +1,14 @@
 // Research only. Native optimizer, critics, lifecycle and command selection stay
 // in the installed Nav2 1.1.20 library. Observers never change data.costs.
+// RootCostProbe scoring adaptation: Copyright (c) 2022 Samsung Research
+// America / Alexey Budyakov; Copyright (c) 2023 Open Navigation LLC.
+// Adapted under Apache-2.0; see ../stvl_temporal_roots/NOTICE.md.
 #include <fstream>
 #include <mutex>
 #include <chrono>
+#include <execinfo.h>
+#include <signal.h>
+#include <unistd.h>
 #include <nlohmann/json.hpp>
 #include <xtensor/xrandom.hpp>
 #include <nav2_mppi_controller/controller.hpp>
@@ -42,9 +48,9 @@ class TraceBase:public CriticFunction {
 OBS(InputTraceCritic) OBS(ConstraintTraceCritic) OBS(CostTraceCritic) OBS(GoalTraceCritic) OBS(GoalAngleTraceCritic) OBS(PathAlignTraceCritic) OBS(PathFollowTraceCritic) OBS(PathAngleTraceCritic)
 // Read-only native costmap/footprint probe. Scoring is still the installed class.
 class RootCostProbe final:public CostCritic {
- bool check_all_poses_=false;
+ bool check_all_poses_=false,trace_alignment_=false;
 public:
- void initialize() override {CostCritic::initialize();auto get=parameters_handler_->getParamGetter(name_);get(check_all_poses_,"check_all_poses",false,ParameterType::Static);}
+ void initialize() override {CostCritic::initialize();auto get=parameters_handler_->getParamGetter(name_);get(check_all_poses_,"check_all_poses",false,ParameterType::Static);get(trace_alignment_,"trace_alignment",false,ParameterType::Static);}
  void score(CriticData &d) override {
   const float original_threshold=findCircumscribedCost(costmap_ros_);
   if(!check_all_poses_)CostCritic::score(d);
@@ -66,7 +72,15 @@ public:
     }
     if(collision)repulsive(i)=collision_cost_;else all=false;
    }
-   d.costs+=xt::pow((weight_*repulsive/steps),power_);d.fail_flag=all;
+   auto before=reinterpret_cast<uintptr_t>(d.costs.data());
+   // Preserve the installed library's SIMD-aligned tensor storage. The plugin
+   // was compiled without native xsimd allocator macros: vector-expression
+   // assignment could replace this buffer with a merely 16-byte aligned one.
+   for(size_t i=0;i<d.costs.size();i++)d.costs(i)+=std::pow(weight_*repulsive(i)/steps,power_);
+   if(before!=reinterpret_cast<uintptr_t>(d.costs.data()))throw std::runtime_error("cost storage replaced");
+   study::trace.extra["cost_storage"]={{"preserved",true},{"alignment_mod32",before%32}};
+   d.fail_flag=all;
+   if(trace_alignment_){auto after=reinterpret_cast<uintptr_t>(d.costs.data());char msg[180];int n=snprintf(msg,sizeof(msg),"ROOTS_COST_STORAGE before_mod32=%zu after_mod32=%zu replaced=%d\n",size_t(before%32),size_t(after%32),int(before!=after));write(2,msg,n);}
   }
   if(!study::trace.capture)return;
   J examples=J::array(),full_hits=J::array(),native_hits=J::array();int skipped=0;
@@ -175,6 +189,7 @@ public:
   auto node=parent.lock();if(!node->has_parameter(name+".research_log"))node->declare_parameter(name+".research_log",std::string{});if(!node->has_parameter(name+".research_seed"))node->declare_parameter(name+".research_seed",13);
   std::string file;int seed;node->get_parameter(name+".research_log",file);node->get_parameter(name+".research_seed",seed);if(file.empty())throw std::runtime_error("explicit research log required");log_.open(file);xt::random::seed(seed);
   MPPIController::configure(parent,name,tf,costmap);
+  if(!node->has_parameter(name+".research_crash_trace"))node->declare_parameter(name+".research_crash_trace",false);bool crash_trace=false;node->get_parameter(name+".research_crash_trace",crash_trace);if(crash_trace){void *warm[1];backtrace(warm,1);signal(SIGSEGV,[](int code){const char message[]="ROOTS_DIAGNOSTIC_SIGSEGV_STACK\n";write(2,message,sizeof(message)-1);void *frames[48];int n=backtrace(frames,48);backtrace_symbols_fd(frames,n,2);_exit(128+code);});}
   if(!node->has_parameter(name+".research_capture_begin"))node->declare_parameter(name+".research_capture_begin",-1.);if(!node->has_parameter(name+".research_capture_end"))node->declare_parameter(name+".research_capture_end",-1.);node->get_parameter(name+".research_capture_begin",capture_begin_);node->get_parameter(name+".research_capture_end",capture_end_);
   failures_=node->create_publisher<std_msgs::msg::String>("/research/failure",rclcpp::QoS(1).transient_local());failures_->on_activate();
  }

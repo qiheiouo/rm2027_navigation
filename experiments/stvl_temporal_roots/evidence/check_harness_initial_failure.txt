@@ -1,0 +1,9 @@
+Initial final-check invocation failed before geometry_counterexample could execute:
+terminate called after throwing an instance of 'rclcpp::exceptions::RCLError'
+what(): failed to configure logging: Failed to create log directory: /home/rmnav/.ros/log
+Exit 134. Read-only container had no writable ROS_LOG_DIR.
+
+This is a transcription of the captured tool output; the temporary checks_final.log
+was subsequently overwritten by the successful check run. It is not a functional
+geometry or temporal-check failure. checks.sh now sets ROS_LOG_DIR=/tmp/roots_logs,
+domain180, and --ulimit core=0. Both actual tests then returned exit0.

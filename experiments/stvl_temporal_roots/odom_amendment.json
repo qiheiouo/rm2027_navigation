@@ -1,0 +1,11 @@
+{
+ "reason":"focused execution audit discovered every recorded MPPI speed input is zero while /odometry/lio reports moving robot; controller_server omits odom_topic and fixed installed OdomSubscriber defaults to odom",
+ "scope":"one additional factor: controller_server.odom_topic=/odometry/lio in isolated per-run config only, after geometry/storage-corrected cohort; identical eight selected cases plus seed61 narrow C/D",
+ "maximum_incremental_motion_trials":47,
+ "owned_cache_limit_MiB":450,
+ "incremental_compact_limit_MiB":45,
+ "disk_reserve_GiB":3,
+ "justification":"configuration boundary defect is directly supported by installed header and raw zero-feedback mismatch; no tracker, localization, motion-model or optimizer replacement; no parameter tuning",
+ "comparison":"report repair_abi versus repair_odom separately, do not attribute corrected speed feedback benefits to geometry or prediction; seed61 has already been observed for geometry validation, not a fresh blind sample for this newly discovered engineering fix",
+ "stop":"finish this bounded cohort then stop at verdict; remaining limitation does not authorize broader model/critic redesign"
+}

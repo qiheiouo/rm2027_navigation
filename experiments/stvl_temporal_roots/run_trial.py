@@ -11,8 +11,12 @@ if mode in ('B','C','D'): parameters['critics'].append('TemporalResearchCritic')
 if mode in ('B','C','D') and tag=='_aligned':parameters['TemporalResearchCritic']['prediction_epoch']='input_pose'
 parameters['critics']=[('RootCostProbe' if x=='CostCritic' else x) for x in parameters['critics']]
 parameters['RootCostProbe']=parameters.pop('CostCritic')
-parameters['RootCostProbe']['check_all_poses']=os.environ.get('ROOTS_COHORT') in ('repair','heldout_repair')
+parameters['RootCostProbe']['check_all_poses']=os.environ.get('ROOTS_COHORT') in ('repair','heldout_repair','crash_debug','crash_alignment','repair_abi','heldout_abi','heldout_abi_retry','repair_odom','heldout_odom')
+parameters['RootCostProbe']['trace_alignment']=os.environ.get('ROOTS_COHORT')=='crash_alignment'
 parameters.update(research_capture_begin=2.6,research_capture_end=5.7)
+parameters['research_crash_trace']=os.environ.get('ROOTS_COHORT') in ('crash_debug','crash_alignment')
+if os.environ.get('ROOTS_COHORT') in ('repair_odom','heldout_odom'):
+ config['controller_server']['ros__parameters']['odom_topic']='/odometry/lio'
 (out/'nav2.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
 command=['ros2','launch',str(root/'experiments/stvl_temporal/comparison.launch.py'),'enabled:=true',f'scene:={scene}',f'seed:={repeat}',f'output:={out}']
 (out/'manifest.json').write_text(json.dumps(dict(scene=scene,mode=mode,repeat=repeat,profile=profile,variant='input_pose' if tag=='_aligned' else 'consume',native_recovery_enabled=os.environ.get('R4_RESEARCH_NATIVE_RECOVERY','0')=='1',phase='calibration' if mode=='CAL' else 'finite' if repeat in (13,29,47) else 'pilot',launch=command,baseline='4541e375',gazebo_seed=None,native_noise_seed=repeat),indent=2)+'\n')
@@ -28,6 +32,10 @@ try:
  # Only inspect the actual sim boundary; no full graph/regression inventory.
  with (out/'output_endpoints.txt').open('w') as f:
   subprocess.run(['ros2','topic','info','-v','/simulation/chassis/cmd_vel'],stdout=f,stderr=subprocess.STDOUT,timeout=5,check=False)
+ if os.environ.get('ROOTS_COHORT') in ('repair_odom','heldout_odom'):
+  with (out/'controller_odom_contract.txt').open('w') as f:
+   subprocess.run(['ros2','param','get','/controller_server','odom_topic'],stdout=f,stderr=subprocess.STDOUT,timeout=5,check=False)
+   subprocess.run(['ros2','topic','info','-v','/odometry/lio'],stdout=f,stderr=subprocess.STDOUT,timeout=5,check=False)
  if scene!='empty' and repeat==101:
   with (out/'contact_gz_endpoint.txt').open('w') as f:
    subprocess.run(['ign','topic','-i','-t','/simulation/oracle/contacts'],stdout=f,stderr=subprocess.STDOUT,timeout=3,check=False)
