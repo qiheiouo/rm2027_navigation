@@ -12,7 +12,7 @@ def setup(context):
     mode=LaunchConfiguration('mode').perform(context)
     enabled=LaunchConfiguration('enable_test').perform(context).lower()=='true'
     if mode=='inventory':
-        return [LogInfo(msg='New-car SOFTWARE inventory: no nodes. bundle/AUD-001 integrated; motion authority Modify; real calibration/profile/MCU stop pending.')]
+        return [LogInfo(msg='New-car SOFTWARE inventory: no nodes. bundle/AUD-001 and AUD-003 dry-run guard integrated; real calibration/production profile/MCU stop pending.')]
     if not enabled:raise RuntimeError('active software mode requires enable_test:=true; no hardware mode is available')
     def include(package,name,args):
         return IncludeLaunchDescription(PythonLaunchDescriptionSource(str(Path(get_package_share_directory(package))/'launch'/name)),launch_arguments=args.items())
@@ -22,7 +22,7 @@ def setup(context):
             include('rm_lio_bringup','fast_lio_multi_phase2a.launch.py',{'use_backend':'true','update_method':'bundle','sensor_mode':'single','selected_side':'left','publish_tf_results':'false','scan_publish_en':'false'})]
     if mode=='v2_protocol':
         if os.environ.get('ROS_DISTRO')!='humble':raise RuntimeError('fixed V2 protocol test environment is Humble')
-        return [LogInfo(msg='ISOLATED CODEC TEST: dry-run and MCU fixture; no Nav2/Goal chain, no task authorization, no physical IO. Never combine with navigation.'),
+        return [LogInfo(msg='ISOLATED V2 TEST: dry-run and MCU fixture; final motion guard remains disabled, generic /cmd_vel must not move, no physical IO. Never combine with navigation.'),
             include('rm_serial_driver','competition_v2_no_hardware_test.launch.py',{'publish_operator_target':'false'})]
     if mode=='s2':
         if os.environ.get('ROS_DISTRO')!='jazzy':raise RuntimeError('S2 uses existing Jazzy/Gazebo8; never mix with Humble localization/serial graph')

@@ -335,7 +335,7 @@ class Probe(Node):
 def run_case(probe, case):
     result = {
         "case": case,
-        "scope": "Jazzy ROS processes, virtual velocity/localization/mode/MCU; no device",
+        "scope": "ROS processes, virtual velocity/localization/mode/MCU; no device",
     }
     serial = probe.launch_serial()
     probe.wait_guard()

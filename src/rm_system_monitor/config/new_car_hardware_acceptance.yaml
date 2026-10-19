@@ -39,7 +39,7 @@ preflight:
     - path: motion_authority
       expected: Software_Go
       blocks_before_step: 6
-      reason: AUD-003 尚未集成到正式 Humble 候选
+      reason: AUD-003 dry-run守卫尚未进入当前候选或软件证据不足
     - path: hardware_candidate.calibration_file
       expected: not_null
       blocks_before_step: 4

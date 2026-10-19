@@ -1,12 +1,12 @@
 # 新车软件基线复现
 
-本精简基线从正式新车bd6cf689建立，选择性保留3911af9c和753131e6的完整有效代码与接口；AUD-003未迁入，真实硬件运动仍禁止。[运行合同](../../docs/contracts/new_car_software_20261012.md)规定两个独立环境，不将Humble与Jazzy混成一张运行图。
+本精简基线从正式新车bd6cf689建立，选择性保留3911af9c和753131e6的完整有效代码与接口；最终冻结候选另行迁入AUD-003 dry-run守卫，真实硬件运动仍禁止。[运行合同](../../docs/contracts/new_car_software_20261012.md)规定两个独立环境，不将Humble与Jazzy混成一张运行图。
 
 ## Git/submodule恢复
 
 当前精简分支保留64d0a2d4的实际生产代码、配置、测试与gitlink，历史日志/批量JSON/冷备不进入此分支。来源、远端恢复边界和回退见[软件保存摘要](../../docs/new_car_software_saved_20261012.md)。
 
-FAST-LIO固定ae5bef29、ikd-Tree0438b0da、Livox2a2029a6。当前.gitmodules仍指向上游；没有确认可写私有fork前，不能承诺普通submodule update能获取ae5。离线恢复需从已验证完整bundle克隆FAST子模块、checkout固定commit，再按.gitmodules初始化依赖；请按摘要执行，不引用未迁入的历史validation文件。
+最终冻结候选的FAST-LIO固定69f10703、ikd-Tree0438b0da、Livox2a2029a6；较早软件候选仍固定ae5bef29。当前.gitmodules仍指向上游；没有确认可写私有fork前，不能承诺任意异机都能恢复本地修复pin。离线恢复需从已验证完整bundle克隆FAST子模块、checkout固定commit，再按.gitmodules初始化依赖；请按摘要执行，不引用未迁入的历史validation文件。
 
 ## Humble目标构建/回归
 
@@ -50,7 +50,7 @@ export ROS_DOMAIN_ID=208 ENTRY_OUTPUT=/workspace/build/software_entry
 python3 tests/new_car_integration/probe_software_entry.py
 ```
 
-它验证inventory、opt-in、硬件mode拒绝、bundle无输入等待/零odom、未标定fusion拒绝、独立V2初始disabled/限幅/超时/退出；有正编码的步骤只是codec fixture，**没有Nav2→serial授权链**。
+它验证inventory、opt-in、硬件mode拒绝、bundle无输入等待/零odom、未标定fusion拒绝，以及独立V2初始disabled、普通`/cmd_vel`不能绕过守卫和正常退出。正授权、限幅、超时、撤权与恢复由`tests/aud003_final_motion`在最终编码字节边界验证；两者都**不是硬件Nav2→serial授权链**。
 
 完整ROS bundle matched/unmatched（同一Humble容器和Livox overlay）：
 

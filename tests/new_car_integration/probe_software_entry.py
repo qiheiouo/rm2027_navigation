@@ -60,10 +60,10 @@ try:
     spin(.4);result['protocol_initial_disabled']=all(v[3]==0 for t,v in frames if t>time.monotonic()-.3);assert result['protocol_initial_disabled']
     command=Twist();command.linear.x=100.;command.linear.y=-100.;command.angular.z=100.
     spin(1.2,command);vs=[v for t,v in frames if t>time.monotonic()-.4]
-    result['protocol_clamped']={'frames':len(vs),'last':vs[-1]}
-    assert len(vs)>20 and all(abs(v[0]-.8)<1e-5 and abs(v[1]+.5)<1e-5 and abs(v[2]-6)<1e-5 and v[3]==1 for v in vs)
+    result['protocol_generic_cmd_rejected']={'frames':len(vs),'last':vs[-1]}
+    assert len(vs)>20 and all(v==(0.,0.,0.,0) for v in vs)
     spin(.7);vs=[v for t,v in frames if t>time.monotonic()-.4];assert len(vs)>20 and all(v==(0.,0.,0.,0) for v in vs)
-    result['protocol_command_timeout_disabled']=True
+    result['protocol_guard_remains_disabled']=True
     result['protocol_graph']=n.get_node_names_and_namespaces();assert not any('controller_server'==name or 'mission' in name for name,ns in result['protocol_graph'])
     stop();result['normal_exit']=True;result['pass']=True
 except Exception as e:result['pass']=False;result['error']=repr(e);raise

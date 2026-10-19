@@ -346,7 +346,10 @@ class AcceptanceProbe(Node):
             )
 
     def _topic_callback(self, topic: str, field_paths: list[str]):
-        def callback(message: Any, info: Any) -> None:
+        # Humble invokes Python subscriptions with the message only; Jazzy may
+        # also provide MessageInfo. Graph inventory remains the authoritative
+        # endpoint record when per-sample metadata is unavailable.
+        def callback(message: Any, info: Any = None) -> None:
             self.stats[topic].record(
                 message,
                 _gid_hex(getattr(info, "publisher_gid", [])),
@@ -356,7 +359,7 @@ class AcceptanceProbe(Node):
 
         return callback
 
-    def _tf_callback(self, message: Any, info: Any) -> None:
+    def _tf_callback(self, message: Any, info: Any = None) -> None:
         gid = _gid_hex(getattr(info, "publisher_gid", []))
         for transform in message.transforms:
             edge = (transform.header.frame_id.lstrip("/"), transform.child_frame_id.lstrip("/"))

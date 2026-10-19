@@ -118,3 +118,4 @@ mapping artifact, mission priority or failure policy, update at least:
 - [资产规范](research_asset_and_git_management_principles.md)
 
 - [新车到位前阶段冻结与两个局部修复](new_car_stage_freeze_20261013.md)
+- [新车软件最终回归与冻结](new_car_software_final_freeze_20261019.md)
