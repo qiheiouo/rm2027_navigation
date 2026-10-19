@@ -30,3 +30,9 @@ It validates `/chassis/mode_raw`, publishes latched `/chassis/mode`, and turns
 stale or inconsistent state into offline emergency-stop state. It does not
 publish velocity. The serial receiver now decodes referee feedback only; it is
 still not a real producer for `/chassis/mode_raw`.
+
+`managed_motion_ingress_node` is the AUD-003 source filter used by an explicitly
+managed V2 software test pipeline. It forwards only finite samples whose actual
+RMW publisher GID was enrolled at startup, and permanently deactivates after a
+non-finite enrolled sample. It is not a motion-authority state machine; the one
+authorization decision remains at the final V2 encoding boundary.

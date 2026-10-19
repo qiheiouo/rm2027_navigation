@@ -83,3 +83,14 @@ ros2 launch rm_serial_driver competition_v2_no_hardware_test.launch.py \
 ```
 
 This test opens no serial device and is not new-car hardware acceptance.
+
+The V2 ChassisCommand output now has a fail-closed final authorization guard.
+It never consumes generic `/cmd_vel`; without a selected owner/session it emits
+zero velocity with `enabled=false`. Positive admission is currently limited to
+`motion_test_mode=true` together with `dry_run=true`; hardware use of that test
+interface is rejected before opening the serial device. Legacy/HPM transports
+retain their existing `/cmd_vel` path.
+
+See `docs/contracts/aud003_final_motion_authority_20261018.md` and
+`tests/aud003_final_motion/README.md` for the exact Integration-only contract and
+the byte-boundary regression fixture.

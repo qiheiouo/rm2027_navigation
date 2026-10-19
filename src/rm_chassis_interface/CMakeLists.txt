@@ -29,9 +29,13 @@ ament_target_dependencies(chassis_mode_gate_node
   std_msgs
 )
 
+add_executable(managed_motion_ingress_node src/managed_motion_ingress_node.cpp)
+ament_target_dependencies(managed_motion_ingress_node rclcpp geometry_msgs rm_competition_interfaces)
+
 install(TARGETS
   chassis_interface_stub
   chassis_mode_gate_node
+  managed_motion_ingress_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

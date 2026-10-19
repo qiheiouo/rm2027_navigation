@@ -10,6 +10,9 @@
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <random>
+#include <sstream>
+#include <iomanip>
 #include <stdexcept>
 #include <string>
 #include <system_error>
@@ -24,6 +27,10 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rm_competition_interfaces/msg/chassis_heading_state.hpp"
+#include "rm_competition_interfaces/msg/chassis_mode.hpp"
+#include "rm_competition_interfaces/msg/localization_status.hpp"
+#include "rm_competition_interfaces/msg/v2_motion_test_lease.hpp"
+#include "rm_competition_interfaces/msg/v2_motion_guard_state.hpp"
 #include "rm_competition_interfaces/msg/gimbal_state.hpp"
 #include "rm_competition_interfaces/msg/operator_navigation_target.hpp"
 #include "rm_competition_interfaces/msg/posture_request.hpp"
@@ -209,6 +216,11 @@ public:
     }
     required_remote_capabilities_ = static_cast<std::uint32_t>(required_capabilities);
 
+    // This temporary positive-admission interface cannot open a serial device.
+    motion_test_mode_ = declare_parameter<bool>("motion_test_mode", false);
+    if (motion_test_mode_ && !dry_run_) {
+      throw std::runtime_error("motion_test_mode requires dry_run=true; hardware admission unavailable");
+    }
     validateParameters();
     if (!dry_run_) {
       serial_ = std::make_unique<PosixSerialPort>(device_, baudrate_);
@@ -230,9 +242,8 @@ public:
     connection_pub_ = create_publisher<
       rm_competition_interfaces::msg::SerialConnectionState>(connection_state_topic_, latched);
 
-    cmd_vel_sub_ = create_subscription<geometry_msgs::msg::Twist>(
-      cmd_vel_topic_, rclcpp::SystemDefaultsQoS(),
-      std::bind(&CompetitionV2TransportNode::handleCmdVel, this, std::placeholders::_1));
+    // Generic Twist has no session identity. Never subscribe to /cmd_vel here.
+    initMotionGuard();
     posture_request_sub_ = create_subscription<rm_competition_interfaces::msg::PostureRequest>(
       posture_request_topic_, rclcpp::QoS(10),
       std::bind(&CompetitionV2TransportNode::handlePostureRequest, this, std::placeholders::_1));
@@ -302,14 +313,209 @@ private:
     }
   }
 
-  void handleCmdVel(const geometry_msgs::msg::Twist::SharedPtr message)
+  using GuardState = rm_competition_interfaces::msg::V2MotionGuardState;
+  using TestLease = rm_competition_interfaces::msg::V2MotionTestLease;
+  using Localization = rm_competition_interfaces::msg::LocalizationStatus;
+  using ChassisMode = rm_competition_interfaces::msg::ChassisMode;
+  using Gid = std::array<uint8_t, RMW_GID_STORAGE_SIZE>;
+
+  static std::int64_t stampNs(const builtin_interfaces::msg::Time & t)
   {
-    std::lock_guard<std::mutex> lock(state_mutex_);
-    latest_chassis_.vx_mps = static_cast<float>(clampSymmetric(message->linear.x, max_vx_));
-    latest_chassis_.vy_mps = static_cast<float>(clampSymmetric(message->linear.y, max_vy_));
-    latest_chassis_.wz_rad_s = static_cast<float>(clampSymmetric(message->angular.z, max_wz_));
-    latest_chassis_.enabled = true;
-    last_cmd_vel_time_ = steadyNow();
+    if (t.sec < 0 || t.nanosec >= 1000000000U) {return -1;}
+    return static_cast<std::int64_t>(t.sec) * 1000000000LL + t.nanosec;
+  }
+
+  static Gid gidOf(const rclcpp::MessageInfo & info)
+  {
+    Gid gid{};
+    std::copy_n(info.get_rmw_message_info().publisher_gid.data, gid.size(), gid.begin());
+    return gid;
+  }
+
+  bool onlyPublisher(const std::string & topic, const Gid & gid) const
+  {
+    const auto publishers = get_publishers_info_by_topic(topic);
+    return publishers.size() == 1U && publishers.front().endpoint_gid() == gid;
+  }
+
+  void initMotionGuard()
+  {
+    std::random_device rng;
+    std::ostringstream id;
+    for (int i = 0; i < 4; ++i) {id << std::hex << std::setw(8) << std::setfill('0') << rng();}
+    endpoint_instance_ = id.str();
+    private_cmd_topic_ = "/motion/v2_test/e_" + endpoint_instance_ + "/cmd_vel";
+    guard_start_ns_ = now().nanoseconds();
+    guard_clock_ns_ = guard_start_ns_;
+    guard_phase_ = motion_test_mode_ ? GuardState::WAITING : GuardState::DISABLED;
+    guard_reason_ = motion_test_mode_ ? "awaiting isolated test owner" : "no production task owner";
+    guard_pub_ = create_publisher<GuardState>("/motion/v2_guard/state", rclcpp::QoS(1));
+    if (!motion_test_mode_) {return;}
+    cmd_vel_sub_ = create_subscription<geometry_msgs::msg::Twist>(
+      private_cmd_topic_, rclcpp::QoS(1).reliable(),
+      [this](geometry_msgs::msg::Twist::SharedPtr m, const rclcpp::MessageInfo & info) {
+        const std::array<double, 6> observed_axes{
+          m->linear.x, m->linear.y, m->linear.z, m->angular.x, m->angular.y, m->angular.z};
+        if (guard_phase_ == GuardState::WAITING && std::all_of(observed_axes.begin(), observed_axes.end(),
+          [](double v) {return std::isfinite(v);})) {
+          observed_cmd_gid_ = gidOf(info); observed_cmd_at_ = steadyNow(); ++observed_cmd_count_;
+        }
+        if (guard_phase_ != GuardState::PERMITTED) {return;}
+        motionPermitted();
+        if (guard_phase_ == GuardState::BLOCKED) {return;}
+        if (gidOf(info) != command_gid_ || !onlyPublisher(private_cmd_topic_, command_gid_)) {
+          blockMotion("command publisher changed or multiple publishers"); return;
+        }
+        const std::array<double, 6> axes{
+          m->linear.x, m->linear.y, m->linear.z, m->angular.x, m->angular.y, m->angular.z};
+        if (!std::all_of(axes.begin(), axes.end(), [](double v) {return std::isfinite(v);})) {
+          blockMotion("nonfinite command"); return;
+        }
+        latest_chassis_.vx_mps = static_cast<float>(clampSymmetric(m->linear.x, max_vx_));
+        latest_chassis_.vy_mps = static_cast<float>(clampSymmetric(m->linear.y, max_vy_));
+        latest_chassis_.wz_rad_s = static_cast<float>(clampSymmetric(m->angular.z, max_wz_));
+        latest_chassis_.enabled = true;
+        last_cmd_vel_time_ = steadyNow();
+        have_session_command_ = true;
+      });
+    localization_sub_ = create_subscription<Localization>(
+      "/localization/status", rclcpp::QoS(1).reliable(),
+      [this](Localization::SharedPtr m, const rclcpp::MessageInfo & info) {
+        if (guard_phase_ == GuardState::PERMITTED) {motionPermitted();}
+        if (guard_phase_ == GuardState::BLOCKED) {return;}
+        const auto t = now().nanoseconds(), issued = stampNs(m->header.stamp);
+        const auto start = stampNs(m->started_at), until = stampNs(m->valid_until);
+        const bool same = loc_.producer_id == m->producer_id && loc_.started_at == m->started_at;
+        if (!m->valid || m->producer_id.empty() || m->sequence == 0 || start <= 0 ||
+          issued < start || issued <= guard_start_ns_ || issued > t || t - issued > 1000000000LL ||
+          until <= t || until - issued > 1600000000LL ||
+          (have_loc_ && (!same || gidOf(info) != loc_gid_ || m->sequence <= loc_.sequence ||
+          issued < stampNs(loc_.header.stamp))))
+        {
+          have_loc_ = false; blockMotion("localization invalid, replay or instance change"); return;
+        }
+        loc_ = *m; loc_gid_ = gidOf(info); loc_receive_ = steadyNow(); have_loc_ = true;
+      });
+    chassis_mode_sub_ = create_subscription<ChassisMode>(
+      "/chassis/mode", rclcpp::QoS(1).reliable(),
+      [this](ChassisMode::SharedPtr m, const rclcpp::MessageInfo & info) {
+        if (guard_phase_ == GuardState::PERMITTED) {motionPermitted();}
+        if (guard_phase_ == GuardState::BLOCKED) {return;}
+        const auto t = now().nanoseconds(), issued = stampNs(m->header.stamp);
+        if (!m->online || !m->autonomous_enabled || m->emergency_stop ||
+          m->mode != ChassisMode::MODE_AUTONOMOUS || issued <= guard_start_ns_ || issued > t ||
+          t - issued > 500000000LL ||
+          (have_chassis_mode_ && (issued <= chassis_mode_ns_ || gidOf(info) != chassis_mode_gid_)))
+        {
+          have_chassis_mode_ = false; blockMotion("chassis state invalid or replay"); return;
+        }
+        chassis_mode_ns_ = issued; chassis_mode_gid_ = gidOf(info);
+        chassis_mode_receive_ = steadyNow(); have_chassis_mode_ = true;
+      });
+    lease_sub_ = create_subscription<TestLease>(
+      "/motion/v2_test/lease", rclcpp::QoS(1).reliable(),
+      [this](TestLease::SharedPtr m, const rclcpp::MessageInfo & info) {handleTestLease(*m, info);});
+  }
+
+  void blockMotion(const std::string & reason)
+  {
+    // Waiting for initial evidence is allowed; a started session can never rearm.
+    if (guard_phase_ != GuardState::PERMITTED) {return;}
+    guard_phase_ = GuardState::BLOCKED;
+    guard_reason_ = reason;
+    latest_chassis_ = v2::ChassisCommand{};
+    have_session_command_ = false;
+    RCLCPP_WARN(get_logger(), "Motion blocked until managed pipeline/endpoint restart: %s", reason.c_str());
+  }
+
+  bool evidenceFresh()
+  {
+    const auto t = now().nanoseconds();
+    if (t <= 0 || t < guard_clock_ns_) {blockMotion("ROS clock invalid or reversed"); return false;}
+    guard_clock_ns_ = t;
+    auto fail = [this](const char * reason) {evidence_reason_ = reason; return false;};
+    if (!have_loc_ || !have_chassis_mode_) {return fail("required state missing or invalid");}
+    if (t < stampNs(loc_.header.stamp) || t >= stampNs(loc_.valid_until) ||
+      t - stampNs(loc_.header.stamp) > 1000000000LL || ageSeconds(loc_receive_) > 1.0)
+    {return fail("localization lease expired");}
+    if (t < chassis_mode_ns_ || t - chassis_mode_ns_ > 500000000LL ||
+      ageSeconds(chassis_mode_receive_) > 0.5) {
+      RCLCPP_WARN(get_logger(), "Chassis lease expired: source_age=%.6f receipt_age=%.6f",
+        static_cast<double>(t - chassis_mode_ns_) / 1e9, ageSeconds(chassis_mode_receive_));
+      return fail("chassis state lease expired");
+    }
+    if (!onlyPublisher("/localization/status", loc_gid_)) {return fail("localization publisher graph changed");}
+    if (!onlyPublisher("/chassis/mode", chassis_mode_gid_)) {return fail("chassis publisher graph changed");}
+    if (!connectionOnline() || !remoteSupports(v2::CapabilityChassisCommand) ||
+      (remote_capabilities_ & required_remote_capabilities_) != required_remote_capabilities_)
+    {return fail("V2 connection, ready or required capabilities invalid");}
+    return true;
+  }
+
+  void handleTestLease(const TestLease & m, const rclcpp::MessageInfo & info)
+  {
+    if (guard_phase_ == GuardState::BLOCKED || m.endpoint_instance != endpoint_instance_) {return;}
+    if (guard_phase_ == GuardState::PERMITTED) {motionPermitted();}
+    if (guard_phase_ == GuardState::BLOCKED) {return;}
+    const auto t = now().nanoseconds(), issued = stampNs(m.header.stamp);
+    const auto until = stampNs(m.valid_until);
+    if (!m.enabled || m.owner_instance.empty() || m.session_id.empty() || m.sequence == 0 ||
+      issued <= guard_start_ns_ || issued > t || t - issued > 500000000LL ||
+      until <= t || until - issued > 500000000LL)
+    {
+      blockMotion("owner revoked, expired or malformed"); return;
+    }
+    Gid command_gid{};
+    std::copy(m.command_publisher_gid.begin(), m.command_publisher_gid.end(), command_gid.begin());
+    const auto owner_gid = gidOf(info);
+    if (guard_phase_ == GuardState::PERMITTED) {
+      if (m.owner_instance != owner_instance_ || m.session_id != session_id_ ||
+        m.sequence <= lease_sequence_ || issued < lease_issued_ns_ || owner_gid != owner_gid_ ||
+        command_gid != command_gid_)
+      {
+        blockMotion("owner/session/publisher changed or lease replay"); return;
+      }
+    } else {
+      if (!evidenceFresh() || observed_cmd_count_ == 0 || observed_cmd_gid_ != command_gid ||
+        ageSeconds(observed_cmd_at_) > cmd_vel_timeout_sec_ || !onlyPublisher(private_cmd_topic_, command_gid) ||
+        !onlyPublisher("/motion/v2_test/lease", owner_gid)) {return;}
+      command_gid_ = command_gid; owner_gid_ = owner_gid;
+      permitted_remote_boot_ = remote_boot_id_;
+      owner_instance_ = m.owner_instance; session_id_ = m.session_id;
+      guard_phase_ = GuardState::PERMITTED; guard_reason_ = "isolated test session";
+      latest_chassis_ = v2::ChassisCommand{};
+      have_session_command_ = false;
+      command_wait_start_ = steadyNow();
+    }
+    lease_sequence_ = m.sequence; lease_issued_ns_ = issued;
+    lease_until_ns_ = until; lease_receive_ = steadyNow();
+  }
+
+  bool motionPermitted()
+  {
+    if (guard_phase_ != GuardState::PERMITTED) {return false;}
+    const auto t = now().nanoseconds();
+    if (!evidenceFresh()) {blockMotion(evidence_reason_);}
+    else if (t < lease_issued_ns_ || t >= lease_until_ns_ || ageSeconds(lease_receive_) > 0.5 ||
+      !onlyPublisher("/motion/v2_test/lease", owner_gid_) ||
+      !onlyPublisher(private_cmd_topic_, command_gid_)) {blockMotion("owner lease expired or graph changed");}
+    else if (remote_boot_id_ != permitted_remote_boot_) {blockMotion("MCU boot changed");}
+    else if (have_session_command_ ? ageSeconds(last_cmd_vel_time_) > cmd_vel_timeout_sec_ :
+      ageSeconds(command_wait_start_) > cmd_vel_timeout_sec_)
+    {blockMotion("command timeout");}
+    return guard_phase_ == GuardState::PERMITTED && have_session_command_;
+  }
+
+  void publishGuardState()
+  {
+    GuardState m;
+    m.header.stamp = now(); m.endpoint_instance = endpoint_instance_;
+    m.command_topic = private_cmd_topic_; m.owner_instance = owner_instance_;
+    m.session_id = session_id_; m.phase = guard_phase_; m.reason = guard_reason_;
+    std::copy(observed_cmd_gid_.begin(), observed_cmd_gid_.end(), m.observed_command_gid.begin());
+    m.observed_command_count = observed_cmd_count_;
+    m.observed_command_age_sec = observed_cmd_count_ == 0 ? 1e6 : ageSeconds(observed_cmd_at_);
+    guard_pub_->publish(m);
   }
 
   void handlePostureRequest(
@@ -348,18 +554,10 @@ private:
 
   void sendChassisCommand()
   {
-    v2::ChassisCommand command;
-    {
-      std::lock_guard<std::mutex> lock(state_mutex_);
-      command = latest_chassis_;
-      const auto age = std::chrono::duration<double>(steadyNow() - last_cmd_vel_time_).count();
-      if (age > cmd_vel_timeout_sec_) {
-        command = v2::ChassisCommand{};
-      }
-    }
-    if (!remoteSupports(v2::CapabilityChassisCommand)) {
-      command = v2::ChassisCommand{};
-    }
+    // Single-threaded executor: snapshot and decision immediately precede encoding.
+    // No normal smoother deceleration is waited for after revocation.
+    const auto permitted = motionPermitted();
+    const auto command = permitted ? latest_chassis_ : v2::ChassisCommand{};
     sendMessage(v2::MessageType::ChassisCommand, chassis_sequence_++, command);
   }
 
@@ -421,6 +619,7 @@ private:
     }
     std::string error;
     if (!serial_->writeAll(bytes, error)) {
+      blockMotion("serial TX failed");
       RCLCPP_WARN_THROTTLE(
         get_logger(), *get_clock(), 1000, "Failed to write competition_v2 frame: %s",
         error.c_str());
@@ -479,8 +678,10 @@ private:
     if (!heartbeat.has_value()) {
       return;
     }
+    if (guard_phase_ == GuardState::PERMITTED) {motionPermitted();}
     const auto receive_stamp = now();
     if (have_remote_heartbeat_ && remote_boot_id_ != heartbeat->boot_id) {
+      blockMotion("MCU boot changed");
       publishInvalidPosture("lower-controller restart");
       publishInvalidGimbal("lower-controller restart");
       publishInvalidChassisHeading("lower-controller restart");
@@ -645,6 +846,7 @@ private:
 
   void publishHealth()
   {
+    publishGuardState();
     rm_competition_interfaces::msg::SerialConnectionState state;
     state.header.stamp = now();
     state.online = connectionOnline();
@@ -722,6 +924,26 @@ private:
     RCLCPP_WARN_THROTTLE(
       get_logger(), *get_clock(), 2000, "Posture state invalidated: %s", reason);
   }
+
+  // Deliberately local to V2; no cross-protocol authority framework.
+  bool motion_test_mode_{false};
+  uint8_t guard_phase_{GuardState::DISABLED};
+  std::string endpoint_instance_, private_cmd_topic_, owner_instance_, session_id_, guard_reason_, evidence_reason_;
+  std::int64_t guard_start_ns_{0}, guard_clock_ns_{0}, chassis_mode_ns_{0};
+  std::int64_t lease_issued_ns_{0}, lease_until_ns_{0};
+  uint64_t lease_sequence_{0};
+  uint32_t permitted_remote_boot_{0};
+  bool have_loc_{false}, have_chassis_mode_{false}, have_session_command_{false};
+  Localization loc_;
+  Gid observed_cmd_gid_{};
+  uint64_t observed_cmd_count_{0};
+  SteadyTime observed_cmd_at_;
+  Gid loc_gid_{}, chassis_mode_gid_{}, owner_gid_{}, command_gid_{};
+  SteadyTime loc_receive_, chassis_mode_receive_, lease_receive_, command_wait_start_;
+  rclcpp::Publisher<GuardState>::SharedPtr guard_pub_;
+  rclcpp::Subscription<Localization>::SharedPtr localization_sub_;
+  rclcpp::Subscription<ChassisMode>::SharedPtr chassis_mode_sub_;
+  rclcpp::Subscription<TestLease>::SharedPtr lease_sub_;
 
   std::string device_;
   int baudrate_;

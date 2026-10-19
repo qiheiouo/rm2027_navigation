@@ -46,8 +46,8 @@ contracts take precedence over historical behavior.
 | `rm_nav_config` | Nav2 controller, costmap and platform profiles | Profile selected explicitly | package README and phase validation documents |
 | `rm_map_tools` | Immutable bundle validation, managed mapping, quality analysis, projection screening and map-server comparison | Mapping is guarded | package README, `docs/phase2e_map_bundle.md`, `docs/phase2i_managed_mapping.md` |
 | `rm_navigation_bringup` | Mutually exclusive top-level launch profiles | Hardware and motion disabled by default | `docs/runtime_profiles.md` |
-| `rm_chassis_interface` | Chassis stub and authority gate boundary | Stub or disabled | `docs/contracts/chassis_contract_2027.md` |
-| `rm_serial_driver` | Legacy framing plus versioned competition-v2 codec, dry-run and opt-in real transport | Dry-run/real IO explicit | `docs/contracts/serial_protocol_2027.md`, `docs/competition_v2_protocol.md`, `docs/competition_v2_lower_controller_integration.md` |
+| `rm_chassis_interface` | Chassis stub, mode gate and managed V2 source ingress | Stub or disabled; ingress is not an authority owner | `docs/contracts/chassis_contract_2027.md`, `docs/contracts/aud003_final_motion_authority_20261018.md` |
+| `rm_serial_driver` | Legacy framing plus versioned competition-v2 codec, final V2 motion guard, dry-run and opt-in real transport | V2 motion disabled by default; legacy profiles unchanged | `docs/contracts/serial_protocol_2027.md`, `docs/contracts/aud003_final_motion_authority_20261018.md`, `docs/competition_v2_protocol.md`, `docs/competition_v2_lower_controller_integration.md` |
 | `rm_simulation` | Gazebo and no-hardware sensor/obstacle fixtures | Simulation only | Phase 1.5 documents |
 
 ### Competition Layer
