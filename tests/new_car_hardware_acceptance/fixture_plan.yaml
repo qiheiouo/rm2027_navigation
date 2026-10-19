@@ -1,0 +1,14 @@
+schema_version: 1
+preflight: {packages: [], files: [], pending_gates: []}
+topics:
+  - {step: 1, name: /fixture/imu, type: sensor_msgs/msg/Imu, min_rate_hz: 20.0, max_age_sec: 0.5, max_publishers: 1, fields: {header.frame_id: sensor}}
+  - {step: 1, name: /fixture/odom, type: nav_msgs/msg/Odometry, min_rate_hz: 10.0, max_age_sec: 0.5, max_publishers: 1, fields: {header.frame_id: odom, child_frame_id: base_link}}
+groups: []
+actions: []
+tf:
+  - {step: 1, parent: odom, child: base_link, max_publishers: 1}
+  - {step: 1, parent: base_link, child: sensor, max_publishers: 1}
+tf_publishers:
+  - {step: 1, topic: /tf, required_nodes: [new_car_acceptance_fixture], allowed_nodes: [new_car_acceptance_fixture]}
+  - {step: 1, topic: /tf_static, required_nodes: [new_car_acceptance_fixture], allowed_nodes: [new_car_acceptance_fixture]}
+manual: {}

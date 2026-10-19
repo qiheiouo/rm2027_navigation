@@ -31,3 +31,8 @@ software_modes:
   bundle_no_input: Humble_no_driver_no_serial_no_fake_measurement
   v2_protocol: Humble_dry_run_MCU_fixture_codec_only_no_navigation
   s2: Jazzy_Gazebo8_truth_only_no_serial_no_Mission
+acceptance_tool:
+  entry: ros2_run_rm_system_monitor_new_car_hardware_acceptance
+  behavior: read_only_evidence_capture_no_publishers_no_device_access
+  plan: rm_system_monitor/config/new_car_hardware_acceptance.yaml
+  physical_acceptance_automatic: false

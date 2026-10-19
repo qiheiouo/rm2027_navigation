@@ -11,6 +11,10 @@ setup(
     data_files=[
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
+        (
+            "share/" + package_name + "/config",
+            ["config/new_car_hardware_acceptance.yaml"],
+        ),
     ],
     install_requires=["setuptools"],
     tests_require=["pytest"],
@@ -21,6 +25,7 @@ setup(
     license="Apache-2.0",
     entry_points={
         "console_scripts": [
+            "new_car_hardware_acceptance = rm_system_monitor.hardware_acceptance:main",
             "readiness_monitor = rm_system_monitor.readiness_monitor:main",
         ],
     },

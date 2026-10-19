@@ -1,0 +1,128 @@
+schema_version: 1
+name: rm2027_new_car_hardware_acceptance
+
+preflight:
+  packages:
+    - rm_competition_interfaces
+    - rm_description
+    - rm_lio_bringup
+    - rm_localization_adapters
+    - rm_mid360_driver_bridge
+    - rm_nav_config
+    - rm_navigation_bringup
+    - rm_relocalization_bridge
+    - rm_serial_driver
+    - rm_system_monitor
+  files:
+    - docs/new_car_hardware_acceptance_20261012.md
+    - docs/contracts/new_car_software_20261012.md
+    - docs/contracts/tf_contract_2027.md
+    - docs/contracts/topic_contract_2027.md
+    - docs/competition_v2_lower_controller_integration.md
+    - src/rm_navigation_bringup/config/new_car_candidate_manifest.yaml
+    - src/rm_navigation_bringup/launch/new_car_software.launch.py
+    - src/rm_lio_bringup/config/fast_lio_multi_single_mid360.yaml
+    - src/rm_lio_bringup/config/lio_adapter_chassis_heading_fusion.yaml
+    - src/rm_nav_config/config/nav2_phase2g_pointcloud.yaml
+    - src/rm_description/urdf/rm_sentry_2027.urdf.xacro
+    - src/rm_serial_driver/reference/competition_v2/competition_v2_codec.c
+  candidate_manifest: src/rm_navigation_bringup/config/new_car_candidate_manifest.yaml
+  pending_gates:
+    - path: formal_profile_available
+      expected: true
+      blocks_before_step: 6
+      reason: 正式新车运行 profile 尚未冻结
+    - path: hardware_motion_allowed
+      expected: true
+      blocks_before_step: 7
+      reason: ROS 硬件运动仍未批准
+    - path: motion_authority
+      expected: Software_Go
+      blocks_before_step: 6
+      reason: AUD-003 尚未集成到正式 Humble 候选
+    - path: hardware_candidate.calibration_file
+      expected: not_null
+      blocks_before_step: 4
+      reason: 实车外参与时间校准文件尚未选择
+    - path: hardware_candidate.approved_map_bundle
+      expected: not_null
+      blocks_before_step: 5
+      reason: 实车地图 bundle 尚未批准
+    - path: hardware_candidate.measured_footprint
+      expected: not_null
+      blocks_before_step: 7
+      reason: 实测 footprint 尚未冻结
+    - path: hardware_candidate.real_chassis_mode_source
+      expected: not_null
+      blocks_before_step: 6
+      reason: 真实底盘 mode 来源尚未闭合
+
+topics:
+  - {step: 1, name: /serial/connection_state, type: rm_competition_interfaces/msg/SerialConnectionState, min_rate_hz: 2.0, max_age_sec: 1.0, max_publishers: 1, fields: {online: true, compatible: true}, capture_fields: [protocol_version, remote_boot_id, remote_uptime_ms, remote_capabilities, valid_frame_count, crc_error_count, framing_error_count]}
+  - {step: 1, name: /robot/posture/state, type: rm_competition_interfaces/msg/PostureState, min_rate_hz: 1.0, max_age_sec: 1.0, max_publishers: 1, required: false, capture_fields: [ack_command_id, ack_requester_boot_id, transitioning, completed, fault, fault_code, online, valid]}
+  - {step: 3, name: /livox/left/lidar, type: livox_ros_driver2/msg/CustomMsg, min_rate_hz: 5.0, max_age_sec: 0.5, max_publishers: 1}
+  - {step: 3, name: /livox/left/pointcloud, type: sensor_msgs/msg/PointCloud2, min_rate_hz: 5.0, max_age_sec: 0.5, max_publishers: 1}
+  - {step: 3, name: /livox/lio_imu_raw, type: sensor_msgs/msg/Imu, min_rate_hz: 50.0, max_age_sec: 0.2, max_publishers: 1}
+  - {step: 3, name: /livox/lio_imu, type: sensor_msgs/msg/Imu, min_rate_hz: 50.0, max_age_sec: 0.2, max_publishers: 1, fields: {header.frame_id: lio_imu_link}}
+  - {step: 3, name: /gimbal/state, type: rm_competition_interfaces/msg/GimbalState, min_rate_hz: 10.0, max_age_sec: 0.5, max_publishers: 1, required: false, fields: {online: true, valid: true}, capture_fields: [relative_yaw_rad, yaw_rate_rad_s, sample_sequence, mcu_time_ms]}
+  - {step: 3, name: /chassis/heading, type: rm_competition_interfaces/msg/ChassisHeadingState, min_rate_hz: 10.0, max_age_sec: 0.5, max_publishers: 1, required: false, fields: {online: true, valid: true}, capture_fields: [yaw_rad, yaw_rate_rad_s, sample_sequence, mcu_time_ms, reset_counter, source_boot_id]}
+  - {step: 3, name: /joint_states, type: sensor_msgs/msg/JointState, min_rate_hz: 10.0, max_age_sec: 0.5, max_publishers: 1, capture_fields: [name, position]}
+  - {step: 4, name: /odometry/fast_lio_raw, type: nav_msgs/msg/Odometry, min_rate_hz: 10.0, max_age_sec: 0.5, max_publishers: 1, fields: {header.frame_id: odom}}
+  - {step: 4, name: /lio/diagnostics/calc_time, type: std_msgs/msg/Float32, min_rate_hz: 5.0, max_publishers: 1, require_stamp: false}
+  - {step: 4, name: /lio/diagnostics/point_number, type: std_msgs/msg/Float32, min_rate_hz: 5.0, max_publishers: 1, require_stamp: false}
+  - {step: 5, name: /odometry/lio, type: nav_msgs/msg/Odometry, min_rate_hz: 10.0, max_age_sec: 0.5, max_publishers: 1, fields: {header.frame_id: odom, child_frame_id: base_link}}
+  - {step: 5, name: /localization/status, type: rm_competition_interfaces/msg/LocalizationStatus, min_rate_hz: 2.0, max_age_sec: 1.0, max_publishers: 1, fields: {valid: true}, capture_fields: [producer_id, started_at, sequence, valid_until]}
+  - {step: 5, name: /localization/map_to_odom, type: geometry_msgs/msg/TransformStamped, min_rate_hz: 1.0, max_age_sec: 1.0, max_publishers: 1, fields: {header.frame_id: map, child_frame_id: odom}}
+  - {step: 5, name: /localization/amcl_pose_raw, type: geometry_msgs/msg/PoseWithCovarianceStamped, min_rate_hz: 0.5, max_age_sec: 1.1, max_publishers: 1, required: false, group: global_backend}
+  - {step: 5, name: /localization/gicp_pose_raw, type: geometry_msgs/msg/PoseWithCovarianceStamped, min_rate_hz: 0.2, max_age_sec: 1.6, max_publishers: 1, required: false, group: global_backend}
+  - {step: 6, name: /motion/v2_guard/state, type: rm_competition_interfaces/msg/V2MotionGuardState, min_rate_hz: 2.0, max_age_sec: 1.0, max_publishers: 1, capture_fields: [endpoint_instance, command_topic, owner_instance, session_id, phase, reason]}
+  - {step: 6, name: /chassis/mode, type: rm_competition_interfaces/msg/ChassisMode, min_rate_hz: 2.0, max_age_sec: 0.5, max_publishers: 1, capture_fields: [online, autonomous_enabled, emergency_stop, mode]}
+  - {step: 7, name: /plan, type: nav_msgs/msg/Path, min_rate_hz: 0.1, max_age_sec: 5.0, max_publishers: 1}
+  - {step: 7, name: /cmd_vel_nav, type: geometry_msgs/msg/Twist, min_rate_hz: 5.0, max_publishers: 8, require_stamp: false}
+  - {step: 7, name: /cmd_vel, type: geometry_msgs/msg/Twist, min_rate_hz: 5.0, max_publishers: 1, require_stamp: false}
+  - {step: 8, name: /points/obstacles, type: sensor_msgs/msg/PointCloud2, min_rate_hz: 5.0, max_age_sec: 0.5, max_publishers: 1}
+  - {step: 8, name: /local_costmap/costmap, type: nav_msgs/msg/OccupancyGrid, min_rate_hz: 0.5, max_age_sec: 2.0, max_publishers: 1}
+  - {step: 8, name: /global_costmap/costmap, type: nav_msgs/msg/OccupancyGrid, min_rate_hz: 0.2, max_age_sec: 5.0, max_publishers: 1}
+
+groups:
+  - {step: 3, name: gimbal_or_heading_source, topics: [/gimbal/state, /chassis/heading]}
+  - {step: 5, name: selected_global_backend, topics: [/localization/amcl_pose_raw, /localization/gicp_pose_raw]}
+
+actions:
+  - {step: 7, name: /navigate_to_pose, type: nav2_msgs/action/NavigateToPose}
+
+tf:
+  - {step: 3, parent: base_link, child: gimbal_yaw_link, max_publishers: 1}
+  - {step: 3, parent: gimbal_yaw_link, child: mid360_left_frame, max_publishers: 1}
+  - {step: 3, parent: gimbal_yaw_link, child: lio_imu_link, max_publishers: 1}
+  - {step: 5, parent: map, child: odom, max_publishers: 1}
+  - {step: 5, parent: odom, child: base_link, max_publishers: 1}
+
+tf_publishers:
+  - {step: 3, topic: /tf, required_nodes: [robot_state_publisher], allowed_nodes: [robot_state_publisher, lio_adapter, map_odom_from_global_pose]}
+  - {step: 3, topic: /tf_static, required_nodes: [robot_state_publisher], allowed_nodes: [robot_state_publisher]}
+  - {step: 5, topic: /tf, required_nodes: [robot_state_publisher, lio_adapter, map_odom_from_global_pose], allowed_nodes: [robot_state_publisher, lio_adapter, map_odom_from_global_pose]}
+  - {step: 5, topic: /tf_static, required_nodes: [robot_state_publisher], allowed_nodes: [robot_state_publisher]}
+
+manual:
+  1:
+    - 核对供电、保险、线束、MCU 固件、boot_id、capability 与 baud
+    - 轮离地验证物理 ESTOP、manual/disabled、拔线、主机退出和 MCU watchdog 停车
+    - 用 MCU/TX/电机使能记录证明实际执行；heartbeat 或 host zero 不能替代
+  2:
+    - 标记 FL/FR/RL/RR，逐轮核对滚子、正反转、电流、编码器和组合 x/y/yaw 符号
+    - 低速测量限幅、倍率、制动与实际车体速度；任一错轮或失控制立即停止
+  3:
+    - 核对 MID360 序列号/IP、点云物理方向、IMU 轴、云台 home 零位和时间同步方法
+    - 静止、单独转云台、手动转底盘分别录像并保存原始 bag；topic 存在不算通过
+  4:
+    - 静止初始化后手推/手动小范围运动，人工判断漂移、巨跳、退化与恢复质量
+  5:
+    - 复核实测外参、地图原点和 AMCL/GICP 对齐；确认 canonical TF 无 stub/truth 混入
+  6:
+    - 轮离地测定位 LOST、mode/owner/USB/host 失效，分别记录 host、wire、MCU、电机和停稳延迟
+    - 恢复必须是新 Goal/新会话；旧 Goal 和旧速度不得复活
+  7:
+    - 空旷场地、独立停止手段就绪后才发送单个低速短目标；本工具不会发送目标或速度
+  8:
+    - 用标尺障碍和真实点云检查高度、自滤、盲区、清障和丢流行为；仿真 VoxelLayer 通过不等于实物通过
