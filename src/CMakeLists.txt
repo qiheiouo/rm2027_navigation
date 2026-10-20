@@ -133,6 +133,27 @@ if(BUILD_TESTING)
   # uncomment the line when this package is not in a git repo
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+
+  add_executable(livox_driver_lifecycle_fixture
+    test/lifecycle_fixture.cpp
+  )
+  target_compile_features(livox_driver_lifecycle_fixture PRIVATE cxx_std_14)
+  target_link_libraries(livox_driver_lifecycle_fixture ${PROJECT_NAME})
+  add_executable(livox_driver_publication_fixture
+    test/publication_fixture.cpp
+  )
+  target_compile_features(livox_driver_publication_fixture PRIVATE cxx_std_14)
+  target_link_libraries(livox_driver_publication_fixture ${PROJECT_NAME})
+  add_test(
+    NAME livox_driver_lifecycle_fixture
+    COMMAND livox_driver_lifecycle_fixture
+  )
+  add_test(
+    NAME livox_driver_publication_fixture
+    COMMAND livox_driver_publication_fixture
+  )
+  set_tests_properties(livox_driver_lifecycle_fixture PROPERTIES TIMEOUT 10)
+  set_tests_properties(livox_driver_publication_fixture PROPERTIES TIMEOUT 20)
 endif()
 
 ament_auto_package(INSTALL_TO_SHARE

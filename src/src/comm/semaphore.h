@@ -36,14 +36,12 @@ class Semaphore {
   }
   void Signal();
   void Wait();
-  int GetCount() {
-    return count_;
-  }
+  int GetCount();
 
  private:
   std::mutex mutex_;
   std::condition_variable cv_;
-  volatile int count_;
+  int count_;
 };
 
 } // namespace livox_ros

@@ -27,6 +27,7 @@
 #ifndef LIVOX_ROS_DRIVER_LDS_H_
 #define LIVOX_ROS_DRIVER_LDS_H_
 
+#include <atomic>
 #include <map>
 
 #include "comm/semaphore.h"
@@ -58,8 +59,12 @@ class Lds {
   bool IsAllQueueEmpty();
   bool IsAllQueueReadStop();
 
-  void CleanRequestExit() { request_exit_ = false; }
-  bool IsRequestExit() { return request_exit_; }
+  void CleanRequestExit() {
+    request_exit_.store(false, std::memory_order_release);
+  }
+  bool IsRequestExit() const {
+    return request_exit_.load(std::memory_order_acquire);
+  }
   virtual void PrepareExit(void);
 
   // get publishing frequency
@@ -75,7 +80,7 @@ class Lds {
   double publish_freq_;
   uint8_t data_src_;
  private:
-  volatile bool request_exit_;
+  std::atomic<bool> request_exit_;
 };
 
 }  // namespace livox_ros

@@ -95,6 +95,7 @@ DriverNode::DriverNode(const rclcpp::NodeOptions &node_options)
     this->get_parameter("cmdline_input_bd_code", cmdline_bd_code);
 
     LdsLidar *read_lidar = LdsLidar::GetInstance(publish_freq);
+    read_lidar->CleanRequestExit();
     lddc_ptr_->RegisterLds(static_cast<Lds *>(read_lidar));
 
     if ((read_lidar->InitLdsLidar(user_config_path))) {
@@ -120,7 +121,10 @@ RCLCPP_COMPONENTS_REGISTER_NODE(livox_ros::DriverNode)
 
 void DriverNode::PointCloudDataPollThread() {
   std::future_status status;
-  std::this_thread::sleep_for(std::chrono::seconds(3));
+  status = future_.wait_for(std::chrono::seconds(3));
+  if (status != std::future_status::timeout) {
+    return;
+  }
   do {
     lddc_ptr_->DistributePointCloudData();
     status = future_.wait_for(std::chrono::microseconds(0));
@@ -129,7 +133,10 @@ void DriverNode::PointCloudDataPollThread() {
 
 void DriverNode::ImuDataPollThread() {
   std::future_status status;
-  std::this_thread::sleep_for(std::chrono::seconds(3));
+  status = future_.wait_for(std::chrono::seconds(3));
+  if (status != std::future_status::timeout) {
+    return;
+  }
   do {
     lddc_ptr_->DistributeImuData();
     status = future_.wait_for(std::chrono::microseconds(0));
