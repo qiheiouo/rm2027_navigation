@@ -144,6 +144,11 @@ if(BUILD_TESTING)
   )
   target_compile_features(livox_driver_publication_fixture PRIVATE cxx_std_14)
   target_link_libraries(livox_driver_publication_fixture ${PROJECT_NAME})
+  add_executable(livox_driver_queue_concurrency_fixture
+    test/queue_concurrency_fixture.cpp
+  )
+  target_compile_features(livox_driver_queue_concurrency_fixture PRIVATE cxx_std_14)
+  target_link_libraries(livox_driver_queue_concurrency_fixture ${PROJECT_NAME})
   add_test(
     NAME livox_driver_lifecycle_fixture
     COMMAND livox_driver_lifecycle_fixture
@@ -152,8 +157,13 @@ if(BUILD_TESTING)
     NAME livox_driver_publication_fixture
     COMMAND livox_driver_publication_fixture
   )
+  add_test(
+    NAME livox_driver_queue_concurrency_fixture
+    COMMAND livox_driver_queue_concurrency_fixture
+  )
   set_tests_properties(livox_driver_lifecycle_fixture PROPERTIES TIMEOUT 10)
   set_tests_properties(livox_driver_publication_fixture PROPERTIES TIMEOUT 20)
+  set_tests_properties(livox_driver_queue_concurrency_fixture PROPERTIES TIMEOUT 30)
 endif()
 
 ament_auto_package(INSTALL_TO_SHARE

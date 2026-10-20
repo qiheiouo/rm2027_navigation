@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <atomic>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -203,11 +204,12 @@ typedef struct {
 } RawPacket;
 
 typedef struct {
-  StoragePacket *storage_packet;
-  volatile uint32_t rd_idx;
-  volatile uint32_t wr_idx;
-  uint32_t mask;
-  uint32_t size; /**< must be power of 2. */
+  StoragePacket *storage_packet = nullptr;
+  // SPSC ownership: the consumer writes rd_idx; the producer writes wr_idx.
+  std::atomic<uint32_t> rd_idx{0};
+  std::atomic<uint32_t> wr_idx{0};
+  uint32_t mask = 0;
+  uint32_t size = 0; /**< must be power of 2. */
 } LidarDataQueue;
 
 /*****************************/
