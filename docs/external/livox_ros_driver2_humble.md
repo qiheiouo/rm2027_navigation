@@ -12,6 +12,8 @@ This record documents the external MID360 ROS driver added for Phase 1 hardware 
 - Final-freeze pin before this exception: `2a2029a6e62a2196b280be6ec00bb2418065b8e0`
 - AUD-020 local repair pin: `9bdedb484b1dd9bd7420423a728812dcf8cc8267`
 - AUD-020 local repair branch: `codex/aud020-bounded-shutdown-20261020`
+- AUD-050 local repair pin: `ffb5c721c3356817a84f1c6eeaf2f66c680be24e`
+- AUD-050 local repair branch: `codex/aud050-ring-queue-20261020`
 - ROS package name: `livox_ros_driver2`
 - License: MIT
 - Internal submodules: none observed; the driver repository has no `.gitmodules`.
@@ -81,6 +83,23 @@ explicitly exported bundle. Roll back by restoring the gitlink
 vendor SDK's successful hardware initialization/deinitialization lifecycle;
 that remains a hardware acceptance boundary rather than a reason to widen this
 repair into a driver redesign.
+
+## Local Point-cloud Queue Repair
+
+The AUD-050 exception keeps the existing per-LiDAR SPSC point-cloud queue.
+The single `PubHandler::RawDataProcess` worker owns the write index, while the
+single point-cloud polling worker owns the read index. The indices are now
+atomic: publishing a completed slot uses a release store and the consumer uses
+an acquire load; releasing a consumed slot uses the inverse release/acquire
+pair before producer reuse. Queue capacity, full/empty rules, FIFO order,
+semaphore wakeups, and the mutex-protected IMU queue are unchanged.
+
+The dedicated fixture covers empty/full behavior, high-frequency transfer,
+unequal producer/consumer rates, FIFO payload integrity, and sanitizer runs.
+The existing publication and lifecycle fixtures remain the regression guard
+for normal point/IMU output and AUD-020 bounded shutdown. Roll back AUD-050 by
+restoring the gitlink to `9bdedb484b1dd9bd7420423a728812dcf8cc8267`;
+roll back both local exceptions by restoring the original intake pin.
 
 ## Build Notes
 
