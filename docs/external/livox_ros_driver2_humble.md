@@ -9,6 +9,9 @@ This record documents the external MID360 ROS driver added for Phase 1 hardware 
 - Integration type: Git submodule
 - Branch at intake: `master`
 - Commit at intake: `2a2029a6e62a2196b280be6ec00bb2418065b8e0`
+- Final-freeze pin before this exception: `2a2029a6e62a2196b280be6ec00bb2418065b8e0`
+- AUD-020 local repair pin: `9bdedb484b1dd9bd7420423a728812dcf8cc8267`
+- AUD-020 local repair branch: `codex/aud020-bounded-shutdown-20261020`
 - ROS package name: `livox_ros_driver2`
 - License: MIT
 - Internal submodules: none observed; the driver repository has no `.gitmodules`.
@@ -61,6 +64,23 @@ git submodule update --init --recursive
 ```
 
 There is no second-level submodule initialization requirement inside `livox_ros_driver2_humble` at this intake commit.
+
+## Local Shutdown Repair
+
+The AUD-020 exception makes the exit flag atomic, protects semaphore counts
+with their mutex, wakes both point-cloud and IMU consumers on exit, and checks
+the exit request again after each wait. Driver destruction requests exit before
+joining workers, and the initial three-second poll delay is interruptible.
+Lifecycle fixtures cover failed start, no input, stopped input, active synthetic
+queue traffic, repeated construction/destruction, and the normal ROS point/IMU
+publication path without busy waiting.
+
+The change is local and is not pushed. Recover it from this worktree or an
+explicitly exported bundle. Roll back by restoring the gitlink
+`2a2029a6e62a2196b280be6ec00bb2418065b8e0`. Offline tests cannot prove the
+vendor SDK's successful hardware initialization/deinitialization lifecycle;
+that remains a hardware acceptance boundary rather than a reason to widen this
+repair into a driver redesign.
 
 ## Build Notes
 
