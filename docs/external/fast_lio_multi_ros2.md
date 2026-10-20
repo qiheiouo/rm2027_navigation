@@ -6,8 +6,10 @@
 - Local path: `src/fast_lio_multi`
 - Branch observed: `main`
 - Original upstream pin: `e7864a63a7e2a1ad62ec8fd75fcb9149db08e321`
-- Local repair pin: `ae5bef29c89ba7a1004d75657db482bb277e603a`
-- Local repair branch: `codex/fastlio-deterministic-fixes-20261010`
+- First deterministic repair pin: `ae5bef29c89ba7a1004d75657db482bb277e603a`
+- Final-freeze pin before this exception: `69f1070328c431f4c7b8bd586eca074141da3aae`
+- AUD-059 local repair pin: `9aa8c79ef064eafe0fae1308888248be7efa1d2e`
+- AUD-059 local repair branch: `codex/aud059-invalid-imu-init-20261020`
 - License: GPL-2.0
 - ROS version: ROS2 Humble on Ubuntu 22.04 is documented by upstream.
 
@@ -43,9 +45,15 @@ clean upstream repository and owns its integration separately.
 batch changes only the shared IMU initialization state and the default bundle
 measurement container writes in the GPL backend. See the
 [repair evidence and rollback entry](../validation/fastlio_deterministic_20261010.md).
-The original ESKF model, thresholds, TF and publication behavior remain intact.
-The local commit is not pushed; the report includes an incremental recovery
-bundle. Async/adaptive still contain the unselected AUD-046 measurement defect.
+The AUD-059 exception rejects non-finite IMU vectors and numerically near-zero
+acceleration before initialization counting or filter-state commit. It does not
+add a sensor-unit-dependent physical acceleration bound or rewrite the ESKF
+model. Invalid-only initialization emits no odometry and a later valid epoch
+can still initialize normally. The original valid-input state and covariance
+fixture remains numerically unchanged. The local commit is not pushed; recover
+it from this worktree or an explicitly exported bundle. Roll back the exception
+by restoring the final-freeze gitlink `69f1070328c431f4c7b8bd586eca074141da3aae`.
+Async/adaptive still contain the unselected AUD-046 measurement defect.
 
 The inspected upstream source publishes `/Odometry` with
 `child_frame_id=body` and also broadcasts the same pose on `/tf`. Phase 2A

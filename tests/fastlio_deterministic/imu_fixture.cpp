@@ -5,7 +5,9 @@
 #include <deque>
 #include <fstream>
 #include <iomanip>
+#include <limits>
 #include <sstream>
+#include <string>
 #include <Eigen/Eigen>
 #include <pcl/point_cloud.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -38,8 +40,141 @@ MeasureGroup frame(double start, int count, double gyro = 0.) {
   return m;
 }
 void configure(ImuProcess& p) { p.set_acc_cov(V3D(.1,.1,.1)); p.set_gyr_cov(V3D(.1,.1,.1)); }
-int main() {
+
+void set_imu(MeasureGroup& m, const V3D& acc, const V3D& gyro) {
+  for (auto& imu : m.imu) {
+    auto replacement = std::make_shared<sensor_msgs::msg::Imu>(*imu);
+    replacement->linear_acceleration.x = acc.x();
+    replacement->linear_acceleration.y = acc.y();
+    replacement->linear_acceleration.z = acc.z();
+    replacement->angular_velocity.x = gyro.x();
+    replacement->angular_velocity.y = gyro.y();
+    replacement->angular_velocity.z = gyro.z();
+    imu = replacement;
+  }
+}
+
+void assert_filter_unchanged(Filter& f, const state_ikfom& before_state,
+                             const Filter::cov& before_covariance) {
+  Eigen::Matrix<double, 23, 1> delta;
+  f.get_x().boxminus(delta, before_state);
+  assert(delta.allFinite());
+  assert(delta.cwiseAbs().maxCoeff() == 0.0);
+  assert((f.get_P() - before_covariance).cwiseAbs().maxCoeff() == 0.0);
+}
+
+void invalid_initialization_case(const std::string& name) {
+  Filter f;
+  initialize(f);
+  ImuProcess p;
+  configure(p);
+  auto out = std::make_shared<PointCloudXYZI>();
+  auto bad = frame(300.0, 20);
+  const double nan = std::numeric_limits<double>::quiet_NaN();
+  const double inf = std::numeric_limits<double>::infinity();
+  if (name == "zero_acc") set_imu(bad, V3D::Zero(), V3D::Zero());
+  else if (name == "near_zero_acc") set_imu(bad, V3D(1.e-12, 0.0, 0.0), V3D::Zero());
+  else if (name == "nan_acc") set_imu(bad, V3D(nan, 0.0, 9.81), V3D::Zero());
+  else if (name == "inf_acc") set_imu(bad, V3D(0.0, inf, 9.81), V3D::Zero());
+  else if (name == "nan_gyro") set_imu(bad, V3D(0.0, 0.0, 9.81), V3D(nan, 0.0, 0.0));
+  else if (name == "inf_gyro") set_imu(bad, V3D(0.0, 0.0, 9.81), V3D(0.0, inf, 0.0));
+  else assert(false && "unknown invalid initialization case");
+
+  const auto before_state = f.get_x();
+  const auto before_covariance = f.get_P();
+  p.Process(bad, f, out, false, 1);
+  assert(p.imu_need_init_);
+  assert(p.init_iter_num == 1);
+  assert(out->empty());
+  assert_filter_unchanged(f, before_state, before_covariance);
+
+  auto recovery = frame(301.0, 20);
+  p.Process(recovery, f, out, false, 1);
+  assert(!p.imu_need_init_);
+  assert(out->empty());
+  assert(f.get_P().allFinite());
+  Eigen::Matrix<double, 23, 1> recovered_delta;
+  f.get_x().boxminus(recovered_delta, state_ikfom());
+  assert(recovered_delta.allFinite());
+
+  p.Reset();
+  const auto reset_state = f.get_x();
+  const auto reset_covariance = f.get_P();
+  bad = frame(400.0, 20);
+  if (name == "zero_acc") set_imu(bad, V3D::Zero(), V3D::Zero());
+  else if (name == "near_zero_acc") set_imu(bad, V3D(1.e-12, 0.0, 0.0), V3D::Zero());
+  else if (name == "nan_acc") set_imu(bad, V3D(nan, 0.0, 9.81), V3D::Zero());
+  else if (name == "inf_acc") set_imu(bad, V3D(0.0, inf, 9.81), V3D::Zero());
+  else if (name == "nan_gyro") set_imu(bad, V3D(0.0, 0.0, 9.81), V3D(nan, 0.0, 0.0));
+  else set_imu(bad, V3D(0.0, 0.0, 9.81), V3D(0.0, inf, 0.0));
+  p.Process(bad, f, out, false, 1);
+  assert(p.imu_need_init_ && p.init_iter_num == 1 && out->empty());
+  assert_filter_unchanged(f, reset_state, reset_covariance);
+  p.Process(frame(401.0, 20), f, out, false, 1);
+  assert(!p.imu_need_init_ && f.get_P().allFinite());
+  std::cout << "INVALID_INIT_REJECTED " << name << std::endl;
+}
+
+void noisy_initialization_case() {
+  Filter f;
+  initialize(f);
+  ImuProcess p;
+  configure(p);
+  auto out = std::make_shared<PointCloudXYZI>();
+  auto noisy = frame(500.0, 20);
+  for (std::size_t i = 0; i < noisy.imu.size(); ++i) {
+    const double sign = i % 2 == 0 ? 1.0 : -1.0;
+    auto replacement = std::make_shared<sensor_msgs::msg::Imu>(*noisy.imu[i]);
+    replacement->linear_acceleration.x = sign * 0.002;
+    replacement->linear_acceleration.y = -sign * 0.001;
+    replacement->linear_acceleration.z = 9.81 + sign * 0.004;
+    replacement->angular_velocity.x = sign * 1.e-4;
+    noisy.imu[i] = replacement;
+  }
+  p.Process(noisy, f, out, false, 1);
+  assert(!p.imu_need_init_ && out->empty() && f.get_P().allFinite());
+  Eigen::Matrix<double, 23, 1> delta;
+  f.get_x().boxminus(delta, state_ikfom());
+  assert(delta.allFinite());
+  std::cout << "NOISY_INIT_ACCEPTED" << std::endl;
+}
+
+void mixed_initialization_case() {
+  Filter f;
+  initialize(f);
+  ImuProcess p;
+  configure(p);
+  auto out = std::make_shared<PointCloudXYZI>();
+  auto mixed = frame(600.0, 20);
+  set_imu(mixed, V3D::Zero(), V3D::Zero());
+  for (int i = 0; i < 9; ++i) {
+    auto valid = std::make_shared<sensor_msgs::msg::Imu>(*mixed.imu[i]);
+    valid->linear_acceleration.z = 9.81;
+    mixed.imu[i] = valid;
+  }
+  p.Process(mixed, f, out, false, 1);
+  assert(p.imu_need_init_ && p.init_iter_num == 10 && out->empty());
+  p.Process(frame(601.0, 1), f, out, false, 1);
+  assert(!p.imu_need_init_ && p.init_iter_num == 11 && out->empty());
+  assert(f.get_P().allFinite());
+  std::cout << "MIXED_INIT_COUNTS_VALID_ONLY" << std::endl;
+}
+
+int main(int argc, char** argv) {
   std::cout<<std::setprecision(17);
+  if (argc == 3 && std::string(argv[1]) == "invalid") {
+    invalid_initialization_case(argv[2]);
+    return 0;
+  }
+  if (argc == 2 && std::string(argv[1]) == "noise") {
+    noisy_initialization_case();
+    return 0;
+  }
+  if (argc == 2 && std::string(argv[1]) == "mixed") {
+    mixed_initialization_case();
+    return 0;
+  }
+  assert(argc == 1);
   for (int mode=0; mode<3; ++mode) {
     Filter f; initialize(f); ImuProcess p; configure(p);
     auto out=std::make_shared<PointCloudXYZI>(); bool dual=mode==1; int side=mode==2?2:1;
