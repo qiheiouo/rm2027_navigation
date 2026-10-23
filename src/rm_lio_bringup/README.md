@@ -2,6 +2,12 @@
 
 Phase 2A integration boundary for external LIO backends.
 
+The isolated Z-Localization candidate adds an optional
+`zero_start_pose:=config|true|false` launch override. Default `config` preserves
+the selected YAML. The candidate explicitly selects `false` so the frontend
+does not silently rebase its already-published odometry at the delayed
+zero-start scan. No FAST-LIO estimator code or default YAML is changed.
+
 The first backend is the GPL-2.0 `fast_lio_multi` submodule pinned in
 `src/fast_lio_multi`. This package owns only launch, parameter, topic, and TF
 isolation. It does not copy or modify the backend algorithm.

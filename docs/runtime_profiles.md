@@ -1,5 +1,19 @@
 # Runtime Profiles
 
+## Isolated Z-Localization laptop candidate (2026-10-23)
+
+`ros2 launch rm_zlocalization_candidate z_localization_candidate.launch.py
+prior_map:=/absolute/map_bundle` selects an alternate global backend. Run it
+instead of other global-localization/stub profiles. It preserves the existing
+canonical odometry and map/odom bridge owners; upstream TF is private. No
+driver, Nav2 or serial is started. `start_fastlio:=true` includes the unchanged
+bundle launch with registered-cloud publication; measured mechanical TF is an
+external prerequisite. Keep `start_lio_adapter:=false` when an existing full-base
+or canonical adapter already owns that edge. Existing Nav2/STVL/MPPI configs
+are unchanged. See [usage](../src/rm_zlocalization_candidate/README.md) and
+[validation](zlocalization_laptop_validation_20261023.md). This is Laptop
+Integration only, DO NOT MERGE, with no hardware motion authorization.
+
 ## Principle
 
 The project uses one top-level launch per operating mode. A ROS2 package is not

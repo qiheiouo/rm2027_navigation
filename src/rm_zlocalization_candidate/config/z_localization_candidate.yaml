@@ -1,0 +1,58 @@
+# Overlay on the pinned upstream backend.yaml. All unmatched registration,
+# descriptor and recovery values remain UPSTREAM EXAMPLES, not new-car tuning.
+common:
+  frontend: legacy
+  map_frame: map
+  odom_frame: fast_lio_odom
+  sensor_frame: lio_imu_link
+  sync_odom_topic: /zlocalization/fastlio_odom
+  cloud_topic: /zlocalization/cloud_registered
+  # FAST-LIO bundle only supplies scan-end states. Use the synced-pose patch;
+  # do not publish a second, differently versioned prediction stream.
+  odom_topic: /zlocalization/unused_prediction
+  input_cloud_in_local_frame: false
+  odom_cloud_sync:
+    max_interval: 0.001
+  body:
+    frame: lio_imu_link
+    rotation: {roll_deg: 0.0, pitch_deg: 0.0, yaw_deg: 0.0}
+    offset: {x: 0.0, y: 0.0, z: 0.0}
+prior_map:
+  enabled: true
+  directory: ''
+uwb:
+  enabled: false
+loop:
+  enabled: false
+trajectory:
+  save_on_shutdown: false
+  save_directory: /tmp/rm2027_zlocalization_unused_map
+graph:
+  odom_noise:
+    # Conservative laptop model only, not measured increment covariance.
+    rotation_variance_per_second: 0.01
+    translation_variance_per_second: 0.04
+    rotation_variance_per_radian: 0.01
+    translation_variance_per_meter: 0.04
+reset:
+  # No ResetFrontend protocol exists in the selected FAST-LIO bundle.
+  service: /zlocalization/unavailable_frontend_reset
+services:
+  reset: /zlocalization/upstream_reset_request
+  relocalize: /zlocalization/relocalize
+  save_map: /zlocalization/save_map
+startup_hint:
+  enabled: false
+output:
+  legacy:
+    enabled: false
+    publish_tf: false
+  world_cloud:
+    enabled: false
+visualization:
+  enabled: false
+  publish_prior_map: false
+  publish_runtime_map: false
+  publish_map_axes: false
+  publish_paths: false
+  publish_debug_registration: false

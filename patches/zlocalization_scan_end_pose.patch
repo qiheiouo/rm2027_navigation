@@ -1,0 +1,15 @@
+diff --git a/src/backend/apps/publisher.cpp b/src/backend/apps/publisher.cpp
+index e6b7224..488042c 100644
+--- a/src/backend/apps/publisher.cpp
++++ b/src/backend/apps/publisher.cpp
+@@ -178,6 +178,10 @@ void Publisher::publishFrame(const FrontendFrame& frame, const LocalizationProje
+         if (!controller_->projectionIsCurrent(projection))
+             return;
+         publishProjection(projection, stamp);
++        // RM2027: scan-end-only legacy input needs a pose from this same projection.
++        if (parameters_.input.frontend == "legacy" &&
++            projection.status != LocalizationStatus::Initializing)
++            publishPoseWithCovariance(projection, stamp);
+     }
+     // 点云转换耗时较长，释放发布锁后准备；publishWorldCloud 在真正发送前再次复核。
+     if (controller_->projectionIsCurrent(projection))

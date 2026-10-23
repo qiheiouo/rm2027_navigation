@@ -2,6 +2,12 @@
 
 ## Canonical TF Tree
 
+The isolated 2026-10-23 Z-Localization candidate preserves the existing
+`map_odom_from_global_pose` owner. Its upstream `map -> fast_lio_odom` TF is
+private on `/zlocalization/_quarantine/tf`; a source-time sensor-to-base adapter
+supplies the existing bridge. Fixed upstream body extrinsics do not replace
+the dynamic gimbal tree. See [candidate contract](../zlocalization_interface_contract_20261023.md).
+
 The 2027 navigation stack uses this canonical TF tree:
 
 ```text

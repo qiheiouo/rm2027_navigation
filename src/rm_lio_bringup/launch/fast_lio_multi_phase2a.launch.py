@@ -77,6 +77,11 @@ def _launch_setup(context, *args, **kwargs):
     }
     if sensor_mode == "single":
         parameter_overrides["common.lid_topic"] = f"/livox/{selected_side}/lidar"
+    zero_start = LaunchConfiguration("zero_start_pose").perform(context).strip().lower()
+    if zero_start != "config":
+        if zero_start not in {"true", "false"}:
+            raise RuntimeError("zero_start_pose must be config, true, or false")
+        parameter_overrides["mapping.zero_start_pose"] = zero_start == "true"
 
     actions.append(
         Node(
@@ -123,6 +128,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument("publish_tf_results", default_value="false"),
+        DeclareLaunchArgument("zero_start_pose", default_value="config"),
         DeclareLaunchArgument(
             "scan_publish_en",
             default_value="false",
