@@ -627,21 +627,21 @@ C4 首轮建议三类静态轨迹，每类约五次配对：
 - H:`README.md`、`docs/development_workflow.md`、`docs/project_structure_and_documentation_index.md`、`docs/2027_architecture_decision.md`、`docs/runtime_profiles.md`。
 - M:`AGENTS.md`、`docs/research_integration_deployment_principles.md`：实际读取根规则和完整分级原则；§3 / 8 / 16 / 19 分别对应 Research、最小实验、核心风险提升验证、代理执行规则。
 - T:`docs/branch_mainlines.md`：硬件双主线和历史快照限制。
-- 当前阅读：[开发流程](/home/qihei/rm2027_navigation/docs/development_workflow.md)、[结构索引](/home/qihei/rm2027_navigation/docs/project_structure_and_documentation_index.md)、[runtime profiles](/home/qihei/rm2027_navigation/docs/runtime_profiles.md)。
+- 当前阅读：[开发流程](../development/git_workflow.md)、[结构索引](../README.md)、[runtime profiles](../operations/runtime_profiles.md)。
 
 ### E2 — LIO、TF、twist 与传感器时序
 
 - H:`docs/contracts/tf_contract_2027.md`、`docs/contracts/topic_contract_2027.md`、`docs/phase2a_lio_validation.md`、`docs/phase2b_twist_validation.md`、`docs/external/fast_lio_multi_ros2.md`。
 - H / T:`src/rm_localization_adapters/src/lio_adapter.cpp`、相关 gimbal / imu adapter 源码及 `config/lio_adapter.yaml`；读取 canonical 输出、frame compensation 和有效性边界。
 - T 的 LIO 更晚增强及 E5 记录用于 age / backlog / native CustomMsg 归因，不能默认 H 同步拥有全部实现。
-- [TF 契约](/home/qihei/rm2027_navigation/docs/contracts/tf_contract_2027.md)、[twist 验证](/home/qihei/rm2027_navigation/docs/phase2b_twist_validation.md)。
+- [TF 契约](../contracts/tf_contract_2027.md)、[twist 验证](../archive/phases/phase2/phase2b_twist_validation.md)。
 
 ### E3 — Seeded GICP 与 quality 的真实定义
 
 - H / O / G / T:`src/rm_gicp_relocalization/src/gicp_relocalization_node.cpp`、`config/gicp_3d.yaml`、`README.md`；审计 seed、timer、source generation、GICP、jump / fitness、输出 covariance 与无 TF。
 - O / G / T:`src/rm_gicp_relocalization/src/registration_quality.cpp`、`include/rm_gicp_relocalization/registration_quality.hpp`；审计 overlap 分母、normal / nearest correspondence、中心化 J、平均 H、eigen / condition。
 - H:`docs/phase2j_3d_relocalization.md`、`docs/phase2k_old_car_gicp_integration.md`。
-- [当前 3D 重定位边界](/home/qihei/rm2027_navigation/docs/phase2j_3d_relocalization.md)。
+- [当前 3D 重定位边界](../operations/relocalization_3d.md)。
 
 ### E4 — Global pose gate、唯一 TF 桥与局部恢复
 
@@ -649,14 +649,14 @@ C4 首轮建议三类静态轨迹，每类约五次配对：
 - H / T:`src/rm_relocalization_bridge/config/map_odom_from_global_pose.yaml`；T 的 `map_odom_from_global_pose_old_car_2026.yaml` 和老车 AMCL launch，区分 generic / 老车开关。
 - T 桥中的 innovation rejection confirmation、high angular rate hold、autonomous recovery / bounded rebase、baseline reset、recovery state 输出是本报告局部恢复结论来源；不等同 place recognition。
 - H:`docs/phase2c_relocalization_boundary.md`、`docs/phase2j_2d_relocalization.md`。
-- [重定位 owner 边界](/home/qihei/rm2027_navigation/docs/phase2c_relocalization_boundary.md)。
+- [重定位 owner 边界](../archive/phases/phase2/phase2c_relocalization_boundary.md)。
 
 ### E5 — 高速旋转：历史失败与更晚修正
 
 - H:`docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`：历史更新角度 / Omni noise / recovery 失败和限定候选。
 - T:`docs/validation/old_car_fast_lio_high_spin_validation_20260903.md`：LIO backlog / native 点时间修正、拒绝确认、hold 与停车后恢复的实车条件、成功与限制。
 - T:`src/rm_relocalization_bridge/config/amcl_2d_spin_robust_candidate.yaml`、相关 pointcloud-to-scan / LIO 配置与 E4 源码。
-- [7 月原始归因](/home/qihei/rm2027_navigation/docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md)。最新 9 月记录在 T Git 对象，不把缺失 H 文件伪装为当前文件链接。
+- [7 月原始归因](../validation/old_car/amcl_high_spin_root_cause_and_candidate_20260720.md)。最新 9 月记录在 T Git 对象，不把缺失 H 文件伪装为当前文件链接。
 
 ### E6 — Integrity 的证据、状态与无权限边界
 
@@ -676,7 +676,7 @@ C4 首轮建议三类静态轨迹，每类约五次配对：
 - H:`docs/dynamic_obstacle_critic/controller_odom_contract_experiment.md`、`docs/runtime_profiles.md`：已有实际默认 /odom 消费问题及显式实验修复。
 - H / T:`src/rm_serial_driver/src/serial_transport_node.cpp`、`src/rm_chassis_interface/`；command freshness / watchdog，不自动构成 localization permit。
 - H:`docs/contracts/chassis_contract_2027.md`、`docs/contracts/serial_protocol_2027.md`。
-- [controller odom 已有实验](/home/qihei/rm2027_navigation/docs/dynamic_obstacle_critic/controller_odom_contract_experiment.md)、[底盘 owner 契约](/home/qihei/rm2027_navigation/docs/contracts/chassis_contract_2027.md)。
+- [controller odom 已有实验](../dynamic_obstacle_critic/controller_odom_contract_experiment.md)、[底盘 owner 契约](../contracts/chassis_contract_2027.md)。
 
 ### E9 — T-DT 本地化规划输出
 
@@ -699,7 +699,7 @@ C4 首轮建议三类静态轨迹，每类约五次配对：
 - H:`docs/dynamic_navigation/dynamic_obstacle_prediction_full_history_20261004.md`、`all_dynamic_avoidance_documents_20261004.md`。
 - F:`docs/dynamic_navigation/temporal_mpc_freeze_20261004.md`、`temporal_mpc_architecture.md`、`temporal_mpc_timing_results_20261004.md`。
 - R:`docs/dynamic_navigation/r4_final_corridor_research.md` 的最新阶段决定；`r4_native_stop_audit.md` 作为同路线补充入口。R 是 10 月 6 日更新，不用 10 月 4 日总文档取代最新结论。
-- [动态研究历史](/home/qihei/rm2027_navigation/docs/dynamic_navigation/dynamic_obstacle_prediction_full_history_20261004.md)、[Temporal MPC 冻结阅读副本](/home/qihei/rm2027_navigation/docs/dynamic_navigation/history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_freeze_20261004.md)。阅读副本不代表重新执行。
+- [动态研究历史](../dynamic_navigation/dynamic_obstacle_prediction_full_history_20261004.md)、[Temporal MPC 冻结阅读副本](../dynamic_navigation/history_documents_20261004/temporal_mpc_04291a41/docs/dynamic_navigation/temporal_mpc_freeze_20261004.md)。阅读副本不代表重新执行。
 
 ### 本轮验证范围
 

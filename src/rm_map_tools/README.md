@@ -52,7 +52,7 @@ The response contains the generated manifest path. The node also provides
 `/mapping/start`, `/mapping/stop`, and `/mapping/reset`. It does not start a
 sensor, publish TF, control the chassis, or approve a map.
 
-See `docs/phase2i_managed_mapping.md` for the OctoMap projection and full
+See `docs/operations/managed_mapping.md` for the OctoMap projection and full
 operator flow.
 
 ## Offline PCD/PGM Quality Diagnostics

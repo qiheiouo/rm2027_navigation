@@ -93,7 +93,7 @@ The strict profile is selected by the isolated
 `old_car_2026_amcl_spin_candidate.launch.py` wrapper. It is not selected by the
 normal old-car or competition launches and has not yet passed real high-speed
 rotation acceptance. See
-`docs/validation/amcl_high_spin_root_cause_and_candidate_20260720.md`.
+`docs/validation/old_car/amcl_high_spin_root_cause_and_candidate_20260720.md`.
 
 ## Dual PointCloud2 Obstacle Fusion
 

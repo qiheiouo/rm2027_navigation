@@ -393,41 +393,41 @@
 
 | 文档 | 原始路径 | 来源 |
 |---|---|---|
-| [2027 Architecture Decision](../2027_architecture_decision.md) | `docs/2027_architecture_decision.md` | 652f14ce，当前文件 |
-| [2027 Phase 1 Plan](../2027_phase1_plan.md) | `docs/2027_phase1_plan.md` | 652f14ce，当前文件 |
+| [2027 Architecture Decision](../architecture/system_architecture.md) | `docs/2027_architecture_decision.md` | 652f14ce，当前文件 |
+| [2027 Phase 1 Plan](../archive/phases/phase1/2027_phase1_plan.md) | `docs/2027_phase1_plan.md` | 652f14ce，当前文件 |
 | [Chassis Heading Motion Policy](history_documents_20261004/other_8598b8c0/docs/chassis_heading_motion_policy.md) | `docs/chassis_heading_motion_policy.md` | 8598b8c0，历史副本 |
-| [Competition Capability Status](../competition_capability_status.md) | `docs/competition_capability_status.md` | d735ee12，当前文件 |
+| [Competition Capability Status](../validation/competition_capability_status.md) | `docs/competition_capability_status.md` | d735ee12，当前文件 |
 | [2027 TF Contract](../contracts/tf_contract_2027.md) | `docs/contracts/tf_contract_2027.md` | 652f14ce，当前文件 |
 | [2027 Topic Contract](../contracts/topic_contract_2027.md) | `docs/contracts/topic_contract_2027.md` | 652f14ce，当前文件 |
 | [导航小型遗留项冻结记录（2026-09-03）](history_documents_20261004/other_2c0620c1/docs/deferred_navigation_issues_20260903.md) | `docs/deferred_navigation_issues_20260903.md` | 2c0620c1，历史副本 |
-| [Docker Usage](../docker_usage.md) | `docs/docker_usage.md` | d735ee12，当前文件 |
+| [Docker Usage](../operations/docker_usage.md) | `docs/docker_usage.md` | d735ee12，当前文件 |
 | [Gazebo Fortress Systems Record](../external/gazebo_fortress_systems.md) | `docs/external/gazebo_fortress_systems.md` | d735ee12，当前文件 |
 | [Nav2 MPPI PathAlign 隔离边界修正来源记录](history_documents_20261004/legacy_e680b143/docs/external/nav2_mppi_path_align_guard.md) | `docs/external/nav2_mppi_path_align_guard.md` | e680b143，历史副本 |
-| [Old-Car Field Debug Competition Tutorial](../field_debug_competition_tutorial.md) | `docs/field_debug_competition_tutorial.md` | d735ee12，当前文件 |
+| [Old-Car Field Debug Competition Tutorial](../operations/field_debug_competition_tutorial.md) | `docs/field_debug_competition_tutorial.md` | d735ee12，当前文件 |
 | [Old-Car Navigation Integrity Field Validation Plan](history_documents_20261004/legacy_e680b143/docs/navigation_integrity/field_validation_plan.md) | `docs/navigation_integrity/field_validation_plan.md` | e680b143，历史副本 |
 | [Navigation Integrity 第一版实现报告](history_documents_20261004/legacy_e680b143/docs/navigation_integrity/implementation_report.md) | `docs/navigation_integrity/implementation_report.md` | e680b143，历史副本 |
 | [Shadow Localization Verifier 设计](history_documents_20261004/legacy_e680b143/docs/navigation_integrity/localization_verifier_design.md) | `docs/navigation_integrity/localization_verifier_design.md` | e680b143，历史副本 |
 | [Mission / Nav2 Stale Result 审计](history_documents_20261004/legacy_e680b143/docs/navigation_integrity/mission_stress_audit.md) | `docs/navigation_integrity/mission_stress_audit.md` | e680b143，历史副本 |
 | [新场地比赛部署与狗洞穿越作业手册](history_documents_20261004/other_8598b8c0/docs/new_field_competition_deployment_runbook.md) | `docs/new_field_competition_deployment_runbook.md` | 8598b8c0，历史副本 |
-| [Old-Car Debug Knowledge Base](../old_car_debug_knowledge_base.md) | `docs/old_car_debug_knowledge_base.md` | d735ee12，当前文件 |
-| [Old-Car Self-Test Guide](../old_car_self_test_guide.md) | `docs/old_car_self_test_guide.md` | d735ee12，当前文件 |
-| [Phase 1.5D Multi-Obstacle Course Validation](../phase1_5d_course_validation.md) | `docs/phase1_5d_course_validation.md` | d735ee12，当前文件 |
-| [Phase 2I Managed Mapping Pipeline](../phase2i_managed_mapping.md) | `docs/phase2i_managed_mapping.md` | d735ee12，当前文件 |
-| [Phase 2L Dual-LiDAR Obstacle Fusion](../phase2l_dual_lidar_obstacle_fusion.md) | `docs/phase2l_dual_lidar_obstacle_fusion.md` | d735ee12，当前文件 |
-| [Phase 3 Competition Software Validation](../phase3_software_validation.md) | `docs/phase3_software_validation.md` | d735ee12，当前文件 |
-| [Phase 3D Competition Bringup And Readiness](../phase3d_competition_bringup.md) | `docs/phase3d_competition_bringup.md` | d735ee12，当前文件 |
-| [Project Structure And Documentation Index](../project_structure_and_documentation_index.md) | `docs/project_structure_and_documentation_index.md` | 652f14ce，工作区文档有更新 |
+| [Old-Car Debug Knowledge Base](../operations/old_car_debug_knowledge_base.md) | `docs/old_car_debug_knowledge_base.md` | d735ee12，当前文件 |
+| [Old-Car Self-Test Guide](../operations/old_car_self_test_guide.md) | `docs/old_car_self_test_guide.md` | d735ee12，当前文件 |
+| [Phase 1.5D Multi-Obstacle Course Validation](../archive/phases/phase1_5/phase1_5d_course_validation.md) | `docs/phase1_5d_course_validation.md` | d735ee12，当前文件 |
+| [Phase 2I Managed Mapping Pipeline](../operations/managed_mapping.md) | `docs/phase2i_managed_mapping.md` | d735ee12，当前文件 |
+| [Phase 2L Dual-LiDAR Obstacle Fusion](../operations/dual_lidar_obstacle_fusion.md) | `docs/phase2l_dual_lidar_obstacle_fusion.md` | d735ee12，当前文件 |
+| [Phase 3 Competition Software Validation](../archive/phases/phase3/phase3_software_validation.md) | `docs/phase3_software_validation.md` | d735ee12，当前文件 |
+| [Phase 3D Competition Bringup And Readiness](../operations/competition_bringup.md) | `docs/phase3d_competition_bringup.md` | d735ee12，当前文件 |
+| [Project Structure And Documentation Index](../README.md) | `docs/project_structure_and_documentation_index.md` | 652f14ce，工作区文档有更新 |
 | [New-Car Ramp Perception Shadow Validation](history_documents_20261004/other_8598b8c0/docs/ramp_perception_shadow_validation.md) | `docs/ramp_perception_shadow_validation.md` | 8598b8c0，历史副本 |
-| [Runtime Profiles](../runtime_profiles.md) | `docs/runtime_profiles.md` | 652f14ce，当前文件 |
-| [Old-Car Field Debug Competition 更新报告](../validation/old_car_field_debug_20260717.md) | `docs/validation/old_car_field_debug_20260717.md` | d735ee12，当前文件 |
-| [fresh03 候选有限现场验收](../validation/old_car_fresh03_field_validation_20260720.md) | `docs/validation/old_car_fresh03_field_validation_20260720.md` | d735ee12，当前文件 |
+| [Runtime Profiles](../operations/runtime_profiles.md) | `docs/runtime_profiles.md` | 652f14ce，当前文件 |
+| [Old-Car Field Debug Competition 更新报告](../validation/old_car/old_car_field_debug_20260717.md) | `docs/validation/old_car_field_debug_20260717.md` | d735ee12，当前文件 |
+| [fresh03 候选有限现场验收](../validation/old_car/old_car_fresh03_field_validation_20260720.md) | `docs/validation/old_car_fresh03_field_validation_20260720.md` | d735ee12，当前文件 |
 | [旧车动态障碍全局重规划验证记录（2026-08-06）](history_documents_20261004/legacy_e680b143/docs/validation/old_car_global_dynamic_replanning_20260806.md) | `docs/validation/old_car_global_dynamic_replanning_20260806.md` | e680b143，历史副本 |
 | [老车高速自转全局定位漂移：根因分析、工程治理与实车闭环报告](history_documents_20261004/legacy_e680b143/docs/validation/old_car_high_spin_localization_engineering_report_20260825.md) | `docs/validation/old_car_high_spin_localization_engineering_report_20260825.md` | e680b143，历史副本 |
-| [旧车导航当前状态与后续收敛报告](../validation/old_car_navigation_status_and_roadmap_20260720.md) | `docs/validation/old_car_navigation_status_and_roadmap_20260720.md` | d735ee12，当前文件 |
+| [旧车导航当前状态与后续收敛报告](../validation/old_car/old_car_navigation_status_and_roadmap_20260720.md) | `docs/validation/old_car_navigation_status_and_roadmap_20260720.md` | d735ee12，当前文件 |
 | [老车无标注坡道实车录包分析与共享跟踪修复报告](history_documents_20261004/legacy_e680b143/docs/validation/old_car_ramp_live_tracking_report_20260830.md) | `docs/validation/old_car_ramp_live_tracking_report_20260830.md` | e680b143，历史副本 |
 | [旧车无标注坡道选择性验证](history_documents_20261004/legacy_e680b143/docs/validation/old_car_ramp_selective_validation.md) | `docs/validation/old_car_ramp_selective_validation.md` | e680b143，历史副本 |
-| [PCD/PGM 地图脏点诊断、收敛与交付总结报告](../validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md) | `docs/validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md` | d735ee12，当前文件 |
-| [PCD/PGM 地图脏点诊断工具实施记录](../validation/pcd_pgm_map_quality_implementation_20260717.md) | `docs/validation/pcd_pgm_map_quality_implementation_20260717.md` | d735ee12，当前文件 |
+| [PCD/PGM 地图脏点诊断、收敛与交付总结报告](../validation/old_car/pcd_pgm_dirty_map_end_to_end_report_20260720.md) | `docs/validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md` | d735ee12，当前文件 |
+| [PCD/PGM 地图脏点诊断工具实施记录](../validation/old_car/pcd_pgm_map_quality_implementation_20260717.md) | `docs/validation/pcd_pgm_map_quality_implementation_20260717.md` | d735ee12，当前文件 |
 | [rm_competition_interfaces](../../src/rm_competition_interfaces/README.md) | `src/rm_competition_interfaces/README.md` | 652f14ce，当前文件 |
 | [rm_competition_mission](../../src/rm_competition_mission/README.md) | `src/rm_competition_mission/README.md` | d735ee12，当前文件 |
 | [rm_map_tools](../../src/rm_map_tools/README.md) | `src/rm_map_tools/README.md` | d735ee12，当前文件 |

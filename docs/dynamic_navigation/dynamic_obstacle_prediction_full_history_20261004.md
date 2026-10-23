@@ -303,41 +303,41 @@ R1无在线layer、timed-reference闭环未完成、一个月新矩阵未运行�
 
 | 原文编号 | 文档 | 来源 |
 |---|---|---|
-| [D0001](dynamic_obstacle_prediction_all_text_20261004.md#D0001) | [2027 Architecture Decision](../2027_architecture_decision.md) | 652f14ce |
-| [D0002](dynamic_obstacle_prediction_all_text_20261004.md#D0002) | [2027 Phase 1 Plan](../2027_phase1_plan.md) | 652f14ce |
+| [D0001](dynamic_obstacle_prediction_all_text_20261004.md#D0001) | [2027 Architecture Decision](../architecture/system_architecture.md) | 652f14ce |
+| [D0002](dynamic_obstacle_prediction_all_text_20261004.md#D0002) | [2027 Phase 1 Plan](../archive/phases/phase1/2027_phase1_plan.md) | 652f14ce |
 | [D0003](dynamic_obstacle_prediction_all_text_20261004.md#D0003) | [Chassis Heading Motion Policy](history_documents_20261004/other_8598b8c0/docs/chassis_heading_motion_policy.md) | 8598b8c0 |
-| [D0004](dynamic_obstacle_prediction_all_text_20261004.md#D0004) | [Competition Capability Status](../competition_capability_status.md) | d735ee12 |
+| [D0004](dynamic_obstacle_prediction_all_text_20261004.md#D0004) | [Competition Capability Status](../validation/competition_capability_status.md) | d735ee12 |
 | [D0006](dynamic_obstacle_prediction_all_text_20261004.md#D0006) | [2027 TF Contract](../contracts/tf_contract_2027.md) | 652f14ce |
 | [D0007](dynamic_obstacle_prediction_all_text_20261004.md#D0007) | [2027 Topic Contract](../contracts/topic_contract_2027.md) | 652f14ce |
 | [D0008](dynamic_obstacle_prediction_all_text_20261004.md#D0008) | [导航小型遗留项冻结记录（2026-09-03）](history_documents_20261004/other_2c0620c1/docs/deferred_navigation_issues_20260903.md) | 2c0620c1 |
-| [D0009](dynamic_obstacle_prediction_all_text_20261004.md#D0009) | [Docker Usage](../docker_usage.md) | d735ee12 |
+| [D0009](dynamic_obstacle_prediction_all_text_20261004.md#D0009) | [Docker Usage](../operations/docker_usage.md) | d735ee12 |
 | [D0263](dynamic_obstacle_prediction_all_text_20261004.md#D0263) | [Gazebo Fortress Systems Record](../external/gazebo_fortress_systems.md) | d735ee12 |
 | [D0264](dynamic_obstacle_prediction_all_text_20261004.md#D0264) | [Nav2 MPPI PathAlign 隔离边界修正来源记录](history_documents_20261004/legacy_e680b143/docs/external/nav2_mppi_path_align_guard.md) | e680b143 |
-| [D0265](dynamic_obstacle_prediction_all_text_20261004.md#D0265) | [Old-Car Field Debug Competition Tutorial](../field_debug_competition_tutorial.md) | d735ee12 |
+| [D0265](dynamic_obstacle_prediction_all_text_20261004.md#D0265) | [Old-Car Field Debug Competition Tutorial](../operations/field_debug_competition_tutorial.md) | d735ee12 |
 | [D0276](dynamic_obstacle_prediction_all_text_20261004.md#D0276) | [Old-Car Navigation Integrity Field Validation Plan](history_documents_20261004/legacy_e680b143/docs/navigation_integrity/field_validation_plan.md) | e680b143 |
 | [D0277](dynamic_obstacle_prediction_all_text_20261004.md#D0277) | [Navigation Integrity 第一版实现报告](history_documents_20261004/legacy_e680b143/docs/navigation_integrity/implementation_report.md) | e680b143 |
 | [D0278](dynamic_obstacle_prediction_all_text_20261004.md#D0278) | [Shadow Localization Verifier 设计](history_documents_20261004/legacy_e680b143/docs/navigation_integrity/localization_verifier_design.md) | e680b143 |
 | [D0279](dynamic_obstacle_prediction_all_text_20261004.md#D0279) | [Mission / Nav2 Stale Result 审计](history_documents_20261004/legacy_e680b143/docs/navigation_integrity/mission_stress_audit.md) | e680b143 |
 | [D0280](dynamic_obstacle_prediction_all_text_20261004.md#D0280) | [新场地比赛部署与狗洞穿越作业手册](history_documents_20261004/other_8598b8c0/docs/new_field_competition_deployment_runbook.md) | 8598b8c0 |
-| [D0281](dynamic_obstacle_prediction_all_text_20261004.md#D0281) | [Old-Car Debug Knowledge Base](../old_car_debug_knowledge_base.md) | d735ee12 |
-| [D0282](dynamic_obstacle_prediction_all_text_20261004.md#D0282) | [Old-Car Self-Test Guide](../old_car_self_test_guide.md) | d735ee12 |
-| [D0283](dynamic_obstacle_prediction_all_text_20261004.md#D0283) | [Phase 1.5D Multi-Obstacle Course Validation](../phase1_5d_course_validation.md) | d735ee12 |
-| [D0284](dynamic_obstacle_prediction_all_text_20261004.md#D0284) | [Phase 2I Managed Mapping Pipeline](../phase2i_managed_mapping.md) | d735ee12 |
-| [D0285](dynamic_obstacle_prediction_all_text_20261004.md#D0285) | [Phase 2L Dual-LiDAR Obstacle Fusion](../phase2l_dual_lidar_obstacle_fusion.md) | d735ee12 |
-| [D0286](dynamic_obstacle_prediction_all_text_20261004.md#D0286) | [Phase 3 Competition Software Validation](../phase3_software_validation.md) | d735ee12 |
-| [D0287](dynamic_obstacle_prediction_all_text_20261004.md#D0287) | [Phase 3D Competition Bringup And Readiness](../phase3d_competition_bringup.md) | d735ee12 |
-| [D0288](dynamic_obstacle_prediction_all_text_20261004.md#D0288) | [Project Structure And Documentation Index](../project_structure_and_documentation_index.md) | 652f14ce，阅读版本有既有工作区差异 |
+| [D0281](dynamic_obstacle_prediction_all_text_20261004.md#D0281) | [Old-Car Debug Knowledge Base](../operations/old_car_debug_knowledge_base.md) | d735ee12 |
+| [D0282](dynamic_obstacle_prediction_all_text_20261004.md#D0282) | [Old-Car Self-Test Guide](../operations/old_car_self_test_guide.md) | d735ee12 |
+| [D0283](dynamic_obstacle_prediction_all_text_20261004.md#D0283) | [Phase 1.5D Multi-Obstacle Course Validation](../archive/phases/phase1_5/phase1_5d_course_validation.md) | d735ee12 |
+| [D0284](dynamic_obstacle_prediction_all_text_20261004.md#D0284) | [Phase 2I Managed Mapping Pipeline](../operations/managed_mapping.md) | d735ee12 |
+| [D0285](dynamic_obstacle_prediction_all_text_20261004.md#D0285) | [Phase 2L Dual-LiDAR Obstacle Fusion](../operations/dual_lidar_obstacle_fusion.md) | d735ee12 |
+| [D0286](dynamic_obstacle_prediction_all_text_20261004.md#D0286) | [Phase 3 Competition Software Validation](../archive/phases/phase3/phase3_software_validation.md) | d735ee12 |
+| [D0287](dynamic_obstacle_prediction_all_text_20261004.md#D0287) | [Phase 3D Competition Bringup And Readiness](../operations/competition_bringup.md) | d735ee12 |
+| [D0288](dynamic_obstacle_prediction_all_text_20261004.md#D0288) | [Project Structure And Documentation Index](../README.md) | 652f14ce，阅读版本有既有工作区差异 |
 | [D0289](dynamic_obstacle_prediction_all_text_20261004.md#D0289) | [New-Car Ramp Perception Shadow Validation](history_documents_20261004/other_8598b8c0/docs/ramp_perception_shadow_validation.md) | 8598b8c0 |
-| [D0290](dynamic_obstacle_prediction_all_text_20261004.md#D0290) | [Runtime Profiles](../runtime_profiles.md) | 652f14ce |
-| [D0329](dynamic_obstacle_prediction_all_text_20261004.md#D0329) | [Old-Car Field Debug Competition 更新报告](../validation/old_car_field_debug_20260717.md) | d735ee12 |
-| [D0330](dynamic_obstacle_prediction_all_text_20261004.md#D0330) | [fresh03 候选有限现场验收](../validation/old_car_fresh03_field_validation_20260720.md) | d735ee12 |
+| [D0290](dynamic_obstacle_prediction_all_text_20261004.md#D0290) | [Runtime Profiles](../operations/runtime_profiles.md) | 652f14ce |
+| [D0329](dynamic_obstacle_prediction_all_text_20261004.md#D0329) | [Old-Car Field Debug Competition 更新报告](../validation/old_car/old_car_field_debug_20260717.md) | d735ee12 |
+| [D0330](dynamic_obstacle_prediction_all_text_20261004.md#D0330) | [fresh03 候选有限现场验收](../validation/old_car/old_car_fresh03_field_validation_20260720.md) | d735ee12 |
 | [D0331](dynamic_obstacle_prediction_all_text_20261004.md#D0331) | [旧车动态障碍全局重规划验证记录（2026-08-06）](history_documents_20261004/legacy_e680b143/docs/validation/old_car_global_dynamic_replanning_20260806.md) | e680b143 |
 | [D0332](dynamic_obstacle_prediction_all_text_20261004.md#D0332) | [老车高速自转全局定位漂移：根因分析、工程治理与实车闭环报告](history_documents_20261004/legacy_e680b143/docs/validation/old_car_high_spin_localization_engineering_report_20260825.md) | e680b143 |
-| [D0333](dynamic_obstacle_prediction_all_text_20261004.md#D0333) | [旧车导航当前状态与后续收敛报告](../validation/old_car_navigation_status_and_roadmap_20260720.md) | d735ee12 |
+| [D0333](dynamic_obstacle_prediction_all_text_20261004.md#D0333) | [旧车导航当前状态与后续收敛报告](../validation/old_car/old_car_navigation_status_and_roadmap_20260720.md) | d735ee12 |
 | [D0334](dynamic_obstacle_prediction_all_text_20261004.md#D0334) | [老车无标注坡道实车录包分析与共享跟踪修复报告](history_documents_20261004/legacy_e680b143/docs/validation/old_car_ramp_live_tracking_report_20260830.md) | e680b143 |
 | [D0335](dynamic_obstacle_prediction_all_text_20261004.md#D0335) | [旧车无标注坡道选择性验证](history_documents_20261004/legacy_e680b143/docs/validation/old_car_ramp_selective_validation.md) | e680b143 |
-| [D0336](dynamic_obstacle_prediction_all_text_20261004.md#D0336) | [PCD/PGM 地图脏点诊断、收敛与交付总结报告](../validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md) | d735ee12 |
-| [D0337](dynamic_obstacle_prediction_all_text_20261004.md#D0337) | [PCD/PGM 地图脏点诊断工具实施记录](../validation/pcd_pgm_map_quality_implementation_20260717.md) | d735ee12 |
+| [D0336](dynamic_obstacle_prediction_all_text_20261004.md#D0336) | [PCD/PGM 地图脏点诊断、收敛与交付总结报告](../validation/old_car/pcd_pgm_dirty_map_end_to_end_report_20260720.md) | d735ee12 |
+| [D0337](dynamic_obstacle_prediction_all_text_20261004.md#D0337) | [PCD/PGM 地图脏点诊断工具实施记录](../validation/old_car/pcd_pgm_map_quality_implementation_20260717.md) | d735ee12 |
 | [D0338](dynamic_obstacle_prediction_all_text_20261004.md#D0338) | [rm_competition_interfaces](../../src/rm_competition_interfaces/README.md) | 652f14ce |
 | [D0339](dynamic_obstacle_prediction_all_text_20261004.md#D0339) | [rm_competition_mission](../../src/rm_competition_mission/README.md) | d735ee12 |
 | [D0343](dynamic_obstacle_prediction_all_text_20261004.md#D0343) | [rm_map_tools](../../src/rm_map_tools/README.md) | d735ee12 |

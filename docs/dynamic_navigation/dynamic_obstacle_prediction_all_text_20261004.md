@@ -11,7 +11,7 @@
 ## D0001 — 2027 Architecture Decision
 
 来源：`docs/2027_architecture_decision.md`；版本：`652f14cea66edc0fcd77401de7db41cb6ffa7477`。
-阅读副本：[独立原文](../2027_architecture_decision.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../architecture/system_architecture.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -225,7 +225,7 @@ competition fallback and must not introduce another TF owner.
 ## D0002 — 2027 Phase 1 Plan
 
 来源：`docs/2027_phase1_plan.md`；版本：`652f14cea66edc0fcd77401de7db41cb6ffa7477`。
-阅读副本：[独立原文](../2027_phase1_plan.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../archive/phases/phase1/2027_phase1_plan.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -555,7 +555,7 @@ critic weights without bound.
 ## D0004 — Competition Capability Status
 
 来源：`docs/competition_capability_status.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../competition_capability_status.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../validation/competition_capability_status.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -1303,7 +1303,7 @@ Mission or BT nodes must not overwrite `/cmd_vel` directly unless a later docume
 ## D0009 — Docker Usage
 
 来源：`docs/docker_usage.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../docker_usage.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../operations/docker_usage.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -16674,7 +16674,7 @@ canonical publishers remain:
 ## D0265 — Old-Car Field Debug Competition Tutorial
 
 来源：`docs/field_debug_competition_tutorial.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../field_debug_competition_tutorial.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../operations/field_debug_competition_tutorial.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -19812,7 +19812,7 @@ chassis-heading LIO 的重复实现。
 ## D0281 — Old-Car Debug Knowledge Base
 
 来源：`docs/old_car_debug_knowledge_base.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../old_car_debug_knowledge_base.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../operations/old_car_debug_knowledge_base.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -20873,7 +20873,7 @@ ros2 topic echo /cmd_vel --once
 ## D0282 — Old-Car Self-Test Guide
 
 来源：`docs/old_car_self_test_guide.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../old_car_self_test_guide.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../operations/old_car_self_test_guide.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -21139,7 +21139,7 @@ For each useful run, save:
 ## D0283 — Phase 1.5D Multi-Obstacle Course Validation
 
 来源：`docs/phase1_5d_course_validation.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../phase1_5d_course_validation.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../archive/phases/phase1_5/phase1_5d_course_validation.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -21271,7 +21271,7 @@ footprint or clearance gate to make it pass.
 ## D0284 — Phase 2I Managed Mapping Pipeline
 
 来源：`docs/phase2i_managed_mapping.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../phase2i_managed_mapping.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../operations/managed_mapping.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -21585,7 +21585,7 @@ this acquisition rule with Nav2 runtime dynamic-obstacle clearing.
 ## D0285 — Phase 2L Dual-LiDAR Obstacle Fusion
 
 来源：`docs/phase2l_dual_lidar_obstacle_fusion.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../phase2l_dual_lidar_obstacle_fusion.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../operations/dual_lidar_obstacle_fusion.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -21664,7 +21664,7 @@ resource acceptance on either car.
 ## D0286 — Phase 3 Competition Software Validation
 
 来源：`docs/phase3_software_validation.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../phase3_software_validation.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../archive/phases/phase3/phase3_software_validation.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -21755,7 +21755,7 @@ after the operator confirms automatic-mode takeover and stop behavior.
 ## D0287 — Phase 3D Competition Bringup And Readiness
 
 来源：`docs/phase3d_competition_bringup.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../phase3d_competition_bringup.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../operations/competition_bringup.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -21828,7 +21828,7 @@ mission safety gate or lower-controller remote takeover.
 ## D0288 — Project Structure And Documentation Index
 
 来源：`docs/project_structure_and_documentation_index.md`；版本：`652f14cea66edc0fcd77401de7db41cb6ffa7477`。
-阅读副本：[独立原文](../project_structure_and_documentation_index.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../README.md).
 此阅读版本包含既有工作区/暂停文档差异，不冒充source commit原文。
 以下仅为历史资料，不构成继续研究授权。
 
@@ -22180,7 +22180,7 @@ Do not connect the filtered topic to Nav2 until all of these are complete:
 ## D0290 — Runtime Profiles
 
 来源：`docs/runtime_profiles.md`；版本：`652f14cea66edc0fcd77401de7db41cb6ffa7477`。
-阅读副本：[独立原文](../runtime_profiles.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../operations/runtime_profiles.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -26965,7 +26965,7 @@ MPC、UWB、因子图依各自未满足的模型/数据门推进。
 ## D0329 — Old-Car Field Debug Competition 更新报告
 
 来源：`docs/validation/old_car_field_debug_20260717.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../validation/old_car_field_debug_20260717.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../validation/old_car/old_car_field_debug_20260717.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -27168,7 +27168,7 @@ seed 2 和 seed 3 的最终位置只差约 0.057 m，但各自离输入种子约
 ## D0330 — fresh03 候选有限现场验收
 
 来源：`docs/validation/old_car_fresh03_field_validation_20260720.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../validation/old_car_fresh03_field_validation_20260720.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../validation/old_car/old_car_fresh03_field_validation_20260720.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -28008,7 +28008,7 @@ d816bf709cc02de991f13e5d13824fb26bc4b0ebde21f705f6abbd7f2824784c  global pose ga
 ## D0333 — 旧车导航当前状态与后续收敛报告
 
 来源：`docs/validation/old_car_navigation_status_and_roadmap_20260720.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../validation/old_car_navigation_status_and_roadmap_20260720.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../validation/old_car/old_car_navigation_status_and_roadmap_20260720.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -28685,7 +28685,7 @@ ros2 launch rm_navigation_launch old_car_ramp_validation.launch.py \
 ## D0336 — PCD/PGM 地图脏点诊断、收敛与交付总结报告
 
 来源：`docs/validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../validation/pcd_pgm_dirty_map_end_to_end_report_20260720.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../validation/old_car/pcd_pgm_dirty_map_end_to_end_report_20260720.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text
@@ -29157,7 +29157,7 @@ referee mock、readiness 和 mission node。但当前启动档是现场调试档
 ## D0337 — PCD/PGM 地图脏点诊断工具实施记录
 
 来源：`docs/validation/pcd_pgm_map_quality_implementation_20260717.md`；版本：`d735ee12bd950dca0e691cdf2f2c61f35cef8ffc`。
-阅读副本：[独立原文](../validation/pcd_pgm_map_quality_implementation_20260717.md).
+现存文档（已整理，原文保留在下方）：[阅读入口](../validation/old_car/pcd_pgm_map_quality_implementation_20260717.md).
 以下仅为历史资料，不构成继续研究授权。
 
 ````text

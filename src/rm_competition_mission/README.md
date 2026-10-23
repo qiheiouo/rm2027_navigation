@@ -51,5 +51,5 @@ projectile allowance, and real lower-controller competition-state serial RX is
 not implemented.
 
 The minimum field behavior, accepted candidate boundary and remaining work are
-specified in `docs/old_car_competition_minimum_behavior.md`. Do not describe
+specified in `docs/archive/old_car/old_car_competition_minimum_behavior.md`. Do not describe
 the isolated test profile as the final match configuration.
